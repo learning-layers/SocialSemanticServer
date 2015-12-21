@@ -20,7 +20,7 @@
   */
 package at.kc.tugraz.sss.app.datatypes;
 
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -20,9 +20,9 @@
   */
 package at.tugraz.sss.adapter.rest.v2.appstacklayout;
 
-import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutCreatePar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutDeletePar;
@@ -32,7 +32,7 @@ import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutCreateRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutDeleteRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutUpdateRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutsGetRet;
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.util.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;

@@ -20,13 +20,13 @@
 */
 package at.kc.tugraz.ss.conf.conf;
 
-import at.tugraz.sss.serv.SSCoreServConfA;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSFileExtE;
-import at.tugraz.sss.serv.SSIDU;
-import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.conf.SSCoreServConfA;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.util.SSFileExtE;
+import at.tugraz.sss.serv.util.SSIDU;
+import at.tugraz.sss.serv.util.SSLogU;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
 
 public class SSVocConf extends SSCoreServConfA{
 

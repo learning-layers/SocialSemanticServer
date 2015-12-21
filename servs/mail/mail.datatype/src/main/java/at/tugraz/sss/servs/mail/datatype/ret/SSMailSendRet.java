@@ -20,8 +20,8 @@
 */
 package at.tugraz.sss.servs.mail.datatype.ret;
 
-import at.tugraz.sss.serv.SSServRetI; 
-import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import at.tugraz.sss.serv.util.*;
 import java.util.Map;
 
 public class SSMailSendRet extends SSServRetI{

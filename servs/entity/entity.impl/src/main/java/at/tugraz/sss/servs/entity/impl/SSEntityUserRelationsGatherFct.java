@@ -20,14 +20,14 @@
 */
 package at.tugraz.sss.servs.entity.impl;
 
-import at.tugraz.sss.serv.SSCirclesGetPar;
-import at.tugraz.sss.serv.SSEntityServerI;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.datatype.par.SSCirclesGetPar;
+import at.tugraz.sss.serv.impl.api.SSEntityServerI;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.reg.*;
 import java.util.List;
 import java.util.Map;
 

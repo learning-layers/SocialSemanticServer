@@ -24,10 +24,10 @@ import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckKeyPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServServerI;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.impl.api.SSServServerI;
 
 public interface SSAuthServerI extends SSServServerI{
 

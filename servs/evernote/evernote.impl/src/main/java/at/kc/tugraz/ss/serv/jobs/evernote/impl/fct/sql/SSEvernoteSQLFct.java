@@ -20,14 +20,14 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.impl.fct.sql;
 
-import at.tugraz.sss.serv.SSSQLVarNames;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSDBSQLFctA;
-import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.util.SSSQLVarNames;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.db.api.SSDBSQLFctA;
+import at.tugraz.sss.serv.db.api.SSDBSQLI;
 
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNote;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResource;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;

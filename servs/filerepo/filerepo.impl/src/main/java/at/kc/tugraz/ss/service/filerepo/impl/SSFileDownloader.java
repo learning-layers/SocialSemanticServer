@@ -21,15 +21,15 @@
 package at.kc.tugraz.ss.service.filerepo.impl;
 
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSServImplStartA;
+import at.tugraz.sss.serv.util.SSLogU;
+import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileDownloadRet;
 import at.tugraz.sss.adapter.socket.SSSocketAdapterU;
-import at.tugraz.sss.serv.SSSocketU;
-import at.tugraz.sss.serv.SSEncodingU;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.util.SSSocketU;
+import at.tugraz.sss.serv.util.SSEncodingU;
+import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;

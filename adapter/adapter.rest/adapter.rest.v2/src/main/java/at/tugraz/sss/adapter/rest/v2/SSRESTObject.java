@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.adapter.rest.v2;
 
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
 import javax.ws.rs.core.Response;
 
 public class SSRESTObject{

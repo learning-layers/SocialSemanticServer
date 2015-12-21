@@ -5,7 +5,7 @@
  */
 package sss.serv.eval.impl.helpers;
 
-import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.datatype.SSEntity;
 import java.util.ArrayList;
 import java.util.List;
 import sss.serv.eval.datatypes.SSEvalLogE;

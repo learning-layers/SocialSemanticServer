@@ -22,10 +22,10 @@ package at.kc.tugraz.ss.category.datatypes.ret;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategoryFrequ;
 
-import at.tugraz.sss.serv.SSJSONLDU;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.util.SSJSONLDU;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -22,11 +22,11 @@ package at.tugraz.sss.adapter.rest.v2.recomm;
 
 import at.tugraz.sss.adapter.rest.v2.SSRESTObject;
 
-import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommTagsPar;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkEntitiesPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdatePar;

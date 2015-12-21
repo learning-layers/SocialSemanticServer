@@ -21,13 +21,13 @@
 package at.kc.tugraz.ss.recomm.serv.task;
 
 import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
-import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.util.SSLogU;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkUserRealmsFromCirclesPar;
 import at.kc.tugraz.ss.recomm.serv.SSRecommServ;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServImplStartA;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import java.util.TimerTask;
 
 public class SSRecommUpdateBulkUserRealmsFromCirclesTask extends TimerTask {

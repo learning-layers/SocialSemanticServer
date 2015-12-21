@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.recomm.api;
 
-import at.tugraz.sss.serv.SSClientE;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.datatype.enums.SSClientE;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
 
 public interface SSRecommClientI{
   

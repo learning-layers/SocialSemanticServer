@@ -1,8 +1,8 @@
 package sss.serv.eval.impl.helpers;
 
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.*;
 
 public class SSImportInfo {
 

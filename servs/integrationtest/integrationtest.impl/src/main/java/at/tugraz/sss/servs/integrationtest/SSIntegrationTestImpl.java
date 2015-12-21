@@ -20,19 +20,19 @@
   */
 package at.tugraz.sss.servs.integrationtest;
 
-import at.tugraz.sss.serv.SSSearchOpE;
-import at.tugraz.sss.serv.SSDBNoSQLAddDocPar;
-import at.tugraz.sss.serv.SSDBNoSQLI;
-import at.tugraz.sss.serv.SSDBNoSQLRemoveDocPar;
-import at.tugraz.sss.serv.SSDBNoSQLSearchPar;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSSolrKeywordLabel;
-import at.tugraz.sss.serv.SSSolrSearchFieldE;
+import at.tugraz.sss.serv.datatype.enums.SSSearchOpE;
+import at.tugraz.sss.serv.datatype.par.SSDBNoSQLAddDocPar;
+import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
+import at.tugraz.sss.serv.datatype.par.SSDBNoSQLRemoveDocPar;
+import at.tugraz.sss.serv.datatype.par.SSDBNoSQLSearchPar;
+import at.tugraz.sss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.util.SSLogU;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.datatype.SSSolrKeywordLabel;
+import at.tugraz.sss.serv.datatype.enums.SSSolrSearchFieldE;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

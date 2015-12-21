@@ -20,8 +20,8 @@
 */
 package at.tugraz.sss.adapter.rest.v2.system;
 
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.util.*;
 import com.wordnik.swagger.annotations.ApiModel;
 import javax.xml.bind.annotation.XmlRootElement;
 

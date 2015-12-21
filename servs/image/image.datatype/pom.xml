@@ -12,7 +12,7 @@
   <dependencies>
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.reg</artifactId>
+      <artifactId>serv1</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>

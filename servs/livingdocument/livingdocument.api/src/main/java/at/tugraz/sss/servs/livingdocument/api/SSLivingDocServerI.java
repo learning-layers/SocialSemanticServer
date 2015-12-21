@@ -20,8 +20,8 @@
  */
 package at.tugraz.sss.servs.livingdocument.api;
 
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.servs.livingdocument.datatype.SSLivingDocument;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocAddPar;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocGetPar;

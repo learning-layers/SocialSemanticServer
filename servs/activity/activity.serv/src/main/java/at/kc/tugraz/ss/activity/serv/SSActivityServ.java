@@ -24,11 +24,11 @@ import at.kc.tugraz.ss.activity.api.SSActivityClientI;
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.activity.impl.SSActivityImpl;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServContainerI;
-import at.tugraz.sss.serv.SSServImplA;
+import at.tugraz.sss.serv.conf.SSCoreConfA;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.impl.api.SSServImplA;
 import java.util.List;
 
 public class SSActivityServ extends SSServContainerI{

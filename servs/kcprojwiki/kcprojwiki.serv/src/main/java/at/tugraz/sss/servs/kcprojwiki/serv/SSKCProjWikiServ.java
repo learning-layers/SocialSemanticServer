@@ -21,16 +21,16 @@
 package at.tugraz.sss.servs.kcprojwiki.serv;
 
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSDateU;
-import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSServContainerI;
-import at.tugraz.sss.serv.SSServImplA;
+import at.tugraz.sss.serv.conf.SSCoreConfA;
+import at.tugraz.sss.serv.util.SSDateU;
+import at.tugraz.sss.serv.util.SSLogU;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.impl.api.SSServImplA;
 
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiClientI;
 import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiServerI;
 import at.tugraz.sss.servs.kcprojwiki.conf.SSKCProjWikiConf;

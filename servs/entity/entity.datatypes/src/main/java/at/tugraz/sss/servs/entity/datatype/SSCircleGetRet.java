@@ -21,10 +21,10 @@
 package at.kc.tugraz.ss.circle.datatypes.ret;
 
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSEntityCircle;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.SSEntityCircle;
 import java.util.HashMap;
 import java.util.Map;
 

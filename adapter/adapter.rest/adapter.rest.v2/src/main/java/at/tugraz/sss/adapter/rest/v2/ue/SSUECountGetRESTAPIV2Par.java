@@ -21,7 +21,7 @@
 package at.tugraz.sss.adapter.rest.v2.ue;
 
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;

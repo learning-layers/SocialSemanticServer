@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.sss.appstacklayout.datatypes;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.SSErr;
 
 public class SSAppStackLayout extends SSEntity{
   

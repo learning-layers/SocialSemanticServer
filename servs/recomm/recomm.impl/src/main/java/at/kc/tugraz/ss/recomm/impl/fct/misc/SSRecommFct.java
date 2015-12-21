@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.recomm.impl.fct.misc;
 
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.*;
 
 public class SSRecommFct{
         

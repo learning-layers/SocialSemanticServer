@@ -21,10 +21,10 @@
 package at.tugraz.sss.adapter.rest.v2.search;
 
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchLabel;
-import at.tugraz.sss.serv.SSSearchOpE;
+import at.tugraz.sss.serv.datatype.enums.SSSearchOpE;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.List;

@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.recomm.datatypes.ret;
 
 
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
 import java.util.Map;
 
 public class SSRecommUpdateBulkRet extends SSServRetI{

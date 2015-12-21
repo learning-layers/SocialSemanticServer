@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.sss.video.api;
 
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.sss.video.datatypes.SSVideo;
 import at.kc.tugraz.sss.video.datatypes.SSVideoAnnotation;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoAnnotationGetPar;
@@ -30,9 +30,9 @@ import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAnnotationAddPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserGetPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideosUserGetPar;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServServerI;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.impl.api.SSServServerI;
 import java.util.List;
 
 public interface SSVideoServerI extends SSServServerI{

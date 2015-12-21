@@ -20,13 +20,13 @@
   */
 package at.kc.tugraz.ss.service.user.impl.functions.sql;
 
-import at.tugraz.sss.serv.SSSQLVarNames;
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.util.SSSQLVarNames;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSDBSQLSelectPar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.datatype.par.SSDBSQLSelectPar;
+import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
-import at.tugraz.sss.serv.SSCoreSQL;
+import at.tugraz.sss.serv.db.api.SSCoreSQL;
 
 public class SSUserSQLFct extends SSCoreSQL{
   

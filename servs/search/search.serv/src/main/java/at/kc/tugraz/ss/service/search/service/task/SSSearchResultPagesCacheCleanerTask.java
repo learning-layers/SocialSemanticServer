@@ -22,10 +22,10 @@ package at.kc.tugraz.ss.service.search.service.task;
 
 import at.kc.tugraz.ss.service.search.api.SSSearchServerI;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchCleanUpPar;
-import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServImplStartA;
-import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.util.SSLogU;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.impl.api.SSServImplStartA;
+import at.tugraz.sss.serv.reg.*;
 import java.util.TimerTask;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
 

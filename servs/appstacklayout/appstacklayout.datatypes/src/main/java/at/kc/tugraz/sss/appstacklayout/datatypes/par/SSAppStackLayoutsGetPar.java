@@ -21,8 +21,8 @@
 package at.kc.tugraz.sss.appstacklayout.datatypes.par;
 
 
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.List;
 

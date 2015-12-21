@@ -20,8 +20,8 @@
 */
 package at.tugraz.sss.adapter.rest.v2.video;
 
-import at.tugraz.sss.serv.SSTextComment;
-import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.datatype.SSTextComment;
+import at.tugraz.sss.serv.datatype.*;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;

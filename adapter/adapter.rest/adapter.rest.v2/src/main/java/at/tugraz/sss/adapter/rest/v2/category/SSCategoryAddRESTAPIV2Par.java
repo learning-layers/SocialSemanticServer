@@ -22,8 +22,8 @@ package at.tugraz.sss.adapter.rest.v2.category;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.serv.SSSpaceE;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
+import at.tugraz.sss.serv.datatype.*;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;

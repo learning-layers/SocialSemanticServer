@@ -20,16 +20,16 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.serv.task;
 
-import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.util.SSLogU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.serv.SSServImplStartA;
+import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import java.util.TimerTask;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.reg.*;
 
 public class SSDataImportBitsAndPiecesTask extends TimerTask {
   

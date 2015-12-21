@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.job.dataexport.conf;
 
-import at.tugraz.sss.serv.SSServConfA;
+import at.tugraz.sss.serv.conf.SSServConfA;
 
 public class SSDataExportConf extends SSServConfA{
   

@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.sss.comment.api;
 
-import at.tugraz.sss.serv.SSClientE;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.datatype.enums.SSClientE;
+import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
 
 public interface SSCommentClientI{
   

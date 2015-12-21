@@ -15,11 +15,11 @@
   */
 package at.kc.tugraz.ss.adapter.rest.conf;
 
-import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.conf.SSCoreConfA;
 import at.kc.tugraz.ss.conf.conf.SSConf;
 
 import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.reg.SSServErrReg;
 
 public class SSAdapterRestConf extends SSCoreConfA{
   

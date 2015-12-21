@@ -20,7 +20,7 @@
   */
 package at.tugraz.sss.servs.ocd.conf;
 
-import at.tugraz.sss.serv.SSServConfA;
+import at.tugraz.sss.serv.conf.SSServConfA;
 
 public class SSOCDConf extends SSServConfA {
   

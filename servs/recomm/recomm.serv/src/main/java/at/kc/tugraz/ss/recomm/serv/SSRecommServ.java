@@ -21,11 +21,10 @@
 package at.kc.tugraz.ss.recomm.serv;
 
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.tugraz.sss.serv.SSDateU;
-import at.tugraz.sss.serv.SSLogU;
-
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.util.SSDateU;
+import at.tugraz.sss.serv.util.SSLogU;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.conf.SSCoreConfA;
 import at.kc.tugraz.ss.recomm.api.SSRecommClientI;
 import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
@@ -35,13 +34,13 @@ import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkTask;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkUserRealmsFromCirclesTask;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkUserRealmsFromConfTask;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServImplA;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.impl.api.SSServImplA;
 
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServContainerI;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.util.*;
 import java.util.List;
 
 public class SSRecommServ extends SSServContainerI{

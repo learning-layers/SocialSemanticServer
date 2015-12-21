@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
 
 public class SSEvernoteResource extends SSEntity{
   

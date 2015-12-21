@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.serv.auth.conf;
 
-import at.tugraz.sss.serv.SSCoreServConfA;
+import at.tugraz.sss.serv.conf.SSCoreServConfA;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.enums.SSAuthEnum;
 
 public class SSAuthConf extends SSCoreServConfA{

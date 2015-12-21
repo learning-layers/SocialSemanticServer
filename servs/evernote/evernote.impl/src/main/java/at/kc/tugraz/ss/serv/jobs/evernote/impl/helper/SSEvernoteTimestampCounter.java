@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.impl.helper;
 
-import at.tugraz.sss.serv.SSDateU;
+import at.tugraz.sss.serv.util.SSDateU;
 
 public class SSEvernoteTimestampCounter {
 

@@ -23,10 +23,10 @@ package at.kc.tugraz.sss.comment.api;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentEntitiesGetPar;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsAddPar;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsGetPar;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSTextComment;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServServerI;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.datatype.SSTextComment;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.impl.api.SSServServerI;
 import java.util.List;
 
 public interface SSCommentServerI extends SSServServerI{

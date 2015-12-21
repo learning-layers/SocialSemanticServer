@@ -20,13 +20,13 @@
 */
 package at.kc.tugraz.ss.activity.datatypes;
 
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSTextComment;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.SSTextComment;
 import java.util.ArrayList;
 import java.util.List;
 

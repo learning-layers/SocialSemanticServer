@@ -26,10 +26,10 @@ import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityContentAddPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityContentsAddPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityTypesGetPar;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServServerI;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.impl.api.SSServServerI;
+import at.tugraz.sss.serv.datatype.*;
 import java.util.List;
 
 public interface SSActivityServerI extends SSServServerI{

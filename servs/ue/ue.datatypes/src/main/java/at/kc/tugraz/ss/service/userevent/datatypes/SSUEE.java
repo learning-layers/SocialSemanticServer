@@ -20,6 +20,8 @@
 */
 package at.kc.tugraz.ss.service.userevent.datatypes;
 
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.*;
 import java.util.*;
 

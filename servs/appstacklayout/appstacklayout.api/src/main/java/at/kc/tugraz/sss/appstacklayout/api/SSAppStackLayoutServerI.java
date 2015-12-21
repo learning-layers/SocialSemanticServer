@@ -21,15 +21,15 @@
 package at.kc.tugraz.sss.appstacklayout.api;
 
 import at.kc.tugraz.sss.appstacklayout.datatypes.SSAppStackLayout;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutCreatePar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutDeletePar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutGetPar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutUpdatePar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutsGetPar;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServServerI;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.impl.api.SSServServerI;
 import java.util.List;
 
 public interface SSAppStackLayoutServerI extends SSServServerI{

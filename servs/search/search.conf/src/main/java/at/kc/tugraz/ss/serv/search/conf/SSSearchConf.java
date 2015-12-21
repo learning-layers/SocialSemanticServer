@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.search.conf;
 
-import at.tugraz.sss.serv.SSServConfA;
+import at.tugraz.sss.serv.conf.SSServConfA;
 
 public class SSSearchConf extends SSServConfA{
   

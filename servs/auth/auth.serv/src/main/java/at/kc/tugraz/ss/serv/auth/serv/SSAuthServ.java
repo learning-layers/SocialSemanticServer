@@ -21,19 +21,19 @@
 package at.kc.tugraz.ss.serv.auth.serv;
 
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.conf.SSCoreConfA;
+import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.serv.auth.impl.SSAuthImpl;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServImplA;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServContainerI;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.container.api.*;
 
 import java.util.List;
 

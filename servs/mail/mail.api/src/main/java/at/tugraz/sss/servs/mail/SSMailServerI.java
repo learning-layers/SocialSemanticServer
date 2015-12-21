@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.mail;
 
-import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.servs.mail.datatype.par.SSMailSendPar;
 import at.tugraz.sss.servs.mail.datatype.par.SSMailsReceivePar;
 import java.util.List;

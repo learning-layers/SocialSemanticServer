@@ -22,8 +22,8 @@ package at.tugraz.sss.adapter.rest.v2.livingdoc;
 
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocAddPar;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocGetPar;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocRemovePar;

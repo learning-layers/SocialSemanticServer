@@ -23,11 +23,11 @@ package at.kc.tugraz.ss.friend.api;
 import at.kc.tugraz.ss.friend.datatypes.SSFriend;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendGetPar;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendAddPar;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsGetPar;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServServerI;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.impl.api.SSServServerI;
 import java.util.List;
 
 public interface SSFriendServerI extends SSServServerI{

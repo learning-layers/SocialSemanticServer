@@ -20,8 +20,8 @@
 */
  package at.kc.tugraz.ss.recomm.datatypes;
 
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSJSONLDPropI;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.jsonld.SSJSONLDPropI;
 
 public class SSUserLikelihood{
   

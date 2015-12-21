@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.activity.datatypes.enums;
 
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
 

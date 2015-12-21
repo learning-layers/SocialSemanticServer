@@ -20,22 +20,22 @@
   */
 package at.kc.tugraz.ss.service.search.impl;
 
-import at.tugraz.sss.serv.SSEntityResultPages;
+import at.tugraz.sss.serv.datatype.SSEntityResultPages;
 import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.datatypes.SSResourceLikelihood;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
-import at.tugraz.sss.serv.SSEntityServerI;
+import at.tugraz.sss.serv.impl.api.SSEntityServerI;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.service.rating.api.SSRatingServerI;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingEntityURIsGetPar;
-import at.tugraz.sss.serv.SSDateU;
-import at.tugraz.sss.serv.SSIDU;
-import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar; 
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.util.SSDateU;
+import at.tugraz.sss.serv.util.SSIDU;
+import at.tugraz.sss.serv.util.SSLogU;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.conf.SSConfA;
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import at.kc.tugraz.ss.service.search.api.*;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchCleanUpPar;
@@ -45,21 +45,21 @@ import at.kc.tugraz.ss.service.search.impl.fct.SSSearchFct;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEntitiesForTagsGetPar;
-import at.tugraz.sss.serv.SSClientE;
-import at.tugraz.sss.serv.SSDBNoSQLI;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.datatype.enums.SSClientE;
+import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
+import at.tugraz.sss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import java.util.*;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServRetI; 
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import at.tugraz.sss.servs.common.impl.entity.SSEntityQueryCacheU;
-import at.tugraz.sss.serv.SSEntitiesGetPar;
-import at.tugraz.sss.serv.SSCoreSQL;
-import at.tugraz.sss.serv.SSEntityURIsGetPar;
+import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
+import at.tugraz.sss.serv.db.api.SSCoreSQL;
+import at.tugraz.sss.serv.datatype.par.SSEntityURIsGetPar;
 
 public class SSSearchImpl
 extends SSServImplWithDBA

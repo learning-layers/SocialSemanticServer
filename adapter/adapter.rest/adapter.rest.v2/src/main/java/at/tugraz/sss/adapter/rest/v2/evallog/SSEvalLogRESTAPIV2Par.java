@@ -21,8 +21,8 @@
 package at.tugraz.sss.adapter.rest.v2.evallog;
 
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.serv.SSToolContextE;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
+import at.tugraz.sss.serv.datatype.*;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;

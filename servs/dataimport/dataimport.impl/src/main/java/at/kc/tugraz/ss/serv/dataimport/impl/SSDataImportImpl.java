@@ -20,14 +20,14 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.impl;
 
-import at.tugraz.sss.serv.SSFileU;
-import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.util.SSFileU;
+import at.tugraz.sss.serv.util.SSLogU;
+import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSSpaceE;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
+import at.tugraz.sss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportClientI;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
@@ -41,27 +41,27 @@ import at.kc.tugraz.ss.serv.dataimport.impl.bitsandpieces.SSDataImportBitsAndPie
 import at.kc.tugraz.ss.serv.dataimport.impl.bitsandpieces.SSDataImportBitsAndPiecesMailImporter;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.reader.SSDataImportReaderFct;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.sql.SSDataImportSQLFct;
-import at.tugraz.sss.serv.SSEntityServerI;
+import at.tugraz.sss.serv.impl.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
-import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.conf.SSConfA;
+import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
 
-import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.SSErr;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSToolContextE;
+import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiProject;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgang;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgangEmployeeResource;

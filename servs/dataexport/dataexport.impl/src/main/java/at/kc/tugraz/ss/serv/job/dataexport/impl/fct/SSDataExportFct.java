@@ -23,12 +23,12 @@ package at.kc.tugraz.ss.serv.job.dataexport.impl.fct;
 import at.kc.tugraz.ss.category.api.SSCategoryServerI;
 import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesGetPar;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSSpaceE;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import java.util.List;
 import java.util.Map;
 

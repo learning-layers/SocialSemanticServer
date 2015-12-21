@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.image.conf;
 
-import at.tugraz.sss.serv.SSCoreServConfA;
+import at.tugraz.sss.serv.conf.SSCoreServConfA;
 
 public class SSImageConf extends SSCoreServConfA{
   

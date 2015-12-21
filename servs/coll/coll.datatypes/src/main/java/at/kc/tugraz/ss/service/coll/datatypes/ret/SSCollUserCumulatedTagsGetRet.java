@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.service.coll.datatypes.ret;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSJSONLDU;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.util.SSJSONLDU;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
 
 import java.util.ArrayList;

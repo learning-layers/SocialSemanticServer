@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.recomm.conf;
 
-import at.tugraz.sss.serv.SSDateU;
-import at.tugraz.sss.serv.SSServConfA;
+import at.tugraz.sss.serv.util.SSDateU;
+import at.tugraz.sss.serv.conf.SSServConfA;
 
 public class SSFriendConf extends SSServConfA{
 

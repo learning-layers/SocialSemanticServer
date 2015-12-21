@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.livingdocument.conf;
 
-import at.tugraz.sss.serv.SSCoreServConfA;
+import at.tugraz.sss.serv.conf.SSCoreServConfA;
 
 public class SSLivingDocConf extends SSCoreServConfA{
   

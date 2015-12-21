@@ -22,8 +22,8 @@ package at.tugraz.sss.adapter.rest.v2.activity;
 
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.serv.SSTextComment;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.SSTextComment;
+import at.tugraz.sss.serv.datatype.*;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.List;

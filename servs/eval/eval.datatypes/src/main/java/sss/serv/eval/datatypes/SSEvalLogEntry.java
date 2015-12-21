@@ -20,11 +20,11 @@
 */
 package sss.serv.eval.datatypes;
 
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSSpaceE;
-import at.tugraz.sss.serv.SSToolContextE;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
+import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
+import at.tugraz.sss.serv.datatype.*;
 import java.util.ArrayList;
 import java.util.List;
 

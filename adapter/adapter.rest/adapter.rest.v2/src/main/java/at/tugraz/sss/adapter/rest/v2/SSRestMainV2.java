@@ -20,14 +20,14 @@
 */
 package at.tugraz.sss.adapter.rest.v2;
 
-import at.tugraz.sss.serv.SSFileExtE;
-import at.tugraz.sss.serv.SSFileU;
-import at.tugraz.sss.serv.SSJSONU;
-import at.tugraz.sss.serv.SSMimeTypeE;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.util.SSFileExtE;
+import at.tugraz.sss.serv.util.SSFileU;
+import at.tugraz.sss.serv.util.SSJSONU;
+import at.tugraz.sss.serv.util.SSMimeTypeE;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
-import at.tugraz.sss.serv.SSJSONLDU;
+import at.tugraz.sss.serv.util.SSJSONLDU;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,8 +36,8 @@ import java.util.Set;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.HttpHeaders;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
 import java.io.InputStream;
 
 public class SSRestMainV2 extends Application {

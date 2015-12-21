@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.activity.datatypes.ret;
 
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.tugraz.sss.serv.SSServRetI; 
-import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

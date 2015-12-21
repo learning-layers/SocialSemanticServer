@@ -20,16 +20,16 @@
 */
 package at.kc.tugraz.ss.service.userevent.impl;
 
-import at.tugraz.sss.serv.SSEntityServerI;
+import at.tugraz.sss.serv.impl.api.SSEntityServerI;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEsGetPar;
 import at.kc.tugraz.ss.service.userevent.impl.fct.sql.SSUESQLFct;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSEntityDescriberPar;
-import at.tugraz.sss.serv.SSEntityFiller;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityGetPar;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
+import at.tugraz.sss.serv.misc.SSEntityFiller;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import java.util.ArrayList;
 import java.util.List;
 

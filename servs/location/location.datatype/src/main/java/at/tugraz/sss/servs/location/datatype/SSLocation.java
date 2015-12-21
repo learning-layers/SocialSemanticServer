@@ -20,9 +20,9 @@
 */
 package at.tugraz.sss.servs.location.datatype;
 
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.*;
 
 public class SSLocation extends SSEntity{
   

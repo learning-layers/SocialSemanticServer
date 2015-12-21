@@ -1,6 +1,6 @@
 package sss.serv.eval.impl.helpers;
 
-import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.datatype.*;
 
 public class SSStartDiscussionInfo {
   

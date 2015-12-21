@@ -20,30 +20,29 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
-import at.tugraz.sss.serv.SSFileExtE;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSFileU;
-import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSMimeTypeE;
+import at.tugraz.sss.serv.util.SSFileExtE;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.util.SSFileU;
+import at.tugraz.sss.serv.util.SSLogU;
+import at.tugraz.sss.serv.util.SSMimeTypeE;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
-import at.tugraz.sss.serv.SSServImplStartA;
+import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileAddRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
 import at.tugraz.sss.adapter.socket.SSSocketAdapterU;
-import at.tugraz.sss.serv.SSSocketU;
+import at.tugraz.sss.serv.util.SSSocketU;
 
-import at.tugraz.sss.serv.SSDBNoSQLAddDocPar;
-import at.tugraz.sss.serv.SSDBNoSQLI;
-
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSToolContextE;
+import at.tugraz.sss.serv.datatype.par.SSDBNoSQLAddDocPar;
+import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
+import at.tugraz.sss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import java.io.DataInputStream;
 import java.io.FileOutputStream;

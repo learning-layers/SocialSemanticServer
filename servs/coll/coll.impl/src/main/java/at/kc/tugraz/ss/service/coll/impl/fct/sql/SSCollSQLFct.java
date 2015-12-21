@@ -20,21 +20,21 @@
 */
 package at.kc.tugraz.ss.service.coll.impl.fct.sql;
 
-import at.tugraz.sss.serv.SSSQLVarNames;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSCircleE;
-import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.util.SSSQLVarNames;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.SSCircleE;
+import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
 import at.kc.tugraz.ss.service.coll.datatypes.SSCollEntry;
 import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import at.tugraz.sss.serv.SSCoreSQL;
+import at.tugraz.sss.serv.db.api.SSCoreSQL;
 
 public class SSCollSQLFct extends SSCoreSQL{
 

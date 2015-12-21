@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.impl.fct.sql;
 
-import at.tugraz.sss.serv.SSDBSQLFctA;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.db.api.SSDBSQLFctA;
+import at.tugraz.sss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.reg.SSServErrReg;
 
 import java.sql.ResultSet;
 import java.sql.Statement;

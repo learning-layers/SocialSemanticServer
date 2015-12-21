@@ -21,16 +21,16 @@
 package sss.serv.eval.serv;
 
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSDateU;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSServContainerI;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServImplA;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.conf.SSCoreConfA;
+import at.tugraz.sss.serv.util.SSDateU;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.util.SSLogU;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.impl.api.SSServImplA;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.util.*;
 
 import java.util.List;
 import sss.serv.eval.api.SSEvalClientI;

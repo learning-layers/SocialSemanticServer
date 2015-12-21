@@ -20,12 +20,12 @@
  */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSTextComment;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.SSTextComment;
 
 public class SSLearnEpVersionCircleUpdatePar extends SSServPar{
   

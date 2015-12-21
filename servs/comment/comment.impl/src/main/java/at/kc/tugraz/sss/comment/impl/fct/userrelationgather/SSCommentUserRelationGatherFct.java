@@ -20,18 +20,18 @@
 */
 package at.kc.tugraz.sss.comment.impl.fct.userrelationgather;
 
-import at.tugraz.sss.serv.SSEntityServerI;
+import at.tugraz.sss.serv.impl.api.SSEntityServerI;
 import at.kc.tugraz.sss.comment.api.SSCommentServerI;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentEntitiesGetPar;
-import at.tugraz.sss.serv.SSCirclesGetPar;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.par.SSCirclesGetPar;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.datatype.*;
 import java.util.List;
 import java.util.Map;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.reg.*;
 
 public class SSCommentUserRelationGatherFct{
   

@@ -21,14 +21,14 @@
 package at.kc.tugraz.ss.service.user.service;
 
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServImplA;
+import at.tugraz.sss.serv.conf.SSCoreConfA;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.kc.tugraz.ss.service.user.api.SSUserClientI;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.impl.*;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServContainerI;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.container.api.*;
 import java.util.List;
 
 public class SSUserServ extends SSServContainerI{

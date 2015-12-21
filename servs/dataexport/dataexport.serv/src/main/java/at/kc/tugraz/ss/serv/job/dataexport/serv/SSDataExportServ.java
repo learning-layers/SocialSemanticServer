@@ -21,14 +21,14 @@
 package at.kc.tugraz.ss.serv.job.dataexport.serv;
 
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.conf.SSCoreConfA;
 import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportClientI;
 import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportServerI;
 import at.kc.tugraz.ss.serv.job.dataexport.impl.SSDataExportImpl;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServContainerI;
-import at.tugraz.sss.serv.SSServImplA;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.impl.api.SSServImplA;
 import java.util.List;
 
 public class SSDataExportServ extends SSServContainerI{

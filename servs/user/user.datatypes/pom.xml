@@ -34,13 +34,13 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.reg</artifactId>
+      <artifactId>serv1</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>jsonld.api</artifactId>
+      <artifactId>serv1</artifactId>
       <version>${project.version}</version>
     </dependency>
     

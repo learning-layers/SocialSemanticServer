@@ -10,11 +10,6 @@
   <artifactId>serv</artifactId>
   <packaging>pom</packaging>
   <modules>
-    <module>serv.util</module>
-    <module>serv.entities</module>
-    <module>serv.jsonld</module>
-    <module>serv.errreg</module>
-    <module>serv.reg</module>
-    <module>serv.core</module>
+    <module>serv1</module>
   </modules>
 </project>

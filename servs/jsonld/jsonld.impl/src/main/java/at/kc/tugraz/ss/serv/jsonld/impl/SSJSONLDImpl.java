@@ -21,21 +21,21 @@
 package at.kc.tugraz.ss.serv.jsonld.impl;
 
 
-import at.tugraz.sss.serv.SSObjU;
+import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDClientI;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDServerI;
 import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.par.SSJSONLDPar;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.par.ret.SSJSONLDRet;
-import at.tugraz.sss.serv.SSClientE;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSJSONLDPropI;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.SSServPar; 
-import at.tugraz.sss.serv.SSServRetI; 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.datatype.enums.SSClientE;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.jsonld.SSJSONLDPropI;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 
 public class SSJSONLDImpl 

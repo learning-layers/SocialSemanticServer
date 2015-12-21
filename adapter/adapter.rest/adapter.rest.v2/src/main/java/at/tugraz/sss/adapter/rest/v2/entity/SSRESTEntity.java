@@ -20,22 +20,22 @@
   */
 package at.tugraz.sss.adapter.rest.v2.entity;
 
-import at.tugraz.sss.serv.SSEntityCopyPar;
-import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.datatype.par.SSEntityCopyPar;
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserEntityUsersGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserEntityUsersGetRet;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsAddPar;
-import at.tugraz.sss.serv.SSEntitiesAccessibleGetPar;
-import at.tugraz.sss.serv.SSEntitiesGetPar;
-import at.tugraz.sss.serv.SSEntityDescriberPar;
-import at.tugraz.sss.serv.SSEntitySharePar;
-import at.tugraz.sss.serv.SSEntityTypesGetPar;
-import at.tugraz.sss.serv.SSEntityUnpublicizePar;
-import at.tugraz.sss.serv.SSEntityUpdatePar;
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.datatype.par.SSEntitiesAccessibleGetPar;
+import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
+import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
+import at.tugraz.sss.serv.datatype.par.SSEntitySharePar;
+import at.tugraz.sss.serv.datatype.par.SSEntityTypesGetPar;
+import at.tugraz.sss.serv.datatype.par.SSEntityUnpublicizePar;
+import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntitiesGetRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityCopyRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityShareRet;

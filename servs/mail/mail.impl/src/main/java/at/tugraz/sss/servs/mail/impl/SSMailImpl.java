@@ -21,15 +21,15 @@
 package at.tugraz.sss.servs.mail.impl;
 
 import at.tugraz.sss.servs.mail.impl.kc.SSMailReceiverKCDavIMAP;
-import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSDBNoSQLI;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.conf.SSConfA;
+import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
+import at.tugraz.sss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
+import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.mail.SSMailClientI;
 import at.tugraz.sss.servs.mail.SSMailServerI;
 import at.tugraz.sss.servs.mail.conf.SSMailConf;

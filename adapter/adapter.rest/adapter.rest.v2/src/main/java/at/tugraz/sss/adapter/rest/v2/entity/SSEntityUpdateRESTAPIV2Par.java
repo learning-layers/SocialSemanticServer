@@ -20,9 +20,9 @@
 */
 package at.tugraz.sss.adapter.rest.v2.entity;
 
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSTextComment;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.SSTextComment;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;

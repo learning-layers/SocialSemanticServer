@@ -25,10 +25,10 @@ import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUECountGetPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEGetPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEsGetPar;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServServerI;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.impl.api.SSServServerI;
+import at.tugraz.sss.serv.datatype.*;
 import java.util.List;
 
 public interface SSUEServerI extends SSServServerI{

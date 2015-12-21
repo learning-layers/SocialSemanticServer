@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.recomm.impl.fct.misc;
 
-import at.tugraz.sss.serv.SSFileExtE;
-import at.tugraz.sss.serv.SSFileU;
-import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.util.SSFileExtE;
+import at.tugraz.sss.serv.util.SSFileU;
+import at.tugraz.sss.serv.util.SSLogU;
+import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.datatypes.SSRecommUserRealmEngine;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkPar;
@@ -32,11 +32,11 @@ import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.adapter.socket.SSSocketAdapterU;
 
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServImplStartA;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSSocketU;
+import at.tugraz.sss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.impl.api.SSServImplStartA;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.util.SSSocketU;
 import engine.EntityRecommenderEngine;
 import java.io.DataInputStream;
 import java.io.FileOutputStream;

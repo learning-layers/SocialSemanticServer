@@ -21,9 +21,9 @@
 package at.tugraz.sss.servs.mail.impl.gmail;
 
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.mail.conf.SSMailConf;
 import at.tugraz.sss.servs.mail.datatype.SSMail;
 import java.util.ArrayList;

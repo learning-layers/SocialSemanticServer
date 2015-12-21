@@ -21,17 +21,17 @@
 package at.kc.tugraz.ss.service.disc.impl.fct.activity;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
-import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.util.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
-import at.tugraz.sss.serv.SSTextComment;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSToolContextE;
+import at.tugraz.sss.serv.datatype.SSTextComment;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import java.util.List;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;

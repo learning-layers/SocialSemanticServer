@@ -20,14 +20,14 @@
 */
 package at.kc.tugraz.ss.service.coll.impl.fct.op;
 
-import at.tugraz.sss.serv.SSCircleAddEntitiesToCircleOfEntityPar;
-import at.tugraz.sss.serv.SSCircleIsEntityPrivatePar;
-import at.tugraz.sss.serv.SSCircleIsEntityPublicPar;
+import at.tugraz.sss.serv.datatype.par.SSCircleAddEntitiesToCircleOfEntityPar;
+import at.tugraz.sss.serv.datatype.par.SSCircleIsEntityPrivatePar;
+import at.tugraz.sss.serv.datatype.par.SSCircleIsEntityPublicPar;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.serv.SSEntityServerI;
-import at.tugraz.sss.serv.SSEntityUpdatePar;
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.impl.api.SSEntityServerI;
+import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
 import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;

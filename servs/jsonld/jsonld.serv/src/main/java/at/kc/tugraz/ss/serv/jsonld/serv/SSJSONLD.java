@@ -21,15 +21,15 @@
 package at.kc.tugraz.ss.serv.jsonld.serv;
 
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.conf.SSCoreConfA;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDClientI;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDServerI;
 import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;
 import at.kc.tugraz.ss.serv.jsonld.impl.SSJSONLDImpl;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServContainerI;
-import at.tugraz.sss.serv.SSServImplA;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.impl.api.SSServImplA;
 import java.util.List;
 
 public class SSJSONLD extends SSServContainerI{

@@ -21,15 +21,15 @@
 package at.tugraz.sss.servs.entity.impl;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
-import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.util.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
-import at.tugraz.sss.serv.SSEntitySharePar;
-import at.tugraz.sss.serv.SSTextComment;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.par.SSEntitySharePar;
+import at.tugraz.sss.serv.datatype.SSTextComment;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.datatype.*;
 
 public class SSEntityActivityFct{
   

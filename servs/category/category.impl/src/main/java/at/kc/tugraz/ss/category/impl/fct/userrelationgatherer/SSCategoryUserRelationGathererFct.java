@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.category.impl.fct.userrelationgatherer;
 
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.category.datatypes.SSCategory;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.SSEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

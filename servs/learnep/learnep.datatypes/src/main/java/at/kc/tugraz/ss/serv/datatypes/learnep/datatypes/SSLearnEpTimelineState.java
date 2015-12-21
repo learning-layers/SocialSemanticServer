@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
 import java.util.Map;
 
 public class SSLearnEpTimelineState extends SSEntity {

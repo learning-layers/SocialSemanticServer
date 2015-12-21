@@ -20,12 +20,12 @@
   */
 package at.kc.tugraz.ss.serv.jobs.evernote.impl;
 
-import at.tugraz.sss.serv.SSDateU;
-import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.util.SSDateU;
+import at.tugraz.sss.serv.util.SSLogU;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteClientI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
@@ -44,14 +44,14 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUSNSetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUserAddPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.fct.sql.SSEvernoteSQLFct;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
-import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.conf.SSConfA;
 
-import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 
-import at.tugraz.sss.serv.SSDescribeEntityI;
-import at.tugraz.sss.serv.SSEntityDescriberPar;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.impl.api.SSDescribeEntityI;
+import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import com.evernote.auth.EvernoteAuth;
 import com.evernote.auth.EvernoteService;
 import com.evernote.clients.ClientFactory;
@@ -66,11 +66,11 @@ import com.evernote.edam.type.Notebook;
 import com.evernote.edam.type.Resource;
 import com.evernote.edam.type.SharedNotebook;
 import java.util.List;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSWarnE;
+import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.datatype.enums.SSWarnE;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import java.util.logging.Level;
 import java.util.logging.Logger;

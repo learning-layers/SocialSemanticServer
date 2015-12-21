@@ -21,11 +21,11 @@
 package at.tugraz.sss.servs.kcprojwiki.serv;
 
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSServImplStartA;
+import at.tugraz.sss.serv.util.SSLogU;
+import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import java.util.TimerTask;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiServerI;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiImportPar;
 

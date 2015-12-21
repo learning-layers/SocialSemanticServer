@@ -20,11 +20,11 @@
 */
 package sss.serv.eval.impl;
 
-import at.tugraz.sss.serv.SSDateU;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.util.SSDateU;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.util.SSLogU;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.util.*;
 import java.util.List;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 

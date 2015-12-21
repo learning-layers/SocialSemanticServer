@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.service.rating.impl.fct.userraltionsgathering;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRating;
 import java.util.ArrayList;
 import java.util.List;

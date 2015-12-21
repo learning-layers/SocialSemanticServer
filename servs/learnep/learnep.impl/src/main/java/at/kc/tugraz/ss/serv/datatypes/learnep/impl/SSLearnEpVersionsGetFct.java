@@ -20,17 +20,17 @@
   */
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl;
 
-import at.tugraz.sss.serv.SSEntityServerI;
+import at.tugraz.sss.serv.impl.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSEntityDescriberPar;
-import at.tugraz.sss.serv.SSEntityFiller;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityGetPar;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
+import at.tugraz.sss.serv.misc.SSEntityFiller;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import java.util.List;
 
 public class SSLearnEpVersionsGetFct {

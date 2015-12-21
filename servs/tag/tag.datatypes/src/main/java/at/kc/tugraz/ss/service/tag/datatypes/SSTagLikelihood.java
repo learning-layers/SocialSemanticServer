@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.tag.datatypes;
 
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.util.*;
 
 public class SSTagLikelihood{
   

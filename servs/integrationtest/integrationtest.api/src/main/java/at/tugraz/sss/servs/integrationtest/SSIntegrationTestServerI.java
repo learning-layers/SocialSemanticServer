@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.integrationtest;
 
-import at.tugraz.sss.serv.SSServServerI;
+import at.tugraz.sss.serv.impl.api.SSServServerI;
 
 public interface SSIntegrationTestServerI extends SSServServerI {
   

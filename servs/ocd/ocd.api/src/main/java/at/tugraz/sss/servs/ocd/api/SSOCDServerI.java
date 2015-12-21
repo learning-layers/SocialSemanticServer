@@ -20,8 +20,8 @@
  */
 package at.tugraz.sss.servs.ocd.api;
 
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServServerI;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.impl.api.SSServServerI;
 import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDCreateCoverPar;
 import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDCreateGraphPar;
 import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDDeleteCoverPar;

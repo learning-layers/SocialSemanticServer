@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.ss.service.coll.impl.fct.op;
 
-import at.tugraz.sss.serv.SSEntityServerI;
+import at.tugraz.sss.serv.impl.api.SSEntityServerI;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
-import at.tugraz.sss.serv.SSCircleIsEntityPrivatePar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.datatype.par.SSCircleIsEntityPrivatePar;
+import at.tugraz.sss.serv.reg.SSServErrReg;
 
 public class SSCollEntryDeleteFct{
   

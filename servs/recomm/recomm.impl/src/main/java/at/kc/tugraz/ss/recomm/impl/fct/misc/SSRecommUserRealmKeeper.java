@@ -21,17 +21,17 @@
 package at.kc.tugraz.ss.recomm.impl.fct.misc;
 
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.recomm.datatypes.SSRecommUserRealmEngine;
 import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSFileExtE;
-import at.tugraz.sss.serv.SSFileU;
-import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.util.SSFileExtE;
+import at.tugraz.sss.serv.util.SSFileU;
+import at.tugraz.sss.serv.util.SSLogU;
+import at.tugraz.sss.serv.reg.SSServErrReg;
 import engine.EngineInterface;
 import engine.EntityRecommenderEngine;
 import java.io.FileOutputStream;

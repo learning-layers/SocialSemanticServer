@@ -20,8 +20,13 @@
 */
 package at.kc.tugraz.ss.service.tag.datatypes;
 
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.*;
-import at.tugraz.sss.serv.SSEntityA;
+import at.tugraz.sss.serv.datatype.api.SSEntityA;
 import java.util.ArrayList;
 import java.util.List;
 

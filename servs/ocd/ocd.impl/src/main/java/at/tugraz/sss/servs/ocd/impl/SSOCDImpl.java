@@ -20,20 +20,19 @@
  */
 package at.tugraz.sss.servs.ocd.impl;
 
-import at.tugraz.sss.serv.SSClientE;
+import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.servs.ocd.api.SSOCDClientI;
 import at.tugraz.sss.servs.ocd.api.SSOCDServerI;
-import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.conf.SSConfA;
 
-import at.tugraz.sss.serv.SSDBNoSQLI;
-
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServRetI; 
+import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
+import at.tugraz.sss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
+import at.tugraz.sss.serv.datatype.par.SSServPar;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import at.tugraz.sss.servs.ocd.conf.SSOCDConf;
 import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDCreateCoverPar;
 import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDCreateGraphPar;

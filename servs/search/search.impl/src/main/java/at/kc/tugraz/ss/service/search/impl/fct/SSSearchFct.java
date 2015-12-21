@@ -20,14 +20,14 @@
 */
 package at.kc.tugraz.ss.service.search.impl.fct;
 
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSSearchOpE;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.enums.SSSearchOpE;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.util.*;
 
 public class SSSearchFct {
   

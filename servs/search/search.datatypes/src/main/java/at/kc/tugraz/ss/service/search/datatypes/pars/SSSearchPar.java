@@ -21,12 +21,12 @@
 package at.kc.tugraz.ss.service.search.datatypes.pars;
 
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchLabel;
-import at.tugraz.sss.serv.SSSearchOpE;
+import at.tugraz.sss.serv.datatype.enums.SSSearchOpE;
 import java.util.ArrayList;
 import java.util.List;
 

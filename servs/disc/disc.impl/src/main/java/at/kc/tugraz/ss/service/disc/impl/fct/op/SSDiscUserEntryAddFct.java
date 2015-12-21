@@ -20,23 +20,23 @@
 */
 package at.kc.tugraz.ss.service.disc.impl.fct.op;
 
-import at.tugraz.sss.serv.SSEntityServerI;
-import at.tugraz.sss.serv.SSCircleAddEntitiesToCircleOfEntityPar;
+import at.tugraz.sss.serv.impl.api.SSEntityServerI;
+import at.tugraz.sss.serv.datatype.par.SSCircleAddEntitiesToCircleOfEntityPar;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.serv.SSEntityServerI;
-import at.tugraz.sss.serv.SSEntityGetPar;
-import at.tugraz.sss.serv.SSEntityUpdatePar;
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSTextComment;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.impl.api.SSEntityServerI;
+import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
+import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.SSTextComment;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.*;
 
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
 import at.kc.tugraz.ss.service.disc.impl.SSDiscSQLFct;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import java.util.List;
 

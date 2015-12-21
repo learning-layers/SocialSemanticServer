@@ -20,9 +20,9 @@
  */
 package at.tugraz.sss.servs.common.impl.entity;
 
-import at.tugraz.sss.serv.SSDateU;
-import at.tugraz.sss.serv.SSEntityResultPages;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.util.SSDateU;
+import at.tugraz.sss.serv.datatype.SSEntityResultPages;
+import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.util.Iterator;
 import java.util.Map;
 

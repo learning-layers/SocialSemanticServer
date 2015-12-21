@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.auth.impl.fct.oidc;
 
-import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 
 import com.nimbusds.oauth2.sdk.ParseException;
@@ -34,9 +34,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import net.minidev.json.JSONObject;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.reg.SSServErrReg;
 
 public class SSAuthOIDC{
   

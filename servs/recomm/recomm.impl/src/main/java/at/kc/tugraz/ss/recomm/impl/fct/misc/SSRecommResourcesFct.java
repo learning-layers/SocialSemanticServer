@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.recomm.impl.fct.misc;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.SSEntity;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
 
 public class SSRecommResourcesFct{

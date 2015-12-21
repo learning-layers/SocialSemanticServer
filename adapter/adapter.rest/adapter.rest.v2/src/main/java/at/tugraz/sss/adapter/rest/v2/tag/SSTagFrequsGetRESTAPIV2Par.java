@@ -20,8 +20,8 @@
 */
 package at.tugraz.sss.adapter.rest.v2.tag;
 
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSSpaceE;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import com.wordnik.swagger.annotations.ApiModel;

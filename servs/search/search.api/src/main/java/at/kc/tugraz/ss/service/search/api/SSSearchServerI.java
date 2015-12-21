@@ -23,8 +23,8 @@
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchCleanUpPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServServerI;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.impl.api.SSServServerI;
 
 public interface SSSearchServerI extends SSServServerI{
 

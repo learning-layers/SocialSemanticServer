@@ -20,9 +20,9 @@
 */
  package at.kc.tugraz.ss.service.rating.datatypes;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSEntityA;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.api.SSEntityA;
 import java.util.HashMap;
 import java.util.Map;
 

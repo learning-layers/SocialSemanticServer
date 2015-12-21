@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
 
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
 import java.util.Map;
 
 public class SSDataImportBitsAndPiecesRet extends SSServRetI{

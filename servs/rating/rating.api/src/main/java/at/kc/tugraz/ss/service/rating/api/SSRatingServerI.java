@@ -26,9 +26,9 @@ import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingSetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingGetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingsRemovePar;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServServerI;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.impl.api.SSServServerI;
+import at.tugraz.sss.serv.datatype.*;
 import java.util.List;
 
 public interface SSRatingServerI extends SSServServerI{

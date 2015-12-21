@@ -20,10 +20,9 @@
 */
 package at.tugraz.sss.servs.file.datatype.par;
 
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
-
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.util.*;
 
 public class SSFileGetPar extends SSServPar{
   

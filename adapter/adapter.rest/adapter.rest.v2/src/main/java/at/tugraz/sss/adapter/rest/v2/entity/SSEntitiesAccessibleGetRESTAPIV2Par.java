@@ -20,8 +20,8 @@
 */
 package at.tugraz.sss.adapter.rest.v2.entity;
 
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.*;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.List;

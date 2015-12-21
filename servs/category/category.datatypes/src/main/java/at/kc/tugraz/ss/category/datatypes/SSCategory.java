@@ -20,12 +20,12 @@
 */
 package at.kc.tugraz.ss.category.datatypes;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSSpaceE;
-import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
+import at.tugraz.sss.serv.datatype.*;
 import java.util.*;
 
 public class SSCategory extends SSEntity{

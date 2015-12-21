@@ -24,9 +24,9 @@ import at.kc.tugraz.sss.flag.datatypes.SSFlag;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagGetPar;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsGetPar;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsSetPar;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServServerI;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.impl.api.SSServServerI;
 import java.util.List;
 
 public interface SSFlagServerI extends SSServServerI{

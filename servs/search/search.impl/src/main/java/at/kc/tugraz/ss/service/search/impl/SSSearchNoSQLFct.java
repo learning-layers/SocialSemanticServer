@@ -21,14 +21,14 @@
 package at.kc.tugraz.ss.service.search.impl;
 
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.serv.SSDBNoSQLFctA;
-import at.tugraz.sss.serv.SSDBNoSQLI;
-import at.tugraz.sss.serv.SSDBNoSQLSearchPar;
-import at.tugraz.sss.serv.SSSearchOpE;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSSolrKeywordLabel;
-import at.tugraz.sss.serv.SSSolrSearchFieldE;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.db.api.SSDBNoSQLFctA;
+import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
+import at.tugraz.sss.serv.datatype.par.SSDBNoSQLSearchPar;
+import at.tugraz.sss.serv.datatype.enums.SSSearchOpE;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.datatype.SSSolrKeywordLabel;
+import at.tugraz.sss.serv.datatype.enums.SSSolrSearchFieldE;
+import at.tugraz.sss.serv.datatype.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

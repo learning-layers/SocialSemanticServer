@@ -20,12 +20,12 @@
 */
 package at.kc.tugraz.ss.service.filerepo.datatypes;
 
-import at.tugraz.sss.serv.SSFileExtE;
-import at.tugraz.sss.serv.SSMimeTypeE;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.util.SSFileExtE;
+import at.tugraz.sss.serv.util.SSMimeTypeE;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
 
 public class SSFile extends SSEntity{
   

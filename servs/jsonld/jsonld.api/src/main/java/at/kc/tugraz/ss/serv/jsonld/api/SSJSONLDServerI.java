@@ -21,8 +21,8 @@
 package at.kc.tugraz.ss.serv.jsonld.api;
 
 import at.kc.tugraz.ss.serv.jsonld.datatypes.par.SSJSONLDPar;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServServerI;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.impl.api.SSServServerI;
 
 public interface SSJSONLDServerI extends SSServServerI{
   

@@ -20,8 +20,8 @@
 */
  package at.kc.tugraz.ss.serv.ss.auth.datatypes.enums;
 
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.util.*;
 
 public enum SSAuthEnum {
   

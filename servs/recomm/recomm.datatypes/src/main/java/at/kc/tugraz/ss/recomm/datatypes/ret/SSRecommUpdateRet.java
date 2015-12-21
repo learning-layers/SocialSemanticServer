@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.recomm.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServRetI; 
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import java.util.Map;
 
 public class SSRecommUpdateRet extends SSServRetI{

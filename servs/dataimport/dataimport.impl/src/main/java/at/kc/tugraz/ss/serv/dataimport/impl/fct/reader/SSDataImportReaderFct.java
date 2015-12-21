@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.impl.fct.reader;
 
-import at.tugraz.sss.serv.SSEncodingU;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSFileU;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.util.SSEncodingU;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.util.SSFileU;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.util.*;
 import au.com.bytecode.opencsv.CSVReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

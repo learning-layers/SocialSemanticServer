@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.service.coll.datatypes;
 
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.SSEntity;
 
 public class SSColl extends SSEntity{
 

@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.serv.ss.auth.datatypes.ret;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServRetI; 
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import java.util.Map;
 
 public class SSAuthCheckCredRet extends SSServRetI{

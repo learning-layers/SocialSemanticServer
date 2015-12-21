@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.ss.service.tag.datatypes;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSEntityA;
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSSpaceE;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.api.SSEntityA;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

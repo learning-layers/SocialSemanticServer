@@ -21,15 +21,15 @@
  package at.kc.tugraz.ss.service.coll.service;
 
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.conf.SSCoreConfA;
 import at.kc.tugraz.ss.service.coll.impl.*;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServImplA;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.kc.tugraz.ss.service.coll.api.SSCollClientI;
 import at.kc.tugraz.ss.service.coll.api.SSCollServerI;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServContainerI;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.container.api.*;
 import java.util.List;
 
 public class SSCollServ extends SSServContainerI{

@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.integrationtest;
 
-import at.tugraz.sss.serv.SSCoreServConfA;
+import at.tugraz.sss.serv.conf.SSCoreServConfA;
 import java.util.ArrayList;
 import java.util.List;
 

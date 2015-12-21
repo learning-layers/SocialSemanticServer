@@ -20,12 +20,12 @@
  */
 package at.tugraz.sss.adapter.socket;
 
-import at.tugraz.sss.serv.SSSocketU;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSJSONU;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServRetI;
-import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.util.SSSocketU;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.util.SSJSONU;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI;
+import at.tugraz.sss.serv.util.*;
 import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.List;

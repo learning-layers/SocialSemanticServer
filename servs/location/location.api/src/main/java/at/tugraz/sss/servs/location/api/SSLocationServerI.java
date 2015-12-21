@@ -20,8 +20,8 @@
 */
 package at.tugraz.sss.servs.location.api;
 
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.servs.location.datatype.SSLocation;
 import at.tugraz.sss.servs.location.datatype.par.SSLocationAddPar;
 import at.tugraz.sss.servs.location.datatype.par.SSLocationGetPar;

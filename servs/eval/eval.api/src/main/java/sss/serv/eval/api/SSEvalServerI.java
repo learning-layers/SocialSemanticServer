@@ -20,8 +20,8 @@
 */
 package sss.serv.eval.api;
 
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServServerI;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.impl.api.SSServServerI;
 import sss.serv.eval.datatypes.par.SSEvalAnalyzePar;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 

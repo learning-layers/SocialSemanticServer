@@ -20,13 +20,12 @@
 */
 package at.tugraz.sss.servs.file.datatype.par;
 
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSFileExtE;
-import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
-
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.util.SSFileExtE;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.util.*;
 
 public class SSEntityFileAddPar extends SSServPar{
   

@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.mail.conf;
 
-import at.tugraz.sss.serv.SSCoreServConfA;
+import at.tugraz.sss.serv.conf.SSCoreServConfA;
 import at.tugraz.sss.servs.mail.datatype.SSMailReceiveE;
 import at.tugraz.sss.servs.mail.datatype.SSMailSendE;
 

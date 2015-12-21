@@ -1,6 +1,6 @@
 package sss.serv.eval.impl.helpers;
 
-import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.datatype.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

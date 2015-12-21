@@ -20,8 +20,8 @@
 */
 package sss.serv.eval.datatypes;
 
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.List;
 

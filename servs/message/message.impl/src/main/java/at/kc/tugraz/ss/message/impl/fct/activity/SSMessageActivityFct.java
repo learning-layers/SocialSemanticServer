@@ -21,17 +21,17 @@
 package at.kc.tugraz.ss.message.impl.fct.activity;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
-import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.util.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.SSActivityContent;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityContentE;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityContentAddPar;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSTextComment;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.datatype.SSTextComment;
 
 public class SSMessageActivityFct{
   

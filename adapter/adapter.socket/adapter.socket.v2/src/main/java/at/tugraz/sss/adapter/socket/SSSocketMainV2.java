@@ -20,7 +20,7 @@
   */
 package at.tugraz.sss.adapter.socket;
 
-import at.tugraz.sss.serv.SSSocketU;
+import at.tugraz.sss.serv.util.SSSocketU;
 import at.kc.tugraz.ss.activity.serv.SSActivityServ;
 import at.kc.tugraz.ss.category.ss.category.serv.SSCategoryServ;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
@@ -51,18 +51,18 @@ import at.kc.tugraz.sss.flag.serv.SSFlagServ;
 import at.kc.tugraz.sss.video.serv.SSVideoServ;
 
 
-import at.tugraz.sss.serv.SSEncodingU;
-import at.tugraz.sss.serv.SSFileExtE;
-import at.tugraz.sss.serv.SSJSONLDU;
-import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSMimeTypeE;
-import at.tugraz.sss.serv.SSServContainerI;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServImplA;
-import at.tugraz.sss.serv.SSServImplStartA;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.util.SSEncodingU;
+import at.tugraz.sss.serv.util.SSFileExtE;
+import at.tugraz.sss.serv.util.SSJSONLDU;
+import at.tugraz.sss.serv.util.SSLogU;
+import at.tugraz.sss.serv.util.SSMimeTypeE;
+import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.impl.api.SSServImplA;
+import at.tugraz.sss.serv.impl.api.SSServImplStartA;
+import at.tugraz.sss.serv.datatype.par.SSServPar;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.db.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.db.serv.SSDBSQL;
 import at.tugraz.sss.servs.image.serv.SSImageServ;

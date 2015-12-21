@@ -20,23 +20,23 @@
 */
 package at.kc.tugraz.ss.service.disc.impl;
 
-import at.tugraz.sss.serv.SSSQLVarNames;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.util.SSSQLVarNames;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDiscEntry;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSTextComment;
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.SSTextComment;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import at.tugraz.sss.serv.SSCoreSQL;
+import at.tugraz.sss.serv.db.api.SSCoreSQL;
 
 public class SSDiscSQLFct extends SSCoreSQL {
 

@@ -20,8 +20,9 @@
 */
 package at.kc.tugraz.ss.service.search.datatypes;
 
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.*;
-import at.tugraz.sss.serv.SSEntityA;
+import at.tugraz.sss.serv.datatype.api.SSEntityA;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchInvalidSearchLabelErr;
 import java.util.ArrayList;
 import java.util.List;

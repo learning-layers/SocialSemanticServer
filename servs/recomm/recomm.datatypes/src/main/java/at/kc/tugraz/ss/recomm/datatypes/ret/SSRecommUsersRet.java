@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.recomm.datatypes.ret;
 
 
 import at.kc.tugraz.ss.recomm.datatypes.SSUserLikelihood;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
