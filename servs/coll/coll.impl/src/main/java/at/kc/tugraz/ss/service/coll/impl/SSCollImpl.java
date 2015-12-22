@@ -555,7 +555,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCollGetPar par = (SSCollGetPar) parA.getFromJSON(SSCollGetPar.class);
+      final SSCollGetPar par = (SSCollGetPar) parA.getFromClient(clientType, parA, SSCollGetPar.class);
       final SSCollGetRet ret = SSCollGetRet.get(collGet(par));
       
       return ret;
@@ -661,7 +661,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCollUserRootGetPar par = (SSCollUserRootGetPar) parA.getFromJSON(SSCollUserRootGetPar.class);
+      final SSCollUserRootGetPar par = (SSCollUserRootGetPar) parA.getFromClient(clientType, parA, SSCollUserRootGetPar.class);
       
       return SSCollUserRootGetRet.get(collRootGet(par));
       
@@ -733,7 +733,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCollUserHierarchyGetPar par = (SSCollUserHierarchyGetPar) parA.getFromJSON(SSCollUserHierarchyGetPar.class);
+      final SSCollUserHierarchyGetPar par = (SSCollUserHierarchyGetPar) parA.getFromClient(clientType, parA, SSCollUserHierarchyGetPar.class);
       
       return SSCollUserHierarchyGetRet.get(collHierarchyGet(par));
       
@@ -822,7 +822,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCollsUserEntityIsInGetPar par = (SSCollsUserEntityIsInGetPar) parA.getFromJSON(SSCollsUserEntityIsInGetPar.class);
+      final SSCollsUserEntityIsInGetPar par = (SSCollsUserEntityIsInGetPar) parA.getFromClient(clientType, parA, SSCollsUserEntityIsInGetPar.class);
       
       return SSCollsUserEntityIsInGetRet.get(collsEntityIsInGet(par));
       
@@ -969,7 +969,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCollUserEntryAddPar par = (SSCollUserEntryAddPar) parA.getFromJSON(SSCollUserEntryAddPar.class);
+      final SSCollUserEntryAddPar par = (SSCollUserEntryAddPar) parA.getFromClient(clientType, parA, SSCollUserEntryAddPar.class);
       final SSServRetI            ret = SSCollUserEntryAddRet.get(collEntryAdd(par));
       
       SSCollActivityFct.addCollEntry(par);
@@ -1103,7 +1103,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCollUserEntriesAddPar par = (SSCollUserEntriesAddPar) parA.getFromJSON(SSCollUserEntriesAddPar.class);
+      final SSCollUserEntriesAddPar par = (SSCollUserEntriesAddPar) parA.getFromClient(clientType, parA, SSCollUserEntriesAddPar.class);
       final SSServRetI              ret = SSCollUserEntriesAddRet.get(collEntriesAdd(par));
       
       SSCollActivityFct.addCollEntries(par);
@@ -1233,7 +1233,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCollUserEntriesDeletePar par = (SSCollUserEntriesDeletePar) parA.getFromJSON(SSCollUserEntriesDeletePar.class);
+      final SSCollUserEntriesDeletePar par = (SSCollUserEntriesDeletePar) parA.getFromClient(clientType, parA, SSCollUserEntriesDeletePar.class);
       final SSServRetI                 ret = SSCollUserEntriesDeleteRet.get(collEntriesDelete(par));
       
       SSCollActivityFct.removeCollEntries(par);
@@ -1303,7 +1303,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCollCumulatedTagsGetPar par = (SSCollCumulatedTagsGetPar) parA.getFromJSON(SSCollCumulatedTagsGetPar.class);
+      final SSCollCumulatedTagsGetPar par = (SSCollCumulatedTagsGetPar) parA.getFromClient(clientType, parA, SSCollCumulatedTagsGetPar.class);
       
       return SSCollUserCumulatedTagsGetRet.get(collCumulatedTagsGet(par));
       

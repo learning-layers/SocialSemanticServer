@@ -189,7 +189,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSUsersGetPar par = (SSUsersGetPar) parA.getFromJSON(SSUsersGetPar.class);
+      final SSUsersGetPar par = (SSUsersGetPar) parA.getFromClient(clientType, parA, SSUsersGetPar.class);
       
       return new SSUsersGetRet(usersGet(par));
       
@@ -370,7 +370,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSUserEntityUsersGetPar par = (SSUserEntityUsersGetPar) parA.getFromJSON(SSUserEntityUsersGetPar.class);
+      final SSUserEntityUsersGetPar par = (SSUserEntityUsersGetPar) parA.getFromClient(clientType, parA, SSUserEntityUsersGetPar.class);
       
       return SSUserEntityUsersGetRet.get(userEntityUsersGet(par));
       

@@ -27,6 +27,7 @@ public enum SSErrE{
   servImplCreationFailed,
   servClientNotAvailable,
   servServerNotAvailable,
+  servContainerHasNoServerInterface,
   maxNumClientConsForOpReached,       
     
   //sql

@@ -28,16 +28,13 @@ import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.conf.api.SSConfA;
-
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.util.SSFileU;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.datatype.enums.SSToolE;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import java.util.ArrayList;
@@ -54,6 +51,7 @@ import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocServerI;
 import java.util.Date;
 
@@ -105,7 +103,7 @@ implements
         dataImportServ.dataImportEvalLogFile(
           new SSDataImportEvalLogFilePar(
             par.user,
-            SSFileU.dirWorkingData() + "sss-eval.log",
+            conf.getSssWorkDirDataCsv() + SSFileU.fileNameSSSEvalLog,
             oct1.getTime())); //startTime
       
       analyzer.setEpisodes ();
@@ -143,7 +141,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
 
-      final SSEvalLogPar par = (SSEvalLogPar) parA.getFromJSON(SSEvalLogPar.class);
+      final SSEvalLogPar par = (SSEvalLogPar) parA.getFromClient(clientType, parA, SSEvalLogPar.class);
 
       return SSEvalLogRet.get(evalLog(par));
     }catch(Exception error){

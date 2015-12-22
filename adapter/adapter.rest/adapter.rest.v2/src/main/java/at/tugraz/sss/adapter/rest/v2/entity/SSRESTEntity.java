@@ -29,9 +29,9 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserEntityUsersGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserEntityUsersGetRet;
-import at.kc.tugraz.sss.app.api.*;
 import at.kc.tugraz.sss.comment.api.*;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsAddPar;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesAccessibleGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
@@ -40,8 +40,8 @@ import at.tugraz.sss.serv.datatype.par.SSEntitySharePar;
 import at.tugraz.sss.serv.datatype.par.SSEntityTypesGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUnpublicizePar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntitiesGetRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityCopyRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityShareRet;
@@ -64,7 +64,20 @@ import javax.ws.rs.core.Response;
 
 @Path("/entities")
 @Api( value = "/entities") //, basePath = "/entities"
-public class SSRESTEntity {
+public class SSRESTEntity extends SSServImplStartA{
+  
+  public SSRESTEntity() {
+    super(null);
+  }
+  
+  public SSRESTEntity(final SSConfA conf) {
+    super(conf);
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+    finalizeThread(false);
+  }
   
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
@@ -74,14 +87,14 @@ public class SSRESTEntity {
     value = "retrieve accessible entities",
     response = SSEntityTypesGetRet.class)
   public Response entitiesAccessibleGet(
-    @Context 
-      final HttpHeaders headers){
+    @Context
+    final HttpHeaders headers){
     
     final SSEntitiesAccessibleGetPar par;
     
     try{
       
-      par = 
+      par =
         new SSEntitiesAccessibleGetPar(
           null, //user
           null, //types
@@ -108,6 +121,14 @@ public class SSRESTEntity {
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -161,6 +182,14 @@ public class SSRESTEntity {
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @GET
@@ -171,14 +200,14 @@ public class SSRESTEntity {
     value = "retrieve available entity types",
     response = SSEntityTypesGetRet.class)
   public Response entityTypesGet(
-    @Context 
-      final HttpHeaders headers){
+    @Context
+    final HttpHeaders headers){
     
     final SSEntityTypesGetPar par;
     
     try{
       
-      par = new SSEntityTypesGetPar(null); 
+      par = new SSEntityTypesGetPar(null);
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -197,6 +226,14 @@ public class SSRESTEntity {
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -257,6 +294,14 @@ public class SSRESTEntity {
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   //TODO replace this call by a service to be created for placeholder functionality (i.e., b&p placeholders)
@@ -308,6 +353,13 @@ public class SSRESTEntity {
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -362,6 +414,14 @@ public class SSRESTEntity {
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @PUT
@@ -412,6 +472,14 @@ public class SSRESTEntity {
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @PUT
@@ -455,6 +523,14 @@ public class SSRESTEntity {
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -513,6 +589,13 @@ public class SSRESTEntity {
     }catch(Exception error){
       return Response.status(500).build();
     }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @GET
@@ -557,6 +640,13 @@ public class SSRESTEntity {
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -606,6 +696,13 @@ public class SSRESTEntity {
     }catch(Exception error){
       return Response.status(500).build();
     }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
 }
 
@@ -620,11 +717,11 @@ public class SSRESTEntity {
 //  public Response entitiesAccessibleGet(
 //    @Context
 //    final HttpHeaders headers){
-//    
+//
 //    final SSEntitiesGetPar par;
-//    
+//
 //    try{
-//      
+//
 //      par =
 //        new SSEntitiesGetPar(
 //          null,  //user
@@ -632,10 +729,10 @@ public class SSRESTEntity {
 //          null, //types
 //          null, //descPar
 //          true); //withUserRestriction
-//      
+//
 //    }catch(Exception error){
 //      return Response.status(422).build();
 //    }
-//    
+//
 //    return SSRestMainV2.handleRequest(headers, par, false, true).response;
 //  }

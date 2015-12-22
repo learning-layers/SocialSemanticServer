@@ -25,6 +25,7 @@ import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.db.conf.SSDBSQLConf;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.db.impl.SSDBSQLMySQLImpl;
@@ -32,7 +33,7 @@ import java.util.List;
 
 public class SSDBSQL extends SSServContainerI{
   
-  public static final SSDBSQL inst = new SSDBSQL(null, null);
+  public static final SSDBSQL inst = new SSDBSQL(null, SSDBSQLI.class);
   
   protected SSDBSQL(
     final Class   servImplClientInteraceClass, 

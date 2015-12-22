@@ -1,26 +1,25 @@
 /**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.tugraz.sss.adapter.rest.v2.tag;
 
-import at.kc.tugraz.ss.service.search.api.*;
 import at.kc.tugraz.ss.service.tag.api.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
@@ -38,7 +37,9 @@ import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagFrequsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsAddRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsRemoveRet;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -56,7 +57,20 @@ import javax.ws.rs.core.Response;
 
 @Path("/tags")
 @Api( value = "/tags")
-public class SSRESTTag{
+public class SSRESTTag extends SSServImplStartA{
+  
+  public SSRESTTag() {
+    super(null);
+  }
+  
+  public SSRESTTag(final SSConfA conf) {
+    super(conf);
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+    finalizeThread(false);
+  }
   
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
@@ -102,6 +116,14 @@ public class SSRESTTag{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @POST
@@ -112,8 +134,8 @@ public class SSRESTTag{
     value = "retrieve tag assignments",
     response = SSTagsGetRet.class)
   public Response tagsGetFiltered(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     final SSTagsGetRESTAPIV2Par input){
     
@@ -129,14 +151,14 @@ public class SSRESTTag{
           SSSearchOpE.or, //labelSearchOp
           SSSpaceE.asListWithoutNull(input.space), //spaces
           input.circles, //circles
-          input.startTime, //startTime, 
+          input.startTime, //startTime,
           true); //withUserRestriction
       
     }catch(Exception error){
       return Response.status(422).build();
     }
     
-     try{
+    try{
       par.key = SSRestMainV2.getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
@@ -150,6 +172,14 @@ public class SSRESTTag{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @GET
@@ -161,7 +191,7 @@ public class SSRESTTag{
     response = SSTagFrequsGetRet.class)
   public Response tagFrequsGet(
     @Context
-      final HttpHeaders headers){
+    final HttpHeaders headers){
     
     final SSTagFrequsGetPar par;
     
@@ -177,13 +207,13 @@ public class SSRESTTag{
           null, //startTime
           false, //useUsersEntities
           true); //withUserRestriction
-          
+      
       
     }catch(Exception error){
       return Response.status(422).build();
     }
     
-     try{
+    try{
       par.key = SSRestMainV2.getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
@@ -197,6 +227,14 @@ public class SSRESTTag{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
+    
   }
   
   @POST
@@ -207,8 +245,8 @@ public class SSRESTTag{
     value = "retrieve tag frequencies",
     response = SSTagFrequsGetRet.class)
   public Response tagFrequsGetFiltered(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     final SSTagFrequsGetRESTAPIV2Par input){
     
@@ -231,7 +269,7 @@ public class SSRESTTag{
       return Response.status(422).build();
     }
     
-     try{
+    try{
       par.key = SSRestMainV2.getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
@@ -244,6 +282,13 @@ public class SSRESTTag{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -272,14 +317,14 @@ public class SSRESTTag{
           SSSearchOpE.or, //labelSearchOp
           SSSpaceE.asListWithoutNull(input.space), //spaces
           null, //circles
-          input.startTime, //startTime, 
+          input.startTime, //startTime,
           true); //withUserRestriction
-          
+      
     }catch(Exception error){
       return Response.status(422).build();
     }
     
-     try{
+    try{
       par.key = SSRestMainV2.getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
@@ -292,6 +337,13 @@ public class SSRESTTag{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -343,6 +395,14 @@ public class SSRESTTag{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @DELETE
@@ -353,11 +413,11 @@ public class SSRESTTag{
     value = "remove tag, user, entity, space combinations for given entity",
     response = SSTagsRemoveRet.class)
   public Response tagsRemove(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
-    @PathParam(SSVarNames.entity) 
-      final String entity,
+    @PathParam(SSVarNames.entity)
+    final String entity,
     
     final SSTagsRemoveRESTAPIV2Par     input){
     
@@ -373,7 +433,7 @@ public class SSRESTTag{
           input.space, //space
           input.circle, //circle
           true,
-          true); 
+          true);
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -393,6 +453,14 @@ public class SSRESTTag{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @POST
@@ -403,8 +471,8 @@ public class SSRESTTag{
     value = "add a tag for an entity within given space",
     response = SSTagAddRet.class)
   public Response tagAdd(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     final SSTagAddRESTAPIV2Par input){
     
@@ -439,6 +507,13 @@ public class SSRESTTag{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
 }

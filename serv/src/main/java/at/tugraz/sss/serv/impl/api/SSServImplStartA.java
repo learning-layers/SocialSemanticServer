@@ -31,7 +31,7 @@ import at.tugraz.sss.serv.datatype.par.SSServPar;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class SSServImplStartA extends SSServImplA implements Runnable{
+public abstract class SSServImplStartA extends SSServImplA{
 
   protected SSDBSQLI   dbSQL;
   protected SSDBNoSQLI dbNoSQL;

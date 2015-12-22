@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.serv.auth.impl;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
@@ -32,7 +31,7 @@ import at.kc.tugraz.ss.serv.auth.impl.fct.oidc.SSAuthOIDC;
 import at.kc.tugraz.ss.serv.auth.impl.fct.sql.SSAuthSQLFct;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
@@ -49,9 +48,7 @@ import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,9 +57,14 @@ import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 
-public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAuthServerI{
+public class SSAuthImpl 
+extends 
+  SSServImplWithDBA 
+implements 
+  SSAuthClientI, 
+  SSAuthServerI{
   
   private final SSAuthSQLFct    sqlFct;
   private final List<String>    csvFileAuthKeys = new ArrayList<>();
@@ -95,7 +97,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           dataImportServ.dataImportSSSUsersFromCSVFile(
             new SSDataImportSSSUsersFromCSVFilePar(
               par.user,
-              ((SSAuthConf)conf).fileName)));
+              conf.getSssWorkDir() + SSFileU.fileNameUsersCsv)));
         
       }catch(SSErr error){
         
@@ -139,7 +141,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   public SSServRetI authRegisterUser(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
-      final SSAuthRegisterUserPar par = (SSAuthRegisterUserPar) parA.getFromJSON(SSAuthRegisterUserPar.class);
+      final SSAuthRegisterUserPar par = (SSAuthRegisterUserPar) parA.getFromClient(clientType, parA, SSAuthRegisterUserPar.class);
       
       return SSAuthRegisterUserRet.get(authRegisterUser(par));
       
@@ -232,11 +234,11 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   }
  
   @Override
-  public SSServRetI authCheckCred(SSClientE clientType, SSServPar parA) throws SSErr {
+  public SSServRetI authCheckCred(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       
-      final SSAuthCheckCredPar par = (SSAuthCheckCredPar) parA.getFromJSON(SSAuthCheckCredPar.class);
+      final SSAuthCheckCredPar par = (SSAuthCheckCredPar) parA.getFromClient(clientType, parA, SSAuthCheckCredPar.class);
       
       return authCheckCred(par);
       

@@ -23,7 +23,8 @@ package at.tugraz.sss.serv.datatype.par;
 import at.tugraz.sss.serv.util.SSJSONU;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
 import java.util.Map;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -150,16 +151,45 @@ public class SSServPar{
     this.pars         = par.pars;
   }
   
-  public SSServPar getFromJSON(final Class subClass) throws Exception{
+  public SSServPar getFromClient(
+    final SSClientE clientType, 
+    final SSServPar par,
+    final Class     subClass) throws SSErr{
     
-    final SSServPar result = (SSServPar) SSJSONU.obj(clientJSONRequ, subClass);
+    try{
+      switch(clientType){
+        case rest:{
+          return par;
+        }
+        
+        case socket:{
+          return getFromJSON(subClass);
+        }
+      }
+      
+      throw new UnsupportedOperationException();
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  protected SSServPar getFromJSON(final Class subClass) throws SSErr{
     
-    result.op                  = op;
-    result.key                 = key;
-    result.user                = user;
-    result.withUserRestriction = withUserRestriction;
-
-    return result;
+    try{
+      final SSServPar result = (SSServPar) SSJSONU.obj(clientJSONRequ, subClass);
+      
+      result.op                  = op;
+      result.key                 = key;
+      result.user                = user;
+      result.withUserRestriction = withUserRestriction;
+      
+      return result;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 }
 //public class SSRequ {

@@ -50,7 +50,7 @@ public class SSRecommUpdateBulkTask extends TimerTask {
     }
   }
   
-  protected class SSRecommUpdateBulkUpdater extends SSServImplStartA{
+  protected class SSRecommUpdateBulkUpdater extends SSServImplStartA implements Runnable{
     
     private final SSRecommConf recommConf;
     

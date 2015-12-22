@@ -10,7 +10,6 @@
   <artifactId>adapter.rest</artifactId>
   <packaging>pom</packaging>
   <modules>
-    <module>adapter.rest.conf</module>
     <module>adapter.rest.v2</module>
   </modules>
 </project>

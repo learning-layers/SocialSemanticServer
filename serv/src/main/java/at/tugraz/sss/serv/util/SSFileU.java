@@ -47,43 +47,62 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 
 public class SSFileU{
   
+  public static final String dirNameLib                     = "lib/";
+  public static final String dirNameConf                    = "conf/";
+  public static final String dirNameData                    = "data/";
+  public static final String dirNameDataCsv                 = "data/csv/";
+  public static final String dirNameTmp                     = "tmp/";
+  
+  public static final String fileNameSSSConf                = "sss.conf.yaml";
+  public static final String fileNameUsersCsv               = "users.csv";
+  public static final String fileNameLog4JProperties        = "log4j.properties";
+  public static final String fileNameSSSJar                 = "sss.jar";
+  public static final String fileNameRunitSh                = "runit.sh";
+  public static final String fileNameRunitBat               = "runit.bat";
+  public static final String fileNameSSSEvalLog             = "sss.eval.log";
+  public static final String fileNameSSSLog                 = "sss.log";
+  
   private SSFileU(){}
-  
-  public static String dirUserHome() {
-    return correctDirPath(System.getProperty("user.home"));
-  }
-  
-  public static String dirUser() {
-    return correctDirPath(System.getProperty("user.dir"));
-  }
   
   public static String dirWorking(){
     return correctDirPath(new File(SSStrU.empty).getAbsolutePath());
   }
   
-  public static String dirCatalinaHome(){
-    return correctDirPath(System.getProperty("catalina.home"));
-  }
+//  public static String dirCurrent() {
+//    return "./";
+//  }
+//  
+//  public static String dirUserHome() {
+//    return correctDirPath(System.getProperty("user.home"));
+//  }
+//  
+//  public static String dirUser() {
+//    return correctDirPath(System.getProperty("user.dir"));
+//  }
   
-  public static String dirCatalinaBase(){
-    return correctDirPath(System.getProperty("catalina.base"));
-  }
+//  public static String dirCatalinaHome(){
+//    return correctDirPath(System.getProperty("catalina.home"));
+//  }
+//  
+//  public static String dirCatalinaBase(){
+//    return correctDirPath(System.getProperty("catalina.base"));
+//  }
   
-  public static String dirWorkingTmp() {
-    return dirWorking() + "tmp/";
-  }
-  
-  public static String dirWorkingData(){
-    return dirWorking() + "data/";
-  }
-  
-  public static String dirWorkingDataCsv(){
-    return dirWorking() + "data/csv/";
-  }
-  
-  public static String dirWorkingScriptR(){
-    return dirWorking() + "script/r/";
-  }
+//  public static String dirWorkingTmp() {
+//    return dirWorking() + dirNameTmp;
+//  }
+//  
+//  public static String dirWorkingData(){
+//    return dirWorking() + dirNameData;
+//  }
+//  
+//  public static String dirWorkingDataCsv(){
+//    return dirWorking() + dirNameDataCsv;
+//  }
+//  
+//  public static String dirWorkingScriptR(){
+//    return dirWorking() + "script/r/";
+//  }
   
   /**
    * <ul>

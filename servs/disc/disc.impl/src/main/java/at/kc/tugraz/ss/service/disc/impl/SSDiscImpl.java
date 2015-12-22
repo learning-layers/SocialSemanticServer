@@ -483,7 +483,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSDiscEntryAddFromClientPar par = (SSDiscEntryAddFromClientPar) parA.getFromJSON(SSDiscEntryAddFromClientPar.class);
+      final SSDiscEntryAddFromClientPar par = (SSDiscEntryAddFromClientPar) parA.getFromClient(clientType, parA, SSDiscEntryAddFromClientPar.class);
       final SSDiscEntryAddRet           ret = discEntryAdd(par);
       
       if(par.addNewDisc){
@@ -667,7 +667,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSDiscUpdatePar par = (SSDiscUpdatePar) parA.getFromJSON(SSDiscUpdatePar.class);
+      final SSDiscUpdatePar par = (SSDiscUpdatePar) parA.getFromClient(clientType, parA, SSDiscUpdatePar.class);
       final SSDiscUpdateRet ret = discUpdate(par);
       
       if(ret.disc != null){
@@ -811,7 +811,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSDiscEntryUpdatePar par = (SSDiscEntryUpdatePar) parA.getFromJSON(SSDiscEntryUpdatePar.class);
+      final SSDiscEntryUpdatePar par = (SSDiscEntryUpdatePar) parA.getFromClient(clientType, parA, SSDiscEntryUpdatePar.class);
       final SSDiscEntryUpdateRet ret = discEntryUpdate(par);
       
       if(ret.entry != null){
@@ -912,7 +912,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSDiscEntryAcceptPar par = (SSDiscEntryAcceptPar) parA.getFromJSON(SSDiscEntryAcceptPar.class);
+      final SSDiscEntryAcceptPar par = (SSDiscEntryAcceptPar) parA.getFromClient(clientType, parA, SSDiscEntryAcceptPar.class);
       
       return SSDiscEntryAcceptRet.get(discEntryAccept(par));
       
@@ -1000,7 +1000,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSDiscGetPar par = (SSDiscGetPar) parA.getFromJSON(SSDiscGetPar.class);
+      final SSDiscGetPar par = (SSDiscGetPar) parA.getFromClient(clientType, parA, SSDiscGetPar.class);
       
       return SSDiscGetRet.get(discGet(par));
       
@@ -1127,7 +1127,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSDiscsGetPar par = (SSDiscsGetPar) parA.getFromJSON(SSDiscsGetPar.class);
+      final SSDiscsGetPar par = (SSDiscsGetPar) parA.getFromClient(clientType, parA, SSDiscsGetPar.class);
       
       return SSDiscsGetRet.get(discsGet(par));
       
@@ -1244,7 +1244,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSDiscRemovePar par = (SSDiscRemovePar) parA.getFromJSON(SSDiscRemovePar.class);
+      final SSDiscRemovePar par = (SSDiscRemovePar) parA.getFromClient(clientType, parA, SSDiscRemovePar.class);
       
       return SSDiscRemoveRet.get(discRemove(par));
       
@@ -1312,7 +1312,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSDiscTargetsAddPar par        = (SSDiscTargetsAddPar) parA.getFromJSON(SSDiscTargetsAddPar.class);
+      final SSDiscTargetsAddPar par        = (SSDiscTargetsAddPar) parA.getFromClient(clientType, parA, SSDiscTargetsAddPar.class);
       final SSUri               discussion = discTargetsAdd(par);
       final SSDiscTargetsAddRet ret        = SSDiscTargetsAddRet.get(discussion);
       

@@ -293,7 +293,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSVideoUserAddFromClientPar par      = (SSVideoUserAddFromClientPar) parA.getFromJSON(SSVideoUserAddFromClientPar.class);
+      final SSVideoUserAddFromClientPar par      = (SSVideoUserAddFromClientPar) parA.getFromClient(clientType, parA, SSVideoUserAddFromClientPar.class);
       final SSUri                       videoURI = videoAdd(par);
       
       if(
@@ -454,7 +454,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSVideoAnnotationsSetPar par = (SSVideoAnnotationsSetPar) parA.getFromJSON(SSVideoAnnotationsSetPar.class);
+      final SSVideoAnnotationsSetPar par = (SSVideoAnnotationsSetPar) parA.getFromClient(clientType, parA, SSVideoAnnotationsSetPar.class);
       
       return SSVideoAnnotationsSetRet.get(videoAnnotationsSet(par));
       
@@ -556,7 +556,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSVideoUserAnnotationAddPar par = (SSVideoUserAnnotationAddPar) parA.getFromJSON(SSVideoUserAnnotationAddPar.class);
+      final SSVideoUserAnnotationAddPar par = (SSVideoUserAnnotationAddPar) parA.getFromClient(clientType, parA, SSVideoUserAnnotationAddPar.class);
       
       return SSVideoUserAnnotationAddRet.get(videoAnnotationAdd(par));
       
@@ -788,7 +788,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSVideosUserGetPar par = (SSVideosUserGetPar) parA.getFromJSON(SSVideosUserGetPar.class);
+      final SSVideosUserGetPar par = (SSVideosUserGetPar) parA.getFromClient(clientType, parA, SSVideosUserGetPar.class);
       
       return SSVideosUserGetRet.get(videosGet(par));
       

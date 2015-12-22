@@ -26,14 +26,14 @@ import at.tugraz.sss.serv.datatype.*;
 
 public class SSDataImportSSSUsersFromCSVFilePar extends SSServPar{
 
-  public String fileName = null;
+  public String filePath = null;
   
   public SSDataImportSSSUsersFromCSVFilePar(
     final SSUri  user, 
-    final String fileName) throws Exception{
+    final String filePath) throws Exception{
     
     super(SSVarNames.dataImportSSSUsersFromCSVFile, null, user);
     
-    this.fileName = fileName;
+    this.filePath = filePath;
   }
 }

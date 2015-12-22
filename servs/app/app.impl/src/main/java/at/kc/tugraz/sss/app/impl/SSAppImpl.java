@@ -128,7 +128,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSAppAddPar         par       = (SSAppAddPar) parA.getFromJSON(SSAppAddPar.class);
+      final SSAppAddPar         par       = (SSAppAddPar) parA.getFromClient(clientType, parA, SSAppAddPar.class);
       final SSUri               app       = appAdd(par);
       final SSImageServerI      imageServ = (SSImageServerI) SSServReg.getServ(SSImageServerI.class);
       final SSVideoServerI      videoServ = (SSVideoServerI) SSServReg.getServ(SSVideoServerI.class);
@@ -320,7 +320,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSAppsGetPar par = (SSAppsGetPar) parA.getFromJSON(SSAppsGetPar.class);
+      final SSAppsGetPar par = (SSAppsGetPar) parA.getFromClient(clientType, parA, SSAppsGetPar.class);
       
       return SSAppsGetRet.get(appsGet(par));
       
@@ -365,7 +365,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSAppsDeletePar par = (SSAppsDeletePar) parA.getFromJSON(SSAppsDeletePar.class);
+      final SSAppsDeletePar par = (SSAppsDeletePar) parA.getFromClient(clientType, parA, SSAppsDeletePar.class);
       
       return SSAppsDeleteRet.get(appsDelete(par));
     }catch(Exception error){

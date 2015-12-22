@@ -29,19 +29,15 @@ import at.kc.tugraz.sss.app.datatypes.par.SSAppsGetPar;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppAddRet;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppsDeleteRet;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppsGetRet;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -49,7 +45,20 @@ import javax.ws.rs.core.Response;
 
 @Path("/apps")
 @Api( value = "/apps") //, basePath = "/apps"
-public class SSRESTApp{
+public class SSRESTApp extends SSServImplStartA{
+  
+  public SSRESTApp() {
+    super(null);
+  }
+  
+  public SSRESTApp(final SSConfA conf) {
+    super(conf);
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+    finalizeThread(false);
+  }
   
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
@@ -74,12 +83,12 @@ public class SSRESTApp{
       return Response.status(422).build();
     }
     
-     try{
+    try{
       par.key = SSRestMainV2.getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
     }
-     
+    
     try{
       final SSAppClientI appServ = (SSAppClientI) SSServReg.getClientServ(SSAppClientI.class);
       
@@ -87,6 +96,14 @@ public class SSRESTApp{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -126,12 +143,12 @@ public class SSRESTApp{
       return Response.status(422).build();
     }
     
-     try{
+    try{
       par.key = SSRestMainV2.getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
     }
-     
+    
     try{
       final SSAppClientI appServ = (SSAppClientI) SSServReg.getClientServ(SSAppClientI.class);
       
@@ -139,6 +156,14 @@ public class SSRESTApp{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -171,12 +196,12 @@ public class SSRESTApp{
       return Response.status(422).build();
     }
     
-     try{
+    try{
       par.key = SSRestMainV2.getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
     }
-     
+    
     try{
       final SSAppClientI appServ = (SSAppClientI) SSServReg.getClientServ(SSAppClientI.class);
       
@@ -184,6 +209,13 @@ public class SSRESTApp{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
 }

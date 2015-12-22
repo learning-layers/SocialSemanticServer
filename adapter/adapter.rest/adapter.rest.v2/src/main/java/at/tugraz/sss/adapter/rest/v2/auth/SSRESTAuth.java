@@ -25,7 +25,9 @@ import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import com.wordnik.swagger.annotations.Api;
@@ -43,7 +45,20 @@ import javax.ws.rs.core.Response;
 
 @Path("/auth")
 @Api( value = "/auth") //, basePath = "/auth"
-public class SSRESTAuth{
+public class SSRESTAuth extends SSServImplStartA{
+  
+  public SSRESTAuth() {
+    super(null);
+  }
+  
+  public SSRESTAuth(final SSConfA conf) {
+    super(conf);
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+    finalizeThread(false);
+  }
   
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
@@ -83,6 +98,14 @@ public class SSRESTAuth{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @POST
@@ -115,6 +138,13 @@ public class SSRESTAuth{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -156,6 +186,13 @@ public class SSRESTAuth{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
 }

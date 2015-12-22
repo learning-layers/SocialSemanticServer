@@ -38,14 +38,11 @@ import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
-
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.mail.SSMailServerI;
 import at.tugraz.sss.servs.mail.datatype.SSMail;
 import at.tugraz.sss.servs.mail.datatype.par.SSMailsReceivePar;
-import com.evernote.auth.EvernoteService;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
@@ -53,14 +50,15 @@ import sss.serv.eval.api.SSEvalServerI;
 
 public class SSDataImportBitsAndPiecesMailImporter {
   
+  private final SSDataImportConf                 conf;
   private final SSDataImportBitsAndPiecesPar     par;
   private final SSEntityServerI                  entityServ;
   private final SSFileRepoServerI                fileServ;
-  private final SSEvernoteServerI                evernoteServ;
   private final SSUri                            userUri;
   private final SSDataImportBitsAndPiecesMiscFct miscFct;
 
   public SSDataImportBitsAndPiecesMailImporter(
+    final SSDataImportConf             conf,
     final SSDataImportBitsAndPiecesPar par,
     final SSEntityServerI              entityServ,
     final SSFileRepoServerI            fileServ,
@@ -69,11 +67,11 @@ public class SSDataImportBitsAndPiecesMailImporter {
     final SSEvernoteServerI            evernoteServ,
     final SSUri                        userUri) throws Exception{
     
+    this.conf          = conf;
     this.par           = par;
     this.entityServ    = entityServ;
     this.fileServ      = fileServ;
     this.userUri       = userUri;
-    this.evernoteServ  = evernoteServ;
     
     this.miscFct = 
       new SSDataImportBitsAndPiecesMiscFct(
@@ -174,9 +172,9 @@ public class SSDataImportBitsAndPiecesMailImporter {
         return;
       }
       
-      txtFilePath    = SSDataImportConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(SSConf.vocURICreate(SSFileExtE.txt));
+      txtFilePath    = conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(SSConf.vocURICreate(SSFileExtE.txt));
       pdfFileUri     = SSConf.vocURICreate                  (SSFileExtE.pdf);
-      pdfFilePath    = SSDataImportConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI (pdfFileUri);
+      pdfFilePath    = conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI (pdfFileUri);
       
       SSFileU.writeStr(mail.content, txtFilePath);
       
@@ -335,7 +333,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
         return true;
       }
               
-      final BufferedImage image = ImageIO.read(new File(SSDataImportConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(resource)));
+      final BufferedImage image = ImageIO.read(new File(conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(resource)));
       
       if(
         image.getWidth()  <= SSDataImportImpl.bitsAndPiecesImageMinWidth ||

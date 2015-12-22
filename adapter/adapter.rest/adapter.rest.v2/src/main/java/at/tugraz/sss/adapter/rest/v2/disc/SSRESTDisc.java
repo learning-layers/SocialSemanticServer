@@ -39,9 +39,11 @@ import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscGetRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscTargetsAddRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUpdateRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsGetRet;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -59,8 +61,21 @@ import javax.ws.rs.core.Response;
 
 @Path("/discs")
 @Api( value = "/discs")
-public class SSRESTDisc{
- 
+public class SSRESTDisc extends SSServImplStartA{
+  
+  public SSRESTDisc() {
+    super(null);
+  }
+  
+  public SSRESTDisc(final SSConfA conf) {
+    super(conf);
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+    finalizeThread(false);
+  }
+  
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -69,8 +84,8 @@ public class SSRESTDisc{
     value = "retrieve discussions",
     response = SSDiscsGetRet.class)
   public Response discsGet(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     final SSDiscsGetRESTAPIV2Par input){
     
@@ -113,6 +128,14 @@ public class SSRESTDisc{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @POST
@@ -123,8 +146,8 @@ public class SSRESTDisc{
     value = "add a textual comment/answer/opinion to a discussion [for given entity] or create a new discussion",
     response = SSDiscEntryAddRet.class)
   public Response discEntryAdd(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     final SSDiscEntryAddRESTAPIV2Par input){
     
@@ -135,7 +158,7 @@ public class SSRESTDisc{
       par =
         new SSDiscEntryAddFromClientPar(
           input.disc, //disc
-          input.targets, //targets, 
+          input.targets, //targets,
           input.entry, //entry
           input.addNewDisc, //addNewDisc
           input.type, //type
@@ -144,7 +167,7 @@ public class SSRESTDisc{
           input.users, //users
           input.circles, //circles
           input.entities, //entities
-          input.entityLabels); //entityLabels); 
+          input.entityLabels); //entityLabels);
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -163,6 +186,14 @@ public class SSRESTDisc{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -194,7 +225,7 @@ public class SSRESTDisc{
           input.content,
           input.entitiesToRemove,
           input.entitiesToAttach,
-          input.entityLabels, 
+          input.entityLabels,
           input.read,
           true, //withUserRestriction,
           true);//shouldCommit);
@@ -203,7 +234,7 @@ public class SSRESTDisc{
       return Response.status(422).build();
     }
     
-     try{
+    try{
       par.key = SSRestMainV2.getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
@@ -216,6 +247,13 @@ public class SSRESTDisc{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -246,7 +284,7 @@ public class SSRESTDisc{
           input.content,
           input.entitiesToRemove,
           input.entitiesToAttach,
-          input.entityLabels, 
+          input.entityLabels,
           true, //withUserRestriction,
           true);//shouldCommit);
       
@@ -254,7 +292,7 @@ public class SSRESTDisc{
       return Response.status(422).build();
     }
     
-     try{
+    try{
       par.key = SSRestMainV2.getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
@@ -267,6 +305,13 @@ public class SSRESTDisc{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -309,7 +354,7 @@ public class SSRESTDisc{
       return Response.status(422).build();
     }
     
-     try{
+    try{
       par.key = SSRestMainV2.getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
@@ -322,6 +367,14 @@ public class SSRESTDisc{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -371,6 +424,14 @@ public class SSRESTDisc{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @POST
@@ -385,7 +446,7 @@ public class SSRESTDisc{
     final HttpHeaders  headers,
     
     @PathParam (SSVarNames.targets)
-    final String targets, 
+    final String targets,
     
     final SSDiscsForTargetsFilteredGetRESTAPIV2Par input){
     
@@ -427,6 +488,14 @@ public class SSRESTDisc{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -473,6 +542,14 @@ public class SSRESTDisc{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @PUT
@@ -503,7 +580,7 @@ public class SSRESTDisc{
           SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(targets, SSStrU.comma), SSConf.sssUri),
           true, //withUserRestriction,
           true); //shouldCommit
-          
+      
     }catch(Exception error){
       return Response.status(422).build();
     }
@@ -521,6 +598,14 @@ public class SSRESTDisc{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
 }

@@ -174,7 +174,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSRatingSetPar par = (SSRatingSetPar) parA.getFromJSON(SSRatingSetPar.class);
+      final SSRatingSetPar par = (SSRatingSetPar) parA.getFromClient(clientType, parA, SSRatingSetPar.class);
       final SSRatingSetRet ret = SSRatingSetRet.get(ratingSet(par));
       
       SSRatingActivityFct.rateEntity(par);
@@ -292,7 +292,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSRatingGetPar par = (SSRatingGetPar) parA.getFromJSON(SSRatingGetPar.class);
+      final SSRatingGetPar par = (SSRatingGetPar) parA.getFromClient(clientType, parA, SSRatingGetPar.class);
       
       return SSRatingGetRet.get(ratingGet(par));
       
@@ -333,7 +333,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSRatingOverallGetPar par = (SSRatingOverallGetPar) parA.getFromJSON(SSRatingOverallGetPar.class);
+      final SSRatingOverallGetPar par = (SSRatingOverallGetPar) parA.getFromClient(clientType, parA, SSRatingOverallGetPar.class);
       
       return SSRatingOverallGetRet.get(ratingOverallGet(par));
       

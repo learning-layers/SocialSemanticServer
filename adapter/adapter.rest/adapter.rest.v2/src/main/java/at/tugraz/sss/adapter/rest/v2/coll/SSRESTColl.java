@@ -39,11 +39,12 @@ import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserHierarchyGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserRootGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserEntityIsInGetRet;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.impl.api.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -60,7 +61,20 @@ import javax.ws.rs.core.Response;
 
 @Path("/colls")
 @Api( value = "/colls")
-public class SSRESTColl{
+public class SSRESTColl extends SSServImplStartA{
+  
+  public SSRESTColl() {
+    super(null);
+  }
+  
+  public SSRESTColl(final SSConfA conf) {
+    super(conf);
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+    finalizeThread(false);
+  }
   
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
@@ -86,7 +100,7 @@ public class SSRESTColl{
           SSUri.get(coll, SSConf.sssUri), //entity
           true, //withUserRestriction
           true); //invokeEntityHandlers
-
+      
     }catch(Exception error){
       return Response.status(422).build();
     }
@@ -96,7 +110,7 @@ public class SSRESTColl{
     }catch(Exception error){
       return Response.status(401).build();
     }
-      
+    
     try{
       final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
       
@@ -104,6 +118,14 @@ public class SSRESTColl{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -137,7 +159,7 @@ public class SSRESTColl{
     }catch(Exception error){
       return Response.status(401).build();
     }
-      
+    
     try{
       final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
       
@@ -145,6 +167,14 @@ public class SSRESTColl{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -168,7 +198,7 @@ public class SSRESTColl{
       
       par =
         new SSCollUserHierarchyGetPar(
-          null,  //user, 
+          null,  //user,
           SSUri.get(coll, SSConf.sssUri),
           true, //withUserRestriction
           true); //invokeEntityHandlers
@@ -182,7 +212,7 @@ public class SSRESTColl{
     }catch(Exception error){
       return Response.status(401).build();
     }
-      
+    
     try{
       final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
       
@@ -190,6 +220,14 @@ public class SSRESTColl{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -205,7 +243,7 @@ public class SSRESTColl{
     final HttpHeaders headers,
     
     @PathParam(SSVarNames.coll)
-    final String coll, 
+    final String coll,
     
     final SSCollEntryAddRESTAPIV2Par input){
     
@@ -215,11 +253,11 @@ public class SSRESTColl{
       
       par =
         new SSCollUserEntryAddPar(
-          null,  //user, 
+          null,  //user,
           SSUri.get(coll, SSConf.sssUri),
-          input.entry, 
-          input.label, 
-          input.addNewColl, 
+          input.entry,
+          input.label,
+          input.addNewColl,
           true, //withUserRestriction
           true); //shouldCommit
       
@@ -232,7 +270,7 @@ public class SSRESTColl{
     }catch(Exception error){
       return Response.status(401).build();
     }
-      
+    
     try{
       final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
       
@@ -240,6 +278,14 @@ public class SSRESTColl{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -255,7 +301,7 @@ public class SSRESTColl{
     final HttpHeaders headers,
     
     @PathParam(SSVarNames.coll)
-    final String coll, 
+    final String coll,
     
     final SSCollEntriesAddRESTAPIV2Par input){
     
@@ -265,10 +311,10 @@ public class SSRESTColl{
       
       par =
         new SSCollUserEntriesAddPar(
-          null,  //user, 
+          null,  //user,
           SSUri.get(coll, SSConf.sssUri),
-          input.entries, 
-          input.labels, 
+          input.entries,
+          input.labels,
           true, //withUserRestriction
           true); //shouldCommit
       
@@ -281,7 +327,7 @@ public class SSRESTColl{
     }catch(Exception error){
       return Response.status(401).build();
     }
-      
+    
     try{
       final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
       
@@ -289,6 +335,14 @@ public class SSRESTColl{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -312,7 +366,7 @@ public class SSRESTColl{
       
       par =
         new SSCollsUserEntityIsInGetPar(
-          null,  //user, 
+          null,  //user,
           SSUri.get(entity, SSConf.sssUri),
           true, //withUserRestriction
           true); //invokeEntityHandlers
@@ -326,7 +380,7 @@ public class SSRESTColl{
     }catch(Exception error){
       return Response.status(401).build();
     }
-      
+    
     try{
       final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
       
@@ -335,8 +389,16 @@ public class SSRESTColl{
     }catch(Exception error){
       return Response.status(500).build();
     }
-  }
     
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
+  }
+  
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -370,7 +432,7 @@ public class SSRESTColl{
     }catch(Exception error){
       return Response.status(401).build();
     }
-      
+    
     try{
       final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
       
@@ -378,6 +440,14 @@ public class SSRESTColl{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -393,7 +463,7 @@ public class SSRESTColl{
     final HttpHeaders headers,
     
     @PathParam(SSVarNames.coll)
-    final String coll, 
+    final String coll,
     
     @PathParam(SSVarNames.entries)
     final String entries){
@@ -407,7 +477,7 @@ public class SSRESTColl{
           null,  //user,
           SSUri.get(coll, SSConf.sssUri),
           SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entries, SSStrU.comma), SSConf.sssUri),
-          true, //withUserRestriction 
+          true, //withUserRestriction
           true); // shouldCommit
       
     }catch(Exception error){
@@ -419,7 +489,7 @@ public class SSRESTColl{
     }catch(Exception error){
       return Response.status(401).build();
     }
-      
+    
     try{
       final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
       
@@ -427,6 +497,13 @@ public class SSRESTColl{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
 }

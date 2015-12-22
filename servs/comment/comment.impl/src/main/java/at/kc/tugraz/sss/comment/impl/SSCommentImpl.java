@@ -124,7 +124,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCommentsAddPar par = (SSCommentsAddPar) parA.getFromJSON(SSCommentsAddPar.class);
+      final SSCommentsAddPar par = (SSCommentsAddPar) parA.getFromClient(clientType, parA, SSCommentsAddPar.class);
       
       return SSCommentsAddRet.get(commentsAdd(par));
       
@@ -231,7 +231,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCommentsGetPar par = (SSCommentsGetPar) parA.getFromJSON(SSCommentsGetPar.class);
+      final SSCommentsGetPar par = (SSCommentsGetPar) parA.getFromClient(clientType, parA, SSCommentsGetPar.class);
       
       return SSCommentsGetRet.get(commentsGet(par));
       

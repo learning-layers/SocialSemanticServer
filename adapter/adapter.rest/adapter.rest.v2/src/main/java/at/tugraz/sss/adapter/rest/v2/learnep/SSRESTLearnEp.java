@@ -61,11 +61,12 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpsLockHoldRet;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
-import at.tugraz.sss.servs.image.api.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -83,7 +84,20 @@ import javax.ws.rs.core.Response;
 
 @Path("/learneps")
 @Api( value = "/learneps")
-public class SSRESTLearnEp{
+public class SSRESTLearnEp extends SSServImplStartA{
+  
+  public SSRESTLearnEp() {
+    super(null);
+  }
+  
+  public SSRESTLearnEp(final SSConfA conf) {
+    super(conf);
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+    finalizeThread(false);
+  }
   
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
@@ -126,6 +140,14 @@ public class SSRESTLearnEp{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -173,6 +195,14 @@ public class SSRESTLearnEp{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
+    
   }
   
   @GET
@@ -218,6 +248,14 @@ public class SSRESTLearnEp{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @GET
@@ -258,6 +296,14 @@ public class SSRESTLearnEp{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -304,6 +350,14 @@ public class SSRESTLearnEp{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @POST
@@ -348,6 +402,14 @@ public class SSRESTLearnEp{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -394,6 +456,14 @@ public class SSRESTLearnEp{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @DELETE
@@ -438,6 +508,14 @@ public class SSRESTLearnEp{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -493,6 +571,14 @@ public class SSRESTLearnEp{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @POST
@@ -542,6 +628,13 @@ public class SSRESTLearnEp{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -598,6 +691,14 @@ public class SSRESTLearnEp{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @PUT
@@ -648,6 +749,14 @@ public class SSRESTLearnEp{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @DELETE
@@ -693,6 +802,14 @@ public class SSRESTLearnEp{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @DELETE
@@ -737,6 +854,14 @@ public class SSRESTLearnEp{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -787,6 +912,14 @@ public class SSRESTLearnEp{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @GET
@@ -831,6 +964,13 @@ public class SSRESTLearnEp{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @GET
@@ -874,6 +1014,14 @@ public class SSRESTLearnEp{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -921,6 +1069,14 @@ public class SSRESTLearnEp{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @DELETE
@@ -966,6 +1122,14 @@ public class SSRESTLearnEp{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
 }

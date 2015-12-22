@@ -20,13 +20,15 @@
  */
 package at.tugraz.sss.adapter.rest.v2.search;
 
-import at.kc.tugraz.ss.recomm.api.*;
 import at.kc.tugraz.ss.service.search.api.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.util.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -40,8 +42,21 @@ import javax.ws.rs.core.Response;
 
 @Path("/search")
 @Api( value = "/search") // , basePath = "/search"
-public class SSRESTSearch{
-
+public class SSRESTSearch extends SSServImplStartA{
+  
+  public SSRESTSearch() {
+    super(null);
+  }
+  
+  public SSRESTSearch(final SSConfA conf) {
+    super(conf);
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+    finalizeThread(false);
+  }
+  
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -50,8 +65,8 @@ public class SSRESTSearch{
     value = "search for entities",
     response = SSSearchRet.class)
   public Response search(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     final SSSearchRESTAPIV2Par input){
     
@@ -78,8 +93,8 @@ public class SSRESTSearch{
           input.startTime,
           input.endTime,
           input.localSearchOp,
-          input.globalSearchOp, 
-          input.orderByLabel, 
+          input.globalSearchOp,
+          input.orderByLabel,
           input.orderByCreationTime,
           true,  //withUserRestriction
           true); //invokeEntityHandlers
@@ -101,6 +116,14 @@ public class SSRESTSearch{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
 }

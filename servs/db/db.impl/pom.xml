@@ -10,7 +10,7 @@
   <packaging>jar</packaging>
     
   <dependencies>
-      
+    
     <dependency>
       <groupId>sss</groupId>
       <artifactId>serv</artifactId>
@@ -69,9 +69,9 @@
       <version>4.3.2</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-      <version>4.3.2</version>
-    </dependency>
-    -->
+<dependency>
+  <groupId>org.apache.httpcomponents</groupId>
+  <artifactId>httpclient</artifactId>
+  <version>4.3.2</version>
+</dependency>
+-->

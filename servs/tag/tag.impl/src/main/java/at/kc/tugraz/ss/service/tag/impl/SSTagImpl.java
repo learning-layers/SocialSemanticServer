@@ -319,7 +319,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSTagsAddPar par     = (SSTagsAddPar) parA.getFromJSON(SSTagsAddPar.class);
+      final SSTagsAddPar par     = (SSTagsAddPar) parA.getFromClient(clientType, parA, SSTagsAddPar.class);
       final List<SSUri>  tagURIs = tagsAdd(par);
       final SSTagsAddRet ret     = SSTagsAddRet.get(tagURIs);
       
@@ -393,7 +393,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSTagAddPar par    = (SSTagAddPar) parA.getFromJSON(SSTagAddPar.class);
+      final SSTagAddPar par    = (SSTagAddPar) parA.getFromClient(clientType, parA, SSTagAddPar.class);
       final SSUri       tagURI = tagAdd(par);
       final SSTagAddRet ret    = SSTagAddRet.get(tagURI);
       
@@ -547,7 +547,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSTagsRemovePar par    = (SSTagsRemovePar) parA.getFromJSON(SSTagsRemovePar.class);
+      final SSTagsRemovePar par    = (SSTagsRemovePar) parA.getFromClient(clientType, parA, SSTagsRemovePar.class);
       final Boolean         worked = tagsRemove(par);
       final SSTagsRemoveRet ret    = SSTagsRemoveRet.get(worked);
       
@@ -730,7 +730,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSTagEntitiesForTagsGetPar par = (SSTagEntitiesForTagsGetPar) parA.getFromJSON(SSTagEntitiesForTagsGetPar.class);
+      final SSTagEntitiesForTagsGetPar par = (SSTagEntitiesForTagsGetPar) parA.getFromClient(clientType, parA, SSTagEntitiesForTagsGetPar.class);
       
       return SSTagEntitiesForTagsGetRet.get(tagEntitiesForTagsGet(par));
       
@@ -772,7 +772,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSTagsGetPar par = (SSTagsGetPar) parA.getFromJSON(SSTagsGetPar.class);
+      final SSTagsGetPar par = (SSTagsGetPar) parA.getFromClient(clientType, parA, SSTagsGetPar.class);
       
       return SSTagsGetRet.get(tagsGet(par));
       
@@ -829,7 +829,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSTagFrequsGetPar par = (SSTagFrequsGetPar) parA.getFromJSON(SSTagFrequsGetPar.class);
+      final SSTagFrequsGetPar par = (SSTagFrequsGetPar) parA.getFromClient(clientType, parA, SSTagFrequsGetPar.class);
       
       return SSTagFrequsGetRet.get(tagFrequsGet(par));
       

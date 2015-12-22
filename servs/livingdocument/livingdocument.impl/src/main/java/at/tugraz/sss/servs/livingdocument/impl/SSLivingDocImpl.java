@@ -182,7 +182,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSLivingDocAddPar par          = (SSLivingDocAddPar) parA.getFromJSON(SSLivingDocAddPar.class);
+      final SSLivingDocAddPar par          = (SSLivingDocAddPar) parA.getFromClient(clientType, parA, SSLivingDocAddPar.class);
       final SSUri             livingDocURI = livingDocAdd(par);
       
       if(livingDocURI != null){
@@ -279,7 +279,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSLivingDocUpdatePar par          = (SSLivingDocUpdatePar) parA.getFromJSON(SSLivingDocUpdatePar.class);
+      final SSLivingDocUpdatePar par          = (SSLivingDocUpdatePar) parA.getFromClient(clientType, parA, SSLivingDocUpdatePar.class);
       final SSUri                livingDocURI = livingDocUpdate(par);
       
       if(livingDocURI != null){
@@ -364,7 +364,7 @@ implements
     
     userCommons.checkKeyAndSetUser(parA);
     
-    final SSLivingDocRemovePar par = (SSLivingDocRemovePar) parA.getFromJSON(SSLivingDocRemovePar.class);
+    final SSLivingDocRemovePar par = (SSLivingDocRemovePar) parA.getFromClient(clientType, parA, SSLivingDocRemovePar.class);
     
     return SSLivingDocRemoveRet.get(livingDocRemove(par));
   }
@@ -418,7 +418,7 @@ implements
     
     userCommons.checkKeyAndSetUser(parA);
     
-    final SSLivingDocGetPar par = (SSLivingDocGetPar) parA.getFromJSON(SSLivingDocGetPar.class);
+    final SSLivingDocGetPar par = (SSLivingDocGetPar) parA.getFromClient(clientType, parA, SSLivingDocGetPar.class);
     
     return SSLivingDocGetRet.get(livingDocGet(par));
   }
@@ -490,7 +490,7 @@ implements
     
     userCommons.checkKeyAndSetUser(parA);
     
-    final SSLivingDocsGetPar par = (SSLivingDocsGetPar) parA.getFromJSON(SSLivingDocsGetPar.class);
+    final SSLivingDocsGetPar par = (SSLivingDocsGetPar) parA.getFromClient(clientType, parA, SSLivingDocsGetPar.class);
     
     return SSLivingDocsGetRet.get(livingDocsGet(par));
   }

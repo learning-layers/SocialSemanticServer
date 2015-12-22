@@ -20,42 +20,37 @@
   */
 package at.tugraz.sss.adapter.socket;
 
+import at.kc.tugraz.ss.activity.serv.*;
+import at.kc.tugraz.ss.category.ss.category.serv.*;
+import at.kc.tugraz.ss.friend.serv.*;
+import at.kc.tugraz.ss.like.serv.*;
+import at.kc.tugraz.ss.message.serv.*;
+import at.kc.tugraz.ss.recomm.serv.*;
+import at.kc.tugraz.ss.serv.auth.serv.*;
+import at.kc.tugraz.ss.serv.dataimport.serv.*;
+import at.kc.tugraz.ss.serv.datatypes.entity.serv.*;
+import at.kc.tugraz.ss.serv.datatypes.learnep.serv.*;
+import at.kc.tugraz.ss.serv.job.dataexport.serv.*;
+import at.kc.tugraz.ss.serv.jobs.evernote.serv.*;
+import at.kc.tugraz.ss.serv.jsonld.serv.*;
+import at.kc.tugraz.ss.service.coll.service.*;
+import at.kc.tugraz.ss.service.disc.service.*;
+import at.kc.tugraz.ss.service.filerepo.service.*;
+import at.kc.tugraz.ss.service.rating.service.*;
+import at.kc.tugraz.ss.service.search.service.*;
+import at.kc.tugraz.ss.service.tag.service.*;
+import at.kc.tugraz.ss.service.user.service.*;
+import at.kc.tugraz.ss.service.userevent.service.*;
+import at.kc.tugraz.sss.app.serv.*;
+import at.kc.tugraz.sss.appstacklayout.serv.*;
+import at.kc.tugraz.sss.comment.serv.*;
+import at.kc.tugraz.sss.flag.serv.*;
+import at.kc.tugraz.sss.video.serv.*;
+import at.tugraz.sss.conf.*;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.util.SSSocketU;
-import at.kc.tugraz.ss.activity.serv.SSActivityServ;
-import at.kc.tugraz.ss.category.ss.category.serv.SSCategoryServ;
-import at.tugraz.sss.conf.SSCoreConf;
-import at.kc.tugraz.ss.friend.serv.SSFriendServ;
-import at.kc.tugraz.ss.like.serv.SSLikeServ;
-import at.kc.tugraz.ss.message.serv.SSMessageServ;
-import at.kc.tugraz.ss.recomm.serv.SSRecommServ;
-import at.kc.tugraz.ss.serv.auth.serv.SSAuthServ;
-import at.kc.tugraz.ss.serv.dataimport.serv.SSDataImportServ;
-import at.kc.tugraz.ss.serv.datatypes.entity.serv.SSEntityServ;
-import at.kc.tugraz.ss.serv.datatypes.learnep.serv.SSLearnEpServ;
-import at.kc.tugraz.ss.serv.job.dataexport.serv.SSDataExportServ;
-import at.kc.tugraz.ss.serv.jobs.evernote.serv.SSEvernoteServ;
-import at.kc.tugraz.ss.serv.jsonld.serv.SSJSONLD;
-import at.tugraz.sss.conf.SSConf;
-import at.kc.tugraz.ss.service.coll.service.SSCollServ;
-import at.kc.tugraz.ss.service.disc.service.SSDiscServ;
-import at.kc.tugraz.ss.service.filerepo.service.SSFilerepoServ;
-import at.kc.tugraz.ss.service.rating.service.SSRatingServ;
-import at.kc.tugraz.ss.service.search.service.SSSearchServ;
-import at.kc.tugraz.ss.service.tag.service.SSTagServ;
-import at.kc.tugraz.ss.service.user.service.SSUserServ;
-import at.kc.tugraz.ss.service.userevent.service.SSUEServ;
-import at.kc.tugraz.sss.app.serv.SSAppServ;
-import at.kc.tugraz.sss.appstacklayout.serv.SSAppStackLayoutServ;
-import at.kc.tugraz.sss.comment.serv.SSCommentServ;
-import at.kc.tugraz.sss.flag.serv.SSFlagServ;
-import at.kc.tugraz.sss.video.serv.SSVideoServ;
-
-
 import at.tugraz.sss.serv.util.SSEncodingU;
-import at.tugraz.sss.serv.util.SSFileExtE;
-import at.tugraz.sss.serv.util.SSJSONLDU;
 import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.util.SSMimeTypeE;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
@@ -63,20 +58,20 @@ import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
-import at.tugraz.sss.serv.db.serv.SSDBNoSQL;
-import at.tugraz.sss.serv.db.serv.SSDBSQL;
-import at.tugraz.sss.servs.image.serv.SSImageServ;
-import at.tugraz.sss.servs.integrationtest.SSIntegrationTestServ;
-import at.tugraz.sss.servs.kcprojwiki.serv.SSKCProjWikiServ;
-import at.tugraz.sss.servs.livingdocument.serv.SSLivingDocServ;
-import at.tugraz.sss.servs.location.serv.SSLocationServ;
-import at.tugraz.sss.servs.mail.serv.SSMailServ;
-import at.tugraz.sss.servs.ocd.service.SSOCDServ;
+import at.tugraz.sss.serv.db.serv.*;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.image.serv.*;
+import at.tugraz.sss.servs.integrationtest.*;
+import at.tugraz.sss.servs.kcprojwiki.serv.*;
+import at.tugraz.sss.servs.livingdocument.serv.*;
+import at.tugraz.sss.servs.location.serv.*;
+import at.tugraz.sss.servs.mail.serv.*;
+import at.tugraz.sss.servs.ocd.service.*;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import sss.serv.eval.serv.SSEvalServ;
+import sss.serv.eval.serv.*;
 
 public class SSSocketMainV2{
   
@@ -91,10 +86,9 @@ public class SSSocketMainV2{
   public void start(String[] args) throws Exception {
     
 //    addShutDownHookThread ();
-    
 //    initJmx               ();
     
-    final Thread initializer = new Thread(new SSSInitializer());
+    final Thread initializer = new Thread(new SSInitializer());
     
     initializer.start();
     initializer.join();
@@ -116,114 +110,9 @@ public class SSSocketMainV2{
     }
   }
   
-  public class SSSocketMain extends SSServImplStartA implements Runnable{
+  public class SSInitializer extends SSServImplStartA implements Runnable{
     
-    private final Socket             clientSocket;
-    private final OutputStreamWriter outputStreamWriter;
-    private final InputStreamReader  inputStreamReader;
-    private final SSSocketAdapterU   socketAdapterU;
-    private SSServContainerI         serv        = null;
-    private SSServImplA              servImpl    = null;
-    private SSServPar                par         = null;
-    private SSServRetI               ret         = null;
-    
-    public SSSocketMain(
-      final Socket  clientSocket) throws Exception{
-      
-      super(null);
-      
-      this.clientSocket      = clientSocket;
-      
-      this.inputStreamReader =
-        new InputStreamReader(
-          clientSocket.getInputStream(),
-          SSEncodingU.utf8.toString());
-      
-      this.outputStreamWriter =
-        new OutputStreamWriter(
-          clientSocket.getOutputStream(),
-          SSEncodingU.utf8.toString());
-      
-      this.socketAdapterU = new SSSocketAdapterU();
-    }
-    
-    @Override
-    public void run(){
-      
-      try{
-        
-        final String clientMsg = SSSocketU.readFullString(inputStreamReader);
-              
-        par = new SSServPar(clientSocket,clientMsg);
-        
-        SSLogU.info(par.op + " start with " + par.clientJSONRequ);
-        
-        serv     = SSServReg.inst.getClientServ(par.op);
-        servImpl = serv.getServImpl();
-        
-        SSServReg.inst.regClientRequest(par.user, servImpl, par.op);
-        
-        ret = servImpl.invokeClientServOp(serv.servImplClientInteraceClass, par);
-              
-        if(ret != null){
-          socketAdapterU.writeRetFullToClient(outputStreamWriter, ret); 
-        }
-        
-      }catch(Exception error){
-        
-        SSServErrReg.regErr(error, false);
-        
-        if(par == null){
-          SSServErrReg.regErr(new Exception("couldnt get serv par"), true);
-        }
-        
-        try{
-          socketAdapterU.writeError(
-            outputStreamWriter, 
-            par.op);
-          
-        }catch(Exception error2){
-          SSServErrReg.regErr(error2, true);
-        }
-      }finally{
-        
-        try{
-          finalizeImpl();
-          SSLogU.info(par.op + " end ");
-        }catch(Exception error3){
-          SSLogU.err(error3);
-        }
-      }
-    }
-    
-    @Override
-    protected void finalizeImpl() throws Exception{
-      
-      finalizeThread(false);
-      
-      SSServReg.inst.unregClientRequest(par.op, par.user, servImpl);
-    }
-    
-//    public static void regServImplUsedByThread(final SSServImplA servImpl){
-//      
-//      List<SSServImplA> servImplUsedList = servImplsUsedByThread.get();
-//      
-//      if(servImplUsedList.contains(servImpl)){
-//        return;
-//      }
-//      
-//      servImplUsedList.add(servImpl);
-//    }
-    
-    @Override
-    protected void finalizeThread(final Boolean log){
-      super.finalizeThread(true);
-    }
-  }
-  
-  public class SSSInitializer extends SSServImplStartA{
-    
-    public SSSInitializer() throws Exception{
+    public SSInitializer() throws Exception{
       super(null);
     }
     
@@ -232,9 +121,10 @@ public class SSSocketMainV2{
       
       try{
         
-        SSCoreConf.instSet(SSConf.fileNameSSSConf);
+        SSCoreConf.instSet("C:\\workspace_git\\tomcat\\SocialSemanticServer\\sssWorkDir\\" + SSFileU.fileNameSSSConf);
         
         try{
+          SSLogU.init(SSCoreConf.instGet().getSss().getSssWorkDir());
           SSFileExtE.init    ();
           SSMimeTypeE.init   ();
           SSJSONLDU.init(SSCoreConf.instGet().getJsonLD().uri);
@@ -335,6 +225,111 @@ public class SSSocketMainV2{
     @Override
     protected void finalizeImpl() throws Exception{
       finalizeThread(true);
+    }
+  }
+  
+  public class SSSocketMain extends SSServImplStartA implements Runnable{
+    
+    private final Socket             clientSocket;
+    private final OutputStreamWriter outputStreamWriter;
+    private final InputStreamReader  inputStreamReader;
+    private final SSSocketAdapterU   socketAdapterU;
+    private SSServContainerI         serv        = null;
+    private SSServImplA              servImpl    = null;
+    private SSServPar                par         = null;
+    private SSServRetI               ret         = null;
+    
+    public SSSocketMain(
+      final Socket  clientSocket) throws Exception{
+      
+      super(null);
+      
+      this.clientSocket      = clientSocket;
+      
+      this.inputStreamReader =
+        new InputStreamReader(
+          clientSocket.getInputStream(),
+          SSEncodingU.utf8.toString());
+      
+      this.outputStreamWriter =
+        new OutputStreamWriter(
+          clientSocket.getOutputStream(),
+          SSEncodingU.utf8.toString());
+      
+      this.socketAdapterU = new SSSocketAdapterU();
+    }
+    
+    @Override
+    public void run(){
+      
+      try{
+        
+        final String clientMsg = SSSocketU.readFullString(inputStreamReader);
+              
+        par = new SSServPar(clientSocket,clientMsg);
+        
+        SSLogU.info(par.op + " start with " + par.clientJSONRequ);
+        
+        serv     = SSServReg.inst.getClientServContainer(par.op);
+        servImpl = serv.getServImpl();
+        
+        SSServReg.inst.regClientRequest(par.user, servImpl, par.op);
+        
+        ret = servImpl.invokeClientServOp(serv.servImplClientInteraceClass, par);
+              
+        if(ret != null){
+          socketAdapterU.writeRetFullToClient(outputStreamWriter, ret); 
+        }
+        
+      }catch(Exception error){
+        
+        SSServErrReg.regErr(error, false);
+        
+        if(par == null){
+          SSServErrReg.regErr(new Exception("couldnt get serv par"), true);
+        }
+        
+        try{
+          socketAdapterU.writeError(
+            outputStreamWriter, 
+            par.op);
+          
+        }catch(Exception error2){
+          SSServErrReg.regErr(error2, true);
+        }
+      }finally{
+        
+        try{
+          finalizeImpl();
+          SSLogU.info(par.op + " end ");
+        }catch(Exception error3){
+          SSLogU.err(error3);
+        }
+      }
+    }
+    
+    @Override
+    protected void finalizeImpl() throws Exception{
+      
+      finalizeThread(false);
+      
+      SSServReg.inst.unregClientRequest(par.op, par.user, servImpl);
+    }
+    
+//    public static void regServImplUsedByThread(final SSServImplA servImpl){
+//      
+//      List<SSServImplA> servImplUsedList = servImplsUsedByThread.get();
+//      
+//      if(servImplUsedList.contains(servImpl)){
+//        return;
+//      }
+//      
+//      servImplUsedList.add(servImpl);
+//    }
+    
+    @Override
+    protected void finalizeThread(final Boolean log){
+      super.finalizeThread(true);
     }
   }
 }

@@ -27,7 +27,6 @@ import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportClientI;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
@@ -49,9 +48,7 @@ import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
-
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.SSErr;
 import java.util.ArrayList;
@@ -83,14 +80,16 @@ implements
   private static final Map<Thread, String>     bitsAndPiecesEvernoteImports        = new HashMap<>();
   private static final ReentrantReadWriteLock  bitsAndPiecesEmailsImportsLock      = new ReentrantReadWriteLock();
   private static final Map<Thread, String>     bitsAndPiecesEmailsImports          = new HashMap<>();
-
+  
+  private final SSDataImportConf   dataImportConf;
   private final SSDataImportSQLFct sqlFct;
   
   public SSDataImportImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sqlFct        = new SSDataImportSQLFct(dbSQL);
+    this.dataImportConf  = (SSDataImportConf) conf;
+    this.sqlFct          = new SSDataImportSQLFct(dbSQL);
   }
   
   private Boolean addBitsAndPiecesEvernoteImport(
@@ -254,6 +253,7 @@ implements
           dbSQL.startTrans(par.shouldCommit);
 
           new SSDataImportBitsAndPiecesEvernoteImporter(
+            dataImportConf,
             par,
             entityServ,
             fileServ,
@@ -285,6 +285,7 @@ implements
           dbSQL.startTrans(par.shouldCommit);
 
           new SSDataImportBitsAndPiecesMailImporter(
+            dataImportConf,
             par,
             entityServ,
             fileServ, 
@@ -337,7 +338,7 @@ implements
   public Map<String, String> dataImportSSSUsersFromCSVFile(final SSDataImportSSSUsersFromCSVFilePar par) throws SSErr{
     
     try{
-      final List<String[]>                     lines           = SSDataImportReaderFct.readAllFromCSV(SSFileU.dirWorking(), par.fileName);
+      final List<String[]>                     lines           = SSDataImportReaderFct.readAllFromCSV(par.filePath);
       final Map<String, String>                passwordPerUser = new HashMap<>();
       
       for(String[] line : lines){
@@ -360,7 +361,7 @@ implements
 
     try{
       
-      final List<String[]> lines = SSDataImportReaderFct.readAllFromCSV(SSFileU.dirWorkingDataCsv(), ((SSDataImportConf)conf).fileName);
+      final List<String[]> lines = SSDataImportReaderFct.readAllFromCSV(conf.getSssWorkDirDataCsv(), ((SSDataImportConf)conf).fileName);
       String firstName;
       String familyName;
       String password;

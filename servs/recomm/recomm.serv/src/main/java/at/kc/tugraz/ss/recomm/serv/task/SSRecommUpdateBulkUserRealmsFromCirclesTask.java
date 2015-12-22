@@ -50,7 +50,7 @@ public class SSRecommUpdateBulkUserRealmsFromCirclesTask extends TimerTask {
     }
   }
   
-  protected class SSRecommUpdateBulkUserRealmsFromCirclesUpdater extends SSServImplStartA{
+  protected class SSRecommUpdateBulkUserRealmsFromCirclesUpdater extends SSServImplStartA implements Runnable{
     
     private final SSRecommConf recommConf;
     

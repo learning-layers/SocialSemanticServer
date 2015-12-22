@@ -42,7 +42,7 @@ public class SSSearchResultPagesCacheCleanerTask extends TimerTask {
     }
   }
   
-  protected class SSSearchResultPagesCacheCleaner extends SSServImplStartA{
+  protected class SSSearchResultPagesCacheCleaner extends SSServImplStartA implements Runnable{
     
     public SSSearchResultPagesCacheCleaner() throws Exception{
       super(null);

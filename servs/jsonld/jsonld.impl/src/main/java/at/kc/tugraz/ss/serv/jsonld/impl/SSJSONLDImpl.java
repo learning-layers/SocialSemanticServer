@@ -58,7 +58,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSJSONLDPar par = (SSJSONLDPar) parA.getFromJSON(SSJSONLDPar.class);
+      final SSJSONLDPar par = (SSJSONLDPar) parA.getFromClient(clientType, parA, SSJSONLDPar.class);
       
       return SSJSONLDRet.get(jsonLD(par));
       

@@ -46,11 +46,19 @@ public class SSRecommUserRealmKeeper{
   private static final Map<String, List<SSRecommUserRealmEngine>> userRealmEngines   = new HashMap<>();
   private static final ReentrantReadWriteLock                     engineLock         = new ReentrantReadWriteLock();  
   
+  private final SSRecommConf conf;
+
+  public SSRecommUserRealmKeeper(
+    final SSRecommConf conf){
+    
+    this.conf = conf;
+  }
+  
 //  public static Collection<SSRecommUserRealmEngine> getUserRealmEngines(){
 //    return userRealmEngines.values();
 //  }
   
-  public static SSRecommUserRealmEngine checkAddAndGetUserRealmEngine(
+  public SSRecommUserRealmEngine checkAddAndGetUserRealmEngine(
     final SSRecommConf    conf,
     final SSUri           user,
     String                realm,
@@ -139,7 +147,7 @@ public class SSRecommUserRealmKeeper{
     }
   }
   
-  public static void setAndLoadUserRealmEnginesFromDB(
+  public void setAndLoadUserRealmEnginesFromDB(
     final Map<String, List<String>> usersRealms) throws Exception{
     
     FileOutputStream userRealmFileOut = null;
@@ -167,7 +175,7 @@ public class SSRecommUserRealmKeeper{
           try{
             userRealmFileOut =
               SSFileU.openOrCreateFileWithPathForWrite(
-                SSFileU.dirWorkingDataCsv() + userRealm + SSStrU.dot + SSFileExtE.txt);
+                conf.getSssWorkDirDataCsv() + userRealm + SSStrU.dot + SSFileExtE.txt);
             
             userRealmEngine.engine.loadFile(userRealm);
             

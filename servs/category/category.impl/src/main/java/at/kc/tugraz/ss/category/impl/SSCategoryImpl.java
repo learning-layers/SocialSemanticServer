@@ -373,7 +373,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCategoryAddPar par = (SSCategoryAddPar) parA.getFromJSON(SSCategoryAddPar.class);
+      final SSCategoryAddPar par = (SSCategoryAddPar) parA.getFromClient(clientType, parA, SSCategoryAddPar.class);
       
       final SSUri            categoryUri = categoryAdd(par);
       final SSCategoryAddRet ret         = SSCategoryAddRet.get(categoryUri);
@@ -543,7 +543,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCategoriesRemovePar par = (SSCategoriesRemovePar) parA.getFromJSON(SSCategoriesRemovePar.class);
+      final SSCategoriesRemovePar par = (SSCategoriesRemovePar) parA.getFromClient(clientType, parA, SSCategoriesRemovePar.class);
       final SSCategoriesRemoveRet ret = SSCategoriesRemoveRet.get(categoriesRemove(par));
       
       activityServ.activityAdd(
@@ -736,7 +736,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCategoriesPredefinedGetPar par = (SSCategoriesPredefinedGetPar) parA.getFromJSON(SSCategoriesPredefinedGetPar.class);
+      final SSCategoriesPredefinedGetPar par = (SSCategoriesPredefinedGetPar) parA.getFromClient(clientType, parA, SSCategoriesPredefinedGetPar.class);
 
       return SSCategoriesPredefinedGetRet.get(categoriesPredefinedGet(par));
     }catch(Exception error){
@@ -837,7 +837,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCategoryEntitiesForCategoriesGetPar par = (SSCategoryEntitiesForCategoriesGetPar) parA.getFromJSON(SSCategoryEntitiesForCategoriesGetPar.class);
+      final SSCategoryEntitiesForCategoriesGetPar par = (SSCategoryEntitiesForCategoriesGetPar) parA.getFromClient(clientType, parA, SSCategoryEntitiesForCategoriesGetPar.class);
       
       return SSCategoryEntitiesForCategoriesGetRet.get(categoryEntitiesForCategoriesGet(par));
     }catch(Exception error){
@@ -878,7 +878,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCategoriesGetPar par = (SSCategoriesGetPar) parA.getFromJSON(SSCategoriesGetPar.class);
+      final SSCategoriesGetPar par = (SSCategoriesGetPar) parA.getFromClient(clientType, parA, SSCategoriesGetPar.class);
       
       return SSCategoriesGetRet.get(categoriesGet(par));
     }catch(Exception error){
@@ -934,7 +934,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCategoryFrequsGetPar par = (SSCategoryFrequsGetPar) parA.getFromJSON(SSCategoryFrequsGetPar.class);
+      final SSCategoryFrequsGetPar par = (SSCategoryFrequsGetPar) parA.getFromClient(clientType, parA, SSCategoryFrequsGetPar.class);
       
       return SSCategoryFrequsGetRet.get(categoryFrequsGet(par));
     }catch(Exception error){

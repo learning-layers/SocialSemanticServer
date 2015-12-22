@@ -48,7 +48,7 @@ public class SSLearnEpRemainingTimeTask extends TimerTask {
     }
   }
   
-  protected class SSLearnEpRemaingTimeHandler extends SSServImplStartA{
+  protected class SSLearnEpRemaingTimeHandler extends SSServImplStartA  implements Runnable{
     
     public SSLearnEpRemaingTimeHandler() throws Exception{
       super(null);

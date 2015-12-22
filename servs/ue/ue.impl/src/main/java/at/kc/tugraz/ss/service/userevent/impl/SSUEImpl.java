@@ -198,7 +198,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSUEGetPar par = (SSUEGetPar) parA.getFromJSON(SSUEGetPar.class);
+      final SSUEGetPar par = (SSUEGetPar) parA.getFromClient(clientType, parA, SSUEGetPar.class);
       
       return SSUEGetRet.get(userEventGet(par));
       
@@ -248,7 +248,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSUEsGetPar par = (SSUEsGetPar) parA.getFromJSON(SSUEsGetPar.class);
+      final SSUEsGetPar par = (SSUEsGetPar) parA.getFromClient(clientType, parA, SSUEsGetPar.class);
       
       return SSUEsGetRet.get(userEventsGet(par));
       
@@ -301,7 +301,7 @@ implements
       
     userCommons.checkKeyAndSetUser(parA);
     
-    final SSUECountGetPar par = (SSUECountGetPar) parA.getFromJSON(SSUECountGetPar.class);
+    final SSUECountGetPar par = (SSUECountGetPar) parA.getFromClient(clientType, parA, SSUECountGetPar.class);
     
     return SSUECountGetRet.get(userEventCountGet(par));
     
@@ -354,7 +354,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSUEAddPar par = (SSUEAddPar) parA.getFromJSON(SSUEAddPar.class);
+      final SSUEAddPar par = (SSUEAddPar) parA.getFromClient(clientType, parA, SSUEAddPar.class);
       
       return SSUEAddRet.get(userEventAdd(par));
     }catch(Exception error){

@@ -20,14 +20,8 @@
 */
 package at.tugraz.sss.adapter.rest.v2;
 
-import at.tugraz.sss.serv.util.SSFileExtE;
-import at.tugraz.sss.serv.util.SSFileU;
 import at.tugraz.sss.serv.util.SSJSONU;
-import at.tugraz.sss.serv.util.SSMimeTypeE;
 import at.tugraz.sss.serv.util.*;
-import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
-import at.tugraz.sss.serv.util.SSJSONLDU;
-import at.tugraz.sss.conf.SSConf;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -41,19 +35,8 @@ import java.io.InputStream;
 
 public class SSRestMainV2 extends Application {
   
-  public static SSAdapterRestConf conf;
-
   public SSRestMainV2() throws Exception{
-   
-    //sss.adapter.rest.v2.conf
-    //layers.test
-    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSConf.dirNameConf + "sss.adapter.rest.v2.conf.yaml");
-    
-    conf = SSAdapterRestConf.instGet();
-    
-    SSFileExtE.init    ();
-    SSMimeTypeE.init   ();
-    SSJSONLDU.init(conf.getJsonLD().uri);
+    SSLogU.info("main started");
   }
   
   @Override

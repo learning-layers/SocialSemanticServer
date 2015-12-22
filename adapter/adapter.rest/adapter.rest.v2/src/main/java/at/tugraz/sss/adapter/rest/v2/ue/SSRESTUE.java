@@ -20,7 +20,6 @@
  */
 package at.tugraz.sss.adapter.rest.v2.ue;
 
-import at.kc.tugraz.ss.service.tag.api.*;
 import at.kc.tugraz.ss.service.userevent.api.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.conf.SSConf;
@@ -32,8 +31,10 @@ import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEAddRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUECountGetRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEGetRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEsGetRet;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import com.wordnik.swagger.annotations.Api;
@@ -51,7 +52,20 @@ import javax.ws.rs.core.Response;
 
 @Path("/ues")
 @Api(value = "/ues")
-public class SSRESTUE{
+public class SSRESTUE extends SSServImplStartA{
+  
+  public SSRESTUE() {
+    super(null);
+  }
+  
+  public SSRESTUE(final SSConfA conf) {
+    super(conf);
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+    finalizeThread(false);
+  }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
@@ -61,8 +75,8 @@ public class SSRESTUE{
     value = "retrieve user events for user, entity, time combination",
     response = SSUEsGetRet.class)
   public Response uEsGetFiltered(
-    @Context 
-      final HttpHeaders headers, 
+    @Context
+    final HttpHeaders headers,
     
     final SSUEsGetRESTAPIV2Par input){
     
@@ -72,13 +86,13 @@ public class SSRESTUE{
       
       par =
         new SSUEsGetPar(
-          null,  
+          null,
           null, //userEvents
           input.forUser,
-          input.entity, 
-          input.types, 
+          input.entity,
+          input.types,
           input.startTime,
-          input.endTime, 
+          input.endTime,
           true,  //withUserRestriction
           true); //invokeEntityHandlers
       
@@ -100,6 +114,13 @@ public class SSRESTUE{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @GET
@@ -110,11 +131,11 @@ public class SSRESTUE{
     value = "retrieve given user event",
     response = SSUEGetRet.class)
   public Response uEGet(
-    @Context 
-      final HttpHeaders headers, 
+    @Context
+    final HttpHeaders headers,
     
-    @PathParam(SSVarNames.uE) 
-      final String uE){
+    @PathParam(SSVarNames.uE)
+    final String uE){
     
     final SSUEGetPar par;
     
@@ -122,8 +143,8 @@ public class SSRESTUE{
       
       par =
         new SSUEGetPar(
-          null,  
-          SSUri.get(uE, SSConf.sssUri), 
+          null,
+          SSUri.get(uE, SSConf.sssUri),
           true, // withUserRestriction
           true); //invokeEntityHandlers
       
@@ -145,6 +166,14 @@ public class SSRESTUE{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @POST
@@ -155,8 +184,8 @@ public class SSRESTUE{
     value = "retrieve the number of certain user events",
     response = SSUECountGetRet.class)
   public Response uECountGet(
-    @Context 
-      final HttpHeaders headers, 
+    @Context
+    final HttpHeaders headers,
     
     final SSUECountGetRESTAPIV2Par input){
     
@@ -166,19 +195,19 @@ public class SSRESTUE{
       
       par =
         new SSUECountGetPar(
-          null,  
-          input.forUser, 
-          input.entity, 
-          input.type, 
-          input.startTime, 
-          input.endTime, 
+          null,
+          input.forUser,
+          input.entity,
+          input.type,
+          input.startTime,
+          input.endTime,
           true); //withUserRestriction
       
     }catch(Exception error){
       return Response.status(422).build();
     }
     
-     try{
+    try{
       par.key = SSRestMainV2.getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
@@ -192,6 +221,13 @@ public class SSRESTUE{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @POST
@@ -202,9 +238,9 @@ public class SSRESTUE{
     value = "adds a usage-based trace, i.e. user event, for entity, user combination",
     response = SSUEAddRet.class)
   public Response uEAdd(
-    @Context 
-      final HttpHeaders headers, 
-
+    @Context
+    final HttpHeaders headers,
+    
     final SSUEAddRESTAPIV2Par input){
     
     final SSUEAddPar par;
@@ -213,7 +249,7 @@ public class SSRESTUE{
       
       par =
         new SSUEAddPar(
-          null,  
+          null,
           input.entity, //entity
           input.type,  //type
           input.content, //content
@@ -238,6 +274,13 @@ public class SSRESTUE{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
 }

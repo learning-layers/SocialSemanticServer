@@ -51,8 +51,10 @@ public class SSDataImportEvernoteNoteContentHandler{
   private final NoteStoreClient   noteStore;
   private final SSFileRepoServerI fileServ;
   private final SSEvernoteServerI evernoteServ;
+  private final SSDataImportConf  conf;
   
   public SSDataImportEvernoteNoteContentHandler(
+    final SSDataImportConf  conf,
     final SSFileRepoServerI fileServ,
     final SSEvernoteServerI evernoteServ,
     final SSUri             user,
@@ -60,6 +62,7 @@ public class SSDataImportEvernoteNoteContentHandler{
     final SSUri             noteUri,
     final NoteStoreClient   noteStore){
     
+    this.conf          = conf;
     this.fileServ      = fileServ;
     this.evernoteServ  = evernoteServ;
     this.user          = user;
@@ -76,9 +79,9 @@ public class SSDataImportEvernoteNoteContentHandler{
     
     try{
       
-      xhtmlFilePath    = SSDataImportConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(SSConf.vocURICreate(SSFileExtE.xhtml));
+      xhtmlFilePath    = conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(SSConf.vocURICreate(SSFileExtE.xhtml));
       fileUri          = SSConf.vocURICreate                  (SSFileExtE.pdf);
-      pdfFilePath      = SSDataImportConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI (fileUri);
+      pdfFilePath      = conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI (fileUri);
 
       SSFileU.writeStr(note.getContent(), xhtmlFilePath);
       
@@ -537,7 +540,7 @@ public class SSDataImportEvernoteNoteContentHandler{
                   hash));
             
             SSFileU.writeFileBytes(
-              new FileOutputStream(SSDataImportConf.getLocalWorkPath() + fileID),
+              new FileOutputStream(conf.getLocalWorkPath() + fileID),
               resource.getData().getBody(),
               resource.getData().getSize());
           }
@@ -577,7 +580,7 @@ public class SSDataImportEvernoteNoteContentHandler{
               "\" height=\"" +
               resource.getHeight() +
               "\" class=\"xmyImagex\" src=\"" +
-              SSDataImportConf.getLocalWorkPath() + fileID +
+              conf.getLocalWorkPath() + fileID +
               "\"/>";
           }
           

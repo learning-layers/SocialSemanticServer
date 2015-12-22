@@ -127,7 +127,7 @@ implements
         
         case kcDavMailIMAP:{
           
-          final SSMailReceiverKCDavIMAP kcReceive = new SSMailReceiverKCDavIMAP(sqlFct);
+          final SSMailReceiverKCDavIMAP kcReceive = new SSMailReceiverKCDavIMAP(mailConf, sqlFct);
           
           SSEntity.addEntitiesDistinctWithoutNull(
             mails, 

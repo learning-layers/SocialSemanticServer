@@ -20,9 +20,8 @@
 */
 package at.kc.tugraz.ss.serv.ss.auth.datatypes.pars;
 
-
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 
 public class SSAuthCheckCredPar extends SSServPar{

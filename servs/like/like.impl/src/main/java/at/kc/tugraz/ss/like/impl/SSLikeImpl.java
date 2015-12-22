@@ -139,7 +139,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSLikeUserSetPar par = (SSLikeUserSetPar) parA.getFromJSON(SSLikeUserSetPar.class);
+      final SSLikeUserSetPar par = (SSLikeUserSetPar) parA.getFromClient(clientType, parA, SSLikeUserSetPar.class);
       
       return SSLikeUserSetRet.get(likeSet(par));
       

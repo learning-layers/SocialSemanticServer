@@ -1103,6 +1103,11 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
         
         try{
           connector = connectionPool.getConnection();
+          
+          if(connector == null){
+            throw new Exception("connector null");
+          }
+          
           connector.setAutoCommit(true);
           
           gotCon = true;

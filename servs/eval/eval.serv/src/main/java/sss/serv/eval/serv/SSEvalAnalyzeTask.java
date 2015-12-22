@@ -46,7 +46,7 @@ public class SSEvalAnalyzeTask extends TimerTask {
     }
   }
   
-  protected class SSEvalAnalyzer extends SSServImplStartA{
+  protected class SSEvalAnalyzer extends SSServImplStartA implements Runnable{
     
     public SSEvalAnalyzer() throws Exception{
       super(null);

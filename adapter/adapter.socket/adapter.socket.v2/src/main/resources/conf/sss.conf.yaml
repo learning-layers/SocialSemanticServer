@@ -5,7 +5,7 @@ sss:
   host: SSS_HOST
   port: SSS_PORT
   restAPIPath: SSS_REST_API_PATH
-  localWorkPath: SSS_LOCAL_WORK_PATH #leave empty for workingDir/tmp
+  sssWorkDir: SSS_LOCAL_WORK_PATH #leave empty for workingDir/tmp
 dbSQL: !!at.tugraz.sss.serv.SSDBSQLConf
   host: SSS_MYSQL_HOST
   port: SSS_MYSQL_PORT
@@ -19,13 +19,10 @@ dbNoSQL: !!at.tugraz.sss.serv.SSDBNoSQLConf
 auth: 
   authType: SSS_AUTH_TYPE #noAuth, csvFileAuth, oidc
   initAtStartUp: true
-  fileName: users.csv
   systemUserPassword: 1234
   oidcConfURI: https://api.learning-layers.eu/o/oauth2/.well-known/openid-configuration #http://10.255.255.17/o/oauth2/.well-known/openid-configuration
   oidcUserEndPointURI: https://api.learning-layers.eu/o/oauth2/userinfo #http://10.255.255.17/o/oauth2/userinfo
 entity:
-  use: true
-circle:
   use: true
 jsonLD:
   uri: 

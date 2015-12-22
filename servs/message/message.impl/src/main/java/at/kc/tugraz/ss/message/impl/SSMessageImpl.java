@@ -197,7 +197,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSMessagesGetPar par = (SSMessagesGetPar) parA.getFromJSON(SSMessagesGetPar.class);
+      final SSMessagesGetPar par = (SSMessagesGetPar) parA.getFromClient(clientType, parA, SSMessagesGetPar.class);
       
       return SSMessagesGetRet.get(messagesGet(par), SSDateU.dateAsLong());
       
@@ -269,7 +269,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSMessageSendPar par        = (SSMessageSendPar) parA.getFromJSON(SSMessageSendPar.class);
+      final SSMessageSendPar par        = (SSMessageSendPar) parA.getFromClient(clientType, parA, SSMessageSendPar.class);
       final SSUri            messageURI = messageSend(par);
       
       final SSMessageSendRet ret = SSMessageSendRet.get(messageURI);

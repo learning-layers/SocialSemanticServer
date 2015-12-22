@@ -46,7 +46,7 @@ public class SSKCProjWikiImportTask extends TimerTask {
     }
   }
   
-  protected class SSKCProjWikiImportUpdater extends SSServImplStartA{
+  protected class SSKCProjWikiImportUpdater extends SSServImplStartA implements Runnable{
     
     public SSKCProjWikiImportUpdater() throws Exception{
       super(null);

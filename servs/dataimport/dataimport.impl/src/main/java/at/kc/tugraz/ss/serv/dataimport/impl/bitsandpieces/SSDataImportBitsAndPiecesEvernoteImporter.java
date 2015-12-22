@@ -20,12 +20,11 @@
   */
 package at.kc.tugraz.ss.serv.dataimport.impl.bitsandpieces;
 
+import at.kc.tugraz.ss.serv.dataimport.conf.*;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.util.SSLinkU;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
@@ -48,7 +47,6 @@ import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
 import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
-
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEsGetPar;
@@ -80,11 +78,13 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
   private final SSEvalServerI                    evalServ;
   private final SSUri                            userUri;
   private final SSDataImportBitsAndPiecesMiscFct miscFct;
+  private final SSDataImportConf                 conf;
   private final List<String>                     sharedNotebookGuids      = new ArrayList<>();
   private       SSEvernoteInfo                   evernoteInfo             = null;
   private       List<SharedNotebook>             sharedNotebooks          = null;
   
   public SSDataImportBitsAndPiecesEvernoteImporter(
+    final SSDataImportConf             conf,
     final SSDataImportBitsAndPiecesPar par, 
     final SSEntityServerI              entityServ,
     final SSFileRepoServerI            fileServ,
@@ -94,6 +94,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     final SSEvalServerI                evalServ,
     final SSUri                        userUri) throws Exception{
     
+    this.conf            = conf;
     this.par             = par;
     this.fileServ        = fileServ;
     this.evernoteServ    = evernoteServ;
@@ -422,6 +423,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         note.getUpdated());
       
       new SSDataImportEvernoteNoteContentHandler(
+        conf,
         fileServ,
         evernoteServ,
         userUri,

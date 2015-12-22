@@ -24,6 +24,8 @@ import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.db.conf.SSDBNoSQLConf;
 import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.db.impl.SSDBNoSQLSolrImpl;
@@ -31,7 +33,7 @@ import java.util.List;
 
 public class SSDBNoSQL extends SSServContainerI{
   
-  public static final SSDBNoSQL inst = new SSDBNoSQL(null, null);
+  public static final SSDBNoSQL inst = new SSDBNoSQL(null, SSDBNoSQLI.class);
   
   protected SSDBNoSQL(
     final Class servImplClientInteraceClass, 
@@ -41,7 +43,7 @@ public class SSDBNoSQL extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() {
+  protected SSServImplA createServImplForThread() throws SSErr {
     return new SSDBNoSQLSolrImpl((SSDBNoSQLConf) conf);
   }
 

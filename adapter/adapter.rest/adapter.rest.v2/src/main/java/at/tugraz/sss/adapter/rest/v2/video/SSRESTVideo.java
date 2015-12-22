@@ -1,26 +1,25 @@
 /**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.tugraz.sss.adapter.rest.v2.video;
 
-import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.sss.video.api.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
@@ -35,7 +34,9 @@ import at.kc.tugraz.sss.video.datatypes.ret.SSVideoAnnotationsSetRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAnnotationAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideosUserGetRet;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -53,7 +54,20 @@ import javax.ws.rs.core.Response;
 
 @Path("/videos")
 @Api( value = "/videos") //, basePath = "/videos"
-public class SSRESTVideo{
+public class SSRESTVideo extends SSServImplStartA{
+  
+  public SSRESTVideo() {
+    super(null);
+  }
+  
+  public SSRESTVideo(final SSConfA conf) {
+    super(conf);
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+    finalizeThread(false);
+  }
   
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
@@ -94,6 +108,14 @@ public class SSRESTVideo{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @POST
@@ -116,11 +138,11 @@ public class SSRESTVideo{
           input.uuid,
           input.link,
           input.type,
-          input.forEntity, 
+          input.forEntity,
           input.genre,
-          input.label, 
-          input.description, 
-          input.creationTime, 
+          input.label,
+          input.description,
+          input.creationTime,
           input.latitude,
           input.longitude,
           input.accuracy);
@@ -129,7 +151,7 @@ public class SSRESTVideo{
       return Response.status(422).build();
     }
     
-     try{
+    try{
       par.key = SSRestMainV2.getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
@@ -143,6 +165,14 @@ public class SSRESTVideo{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @PUT
@@ -153,11 +183,11 @@ public class SSRESTVideo{
     value = "set annotation to a video",
     response = SSVideoAnnotationsSetRet.class)
   public Response videoAnnotationsSet(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
-    @PathParam(SSVarNames.video) 
-      final String video,
+    @PathParam(SSVarNames.video)
+    final String video,
     
     final SSVideoAnnotationsSetRESTAPIV2Par input){
     
@@ -173,16 +203,16 @@ public class SSRESTVideo{
           input.x,
           input.y,
           input.labels,
-          input.descriptions, 
+          input.descriptions,
           input.removeExisting,
-          true, //withUserRestriction, 
+          true, //withUserRestriction,
           true); //shouldCommit);
       
     }catch(Exception error){
       return Response.status(422).build();
     }
     
-     try{
+    try{
       par.key = SSRestMainV2.getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
@@ -196,6 +226,14 @@ public class SSRESTVideo{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @POST
@@ -206,11 +244,11 @@ public class SSRESTVideo{
     value = "add an annotation to a video",
     response = SSVideoUserAnnotationAddRet.class)
   public Response videoAnnotationAddPost(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
-    @PathParam(SSVarNames.video) 
-      final String video,
+    @PathParam(SSVarNames.video)
+    final String video,
     
     final SSVideoAnnotationAddRESTAPIV2Par input){
     
@@ -226,15 +264,15 @@ public class SSRESTVideo{
           input.x,
           input.y,
           input.label,
-          input.description, 
-          true, //withUserRestriction, 
+          input.description,
+          true, //withUserRestriction,
           true); //shouldCommit);
       
     }catch(Exception error){
       return Response.status(422).build();
     }
     
-     try{
+    try{
       par.key = SSRestMainV2.getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
@@ -247,6 +285,14 @@ public class SSRESTVideo{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
 }

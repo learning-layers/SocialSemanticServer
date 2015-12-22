@@ -86,7 +86,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSSearchPar par = (SSSearchPar) parA.getFromJSON(SSSearchPar.class);
+      final SSSearchPar par = (SSSearchPar) parA.getFromClient(clientType, parA, SSSearchPar.class);
       
       return search(par);
       

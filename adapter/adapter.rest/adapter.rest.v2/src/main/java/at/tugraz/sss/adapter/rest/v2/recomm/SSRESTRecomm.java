@@ -1,28 +1,27 @@
-/**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.tugraz.sss.adapter.rest.v2.recomm;
 
 import at.kc.tugraz.ss.recomm.api.*;
 import at.tugraz.sss.adapter.rest.v2.SSRESTObject;
-
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
@@ -37,9 +36,10 @@ import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommTagsRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateBulkRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUsersRet;
-import at.kc.tugraz.ss.service.rating.api.*;
 import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -60,7 +60,20 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 
 @Path("/recomm")
 @Api( value = "/recomm")
-public class SSRESTRecomm{
+public class SSRESTRecomm extends SSServImplStartA{
+  
+  public SSRESTRecomm() {
+    super(null);
+  }
+  
+  public SSRESTRecomm(final SSConfA conf) {
+    super(conf);
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+    finalizeThread(false);
+  }
   
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
@@ -70,9 +83,9 @@ public class SSRESTRecomm{
     value = "add a new combination of user, entity, tags, categories to be used for recommendations",
     response = SSRecommUpdateRet.class)
   public Response recommUpdate(
-    @Context 
-      final HttpHeaders headers,
-
+    @Context
+    final HttpHeaders headers,
+    
     final SSRecommUpdateRESTAPIV2Par input){
     
     final SSRecommUpdatePar par;
@@ -92,7 +105,7 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-     try{
+    try{
       par.key = SSRestMainV2.getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
@@ -105,6 +118,14 @@ public class SSRESTRecomm{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -139,7 +160,7 @@ public class SSRESTRecomm{
       par =
         new SSRecommUpdateBulkPar(
           null,
-          realm, 
+          realm,
           null); //sSCon
       
       restObj = new SSRESTObject(par);
@@ -159,8 +180,8 @@ public class SSRESTRecomm{
     value = "add tags, categories for the user's given entities to be used for recommendations",
     response = SSRecommUpdateRet.class)
   public Response recommUpdateBulkEntities(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     final SSRecommUpdateBulkEntitiesRESTAPIV2Par input){
     
@@ -195,6 +216,14 @@ public class SSRESTRecomm{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @GET
@@ -205,8 +234,8 @@ public class SSRESTRecomm{
     value = "retrieve user recommendations",
     response = SSRecommUsersRet.class)
   public Response recommUsers(
-    @Context 
-      final HttpHeaders headers){
+    @Context
+    final HttpHeaders headers){
     
     final SSRecommUsersPar par;
     
@@ -214,7 +243,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          null, 
+          null,
           null, //realm
           null,  //forUser
           null,  //entity
@@ -242,8 +271,16 @@ public class SSRESTRecomm{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
-
+  
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -252,14 +289,14 @@ public class SSRESTRecomm{
     value = "retrieve user recommendations",
     response = SSRecommUsersRet.class)
   public Response recommUsers(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     @ApiParam(
-      value = "recomm realm the user wants to query", 
+      value = "recomm realm the user wants to query",
       required = true)
-    @PathParam("realm") 
-      final String realm){
+    @PathParam("realm")
+    final String realm){
     
     final SSRecommUsersPar par;
     
@@ -267,7 +304,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          null, 
+          null,
           realm, //realm
           null,  //forUser
           null,  //entity
@@ -295,6 +332,14 @@ public class SSRESTRecomm{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @GET
@@ -305,14 +350,14 @@ public class SSRESTRecomm{
     value = "retrieve user recommendations",
     response = SSRecommUsersRet.class)
   public Response recommUsersIgnoreAccessRights(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     @ApiParam(
-      value = "recomm realm the user wants to query", 
+      value = "recomm realm the user wants to query",
       required = true)
-    @PathParam("realm") 
-      final String realm){
+    @PathParam("realm")
+    final String realm){
     
     final SSRecommUsersPar par;
     
@@ -320,7 +365,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          null, 
+          null,
           realm, //realm
           null,  //forUser
           null,  //entity
@@ -348,6 +393,13 @@ public class SSRESTRecomm{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @GET
@@ -358,19 +410,19 @@ public class SSRESTRecomm{
     value = "retrieve user recommendations",
     response = SSRecommUsersRet.class)
   public Response recommUsersForUserEntity(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     @ApiParam(
       value = "user to be considered to retrieve recommendations for",
-      required = true) 
-    @PathParam(SSVarNames.forUser) 
-      String forUser, 
+      required = true)
+    @PathParam(SSVarNames.forUser)
+      String forUser,
     
     @ApiParam(
       value = "resource to be considered to retrieve recommendations for",
-      required = true) 
-    @PathParam(SSVarNames.entity) 
+      required = true)
+    @PathParam(SSVarNames.entity)
       String entity){
     
     final SSRecommUsersPar par;
@@ -379,7 +431,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          null, 
+          null,
           null,                                //realm
           SSUri.get(forUser, SSConf.sssUri), //forUser
           SSUri.get(entity,  SSConf.sssUri), //entity
@@ -407,6 +459,14 @@ public class SSRESTRecomm{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @GET
@@ -417,25 +477,25 @@ public class SSRESTRecomm{
     value = "retrieve user recommendations",
     response = SSRecommUsersRet.class)
   public Response recommUsersForUserEntity(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     @ApiParam(
-      value = "recomm realm the user wants to query", 
-      required = true) 
-    @PathParam(SSVarNames.realm) 
-      String realm, 
+      value = "recomm realm the user wants to query",
+      required = true)
+    @PathParam(SSVarNames.realm)
+      String realm,
     
     @ApiParam(
       value = "user to be considered to retrieve recommendations for",
-      required = true) 
-    @PathParam(SSVarNames.forUser) 
-      String forUser, 
+      required = true)
+    @PathParam(SSVarNames.forUser)
+      String forUser,
     
     @ApiParam(
       value = "resource to be considered to retrieve recommendations for",
-      required = true) 
-    @PathParam(SSVarNames.entity) 
+      required = true)
+    @PathParam(SSVarNames.entity)
       String entity){
     
     final SSRecommUsersPar par;
@@ -444,7 +504,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          null, 
+          null,
           realm,                                //realm
           SSUri.get(forUser, SSConf.sssUri), //forUser
           SSUri.get(entity,  SSConf.sssUri), //entity
@@ -472,8 +532,16 @@ public class SSRESTRecomm{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
- 
+  
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -482,25 +550,25 @@ public class SSRESTRecomm{
     value = "retrieve user recommendations",
     response = SSRecommUsersRet.class)
   public Response recommUsersForUserEntityIgnoreAccessRights(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     @ApiParam(
-      value = "recomm realm the user wants to query", 
-      required = true) 
-    @PathParam(SSVarNames.realm) 
-      String realm, 
+      value = "recomm realm the user wants to query",
+      required = true)
+    @PathParam(SSVarNames.realm)
+      String realm,
     
     @ApiParam(
       value = "user to be considered to retrieve recommendations for",
-      required = true) 
-    @PathParam(SSVarNames.forUser) 
-      String forUser, 
+      required = true)
+    @PathParam(SSVarNames.forUser)
+      String forUser,
     
     @ApiParam(
       value = "resource to be considered to retrieve recommendations for",
-      required = true) 
-    @PathParam(SSVarNames.entity) 
+      required = true)
+    @PathParam(SSVarNames.entity)
       String entity){
     
     final SSRecommUsersPar par;
@@ -509,7 +577,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          null, 
+          null,
           realm,                                //realm
           SSUri.get(forUser, SSConf.sssUri), //forUser
           SSUri.get(entity,  SSConf.sssUri), //entity
@@ -537,6 +605,14 @@ public class SSRESTRecomm{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @GET
@@ -547,14 +623,14 @@ public class SSRESTRecomm{
     value = "retrieve user recommendations",
     response = SSRecommUsersRet.class)
   public Response recommUsersForUser(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     @ApiParam(
-      value = "user to be considered to retrieve recommendations for", 
+      value = "user to be considered to retrieve recommendations for",
       required = true)
-    @PathParam(SSVarNames.forUser) 
-      final String forUser){
+    @PathParam(SSVarNames.forUser)
+    final String forUser){
     
     final SSRecommUsersPar par;
     
@@ -562,7 +638,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          null, 
+          null,
           null,                                //realm
           SSUri.get(forUser, SSConf.sssUri), //forUser
           null, //entity
@@ -590,6 +666,14 @@ public class SSRESTRecomm{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @GET
@@ -600,20 +684,20 @@ public class SSRESTRecomm{
     value = "retrieve user recommendations",
     response = SSRecommUsersRet.class)
   public Response recommUsersForUser(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     @ApiParam(
-      value = "recomm realm the user wants to query", 
-      required = true) 
-    @PathParam(SSVarNames.realm) 
-      final String realm,
-    
-    @ApiParam(
-      value = "user to be considered to retrieve recommendations for", 
+      value = "recomm realm the user wants to query",
       required = true)
-    @PathParam(SSVarNames.forUser) 
-      final String forUser){
+    @PathParam(SSVarNames.realm)
+    final String realm,
+    
+    @ApiParam(
+      value = "user to be considered to retrieve recommendations for",
+      required = true)
+    @PathParam(SSVarNames.forUser)
+    final String forUser){
     
     final SSRecommUsersPar par;
     
@@ -621,16 +705,16 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          null, 
+          null,
           realm,                                //realm
           SSUri.get(forUser, SSConf.sssUri), //forUser
           null, //entity
           null, //categories
-          10, //maxUsers, 
-          false, //ignoreAccessRights 
+          10, //maxUsers,
+          false, //ignoreAccessRights
           true, // withUserRestriction
           true); //invokeEntityHandlers
-          
+      
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -649,6 +733,14 @@ public class SSRESTRecomm{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -660,20 +752,20 @@ public class SSRESTRecomm{
     value = "retrieve user recommendations",
     response = SSRecommUsersRet.class)
   public Response recommUsersForUserIgnoreAccessRights(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     @ApiParam(
-      value = "recomm realm the user wants to query", 
-      required = true) 
-    @PathParam(SSVarNames.realm) 
-      final String realm,
-    
-    @ApiParam(
-      value = "user to be considered to retrieve recommendations for", 
+      value = "recomm realm the user wants to query",
       required = true)
-    @PathParam(SSVarNames.forUser) 
-      final String forUser){
+    @PathParam(SSVarNames.realm)
+    final String realm,
+    
+    @ApiParam(
+      value = "user to be considered to retrieve recommendations for",
+      required = true)
+    @PathParam(SSVarNames.forUser)
+    final String forUser){
     
     final SSRecommUsersPar par;
     
@@ -681,16 +773,16 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          null, 
+          null,
           realm,                                //realm
           SSUri.get(forUser, SSConf.sssUri), //forUser
           null, //entity
           null, //categories
-          10, //maxUsers, 
-          true, //ignoreAccessRights 
+          10, //maxUsers,
+          true, //ignoreAccessRights
           true, // withUserRestriction
           false); //invokeEntityHandlers
-          
+      
     }catch(Exception error){
       return Response.status(422).build();
     }
@@ -709,6 +801,14 @@ public class SSRESTRecomm{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @GET
@@ -719,14 +819,14 @@ public class SSRESTRecomm{
     value = "retrieve user recommendations",
     response = SSRecommUsersRet.class)
   public Response recommUsersForEntity(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     @ApiParam(
       value = "resource to be considered to retrieve recommendations for",
       required = true)
-    @PathParam(SSVarNames.entity) 
-      final String entity){
+    @PathParam(SSVarNames.entity)
+    final String entity){
     
     final SSRecommUsersPar par;
     
@@ -734,7 +834,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          null, 
+          null,
           null, //realm
           null, //forUser
           SSUri.get(entity, SSConf.sssUri), //entity
@@ -762,6 +862,14 @@ public class SSRESTRecomm{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @GET
@@ -772,20 +880,20 @@ public class SSRESTRecomm{
     value = "retrieve user recommendations",
     response = SSRecommUsersRet.class)
   public Response recommUsersForEntity(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     @ApiParam(
-      value = "recomm realm the user wants to query", 
-      required = true) 
-    @PathParam(SSVarNames.realm) 
-      final String realm,
+      value = "recomm realm the user wants to query",
+      required = true)
+    @PathParam(SSVarNames.realm)
+    final String realm,
     
     @ApiParam(
       value = "resource to be considered to retrieve recommendations for",
       required = true)
-    @PathParam(SSVarNames.entity) 
-      final String entity){
+    @PathParam(SSVarNames.entity)
+    final String entity){
     
     final SSRecommUsersPar par;
     
@@ -793,7 +901,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          null, 
+          null,
           realm, //realm
           null, //forUser
           SSUri.get(entity, SSConf.sssUri), //entity
@@ -821,6 +929,13 @@ public class SSRESTRecomm{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @GET
@@ -831,20 +946,20 @@ public class SSRESTRecomm{
     value = "retrieve user recommendations",
     response = SSRecommUsersRet.class)
   public Response recommUsersForEntityIgnoreAccessRights(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     @ApiParam(
-      value = "recomm realm the user wants to query", 
-      required = true) 
-    @PathParam(SSVarNames.realm) 
-      final String realm,
+      value = "recomm realm the user wants to query",
+      required = true)
+    @PathParam(SSVarNames.realm)
+    final String realm,
     
     @ApiParam(
       value = "resource to be considered to retrieve recommendations for",
       required = true)
-    @PathParam(SSVarNames.entity) 
-      final String entity){
+    @PathParam(SSVarNames.entity)
+    final String entity){
     
     final SSRecommUsersPar par;
     
@@ -852,7 +967,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          null, 
+          null,
           realm, //realm
           null, //forUser
           SSUri.get(entity, SSConf.sssUri), //entity
@@ -880,6 +995,13 @@ public class SSRESTRecomm{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @POST
@@ -890,8 +1012,8 @@ public class SSRESTRecomm{
     value = "retrieve resource recommendations",
     response = SSRecommResourcesRet.class)
   public Response recommResources(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     final SSRecommResourcesRESTAPIV2Par input){
     
@@ -901,7 +1023,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommResourcesPar(
-          null, 
+          null,
           input.realm,  //realm
           input.forUser,  //forUser
           input.entity,  //entity
@@ -932,6 +1054,13 @@ public class SSRESTRecomm{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @POST
@@ -942,8 +1071,8 @@ public class SSRESTRecomm{
     value = "retrieve tag recommendations based on user, entity, tag, time and category combinations",
     response = SSRecommTagsRet.class)
   public Response recommTags(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     final SSRecommTagsRESTAPIV2Par input){
     
@@ -953,7 +1082,7 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommTagsPar(
-          null, 
+          null,
           input.realm,  //realm
           input.forUser,  //forUser
           input.entity,  //entity
@@ -980,6 +1109,14 @@ public class SSRESTRecomm{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
 }

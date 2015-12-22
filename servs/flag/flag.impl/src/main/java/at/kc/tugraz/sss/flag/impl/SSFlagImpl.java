@@ -185,7 +185,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSFlagsSetPar par = (SSFlagsSetPar) parA.getFromJSON(SSFlagsSetPar.class);
+      final SSFlagsSetPar par = (SSFlagsSetPar) parA.getFromClient(clientType, parA, SSFlagsSetPar.class);
       
       return SSFlagsSetRet.get(flagsSet(par));
       
@@ -369,7 +369,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSFlagsGetPar par = (SSFlagsGetPar) parA.getFromJSON(SSFlagsGetPar.class);
+      final SSFlagsGetPar par = (SSFlagsGetPar) parA.getFromClient(clientType, parA, SSFlagsGetPar.class);
       
       return SSFlagsGetRet.get(flagsGet(par));
     }catch(Exception error){

@@ -31,7 +31,6 @@ import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateBulkRet;
 import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.adapter.socket.SSSocketAdapterU;
-
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplStartA;
@@ -43,12 +42,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
-public class SSRecommUpdateBulkUploader extends SSServImplStartA{
+public class SSRecommUpdateBulkUploader extends SSServImplStartA implements Runnable{
   
   private final SSRecommUpdateBulkPar       par;
   private final DataInputStream             dataInputStream;   
   private final OutputStreamWriter          outputStreamWriter;
   private final SSSocketAdapterU            socketAdapterU;
+  private final SSRecommUserRealmKeeper     userRealmKeeper;
   private       SSRecommSQLFct              sqlFct;
   private       FileOutputStream            fileOutputStream  = null;
   private       byte[]                      fileChunk         = null;
@@ -61,10 +61,11 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA{
     super(recommConf);
     
     this.par                = par;
-    this.dataCSVPath        = SSFileU.dirWorkingDataCsv();
+    this.dataCSVPath        = conf.getSssWorkDirDataCsv();
     this.dataInputStream    = new DataInputStream   (par.clientSocket.getInputStream());
     this.outputStreamWriter = new OutputStreamWriter(par.clientSocket.getOutputStream());
     this.socketAdapterU     = new SSSocketAdapterU  ();
+    this.userRealmKeeper    = new SSRecommUserRealmKeeper(recommConf);
   }
   
   @Override
@@ -78,7 +79,7 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA{
       dbSQL.startTrans(par.shouldCommit);
       
       final SSRecommUserRealmEngine userRealmEngine =
-        SSRecommUserRealmKeeper.checkAddAndGetUserRealmEngine(
+        userRealmKeeper.checkAddAndGetUserRealmEngine(
           (SSRecommConf)conf,
           par.user,
           par.realm,

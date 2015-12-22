@@ -29,7 +29,6 @@ public class SSAuthConf extends SSCoreServConfA{
   public SSAuthEnum            authType               = null;
   public String                oidcUserEndPointURI    = null;
   public String                oidcConfURI            = null;
-  public String                fileName               = null;
   public String                systemUserPassword     = null;
   
   public static SSAuthConf copy(final SSAuthConf orig){
@@ -39,7 +38,6 @@ public class SSAuthConf extends SSCoreServConfA{
     copy.authType               = SSAuthEnum.get(SSAuthEnum.toStr(orig.authType));
     copy.oidcUserEndPointURI    = orig.oidcUserEndPointURI;
     copy.oidcConfURI            = orig.oidcConfURI;
-    copy.fileName               = orig.fileName;
     copy.systemUserPassword     = orig.systemUserPassword;
     
     return copy;

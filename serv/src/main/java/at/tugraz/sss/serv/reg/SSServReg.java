@@ -34,10 +34,6 @@ import at.tugraz.sss.serv.entity.api.SSUserRelationGathererI;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.SSEntityContext;
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.SSEntityCircle;
-import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.par.SSCircleContentRemovedPar;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesSharedWithUsersPar;
@@ -46,8 +42,7 @@ import at.tugraz.sss.serv.datatype.par.SSEntityCopyPar;
 import at.tugraz.sss.serv.datatype.par.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.datatype.par.SSAddAffiliatedEntitiesToCirclePar;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.datatype.enums.SSClientE;
+import at.tugraz.sss.serv.datatype.enums.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,7 +70,7 @@ public class SSServReg{
   public static final Map<String, Integer>                         requsLimitsForClientOpsPerUser  = new HashMap<>();
   public static final Map<String, Map<String, List<SSServImplA>>>  currentRequsForClientOpsPerUser = new HashMap<>();
   
-  public static SSServContainerI getClientServ(final Class clientServClass) throws SSErr{
+  public static SSServImplA getClientServ(final Class clientServClass) throws SSErr{
     
     try{
       
@@ -85,7 +80,7 @@ public class SSServReg{
         throw SSErr.get(SSErrE.servClientNotAvailable);
       }
       
-      return serv;
+      return serv.getServImpl();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -93,7 +88,7 @@ public class SSServReg{
     }
   }
   
-  public SSServContainerI getClientServ(
+  public SSServContainerI getClientServContainer(
     final String op) throws SSErr{
     
     try{
@@ -543,7 +538,7 @@ public class SSServReg{
         }
         
         if(servContainer.servImplClientInteraceClass == null){
-          SSLogU.warn("servContainer has no serv client impl");
+          SSLogU.warn("service container has no service client interface");
           return;
         }
         
@@ -567,8 +562,7 @@ public class SSServReg{
         }
         
         if(servContainer.servImplServerInteraceClass == null){
-          SSLogU.warn("servContainer has no serv server impl");
-          return;
+          throw SSErr.get(SSErrE.servContainerHasNoServerInterface);
         }
         
         servsForServerI.put(servContainer.servImplServerInteraceClass, servContainer);

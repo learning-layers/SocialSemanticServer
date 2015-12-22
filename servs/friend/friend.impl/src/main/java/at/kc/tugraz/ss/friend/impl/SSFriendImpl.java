@@ -140,7 +140,7 @@ implements
 
       userCommons.checkKeyAndSetUser(parA);
     
-    final SSFriendsGetPar par = (SSFriendsGetPar) parA.getFromJSON(SSFriendsGetPar.class);
+    final SSFriendsGetPar par = (SSFriendsGetPar) parA.getFromClient(clientType, parA, SSFriendsGetPar.class);
     
     return SSFriendsGetRet.get(friendsGet(par));
     
@@ -182,7 +182,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSFriendAddPar par = (SSFriendAddPar) parA.getFromJSON(SSFriendAddPar.class);
+      final SSFriendAddPar par = (SSFriendAddPar) parA.getFromClient(clientType, parA, SSFriendAddPar.class);
       
       return SSFriendAddRet.get(friendAdd(par));
       

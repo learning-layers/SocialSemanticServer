@@ -23,8 +23,10 @@ package at.tugraz.sss.adapter.rest.v2.livingdoc;
 import at.kc.tugraz.ss.like.api.*;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.livingdocument.api.*;
@@ -55,7 +57,20 @@ import javax.ws.rs.core.Response;
 
 @Path("/livingdocs")
 @Api( value = "/livingdocs")
-public class SSRESTLivingDoc {
+public class SSRESTLivingDoc extends SSServImplStartA{
+  
+  public SSRESTLivingDoc() {
+    super(null);
+  }
+  
+  public SSRESTLivingDoc(final SSConfA conf) {
+    super(conf);
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+    finalizeThread(false);
+  }
   
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
@@ -96,6 +111,14 @@ public class SSRESTLivingDoc {
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -147,6 +170,14 @@ public class SSRESTLivingDoc {
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @POST
@@ -194,6 +225,14 @@ public class SSRESTLivingDoc {
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @GET
@@ -238,6 +277,14 @@ public class SSRESTLivingDoc {
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -286,6 +333,14 @@ public class SSRESTLivingDoc {
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @DELETE
@@ -330,6 +385,14 @@ public class SSRESTLivingDoc {
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -380,6 +443,13 @@ public class SSRESTLivingDoc {
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
 }

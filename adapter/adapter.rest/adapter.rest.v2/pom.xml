@@ -142,87 +142,171 @@
   
   <dependencies>
    
-    <dependency>
+<dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>coll.api</artifactId>
+      <artifactId>kcprojwiki.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>ue.api</artifactId>
+      <artifactId>mail.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>livingdocument.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>location.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>integrationtest.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
      <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>disc.api</artifactId>
+      <artifactId>db.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>friend.api</artifactId>
+      <artifactId>image.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>search.api</artifactId>
+      <artifactId>eval.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>recomm.api</artifactId>
+      <artifactId>like.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>learnep.api</artifactId>
+      <artifactId>video.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>livingdocument.api</artifactId>
+      <artifactId>appstacklayout.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>rating.api</artifactId>
+      <artifactId>friend.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>flag.api</artifactId>
+      <artifactId>app.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>image.api</artifactId>
+      <artifactId>message.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>comment.api</artifactId>
+      <artifactId>activity.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>activity.api</artifactId>
+      <artifactId>evernote.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>entity.api</artifactId>
+      <artifactId>entity.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>learnep.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>dataexport.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>recomm.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>comment.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>flag.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>user.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>ue.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss</groupId>
+      <artifactId>conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>dataimport.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>coll.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>jsonld.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -234,69 +318,51 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>like.api</artifactId>
+      <artifactId>auth.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>video.api</artifactId>
+      <artifactId>filerepo.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>appstacklayout.api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-     <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>app.api</artifactId>
+      <artifactId>disc.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>message.api</artifactId>
+      <artifactId>rating.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>dataimport.api</artifactId>
+      <artifactId>category.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
-  
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
+
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>jsonld.serv</artifactId>
+      <artifactId>tag.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>eval.api</artifactId>
+      <artifactId>search.serv</artifactId>
       <version>${project.version}</version>
-    </dependency> 
+    </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>category.api</artifactId>
+      <artifactId>ocd.serv</artifactId>
       <version>${project.version}</version>
-    </dependency> 
-    
-    <dependency>
-      <groupId>sss.adapter.rest</groupId>
-      <artifactId>adapter.rest.conf</artifactId>
-      <version>${project.version}</version>
-    </dependency> 
+    </dependency>
     
     
     <!-- TOMCAT start --> 

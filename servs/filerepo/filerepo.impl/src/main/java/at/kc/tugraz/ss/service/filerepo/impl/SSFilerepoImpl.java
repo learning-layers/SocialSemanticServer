@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
@@ -46,7 +45,6 @@ import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileSQLFct;
 import at.tugraz.sss.serv.entity.api.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.datatype.par.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
@@ -195,14 +193,14 @@ implements
   public SSServRetI fileDownload(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSFileDownloadPar par = (SSFileDownloadPar) parA.getFromJSON(SSFileDownloadPar.class);
+      SSFileDownloadPar par = (SSFileDownloadPar) parA.getFromClient(clientType, parA, SSFileDownloadPar.class);
       
       //TODO fix this public download: get user and check whether he can read
       if(!par.isPublicDownload){
         userCommons.checkKeyAndSetUser(parA);
       }
       
-      par = (SSFileDownloadPar) parA.getFromJSON(SSFileDownloadPar.class);
+      par = (SSFileDownloadPar) parA.getFromClient(clientType, parA, SSFileDownloadPar.class);
       
       fileDownload(par);
       
@@ -260,7 +258,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSFileUploadPar par = (SSFileUploadPar) parA.getFromJSON(SSFileUploadPar.class);
+      final SSFileUploadPar par = (SSFileUploadPar) parA.getFromClient(clientType, parA, SSFileUploadPar.class);
       
       fileUpload(par);
       
@@ -310,7 +308,7 @@ implements
         final String     fileId        = SSConf.fileIDFromSSSURI (par.file);
         
         SSFileU.writeFileBytes(
-          new FileOutputStream(SSFileRepoConf.getLocalWorkPath() + fileId),
+          new FileOutputStream(conf.getLocalWorkPath() + fileId),
           par.fileBytes,
           par.fileLength);
       }
@@ -334,7 +332,7 @@ implements
           entityServ.entityRemove(new SSEntityRemovePar(par.user, file.id));
           
           try{
-            SSFileU.delFile(SSFileRepoConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(file.id));
+            SSFileU.delFile(conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(file.id));
           }catch(Exception error){
             SSLogU.warn("file couldnt be removed from file system");
           }

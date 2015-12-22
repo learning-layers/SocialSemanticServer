@@ -44,7 +44,12 @@ public class SSServErrReg {
   };
   
   public static Boolean containsErr(final SSErrE code){
-    return servImplErrors.get().stream().anyMatch((error) -> (SSStrU.equals(error.code, code)));
+    
+    if(servImplErrors.get().stream().anyMatch((error) -> (error.code.compareTo(code) == 0))) {
+      return true;
+    }else{
+      return false;
+    }
   }
   
   public static Boolean containsErr(final Exception exception){

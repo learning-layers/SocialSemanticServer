@@ -52,7 +52,7 @@ import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
-public class SSFileUploader extends SSServImplStartA{
+public class SSFileUploader extends SSServImplStartA implements Runnable{
   
   private final SSFileUploadPar       par;
   private final DataInputStream       dataInputStream;
@@ -135,7 +135,7 @@ public class SSFileUploader extends SSServImplStartA{
       
       byte[] fileChunk = null;
       
-      fileOutputStream = SSFileU.openOrCreateFileWithPathForWrite   (SSFileRepoConf.getLocalWorkPath() + fileId);
+      fileOutputStream = SSFileU.openOrCreateFileWithPathForWrite   (conf.getLocalWorkPath() + fileId);
 
       while(true){
         

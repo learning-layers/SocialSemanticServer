@@ -264,7 +264,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSActivityTypesGetPar par = (SSActivityTypesGetPar) parA.getFromJSON(SSActivityTypesGetPar.class);
+      final SSActivityTypesGetPar par = (SSActivityTypesGetPar) parA.getFromClient(clientType, parA, SSActivityTypesGetPar.class);
       
       return SSActivityTypesGetRet.get(activityTypesGet(par));
       
@@ -292,7 +292,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSActivitiesGetPar par = (SSActivitiesGetPar) parA.getFromJSON(SSActivitiesGetPar.class);
+      final SSActivitiesGetPar par = (SSActivitiesGetPar) parA.getFromClient(clientType, parA, SSActivitiesGetPar.class);
       
       return SSActivitiesGetRet.get(activitiesGet(par), SSDateU.dateAsLong());
       
@@ -382,7 +382,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSActivityAddPar par = (SSActivityAddPar) parA.getFromJSON(SSActivityAddPar.class);
+      final SSActivityAddPar par = (SSActivityAddPar) parA.getFromClient(clientType, parA, SSActivityAddPar.class);
       
       return SSActivityAddRet.get(activityAdd(par));
       

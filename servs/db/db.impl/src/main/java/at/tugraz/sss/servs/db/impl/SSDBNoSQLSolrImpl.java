@@ -21,6 +21,7 @@
 package at.tugraz.sss.servs.db.impl;
 
 import at.tugraz.sss.serv.conf.api.SSConfA;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSDBNoSQLAddDocPar;
 import at.tugraz.sss.serv.db.conf.SSDBNoSQLConf;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
@@ -29,9 +30,7 @@ import at.tugraz.sss.serv.datatype.par.SSDBNoSQLSearchPar;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplDBA;
-import at.tugraz.sss.serv.datatype.SSSolrKeywordLabel;
 import at.tugraz.sss.serv.datatype.enums.SSSolrSearchFieldE;
-import at.tugraz.sss.serv.datatype.SSSolrSearchResult;
 import at.tugraz.sss.serv.util.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -57,7 +56,7 @@ implements SSDBNoSQLI{
   
   protected static ConcurrentUpdateSolrClient solrServer = null;
   
-  public SSDBNoSQLSolrImpl(final SSConfA conf){
+  public SSDBNoSQLSolrImpl(final SSConfA conf) throws SSErr{
     
     super(conf);
     
@@ -76,10 +75,15 @@ implements SSDBNoSQLI{
     }
   }
 
-  private void connectToSolr() {
+  private void connectToSolr() throws SSErr{
     
-    if(solrServer == null){
-      solrServer = new ConcurrentUpdateSolrClient(solrConf.uri, 1, 10);
+    try{
+      if(solrServer == null){
+        //TODO fix
+//        solrServer = new ConcurrentUpdateSolrClient(solrConf.uri, 1, 10);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   
@@ -95,7 +99,7 @@ implements SSDBNoSQLI{
       final ContentStreamUpdateRequest csur = new ContentStreamUpdateRequest("/update/extract");
       final NamedList<Object>          response;
 
-      csur.addContentStream(new ContentStreamBase.FileStream(new File(SSDBNoSQLConf.getLocalWorkPath() + par.id)));
+      csur.addContentStream(new ContentStreamBase.FileStream(new File(solrConf.getLocalWorkPath() + par.id)));
 
       csur.setParam  ("literal.id",  par.id);
 //      csur.setParam  ("stream.type", "application/octet-stream");

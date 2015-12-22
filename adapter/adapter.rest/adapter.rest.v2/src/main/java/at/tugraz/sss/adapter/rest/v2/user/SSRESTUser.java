@@ -25,10 +25,11 @@ import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUsersGetRet;
-import at.kc.tugraz.ss.service.userevent.api.*;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -45,7 +46,20 @@ import javax.ws.rs.core.Response;
 
 @Path("/users")
 @Api(value = "/users")
-public class SSRESTUser{
+public class SSRESTUser extends SSServImplStartA{
+  
+  public SSRESTUser() {
+    super(null);
+  }
+  
+  public SSRESTUser(final SSConfA conf) {
+    super(conf);
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+    finalizeThread(false);
+  }
   
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
@@ -86,6 +100,14 @@ public class SSRESTUser{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @GET
@@ -116,7 +138,7 @@ public class SSRESTUser{
       return Response.status(422).build();
     }
     
-   try{
+    try{
       par.key = SSRestMainV2.getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
@@ -129,6 +151,14 @@ public class SSRESTUser{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -185,6 +215,14 @@ public class SSRESTUser{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
 }

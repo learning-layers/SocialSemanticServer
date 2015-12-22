@@ -33,7 +33,9 @@ import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutCreateRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutDeleteRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutUpdateRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutsGetRet;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -52,7 +54,20 @@ import javax.ws.rs.core.Response;
 
 @Path("/appstacklayouts")
 @Api( value = "/appstacklayouts") //, basePath = "/appstacklayouts"
-public class SSRESTAppStackLayout{
+public class SSRESTAppStackLayout extends SSServImplStartA{
+  
+  public SSRESTAppStackLayout() {
+    super(null);
+  }
+  
+  public SSRESTAppStackLayout(final SSConfA conf) {
+    super(conf);
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+    finalizeThread(false);
+  }
   
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
@@ -62,7 +77,7 @@ public class SSRESTAppStackLayout{
     value = "retrieve appStackLayouts",
     response = SSAppStackLayoutsGetRet.class)
   public Response appStackLayoutsAccessibleGet(
-    @Context 
+    @Context
     final HttpHeaders headers){
     
     final SSAppStackLayoutsGetPar par;
@@ -79,12 +94,12 @@ public class SSRESTAppStackLayout{
       return Response.status(422).build();
     }
     
-     try{
+    try{
       par.key = SSRestMainV2.getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
     }
-     
+    
     try{
       final SSAppStackLayoutClientI appStackLayoutServ = (SSAppStackLayoutClientI) SSServReg.getClientServ(SSAppStackLayoutClientI.class);
       
@@ -92,6 +107,13 @@ public class SSRESTAppStackLayout{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -106,7 +128,7 @@ public class SSRESTAppStackLayout{
     @Context
     final HttpHeaders headers,
     
-    @PathParam(SSVarNames.stacks) 
+    @PathParam(SSVarNames.stacks)
     final String stacks){
     
     final SSAppStackLayoutsGetPar par;
@@ -123,19 +145,26 @@ public class SSRESTAppStackLayout{
       return Response.status(422).build();
     }
     
-     try{
+    try{
       par.key = SSRestMainV2.getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
     }
-     
-   try{
+    
+    try{
       final SSAppStackLayoutClientI appStackLayoutServ = (SSAppStackLayoutClientI) SSServReg.getClientServ(SSAppStackLayoutClientI.class);
       
       return Response.status(200).entity(appStackLayoutServ.appStackLayoutsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -167,12 +196,12 @@ public class SSRESTAppStackLayout{
       return Response.status(422).build();
     }
     
-     try{
+    try{
       par.key = SSRestMainV2.getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
     }
-     
+    
     try{
       final SSAppStackLayoutClientI appStackLayoutServ = (SSAppStackLayoutClientI) SSServReg.getClientServ(SSAppStackLayoutClientI.class);
       
@@ -180,6 +209,13 @@ public class SSRESTAppStackLayout{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -191,10 +227,10 @@ public class SSRESTAppStackLayout{
     value = "delete an arrangement of tiles within an app",
     response = SSAppStackLayoutDeleteRet.class)
   public Response appStackLayoutDelete(
-    @Context 
+    @Context
     final HttpHeaders headers,
     
-    @PathParam(SSVarNames.stack) 
+    @PathParam(SSVarNames.stack)
     final String stack){
     
     final SSAppStackLayoutDeletePar par;
@@ -211,12 +247,12 @@ public class SSRESTAppStackLayout{
       return Response.status(422).build();
     }
     
-     try{
+    try{
       par.key = SSRestMainV2.getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
     }
-     
+    
     try{
       final SSAppStackLayoutClientI appStackLayoutServ = (SSAppStackLayoutClientI) SSServReg.getClientServ(SSAppStackLayoutClientI.class);
       
@@ -224,6 +260,13 @@ public class SSRESTAppStackLayout{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -260,12 +303,12 @@ public class SSRESTAppStackLayout{
       return Response.status(422).build();
     }
     
-     try{
+    try{
       par.key = SSRestMainV2.getBearer(headers);
     }catch(Exception error){
       return Response.status(401).build();
     }
-     
+    
     try{
       final SSAppStackLayoutClientI appStackLayoutServ = (SSAppStackLayoutClientI) SSServReg.getClientServ(SSAppStackLayoutClientI.class);
       
@@ -273,6 +316,14 @@ public class SSRESTAppStackLayout{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
 }

@@ -1,15 +1,17 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package at.tugraz.sss.adapter.rest.v2.image;
 
 import at.kc.tugraz.ss.friend.api.*;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.image.api.*;
@@ -29,8 +31,21 @@ import javax.ws.rs.core.Response;
 
 @Path("/images")
 @Api( value = "/images") //, basePath = "/entities"
-public class SSRESTImage {
- 
+public class SSRESTImage extends SSServImplStartA{
+  
+  public SSRESTImage() {
+    super(null);
+  }
+  
+  public SSRESTImage(final SSConfA conf) {
+    super(conf);
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+    finalizeThread(false);
+  }
+  
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -39,14 +54,14 @@ public class SSRESTImage {
     value = "set an entity's profile picture",
     response = SSImageProfilePictureSetRet.class)
   public Response imageProfilePictureSet(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
-    @PathParam(SSVarNames.entity) 
-      final String entity,
+    @PathParam(SSVarNames.entity)
+    final String entity,
     
-    @PathParam(SSVarNames.file) 
-      final String file){
+    @PathParam(SSVarNames.file)
+    final String file){
     
     final SSImageProfilePictureSetPar par;
     
@@ -54,10 +69,10 @@ public class SSRESTImage {
       
       par =
         new SSImageProfilePictureSetPar(
-          null, 
+          null,
           SSUri.get(entity,  SSConf.sssUri),
-          SSUri.get(file,    SSConf.sssUri), 
-          true, 
+          SSUri.get(file,    SSConf.sssUri),
+          true,
           true);
       
     }catch(Exception error){
@@ -77,6 +92,14 @@ public class SSRESTImage {
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
 }

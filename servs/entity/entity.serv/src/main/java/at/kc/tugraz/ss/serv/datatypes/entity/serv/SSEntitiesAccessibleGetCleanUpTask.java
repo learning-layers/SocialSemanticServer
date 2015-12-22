@@ -41,7 +41,7 @@ public class SSEntitiesAccessibleGetCleanUpTask extends TimerTask {
     }
   }
   
-  protected class SSEntitiesAccessibleGetCleaner extends SSServImplStartA{
+  protected class SSEntitiesAccessibleGetCleaner extends SSServImplStartA implements Runnable{
     
     public SSEntitiesAccessibleGetCleaner() throws Exception{
       super(null);

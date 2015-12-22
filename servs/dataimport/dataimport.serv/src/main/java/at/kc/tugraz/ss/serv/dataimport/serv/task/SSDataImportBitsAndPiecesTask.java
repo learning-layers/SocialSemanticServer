@@ -71,7 +71,7 @@ public class SSDataImportBitsAndPiecesTask extends TimerTask {
     }
   }
   
-  protected class SSDataImportBitsAndPiecesEmailUpdater extends SSServImplStartA{
+  protected class SSDataImportBitsAndPiecesEmailUpdater extends SSServImplStartA implements Runnable{
     
     public SSDataImportBitsAndPiecesEmailUpdater() throws Exception{
       super(null);
@@ -134,7 +134,7 @@ public class SSDataImportBitsAndPiecesTask extends TimerTask {
     }
   }
   
-  protected class SSDataImportBitsAndPiecesUpdater extends SSServImplStartA{
+  protected class SSDataImportBitsAndPiecesUpdater extends SSServImplStartA implements Runnable{
     
     private final SSDataImportBitsAndPiecesPar par;
     

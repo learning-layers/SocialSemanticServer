@@ -1,23 +1,23 @@
 /**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.tugraz.sss.adapter.rest.v2.category;
 
 import at.kc.tugraz.ss.category.api.*;
@@ -28,8 +28,11 @@ import at.kc.tugraz.ss.category.datatypes.par.SSCategoryFrequsGetPar;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesPredefinedGetRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryAddRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryFrequsGetRet;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.util.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -44,7 +47,20 @@ import javax.ws.rs.core.Response;
 
 @Path("/categories")
 @Api( value = "/categories")
-public class SSRESTCategory{
+public class SSRESTCategory extends SSServImplStartA{
+  
+  public SSRESTCategory() {
+    super(null);
+  }
+  
+  public SSRESTCategory(final SSConfA conf) {
+    super(conf);
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+    finalizeThread(false);
+  }
   
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
@@ -54,8 +70,8 @@ public class SSRESTCategory{
     value = "retrieve predefined categories",
     response = SSCategoriesPredefinedGetRet.class)
   public Response categoriesPredefinedGet(
-    @Context 
-      final HttpHeaders headers){
+    @Context
+    final HttpHeaders headers){
     
     final SSCategoriesPredefinedGetPar par;
     
@@ -83,6 +99,14 @@ public class SSRESTCategory{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @POST
@@ -93,8 +117,8 @@ public class SSRESTCategory{
     value = "add a category for an entity in given space",
     response = SSCategoryAddRet.class)
   public Response categoryAdd(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     final SSCategoryAddRESTAPIV2Par input){
     
@@ -130,6 +154,14 @@ public class SSRESTCategory{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @GET
@@ -141,7 +173,7 @@ public class SSRESTCategory{
     response = SSCategoryFrequsGetRet.class)
   public Response categoryFrequsGet(
     @Context
-      final HttpHeaders headers){
+    final HttpHeaders headers){
     
     final SSCategoryFrequsGetPar par;
     
@@ -175,6 +207,14 @@ public class SSRESTCategory{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @POST
@@ -185,8 +225,8 @@ public class SSRESTCategory{
     value = "retrieve category frequencies",
     response = SSCategoryFrequsGetRet.class)
   public Response categoryFrequsGetFiltered(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     final SSCategoryFrequsGetRESTAPIV2Par input){
     
@@ -203,7 +243,7 @@ public class SSRESTCategory{
           input.circles, //circles
           input.startTime, //startTime
           true); //withUserRestriction
-            
+      
     }catch(Exception error){
       return Response.status(422).build();
     }
@@ -221,6 +261,14 @@ public class SSRESTCategory{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
 }

@@ -24,10 +24,11 @@ import at.kc.tugraz.ss.like.api.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.like.datatypes.par.SSLikeUserSetPar;
 import at.kc.tugraz.ss.like.datatypes.ret.SSLikeUserSetRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.api.*;
 import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import com.wordnik.swagger.annotations.Api;
@@ -44,7 +45,20 @@ import javax.ws.rs.core.Response;
 
 @Path("/likes")
 @Api( value = "/likes")
-public class SSRESTLike{
+public class SSRESTLike extends SSServImplStartA{
+  
+  public SSRESTLike() {
+    super(null);
+  }
+  
+  public SSRESTLike(final SSConfA conf) {
+    super(conf);
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+    finalizeThread(false);
+  }
   
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
@@ -54,14 +68,14 @@ public class SSRESTLike{
     value = "like / dislike / neutral an entity",
     response = SSLikeUserSetRet.class)
   public Response likeUpdate(
-    @Context                    
-      final HttpHeaders  headers,
+    @Context
+    final HttpHeaders  headers,
     
-    @PathParam (SSVarNames.entity)  
-      final String entity, 
+    @PathParam (SSVarNames.entity)
+    final String entity,
     
-    @PathParam (SSVarNames.value)  
-      final Integer value){
+    @PathParam (SSVarNames.value)
+    final Integer value){
     
     final SSLikeUserSetPar par;
     
@@ -92,6 +106,14 @@ public class SSRESTLike{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
 }

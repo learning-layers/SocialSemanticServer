@@ -20,7 +20,6 @@
   */
 package at.tugraz.sss.adapter.rest.v2.circle;
 
-import at.kc.tugraz.ss.category.api.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleCreateRet;
@@ -36,6 +35,7 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCirclesGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.SSCircleCreateFromClientPar;
 import at.tugraz.sss.serv.datatype.par.SSCircleCreatePar;
@@ -49,6 +49,7 @@ import at.tugraz.sss.serv.datatype.par.SSCircleUsersAddPar;
 import at.tugraz.sss.serv.datatype.par.SSCircleUsersInvitePar;
 import at.tugraz.sss.serv.datatype.par.SSCircleUsersRemovePar;
 import at.tugraz.sss.serv.datatype.par.SSCirclesGetPar;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -67,7 +68,20 @@ import javax.ws.rs.core.Response;
 
 @Path("/circles")
 @Api( value = "/circles") //, basePath = "/circles"
-public class SSRESTCircle{
+public class SSRESTCircle extends SSServImplStartA{
+  
+  public SSRESTCircle() {
+    super(null);
+  }
+  
+  public SSRESTCircle(final SSConfA conf) {
+    super(conf);
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+    finalizeThread(false);
+  }
   
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
@@ -116,6 +130,14 @@ public class SSRESTCircle{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -166,6 +188,14 @@ public class SSRESTCircle{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -219,6 +249,14 @@ public class SSRESTCircle{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -276,6 +314,14 @@ public class SSRESTCircle{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @GET
@@ -325,6 +371,14 @@ public class SSRESTCircle{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -381,6 +435,14 @@ public class SSRESTCircle{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @POST
@@ -428,6 +490,14 @@ public class SSRESTCircle{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -488,6 +558,14 @@ public class SSRESTCircle{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @DELETE
@@ -536,6 +614,14 @@ public class SSRESTCircle{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -588,6 +674,13 @@ public class SSRESTCircle{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @DELETE
@@ -637,6 +730,14 @@ public class SSRESTCircle{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @DELETE
@@ -681,6 +782,14 @@ public class SSRESTCircle{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
   
@@ -731,6 +840,14 @@ public class SSRESTCircle{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @PUT
@@ -779,6 +896,13 @@ public class SSRESTCircle{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
 }

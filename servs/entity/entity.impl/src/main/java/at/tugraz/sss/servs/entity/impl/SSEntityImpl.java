@@ -446,7 +446,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSEntityCopyPar par    = (SSEntityCopyPar) parA.getFromJSON(SSEntityCopyPar.class);
+      final SSEntityCopyPar par    = (SSEntityCopyPar) parA.getFromClient(clientType, parA, SSEntityCopyPar.class);
       final Boolean         worked = entityCopy(par);
       final SSEntityCopyRet ret    = SSEntityCopyRet.get(worked);
       
@@ -566,7 +566,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSEntitiesAccessibleGetPar par = (SSEntitiesAccessibleGetPar) parA.getFromJSON(SSEntitiesAccessibleGetPar.class);
+      final SSEntitiesAccessibleGetPar par = (SSEntitiesAccessibleGetPar) parA.getFromClient(clientType, parA, SSEntitiesAccessibleGetPar.class);
       
       return entitiesAccessibleGet(par);
       
@@ -685,7 +685,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSEntitiesGetPar par = (SSEntitiesGetPar) parA.getFromJSON(SSEntitiesGetPar.class);
+      final SSEntitiesGetPar par = (SSEntitiesGetPar) parA.getFromClient(clientType, parA, SSEntitiesGetPar.class);
       
       return SSEntitiesGetRet.get(entitiesGet(par));
       
@@ -742,7 +742,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSEntityGetPar par = (SSEntityGetPar) parA.getFromJSON(SSEntityGetPar.class);
+      final SSEntityGetPar par = (SSEntityGetPar) parA.getFromClient(clientType, parA, SSEntityGetPar.class);
       
       return SSEntityGetRet.get(entityGet(par));
       
@@ -820,7 +820,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSEntityUpdatePar par = (SSEntityUpdatePar) parA.getFromJSON(SSEntityUpdatePar.class);
+      final SSEntityUpdatePar par = (SSEntityUpdatePar) parA.getFromClient(clientType, parA, SSEntityUpdatePar.class);
       final SSUri             entityURI;
       Boolean                 isPlaceholderAdd = false;
       
@@ -1280,7 +1280,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSEntitySharePar par       = (SSEntitySharePar) parA.getFromJSON(SSEntitySharePar.class);
+      final SSEntitySharePar par       = (SSEntitySharePar) parA.getFromClient(clientType, parA, SSEntitySharePar.class);
       final SSUri            entityURI = entityShare(par);
       final SSEntityShareRet ret       = SSEntityShareRet.get(entityURI);
       
@@ -1392,7 +1392,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSEntityUnpublicizePar par = (SSEntityUnpublicizePar) parA.getFromJSON(SSEntityUnpublicizePar.class);
+      final SSEntityUnpublicizePar par = (SSEntityUnpublicizePar) parA.getFromClient(clientType, parA, SSEntityUnpublicizePar.class);
       
       final SSUri entityURI = entityUnpublicize(par);
       
@@ -1472,7 +1472,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSEntityTypesGetPar par = (SSEntityTypesGetPar) parA.getFromJSON(SSEntityTypesGetPar.class);
+      final SSEntityTypesGetPar par = (SSEntityTypesGetPar) parA.getFromClient(clientType, parA, SSEntityTypesGetPar.class);
       
       return SSEntityTypesGetRet.get(entityTypesGet(par));
       
@@ -1499,7 +1499,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCircleEntitiesRemoveFromClientPar par    = (SSCircleEntitiesRemoveFromClientPar) parA.getFromJSON(SSCircleEntitiesRemoveFromClientPar.class);
+      final SSCircleEntitiesRemoveFromClientPar par    = (SSCircleEntitiesRemoveFromClientPar) parA.getFromClient(clientType, parA, SSCircleEntitiesRemoveFromClientPar.class);
       final List<SSUri>                         result;
       
       if(!sql.isGroupOrPubCircleCircle(par.circle)){
@@ -1594,7 +1594,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCircleUsersRemovePar par    = (SSCircleUsersRemovePar) parA.getFromJSON(SSCircleUsersRemovePar.class);
+      final SSCircleUsersRemovePar par    = (SSCircleUsersRemovePar) parA.getFromClient(clientType, parA, SSCircleUsersRemovePar.class);
       final List<SSUri>            result;
       
       if(!sql.isGroupOrPubCircleCircle(par.circle)){
@@ -1675,7 +1675,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCircleCreateFromClientPar par       = (SSCircleCreateFromClientPar) parA.getFromJSON(SSCircleCreateFromClientPar.class);
+      final SSCircleCreateFromClientPar par       = (SSCircleCreateFromClientPar) parA.getFromClient(clientType, parA, SSCircleCreateFromClientPar.class);
       final SSUri                       circleURI = circleCreate(par);
       
       if(!par.entities.isEmpty()){
@@ -1842,7 +1842,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCircleRemovePar par       = (SSCircleRemovePar) parA.getFromJSON(SSCircleRemovePar.class);
+      final SSCircleRemovePar par       = (SSCircleRemovePar) parA.getFromClient(clientType, parA, SSCircleRemovePar.class);
       final SSUri             circleURI;
       
       if(
@@ -1923,7 +1923,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCircleUsersAddPar par = (SSCircleUsersAddPar) parA.getFromJSON(SSCircleUsersAddPar.class);
+      final SSCircleUsersAddPar par = (SSCircleUsersAddPar) parA.getFromClient(clientType, parA, SSCircleUsersAddPar.class);
       final SSUri               circleURI;
       
       if(!sql.isGroupOrPubCircleCircle(par.circle)){
@@ -2064,7 +2064,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCircleEntitiesAddPar par      = (SSCircleEntitiesAddPar) parA.getFromJSON(SSCircleEntitiesAddPar.class);
+      final SSCircleEntitiesAddPar par      = (SSCircleEntitiesAddPar) parA.getFromClient(clientType, parA, SSCircleEntitiesAddPar.class);
       final SSUri                  cicleURI;
       
       if(!sql.isGroupOrPubCircleCircle(par.circle)){
@@ -2353,7 +2353,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCircleGetPar par = (SSCircleGetPar) parA.getFromJSON(SSCircleGetPar.class);
+      final SSCircleGetPar par = (SSCircleGetPar) parA.getFromClient(clientType, parA, SSCircleGetPar.class);
       
       return SSCircleGetRet.get(circleGet(par));
       
@@ -2491,7 +2491,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCirclesGetPar par = (SSCirclesGetPar) parA.getFromJSON(SSCirclesGetPar.class);
+      final SSCirclesGetPar par = (SSCirclesGetPar) parA.getFromClient(clientType, parA, SSCirclesGetPar.class);
       
       return SSCirclesGetRet.get(circlesGet(par));
       
@@ -2719,7 +2719,7 @@ implements
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCircleUsersInvitePar par = (SSCircleUsersInvitePar) parA.getFromJSON(SSCircleUsersInvitePar.class);
+      final SSCircleUsersInvitePar par = (SSCircleUsersInvitePar) parA.getFromClient(clientType, parA, SSCircleUsersInvitePar.class);
       
       return SSCircleUsersInviteRet.get(circleUsersInvite(par));
       
@@ -2779,7 +2779,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSCircleTypeChangePar par = (SSCircleTypeChangePar) parA.getFromJSON(SSCircleTypeChangePar.class);
+      final SSCircleTypeChangePar par = (SSCircleTypeChangePar) parA.getFromClient(clientType, parA, SSCircleTypeChangePar.class);
       
       return SSCircleTypeChangeRet.get(circleTypeChange(par));
       

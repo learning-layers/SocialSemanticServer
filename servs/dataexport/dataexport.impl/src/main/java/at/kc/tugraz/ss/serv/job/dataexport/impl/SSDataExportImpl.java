@@ -88,7 +88,7 @@ implements
       final List<String>                        lineParts             = new ArrayList<>();
       String                                    resourceString;
       
-      out        = SSFileU.openOrCreateFileWithPathForWrite (SSFileU.dirWorkingDataCsv() + par.fileName);
+      out        = SSFileU.openOrCreateFileWithPathForWrite (conf.getSssWorkDirDataCsv() + par.fileName);
       writer     = new OutputStreamWriter                   (out,    Charset.forName(SSEncodingU.utf8.toString()));
       fileWriter = new CSVWriter                            (writer, SSStrU.semiColon.charAt(0));
       
@@ -197,7 +197,7 @@ implements
       final List<String>                        allUsers;
       SSUri                                     user;
       
-      out        = SSFileU.openOrCreateFileWithPathForWrite (SSFileU.dirWorkingDataCsv() + par.fileName);
+      out        = SSFileU.openOrCreateFileWithPathForWrite (conf.getSssWorkDirDataCsv() + par.fileName);
       writer     = new OutputStreamWriter                   (out,    Charset.forName(SSEncodingU.utf8.toString()));
       fileWriter = new CSVWriter                            (writer, SSStrU.semiColon.charAt(0));
       
@@ -310,7 +310,7 @@ implements
 
       final List<String> lineParts = new ArrayList<>();
       
-      out        = SSFileU.openOrCreateFileWithPathForAppend  (SSFileU.dirWorkingDataCsv() + par.fileName);
+      out        = SSFileU.openOrCreateFileWithPathForAppend  (conf.getSssWorkDirDataCsv() + par.fileName);
       writer     = new OutputStreamWriter                     (out,    Charset.forName(SSEncodingU.utf8.toString()));
       fileWriter = new CSVWriter                              (writer, SSStrU.semiColon.charAt(0));
       
@@ -402,7 +402,7 @@ implements
       
       out =
         SSFileU.openOrCreateFileWithPathForWrite (
-          SSFileU.dirWorkingDataCsv() + ((SSDataExportConf)conf).fileNameForUserRelationsExport);
+          conf.getSssWorkDirDataCsv() + ((SSDataExportConf)conf).fileNameForUserRelationsExport);
       
       writer =
         new OutputStreamWriter(

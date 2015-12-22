@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.tugraz.sss.serv.db.conf;
+package at.tugraz.sss.serv.db.conf;
 
 import at.tugraz.sss.serv.conf.api.SSCoreServConfA;
 

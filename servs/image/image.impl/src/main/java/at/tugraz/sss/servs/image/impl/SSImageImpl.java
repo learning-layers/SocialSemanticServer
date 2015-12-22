@@ -53,7 +53,6 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.entity.api.SSUsersResourcesGathererI;
 import at.tugraz.sss.serv.datatype.par.SSEntityRemovePar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
@@ -289,7 +288,7 @@ implements
 
     userCommons.checkKeyAndSetUser(parA);
 
-    final SSImagesGetPar par = (SSImagesGetPar) parA.getFromJSON(SSImagesGetPar.class);
+    final SSImagesGetPar par = (SSImagesGetPar) parA.getFromClient(clientType, parA, SSImagesGetPar.class);
       
     return SSImagesGetRet.get(imagesGet(par));
   }
@@ -403,7 +402,7 @@ implements
             entityServ.entityRemove(new SSEntityRemovePar(par.user, thumb.id));
             
             try{
-              SSFileU.delFile(SSImageConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(thumb.file.id));
+              SSFileU.delFile(conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(thumb.file.id));
             }catch(Exception error){
               SSLogU.warn("couldnt remove thumbnail files from filesys");
             }
@@ -529,7 +528,7 @@ implements
     
     userCommons.checkKeyAndSetUser(parA);
 
-    final SSImageProfilePictureSetPar par = (SSImageProfilePictureSetPar) parA.getFromJSON(SSImageProfilePictureSetPar.class);
+    final SSImageProfilePictureSetPar par = (SSImageProfilePictureSetPar) parA.getFromClient(clientType, parA, SSImageProfilePictureSetPar.class);
     
     return new SSImageProfilePictureSetRet(imageProfilePictureSet(par));
   }
@@ -786,10 +785,10 @@ implements
     
     try{
     
-      final String      filePath          = SSImageConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(fileURI);
+      final String      filePath          = conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(fileURI);
       final SSFileExtE  fileExt           = SSFileExtE.getFromStrToFormat(SSConf.fileIDFromSSSURI(fileURI));
       final SSUri       thumbFileURI      = SSConf.vocURICreate(SSFileExtE.png);
-      final String      thumbnailPath     = SSImageConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(thumbFileURI);
+      final String      thumbnailPath     = conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(thumbFileURI);
 
       if(SSStrU.contains(SSFileExtE.imageFileExts, fileExt)){
         SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), thumbnailPath, width, width);
@@ -802,7 +801,7 @@ implements
           
           try{
             
-            final String pdfFilePath = SSImageConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(SSConf.vocURICreate(SSFileExtE.pdf));
+            final String pdfFilePath = conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(SSConf.vocURICreate(SSFileExtE.pdf));
             
             SSFileU.writePDFFromText(
               pdfFilePath,
@@ -831,7 +830,7 @@ implements
         
         case doc:{
           
-          final String pdfFilePath  = SSImageConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(SSConf.vocURICreate(SSFileExtE.pdf));
+          final String pdfFilePath  = conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(SSConf.vocURICreate(SSFileExtE.pdf));
           
           SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
           SSFileU.writeScaledPNGFromPDF (pdfFilePath, thumbnailPath, width, width, false);

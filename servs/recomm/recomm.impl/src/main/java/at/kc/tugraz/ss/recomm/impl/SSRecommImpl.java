@@ -81,7 +81,7 @@ import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import engine.EntityRecommenderEngine;
 import engine.TagRecommenderEvalEngine;
@@ -98,19 +98,21 @@ implements
   SSRecommClientI, 
   SSRecommServerI{
   
-  private final SSRecommConf     recommConf;
-  private final SSRecommSQLFct   sql;
-  private final SSEvalServerI    evalServ;
-  private final SSUserCommons userCommons;
+  private final SSRecommConf                recommConf;
+  private final SSRecommSQLFct              sql;
+  private final SSEvalServerI               evalServ;
+  private final SSUserCommons               userCommons;
+  private final SSRecommUserRealmKeeper     userRealmKeeper;
   
   public SSRecommImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.recommConf  = ((SSRecommConf)conf);
-    this.sql         = new SSRecommSQLFct(dbSQL, SSConf.systemUserUri);
-    this.evalServ    = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
-    this.userCommons = new SSUserCommons();
+    this.recommConf       = ((SSRecommConf)conf);
+    this.sql              = new SSRecommSQLFct(dbSQL, SSConf.systemUserUri);
+    this.evalServ         = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+    this.userCommons      = new SSUserCommons();
+    this.userRealmKeeper  = new SSRecommUserRealmKeeper(recommConf);
   }
   
   @Override
@@ -119,7 +121,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
 
-      final SSRecommUsersPar par = (SSRecommUsersPar) parA.getFromJSON(SSRecommUsersPar.class);
+      final SSRecommUsersPar par = (SSRecommUsersPar) parA.getFromClient(clientType, parA, SSRecommUsersPar.class);
 
       return SSRecommUsersRet.get(recommUsers(par));
       
@@ -134,7 +136,7 @@ implements
     
     try{
       final SSRecommUserRealmEngine userRealmEngine =
-        SSRecommUserRealmKeeper.checkAddAndGetUserRealmEngine(
+        userRealmKeeper.checkAddAndGetUserRealmEngine(
           (SSRecommConf)conf,
           par.user, //user
           par.realm, //realm
@@ -245,7 +247,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSRecommTagsPar par = (SSRecommTagsPar) parA.getFromJSON(SSRecommTagsPar.class);
+      final SSRecommTagsPar par = (SSRecommTagsPar) parA.getFromClient(clientType, parA, SSRecommTagsPar.class);
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -317,7 +319,7 @@ implements
       }
       
       final SSRecommUserRealmEngine userRealmEngine =
-        SSRecommUserRealmKeeper.checkAddAndGetUserRealmEngine(
+        userRealmKeeper.checkAddAndGetUserRealmEngine(
           (SSRecommConf) conf,
           par.user,
           realmToUse, //realm
@@ -405,7 +407,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSRecommResourcesPar par = (SSRecommResourcesPar) parA.getFromJSON(SSRecommResourcesPar.class);
+      final SSRecommResourcesPar par = (SSRecommResourcesPar) parA.getFromClient(clientType, parA, SSRecommResourcesPar.class);
       
       return SSRecommResourcesRet.get(recommResources(par));
       
@@ -421,7 +423,7 @@ implements
     try{
       
       final SSRecommUserRealmEngine userRealmEngine = 
-        SSRecommUserRealmKeeper.checkAddAndGetUserRealmEngine(
+        userRealmKeeper.checkAddAndGetUserRealmEngine(
           (SSRecommConf)conf,
           par.user, 
           par.realm, //realm
@@ -545,7 +547,7 @@ implements
     try{
       
 //      SSRecommUserRealmKeeper.setUserRealmEnginesFromConf       (recommConf);
-      SSRecommUserRealmKeeper.setAndLoadUserRealmEnginesFromDB  (sql.getUserRealms());
+      userRealmKeeper.setAndLoadUserRealmEnginesFromDB  (sql.getUserRealms());
 //      SSRecommUserRealmKeeper.setSSSRealmEngine                 (recommConf);
       
     }catch(Exception error){
@@ -559,7 +561,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSRecommUpdateBulkPar par = (SSRecommUpdateBulkPar) parA.getFromJSON(SSRecommUpdateBulkPar.class);
+      final SSRecommUpdateBulkPar par = (SSRecommUpdateBulkPar) parA.getFromClient(clientType, parA, SSRecommUpdateBulkPar.class);
       
       new Thread(new SSRecommUpdateBulkUploader(recommConf, par)).start();
       
@@ -579,7 +581,7 @@ implements
       dbSQL.startTrans(par.shouldCommit);
       
       final SSRecommUserRealmEngine userRealmEngine =
-        SSRecommUserRealmKeeper.checkAddAndGetUserRealmEngine(
+        userRealmKeeper.checkAddAndGetUserRealmEngine(
           (SSRecommConf)conf,
           par.user,
           par.realm,//realm
@@ -682,7 +684,7 @@ implements
         for(SSUri userURI : userURIs){
           
           userRealmEngine =
-            SSRecommUserRealmKeeper.checkAddAndGetUserRealmEngine(
+            userRealmKeeper.checkAddAndGetUserRealmEngine(
               (SSRecommConf)conf,
               userURI,
               usersForRealm.getKey(), //realm
@@ -799,7 +801,7 @@ implements
         for(SSUri user : SSUri.get(usersForRealm.getValue())){
           
           userRealmEngine =
-            SSRecommUserRealmKeeper.checkAddAndGetUserRealmEngine(
+            userRealmKeeper.checkAddAndGetUserRealmEngine(
               (SSRecommConf) conf, //conf
               user, //user
               usersForRealm.getKey(), //realm
@@ -837,7 +839,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSRecommUpdatePar par = (SSRecommUpdatePar) parA.getFromJSON(SSRecommUpdatePar.class);
+      final SSRecommUpdatePar par = (SSRecommUpdatePar) parA.getFromClient(clientType, parA, SSRecommUpdatePar.class);
       
       return SSRecommUpdateRet.get(recommUpdate(par), parA.op);
       
@@ -855,7 +857,7 @@ implements
       dbSQL.startTrans(par.shouldCommit);
       
       final SSRecommUserRealmEngine userRealmEngine =
-        SSRecommUserRealmKeeper.checkAddAndGetUserRealmEngine(
+        userRealmKeeper.checkAddAndGetUserRealmEngine(
           (SSRecommConf)conf,
           par.user,
           par.realm, //realm
@@ -907,7 +909,7 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSRecommUpdateBulkEntitiesPar par = (SSRecommUpdateBulkEntitiesPar) parA.getFromJSON(SSRecommUpdateBulkEntitiesPar.class);
+      final SSRecommUpdateBulkEntitiesPar par = (SSRecommUpdateBulkEntitiesPar) parA.getFromClient(clientType, parA, SSRecommUpdateBulkEntitiesPar.class);
       
       return SSRecommUpdateRet.get(recommUpdateBulkEntities(par), parA.op);
       
@@ -928,7 +930,7 @@ implements
       dbSQL.startTrans(par.shouldCommit);
       
       final SSRecommUserRealmEngine userRealmEngine = 
-        SSRecommUserRealmKeeper.checkAddAndGetUserRealmEngine(
+        userRealmKeeper.checkAddAndGetUserRealmEngine(
           (SSRecommConf)conf,
           par.user, 
           par.realm,//realm

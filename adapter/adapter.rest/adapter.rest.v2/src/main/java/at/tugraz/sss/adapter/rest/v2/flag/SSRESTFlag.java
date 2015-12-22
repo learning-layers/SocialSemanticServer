@@ -26,8 +26,11 @@ import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsSetPar;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsGetRet;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsSetRet;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.util.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -38,12 +41,24 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import sss.serv.eval.api.*;
 
 @Path("/flags")
 @Api(value = "/flags")
-public class SSRESTFlag{
- 
+public class SSRESTFlag extends SSServImplStartA{
+  
+  public SSRESTFlag() {
+    super(null);
+  }
+  
+  public SSRESTFlag(final SSConfA conf) {
+    super(conf);
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+    finalizeThread(false);
+  }
+  
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -52,8 +67,8 @@ public class SSRESTFlag{
     value = "set flags",
     response = SSFlagsSetRet.class)
   public Response flagsSet(
-    @Context 
-      final HttpHeaders headers, 
+    @Context
+    final HttpHeaders headers,
     
     final SSFlagsSetRESTAPIV2Par input){
     
@@ -63,11 +78,11 @@ public class SSRESTFlag{
       
       par =
         new SSFlagsSetPar(
-          null,  
+          null,
           input.entities,
-          input.types, 
-          input.value, 
-          input.endTime, 
+          input.types,
+          input.value,
+          input.endTime,
           true, //withUserRestriction
           true); //shouldCommit
       
@@ -89,6 +104,14 @@ public class SSRESTFlag{
     }catch(Exception error){
       return Response.status(500).build();
     }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+    }
   }
   
   @POST
@@ -99,8 +122,8 @@ public class SSRESTFlag{
     value = "retrieve flags",
     response = SSFlagsGetRet.class)
   public Response flagsGetFiltered(
-    @Context 
-      final HttpHeaders headers, 
+    @Context
+    final HttpHeaders headers,
     
     final SSFlagsGetRESTAPIV2Par input){
     
@@ -110,10 +133,10 @@ public class SSRESTFlag{
       
       par =
         new SSFlagsGetPar(
-          null,  
+          null,
           input.entities,
-          input.types, 
-          input.startTime, 
+          input.types,
+          input.startTime,
           input.endTime,
           true, //withUserRestriction
           true); //invokeEntityHandlers
@@ -135,6 +158,14 @@ public class SSRESTFlag{
       
     }catch(Exception error){
       return Response.status(500).build();
+    }
+    
+    finally{
+      try{
+        finalizeImpl();
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
   }
 }

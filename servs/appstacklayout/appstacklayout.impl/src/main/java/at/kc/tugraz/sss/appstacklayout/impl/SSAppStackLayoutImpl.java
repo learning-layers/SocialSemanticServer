@@ -112,7 +112,7 @@ implements
     try{
     userCommons.checkKeyAndSetUser(parA);
     
-    final SSAppStackLayoutCreatePar par = (SSAppStackLayoutCreatePar) parA.getFromJSON(SSAppStackLayoutCreatePar.class);
+    final SSAppStackLayoutCreatePar par = (SSAppStackLayoutCreatePar) parA.getFromClient(clientType, parA, SSAppStackLayoutCreatePar.class);
      
     return SSAppStackLayoutCreateRet.get(appStackLayoutCreate(par));
     
@@ -194,7 +194,7 @@ implements
     try{
     userCommons.checkKeyAndSetUser(parA);
     
-    final SSAppStackLayoutUpdatePar par = (SSAppStackLayoutUpdatePar) parA.getFromJSON(SSAppStackLayoutUpdatePar.class);
+    final SSAppStackLayoutUpdatePar par = (SSAppStackLayoutUpdatePar) parA.getFromClient(clientType, parA, SSAppStackLayoutUpdatePar.class);
     
     return SSAppStackLayoutUpdateRet.get(appStackLayoutUpdate(par));
     
@@ -305,7 +305,7 @@ implements
     try{
     userCommons.checkKeyAndSetUser(parA);
     
-    final SSAppStackLayoutsGetPar par = (SSAppStackLayoutsGetPar) parA.getFromJSON(SSAppStackLayoutsGetPar.class);
+    final SSAppStackLayoutsGetPar par = (SSAppStackLayoutsGetPar) parA.getFromClient(clientType, parA, SSAppStackLayoutsGetPar.class);
     
     return SSAppStackLayoutsGetRet.get(appStackLayoutsGet(par));
 
@@ -356,7 +356,7 @@ implements
       
     userCommons.checkKeyAndSetUser(parA);
     
-    final SSAppStackLayoutDeletePar par = (SSAppStackLayoutDeletePar) parA.getFromJSON(SSAppStackLayoutDeletePar.class);
+    final SSAppStackLayoutDeletePar par = (SSAppStackLayoutDeletePar) parA.getFromClient(clientType, parA, SSAppStackLayoutDeletePar.class);
     
     return SSAppStackLayoutDeleteRet.get(appStackLayoutDelete(par));
     

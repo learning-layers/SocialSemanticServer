@@ -64,7 +64,7 @@ implements
       
 //TODO uncomment to turn on user authorization
       //SSServCallerU.checkKey(parA);
-      final SSOCDCreateGraphPar par    = (SSOCDCreateGraphPar) parA.getFromJSON(SSOCDCreateGraphPar.class);
+      final SSOCDCreateGraphPar par    = (SSOCDCreateGraphPar) parA.getFromClient(clientType, parA, SSOCDCreateGraphPar.class);
       
       String response = ocdCreateGraph(par);
       
@@ -85,7 +85,7 @@ implements
   public SSServRetI ocdGetGraphs(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
-      final SSOCDGetGraphsPar par = (SSOCDGetGraphsPar) parA.getFromJSON(SSOCDGetGraphsPar.class);
+      final SSOCDGetGraphsPar par = (SSOCDGetGraphsPar) parA.getFromClient(clientType, parA, SSOCDGetGraphsPar.class);
       
       String response = ocdGetGraphs(par);
       
@@ -105,7 +105,7 @@ implements
   public SSServRetI ocdGetGraph(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
-      final SSOCDGetGraphPar par = (SSOCDGetGraphPar) parA.getFromJSON(SSOCDGetGraphPar.class);
+      final SSOCDGetGraphPar par = (SSOCDGetGraphPar) parA.getFromClient(clientType, parA, SSOCDGetGraphPar.class);
       
       String response = ocdGetGraph(par);
       
@@ -127,7 +127,7 @@ implements
     
     try{
       
-      final SSOCDDeleteGraphPar par = (SSOCDDeleteGraphPar) parA.getFromJSON(SSOCDDeleteGraphPar.class);
+      final SSOCDDeleteGraphPar par = (SSOCDDeleteGraphPar) parA.getFromClient(clientType, parA, SSOCDDeleteGraphPar.class);
       
       String response = ocdDeleteGraph(par);
       
@@ -149,7 +149,7 @@ implements
     try{
       //TODO uncomment to turn on user authorization
       //SSServCallerU.checkKey(parA);
-      final SSOCDCreateCoverPar par = (SSOCDCreateCoverPar) parA.getFromJSON(SSOCDCreateCoverPar.class);
+      final SSOCDCreateCoverPar par = (SSOCDCreateCoverPar) parA.getFromClient(clientType, parA, SSOCDCreateCoverPar.class);
       
       String response = ocdCreateCover(par);
       

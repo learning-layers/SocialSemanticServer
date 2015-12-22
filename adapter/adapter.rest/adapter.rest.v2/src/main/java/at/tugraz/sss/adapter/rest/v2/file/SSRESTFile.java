@@ -29,8 +29,6 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.SSMimeTypeE;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.util.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;

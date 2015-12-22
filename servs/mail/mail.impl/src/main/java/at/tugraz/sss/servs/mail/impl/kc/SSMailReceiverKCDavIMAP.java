@@ -50,13 +50,16 @@ import javax.mail.Store;
 
 public class SSMailReceiverKCDavIMAP {
   
-  private final List<SSEntity>   mails   = new ArrayList<>();
+  private final List<SSEntity>   mails     = new ArrayList<>();
+  private final SSMailConf       mailConf;
   private final SSMailSQLFct     sqlFct;
   private final SSEntityServerI  entityServ;
   
   public SSMailReceiverKCDavIMAP(
+    final SSMailConf    mailConf,
     final SSMailSQLFct  sqlFct) throws Exception{
     
+    this.mailConf        = mailConf;
     this.sqlFct          = sqlFct;
     this.entityServ      = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
   }
@@ -218,7 +221,7 @@ public class SSMailReceiverKCDavIMAP {
       final SSEntity attachment = getAttachmentObj(bodyPart.getFileName());
       
       SSFileU.writeFileBytes(
-        SSFileU.openOrCreateFileWithPathForWrite(SSMailConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(attachment.id)),
+        SSFileU.openOrCreateFileWithPathForWrite(mailConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(attachment.id)),
         bodyPart.getInputStream(),
         10000);
       
