@@ -39,6 +39,7 @@ import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -66,7 +67,20 @@ public class SSRESTAppStackLayout extends SSServImplStartA{
   
   @Override
   protected void finalizeImpl() throws Exception{
-    finalizeThread(false);
+    destroy();
+  }
+  
+  @PostConstruct
+  public void createRESTResource(){
+  }
+  
+  @PreDestroy
+  public void destroyRESTResource(){
+    try{
+      finalizeImpl();
+    }catch(Exception error2){
+      SSLogU.err(error2);
+    }
   }
   
   @GET
@@ -106,14 +120,7 @@ public class SSRESTAppStackLayout extends SSServImplStartA{
       return Response.status(200).entity(appStackLayoutServ.appStackLayoutsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
-    }
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
+      return SSRestMainV2.prepareErrors();
     }
   }
   
@@ -157,14 +164,7 @@ public class SSRESTAppStackLayout extends SSServImplStartA{
       return Response.status(200).entity(appStackLayoutServ.appStackLayoutsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
-    }
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
+      return SSRestMainV2.prepareErrors();
     }
   }
   
@@ -208,14 +208,7 @@ public class SSRESTAppStackLayout extends SSServImplStartA{
       return Response.status(200).entity(appStackLayoutServ.appStackLayoutCreate(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
-    }
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
+      return SSRestMainV2.prepareErrors();
     }
   }
   
@@ -259,14 +252,7 @@ public class SSRESTAppStackLayout extends SSServImplStartA{
       return Response.status(200).entity(appStackLayoutServ.appStackLayoutDelete(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
-    }
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
+      return SSRestMainV2.prepareErrors();
     }
   }
   
@@ -315,15 +301,8 @@ public class SSRESTAppStackLayout extends SSServImplStartA{
       return Response.status(200).entity(appStackLayoutServ.appStackLayoutUpdate(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
 }

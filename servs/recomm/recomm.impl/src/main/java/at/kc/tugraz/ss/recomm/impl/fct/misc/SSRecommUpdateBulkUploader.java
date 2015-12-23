@@ -144,6 +144,6 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA implements Runn
   
   @Override
   protected void finalizeImpl() throws Exception{
-    finalizeThread(true);
+    destroy();
   }
 }

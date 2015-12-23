@@ -187,7 +187,7 @@ public class SSFileUploader extends SSServImplStartA implements Runnable{
   
   @Override
   protected void finalizeImpl() throws Exception{
-    finalizeThread(true);
+    destroy();
   }
   
   private void registerFileAndCreateThumb() throws Exception{

@@ -32,6 +32,7 @@ import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -57,7 +58,20 @@ public class SSRESTAuth extends SSServImplStartA{
   
   @Override
   protected void finalizeImpl() throws Exception{
-    finalizeThread(false);
+    destroy();
+  }
+
+  @PostConstruct
+  public void createRESTResource(){
+  }
+  
+  @PreDestroy
+  public void destroyRESTResource(){
+    try{
+      finalizeImpl();
+    }catch(Exception error2){
+      SSLogU.err(error2);
+    }
   }
   
   @GET
@@ -96,15 +110,7 @@ public class SSRESTAuth extends SSServImplStartA{
       return Response.status(200).entity(authServ.authCheckCred(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
-    }
-    
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
+      return SSRestMainV2.prepareErrors();
     }
   }
   
@@ -137,14 +143,7 @@ public class SSRESTAuth extends SSServImplStartA{
       return Response.status(200).entity(authServ.authCheckCred(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
-    }
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
+      return SSRestMainV2.prepareErrors();
     }
   }
   
@@ -185,14 +184,7 @@ public class SSRESTAuth extends SSServImplStartA{
       return Response.status(200).entity(authServ.authRegisterUser(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
-    }
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
+      return SSRestMainV2.prepareErrors();
     }
   }
 }

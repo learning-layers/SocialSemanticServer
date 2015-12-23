@@ -45,6 +45,7 @@ import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 import java.io.InputStream;
+import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -72,7 +73,20 @@ public class SSRESTRecomm extends SSServImplStartA{
   
   @Override
   protected void finalizeImpl() throws Exception{
-    finalizeThread(false);
+    destroy();
+  }
+  
+  @PostConstruct
+  public void createRESTResource(){
+  }
+  
+  @PreDestroy
+  public void destroyRESTResource(){
+    try{
+      finalizeImpl();
+    }catch(Exception error2){
+      SSLogU.err(error2);
+    }
   }
   
   @PUT
@@ -117,16 +131,9 @@ public class SSRESTRecomm extends SSServImplStartA{
       return Response.status(200).entity(recommServ.recommUpdate(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @POST
@@ -214,16 +221,9 @@ public class SSRESTRecomm extends SSServImplStartA{
       return Response.status(200).entity(recommServ.recommUpdateBulkEntities(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @GET
@@ -269,16 +269,9 @@ public class SSRESTRecomm extends SSServImplStartA{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @GET
@@ -330,16 +323,9 @@ public class SSRESTRecomm extends SSServImplStartA{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @GET
@@ -391,14 +377,7 @@ public class SSRESTRecomm extends SSServImplStartA{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
-    }
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
+      return SSRestMainV2.prepareErrors();
     }
   }
   
@@ -457,16 +436,9 @@ public class SSRESTRecomm extends SSServImplStartA{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @GET
@@ -530,16 +502,9 @@ public class SSRESTRecomm extends SSServImplStartA{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @GET
@@ -603,16 +568,9 @@ public class SSRESTRecomm extends SSServImplStartA{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @GET
@@ -664,16 +622,9 @@ public class SSRESTRecomm extends SSServImplStartA{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @GET
@@ -732,16 +683,9 @@ public class SSRESTRecomm extends SSServImplStartA{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @GET
@@ -799,16 +743,9 @@ public class SSRESTRecomm extends SSServImplStartA{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @GET
@@ -860,16 +797,9 @@ public class SSRESTRecomm extends SSServImplStartA{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @GET
@@ -927,14 +857,7 @@ public class SSRESTRecomm extends SSServImplStartA{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
-    }
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
+      return SSRestMainV2.prepareErrors();
     }
   }
   
@@ -993,14 +916,7 @@ public class SSRESTRecomm extends SSServImplStartA{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
-    }
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
+      return SSRestMainV2.prepareErrors();
     }
   }
   
@@ -1052,14 +968,7 @@ public class SSRESTRecomm extends SSServImplStartA{
       return Response.status(200).entity(recommServ.recommResources(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
-    }
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
+      return SSRestMainV2.prepareErrors();
     }
   }
   
@@ -1108,15 +1017,8 @@ public class SSRESTRecomm extends SSServImplStartA{
       return Response.status(200).entity(recommServ.recommTags(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
 }

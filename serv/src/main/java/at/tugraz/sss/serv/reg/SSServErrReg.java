@@ -43,6 +43,13 @@ public class SSServErrReg {
     }
   };
   
+  public static void destroy(){
+    
+    reset();
+    
+    servImplErrors.remove();
+  }    
+  
   public static Boolean containsErr(final SSErrE code){
     
     if(servImplErrors.get().stream().anyMatch((error) -> (error.code.compareTo(code) == 0))) {

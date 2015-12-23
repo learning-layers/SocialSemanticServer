@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.recomm.serv.SSRecommServ;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplStartA;
+import at.tugraz.sss.serv.reg.*;
 import java.util.TimerTask;
 
 public class SSRecommUpdateBulkTask extends TimerTask {
@@ -35,16 +36,22 @@ public class SSRecommUpdateBulkTask extends TimerTask {
   private final SSRecommConf recommConf;
   
   public SSRecommUpdateBulkTask(
-    final SSRecommConf recommConf){
+    final SSRecommConf recommConf) throws Exception{
     
     this.recommConf = recommConf;
+    
+    SSServReg.regTimerTask(this);
   }
   
   @Override
   public void run(){
     
     try{
-      new Thread(new SSRecommUpdateBulkUpdater(recommConf)).start();
+      final Thread thread = new Thread(new SSRecommUpdateBulkUpdater(recommConf));
+      
+      thread.start();
+      
+      SSServReg.regTimerThread(thread);
     }catch(Exception error){
       SSServErrReg.regErr(error);
     }
@@ -87,7 +94,7 @@ public class SSRecommUpdateBulkTask extends TimerTask {
     
     @Override
     protected void finalizeImpl() throws Exception{
-      finalizeThread(true);
+      destroy();
     }
   }
 }

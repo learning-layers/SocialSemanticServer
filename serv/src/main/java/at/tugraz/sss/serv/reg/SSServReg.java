@@ -43,16 +43,12 @@ import at.tugraz.sss.serv.datatype.par.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.datatype.par.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.datatype.enums.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SSServReg{
   
   public static final SSServReg                            inst                                         = new SSServReg();
-  public static final Map<String,     SSServContainerI>    servs                                        = new HashMap<>();
-  public static final Map<String,     SSServContainerI>    servsForClientOps                            = new HashMap<>();
+  public static final Map<String,        SSServContainerI> servsForClientOps                            = new HashMap<>();
   public static final Map<Class,         SSServContainerI> servsForServerI                              = new HashMap<>();
   public static final Map<Class,         SSServContainerI> servsForClientI                              = new HashMap<>();
   public static final List<SSServContainerI>               servsForGatheringUsersResources              = new ArrayList<>();
@@ -66,9 +62,63 @@ public class SSServReg{
   public static final List<SSServContainerI>               servsHandlingAddAffiliatedEntitiesToCircle   = new ArrayList<>();
   public static final List<SSServContainerI>               servsHandlingPushEntitiesToUsers             = new ArrayList<>();
   public static final List<SSServContainerI>               servsHandlingEntitiesSharedWithUsers         = new ArrayList<>();
+  public static final List<TimerTask>                      timerTasks                                   = new ArrayList<>();
+  public static final List<Thread>                         timerThreads                                 = new ArrayList<>();
   
   public static final Map<String, Integer>                         requsLimitsForClientOpsPerUser  = new HashMap<>();
   public static final Map<String, Map<String, List<SSServImplA>>>  currentRequsForClientOpsPerUser = new HashMap<>();
+  
+  public static void destroyContainers(){
+    
+    for(SSServContainerI servContainer : servsForServerI.values()){
+      servContainer.destroy();
+    }
+    
+    for(SSServContainerI servContainer : servsForClientI.values()){
+      servContainer.destroy();
+    }
+  }
+  
+  public static void destroy() throws InterruptedException{
+    
+    destroyContainers();
+    
+    for(TimerTask timerTask : timerTasks){
+      timerTask.cancel();
+    }
+    
+    for(Thread timerThread : timerThreads){
+      timerThread.join();
+    }
+    
+    servsForClientOps.clear();
+    servsForServerI.clear();
+    servsForClientI.clear();
+    servsForGatheringUsersResources.clear();
+    servsForGatheringUserRelations.clear();
+    servsHandlingCircleContentRemoved.clear();
+    servsHandlingEntityCopied.clear();
+    servsHandlingGetSubEntities.clear();
+    servsHandlingGetParentEntities.clear();
+    servsHandlingCopyEntity.clear();
+    servsHandlingDescribeEntity.clear();
+    servsHandlingAddAffiliatedEntitiesToCircle.clear();
+    servsHandlingPushEntitiesToUsers.clear();
+    servsHandlingEntitiesSharedWithUsers.clear();
+    timerTasks.clear();
+    timerThreads.clear();
+    
+    requsLimitsForClientOpsPerUser.clear();
+    currentRequsForClientOpsPerUser.clear();
+  }
+  
+  public static void regTimerTask(final TimerTask timerTask) {
+    timerTasks.add(timerTask);
+  }
+  
+  public static void regTimerThread(final Thread timerThread){
+    timerThreads.add(timerThread);
+  }
   
   public static SSServImplA getClientServ(final Class clientServClass) throws SSErr{
     
@@ -87,6 +137,8 @@ public class SSServReg{
       return null;
     }
   }
+
+  
   
   public SSServContainerI getClientServContainer(
     final String op) throws SSErr{
@@ -456,18 +508,6 @@ public class SSServReg{
     final SSServContainerI servContainer) throws Exception{
     
     try{
-      
-      synchronized(servs){
-        
-        for(String op : servContainer.publishClientOps()){
-          
-          if(servs.containsKey(op)){
-            throw new Exception("op for service already registered");
-          }
-          
-          servs.put(op, servContainer);
-        }
-      }
       
       if(!servContainer.conf.use){
         return null;

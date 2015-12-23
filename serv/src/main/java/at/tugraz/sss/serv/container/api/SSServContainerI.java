@@ -20,8 +20,8 @@ public abstract class SSServContainerI{
   
   private final ThreadLocal<SSServImplA> servImplsByServByThread = new ThreadLocal<SSServImplA>(){
     
-    @Override 
-    protected SSServImplA initialValue() {
+    @Override
+    protected SSServImplA initialValue(){
       
       try{
         return createServImplForThread();
@@ -32,6 +32,10 @@ public abstract class SSServContainerI{
       }
     }
   };
+  
+  public void destroy(){
+    servImplsByServByThread.remove();
+  }
   
   protected SSServContainerI(
     final Class servImplClientInteraceClass,

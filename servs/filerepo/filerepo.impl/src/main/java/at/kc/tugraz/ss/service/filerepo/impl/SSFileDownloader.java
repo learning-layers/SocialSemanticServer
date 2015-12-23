@@ -134,7 +134,7 @@ public class SSFileDownloader extends SSServImplStartA implements Runnable{
   
   @Override
   protected void finalizeImpl() throws Exception{
-    finalizeThread(true);
+    destroy();
   }
 
 //  private void saveActivity() throws Exception{

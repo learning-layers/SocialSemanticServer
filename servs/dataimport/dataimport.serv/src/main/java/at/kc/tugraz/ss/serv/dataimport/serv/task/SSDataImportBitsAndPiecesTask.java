@@ -34,6 +34,7 @@ import at.tugraz.sss.serv.reg.*;
 public class SSDataImportBitsAndPiecesTask extends TimerTask {
   
   public SSDataImportBitsAndPiecesTask() throws Exception{
+    SSServReg.regTimerTask(this);
   }
   
   @Override
@@ -49,19 +50,24 @@ public class SSDataImportBitsAndPiecesTask extends TimerTask {
       
       for(int counter = 0; counter < evernoteConf.getAuthTokens().size(); counter++){
         
-        new Thread(
-          new SSDataImportBitsAndPiecesUpdater(
-            new SSDataImportBitsAndPiecesPar(
-              SSConf.systemUserUri,
-              evernoteConf.getAuthTokens().get(counter),
-              evernoteConf.getAuthEmails().get(counter),
-              null,
-              null,
-              null,
-              true, //importEvernote,
-              false, //importEmail,
-              true, //withUserRestriction,
-              true))).start();
+        Thread thread =
+          new Thread(
+            new SSDataImportBitsAndPiecesUpdater(
+              new SSDataImportBitsAndPiecesPar(
+                SSConf.systemUserUri,
+                evernoteConf.getAuthTokens().get(counter),
+                evernoteConf.getAuthEmails().get(counter),
+                null,
+                null,
+                null,
+                true, //importEvernote,
+                false, //importEmail,
+                true, //withUserRestriction,
+                true)));
+        
+        thread.start();
+        
+        SSServReg.regTimerThread(thread);
       }
       
       new Thread(new SSDataImportBitsAndPiecesEmailUpdater()).start();
@@ -130,7 +136,7 @@ public class SSDataImportBitsAndPiecesTask extends TimerTask {
     
     @Override
     protected void finalizeImpl() throws Exception{
-      finalizeThread(true);
+      destroy();
     }
   }
   
@@ -167,7 +173,7 @@ public class SSDataImportBitsAndPiecesTask extends TimerTask {
     
     @Override
     protected void finalizeImpl() throws Exception{
-      finalizeThread(true);
+      destroy();
     }
   }
 }

@@ -35,6 +35,7 @@ import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -59,7 +60,20 @@ public class SSRESTCategory extends SSServImplStartA{
   
   @Override
   protected void finalizeImpl() throws Exception{
-    finalizeThread(false);
+    destroy();
+  }
+  
+  @PostConstruct
+  public void createRESTResource(){
+  }
+  
+  @PreDestroy
+  public void destroyRESTResource(){
+    try{
+      finalizeImpl();
+    }catch(Exception error2){
+      SSLogU.err(error2);
+    }
   }
   
   @GET
@@ -97,16 +111,9 @@ public class SSRESTCategory extends SSServImplStartA{
       return Response.status(200).entity(categoryServ.categoriesPredefinedGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @POST
@@ -152,16 +159,9 @@ public class SSRESTCategory extends SSServImplStartA{
       return Response.status(200).entity(categoryServ.categoryAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @GET
@@ -205,16 +205,9 @@ public class SSRESTCategory extends SSServImplStartA{
       return Response.status(200).entity(categoryServ.categoryFrequsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @POST
@@ -260,15 +253,8 @@ public class SSRESTCategory extends SSServImplStartA{
       return Response.status(200).entity(categoryServ.categoryFrequsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
 }

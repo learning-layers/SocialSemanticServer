@@ -47,6 +47,7 @@ import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -73,7 +74,20 @@ public class SSRESTDisc extends SSServImplStartA{
   
   @Override
   protected void finalizeImpl() throws Exception{
-    finalizeThread(false);
+    destroy();
+  }
+  
+  @PostConstruct
+  public void createRESTResource(){
+  }
+  
+  @PreDestroy
+  public void destroyRESTResource(){
+    try{
+      finalizeImpl();
+    }catch(Exception error2){
+      SSLogU.err(error2);
+    }
   }
   
   @POST
@@ -126,16 +140,9 @@ public class SSRESTDisc extends SSServImplStartA{
       return Response.status(200).entity(discServ.discsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @POST
@@ -185,16 +192,9 @@ public class SSRESTDisc extends SSServImplStartA{
       return Response.status(200).entity(discServ.discEntryAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @PUT
@@ -246,14 +246,7 @@ public class SSRESTDisc extends SSServImplStartA{
       return Response.status(200).entity(discServ.discUpdate(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
-    }
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
+      return SSRestMainV2.prepareErrors();
     }
   }
   
@@ -304,14 +297,7 @@ public class SSRESTDisc extends SSServImplStartA{
       return Response.status(200).entity(discServ.discEntryUpdate(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
-    }
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
+      return SSRestMainV2.prepareErrors();
     }
   }
   
@@ -366,16 +352,9 @@ public class SSRESTDisc extends SSServImplStartA{
       return Response.status(200).entity(discServ.discsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @GET
@@ -422,16 +401,9 @@ public class SSRESTDisc extends SSServImplStartA{
       return Response.status(200).entity(discServ.discsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @POST
@@ -487,16 +459,9 @@ public class SSRESTDisc extends SSServImplStartA{
       return Response.status(200).entity(discServ.discsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @PUT
@@ -540,16 +505,9 @@ public class SSRESTDisc extends SSServImplStartA{
       return Response.status(200).entity(discServ.discEntryAccept(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @PUT
@@ -597,15 +555,8 @@ public class SSRESTDisc extends SSServImplStartA{
       return Response.status(200).entity(discServ.discTargetsAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
 }

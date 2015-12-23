@@ -47,7 +47,6 @@ import at.kc.tugraz.sss.comment.serv.*;
 import at.kc.tugraz.sss.flag.serv.*;
 import at.kc.tugraz.sss.video.serv.*;
 import at.tugraz.sss.conf.*;
-import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.util.SSSocketU;
 import at.tugraz.sss.serv.util.SSEncodingU;
 import at.tugraz.sss.serv.util.SSLogU;
@@ -107,6 +106,94 @@ public class SSSocketMainV2{
       }catch(Exception error){
         SSLogU.err(error);
       }
+    }
+  }
+  public class SSSocketMain extends SSServImplStartA implements Runnable{
+    
+    private final Socket             clientSocket;
+    private final OutputStreamWriter outputStreamWriter;
+    private final InputStreamReader  inputStreamReader;
+    private final SSSocketAdapterU   socketAdapterU;
+    private SSServContainerI         serv        = null;
+    private SSServImplA              servImpl    = null;
+    private SSServPar                par         = null;
+    private SSServRetI               ret         = null;
+    
+    public SSSocketMain(
+      final Socket  clientSocket) throws Exception{
+      
+      super(null);
+      
+      this.clientSocket      = clientSocket;
+      
+      this.inputStreamReader =
+        new InputStreamReader(
+          clientSocket.getInputStream(),
+          SSEncodingU.utf8.toString());
+      
+      this.outputStreamWriter =
+        new OutputStreamWriter(
+          clientSocket.getOutputStream(),
+          SSEncodingU.utf8.toString());
+      
+      this.socketAdapterU = new SSSocketAdapterU();
+    }
+    
+    @Override
+    public void run(){
+      
+      try{
+        
+        final String clientMsg = SSSocketU.readFullString(inputStreamReader);
+              
+        par = new SSServPar(clientSocket,clientMsg);
+        
+        SSLogU.info(par.op + " start with " + par.clientJSONRequ);
+        
+        serv     = SSServReg.inst.getClientServContainer(par.op);
+        servImpl = serv.getServImpl();
+        
+        SSServReg.inst.regClientRequest(par.user, servImpl, par.op);
+        
+        ret = servImpl.invokeClientServOp(serv.servImplClientInteraceClass, par);
+              
+        if(ret != null){
+          socketAdapterU.writeRetFullToClient(outputStreamWriter, ret); 
+        }
+        
+      }catch(Exception error){
+        
+        SSServErrReg.regErr(error, false);
+        
+        if(par == null){
+          SSServErrReg.regErr(new Exception("couldnt get serv par"), true);
+        }
+        
+        try{
+          socketAdapterU.writeError(
+            outputStreamWriter, 
+            par.op);
+          
+        }catch(Exception error2){
+          SSServErrReg.regErr(error2, true);
+        }
+      }finally{
+        
+        try{
+          finalizeImpl();
+          SSLogU.info(par.op + " end ");
+        }catch(Exception error3){
+          SSLogU.err(error3);
+        }
+      }
+    }
+    
+    @Override
+    protected void finalizeImpl() throws Exception{
+      
+      destroy();
+      
+      SSServReg.inst.unregClientRequest(par.op, par.user, servImpl);
     }
   }
   
@@ -224,112 +311,7 @@ public class SSSocketMainV2{
     
     @Override
     protected void finalizeImpl() throws Exception{
-      finalizeThread(true);
-    }
-  }
-  
-  public class SSSocketMain extends SSServImplStartA implements Runnable{
-    
-    private final Socket             clientSocket;
-    private final OutputStreamWriter outputStreamWriter;
-    private final InputStreamReader  inputStreamReader;
-    private final SSSocketAdapterU   socketAdapterU;
-    private SSServContainerI         serv        = null;
-    private SSServImplA              servImpl    = null;
-    private SSServPar                par         = null;
-    private SSServRetI               ret         = null;
-    
-    public SSSocketMain(
-      final Socket  clientSocket) throws Exception{
-      
-      super(null);
-      
-      this.clientSocket      = clientSocket;
-      
-      this.inputStreamReader =
-        new InputStreamReader(
-          clientSocket.getInputStream(),
-          SSEncodingU.utf8.toString());
-      
-      this.outputStreamWriter =
-        new OutputStreamWriter(
-          clientSocket.getOutputStream(),
-          SSEncodingU.utf8.toString());
-      
-      this.socketAdapterU = new SSSocketAdapterU();
-    }
-    
-    @Override
-    public void run(){
-      
-      try{
-        
-        final String clientMsg = SSSocketU.readFullString(inputStreamReader);
-              
-        par = new SSServPar(clientSocket,clientMsg);
-        
-        SSLogU.info(par.op + " start with " + par.clientJSONRequ);
-        
-        serv     = SSServReg.inst.getClientServContainer(par.op);
-        servImpl = serv.getServImpl();
-        
-        SSServReg.inst.regClientRequest(par.user, servImpl, par.op);
-        
-        ret = servImpl.invokeClientServOp(serv.servImplClientInteraceClass, par);
-              
-        if(ret != null){
-          socketAdapterU.writeRetFullToClient(outputStreamWriter, ret); 
-        }
-        
-      }catch(Exception error){
-        
-        SSServErrReg.regErr(error, false);
-        
-        if(par == null){
-          SSServErrReg.regErr(new Exception("couldnt get serv par"), true);
-        }
-        
-        try{
-          socketAdapterU.writeError(
-            outputStreamWriter, 
-            par.op);
-          
-        }catch(Exception error2){
-          SSServErrReg.regErr(error2, true);
-        }
-      }finally{
-        
-        try{
-          finalizeImpl();
-          SSLogU.info(par.op + " end ");
-        }catch(Exception error3){
-          SSLogU.err(error3);
-        }
-      }
-    }
-    
-    @Override
-    protected void finalizeImpl() throws Exception{
-      
-      finalizeThread(false);
-      
-      SSServReg.inst.unregClientRequest(par.op, par.user, servImpl);
-    }
-    
-//    public static void regServImplUsedByThread(final SSServImplA servImpl){
-//      
-//      List<SSServImplA> servImplUsedList = servImplsUsedByThread.get();
-//      
-//      if(servImplUsedList.contains(servImpl)){
-//        return;
-//      }
-//      
-//      servImplUsedList.add(servImpl);
-//    }
-    
-    @Override
-    protected void finalizeThread(final Boolean log){
-      super.finalizeThread(true);
+      destroy();
     }
   }
 }

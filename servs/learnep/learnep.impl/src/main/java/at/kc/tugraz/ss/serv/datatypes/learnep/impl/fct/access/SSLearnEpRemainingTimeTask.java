@@ -27,22 +27,29 @@ import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.reg.*;
 import java.util.TimerTask;
 
 public class SSLearnEpRemainingTimeTask extends TimerTask {
   
   private final SSLearnEpImpl serv;
   
-  public SSLearnEpRemainingTimeTask(final SSLearnEpImpl serv){
+  public SSLearnEpRemainingTimeTask(final SSLearnEpImpl serv) throws Exception{
     this.serv = serv;
+
+    SSServReg.regTimerTask(this);
   }
   
   @Override
   public void run(){
     
     try{
-      new Thread(new SSLearnEpRemaingTimeHandler()).start();
+      
+      final Thread thread = new Thread(new SSLearnEpRemaingTimeHandler());
+      
+      thread.start();
+      
+      SSServReg.regTimerThread(thread);
     }catch(Exception error){
       SSServErrReg.regErr(error);
     }
@@ -91,7 +98,7 @@ public class SSLearnEpRemainingTimeTask extends TimerTask {
     
     @Override
     protected void finalizeImpl() throws Exception{
-      finalizeThread(true);
+      destroy();
     }
   }
 }

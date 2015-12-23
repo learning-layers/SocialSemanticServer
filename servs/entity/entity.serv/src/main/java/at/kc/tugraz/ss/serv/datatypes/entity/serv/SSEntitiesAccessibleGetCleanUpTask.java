@@ -31,11 +31,19 @@ import at.tugraz.sss.conf.SSConf;
 
 public class SSEntitiesAccessibleGetCleanUpTask extends TimerTask {
   
+  public SSEntitiesAccessibleGetCleanUpTask() throws Exception{
+    SSServReg.regTimerTask(this);
+  }
+  
   @Override
   public void run(){
     
     try{
-      new Thread(new SSEntitiesAccessibleGetCleaner()).start();
+       final Thread thread = new Thread(new SSEntitiesAccessibleGetCleaner());
+      
+      thread.start();
+      
+      SSServReg.regTimerThread(thread);
     }catch(Exception error){
       SSServErrReg.regErr(error);
     }
@@ -70,7 +78,7 @@ public class SSEntitiesAccessibleGetCleanUpTask extends TimerTask {
     
     @Override
     protected void finalizeImpl() throws Exception{
-      finalizeThread(true);
+      destroy();
     }
   }
 }

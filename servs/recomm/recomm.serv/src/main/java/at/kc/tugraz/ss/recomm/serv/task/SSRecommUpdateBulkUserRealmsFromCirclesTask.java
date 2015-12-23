@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.recomm.serv.SSRecommServ;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplStartA;
+import at.tugraz.sss.serv.reg.*;
 import java.util.TimerTask;
 
 public class SSRecommUpdateBulkUserRealmsFromCirclesTask extends TimerTask {
@@ -35,16 +36,22 @@ public class SSRecommUpdateBulkUserRealmsFromCirclesTask extends TimerTask {
   private final SSRecommConf recommConf;
   
   public SSRecommUpdateBulkUserRealmsFromCirclesTask(
-    final SSRecommConf recommConf){
+    final SSRecommConf recommConf) throws Exception{
     
     this.recommConf = recommConf;
+    
+    SSServReg.regTimerTask(this);
   }
   
   @Override
   public void run(){
     
     try{
-      new Thread(new SSRecommUpdateBulkUserRealmsFromCirclesUpdater(recommConf)).start();
+      final Thread thread = new Thread(new SSRecommUpdateBulkUserRealmsFromCirclesUpdater(recommConf));
+      
+      thread.start();
+      
+      SSServReg.regTimerThread(thread);
     }catch(Exception error){
       SSServErrReg.regErr(error);
     }
@@ -85,7 +92,7 @@ public class SSRecommUpdateBulkUserRealmsFromCirclesTask extends TimerTask {
     
     @Override
     protected void finalizeImpl() throws Exception{
-      finalizeThread(true);
+      destroy();
     }
   }
 }

@@ -369,7 +369,9 @@ implements
               }
             }
             
-            if(par.applyGlobalSearchOpBetweenLabelAndDescription){
+            if(
+              par.applyGlobalSearchOpBetweenLabelAndDescription != null &&
+              par.applyGlobalSearchOpBetweenLabelAndDescription){
               
               if(
                 !par.labelsToSearchFor.isEmpty() &&
@@ -602,7 +604,9 @@ implements
     
     try{
       
-      if(!par.includeRecommendedResults){
+      if(
+        par.includeRecommendedResults == null ||
+        !par.includeRecommendedResults){
         return new ArrayList<>();
       }
       

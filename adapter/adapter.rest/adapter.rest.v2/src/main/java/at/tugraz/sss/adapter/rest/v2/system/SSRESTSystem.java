@@ -39,7 +39,7 @@ public class SSRESTSystem extends SSServImplStartA{
   
   @Override
   protected void finalizeImpl() throws Exception{
-    finalizeThread(false);
+    destroy();
   }
   
   //TODO reimplement

@@ -32,6 +32,7 @@ import sss.serv.eval.datatypes.par.SSEvalAnalyzePar;
 public class SSEvalAnalyzeTask extends TimerTask {
   
   public SSEvalAnalyzeTask() throws Exception{
+    SSServReg.regTimerTask(this);
   }
   
   @Override
@@ -39,7 +40,11 @@ public class SSEvalAnalyzeTask extends TimerTask {
     
     try{
       
-      new Thread(new SSEvalAnalyzer()).start();
+      final Thread thread = new Thread(new SSEvalAnalyzer());
+      
+      thread.start();
+      
+      SSServReg.regTimerThread(thread);
       
     }catch(Exception error){
       SSServErrReg.regErr(error);
@@ -75,7 +80,7 @@ public class SSEvalAnalyzeTask extends TimerTask {
     
     @Override
     protected void finalizeImpl() throws Exception{
-      finalizeThread(true);
+      destroy();
     }
   }
 }

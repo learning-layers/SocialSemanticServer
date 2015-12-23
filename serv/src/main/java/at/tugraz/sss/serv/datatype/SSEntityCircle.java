@@ -21,7 +21,6 @@
 package at.tugraz.sss.serv.datatype;
 
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.enums.SSCircleE;
 import at.tugraz.sss.serv.datatype.enums.SSCircleRightE;

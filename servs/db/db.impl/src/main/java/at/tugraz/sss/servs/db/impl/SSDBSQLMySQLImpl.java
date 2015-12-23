@@ -30,7 +30,6 @@ import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplDBA;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSWarnE;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLTransactionRollbackException;
 import java.sql.Connection;
@@ -57,6 +56,14 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     super(conf);
     
     connectToMYSQL();
+  }
+  
+  public static void closePool(){
+
+    if(connectionPool != null){
+      connectionPool.close();
+      connectionPool = null;
+    }
   }
   
   @Override

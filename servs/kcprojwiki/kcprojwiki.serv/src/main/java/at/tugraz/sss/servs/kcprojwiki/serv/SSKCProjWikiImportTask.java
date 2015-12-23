@@ -32,6 +32,7 @@ import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiImportPar;
 public class SSKCProjWikiImportTask extends TimerTask {
   
   public SSKCProjWikiImportTask() throws Exception{
+    SSServReg.regTimerTask(this);
   }
   
   @Override
@@ -39,7 +40,11 @@ public class SSKCProjWikiImportTask extends TimerTask {
     
     try{
       
-      new Thread(new SSKCProjWikiImportUpdater()).start();
+      final Thread thread = new Thread(new SSKCProjWikiImportUpdater());
+      
+      thread.start();
+      
+      SSServReg.regTimerThread(thread);
       
     }catch(Exception error){
       SSServErrReg.regErr(error);
@@ -73,7 +78,7 @@ public class SSKCProjWikiImportTask extends TimerTask {
     
     @Override
     protected void finalizeImpl() throws Exception{
-      finalizeThread(true);
+      destroy();
     }
   }
 }

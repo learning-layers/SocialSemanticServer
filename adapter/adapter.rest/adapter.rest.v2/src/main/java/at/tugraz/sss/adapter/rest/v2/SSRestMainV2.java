@@ -31,12 +31,20 @@ import javax.ws.rs.core.HttpHeaders;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.reg.*;
 import java.io.InputStream;
+import javax.ws.rs.core.*;
 
 public class SSRestMainV2 extends Application {
-  
+
   public SSRestMainV2() throws Exception{
-    SSLogU.info("main started");
+  }
+  
+  public static Response prepareErrors() {
+    
+    SSServErrReg.logAndReset(true);
+    
+    return Response.status(500).build();
   }
   
   @Override

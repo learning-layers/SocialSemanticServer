@@ -33,6 +33,7 @@ import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -57,7 +58,20 @@ public class SSRESTLike extends SSServImplStartA{
   
   @Override
   protected void finalizeImpl() throws Exception{
-    finalizeThread(false);
+    destroy();
+  }
+
+  @PostConstruct
+  public void createRESTResource(){
+  }
+  
+  @PreDestroy
+  public void destroyRESTResource(){
+    try{
+      finalizeImpl();
+    }catch(Exception error2){
+      SSLogU.err(error2);
+    }
   }
   
   @PUT
@@ -105,15 +119,8 @@ public class SSRESTLike extends SSServImplStartA{
       return Response.status(200).entity(likeServ.likeSet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
 }

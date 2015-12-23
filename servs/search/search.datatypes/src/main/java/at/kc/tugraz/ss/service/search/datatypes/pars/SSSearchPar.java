@@ -24,7 +24,7 @@ package at.kc.tugraz.ss.service.search.datatypes.pars;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchLabel;
 import at.tugraz.sss.serv.datatype.enums.SSSearchOpE;
 import java.util.ArrayList;

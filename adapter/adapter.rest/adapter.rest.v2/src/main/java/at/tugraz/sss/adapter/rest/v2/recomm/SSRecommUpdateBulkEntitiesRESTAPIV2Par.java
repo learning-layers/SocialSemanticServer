@@ -54,7 +54,7 @@ public class SSRecommUpdateBulkEntitiesRESTAPIV2Par{
   public List<SSUri>       entities     = null;
   
   @XmlElement
-  public void setEntity(final List<String> entities) throws Exception{
+  public void setEntities(final List<String> entities) throws Exception{
     this.entities = SSUri.get(entities, SSConf.sssUri);
   }
   

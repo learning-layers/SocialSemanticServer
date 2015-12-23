@@ -28,6 +28,7 @@ import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
+import at.tugraz.sss.serv.reg.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public abstract class SSServImplStartA extends SSServImplA{
   
   protected static final ThreadLocal<List<SSServImplA>> servImplsUsedByThread = new ThreadLocal<List<SSServImplA>>(){
     
-    @Override protected List<SSServImplA> initialValue() {
+    @Override protected List<SSServImplA> initialValue(){
       
       try{
         return new ArrayList<>();
@@ -48,6 +49,32 @@ public abstract class SSServImplStartA extends SSServImplA{
       }
     }
   };
+  
+  public void destroy(){
+    
+    SSServErrReg.destroy();
+    
+    List<SSServImplA> usedServs = new ArrayList<>();
+    
+    try{
+      servImplsUsedByThread.get().remove(this);
+      
+      usedServs.addAll(servImplsUsedByThread.get());
+      
+      for(SSServImplA servImpl : usedServs){
+        servImpl.finalizeImpl();
+      }
+            
+    }catch(Exception error){
+      SSServErrReg.regErr(error);
+    }finally{
+      SSServErrReg.logAndReset(true);
+    }
+      
+    servImplsUsedByThread.remove();
+    
+    SSServReg.destroyContainers();
+  }
   
   public SSServImplStartA(final SSConfA conf){
     super(conf);
@@ -62,27 +89,6 @@ public abstract class SSServImplStartA extends SSServImplA{
     }
     
     servImplUsedList.add(servImpl);
-  }
-  
-  protected void finalizeThread(final Boolean log){
-    
-    List<SSServImplA> usedServs = new ArrayList<>();
-    
-    try{
-      servImplsUsedByThread.get().remove(this);
-      
-      usedServs.addAll(servImplsUsedByThread.get());
-      
-      for(SSServImplA servImpl : usedServs){
-        servImpl.finalizeImpl();
-      }
-    }catch(Exception error){
-      
-      SSServErrReg.regErr(error);
-//      SSLogU.err(error);
-    }finally{
-      SSServErrReg.logAndReset(true);
-    }
   }
   
   @Override

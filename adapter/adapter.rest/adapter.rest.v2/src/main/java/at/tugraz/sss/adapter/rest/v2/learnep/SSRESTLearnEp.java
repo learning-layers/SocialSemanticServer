@@ -69,6 +69,7 @@ import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -96,7 +97,20 @@ public class SSRESTLearnEp extends SSServImplStartA{
   
   @Override
   protected void finalizeImpl() throws Exception{
-    finalizeThread(false);
+    destroy();
+  }
+
+  @PostConstruct
+  public void createRESTResource(){
+  }
+  
+  @PreDestroy
+  public void destroyRESTResource(){
+    try{
+      finalizeImpl();
+    }catch(Exception error2){
+      SSLogU.err(error2);
+    }
   }
   
   @GET
@@ -139,16 +153,9 @@ public class SSRESTLearnEp extends SSServImplStartA{
       return Response.status(200).entity(learnEpServ.learnEpsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @GET
@@ -193,14 +200,7 @@ public class SSRESTLearnEp extends SSServImplStartA{
       return Response.status(200).entity(learnEpServ.learnEpVersionsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
-    }
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
+      return SSRestMainV2.prepareErrors();
     }
     
   }
@@ -246,16 +246,9 @@ public class SSRESTLearnEp extends SSServImplStartA{
       return Response.status(200).entity(learnEpServ.learnEpVersionGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @GET
@@ -295,16 +288,9 @@ public class SSRESTLearnEp extends SSServImplStartA{
       return Response.status(200).entity(learnEpServ.learnEpVersionCurrentGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @POST
@@ -348,16 +334,9 @@ public class SSRESTLearnEp extends SSServImplStartA{
       return Response.status(200).entity(learnEpServ.learnEpVersionCurrentSet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @POST
@@ -401,16 +380,9 @@ public class SSRESTLearnEp extends SSServImplStartA{
       return Response.status(200).entity(learnEpServ.learnEpCreate(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @POST
@@ -454,16 +426,9 @@ public class SSRESTLearnEp extends SSServImplStartA{
       return Response.status(200).entity(learnEpServ.learnEpVersionCreate(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @DELETE
@@ -507,16 +472,9 @@ public class SSRESTLearnEp extends SSServImplStartA{
       return Response.status(200).entity(learnEpServ.learnEpRemove(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @POST
@@ -569,16 +527,9 @@ public class SSRESTLearnEp extends SSServImplStartA{
       return Response.status(200).entity(learnEpServ.learnEpVersionCircleAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @POST
@@ -627,14 +578,7 @@ public class SSRESTLearnEp extends SSServImplStartA{
       return Response.status(200).entity(learnEpServ.learnEpVersionEntityAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
-    }
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
+      return SSRestMainV2.prepareErrors();
     }
   }
   
@@ -689,16 +633,9 @@ public class SSRESTLearnEp extends SSServImplStartA{
       return Response.status(200).entity(learnEpServ.learnEpVersionCircleUpdate(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @PUT
@@ -747,16 +684,9 @@ public class SSRESTLearnEp extends SSServImplStartA{
       return Response.status(200).entity(learnEpServ.learnEpVersionEntityUpdate(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @DELETE
@@ -800,16 +730,9 @@ public class SSRESTLearnEp extends SSServImplStartA{
       return Response.status(200).entity(learnEpServ.learnEpVersionCircleRemove(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @DELETE
@@ -853,16 +776,9 @@ public class SSRESTLearnEp extends SSServImplStartA{
       return Response.status(200).entity(learnEpServ.learnEpVersionEntityRemove(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @POST
@@ -910,16 +826,9 @@ public class SSRESTLearnEp extends SSServImplStartA{
       return Response.status(200).entity(learnEpServ.learnEpVersionTimelineStateSet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @GET
@@ -962,14 +871,7 @@ public class SSRESTLearnEp extends SSServImplStartA{
       return Response.status(200).entity(learnEpServ.learnEpVersionTimelineStateGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
-    }
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
+      return SSRestMainV2.prepareErrors();
     }
   }
   
@@ -1013,18 +915,10 @@ public class SSRESTLearnEp extends SSServImplStartA{
       return Response.status(200).entity(learnEpServ.learnEpsLockHold(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
-  }
-  
+  }  
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -1067,16 +961,9 @@ public class SSRESTLearnEp extends SSServImplStartA{
       return Response.status(200).entity(learnEpServ.learnEpLockSet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @DELETE
@@ -1121,15 +1008,8 @@ public class SSRESTLearnEp extends SSServImplStartA{
       return Response.status(200).entity(learnEpServ.learnEpLockRemove(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
 }

@@ -50,6 +50,7 @@ import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUnpublicizeRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUpdateRet;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -76,7 +77,20 @@ public class SSRESTEntity extends SSServImplStartA{
   
   @Override
   protected void finalizeImpl() throws Exception{
-    finalizeThread(false);
+    destroy();
+  }
+
+  @PostConstruct
+  public void createRESTResource(){
+  }
+  
+  @PreDestroy
+  public void destroyRESTResource(){
+    try{
+      finalizeImpl();
+    }catch(Exception error2){
+      SSLogU.err(error2);
+    }
   }
   
   @GET
@@ -120,16 +134,9 @@ public class SSRESTEntity extends SSServImplStartA{
       return Response.status(200).entity(entityServ.entitiesAccessibleGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @POST
@@ -180,16 +187,9 @@ public class SSRESTEntity extends SSServImplStartA{
       return Response.status(200).entity(entityServ.entitiesAccessibleGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @GET
@@ -225,16 +225,9 @@ public class SSRESTEntity extends SSServImplStartA{
       return Response.status(200).entity(entityServ.entityTypesGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @POST
@@ -292,16 +285,9 @@ public class SSRESTEntity extends SSServImplStartA{
       return Response.status(200).entity(entityServ.entitiesGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   //TODO replace this call by a service to be created for placeholder functionality (i.e., b&p placeholders)
@@ -352,14 +338,7 @@ public class SSRESTEntity extends SSServImplStartA{
       return Response.status(200).entity(entityServ.entityUpdate(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
-    }
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
+      return SSRestMainV2.prepareErrors();
     }
   }
   
@@ -412,16 +391,9 @@ public class SSRESTEntity extends SSServImplStartA{
       return Response.status(200).entity(entityServ.entityUpdate(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @PUT
@@ -470,16 +442,9 @@ public class SSRESTEntity extends SSServImplStartA{
       return Response.status(200).entity(entityServ.entityShare(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @PUT
@@ -522,16 +487,9 @@ public class SSRESTEntity extends SSServImplStartA{
       return Response.status(200).entity(entityServ.entityUnpublicize(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
+      return SSRestMainV2.prepareErrors();
     }
     
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
-    }
   }
   
   @PUT
@@ -587,14 +545,7 @@ public class SSRESTEntity extends SSServImplStartA{
       return Response.status(200).entity(entityServ.entityCopy(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
-    }
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
+      return SSRestMainV2.prepareErrors();
     }
   }
   
@@ -639,14 +590,7 @@ public class SSRESTEntity extends SSServImplStartA{
       return Response.status(200).entity(userServ.userEntityUsersGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
-    }
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
+      return SSRestMainV2.prepareErrors();
     }
   }
   
@@ -694,14 +638,7 @@ public class SSRESTEntity extends SSServImplStartA{
       return Response.status(200).entity(commentServ.commentsAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return Response.status(500).build();
-    }
-    finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
+      return SSRestMainV2.prepareErrors();
     }
   }
 }

@@ -52,6 +52,7 @@ import at.tugraz.sss.serv.db.serv.*;
 import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.db.impl.*;
 import at.tugraz.sss.servs.image.serv.*;
 import at.tugraz.sss.servs.integrationtest.*;
 import at.tugraz.sss.servs.kcprojwiki.serv.*;
@@ -62,14 +63,28 @@ import at.tugraz.sss.servs.ocd.service.*;
 import javax.servlet.*;
 import sss.serv.eval.serv.*;
 
-public class SSRestMainV2Initializer extends SSServImplStartA implements ServletContextListener{
+public class SSInitializer extends SSServImplStartA implements ServletContextListener{
   
-  public SSRestMainV2Initializer() {
+  public SSInitializer() {
     super(null);
   }
   
-  public SSRestMainV2Initializer(final SSConfA conf) {
+  public SSInitializer(final SSConfA conf) {
     super(conf);
+  }
+  
+  @Override
+  public void contextDestroyed(ServletContextEvent sce) {
+    
+    try {
+      SSServReg.destroy();
+      
+      finalizeImpl();
+      
+      SSDBSQLMySQLImpl.closePool();
+    } catch (Exception error) {
+      SSLogU.err(error);
+    }
   }
   
   @Override
@@ -81,8 +96,6 @@ public class SSRestMainV2Initializer extends SSServImplStartA implements Servlet
       
       try{
         SSLogU.init(SSCoreConf.instGet().getSss().getSssWorkDir());
-        
-        SSLogU.info("sss.adapter.rest startup");
         
         SSFileExtE.init    ();
         SSMimeTypeE.init   ();
@@ -183,11 +196,6 @@ public class SSRestMainV2Initializer extends SSServImplStartA implements Servlet
   
   @Override
   protected void finalizeImpl() throws Exception{
-    finalizeThread(true);
-  }
-  
-  @Override
-  public void contextDestroyed(ServletContextEvent sce) {
-    SSLogU.info("sss.adapter.rest stutdown");
+    destroy();
   }
 }
