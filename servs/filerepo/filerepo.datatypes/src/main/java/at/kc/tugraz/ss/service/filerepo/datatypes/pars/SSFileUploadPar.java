@@ -23,9 +23,9 @@ package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
 import at.tugraz.sss.serv.util.SSMimeTypeE;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-
-import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar;
+import java.io.*;
 import java.net.Socket;
 
 public class SSFileUploadPar extends SSServPar{
@@ -33,6 +33,9 @@ public class SSFileUploadPar extends SSServPar{
   public SSLabel       label       = null;
   public SSMimeTypeE   mimeType    = null;
   public SSUri         circle      = null;
+  
+  public InputStream  fileInputStream = null;
+  public SSClientE    clientType      = SSClientE.socket;
   
   public String getCircle(){
     return SSStrU.removeTrailingSlash(circle);
@@ -66,14 +69,18 @@ public class SSFileUploadPar extends SSServPar{
     final SSLabel       label,
     final SSUri         circle,
     final Socket        clientSocket,
+    final InputStream   fileInputStream,
+    final SSClientE     clientType,
     final Boolean       shouldCommit){
     
     super (SSVarNames.fileUpload, null, user);
     
-    this.mimeType     = mimeType;
-    this.label        = label;
-    this.circle       = circle;
-    this.clientSocket = clientSocket;
-    this.shouldCommit = shouldCommit;
+    this.mimeType        = mimeType;
+    this.label           = label;
+    this.circle          = circle;
+    this.clientSocket    = clientSocket;
+    this.fileInputStream = fileInputStream;
+    this.clientType      = clientType;
+    this.shouldCommit    = shouldCommit;
   }
 }

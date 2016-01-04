@@ -75,9 +75,11 @@ public class SSRecommUpdateBulkTask extends TimerTask {
       try{
         ((SSRecommServerI)SSRecommServ.inst.getServImpl()).recommUpdateBulk(
           new SSRecommUpdateBulkPar(
-            SSConf.systemUserUri, 
-            recommConf.fileNameForRec, 
-            null));
+            SSConf.systemUserUri, //user
+            recommConf.fileNameForRec, //realm
+            null, //clientSocket
+            null, //fileInputStream
+            null));//clientType
         
 //        SSServCaller.recommUpdateBulk(SSVoc.systemUserUri, recommConf.fileNameForRec);
       }catch(Exception error1){

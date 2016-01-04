@@ -21,7 +21,6 @@
 package at.tugraz.sss.adapter.rest.v2.recomm;
 
 import at.kc.tugraz.ss.recomm.api.*;
-import at.tugraz.sss.adapter.rest.v2.SSRESTObject;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
@@ -160,23 +159,35 @@ public class SSRESTRecomm extends SSServImplStartA{
     final InputStream file){
     
     final SSRecommUpdateBulkPar par;
-    final SSRESTObject          restObj;
     
     try{
       
       par =
         new SSRecommUpdateBulkPar(
-          null,
-          realm,
-          null); //sSCon
-      
-      restObj = new SSRESTObject(par);
+          null, //user
+          realm, //realm
+          null, //clientSocket
+          file, //fileInputStream
+          SSClientE.rest); //clientType
       
     }catch(Exception error){
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleFileUploadRequest(headers, restObj, file).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      
+      return Response.status(200).entity(recommServ.recommUpdateBulk(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return SSRestMainV2.prepareErrors();
+    }
   }
   
   @PUT

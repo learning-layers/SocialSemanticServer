@@ -20,23 +20,31 @@
  */
 package at.kc.tugraz.ss.recomm.datatypes.par;
 
-
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
+import java.io.*;
 import java.net.Socket;
 
 public class SSRecommUpdateBulkPar extends SSServPar{
   
-  public String      realm         = null;
+  public String      realm           = null;
+  public InputStream fileInputStream = null;
+  public SSClientE    clientType     = SSClientE.socket;
   
   public SSRecommUpdateBulkPar(
     final SSUri               user,
     final String              realm,
-    final Socket              clientSocket){
+    final Socket              clientSocket,
+    final InputStream         fileInputStream,
+    final SSClientE           clientType){
     
     super(SSVarNames.recommUpdateBulk, null, user);
     
-    this.realm        = realm;
-    this.clientSocket = clientSocket;
+    this.realm           = realm;
+    this.clientSocket    = clientSocket;
+    this.fileInputStream = fileInputStream;
+    this.clientType      = clientType;
   }
 }

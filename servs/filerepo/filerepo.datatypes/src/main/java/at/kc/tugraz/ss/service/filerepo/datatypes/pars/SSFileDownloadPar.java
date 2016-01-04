@@ -22,14 +22,15 @@ package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import java.net.Socket;
 
 public class SSFileDownloadPar extends SSServPar{
   
   public SSUri        file             = null;
   public Boolean      isPublicDownload = false;
+  public SSClientE    clientType       = SSClientE.socket;
   
   public String getFile(){
     return SSStrU.removeTrailingSlash(file);
@@ -45,12 +46,14 @@ public class SSFileDownloadPar extends SSServPar{
     final SSUri         user,
     final SSUri         file, 
     final Socket        clientSocket, 
-    final Boolean       isPublicDownload){
+    final Boolean       isPublicDownload,
+    final SSClientE     clientType){
     
     super(SSVarNames.fileDownload, null, user);
     
     this.file             = file;
     this.clientSocket     = clientSocket;
     this.isPublicDownload = isPublicDownload;
+    this.clientType       = clientType;
   }  
 }

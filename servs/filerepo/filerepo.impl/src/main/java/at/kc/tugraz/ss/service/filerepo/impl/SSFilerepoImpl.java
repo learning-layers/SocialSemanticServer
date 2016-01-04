@@ -40,8 +40,9 @@ import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileAddRet;
+import at.kc.tugraz.ss.service.filerepo.datatypes.rets.*;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileSQLFct;
+import at.tugraz.sss.adapter.socket.*;
 import at.tugraz.sss.serv.entity.api.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.datatype.par.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
@@ -60,13 +61,14 @@ import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
-import at.tugraz.sss.serv.datatype.par.SSEntityRemovePar;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.servs.file.datatype.par.SSFileGetPar;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.util.*;
 import java.util.List;
+import javax.ws.rs.core.*;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
@@ -202,7 +204,7 @@ implements
       
       par = (SSFileDownloadPar) parA.getFromClient(clientType, parA, SSFileDownloadPar.class);
       
-      fileDownload(par);
+      final SSFileDownloadRet ret = fileDownload(par);
       
       if(!par.isPublicDownload){
         
@@ -218,7 +220,7 @@ implements
             par.shouldCommit));
       }
       
-      return null;
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -226,7 +228,7 @@ implements
   }
 
   @Override
-  public void fileDownload(final SSFileDownloadPar par) throws SSErr{
+  public SSFileDownloadRet fileDownload(final SSFileDownloadPar par) throws SSErr{
     
     try{
       
@@ -245,10 +247,100 @@ implements
         }
       }
       
-      new Thread(new SSFileDownloader((SSFileRepoConf) conf, par)).start();
+      final String            fileId          = SSConf.fileIDFromSSSURI(par.file);
+      final FileInputStream   fileInputStream = new FileInputStream(new File(conf.getLocalWorkPath() + fileId));
+      final SSFileDownloadRet ret             = new SSFileDownloadRet(par.file, null);
       
+      switch(par.clientType){
+        
+        case socket:{
+          
+          final DataInputStream fileReader = new DataInputStream (fileInputStream);
+          
+          try{
+            final DataOutputStream    dataOutputStream   = new DataOutputStream   (par.clientSocket.getOutputStream());
+            final InputStreamReader   inputStreamReader  = new InputStreamReader  (par.clientSocket.getInputStream(), SSEncodingU.utf8.toString());
+            final OutputStreamWriter  outputStreamWriter = new OutputStreamWriter (par.clientSocket.getOutputStream());
+            final SSSocketAdapterU    socketAdapterU     = new SSSocketAdapterU   ();
+            byte[]                    chunk              = new byte[SSSocketU.socketTranmissionSize];
+            int                       fileChunkLength    = -1;
+            
+            socketAdapterU.writeRetFullToClient(outputStreamWriter, ret);
+            
+            //      switch(((SSFileRepoConf)conf).fileRepoType){
+//        case i5Cloud: downloadFromI5Cloud(); break;
+//    if(SSFileRepoTypeEnum.isSame(fileRepoConf.fileRepoType, SSFileRepoTypeEnum.webdav)){
+//      this.webdavInputStream = SardineFactory.begin(fileRepoConf.getUser(), fileRepoConf.getPassword()).getInputStream(fileRepoConf.getPath() + fileId);
+////      fileReader = new DataInputStream(SardineFactory.begin(fileRepoConf.getUser(), fileRepoConf.getPassword()).getInputStream(fileRepoConf.getPath() + fileId));
+//    }
+//      }
+            
+            SSSocketU.readFullString(inputStreamReader);
+            
+            while(true){
+              
+              fileChunkLength = fileReader.read(chunk);
+              
+              if(fileChunkLength == -1){
+                
+                SSSocketU.writeByteChunk(dataOutputStream, new byte[0], fileChunkLength);
+                
+                fileReader.close();
+                
+                break;
+              }
+              
+              SSSocketU.writeByteChunk(dataOutputStream, chunk, fileChunkLength);
+            }
+            
+            return ret;
+            
+          }catch(Exception error){
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }finally{
+            
+            try{
+              fileReader.close();
+            }catch(IOException ex){
+              SSLogU.err(ex);
+            }
+          }          
+        }
+        
+        case rest:{
+          
+          final StreamingOutput stream = new StreamingOutput(){
+            
+            @Override
+            public void write(OutputStream out) throws IOException{
+              
+              try{
+                byte[] bytes     = new byte[SSSocketU.socketTranmissionSize];
+                int    read;
+                
+                while((read = fileInputStream.read(bytes)) != -1) {
+                  out.write        (bytes, 0, read);
+                  out.flush        ();
+                }
+                
+                out.close();
+              }finally{
+                fileInputStream.close();
+              }
+            }
+          };
+          
+          ret.outputStream = stream;
+          
+          break;
+        }
+      }
+      
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 
@@ -259,10 +351,12 @@ implements
       userCommons.checkKeyAndSetUser(parA);
       
       final SSFileUploadPar par = (SSFileUploadPar) parA.getFromClient(clientType, parA, SSFileUploadPar.class);
+      final SSFileUploadRet ret = fileUpload(par);
       
-      fileUpload(par);
+      evalLogFileUpload(par.user, ret.file, par.shouldCommit);
       
-      return null;
+      return ret;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -270,14 +364,208 @@ implements
   }
   
   @Override
-  public void fileUpload(final SSFileUploadPar par) throws SSErr{
+  public SSFileUploadRet fileUpload(final SSFileUploadPar par) throws SSErr{
     
     try{
       
-      new Thread(new SSFileUploader((SSFileRepoConf) conf, par)).start();
+      final SSFileExtE      fileExt;
+      final SSUri           fileUri;
+      final String          fileId;
+      final SSFileUploadRet result;
+      SSUri                 thumbUri  = null;
+      
+      fileExt            = SSMimeTypeE.fileExtForMimeType       (par.mimeType);
+      fileUri            = SSConf.vocURICreate                  (fileExt);
+      fileId             = SSConf.fileIDFromSSSURI              (fileUri);
+      result             = SSFileUploadRet.get(fileUri, thumbUri);
+      
+      switch(par.clientType){
+        
+        case socket:{
+          final SSSocketAdapterU   socketAdapterU     = new SSSocketAdapterU();
+          final DataInputStream    dataInputStream    = new DataInputStream    (par.clientSocket.getInputStream());
+          final OutputStreamWriter outputStreamWriter = new OutputStreamWriter (par.clientSocket.getOutputStream());
+          
+          socketAdapterU.writeRetFullToClient(outputStreamWriter, result);
+          
+          readFileFromSocketStreamAndSave(dataInputStream, fileId);
+          break;
+        }
+        
+        case rest:{
+          readFileFromRESTInputStreamAndSave(par.fileInputStream, fileId);
+        }
+      }
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      result.thumb =
+        registerFileAndCreateThumb(
+          par.user,
+          fileUri,
+          par.label,
+          par.withUserRestriction);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      addFileContentsToNoSQLStore  (fileId);
+//      removeFileFromLocalWorkFolder();
+      
+      return result;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  private void readFileFromRESTInputStreamAndSave(
+    final InputStream inputStream,
+    final String      fileID) throws SSErr{
+    
+    FileOutputStream fileOutputStream = null;
+      
+    try{
+      
+      byte[] bytes     = new byte[SSSocketU.socketTranmissionSize];
+      int    read;
+      fileOutputStream = SSFileU.openOrCreateFileWithPathForWrite   (conf.getLocalWorkPath() + fileID);
+
+      while((read = inputStream.read(bytes)) != -1) {
+        fileOutputStream.write        (bytes, 0, read);
+        fileOutputStream.flush        ();
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }finally{
+      
+      if(fileOutputStream != null){
+        
+        try{
+          fileOutputStream.close();
+        }catch(IOException ex){
+          SSLogU.warn("closing file output stream failed");
+        }
+      }
+    }
+  }
+  
+  private void readFileFromSocketStreamAndSave(
+    final DataInputStream dataInputStream,
+    final String          fileID) throws Exception{
+    
+    FileOutputStream fileOutputStream = null;
+      
+    try{
+      
+      byte[] fileChunk = null;
+      
+      fileOutputStream = SSFileU.openOrCreateFileWithPathForWrite   (conf.getLocalWorkPath() + fileID);
+
+      while(true){
+        
+        fileChunk = SSSocketU.readByteChunk(dataInputStream);
+        
+        if(fileChunk.length != 0){
+          
+          fileOutputStream.write        (fileChunk);
+          fileOutputStream.flush        ();
+          continue;
+        }
+        
+        fileOutputStream.close();
+        break;
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }finally{
+      
+      if(fileOutputStream != null){
+        
+        try{
+          fileOutputStream.close();
+        }catch(IOException ex){
+          SSLogU.warn("closing file output stream failed");
+        }
+      }
+    }
+  }
+  
+  private void addFileContentsToNoSQLStore(final String fileID){
+    
+    try{
+      
+      dbNoSQL.addDoc(new SSDBNoSQLAddDocPar(fileID));
+      
+    }catch(Exception error){
+      
+//      if(SSServErrReg.containsErr(SSErrE.servServerNotAvailable)){
+        SSLogU.warn(SSErrE.servServerNotAvailable.toString());
+//      }else{
+//        SSLogU.warn(error.getMessage());
+//      }
+      
+       SSServErrReg.reset();
+    }
+  }
+  
+  private SSUri registerFileAndCreateThumb(
+    final SSUri   user,
+    final SSUri   fileUri,
+    final SSLabel label,
+    final Boolean withUserRestriction) throws Exception{
+    
+    try{
+      
+      final SSFileAddRet      result   =
+        fileAdd(
+          new SSEntityFileAddPar(
+            user,
+            null,
+            null, //fileLength
+            null, //fileExt,
+            fileUri, //file,
+            SSEntityE.uploadedFile, //type,
+            label, //label,
+            null, //entity
+            true, //createThumb,
+            fileUri, //entityToAddThumbTo,
+            false, //removeExistingFilesForEntity,
+            withUserRestriction,
+            false));
+      
+      return result.thumb;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+
+  private void evalLogFileUpload(
+    final SSUri   user,
+    final SSUri   fileUri,
+    final Boolean shouldCommit) {
+    
+    try{
+      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          user,
+          SSToolContextE.sss,
+          SSEvalLogE.fileUpload,
+          fileUri,  //entity
+          null, //content,
+          null, //entities
+          null, //users
+          shouldCommit));
+      
+    }catch(Exception error){
+      SSLogU.warn(error);
+      SSServErrReg.reset();
     }
   }
 
@@ -580,4 +868,105 @@ implements
 //     SSUri fileUri) throws SSErr{
 //    
 //    return SSUri.get(getFileUri() + getIdFromFileUri(fileUri));
+//  }
+
+
+//private void uploadFileToWebDav() throws Exception{
+//    
+//    try{
+//      fileInputStream = SSFileU.openFileForRead(localWorkPath + fileId);
+//      
+//      SardineFactory.begin(
+//        fileConf.user,
+//        fileConf.password).put(fileConf.getPath() + fileId, fileInputStream);
+//      
+//      fileInputStream.close();
+//    }catch(Exception error){
+//      SSServErrReg.regErr(error);
+//    }
+//  }
+
+//  private void uploadFileToI5Cloud() throws Exception{
+//
+//    try{
+//      SSServCaller.i5CloudFileUpload(this.fileId, "private", SSServCaller.i5CloudAuth().get(SSHTMLU.xAuthToken));
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }
+//  }
+
+//private void disposeUploadedFile() throws Exception{
+//    
+//    try{
+//      
+//      switch(fileConf.fileRepoType){
+//        case fileSys: moveFileToLocalRepo(); break;
+//      }
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }
+//  }
+
+//  private void removeFileFromLocalWorkFolder() throws Exception{
+//    
+//    if(SSStrU.equals(localWorkPath, fileConf.getPath())){
+//      return;
+//    }
+//    
+//    try{
+//      SSFileU.delFile(localWorkPath + fileId);
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }
+//  }
+  
+//  private void moveFileToLocalRepo() throws Exception{
+//    
+//    if(SSStrU.equals(localWorkPath, fileConf.getPath())){
+//      return;
+//    }
+//    
+//    try{
+//      final File file = new File(localWorkPath + fileId);
+//      
+//      if(!file.renameTo(new File(fileConf.getPath() + fileId))){
+//        throw new Exception("couldnt move file to local file repo");
+//      }
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }
+//  }
+
+//  private void saveActivity() throws Exception{
+//    
+//    try{
+//      
+//      SSServCaller.activityAdd(
+//        par.user,
+//        SSActivityE.downloadFile,
+//        SSUri.asListWithoutNullAndEmpty(),
+//        SSUri.asListWithoutNullAndEmpty(this.par.file),
+//        SSTextComment.asListWithoutNullAndEmpty(),
+//        null,
+//        false);
+//      
+//    }catch(SSErr error){
+//      
+//      switch(error.code){
+//        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+//        default: SSServErrReg.regErrThrow(error);
+//      }
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }
+//  }
+//  private void downloadFromI5Cloud() throws Exception{
+//    
+//    try{
+//      SSServCaller.i5CloudFileDownload(this.fileId, "private", SSServCaller.i5CloudAuth().get(SSHTMLU.xAuthToken));
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }
 //  }

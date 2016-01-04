@@ -18,28 +18,29 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.filerepo.datatypes.rets;
-
+package at.kc.tugraz.ss.service.filerepo.datatypes.rets;
 
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import at.tugraz.sss.serv.datatype.*;
-import java.util.HashMap;
-import java.util.Map;
+import javax.ws.rs.core.*;
 
 public class SSFileDownloadRet extends SSServRetI{
   
-  public  SSUri file = null;
+  public  SSUri           file         = null;
+  public  StreamingOutput outputStream = null;
 
   public String getFile() throws Exception{
     return SSStrU.removeTrailingSlash(file);
   }
    
-  public SSFileDownloadRet(SSUri uri){
+  public SSFileDownloadRet(
+    final SSUri           file,
+    final StreamingOutput outputStream){
     
     super(SSVarNames.fileDownload);
     
-    this.file = uri;
+    this.file         = file;
+    this.outputStream = outputStream;
   }
 }

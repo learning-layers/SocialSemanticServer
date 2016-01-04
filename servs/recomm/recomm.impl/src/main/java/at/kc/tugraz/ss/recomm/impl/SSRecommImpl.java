@@ -41,12 +41,8 @@ import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkUserRealmsFromCirc
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkUserRealmsFromConfPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdatePar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUsersPar;
-import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommResourcesRet;
-import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommTagsRet;
-import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateRet;
-import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUsersRet;
+import at.kc.tugraz.ss.recomm.datatypes.ret.*;
 import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommResourcesFct;
-import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommUpdateBulkUploader;
 import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommUserRealmKeeper;
 import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
@@ -60,17 +56,15 @@ import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLikelihood;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
+import at.tugraz.sss.adapter.socket.*;
 import at.tugraz.sss.serv.datatype.par.SSCirclesGetPar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.conf.api.SSConfA;
-
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
-
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import engine.Algorithm;
 import engine.EntityType;
@@ -85,6 +79,7 @@ import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import engine.EntityRecommenderEngine;
 import engine.TagRecommenderEvalEngine;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Random;
 import sss.serv.eval.api.SSEvalServerI;
@@ -558,18 +553,80 @@ implements
   @Override
   public SSServRetI recommUpdateBulk(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
+    FileOutputStream fileOutputStream = null;
+    
     try{
       userCommons.checkKeyAndSetUser(parA);
       
       final SSRecommUpdateBulkPar par = (SSRecommUpdateBulkPar) parA.getFromClient(clientType, parA, SSRecommUpdateBulkPar.class);
       
-      new Thread(new SSRecommUpdateBulkUploader(recommConf, par)).start();
+      final String                      dataCSVPath        = conf.getSssWorkDirDataCsv();
+      final SSRecommUpdateBulkRet       result             = SSRecommUpdateBulkRet.get(true);
+      byte[]                            fileChunk         = null;
       
-      //TODO fix this behavior
-      return null;
+      dbSQL.startTrans(par.shouldCommit);
+      
+      final SSRecommUserRealmEngine userRealmEngine =
+        userRealmKeeper.checkAddAndGetUserRealmEngine(
+          recommConf,
+          par.user,
+          par.realm,
+          true, //checkForUpdate
+          new EntityRecommenderEngine(), //engine
+          sql,
+          true);
+      
+      fileOutputStream = 
+        SSFileU.openOrCreateFileWithPathForWrite (dataCSVPath + userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
+      
+      switch(par.clientType){
+        
+        case socket:{
+          final DataInputStream             dataInputStream    = new DataInputStream   (par.clientSocket.getInputStream());
+          final OutputStreamWriter          outputStreamWriter = new OutputStreamWriter(par.clientSocket.getOutputStream());
+          final SSSocketAdapterU            socketAdapterU     = new SSSocketAdapterU  ();
+          
+          socketAdapterU.writeRetFullToClient(outputStreamWriter, result);
+          
+          while(true){
+            
+            fileChunk = SSSocketU.readByteChunk(dataInputStream);
+            
+            if(fileChunk.length != 0){
+              
+              fileOutputStream.write        (fileChunk);
+              fileOutputStream.flush        ();
+              continue;
+            }
+            
+            break;
+          }
+          
+          break;
+        }
+        
+        case rest:{
+          break;
+        }
+      }
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return result;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
+    }finally{
+      
+      if(fileOutputStream != null){
+        
+        try{
+          fileOutputStream.close();
+        }catch(IOException ex){
+          SSLogU.err(ex);
+        }
+      }
     }
   }
   

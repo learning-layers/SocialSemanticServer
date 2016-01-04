@@ -44,7 +44,7 @@ public class SSServPar{
   public Boolean              withUserRestriction = true;
 
   @JsonIgnore
-  public Socket               clientSocket           = null;
+  public Socket               clientSocket        = null;
   
   @JsonIgnore
   public Map<String, Object>  pars                = null;

@@ -20,19 +20,24 @@
  */
 package at.tugraz.sss.adapter.rest.v2.file;
 
-import at.tugraz.sss.adapter.rest.v2.SSRESTObject;
+import at.kc.tugraz.ss.service.filerepo.api.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
+import at.kc.tugraz.ss.service.filerepo.datatypes.rets.*;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.impl.api.*;
+import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.SSMimeTypeE;
 import at.tugraz.sss.serv.util.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
-import java.io.InputStream;
+import java.io.*;
+import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -40,15 +45,38 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 @Path("/files")
 @Api( value = "/files")
-public class SSRESTFile{
+public class SSRESTFile extends SSServImplStartA{
+  
+  public SSRESTFile() {
+    super(null);
+  }
+  
+  public SSRESTFile(final SSConfA conf) {
+    super(conf);
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+    destroy();
+  }
+
+  @PostConstruct
+  public void createRESTResource(){
+  }
+  
+  @PreDestroy
+  public void destroyRESTResource(){
+    try{
+      finalizeImpl();
+    }catch(Exception error2){
+      SSLogU.err(error2);
+    }
+  }
   
   @POST
   @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -86,7 +114,6 @@ public class SSRESTFile{
     final InputStream fileHandle){ //@FormDataParam("my_file") FormDataBodyPart body Then you can use body.getMediaType()
     
     final SSFileUploadPar  par;
-    final SSRESTObject     restObj;
     
     try{
       
@@ -96,22 +123,35 @@ public class SSRESTFile{
           SSMimeTypeE.get(mimeType),  //mimeType
           SSLabel.get    (label),  //label
           SSUri.get(circle, SSConf.sssUri), //circle
-          null, //sSCon
+          null, //clientSocket
+          fileHandle, //fileInputStream
+          SSClientE.rest, //clientType
           true); //shouldCommit
 
-      restObj = new SSRESTObject(par);
-      
     }catch(Exception error){
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleFileUploadRequest(headers, restObj, fileHandle).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSFileRepoClientI fileServ = (SSFileRepoClientI) SSServReg.getClientServ(SSFileRepoClientI.class);
+      
+      return Response.status(200).entity(fileServ.fileUpload(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return SSRestMainV2.prepareErrors();
+    }
   }
   
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_OCTET_STREAM)
-  @Path("{file}/download")
+  @Path("/{file}/download")
   @ApiOperation(
     value = "download a file",
     response = byte.class)
@@ -126,7 +166,6 @@ public class SSRESTFile{
     final String file) throws Exception{
     
     final SSFileDownloadPar par;
-    final SSRESTObject      restObj;
     String                  fileName;
     
     try{
@@ -134,20 +173,30 @@ public class SSRESTFile{
       par =
         new SSFileDownloadPar(
           null,
-          SSUri.get(file, SSConf.sssUri), //entity
-          null, //sScon
-          false); //isPublicDownload
+          SSUri.get(file, SSConf.sssUri), //file
+          null, //clientSocket
+          false, //isPublicDownload
+          SSClientE.rest);  //clientTpype
       
       fileName = SSStrU.removeTrailingSlash(par.file);
       fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
-      
-      restObj = new SSRESTObject(par);
       
     }catch(Exception error){
       return Response.status(422).build();
     }
 
-    return SSRestMainV2.handleFileDownloadRequest(headers, restObj, fileName, true).response;
+    try{
+      final SSFileRepoClientI fileServ    = (SSFileRepoClientI) SSServReg.getClientServ(SSFileRepoClientI.class);
+      final SSFileDownloadRet ret         = (SSFileDownloadRet) fileServ.fileDownload(SSClientE.rest, par);
+      
+      return Response.ok(ret.outputStream).
+        header("Content-Disposition", "inline; filename=\"" + fileName + "\"").
+        header("Content-Type", SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(fileName)).toString()).
+        build();
+      
+    }catch(Exception error){
+      return SSRestMainV2.prepareErrors();
+    }
   }
   
   @GET
@@ -174,7 +223,6 @@ public class SSRESTFile{
     final String file) throws Exception{
     
     final SSFileDownloadPar par;
-    final SSRESTObject      restObj;
     String                  fileName;
     
     try{
@@ -183,21 +231,31 @@ public class SSRESTFile{
         new SSFileDownloadPar(
           null,
           SSUri.get(file, SSConf.sssUri), //entity
-          null, //sSCon
-          false); //isPublicDownload
+          null, //clientSocket
+          false, //isPublicDownload
+          SSClientE.rest);  //clientTpype
       
       par.key  = key;
       
       fileName = SSStrU.removeTrailingSlash(par.file);
       fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
       
-      restObj = new SSRESTObject(par);
-      
     }catch(Exception error){
       return Response.status(422).build();
     }
 
-    return SSRestMainV2.handleFileDownloadRequest(headers, restObj, fileName, false).response;
+    try{
+      final SSFileRepoClientI fileServ    = (SSFileRepoClientI) SSServReg.getClientServ(SSFileRepoClientI.class);
+      final SSFileDownloadRet ret         = (SSFileDownloadRet) fileServ.fileDownload(SSClientE.rest, par);
+      
+      return Response.ok(ret.outputStream).
+        header("Content-Disposition", "inline; filename=\"" + fileName + "\"").
+        header("Content-Type", SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(fileName)).toString()).
+        build();
+      
+    }catch(Exception error){
+      return SSRestMainV2.prepareErrors();
+    }
   }
   
   @GET
@@ -215,28 +273,37 @@ public class SSRESTFile{
     final String file) throws Exception{
     
     final SSFileDownloadPar par;
-    final SSRESTObject      restObj;
     String                  fileName;
     
     try{
       
       par =
         new SSFileDownloadPar(
-          null,
-          SSUri.get(file, SSConf.sssUri), //entity
-          null, //sSCon
-          true); 
+          null, //user
+          SSUri.get(file, SSConf.sssUri), //file
+          null, //clientSocket
+          true, //isPublicDownload
+          SSClientE.rest); 
       
       fileName = SSStrU.removeTrailingSlash(par.file);
       fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
       
-      restObj = new SSRESTObject(par);
-      
     }catch(Exception error){
       return Response.status(422).build();
     }
-
-    return SSRestMainV2.handleFileDownloadRequest(null, restObj, fileName, false).response;
+    
+    try{
+      final SSFileRepoClientI fileServ    = (SSFileRepoClientI) SSServReg.getClientServ(SSFileRepoClientI.class);
+      final SSFileDownloadRet ret         = (SSFileDownloadRet) fileServ.fileDownload(SSClientE.rest, par);
+      
+      return Response.ok(ret.outputStream).
+        header("Content-Disposition", "inline; filename=\"" + fileName + "\"").
+        header("Content-Type", SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(fileName)).toString()).
+        build();
+      
+    }catch(Exception error){
+      return SSRestMainV2.prepareErrors();
+    }
   }
 }
 

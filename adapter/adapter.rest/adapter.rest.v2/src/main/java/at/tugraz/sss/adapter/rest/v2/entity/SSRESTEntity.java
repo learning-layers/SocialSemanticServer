@@ -136,7 +136,6 @@ public class SSRESTEntity extends SSServImplStartA{
     }catch(Exception error){
       return SSRestMainV2.prepareErrors();
     }
-    
   }
   
   @POST

@@ -30,9 +30,7 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.HttpHeaders;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.reg.*;
-import java.io.InputStream;
 import javax.ws.rs.core.*;
 
 public class SSRestMainV2 extends Application {
@@ -60,48 +58,12 @@ public class SSRestMainV2 extends Application {
   public static String getBearer(
     final HttpHeaders headers) throws Exception{
     
+    SSLogU.info("getBearer");
+    
     String bearer = headers.getRequestHeader("authorization").get(0);
     return SSStrU.replaceAll(bearer, "Bearer ", SSStrU.empty);
   }
   
-  public static SSRESTObject handleRequest(
-    final HttpHeaders      headers,
-    final SSServPar        par, 
-    final Boolean          keepSSSConnectionOpen,
-    final Boolean          getKeyFromHeaders){
-    
-    return null;
-    
-//    handleRequest(
-//      headers, 
-//      new SSRESTObject(par), 
-//      keepSSSConnectionOpen, 
-//      getKeyFromHeaders);
-  }
-  
-  public static SSRESTObject handleFileUploadRequest(
-    final HttpHeaders headers,
-    SSRESTObject      restObj,
-    final InputStream file){
-//
-//    final ObjectMapper          sssJSONResponseMapper    = new ObjectMapper();
-//    final JsonNode              sssJSONResponseRootNode;
-//    byte[]                      bytes   = new byte[SSSocketU.socketTranmissionSize];
-//    int                         read;
-    
-    return null;
-    
-  }
-  
-  public static SSRESTObject handleFileDownloadRequest(
-    final HttpHeaders headers,
-    SSRESTObject      restObj,
-    final String      fileName,
-    final Boolean     getKeyFromHeaders){
-
-    return null;
-  }
-    
   public static String getJSONStrForError(
     final SSErrE id){
     

@@ -146,7 +146,7 @@ public class SSSocketMainV2{
         
         final String clientMsg = SSSocketU.readFullString(inputStreamReader);
               
-        par = new SSServPar(clientSocket,clientMsg);
+        par = new SSServPar(clientSocket, clientMsg);
         
         SSLogU.info(par.op + " start with " + par.clientJSONRequ);
         
@@ -157,9 +157,7 @@ public class SSSocketMainV2{
         
         ret = servImpl.invokeClientServOp(serv.servImplClientInteraceClass, par);
               
-        if(ret != null){
-          socketAdapterU.writeRetFullToClient(outputStreamWriter, ret); 
-        }
+        socketAdapterU.writeRetFullToClient(outputStreamWriter, ret);
         
       }catch(Exception error){
         
@@ -170,10 +168,7 @@ public class SSSocketMainV2{
         }
         
         try{
-          socketAdapterU.writeError(
-            outputStreamWriter, 
-            par.op);
-          
+          socketAdapterU.writeError(outputStreamWriter, par.op);
         }catch(Exception error2){
           SSServErrReg.regErr(error2, true);
         }
