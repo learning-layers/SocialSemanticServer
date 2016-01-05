@@ -43,7 +43,8 @@ public abstract class SSDBSQLFctA extends SSDBFctA{
   
   protected final SSDBSQLI dbSQL;
   
-  public SSDBSQLFctA(final SSDBSQLI dbSQL){
+  public SSDBSQLFctA(
+    final SSDBSQLI     dbSQL){
     
     super();
     

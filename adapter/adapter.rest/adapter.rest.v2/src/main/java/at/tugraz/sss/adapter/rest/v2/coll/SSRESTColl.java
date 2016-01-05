@@ -62,32 +62,14 @@ import javax.ws.rs.core.Response;
 
 @Path("/colls")
 @Api( value = "/colls")
-public class SSRESTColl extends SSServImplStartA{
+public class SSRESTColl{
   
-  public SSRESTColl() {
-    super(null);
-  }
-  
-  public SSRESTColl(final SSConfA conf) {
-    super(conf);
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    destroy();
-  }
-
   @PostConstruct
   public void createRESTResource(){
   }
   
   @PreDestroy
   public void destroyRESTResource(){
-    try{
-      finalizeImpl();
-    }catch(Exception error2){
-      SSLogU.err(error2);
-    }
   }
   
   @GET

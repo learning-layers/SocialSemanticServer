@@ -66,13 +66,8 @@ implements SSDBNoSQLI{
   }
 
   @Override
-  protected void finalizeImpl() throws Exception{
-   
-    try{
-//      closeCon();
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+  public void destroy() throws SSErr{
+    
   }
 
   private void connectToSolr() throws SSErr{

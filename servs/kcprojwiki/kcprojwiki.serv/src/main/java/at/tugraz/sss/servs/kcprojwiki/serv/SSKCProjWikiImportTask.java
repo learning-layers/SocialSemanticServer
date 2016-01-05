@@ -22,7 +22,6 @@ package at.tugraz.sss.servs.kcprojwiki.serv;
 
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import java.util.TimerTask;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
@@ -51,10 +50,9 @@ public class SSKCProjWikiImportTask extends TimerTask {
     }
   }
   
-  protected class SSKCProjWikiImportUpdater extends SSServImplStartA implements Runnable{
+  protected class SSKCProjWikiImportUpdater implements Runnable{
     
     public SSKCProjWikiImportUpdater() throws Exception{
-      super(null);
     }
     
     @Override
@@ -69,16 +67,11 @@ public class SSKCProjWikiImportTask extends TimerTask {
       }finally{
         
         try{
-          finalizeImpl();
+//          finalizeImpl();
         }catch(Exception error2){
           SSLogU.err(error2);
         }
       }
-    }
-    
-    @Override
-    protected void finalizeImpl() throws Exception{
-      destroy();
     }
   }
 }

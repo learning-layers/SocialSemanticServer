@@ -30,6 +30,7 @@ import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.impl.*;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.datatype.enums.*;
 import java.util.List;
 
 public class SSTagServ extends SSServContainerI{
@@ -43,9 +44,28 @@ public class SSTagServ extends SSServContainerI{
     super(servImplClientInteraceClass, servImplServerInteraceClass);
   }
   
-  @Override
-  protected SSServImplA createServImplForThread() throws SSErr{
-    return new SSTagImpl(conf);
+  
+      @Override
+  public SSServImplA getServImpl() throws SSErr{
+    
+    if(!conf.use){
+      throw SSErr.get(SSErrE.servNotRunning);
+    }
+    
+    if(servImpl != null){
+      return servImpl;
+    }
+    
+    synchronized(this){
+      
+      if(servImpl != null){
+        return servImpl;
+      }
+      
+      servImpl = new SSTagImpl(conf);
+    }
+    
+    return servImpl;
   }
 
   @Override

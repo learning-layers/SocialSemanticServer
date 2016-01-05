@@ -77,10 +77,9 @@ public class SSDataImportBitsAndPiecesTask extends TimerTask {
     }
   }
   
-  protected class SSDataImportBitsAndPiecesEmailUpdater extends SSServImplStartA implements Runnable{
+  protected class SSDataImportBitsAndPiecesEmailUpdater implements Runnable{
     
     public SSDataImportBitsAndPiecesEmailUpdater() throws Exception{
-      super(null);
     }
     
     @Override
@@ -127,27 +126,20 @@ public class SSDataImportBitsAndPiecesTask extends TimerTask {
       }finally{
         
         try{
-          finalizeImpl();
+//          finalizeImpl();
         }catch(Exception error2){
           SSLogU.err(error2);
         }
       }
     }
-    
-    @Override
-    protected void finalizeImpl() throws Exception{
-      destroy();
-    }
   }
   
-  protected class SSDataImportBitsAndPiecesUpdater extends SSServImplStartA implements Runnable{
+  protected class SSDataImportBitsAndPiecesUpdater implements Runnable{
     
     private final SSDataImportBitsAndPiecesPar par;
     
     public SSDataImportBitsAndPiecesUpdater(
       final SSDataImportBitsAndPiecesPar par) throws Exception{
-      
-      super(null);
       
       this.par = par;
     }
@@ -164,16 +156,11 @@ public class SSDataImportBitsAndPiecesTask extends TimerTask {
       }finally{
         
         try{
-          finalizeImpl();
+//          finalizeImpl();
         }catch(Exception error2){
           SSLogU.err(error2);
         }
       }
-    }
-    
-    @Override
-    protected void finalizeImpl() throws Exception{
-      destroy();
     }
   }
 }

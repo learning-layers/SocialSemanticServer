@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.message.impl.SSMessageImpl;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import java.util.List;
 
@@ -42,10 +43,28 @@ public class SSMessageServ extends SSServContainerI{
     super(servImplClientInteraceClass, servImplServerInteraceClass);
   }
   
-  @Override
-  protected SSServImplA createServImplForThread() throws SSErr{
-    return new SSMessageImpl(conf);
-  }
+    @Override
+  public SSServImplA getServImpl() throws SSErr{
+    
+    if(!conf.use){
+      throw SSErr.get(SSErrE.servNotRunning);
+    }
+    
+    if(servImpl != null){
+      return servImpl;
+    }
+    
+    synchronized(this){
+      
+      if(servImpl != null){
+        return servImpl;
+      }
+      
+      servImpl = new SSMessageImpl(conf);
+    }
+    
+    return servImpl;
+  }  
   
   @Override
   public SSServContainerI regServ() throws Exception{

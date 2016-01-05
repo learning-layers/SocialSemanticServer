@@ -27,11 +27,9 @@ import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
-
 import java.util.List;
 import sss.serv.eval.api.SSEvalClientI;
 import sss.serv.eval.api.SSEvalServerI;
@@ -49,9 +47,27 @@ public class SSEvalServ extends SSServContainerI{
     super(servImplClientInteraceClass, servImplServerInteraceClass);
   }
   
-  @Override
-  protected SSServImplA createServImplForThread() throws SSErr{
-    return new SSEvalImpl(conf);
+    @Override
+  public SSServImplA getServImpl() throws SSErr{
+    
+    if(!conf.use){
+      throw SSErr.get(SSErrE.servNotRunning);
+    }
+    
+    if(servImpl != null){
+      return servImpl;
+    }
+    
+    synchronized(this){
+      
+      if(servImpl != null){
+        return servImpl;
+      }
+      
+      servImpl = new SSEvalImpl(conf);
+    }
+    
+    return servImpl;
   }
 
   @Override

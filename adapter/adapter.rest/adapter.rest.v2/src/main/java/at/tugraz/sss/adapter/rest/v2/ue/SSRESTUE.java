@@ -53,32 +53,14 @@ import javax.ws.rs.core.Response;
 
 @Path("/ues")
 @Api(value = "/ues")
-public class SSRESTUE extends SSServImplStartA{
+public class SSRESTUE{
   
-  public SSRESTUE() {
-    super(null);
-  }
-  
-  public SSRESTUE(final SSConfA conf) {
-    super(conf);
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    destroy();
-  }
-
   @PostConstruct
   public void createRESTResource(){
   }
   
   @PreDestroy
   public void destroyRESTResource(){
-    try{
-      finalizeImpl();
-    }catch(Exception error2){
-      SSLogU.err(error2);
-    }
   }
   
   @POST

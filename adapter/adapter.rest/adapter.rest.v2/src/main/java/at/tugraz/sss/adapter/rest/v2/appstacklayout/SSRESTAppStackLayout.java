@@ -55,20 +55,7 @@ import javax.ws.rs.core.Response;
 
 @Path("/appstacklayouts")
 @Api( value = "/appstacklayouts") //, basePath = "/appstacklayouts"
-public class SSRESTAppStackLayout extends SSServImplStartA{
-  
-  public SSRESTAppStackLayout() {
-    super(null);
-  }
-  
-  public SSRESTAppStackLayout(final SSConfA conf) {
-    super(conf);
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    destroy();
-  }
+public class SSRESTAppStackLayout{
   
   @PostConstruct
   public void createRESTResource(){
@@ -76,11 +63,6 @@ public class SSRESTAppStackLayout extends SSServImplStartA{
   
   @PreDestroy
   public void destroyRESTResource(){
-    try{
-      finalizeImpl();
-    }catch(Exception error2){
-      SSLogU.err(error2);
-    }
   }
   
   @GET

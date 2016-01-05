@@ -49,8 +49,8 @@ public class SSCoreSQL extends SSDBSQLFctA{
   private final SSUri systemUserURI;
   
   public SSCoreSQL(
-    final SSDBSQLI  dbSQL,
-    final SSUri     systemUserURI){
+    final SSDBSQLI     dbSQL,
+    final SSUri        systemUserURI){
     
     super(dbSQL);
     

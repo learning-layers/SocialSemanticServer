@@ -58,20 +58,7 @@ import javax.ws.rs.core.Response;
 
 @Path("/tags")
 @Api( value = "/tags")
-public class SSRESTTag extends SSServImplStartA{
-  
-  public SSRESTTag() {
-    super(null);
-  }
-  
-  public SSRESTTag(final SSConfA conf) {
-    super(conf);
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    destroy();
-  }
+public class SSRESTTag{
   
   @PostConstruct
   public void createRESTResource(){
@@ -79,11 +66,6 @@ public class SSRESTTag extends SSServImplStartA{
   
   @PreDestroy
   public void destroyRESTResource(){
-    try{
-      finalizeImpl();
-    }catch(Exception error2){
-      SSLogU.err(error2);
-    }
   }
   
   @GET

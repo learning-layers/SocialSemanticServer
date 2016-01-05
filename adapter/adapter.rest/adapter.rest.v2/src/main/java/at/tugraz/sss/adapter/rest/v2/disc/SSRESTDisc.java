@@ -62,32 +62,15 @@ import javax.ws.rs.core.Response;
 
 @Path("/discs")
 @Api( value = "/discs")
-public class SSRESTDisc extends SSServImplStartA{
-  
-  public SSRESTDisc() {
-    super(null);
-  }
-  
-  public SSRESTDisc(final SSConfA conf) {
-    super(conf);
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    destroy();
-  }
+public class SSRESTDisc{
   
   @PostConstruct
   public void createRESTResource(){
+    
   }
   
   @PreDestroy
   public void destroyRESTResource(){
-    try{
-      finalizeImpl();
-    }catch(Exception error2){
-      SSLogU.err(error2);
-    }
   }
   
   @POST

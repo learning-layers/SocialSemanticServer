@@ -49,10 +49,9 @@ public class SSEntitiesAccessibleGetCleanUpTask extends TimerTask {
     }
   }
   
-  protected class SSEntitiesAccessibleGetCleaner extends SSServImplStartA implements Runnable{
+  protected class SSEntitiesAccessibleGetCleaner implements Runnable{
     
     public SSEntitiesAccessibleGetCleaner() throws Exception{
-      super(null);
     }
     
     @Override
@@ -69,16 +68,11 @@ public class SSEntitiesAccessibleGetCleanUpTask extends TimerTask {
       }finally{
         
         try{
-          finalizeImpl();
+//          finalizeImpl();
         }catch(Exception error2){
           SSLogU.err(error2);
         }
       }
-    }
-    
-    @Override
-    protected void finalizeImpl() throws Exception{
-      destroy();
     }
   }
 }

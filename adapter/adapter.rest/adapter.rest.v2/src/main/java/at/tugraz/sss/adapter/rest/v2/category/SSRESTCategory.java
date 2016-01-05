@@ -48,32 +48,15 @@ import javax.ws.rs.core.Response;
 
 @Path("/categories")
 @Api( value = "/categories")
-public class SSRESTCategory extends SSServImplStartA{
-  
-  public SSRESTCategory() {
-    super(null);
-  }
-  
-  public SSRESTCategory(final SSConfA conf) {
-    super(conf);
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    destroy();
-  }
+public class SSRESTCategory{
   
   @PostConstruct
   public void createRESTResource(){
+    
   }
   
   @PreDestroy
   public void destroyRESTResource(){
-    try{
-      finalizeImpl();
-    }catch(Exception error2){
-      SSLogU.err(error2);
-    }
   }
   
   @GET

@@ -993,7 +993,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   }
   
   @Override
-  protected void finalizeImpl() throws SSErr{
+  public void destroy() throws SSErr{
     
     try{
       closeCon();

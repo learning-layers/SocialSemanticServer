@@ -29,6 +29,7 @@ import at.kc.tugraz.sss.app.api.SSAppServerI;
 import at.kc.tugraz.sss.app.impl.SSAppImpl;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.datatype.enums.*;
 import java.util.List;
 
 public class SSAppServ extends SSServContainerI{
@@ -43,8 +44,26 @@ public class SSAppServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws SSErr{
-    return new SSAppImpl(conf);
+  public SSServImplA getServImpl() throws SSErr{
+    
+    if(!conf.use){
+      throw SSErr.get(SSErrE.servNotRunning);
+    }
+    
+    if(servImpl != null){
+      return servImpl;
+    }
+    
+    synchronized(this){
+      
+      if(servImpl != null){
+        return servImpl;
+      }
+      
+      servImpl = new SSAppImpl(conf);
+    }
+    
+    return servImpl;
   }
 
   @Override

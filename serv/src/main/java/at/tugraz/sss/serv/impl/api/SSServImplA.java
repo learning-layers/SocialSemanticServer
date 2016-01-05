@@ -23,18 +23,22 @@ package at.tugraz.sss.serv.impl.api;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.conf.api.SSConfA;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
+import at.tugraz.sss.serv.reg.*;
 
 public abstract class SSServImplA{
 
-  protected SSConfA conf = null;
+  protected final SSConfA      conf;
   
-  protected abstract void finalizeImpl      ()    throws Exception;
+  public abstract void destroy() throws SSErr;
   
-  protected SSServImplA(final SSConfA conf){
-    this.conf = conf;
+  protected SSServImplA(
+    final SSConfA      conf){
+    
+    this.conf   = conf;
   }
   
   public SSServRetI invokeClientServOp(

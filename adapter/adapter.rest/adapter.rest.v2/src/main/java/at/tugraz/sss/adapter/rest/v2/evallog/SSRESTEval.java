@@ -43,20 +43,7 @@ import sss.serv.eval.datatypes.ret.SSEvalLogRet;
 
 @Path("/eval")
 @Api( value = "/eval")
-public class SSRESTEval extends SSServImplStartA{
-  
-  public SSRESTEval() {
-    super(null);
-  }
-  
-  public SSRESTEval(final SSConfA conf) {
-    super(conf);
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    destroy();
-  }
+public class SSRESTEval{
   
   @PostConstruct
   public void createRESTResource(){
@@ -64,11 +51,6 @@ public class SSRESTEval extends SSServImplStartA{
   
   @PreDestroy
   public void destroyRESTResource(){
-    try{
-      finalizeImpl();
-    }catch(Exception error2){
-      SSLogU.err(error2);
-    }
   }
   
   @POST

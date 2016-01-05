@@ -57,14 +57,12 @@ public class SSRecommUpdateBulkTask extends TimerTask {
     }
   }
   
-  protected class SSRecommUpdateBulkUpdater extends SSServImplStartA implements Runnable{
+  protected class SSRecommUpdateBulkUpdater implements Runnable{
     
     private final SSRecommConf recommConf;
     
     public SSRecommUpdateBulkUpdater(
       final SSRecommConf recommConf) throws Exception{
-      
-      super(null);
       
       this.recommConf = recommConf;
     }
@@ -87,16 +85,11 @@ public class SSRecommUpdateBulkTask extends TimerTask {
       }finally{
         
         try{
-          finalizeImpl();
+//          finalizeImpl();
         }catch(Exception error2){
           SSLogU.err(error2);
         }
       }
-    }
-    
-    @Override
-    protected void finalizeImpl() throws Exception{
-      destroy();
     }
   }
 }

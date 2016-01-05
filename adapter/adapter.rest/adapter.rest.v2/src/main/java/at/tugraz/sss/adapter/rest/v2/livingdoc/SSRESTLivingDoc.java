@@ -58,20 +58,7 @@ import javax.ws.rs.core.Response;
 
 @Path("/livingdocs")
 @Api( value = "/livingdocs")
-public class SSRESTLivingDoc extends SSServImplStartA{
-  
-  public SSRESTLivingDoc() {
-    super(null);
-  }
-  
-  public SSRESTLivingDoc(final SSConfA conf) {
-    super(conf);
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    destroy();
-  }
+public class SSRESTLivingDoc{
   
   @PostConstruct
   public void createRESTResource(){
@@ -79,11 +66,6 @@ public class SSRESTLivingDoc extends SSServImplStartA{
   
   @PreDestroy
   public void destroyRESTResource(){
-    try{
-      finalizeImpl();
-    }catch(Exception error2){
-      SSLogU.err(error2);
-    }
   }
   
   @GET

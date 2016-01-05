@@ -23,6 +23,8 @@ package at.tugraz.sss.serv.impl.api;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.conf.api.SSConfA;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.reg.*;
 
 public abstract class SSServImplWithDBA extends SSServImplA{
   
@@ -30,9 +32,9 @@ public abstract class SSServImplWithDBA extends SSServImplA{
   public final SSDBNoSQLI  dbNoSQL;
 
   public SSServImplWithDBA(
-    final SSConfA    conf, 
-    final SSDBSQLI   dbSQL, 
-    final SSDBNoSQLI dbNoSQL){
+    final SSConfA      conf, 
+    final SSDBSQLI     dbSQL, 
+    final SSDBNoSQLI   dbNoSQL){
     
     super(conf);
     
@@ -41,7 +43,7 @@ public abstract class SSServImplWithDBA extends SSServImplA{
   }
   
   @Override
-  protected void finalizeImpl() throws Exception{
+  public void destroy() throws SSErr{
 //    ((SSServImplDBA)dbSQL).finalizeImpl();
   }
 }

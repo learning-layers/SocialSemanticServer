@@ -1,41 +1,24 @@
 package at.tugraz.sss.serv.container.api;
 
-import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
-import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class SSServContainerI{
+public abstract class SSServContainerI {
  
   public        SSConfA                                         conf                            = null;
+  protected     SSServImplA                                     servImpl                        = null;
   public        final Class                                     servImplClientInteraceClass;
   public        final Class                                     servImplServerInteraceClass;
-  protected     SSErr                                           servImplCreationError           = null;
   
-  private final ThreadLocal<SSServImplA> servImplsByServByThread = new ThreadLocal<SSServImplA>(){
-    
-    @Override
-    protected SSServImplA initialValue(){
-      
-      try{
-        return createServImplForThread();
-      }catch (Exception error){
-        SSLogU.err(error);
-        servImplCreationError = SSErr.get(SSErrE.servImplCreationFailed, error);
-        return null;
-      }
-    }
-  };
-  
-  public void destroy(){
-    servImplsByServByThread.remove();
-  }
+//      ExecutorService          executor  = Executors.newFixedThreadPool(10);
+////    Future<ReturnType> result = executor.submit(new CallableTask());
+//    ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+////    scheduler.scheduleAtFixedRate(new SomeDailyJob(), 0, 1, TimeUnit.DAYS);
   
   protected SSServContainerI(
     final Class servImplClientInteraceClass,
@@ -45,11 +28,11 @@ public abstract class SSServContainerI{
     this.servImplServerInteraceClass = servImplServerInteraceClass;
   }
   
-  protected abstract SSServImplA      createServImplForThread   () throws SSErr;
   public    abstract SSCoreConfA      getConfForCloudDeployment (final SSCoreConfA coreConfA, final List<Class> configuredServs) throws Exception;
   public    abstract void             initServ                  () throws Exception;
   public    abstract void             schedule                  () throws Exception;
   public    abstract SSServContainerI regServ                   () throws Exception;
+  public    abstract SSServImplA      getServImpl               () throws SSErr;
   
   protected SSCoreConfA getConfForCloudDeployment(
     final Class       servI,
@@ -90,25 +73,41 @@ public abstract class SSServContainerI{
     
     return clientOps;
   }
-  
-  public SSServImplA getServImpl() throws SSErr{
-    
-//    try{
-      
-      if(!conf.use){
-        throw SSErr.get(SSErrE.servNotRunning);
-      }
-      
-      final SSServImplA servTmp = servImplsByServByThread.get();
-      
-      if(servImplCreationError != null){
-        throw servImplCreationError;
-      }
-      
-      SSServImplStartA.regServImplUsedByThread (servTmp);
-      
-      return servTmp;
-//      SSLogU.err(error);
-//      throw error;
-  }
 }
+
+//  protected     SSErr                                           servImplCreationError           = null;
+//  protected abstract SSServImplA      createServImplForThread   () throws SSErr;
+
+//  private final ThreadLocal<SSServImplA> servImplsByServByThread = new ThreadLocal<SSServImplA>(){
+//    
+//    @Override
+//    protected SSServImplA initialValue(){
+//
+//      try{
+//        return createServImplForThread();
+//      }catch (Exception error){
+//        SSLogU.err(error);
+//        servImplCreationError = SSErr.get(SSErrE.servImplCreationFailed, error);
+//        return null;
+//      }
+//    }
+//  };
+
+//public SSServImplA getServImpl() throws SSErr{
+//    
+////    try{
+//      
+//      if(!conf.use){
+//        throw SSErr.get(SSErrE.servNotRunning);
+//      }
+//      
+//      final SSServImplA servTmp = servImplsByServByThread.get();
+//      
+//      if(servImplCreationError != null){
+//        throw servImplCreationError;
+//      }
+//      
+//      return servTmp;
+////      SSLogU.err(error);
+////      throw error;
+//  }

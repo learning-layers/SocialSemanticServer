@@ -25,8 +25,6 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.impl.SSLearnEpImpl;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.impl.api.SSServImplStartA;
-
 import at.tugraz.sss.serv.reg.*;
 import java.util.TimerTask;
 
@@ -55,10 +53,9 @@ public class SSLearnEpRemainingTimeTask extends TimerTask {
     }
   }
   
-  protected class SSLearnEpRemaingTimeHandler extends SSServImplStartA  implements Runnable{
+  protected class SSLearnEpRemaingTimeHandler  implements Runnable{
     
     public SSLearnEpRemaingTimeHandler() throws Exception{
-      super(null);
     }
     
     @Override
@@ -89,16 +86,11 @@ public class SSLearnEpRemainingTimeTask extends TimerTask {
       }finally{
         
         try{
-          finalizeImpl();
+//          finalizeImpl();
         }catch(Exception error2){
           SSLogU.err(error2);
         }
       }
-    }
-    
-    @Override
-    protected void finalizeImpl() throws Exception{
-      destroy();
     }
   }
 }

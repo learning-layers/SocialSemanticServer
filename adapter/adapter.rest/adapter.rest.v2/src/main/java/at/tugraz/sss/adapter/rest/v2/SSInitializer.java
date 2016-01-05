@@ -1,23 +1,23 @@
- /**
-  * Code contributed to the Learning Layers project
-  * http://www.learning-layers.eu
-  * Development is partly funded by the FP7 Programme of the European Commission under
-  * Grant Agreement FP7-ICT-318209.
-  * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
-  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-  *
-  * Licensed under the Apache License, Version 2.0 (the "License");
-  * you may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at
-  *
-  * http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS,
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
-  */
+/**
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.tugraz.sss.adapter.rest.v2;
 
 import at.kc.tugraz.ss.activity.serv.*;
@@ -61,8 +61,10 @@ import at.tugraz.sss.servs.location.serv.*;
 import at.tugraz.sss.servs.mail.serv.*;
 import at.tugraz.sss.servs.ocd.service.*;
 import javax.servlet.*;
+import javax.servlet.annotation.*;
 import sss.serv.eval.serv.*;
 
+@WebListener
 public class SSInitializer extends SSServImplStartA implements ServletContextListener{
   
   public SSInitializer() {
@@ -77,9 +79,8 @@ public class SSInitializer extends SSServImplStartA implements ServletContextLis
   public void contextDestroyed(ServletContextEvent sce) {
     
     try {
-      SSServReg.destroy();
       
-      finalizeImpl();
+      destroy();
       
       SSDBSQLMySQLImpl.closePool();
     } catch (Exception error) {
@@ -104,7 +105,6 @@ public class SSInitializer extends SSServImplStartA implements ServletContextLis
         
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
-        return;
       }
       
 //      CLASS.FORNAME("ASDF").NEWINSTANCE()
@@ -150,7 +150,6 @@ public class SSInitializer extends SSServImplStartA implements ServletContextLis
         
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
-        return;
       }
       
       try{ //initializing
@@ -161,14 +160,12 @@ public class SSInitializer extends SSServImplStartA implements ServletContextLis
         SSRecommServ.inst.initServ();
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
-        return;
       }
       
       try{ //integration tests
         SSIntegrationTestServ.inst.initServ();
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
-        return;
       }
       
       try{ //scheduling
@@ -181,22 +178,10 @@ public class SSInitializer extends SSServImplStartA implements ServletContextLis
         SSEvalServ.inst.schedule           ();
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
-        return;
       }
       
     }catch(Exception error1){
       SSServErrReg.regErr(error1);
-    }finally{
-      try{
-        finalizeImpl();
-      }catch(Exception error2){
-        SSLogU.err(error2);
-      }
     }
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    destroy();
   }
 }

@@ -43,32 +43,14 @@ import javax.ws.rs.core.Response;
 
 @Path("/search")
 @Api( value = "/search") // , basePath = "/search"
-public class SSRESTSearch extends SSServImplStartA{
+public class SSRESTSearch{
   
-  public SSRESTSearch() {
-    super(null);
-  }
-  
-  public SSRESTSearch(final SSConfA conf) {
-    super(conf);
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    destroy();
-  }
-
   @PostConstruct
   public void createRESTResource(){
   }
   
   @PreDestroy
   public void destroyRESTResource(){
-    try{
-      finalizeImpl();
-    }catch(Exception error2){
-      SSLogU.err(error2);
-    }
   }
   
   @POST

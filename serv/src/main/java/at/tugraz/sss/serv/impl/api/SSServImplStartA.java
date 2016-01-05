@@ -20,75 +20,49 @@
 */
 package at.tugraz.sss.serv.impl.api;
 
-import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.conf.api.SSConfA;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.reg.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class SSServImplStartA extends SSServImplA{
 
   protected SSDBSQLI   dbSQL;
   protected SSDBNoSQLI dbNoSQL;
   
-  protected static final ThreadLocal<List<SSServImplA>> servImplsUsedByThread = new ThreadLocal<List<SSServImplA>>(){
+  @Override
+  public void destroy() throws SSErr{
     
-    @Override protected List<SSServImplA> initialValue(){
-      
-      try{
-        return new ArrayList<>();
-      }catch (Exception error){
-        SSLogU.err(error);
-        return null;
-      }
-    }
-  };
-  
-  public void destroy(){
+    SSServReg.destroy();
     
-    SSServErrReg.destroy();
-    
-    List<SSServImplA> usedServs = new ArrayList<>();
-    
-    try{
-      servImplsUsedByThread.get().remove(this);
-      
-      usedServs.addAll(servImplsUsedByThread.get());
-      
-      for(SSServImplA servImpl : usedServs){
-        servImpl.finalizeImpl();
-      }
-            
-    }catch(Exception error){
-      SSServErrReg.regErr(error);
-    }finally{
-      SSServErrReg.logAndReset(true);
-    }
-      
-    servImplsUsedByThread.remove();
-    
-    SSServReg.destroyContainers();
+//    List<SSServImplA> usedServs = new ArrayList<>();
+//    
+//    try{
+//      servImplsUsedByThread.get().remove(this);
+//      
+//      usedServs.addAll(servImplsUsedByThread.get());
+//      
+//      for(SSServImplA servImpl : usedServs){
+//        servImpl.finalizeImpl();
+//      }
+//            
+//    }catch(Exception error){
+//      SSServErrReg.regErr(error);
+//    }finally{
+//      SSServErrReg.logAndReset(true);
+//    }
+//      
+//    servImplsUsedByThread.remove();
   }
   
-  public SSServImplStartA(final SSConfA conf){
+  public SSServImplStartA(
+    final SSConfA      conf){
+    
     super(conf);
-  }
-  
-  public static void regServImplUsedByThread(final SSServImplA servImpl){
-    
-    List<SSServImplA> servImplUsedList = servImplsUsedByThread.get();
-    
-    if(servImplUsedList.contains(servImpl)){
-      return;
-    }
-    
-    servImplUsedList.add(servImpl);
   }
   
   @Override
@@ -99,3 +73,28 @@ public abstract class SSServImplStartA extends SSServImplA{
     throw new UnsupportedOperationException(SSStrU.empty);
   }
 }
+
+
+// protected static final ThreadLocal<List<SSServImplA>> servImplsUsedByThread = new ThreadLocal<List<SSServImplA>>(){
+//    
+//    @Override protected List<SSServImplA> initialValue(){
+//      
+//      try{
+//        return new ArrayList<>();
+//      }catch (Exception error){
+//        SSLogU.err(error);
+//        return null;
+//      }
+//    }
+//  };
+
+//public static void regServImplUsedByThread(final SSServImplA servImpl){
+//    
+//    List<SSServImplA> servImplUsedList = servImplsUsedByThread.get();
+//    
+//    if(servImplUsedList.contains(servImpl)){
+//      return;
+//    }
+//    
+//    servImplUsedList.add(servImpl);
+//  }

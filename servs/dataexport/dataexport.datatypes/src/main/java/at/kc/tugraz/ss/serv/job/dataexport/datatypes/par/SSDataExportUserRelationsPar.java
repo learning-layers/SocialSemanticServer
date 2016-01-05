@@ -20,11 +20,15 @@
 */
 package at.kc.tugraz.ss.serv.job.dataexport.datatypes.par;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 
 public class SSDataExportUserRelationsPar extends SSServPar{
   
-  public SSDataExportUserRelationsPar(final SSServPar par) throws Exception{
-    super(par);
+  public SSDataExportUserRelationsPar(
+    final SSUri user){
+    
+    super(SSVarNames.dataExportUserRelations, null, user);
   }
 }

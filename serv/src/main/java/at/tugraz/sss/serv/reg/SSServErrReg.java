@@ -45,7 +45,7 @@ public class SSServErrReg {
   
   public static void destroy(){
     
-    reset();
+    logAndReset(true);
     
     servImplErrors.remove();
   }    
@@ -296,4 +296,3 @@ public class SSServErrReg {
     servImplErrors.get().clear();
   }
 }
-

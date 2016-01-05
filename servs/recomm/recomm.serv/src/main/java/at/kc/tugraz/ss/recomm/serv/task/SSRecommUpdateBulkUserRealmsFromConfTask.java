@@ -57,14 +57,12 @@ public class SSRecommUpdateBulkUserRealmsFromConfTask extends TimerTask {
     }
   }
   
-  protected class SSRecommBulkUserRealmsFromConfUpdater extends SSServImplStartA implements Runnable{
+  protected class SSRecommBulkUserRealmsFromConfUpdater implements Runnable{
     
     private final SSRecommConf recommConf;
     
     public SSRecommBulkUserRealmsFromConfUpdater(
       final SSRecommConf recommConf) throws Exception{
-      
-      super(null);
       
       this.recommConf = recommConf;
     }
@@ -83,16 +81,11 @@ public class SSRecommUpdateBulkUserRealmsFromConfTask extends TimerTask {
       }finally{
         
         try{
-          finalizeImpl();
+//          finalizeImpl();
         }catch(Exception error2){
           SSLogU.err(error2);
         }
       }
-    }
-    
-    @Override
-    protected void finalizeImpl() throws Exception{
-      destroy();
     }
   }
 }

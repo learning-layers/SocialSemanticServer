@@ -20,11 +20,15 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar;
+import at.tugraz.sss.serv.util.*;
 
 public class SSDataImportMediaWikiUserPar extends SSServPar{
   
-  public SSDataImportMediaWikiUserPar(final SSServPar par) throws Exception{
-    super(par);
+  public SSDataImportMediaWikiUserPar(
+    final SSUri user) {
+    
+    super(SSVarNames.dataImportMediaWikiUser, null, user);
   }
 }

@@ -45,20 +45,7 @@ import javax.ws.rs.core.Response;
 
 @Path("/flags")
 @Api(value = "/flags")
-public class SSRESTFlag extends SSServImplStartA{
-  
-  public SSRESTFlag() {
-    super(null);
-  }
-  
-  public SSRESTFlag(final SSConfA conf) {
-    super(conf);
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    destroy();
-  }
+public class SSRESTFlag{
   
   @PostConstruct
   public void createRESTResource(){
@@ -66,11 +53,6 @@ public class SSRESTFlag extends SSServImplStartA{
   
   @PreDestroy
   public void destroyRESTResource(){
-    try{
-      finalizeImpl();
-    }catch(Exception error2){
-      SSLogU.err(error2);
-    }
   }
   
   @POST

@@ -67,29 +67,44 @@ public class SSServReg{
   
   public static final Map<String, Integer>                         requsLimitsForClientOpsPerUser  = new HashMap<>();
   public static final Map<String, Map<String, List<SSServImplA>>>  currentRequsForClientOpsPerUser = new HashMap<>();
-  
-  public static void destroyContainers(){
     
-    for(SSServContainerI servContainer : servsForServerI.values()){
-      servContainer.destroy();
+  public static void destroy() throws SSErr{
+
+    try{
+      
+      SSServImplA impl;
+        
+      for(SSServContainerI servContainer : servsForServerI.values()){
+        
+        impl = servContainer.getServImpl();
+        
+        if(impl != null){
+          impl.destroy();
+        }
+      }
+      
+      for(SSServContainerI servContainer : servsForClientI.values()){
+        
+        impl = servContainer.getServImpl();
+        
+        if(impl != null){
+          impl.destroy();
+        }
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return;
     }
     
-    for(SSServContainerI servContainer : servsForClientI.values()){
-      servContainer.destroy();
-    }
-  }
-  
-  public static void destroy() throws InterruptedException{
+    SSServErrReg.destroy();
     
-    destroyContainers();
-    
-    for(TimerTask timerTask : timerTasks){
-      timerTask.cancel();
-    }
-    
-    for(Thread timerThread : timerThreads){
-      timerThread.join();
-    }
+//    for(TimerTask timerTask : timerTasks){
+//      timerTask.cancel();
+//    }
+//    
+//    for(Thread timerThread : timerThreads){
+//      timerThread.join();
+//    }
     
     servsForClientOps.clear();
     servsForServerI.clear();

@@ -29,7 +29,6 @@ import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -47,20 +46,7 @@ import javax.ws.rs.core.Response;
 
 @Path("/users")
 @Api(value = "/users")
-public class SSRESTUser extends SSServImplStartA{
-  
-  public SSRESTUser() {
-    super(null);
-  }
-  
-  public SSRESTUser(final SSConfA conf) {
-    super(conf);
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    destroy();
-  }
+public class SSRESTUser{
   
   @PostConstruct
   public void createRESTResource(){
@@ -68,11 +54,6 @@ public class SSRESTUser extends SSServImplStartA{
   
   @PreDestroy
   public void destroyRESTResource(){
-    try{
-      finalizeImpl();
-    }catch(Exception error2){
-      SSLogU.err(error2);
-    }
   }
   
   @GET

@@ -21,27 +21,13 @@
 package at.tugraz.sss.adapter.rest.v2.system;
 
 import at.tugraz.sss.serv.conf.api.*;
-import at.tugraz.sss.serv.impl.api.*;
 import com.wordnik.swagger.annotations.Api;
 import javax.ws.rs.Path;
 
 @Path("/system")
 @Api(value = "/system")
-public class SSRESTSystem extends SSServImplStartA{
+public class SSRESTSystem{
 
-  public SSRESTSystem() {
-    super(null);
-  }
-  
-  public SSRESTSystem(final SSConfA conf) {
-    super(conf);
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    destroy();
-  }
-  
   //TODO reimplement
 //  @GET
 //  @Consumes(MediaType.APPLICATION_JSON)

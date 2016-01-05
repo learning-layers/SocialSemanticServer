@@ -51,10 +51,9 @@ public class SSEvalAnalyzeTask extends TimerTask {
     }
   }
   
-  protected class SSEvalAnalyzer extends SSServImplStartA implements Runnable{
+  protected class SSEvalAnalyzer implements Runnable{
     
     public SSEvalAnalyzer() throws Exception{
-      super(null);
     }
     
     @Override
@@ -71,16 +70,11 @@ public class SSEvalAnalyzeTask extends TimerTask {
       }finally{
         
         try{
-          finalizeImpl();
+//          finalizeImpl();
         }catch(Exception error2){
           SSLogU.err(error2);
         }
       }
-    }
-    
-    @Override
-    protected void finalizeImpl() throws Exception{
-      destroy();
     }
   }
 }

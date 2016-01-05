@@ -30,6 +30,7 @@ import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.tugraz.sss.servs.entity.impl.SSEntityImpl;
 import java.util.List;
@@ -45,9 +46,27 @@ public class SSEntityServ extends SSServContainerI{
     super(servImplClientInteraceClass, servImplServerInteraceClass);
   }
   
-  @Override
-  protected SSServImplA createServImplForThread() throws SSErr{
-    return new SSEntityImpl(conf);
+    @Override
+  public SSServImplA getServImpl() throws SSErr{
+    
+    if(!conf.use){
+      throw SSErr.get(SSErrE.servNotRunning);
+    }
+    
+    if(servImpl != null){
+      return servImpl;
+    }
+    
+    synchronized(this){
+      
+      if(servImpl != null){
+        return servImpl;
+      }
+      
+      servImpl = new SSEntityImpl(conf);
+    }
+    
+    return servImpl;
   }
   
   @Override

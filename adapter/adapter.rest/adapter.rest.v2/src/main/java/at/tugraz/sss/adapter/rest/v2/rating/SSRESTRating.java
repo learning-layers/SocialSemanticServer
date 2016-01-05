@@ -49,20 +49,7 @@ import javax.ws.rs.core.Response;
 
 @Path("/ratings")
 @Api( value = "/ratings") //, basePath = "/entities"
-public class SSRESTRating extends SSServImplStartA{
-  
-  public SSRESTRating() {
-    super(null);
-  }
-  
-  public SSRESTRating(final SSConfA conf) {
-    super(conf);
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    destroy();
-  }
+public class SSRESTRating{
   
   @PostConstruct
   public void createRESTResource(){
@@ -70,11 +57,6 @@ public class SSRESTRating extends SSServImplStartA{
   
   @PreDestroy
   public void destroyRESTResource(){
-    try{
-      finalizeImpl();
-    }catch(Exception error2){
-      SSLogU.err(error2);
-    }
   }
   
   @GET

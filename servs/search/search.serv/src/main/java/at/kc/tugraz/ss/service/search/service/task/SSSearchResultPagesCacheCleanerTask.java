@@ -51,10 +51,9 @@ public class SSSearchResultPagesCacheCleanerTask extends TimerTask {
     }
   }
   
-  protected class SSSearchResultPagesCacheCleaner extends SSServImplStartA implements Runnable{
+  protected class SSSearchResultPagesCacheCleaner implements Runnable{
     
     public SSSearchResultPagesCacheCleaner() throws Exception{
-      super(null);
     }
     
     @Override
@@ -70,16 +69,11 @@ public class SSSearchResultPagesCacheCleanerTask extends TimerTask {
       }finally{
         
         try{
-          finalizeImpl();
+//          finalizeImpl();
         }catch(Exception error2){
           SSLogU.err(error2);
         }
       }
-    }
-    
-    @Override
-    protected void finalizeImpl() throws Exception{
-      destroy();
     }
   }
 }

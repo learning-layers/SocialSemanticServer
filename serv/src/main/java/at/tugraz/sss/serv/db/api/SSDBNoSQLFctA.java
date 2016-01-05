@@ -20,11 +20,14 @@
 */
 package at.tugraz.sss.serv.db.api;
 
+import at.tugraz.sss.serv.reg.*;
+
 public abstract class SSDBNoSQLFctA extends SSDBFctA{
 
   protected final SSDBNoSQLI dbNoSQL;
   
-  public SSDBNoSQLFctA(final SSDBNoSQLI dbNoSQL){
+  public SSDBNoSQLFctA(
+    final SSDBNoSQLI   dbNoSQL){
     
     super();
     

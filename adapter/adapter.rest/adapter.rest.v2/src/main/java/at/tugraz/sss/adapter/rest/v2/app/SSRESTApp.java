@@ -46,20 +46,7 @@ import javax.ws.rs.core.Response;
 
 @Path("/apps")
 @Api( value = "/apps") //, basePath = "/apps"
-public class SSRESTApp extends SSServImplStartA{
-  
-  public SSRESTApp() {
-    super(null);
-  }
-  
-  public SSRESTApp(final SSConfA conf) {
-    super(conf);
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    destroy();
-  }
+public class SSRESTApp{
   
   @PostConstruct
   public void createRESTResource(){
@@ -67,11 +54,6 @@ public class SSRESTApp extends SSServImplStartA{
   
   @PreDestroy
   public void destroyRESTResource(){
-    try{
-      finalizeImpl();
-    }catch(Exception error2){
-      SSLogU.err(error2);
-    }
   }
   
   @GET

@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.sss.flag.serv;
 
+import at.kc.tugraz.ss.service.filerepo.conf.*;
 import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.reg.*;
@@ -29,6 +30,7 @@ import at.kc.tugraz.sss.flag.api.SSFlagServerI;
 import at.kc.tugraz.sss.flag.impl.SSFlagImpl;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.datatype.enums.*;
 import java.util.List;
 
 public class SSFlagServ extends SSServContainerI{
@@ -42,11 +44,29 @@ public class SSFlagServ extends SSServContainerI{
     super(servImplClientInteraceClass, servImplServerInteraceClass);
   }
   
-  @Override
-  protected SSServImplA createServImplForThread() throws SSErr{
-    return new SSFlagImpl(conf);
+       @Override
+  public SSServImplA getServImpl() throws SSErr{
+    
+    if(!conf.use){
+      throw SSErr.get(SSErrE.servNotRunning);
+    }
+    
+    if(servImpl != null){
+      return servImpl;
+    }
+    
+    synchronized(this){
+      
+      if(servImpl != null){
+        return servImpl;
+      }
+      
+      servImpl = new SSFlagImpl(conf);
+    }
+    
+    return servImpl;
   }
-
+  
   @Override
   public SSServContainerI regServ() throws Exception{
     

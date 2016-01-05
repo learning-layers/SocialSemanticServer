@@ -55,20 +55,7 @@ import javax.ws.rs.core.Response;
 
 @Path("/videos")
 @Api( value = "/videos") //, basePath = "/videos"
-public class SSRESTVideo extends SSServImplStartA{
-  
-  public SSRESTVideo() {
-    super(null);
-  }
-  
-  public SSRESTVideo(final SSConfA conf) {
-    super(conf);
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    destroy();
-  }
+public class SSRESTVideo{
   
   @PostConstruct
   public void createRESTResource(){
@@ -76,11 +63,6 @@ public class SSRESTVideo extends SSServImplStartA{
   
   @PreDestroy
   public void destroyRESTResource(){
-    try{
-      finalizeImpl();
-    }catch(Exception error2){
-      SSLogU.err(error2);
-    }
   }
   
   @GET

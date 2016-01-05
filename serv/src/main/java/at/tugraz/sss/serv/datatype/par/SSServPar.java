@@ -71,11 +71,12 @@ public class SSServPar{
     return SSStrU.removeTrailingSlash(user);
   }
   
-  public SSServPar(){}
+  public SSServPar(){
+  }
   
   public SSServPar(
-    final Socket    clientSocket,
-    final String    clientJSONRequ) throws Exception{
+    final Socket       clientSocket,
+    final String       clientJSONRequ) throws Exception{
     
     this.clientSocket      = clientSocket;
     this.clientJSONRequ    = clientJSONRequ;
@@ -124,32 +125,32 @@ public class SSServPar{
   }
   
   protected SSServPar(
-    final String    op,
-    final String    key,
-    final SSUri     user){
+    final String       op,
+    final String       key,
+    final SSUri        user){
     
-    this.op   = op;
-    this.key  = key;
-    this.user = user;
+    this.op     = op;
+    this.key    = key;
+    this.user   = user;
   }
   
-  //TODO constructor for anchient serv par use
-  protected SSServPar(final SSServPar par) throws Exception{
-    
-    this.op           = par.op;
-    this.user         = par.user;
-    this.key          = par.key;
-
-    if(par.shouldCommit != null){
-      this.shouldCommit = par.shouldCommit;
-    }
-    
-    if(par.withUserRestriction != null){
-      this.withUserRestriction = par.withUserRestriction;
-    }
-    
-    this.pars         = par.pars;
-  }
+//  //TODO constructor for anchient serv par use
+//  protected SSServPar(final SSServPar par) throws Exception{
+//    
+//    this.op           = par.op;
+//    this.user         = par.user;
+//    this.key          = par.key;
+//
+//    if(par.shouldCommit != null){
+//      this.shouldCommit = par.shouldCommit;
+//    }
+//    
+//    if(par.withUserRestriction != null){
+//      this.withUserRestriction = par.withUserRestriction;
+//    }
+//    
+//    this.pars         = par.pars;
+//  }
   
   public SSServPar getFromClient(
     final SSClientE clientType, 
@@ -157,7 +158,9 @@ public class SSServPar{
     final Class     subClass) throws SSErr{
     
     try{
+      
       switch(clientType){
+        
         case rest:{
           return par;
         }

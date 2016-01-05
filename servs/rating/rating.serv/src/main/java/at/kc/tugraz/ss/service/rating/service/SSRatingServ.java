@@ -29,6 +29,7 @@ import at.kc.tugraz.ss.service.rating.api.SSRatingClientI;
 import at.kc.tugraz.ss.service.rating.api.SSRatingServerI;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.datatype.enums.*;
 import java.util.List;
 
 public class SSRatingServ extends SSServContainerI{
@@ -42,10 +43,29 @@ public class SSRatingServ extends SSServContainerI{
     super(servImplClientInteraceClass, servImplServerInteraceClass);
   }
   
+  
   @Override
-  protected SSServImplA createServImplForThread() throws SSErr{
-    return new SSRatingImpl(conf);
-  }
+  public SSServImplA getServImpl() throws SSErr{
+    
+    if(!conf.use){
+      throw SSErr.get(SSErrE.servNotRunning);
+    }
+    
+    if(servImpl != null){
+      return servImpl;
+    }
+    
+    synchronized(this){
+      
+      if(servImpl != null){
+        return servImpl;
+      }
+      
+      servImpl = new SSRatingImpl(conf);
+    }
+    
+    return servImpl;
+  }  
 
   @Override
   public SSServContainerI regServ() throws Exception{

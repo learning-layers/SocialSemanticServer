@@ -32,32 +32,14 @@ import javax.ws.rs.core.Response;
 
 @Path("/images")
 @Api( value = "/images") //, basePath = "/entities"
-public class SSRESTImage extends SSServImplStartA{
+public class SSRESTImage{
   
-  public SSRESTImage() {
-    super(null);
-  }
-  
-  public SSRESTImage(final SSConfA conf) {
-    super(conf);
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    destroy();
-  }
-
   @PostConstruct
   public void createRESTResource(){
   }
   
   @PreDestroy
   public void destroyRESTResource(){
-    try{
-      finalizeImpl();
-    }catch(Exception error2){
-      SSLogU.err(error2);
-    }
   }
   
   @PUT

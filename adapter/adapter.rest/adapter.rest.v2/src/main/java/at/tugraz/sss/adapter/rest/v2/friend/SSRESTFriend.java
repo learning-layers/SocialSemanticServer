@@ -49,32 +49,14 @@ import javax.ws.rs.core.Response;
 
 @Path("/friends")
 @Api( value = "/friends") //, basePath = "/friends"
-public class SSRESTFriend extends SSServImplStartA{
+public class SSRESTFriend{
   
-  public SSRESTFriend() {
-    super(null);
-  }
-  
-  public SSRESTFriend(final SSConfA conf) {
-    super(conf);
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    destroy();
-  }
-
   @PostConstruct
   public void createRESTResource(){
   }
   
   @PreDestroy
   public void destroyRESTResource(){
-    try{
-      finalizeImpl();
-    }catch(Exception error2){
-      SSLogU.err(error2);
-    }
   }
   
   @GET

@@ -34,6 +34,7 @@ import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.datatype.enums.*;
 
 import java.util.List;
 
@@ -49,8 +50,21 @@ public class SSAuthServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws SSErr{
-    return new SSAuthImpl((SSAuthConf) conf);
+  public SSServImplA getServImpl() throws SSErr{
+    
+    if(!conf.use){
+      throw SSErr.get(SSErrE.servNotRunning);
+    }
+    
+    if(servImpl != null){
+      return servImpl;
+    }
+    
+    synchronized(this){
+      servImpl = new SSAuthImpl((SSAuthConf) conf);
+    }
+    
+    return servImpl;
   }
   
   @Override

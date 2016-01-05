@@ -60,20 +60,7 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 
 @Path("/recomm")
 @Api( value = "/recomm")
-public class SSRESTRecomm extends SSServImplStartA{
-  
-  public SSRESTRecomm() {
-    super(null);
-  }
-  
-  public SSRESTRecomm(final SSConfA conf) {
-    super(conf);
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    destroy();
-  }
+public class SSRESTRecomm{
   
   @PostConstruct
   public void createRESTResource(){
@@ -81,11 +68,6 @@ public class SSRESTRecomm extends SSServImplStartA{
   
   @PreDestroy
   public void destroyRESTResource(){
-    try{
-      finalizeImpl();
-    }catch(Exception error2){
-      SSLogU.err(error2);
-    }
   }
   
   @PUT

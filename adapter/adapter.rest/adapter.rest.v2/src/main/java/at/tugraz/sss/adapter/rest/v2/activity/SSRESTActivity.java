@@ -47,33 +47,15 @@ import javax.ws.rs.core.Response;
 
 @Path("/activities")
 @Api( value = "/activities")
-public class SSRESTActivity extends SSServImplStartA{
+public class SSRESTActivity{
   
-  public SSRESTActivity() {
-    super(null);
-  }
-  
-  public SSRESTActivity(final SSConfA conf) {
-    super(conf);
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    destroy();
-  }
-
   @PostConstruct
   public void createRESTResource(){
+    
   }
   
   @PreDestroy
   public void destroyRESTResource(){
-    
-    try{
-      finalizeImpl();
-    }catch(Exception error2){
-      SSLogU.err(error2);
-    }
   }
   
   @POST

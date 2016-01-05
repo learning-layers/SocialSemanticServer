@@ -50,32 +50,14 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 
 @Path("/files")
 @Api( value = "/files")
-public class SSRESTFile extends SSServImplStartA{
+public class SSRESTFile{
   
-  public SSRESTFile() {
-    super(null);
-  }
-  
-  public SSRESTFile(final SSConfA conf) {
-    super(conf);
-  }
-  
-  @Override
-  protected void finalizeImpl() throws Exception{
-    destroy();
-  }
-
   @PostConstruct
   public void createRESTResource(){
   }
   
   @PreDestroy
   public void destroyRESTResource(){
-    try{
-      finalizeImpl();
-    }catch(Exception error2){
-      SSLogU.err(error2);
-    }
   }
   
   @POST
