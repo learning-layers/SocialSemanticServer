@@ -205,6 +205,7 @@ public class SSSocketMainV2 extends SSServImplStartA{
     private final OutputStreamWriter outputStreamWriter;
     private final InputStreamReader  inputStreamReader;
     private final SSSocketAdapterU   socketAdapterU;
+    
     private SSServContainerI         serv        = null;
     private SSServImplA              servImpl    = null;
     private SSServPar                par         = null;
@@ -226,6 +227,7 @@ public class SSSocketMainV2 extends SSServImplStartA{
           SSEncodingU.utf8.toString());
       
       this.socketAdapterU = new SSSocketAdapterU();
+      
     }
     
     @Override

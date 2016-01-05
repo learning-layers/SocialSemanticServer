@@ -21,8 +21,9 @@
  package at.tugraz.sss.servs.image.datatype.par;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.reg.*;
+ import at.tugraz.sss.serv.util.*;
 
 public class SSImageProfilePictureSetPar extends SSServPar{
 
@@ -48,11 +49,11 @@ public class SSImageProfilePictureSetPar extends SSServPar{
   public SSImageProfilePictureSetPar(){}
   
   public SSImageProfilePictureSetPar(
-    final SSUri       user,
-    final SSUri       entity,
-    final SSUri       file,
-    final Boolean     withUserRestriction, 
-    final Boolean     shouldCommit){
+    final SSUri        user,
+    final SSUri        entity,
+    final SSUri        file,
+    final Boolean      withUserRestriction, 
+    final Boolean      shouldCommit){
    
     super(SSVarNames.imageProfilePictureSet, null, user);
     

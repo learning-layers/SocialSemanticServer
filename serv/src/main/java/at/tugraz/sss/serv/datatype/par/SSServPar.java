@@ -35,7 +35,7 @@ import java.net.Socket;
   
 @XmlRootElement
 public class SSServPar{
-  
+
   public String               op                  = null;
   public SSUri                user                = null;
   public String               key                 = null;
@@ -55,24 +55,19 @@ public class SSServPar{
   @JsonIgnore
   public String               clientJSONRequ      = null;
   
-  @JsonIgnore
-  public JsonNode             clientJSONObj       = null;
+//  @JsonIgnore
+//  public JsonNode             clientJSONObj       = null;
   
   @XmlElement
   public void setUser(final String user) throws Exception{
     this.user = SSUri.get(user);
   }
   
-  public String getOp(){
-    return SSStrU.toStr(op);
-  }
-  
   public String getUser(){
     return SSStrU.removeTrailingSlash(user);
   }
   
-  public SSServPar(){
-  }
+  public SSServPar(){}
   
   public SSServPar(
     final Socket       clientSocket,
@@ -85,45 +80,14 @@ public class SSServPar{
     this.key = SSJSONU.getValueFromJSON(clientJSONRequ, SSVarNames.key);
     
     //TODO for anchient use of serv par
-    try{
-      this.user = SSUri.get(SSJSONU.getValueFromJSON(clientJSONRequ, SSVarNames.user));
-    }catch(Exception error){}
+//    try{
+//      this.user = SSUri.get(SSJSONU.getValueFromJSON(clientJSONRequ, SSVarNames.user));
+//    }catch(Exception error){}
     
     //TODO for anchient use of serv par
-    clientJSONObj = new ObjectMapper().readTree(clientJSONRequ);
+//    clientJSONObj = new ObjectMapper().readTree(clientJSONRequ);
   }
 
-  public SSServPar(
-    final String               op,
-    final Map<String, Object>  pars) throws Exception{
-    
-    this.op            = op;
-    this.pars          = pars;
-    
-    if(
-      this.op   == null ||
-      this.pars == null){
-      throw new Exception("op or pars is/are empty");
-    }
-    
-    //TODO code below for anchient serv par use
-    try{
-      user = (SSUri) pars.get(SSVarNames.user);
-    }catch(Exception error){}
-    
-    try{
-      key = (String) pars.get(SSVarNames.key);
-    }catch(Exception error){}
-    
-    try{
-      shouldCommit = (Boolean) pars.get(SSVarNames.shouldCommit);
-    }catch(Exception error){}
-    
-    try{
-      withUserRestriction = (Boolean) pars.get(SSVarNames.withUserRestriction);
-    }catch(Exception error){}
-  }
-  
   protected SSServPar(
     final String       op,
     final String       key,
@@ -133,24 +97,6 @@ public class SSServPar{
     this.key    = key;
     this.user   = user;
   }
-  
-//  //TODO constructor for anchient serv par use
-//  protected SSServPar(final SSServPar par) throws Exception{
-//    
-//    this.op           = par.op;
-//    this.user         = par.user;
-//    this.key          = par.key;
-//
-//    if(par.shouldCommit != null){
-//      this.shouldCommit = par.shouldCommit;
-//    }
-//    
-//    if(par.withUserRestriction != null){
-//      this.withUserRestriction = par.withUserRestriction;
-//    }
-//    
-//    this.pars         = par.pars;
-//  }
   
   public SSServPar getFromClient(
     final SSClientE clientType, 
@@ -301,3 +247,51 @@ public class SSServPar{
 //        jp.close();
 //      }
 //    }
+
+//  protected SSServPar(final SSServPar par) throws Exception{
+//    
+//    this.op           = par.op;
+//    this.user         = par.user;
+//    this.key          = par.key;
+//
+//    if(par.shouldCommit != null){
+//      this.shouldCommit = par.shouldCommit;
+//    }
+//    
+//    if(par.withUserRestriction != null){
+//      this.withUserRestriction = par.withUserRestriction;
+//    }
+//    
+//    this.pars         = par.pars;
+//  }
+  
+  //  public SSServPar(
+//    final String               op,
+//    final Map<String, Object>  pars) throws Exception{
+//    
+//    this.op            = op;
+//    this.pars          = pars;
+//    
+//    if(
+//      this.op   == null ||
+//      this.pars == null){
+//      throw new Exception("op or pars is/are empty");
+//    }
+//    
+//    //TODO code below for anchient serv par use
+//    try{
+//      user = (SSUri) pars.get(SSVarNames.user);
+//    }catch(Exception error){}
+//    
+//    try{
+//      key = (String) pars.get(SSVarNames.key);
+//    }catch(Exception error){}
+//    
+//    try{
+//      shouldCommit = (Boolean) pars.get(SSVarNames.shouldCommit);
+//    }catch(Exception error){}
+//    
+//    try{
+//      withUserRestriction = (Boolean) pars.get(SSVarNames.withUserRestriction);
+//    }catch(Exception error){}
+//  }
