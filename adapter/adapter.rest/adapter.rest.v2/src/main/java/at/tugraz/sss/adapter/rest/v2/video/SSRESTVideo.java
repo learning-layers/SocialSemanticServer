@@ -68,7 +68,6 @@ public class SSRESTVideo{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("")
   @ApiOperation(
     value = "retrieve videos",
     response = SSVideosUserGetRet.class)
@@ -110,7 +109,6 @@ public class SSRESTVideo{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("")
   @ApiOperation(
     value = "add a video",
     response = SSVideoUserAddRet.class)

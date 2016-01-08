@@ -71,7 +71,6 @@ public class SSRESTTag{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("")
   @ApiOperation(
     value = "retrieve tag assignments",
     response = SSTagsGetRet.class)
@@ -412,7 +411,6 @@ public class SSRESTTag{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("")
   @ApiOperation(
     value = "add a tag for an entity within given space",
     response = SSTagAddRet.class)

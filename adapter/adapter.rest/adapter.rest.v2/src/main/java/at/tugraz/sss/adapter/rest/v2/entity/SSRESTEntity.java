@@ -274,7 +274,6 @@ public class SSRESTEntity{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("")
   @ApiOperation(
     value = "adds a new entity with given properties",
     response = SSEntityUpdateRet.class)

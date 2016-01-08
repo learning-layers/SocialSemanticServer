@@ -25,9 +25,7 @@ import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
-import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import com.wordnik.swagger.annotations.Api;
@@ -45,7 +43,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/auth")
-@Api( value = "/auth") //, basePath = "/auth"
+@Api( value = "auth")
 public class SSRESTAuth{
   
   @PostConstruct
@@ -59,7 +57,6 @@ public class SSRESTAuth{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("")
   @ApiOperation(
     value = "validate given OIDC authentication token (sent as header 'Authorization: Bearer yourToken') and retrieve the user's uri for given token ('only available for SSS 'oidcAuth')",
     response = SSAuthCheckCredRet.class)
@@ -99,7 +96,6 @@ public class SSRESTAuth{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("")
   @ApiOperation(
     value = "retrieve sss authentication key and the user's uri for given user name and password (only available for SSS 'csvFileAuth')",
     response = SSAuthCheckCredRet.class)

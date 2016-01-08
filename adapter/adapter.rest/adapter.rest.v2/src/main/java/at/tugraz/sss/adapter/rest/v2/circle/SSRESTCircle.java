@@ -82,7 +82,6 @@ public class SSRESTCircle{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("")
   @ApiOperation(
     value = "retrieve circles",
     response = SSCirclesGetRet.class)
@@ -561,7 +560,6 @@ public class SSRESTCircle{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("")
   @ApiOperation(
     value = "create a circle and add users / entities",
     response = SSCircleCreateRet.class)

@@ -102,7 +102,6 @@ public class SSRESTCategory{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("")
   @ApiOperation(
     value = "add a category for an entity in given space",
     response = SSCategoryAddRet.class)

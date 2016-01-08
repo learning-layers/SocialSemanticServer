@@ -68,7 +68,6 @@ public class SSRESTAppStackLayout{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("")
   @ApiOperation(
     value = "retrieve appStackLayouts",
     response = SSAppStackLayoutsGetRet.class)
@@ -153,7 +152,6 @@ public class SSRESTAppStackLayout{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("")
   @ApiOperation(
     value = "create an arrangement of tiles within an app",
     response = SSAppStackLayoutCreateRet.class)

@@ -152,7 +152,6 @@ public class SSRESTActivity{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("")
   @ApiOperation(
     value = "add an activity",
     response = SSActivitiesGetRet.class)

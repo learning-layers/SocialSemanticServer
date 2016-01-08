@@ -98,7 +98,6 @@ public class SSRESTLearnEp{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("")
   @ApiOperation(
     value = "retrieve learning episodes for a user",
     response = SSLearnEpsGetRet.class)
@@ -324,7 +323,6 @@ public class SSRESTLearnEp{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("")
   @ApiOperation(
     value = "create learning episode",
     response = SSLearnEpCreateRet.class)

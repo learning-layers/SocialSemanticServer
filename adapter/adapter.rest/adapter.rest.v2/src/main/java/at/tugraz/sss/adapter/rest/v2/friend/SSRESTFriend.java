@@ -62,7 +62,6 @@ public class SSRESTFriend{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("")
   @ApiOperation(
     value = "get friends",
     response = SSFriendsGetRet.class)

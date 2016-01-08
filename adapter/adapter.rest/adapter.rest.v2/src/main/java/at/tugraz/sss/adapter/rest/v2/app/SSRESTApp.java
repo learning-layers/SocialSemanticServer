@@ -59,7 +59,6 @@ public class SSRESTApp{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("")
   @ApiOperation(
     value = "retrieve apps",
     response = SSAppsGetRet.class)
@@ -99,7 +98,6 @@ public class SSRESTApp{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("")
   @ApiOperation(
     value = "add an app",
     response = SSAppAddRet.class)

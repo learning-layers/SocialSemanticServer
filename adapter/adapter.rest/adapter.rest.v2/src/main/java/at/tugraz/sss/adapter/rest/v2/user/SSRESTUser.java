@@ -59,7 +59,6 @@ public class SSRESTUser{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("")
   @ApiOperation(
     value = "retrieve users",
     response = SSUsersGetRet.class)

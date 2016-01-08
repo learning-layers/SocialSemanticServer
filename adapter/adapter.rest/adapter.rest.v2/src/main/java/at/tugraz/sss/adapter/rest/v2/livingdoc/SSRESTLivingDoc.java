@@ -71,7 +71,6 @@ public class SSRESTLivingDoc{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("")
   @ApiOperation(
     value = "retrieve living docs for a user",
     response = SSLivingDocsGetRet.class)
@@ -259,7 +258,6 @@ public class SSRESTLivingDoc{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("")
   @ApiOperation(
     value = "add a living doc",
     response = SSLivingDocAddRet.class)

@@ -208,7 +208,6 @@ public class SSRESTUE{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("")
   @ApiOperation(
     value = "adds a usage-based trace, i.e. user event, for entity, user combination",
     response = SSUEAddRet.class)

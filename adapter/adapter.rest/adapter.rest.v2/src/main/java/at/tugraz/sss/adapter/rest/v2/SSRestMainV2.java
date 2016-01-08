@@ -20,20 +20,45 @@
 */
 package at.tugraz.sss.adapter.rest.v2;
 
+import at.tugraz.sss.adapter.rest.v2.activity.*;
+import at.tugraz.sss.adapter.rest.v2.app.*;
+import at.tugraz.sss.adapter.rest.v2.appstacklayout.*;
+import at.tugraz.sss.adapter.rest.v2.auth.*;
+import at.tugraz.sss.adapter.rest.v2.category.*;
+import at.tugraz.sss.adapter.rest.v2.circle.*;
+import at.tugraz.sss.adapter.rest.v2.coll.*;
+import at.tugraz.sss.adapter.rest.v2.disc.*;
+import at.tugraz.sss.adapter.rest.v2.entity.*;
+import at.tugraz.sss.adapter.rest.v2.evallog.*;
+import at.tugraz.sss.adapter.rest.v2.file.*;
+import at.tugraz.sss.adapter.rest.v2.flag.*;
+import at.tugraz.sss.adapter.rest.v2.friend.*;
+import at.tugraz.sss.adapter.rest.v2.image.*;
+import at.tugraz.sss.adapter.rest.v2.learnep.*;
+import at.tugraz.sss.adapter.rest.v2.like.*;
+import at.tugraz.sss.adapter.rest.v2.livingdoc.*;
+import at.tugraz.sss.adapter.rest.v2.message.*;
+import at.tugraz.sss.adapter.rest.v2.rating.*;
+import at.tugraz.sss.adapter.rest.v2.recomm.*;
+import at.tugraz.sss.adapter.rest.v2.search.*;
+import at.tugraz.sss.adapter.rest.v2.tag.*;
+import at.tugraz.sss.adapter.rest.v2.ue.*;
+import at.tugraz.sss.adapter.rest.v2.user.*;
+import at.tugraz.sss.adapter.rest.v2.video.*;
 import at.tugraz.sss.serv.util.SSJSONU;
 import at.tugraz.sss.serv.util.*;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.HttpHeaders;
-import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.reg.*;
+import java.util.*;
+import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import org.glassfish.jersey.media.multipart.*;
 
-public class SSRestMainV2 extends Application {
+@ApplicationPath("/rest")
+public class SSRestMainV2 extends Application{
 
   public SSRestMainV2() throws Exception{
   }
@@ -52,6 +77,32 @@ public class SSRestMainV2 extends Application {
     
     classes.add(MultiPartFeature.class);
 
+    classes.add(SSRESTActivity.class);
+    classes.add(SSRESTApp.class);
+    classes.add(SSRESTAppStackLayout.class);
+    classes.add(SSRESTAuth.class);
+    classes.add(SSRESTCategory.class);
+    classes.add(SSRESTCircle.class);
+    classes.add(SSRESTColl.class);
+    classes.add(SSRESTDisc.class);
+    classes.add(SSRESTEntity.class);
+    classes.add(SSRESTEval.class);
+    classes.add(SSRESTFile.class);
+    classes.add(SSRESTFlag.class);
+    classes.add(SSRESTFriend.class);
+    classes.add(SSRESTImage.class);
+    classes.add(SSRESTLearnEp.class);
+    classes.add(SSRESTLike.class);
+    classes.add(SSRESTLivingDoc.class);
+    classes.add(SSRESTMessage.class);
+    classes.add(SSRESTRating.class);
+    classes.add(SSRESTRecomm.class);
+    classes.add(SSRESTSearch.class);
+    classes.add(SSRESTTag.class);
+    classes.add(SSRESTUE.class);
+    classes.add(SSRESTUser.class);
+    classes.add(SSRESTVideo.class);
+    
     return classes;
   }
   

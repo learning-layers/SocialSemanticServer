@@ -131,7 +131,6 @@ public class SSRESTDisc{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("")
   @ApiOperation(
     value = "add a textual comment/answer/opinion to a discussion [for given entity] or create a new discussion",
     response = SSDiscEntryAddRet.class)

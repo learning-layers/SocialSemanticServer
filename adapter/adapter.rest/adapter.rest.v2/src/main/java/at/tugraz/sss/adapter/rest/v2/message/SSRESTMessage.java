@@ -105,7 +105,6 @@ public class SSRESTMessage{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("")
   @ApiOperation(
     value = "send a message to a user",
     response = SSMessageSendRet.class)
