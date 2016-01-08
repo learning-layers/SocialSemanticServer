@@ -21,27 +21,24 @@
 
 package at.tugraz.sss.servs.ocd.datatypes.pars;
 
-
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-
 
 public class SSOCDGetGraphsPar extends SSServPar{
   
-  public SSOCDGetGraphsPar(){
-    
-  }
-  
   private String firstIndex = null;
   private String length = null;
-  private Boolean includeMeta = null;
+  private boolean includeMeta = false;
   private String executionStatuses = null;
+  
+  public SSOCDGetGraphsPar(){}
   
   public SSOCDGetGraphsPar (
     final SSUri user,
     final String firstIndex,
     final String length,
-    final Boolean includeMeta,
+    final boolean includeMeta,
     final String executionStatuses) {
     
        super(SSVarNames.ocdGetGraphs, null, user);
@@ -62,11 +59,11 @@ public class SSOCDGetGraphsPar extends SSServPar{
     this.length = length;
   }
 
-  public Boolean getIncludeMeta() {
+  public boolean getIncludeMeta() {
     return includeMeta;
   }
 
-  public void setIncludeMeta(Boolean includeMeta) {
+  public void setIncludeMeta(boolean includeMeta) {
     this.includeMeta = includeMeta;
   }
 
@@ -77,6 +74,4 @@ public class SSOCDGetGraphsPar extends SSServPar{
   public void setExecutionStatuses(String executionStatuses) {
     this.executionStatuses = executionStatuses;
   }
-  
-  
 }

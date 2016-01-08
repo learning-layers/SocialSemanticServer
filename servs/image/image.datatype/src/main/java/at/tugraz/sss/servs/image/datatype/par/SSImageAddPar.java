@@ -33,9 +33,9 @@ public class SSImageAddPar extends SSServPar{
   public SSImageE imageType                            = null;
   public SSUri    entity                               = null;
   public SSUri    file                                 = null;
-  public Boolean  createThumb                          = false;
-  public Boolean  isImageToAddTheThumb                 = false;
-  public Boolean  removeThumbsFromEntity               = false;
+  public boolean  createThumb                          = false;
+  public boolean  isImageToAddTheThumb                 = false;
+  public boolean  removeThumbsFromEntity               = false;
   
   public String getLink(){
     return SSStrU.removeTrailingSlash(link);
@@ -78,11 +78,11 @@ public class SSImageAddPar extends SSServPar{
     final SSImageE      imageType,
     final SSUri         entity,
     final SSUri         file, 
-    final Boolean       createThumb,
-    final Boolean       isImageToAddTheThumb,
-    final Boolean       removeThumbsFromEntity, 
-    final Boolean       withUserRestriction,
-    final Boolean       shouldCommit){
+    final boolean       createThumb,
+    final boolean       isImageToAddTheThumb,
+    final boolean       removeThumbsFromEntity, 
+    final boolean       withUserRestriction,
+    final boolean       shouldCommit){
     
     super(SSVarNames.imageAdd, null, user);
     

@@ -88,7 +88,7 @@ public class SSActivityAddPar extends SSServPar{
     final List<SSUri>           entities, 
     final List<SSTextComment>   comments, 
     final Long                  creationTime, 
-    final Boolean               shouldCommit){
+    final boolean               shouldCommit){
     
     super(SSVarNames.activityAdd, null, user);
     

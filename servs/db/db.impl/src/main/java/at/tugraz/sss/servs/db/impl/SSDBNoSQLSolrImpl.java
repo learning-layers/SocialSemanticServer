@@ -49,7 +49,7 @@ implements SSDBNoSQLI{
 
 //  private static DataSource   connectionPool           = null;
 //  public         Connection   connector                = null;
-//  private        Boolean      gotCon                   = false;
+//  private        boolean      gotCon                   = false;
 //  private        Integer      numberTimesTriedToGetCon = 0;
   
   private final SSDBNoSQLConf solrConf;

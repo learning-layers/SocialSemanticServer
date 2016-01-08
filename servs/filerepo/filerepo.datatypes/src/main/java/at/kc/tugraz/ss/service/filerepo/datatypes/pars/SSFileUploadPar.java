@@ -71,7 +71,7 @@ public class SSFileUploadPar extends SSServPar{
     final Socket        clientSocket,
     final InputStream   fileInputStream,
     final SSClientE     clientType,
-    final Boolean       shouldCommit){
+    final boolean       shouldCommit){
     
     super (SSVarNames.fileUpload, null, user);
     

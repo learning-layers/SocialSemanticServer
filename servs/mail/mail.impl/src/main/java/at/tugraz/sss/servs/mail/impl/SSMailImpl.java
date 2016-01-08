@@ -30,6 +30,7 @@ import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.mail.SSMailClientI;
 import at.tugraz.sss.servs.mail.SSMailServerI;
 import at.tugraz.sss.servs.mail.conf.SSMailConf;
@@ -58,7 +59,7 @@ implements
   }
   
   @Override
-  public Boolean mailSend(final SSMailSendPar par) throws Exception{
+  public boolean mailSend(final SSMailSendPar par) throws Exception{
     
     try{
       
@@ -80,22 +81,29 @@ implements
     
       return true;
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return false;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return false;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return mailSend(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }
@@ -141,22 +149,29 @@ implements
       
       return mails;
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return mailsReceive(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

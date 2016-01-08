@@ -22,11 +22,9 @@
 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +33,7 @@ public class SSDiscEntryAddPar extends SSServPar{
   public SSUri               disc           = null;
   public List<SSUri>         targets        = new ArrayList<>();
   public SSTextComment       entry          = null;
-  public Boolean             addNewDisc     = null;
+  public boolean             addNewDisc     = false;
   public SSEntityE           type           = null;
   public SSLabel             label          = null;
   public SSTextComment       description    = null;
@@ -113,13 +111,13 @@ public class SSDiscEntryAddPar extends SSServPar{
     final SSUri         disc,
     final List<SSUri>   targets, 
     final SSTextComment entry, 
-    final Boolean       addNewDisc,
+    final boolean       addNewDisc,
     final SSEntityE     type, 
     final SSLabel       label, 
     final SSTextComment description, 
     final List<SSUri>   entities, 
     final List<SSLabel> entityLabels,
-    final Boolean       shouldCommit){
+    final boolean       shouldCommit){
     
     super(SSVarNames.discEntryAdd, null, user);
   

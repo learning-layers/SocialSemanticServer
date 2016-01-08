@@ -38,7 +38,7 @@ public interface SSTagServerI extends SSServServerI{
   public List<SSUri>                     tagEntitiesForTagsGet        (final SSTagEntitiesForTagsGetPar par) throws SSErr;
   public List<SSUri>                     tagsAdd                      (final SSTagsAddPar               par) throws SSErr;
   public SSUri                           tagAdd                       (final SSTagAddPar                par) throws SSErr;
-  public Boolean                         tagsRemove                   (final SSTagsRemovePar            par) throws SSErr;
+  public boolean                         tagsRemove                   (final SSTagsRemovePar            par) throws SSErr;
   public List<SSEntity>                  tagsGet                      (final SSTagsGetPar               par) throws SSErr;
   public List<SSTagFrequ>                tagFrequsGet                 (final SSTagFrequsGetPar          par) throws SSErr;
 }

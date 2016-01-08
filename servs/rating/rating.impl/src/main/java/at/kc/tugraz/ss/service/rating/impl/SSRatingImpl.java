@@ -109,7 +109,6 @@ implements
       
     }catch(Exception error){
       SSLogU.err(error);
-      SSServErrReg.reset();
     }
   }
   
@@ -187,11 +186,11 @@ implements
   }
   
   @Override
-  public Boolean ratingSet(final SSRatingSetPar par) throws SSErr {
+  public boolean ratingSet(final SSRatingSetPar par) throws SSErr {
     
     try{
       
-      final Boolean userRatedEntityBefore = sql.hasUserRatedEntity(par.user, par.entity);
+      final boolean userRatedEntityBefore = sql.hasUserRatedEntity(par.user, par.entity);
       
       if(
         !par.allowToRateAgain &&
@@ -242,7 +241,7 @@ implements
         
         if(ratingUri == null){
           dbSQL.rollBack(par.shouldCommit);
-          return null;
+          return false;
         }
         
         sql.rateEntityByUser(
@@ -265,22 +264,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return true;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return false;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return false;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return ratingSet(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }
@@ -444,7 +450,7 @@ implements
   }
   
   @Override
-  public Boolean ratingsRemove(final SSRatingsRemovePar par) throws SSErr{
+  public boolean ratingsRemove(final SSRatingsRemovePar par) throws SSErr{
     
     try{
       
@@ -472,22 +478,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return true;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return false;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return false;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return ratingsRemove(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }

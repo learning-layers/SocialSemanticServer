@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.ss.auth.datatypes.pars;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 
 public class SSAuthRegisterUserPar extends SSServPar{
@@ -29,8 +29,8 @@ public class SSAuthRegisterUserPar extends SSServPar{
   public String   email             = null;
   public String   password          = null;
   public SSLabel  label             = null;
-  public Boolean  updatePassword    = null;
-  public Boolean  isSystemUser      = null;
+  public boolean  updatePassword    = false;
+  public boolean  isSystemUser      = false;
 
   public String getLabel() {
     return SSStrU.toStr(label);
@@ -46,10 +46,10 @@ public class SSAuthRegisterUserPar extends SSServPar{
     final String     email, 
     final String     password, 
     final SSLabel    label,
-    final Boolean    updatePassword, 
-    final Boolean    isSystemUser,
-    final Boolean    withUserRestriction, 
-    final Boolean    shouldCommit){
+    final boolean    updatePassword, 
+    final boolean    isSystemUser,
+    final boolean    withUserRestriction, 
+    final boolean    shouldCommit){
     
     super(SSVarNames.authRegisterUser, null, null);
     

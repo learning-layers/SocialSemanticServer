@@ -88,7 +88,7 @@ public class SSCollSQLFct extends SSCoreSQL{
     }
   }
   
-  public Boolean isCollRoot(
+  public boolean isCollRoot(
     final SSUri collUri) throws Exception{
     
     ResultSet  resultSet = null;
@@ -107,7 +107,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
@@ -133,7 +133,7 @@ public class SSCollSQLFct extends SSCoreSQL{
     }
   }
   
-  public Boolean isCollSpecial(
+  public boolean isCollSpecial(
     final SSUri collUri) throws Exception{
     
     ResultSet  resultSet               = null;
@@ -152,7 +152,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
@@ -174,7 +174,9 @@ public class SSCollSQLFct extends SSCoreSQL{
        
        resultSet = dbSQL.select(SSSQLVarNames.collSpecialTable, columns, wheres, null, null, null);
        
-       checkFirstResult(resultSet);
+       if(!existsFirstResult(resultSet)){
+        return null;
+      }
        
        return bindingStrToUri(resultSet, SSSQLVarNames.collId);
        
@@ -186,7 +188,7 @@ public class SSCollSQLFct extends SSCoreSQL{
     }
   }
 
-  public Boolean isColl(
+  public boolean isColl(
     final SSUri entityUri) throws Exception{
     
     ResultSet resultSet = null;
@@ -204,7 +206,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       return resultSet.first();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
@@ -324,7 +326,7 @@ public class SSCollSQLFct extends SSCoreSQL{
     }
   }  
   
-  public Boolean ownsUserColl(
+  public boolean ownsUserColl(
     final SSUri userUri, 
     final SSUri collUri) throws Exception {
     
@@ -345,7 +347,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       return resultSet.first();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
@@ -355,8 +357,8 @@ public class SSCollSQLFct extends SSCoreSQL{
     final SSUri       user,
     final SSUri       collParent,
     final SSUri       collChild,
-    final Boolean     createdCollIsInSharedOrPublicCircle,
-    final Boolean     addedCollIsSharedOrPublic) throws Exception{
+    final boolean     createdCollIsInSharedOrPublicCircle,
+    final boolean     addedCollIsSharedOrPublic) throws Exception{
     
     try{
       
@@ -613,7 +615,9 @@ public class SSCollSQLFct extends SSCoreSQL{
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return SSColl.get(collUri);
       
@@ -684,7 +688,9 @@ public class SSCollSQLFct extends SSCoreSQL{
       
       resultSet = dbSQL.select(SSSQLVarNames.collRootTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
 
       return bindingStrToUri(resultSet, SSSQLVarNames.collId);
     }catch(Exception error){
@@ -695,7 +701,7 @@ public class SSCollSQLFct extends SSCoreSQL{
     }
   }
 
-  public Boolean containsCollEntry(
+  public boolean containsCollEntry(
     final SSUri collUri, 
     final SSUri collEntryUri) throws Exception{
     
@@ -715,13 +721,13 @@ public class SSCollSQLFct extends SSCoreSQL{
       return resultSet.first();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
   }
 
-  public Boolean existsCollRootForUser(
+  public boolean existsCollRootForUser(
     final SSUri userUri) throws Exception{
     
     ResultSet resultSet = null;
@@ -740,7 +746,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       return resultSet.first();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
@@ -823,7 +829,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 //    return userCollSpace;
 //  }
 
-//private Boolean ownsUserCollByHierarchy(SSUri userUri, SSUri collUri) throws Exception{
+//private boolean ownsUserCollByHierarchy(SSUri userUri, SSUri collUri) throws Exception{
 //    
 //    final List<String> collParents    = new ArrayList<>();
 //    final List<String> newCollParents = new ArrayList<>();
@@ -901,12 +907,12 @@ public class SSCollSQLFct extends SSCoreSQL{
 //    return collSpace;
 //  }
 
-// public Boolean isEntityInPrivateUserColl(SSUri user, SSUri entity) throws Exception{
+// public boolean isEntityInPrivateUserColl(SSUri user, SSUri entity) throws Exception{
 //
 //    Map<String, String> selectPars                = new HashMap<>();
 //    ResultSet           resultSet                 = null;
 //    List<String>        parentCollUris            = new ArrayList<>();
-//    Boolean             isEntityInPrivateUserColl;
+//    boolean             isEntityInPrivateUserColl;
 //    
 //    if(isColl(entity)){
 //
@@ -974,12 +980,12 @@ public class SSCollSQLFct extends SSCoreSQL{
 //    return false;
 //  }
 
-//public Boolean isEntityInSharedOrFollowedUserColl(final SSUri user, SSUri entity) throws Exception{
+//public boolean isEntityInSharedOrFollowedUserColl(final SSUri user, SSUri entity) throws Exception{
 //
 //    Map<String, String> selectPars;
 //    ResultSet           resultSet                            = null;
 //    List<String>        parentCollUris                       = new ArrayList<>();
-//    Boolean             isEntityInSharedOrFollowedUserColl;
+//    boolean             isEntityInSharedOrFollowedUserColl;
 //    
 //    if(isColl(entity)){
 //
@@ -1046,7 +1052,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 //    return false;
 //  }
 
-//  public Boolean newIsEntityInPrivateUserColl(final SSUri userUri, final SSUri entityUri) throws Exception{
+//  public boolean newIsEntityInPrivateUserColl(final SSUri userUri, final SSUri entityUri) throws Exception{
 //    
 //    if(SSObjU.isNull(userUri, entityUri)){
 //      SSServErrReg.regErrThrow(new Exception("pars null"));
@@ -1083,7 +1089,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 //    return false;
 //  }
   
-//  public Boolean newIsEntityInSharedOrFollowedUserColl(final SSUri userUri, final SSUri entityUri) throws Exception{
+//  public boolean newIsEntityInSharedOrFollowedUserColl(final SSUri userUri, final SSUri entityUri) throws Exception{
 //    
 //    if(SSObjU.isNull(userUri, entityUri)){
 //      SSServErrReg.regErrThrow(new Exception("pars null"));
@@ -1172,7 +1178,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 //    }
 //  }
 
-//  public Boolean ownsUserASubColl(
+//  public boolean ownsUserASubColl(
 //    final SSUri       userUri, 
 //    final SSUri       collUri,
 //    final SSSpaceEnum space) throws Exception{
@@ -1196,7 +1202,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 //    return false;
 //  }
   
-  //  public Boolean ownsUserASuperColl(
+  //  public boolean ownsUserASuperColl(
 //    final SSUri       userUri, 
 //    final SSUri       collUri,
 //    final SSSpaceEnum space) throws Exception{
@@ -1220,7 +1226,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 //    return false;
 //  }
   
-//  public Boolean ownsUserASuperColl(
+//  public boolean ownsUserASuperColl(
 //    final SSUri userUri, 
 //    final SSUri collUri) throws Exception{
 //    
@@ -1243,7 +1249,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 //    return false;
 //  }
 
-//  private Boolean ownsUserColl(
+//  private boolean ownsUserColl(
 //    final SSUri       userUri, 
 //    final SSUri       collUri, 
 //    final SSSpaceEnum space) throws Exception{

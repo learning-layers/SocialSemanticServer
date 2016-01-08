@@ -143,7 +143,7 @@ public class SSEntity extends SSEntityA{
   @ApiModelProperty(
     required = false,
     value = "whether user has read the entry")
-  public  Boolean       read;
+  public  Boolean       read = false;
   
   @ApiModelProperty(
     required = false,
@@ -478,7 +478,7 @@ public class SSEntity extends SSEntityA{
     addEntitiesDistinctWithoutNull(this.entities, specificEntity.entities);
     addEntitiesDistinctWithoutNull(this.entities, entity.entities);
     
-    if(specificEntity.read != null){
+    if(specificEntity.read){
       this.read = specificEntity.read;
     }else{
       this.read = entity.read;

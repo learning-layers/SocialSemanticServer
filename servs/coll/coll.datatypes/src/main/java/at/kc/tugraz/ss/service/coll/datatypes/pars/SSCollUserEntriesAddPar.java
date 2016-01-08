@@ -64,8 +64,8 @@ public class SSCollUserEntriesAddPar extends SSServPar{
     final SSUri         coll, 
     final List<SSUri>   entries, 
     final List<SSLabel> labels,
-    final Boolean       withUserRestriction,
-    final Boolean       shouldCommit){
+    final boolean       withUserRestriction,
+    final boolean       shouldCommit){
     
     super(SSVarNames.collEntriesAdd, null, user);
     

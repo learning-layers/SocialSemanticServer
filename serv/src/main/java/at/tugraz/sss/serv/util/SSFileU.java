@@ -166,7 +166,7 @@ public class SSFileU{
     return new FileInputStream(new File(filePath));
   }
   
-  public static Boolean existsFile(final String filePath) throws Exception{
+  public static boolean existsFile(final String filePath) throws Exception{
     
     try{
       
@@ -417,7 +417,7 @@ public class SSFileU{
   public static synchronized void writePDFFromXHTML(
     final String  pdfFilePath,
     final String  xhtmlFilePath,
-    final Boolean useImageEmbedder) throws Exception{
+    final boolean useImageEmbedder) throws Exception{
     
     FileOutputStream out = null;
     
@@ -528,7 +528,7 @@ public class SSFileU{
     final String  pngFilePath,
     final Integer width,
     final Integer height,
-    final Boolean scale) throws Exception{
+    final boolean scale) throws Exception{
     
     PdfDecoder    pdfToImgDecoder = null;
     BufferedImage buffImage;

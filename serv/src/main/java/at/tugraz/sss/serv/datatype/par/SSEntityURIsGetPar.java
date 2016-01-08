@@ -33,7 +33,7 @@ import java.util.List;
 public class SSEntityURIsGetPar extends SSServPar{
   
   public List<SSUri>          entities              = new ArrayList<>();
-  public Boolean              getAccessible         = false;
+  public boolean              getAccessible         = false;
   public List<SSEntityE>      types                 = new ArrayList<>();
   public List<SSUri>          authors               = new ArrayList<>();
   public Long                 startTime             = null;
@@ -68,7 +68,7 @@ public class SSEntityURIsGetPar extends SSServPar{
   public SSEntityURIsGetPar(
     final SSUri                user,
     final List<SSUri>          entities, 
-    final Boolean              getAccessible, 
+    final boolean              getAccessible, 
     final List<SSEntityE>      types,
     final List<SSUri>          authors,
     final Long                 startTime,

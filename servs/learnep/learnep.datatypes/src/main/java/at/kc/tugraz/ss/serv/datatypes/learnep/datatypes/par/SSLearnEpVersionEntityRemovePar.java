@@ -42,8 +42,8 @@ public class SSLearnEpVersionEntityRemovePar extends SSServPar{
   public SSLearnEpVersionEntityRemovePar(
     final SSUri         user,
     final SSUri         learnEpEntity,
-    final Boolean       withUserRestriction,
-    final Boolean       shouldCommit){
+    final boolean       withUserRestriction,
+    final boolean       shouldCommit){
     
     super(SSVarNames.learnEpVersionEntityRemove, null, user);
     

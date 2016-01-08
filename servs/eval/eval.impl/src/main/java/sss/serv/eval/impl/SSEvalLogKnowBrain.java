@@ -136,8 +136,7 @@ public class SSEvalLogKnowBrain {
       SSLogU.trace(logText, false);
       
     }catch(Exception error){
-      SSServErrReg.reset();
-      SSLogU.warn("eval logging failed");
+      SSLogU.warn("eval logging failed", error);
     }
   }
 }

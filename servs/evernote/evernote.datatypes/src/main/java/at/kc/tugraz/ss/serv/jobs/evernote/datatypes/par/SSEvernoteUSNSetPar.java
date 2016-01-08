@@ -33,7 +33,7 @@ public class SSEvernoteUSNSetPar extends SSServPar{
     final SSUri    user,
     final String   authToken, 
     final Integer  usn,
-    final Boolean  shouldCommit){
+    final boolean  shouldCommit){
     
     super(SSVarNames.evernoteUSNSet, null, user);
     

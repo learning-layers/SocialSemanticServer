@@ -74,8 +74,8 @@ public class SSLivingDocAddPar extends SSServPar{
     final SSLabel       label, 
     final SSTextComment description, 
     final SSUri         discussion, 
-    final Boolean       withUserRestriction,
-    final Boolean       shouldCommit){
+    final boolean       withUserRestriction,
+    final boolean       shouldCommit){
     
     super(SSVarNames.livingDocAdd, null, user);
     

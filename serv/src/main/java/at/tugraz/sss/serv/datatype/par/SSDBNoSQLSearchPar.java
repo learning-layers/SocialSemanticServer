@@ -32,7 +32,7 @@ public class SSDBNoSQLSearchPar {
   public String                                            localSearchOp  = null;
   public Map<SSSolrSearchFieldE, List<SSSolrKeywordLabel>> wheres         = new HashMap<>();
   public Integer                                           maxResults     = null;
-  public Boolean                                           useFuzzySearch = true;
+  public boolean                                           useFuzzySearch = true;
   
   public SSDBNoSQLSearchPar(
     final String                                            globalSearchOp,

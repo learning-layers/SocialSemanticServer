@@ -26,14 +26,14 @@ import java.util.List;
 
 public class SSCircleEntitiesRemoveFromClientPar extends SSCircleEntitiesRemovePar{
   
-  public Boolean removeCircleSpecificMetadata = false;
+  public boolean removeCircleSpecificMetadata = false;
 
   public SSCircleEntitiesRemoveFromClientPar(){}
   
   public SSCircleEntitiesRemoveFromClientPar(
     final SSUri          circle,
     final List<SSUri>    entities,
-    final Boolean        removeCircleSpecificMetadata) throws Exception{
+    final boolean        removeCircleSpecificMetadata) throws Exception{
     
     super(null, circle, entities, true, true);
     

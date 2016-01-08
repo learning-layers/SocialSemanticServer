@@ -44,8 +44,8 @@ public class SSAppsDeletePar extends SSServPar{
   public SSAppsDeletePar(
     final SSUri       user, 
     final List<SSUri> apps, 
-    final Boolean     withUserRestriction, 
-    final Boolean     shouldCommit){
+    final boolean     withUserRestriction, 
+    final boolean     shouldCommit){
     
     super(SSVarNames.appsDelete, null, user);
     

@@ -52,8 +52,8 @@ public class SSImageProfilePictureSetPar extends SSServPar{
     final SSUri        user,
     final SSUri        entity,
     final SSUri        file,
-    final Boolean      withUserRestriction, 
-    final Boolean      shouldCommit){
+    final boolean      withUserRestriction, 
+    final boolean      shouldCommit){
    
     super(SSVarNames.imageProfilePictureSet, null, user);
     

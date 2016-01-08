@@ -36,7 +36,6 @@ public class SSCircleAddEntitiesToCircleOfEntityPar extends SSServPar{
   
   public SSUri                 entity               = null;
   public List<SSUri>           entityURIs           = new ArrayList<>();
-  public Boolean               invokeEntityHandlers = false;
 
   public String getEntity() {
     return SSStrU.removeTrailingSlash(entity);
@@ -58,9 +57,9 @@ public class SSCircleAddEntitiesToCircleOfEntityPar extends SSServPar{
     final SSUri                 user,
     final SSUri                 entity,
     final List<SSUri>           entityURIs,
-    final Boolean               withUserRestriction,
-    final Boolean               invokeEntityHandlers,
-    final Boolean               shouldCommit){
+    final boolean               withUserRestriction,
+    final boolean               invokeEntityHandlers,
+    final boolean               shouldCommit){
     
     super(SSVarNames.circleAddEntitiesToCircleOfEntity, null, user);
     

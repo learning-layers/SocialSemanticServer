@@ -37,13 +37,13 @@ import java.util.List;
 
 public interface SSCategoryServerI extends SSServServerI{
   
-  public Boolean                         categoriesPredefinedAdd          (final SSCategoriesPredefinedAddPar par) throws SSErr;
+  public boolean                         categoriesPredefinedAdd          (final SSCategoriesPredefinedAddPar par) throws SSErr;
   public List<String>                    categoriesPredefinedGet          (final SSCategoriesPredefinedGetPar par) throws SSErr;
   
   public List<SSUri>                     categoryEntitiesForCategoriesGet (final SSCategoryEntitiesForCategoriesGetPar par) throws SSErr;
   public List<SSUri>                     categoriesAdd                    (final SSCategoriesAddPar                    par) throws SSErr;
   public SSUri                           categoryAdd                      (final SSCategoryAddPar                      par) throws SSErr;
-  public Boolean                         categoriesRemove                 (final SSCategoriesRemovePar                 par) throws SSErr;
+  public boolean                         categoriesRemove                 (final SSCategoriesRemovePar                 par) throws SSErr;
   public List<SSEntity>                  categoriesGet                    (final SSCategoriesGetPar                    par) throws SSErr;
   public List<SSCategoryFrequ>           categoryFrequsGet                (final SSCategoryFrequsGetPar                par) throws SSErr;
 }

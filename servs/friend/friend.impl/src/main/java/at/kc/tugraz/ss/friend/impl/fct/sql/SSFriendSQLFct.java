@@ -92,7 +92,9 @@ public class SSFriendSQLFct extends SSDBSQLFctA{
       
       resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return SSFriend.get(
         bindingStrToUri(resultSet, SSSQLVarNames.id));

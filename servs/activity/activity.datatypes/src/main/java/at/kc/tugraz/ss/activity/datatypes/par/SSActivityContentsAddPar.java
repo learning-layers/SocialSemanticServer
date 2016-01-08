@@ -64,7 +64,7 @@ public class SSActivityContentsAddPar extends SSServPar{
     final SSUri                   activity,
     final SSActivityContentE      contentType,
     final List<SSActivityContent> contents,
-    final Boolean                 shouldCommit){
+    final boolean                 shouldCommit){
     
     super(SSVarNames.activityContentsAdd, null, user);
     

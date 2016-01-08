@@ -102,12 +102,10 @@ implements
         
       }catch(Exception error){
         
-        SSServErrReg.reset();
-        
         if(vorgang != null){
-          System.out.println("import for vorgang (" + vorgang.title + ", " + vorgang.vorgangNumber + ") failed");
+          SSLogU.warn("import for vorgang (" + vorgang.title + ", " + vorgang.vorgangNumber + ") failed");
         }else{
-          System.out.println("import for unknown vorgang failed");
+          SSLogU.warn("import for unknown vorgang failed");
         }
       }
       

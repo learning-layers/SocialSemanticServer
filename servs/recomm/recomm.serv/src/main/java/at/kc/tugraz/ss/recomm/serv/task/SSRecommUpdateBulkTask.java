@@ -27,7 +27,6 @@ import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkPar;
 import at.kc.tugraz.ss.recomm.serv.SSRecommServ;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import at.tugraz.sss.serv.reg.*;
 import java.util.TimerTask;
 
@@ -53,7 +52,7 @@ public class SSRecommUpdateBulkTask extends TimerTask {
       
       SSServReg.regTimerThread(thread);
     }catch(Exception error){
-      SSServErrReg.regErr(error);
+      SSLogU.err(error);
     }
   }
   
@@ -80,8 +79,8 @@ public class SSRecommUpdateBulkTask extends TimerTask {
             null));//clientType
         
 //        SSServCaller.recommUpdateBulk(SSVoc.systemUserUri, recommConf.fileNameForRec);
-      }catch(Exception error1){
-        SSServErrReg.regErr(error1);
+      }catch(Exception error){
+        SSLogU.err(error);
       }finally{
         
         try{

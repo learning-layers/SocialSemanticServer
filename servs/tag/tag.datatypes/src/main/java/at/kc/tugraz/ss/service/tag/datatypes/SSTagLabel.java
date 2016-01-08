@@ -156,7 +156,7 @@ public class SSTagLabel extends SSEntityA{
 //  } 
 
 
-//  public static Boolean isTagLabel(
+//  public static boolean isTagLabel(
 //    final String string) throws Exception {
 //    
 //    try{

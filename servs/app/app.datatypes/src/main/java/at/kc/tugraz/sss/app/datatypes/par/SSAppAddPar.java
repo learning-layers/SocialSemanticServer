@@ -146,8 +146,8 @@ public class SSAppAddPar extends SSServPar{
     final SSUri               fork                   ,
     final List<SSUri>         screenShots            ,
     final List<SSUri>         videos                 , 
-    final Boolean             withUserRestriction, 
-    final Boolean             shouldCommmit){
+    final boolean             withUserRestriction, 
+    final boolean             shouldCommmit){
     
     super(SSVarNames.appAdd, null, user);
     

@@ -32,7 +32,7 @@ public class SSEntityDownloadURIsGetPar extends SSServPar{
   public SSEntityDownloadURIsGetPar(
     final SSUri   user, 
     final SSUri   entity, 
-    final Boolean withUserRestriction){
+    final boolean withUserRestriction){
       
     super(SSVarNames.entityDownloadsGet, null, user);
     

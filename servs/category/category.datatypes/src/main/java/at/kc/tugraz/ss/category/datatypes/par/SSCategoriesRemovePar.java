@@ -84,8 +84,8 @@ public class SSCategoriesRemovePar extends SSServPar{
     final SSCategoryLabel label,
     final SSSpaceE        space,
     final SSUri           circle,
-    final Boolean         withUserRestriction,
-    final Boolean         shouldCommit){
+    final boolean         withUserRestriction,
+    final boolean         shouldCommit){
     
     super(SSVarNames.categoriesRemove, null, user);
     

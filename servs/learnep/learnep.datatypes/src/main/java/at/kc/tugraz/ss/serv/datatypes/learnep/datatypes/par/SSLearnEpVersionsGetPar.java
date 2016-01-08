@@ -20,10 +20,9 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +30,6 @@ public class SSLearnEpVersionsGetPar extends SSServPar{
   
   public SSUri        learnEp              = null;
   public List<SSUri>  learnEpVersions      = new ArrayList<>();
-  public Boolean      invokeEntityHandlers = false;
   
   public String getLearnEp(){
     return SSStrU.removeTrailingSlash(learnEp);
@@ -55,8 +53,8 @@ public class SSLearnEpVersionsGetPar extends SSServPar{
     final SSUri         user,
     final SSUri         learnEp,
     final List<SSUri>   learnEpVersions,
-    final Boolean       withUserRestriction, 
-    final Boolean       invokeEntityHandlers){
+    final boolean       withUserRestriction, 
+    final boolean       invokeEntityHandlers){
       
     super(SSVarNames.learnEpVersionsGet, null, user);
     

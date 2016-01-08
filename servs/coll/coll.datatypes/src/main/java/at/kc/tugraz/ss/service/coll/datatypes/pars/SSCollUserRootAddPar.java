@@ -42,7 +42,7 @@ public class SSCollUserRootAddPar extends SSServPar{
   public SSCollUserRootAddPar(
     final SSUri     user, 
     final SSUri     forUser,
-    final Boolean   shouldCommit){
+    final boolean   shouldCommit){
 
     super(SSVarNames.collRootAdd, null, user);
     

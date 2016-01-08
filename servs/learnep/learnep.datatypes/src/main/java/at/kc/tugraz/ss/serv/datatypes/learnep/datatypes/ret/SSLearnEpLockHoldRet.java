@@ -20,19 +20,15 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
-
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
-import java.util.HashMap;
-import java.util.Map;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 
 public class SSLearnEpLockHoldRet extends SSServRetI{
 
   public SSUri   learnEp       = null;
-  public Boolean lockedByUser  = null;
-  public Boolean locked        = false;
+  public boolean lockedByUser  = false;
+  public boolean locked        = false;
   public Long    remainingTime = null;
 
   public String getLearnEp(){
@@ -41,8 +37,8 @@ public class SSLearnEpLockHoldRet extends SSServRetI{
   
   public static SSLearnEpLockHoldRet get(
     final SSUri   learnEp,
-    final Boolean locked,
-    final Boolean lockedByUser, 
+    final boolean locked,
+    final boolean lockedByUser, 
     final Long    remainingTime){
 
     return new SSLearnEpLockHoldRet(learnEp, locked, lockedByUser, remainingTime);
@@ -50,8 +46,8 @@ public class SSLearnEpLockHoldRet extends SSServRetI{
   
   private SSLearnEpLockHoldRet(
     final SSUri   learnEp,
-    final Boolean locked,
-    final Boolean lockedByUser,
+    final boolean locked,
+    final boolean lockedByUser,
     final Long    remainingTime){
     
     super(SSVarNames.learnEpsLockHold);

@@ -26,13 +26,13 @@ import java.util.Map;
 
 public class SSRecommUpdateBulkRet extends SSServRetI{
 
-  public Boolean worked = false;
+  public boolean worked = false;
 
-  public static SSRecommUpdateBulkRet get(Boolean worked){
+  public static SSRecommUpdateBulkRet get(boolean worked){
     return new SSRecommUpdateBulkRet(worked);
   }
   
-  private SSRecommUpdateBulkRet(Boolean worked) {
+  private SSRecommUpdateBulkRet(boolean worked) {
 
     super(SSVarNames.recommUpdateBulk);
     

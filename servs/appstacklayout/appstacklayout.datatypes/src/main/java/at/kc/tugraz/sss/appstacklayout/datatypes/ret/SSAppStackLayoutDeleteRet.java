@@ -26,16 +26,16 @@ import java.util.Map;
 
 public class SSAppStackLayoutDeleteRet extends SSServRetI{
   
-  public Boolean worked = null;
+  public boolean worked = false;
   
   public static SSAppStackLayoutDeleteRet get(
-    final Boolean  worked){
+    final boolean  worked){
     
     return new SSAppStackLayoutDeleteRet(worked);
   }
   
   private SSAppStackLayoutDeleteRet(
-    final Boolean    worked) {
+    final boolean    worked) {
     
     super(SSVarNames.appStackLayoutDelete);
     

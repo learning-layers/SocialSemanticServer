@@ -33,7 +33,7 @@ public class SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar 
     final SSUri         user,
     final SSUri         circle, 
     final String        fileName,
-    final Boolean       withUserRestriction){
+    final boolean       withUserRestriction){
     
     super(SSVarNames.dataExportUsersEntitiesTagsCategoriesTimestampsFileFromCircle, null, user);
     

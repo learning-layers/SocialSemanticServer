@@ -85,8 +85,8 @@ public class SSTagsRemovePar extends SSServPar{
     final SSTagLabel   label,
     final SSSpaceE     space,
     final SSUri        circle,
-    final Boolean      withUserRestriction,
-    final Boolean      shouldCommit){
+    final boolean      withUserRestriction,
+    final boolean      shouldCommit){
   
     super(SSVarNames.tagsRemove, null, user);
   

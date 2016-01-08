@@ -56,8 +56,8 @@ public class SSLearnEpVersionEntityAddPar extends SSServPar{
     final SSUri      entity, 
     final Float      x, 
     final Float      y,
-    final Boolean    withUserRestriction,
-    final Boolean    shouldCommit){
+    final boolean    withUserRestriction,
+    final boolean    shouldCommit){
     
     super(SSVarNames.learnEpVersionEntityAdd, null, user);
     

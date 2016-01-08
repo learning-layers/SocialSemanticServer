@@ -253,7 +253,7 @@ public class SSStrU{
     return object.toString().substring(0, object.toString().length() - trail.length());
   }
   
-  public static Boolean contains(
+  public static boolean contains(
     final Object object1,
     final Object object2){
     
@@ -266,7 +266,7 @@ public class SSStrU{
     return object1.toString().contains(object2.toString());
   }
   
-  public static Boolean contains(
+  public static boolean contains(
     final List<? extends Object>  objects,
     final Object                  objectToContain){
     
@@ -288,7 +288,7 @@ public class SSStrU{
     return false;
   }
   
-  public static Boolean containsKey(
+  public static boolean containsKey(
     final Map<? extends Object, ? extends Object> map, 
     final Object                                  key){
     
@@ -507,11 +507,11 @@ public class SSStrU{
     return Arrays.asList(toSplit.split("\\Q" + splitter + "\\E"));
   }
   
-  public static Boolean isEmpty(final Object object) {
+  public static boolean isEmpty(final Object object) {
     return object == null || object.toString().trim().isEmpty();
   }
   
-  public static Boolean isEmpty(final Object... objects) {
+  public static boolean isEmpty(final Object... objects) {
     
     if(objects == null){
       return true;
@@ -527,7 +527,7 @@ public class SSStrU{
     return false;
   }
   
-  public static Boolean equals(
+  public static boolean equals(
     final Object object1,
     final Object object2) {
     
@@ -540,7 +540,7 @@ public class SSStrU{
     return object1.toString().trim().equals(object2.toString().trim());
   }
   
-  public static Boolean equalsOne(
+  public static boolean equalsOne(
     final Object                 object1,
     final List<? extends Object> objects) {
     

@@ -42,7 +42,7 @@ public class SSLearnEpAccessController{
   private static final Map<String, Long>         lockedLearnEpsLockTimes      = new HashMap<>(); //learnEp, time the episode got locked
   private static final ReentrantReadWriteLock    learnEpsLock                 = new ReentrantReadWriteLock();
   
-  public static Boolean lock(
+  public static boolean lock(
     final SSUri         user,
     final SSUri         learnEp) throws Exception{
     
@@ -75,7 +75,7 @@ public class SSLearnEpAccessController{
     }
   }
   
-  public static Boolean unLock(
+  public static boolean unLock(
     final SSUri         learnEp) throws Exception{
     
     try{
@@ -102,7 +102,7 @@ public class SSLearnEpAccessController{
     }
   }
   
-  public static Boolean isLocked(final SSUri learnEp) throws Exception{
+  public static boolean isLocked(final SSUri learnEp) throws Exception{
     
     try{
       
@@ -118,7 +118,7 @@ public class SSLearnEpAccessController{
     }
   }
   
-  public static Boolean hasLock(
+  public static boolean hasLock(
     final SSUri user, 
     final SSUri learnEp) throws Exception{
     

@@ -29,13 +29,13 @@ import java.util.Map;
 
 public class SSEvalLogRet extends SSServRetI{
 
-  public Boolean worked = null;
+  public boolean worked = false;
 
-  public static SSEvalLogRet get(Boolean worked){
+  public static SSEvalLogRet get(boolean worked){
     return new SSEvalLogRet(worked);
   }
   
-  private SSEvalLogRet(Boolean worked){
+  private SSEvalLogRet(boolean worked){
     
     super(SSVarNames.evalLog);
     

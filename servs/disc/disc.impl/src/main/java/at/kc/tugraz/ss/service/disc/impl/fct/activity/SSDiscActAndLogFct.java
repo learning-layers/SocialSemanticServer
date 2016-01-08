@@ -52,7 +52,7 @@ public class SSDiscActAndLogFct{
   
   public void discEntryAdd(
     final SSUri         user,
-    final Boolean       addNewDisc,
+    final boolean       addNewDisc,
     final List<SSUri>   targets,
     final SSUri         disc,
     final SSEntityE     discType,
@@ -61,7 +61,7 @@ public class SSDiscActAndLogFct{
     final SSTextComment entryContent,
     final List<SSUri>   entities,
     final List<SSLabel> entityLabels,
-    final Boolean       shouldCommit) throws Exception{
+    final boolean       shouldCommit) throws Exception{
     
     try{
       
@@ -195,7 +195,7 @@ SSUri.asListNotNull(entry), //entities
     final SSUri       user,
     final SSUri       disc,
     final List<SSUri> targets,
-    final Boolean     shouldCommit) throws Exception{
+    final boolean     shouldCommit) throws Exception{
     
     if(disc == null){
       return;
@@ -231,7 +231,7 @@ SSUri.asListNotNull(disc), //entities
   
   public void discUpdate(
     final SSUri   user,
-    final Boolean shouldCommit) throws Exception{
+    final boolean shouldCommit) throws Exception{
     
   }
   
@@ -240,7 +240,7 @@ SSUri.asListNotNull(disc), //entities
     final SSUri         disc,
     final SSLabel       label,
     final SSTextComment content,
-    final Boolean       shouldCommit) throws Exception {
+    final boolean       shouldCommit) throws Exception {
     
     try{
       
@@ -288,7 +288,7 @@ SSUri.asListNotNull(disc), //entities
     final SSUri         user,
     final SSUri         entry,
     final SSTextComment content,
-    final Boolean       shouldCommit) throws Exception{
+    final boolean       shouldCommit) throws Exception{
     
     try{
       

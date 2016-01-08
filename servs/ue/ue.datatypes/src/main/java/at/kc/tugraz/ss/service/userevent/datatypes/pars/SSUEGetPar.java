@@ -21,15 +21,14 @@
 package at.kc.tugraz.ss.service.userevent.datatypes.pars;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 
 public class SSUEGetPar extends SSServPar{
   
   public SSUri   userEvent            = null;
-  public Boolean invokeEntityHandlers = false;
-  public Boolean setTags              = false;
-  public Boolean setFlags             = false;
+  public boolean setTags              = false;
+  public boolean setFlags             = false;
 
   public String getUserEvent(){
     return SSStrU.removeTrailingSlash(userEvent);
@@ -44,8 +43,8 @@ public class SSUEGetPar extends SSServPar{
   public SSUEGetPar(
     final SSUri     user,
     final SSUri     userEvent, 
-    final Boolean   withUserRestriction, 
-    final Boolean   invokeEntityHandlers){
+    final boolean   withUserRestriction, 
+    final boolean   invokeEntityHandlers){
     
     super(SSVarNames.userEventGet, null, user);
     

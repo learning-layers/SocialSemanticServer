@@ -42,8 +42,8 @@ public class SSLivingDocRemovePar extends SSServPar{
   public SSLivingDocRemovePar(
     final SSUri         user,
     final SSUri         livingDoc,
-    final Boolean       withUserRestriction,
-    final Boolean       shouldCommit){
+    final boolean       withUserRestriction,
+    final boolean       shouldCommit){
     
     super(SSVarNames.livingDocRemove, null, user);
     

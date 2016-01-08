@@ -20,17 +20,15 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 
 public class SSLearnEpsGetPar extends SSServPar{
 
   public SSUri   forUser              = null;
-  public Boolean setRead              = false;
-  public Boolean setCircleTypes       = false;
-  public Boolean invokeEntityHandlers = false;
+  public boolean setRead              = false;
+  public boolean setCircleTypes       = false;
 
   public String getForUser() {
     return SSStrU.removeTrailingSlash(forUser);
@@ -45,8 +43,8 @@ public class SSLearnEpsGetPar extends SSServPar{
   public SSLearnEpsGetPar(
     final SSUri         user,
     final SSUri         forUser,
-    final Boolean       withUserRestriction, 
-    final Boolean       invokeEntityHandlers){
+    final boolean       withUserRestriction, 
+    final boolean       invokeEntityHandlers){
     
     super(SSVarNames.learnEpsGet, null, user);
     

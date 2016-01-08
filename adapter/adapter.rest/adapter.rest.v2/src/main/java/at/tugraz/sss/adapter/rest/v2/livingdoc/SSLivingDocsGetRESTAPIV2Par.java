@@ -33,11 +33,11 @@ public class SSLivingDocsGetRESTAPIV2Par {
   @ApiModelProperty(
     required = false,
     value = "")
-  public Boolean setUsers       = null;
+  public boolean setUsers       = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "")
-  public Boolean setDiscs       = null;
+  public boolean setDiscs       = false;
 }

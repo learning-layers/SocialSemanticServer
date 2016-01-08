@@ -34,8 +34,8 @@ public class SSRecommTagsPar extends SSServPar{
   public SSUri          entity               = null;
   public List<String>   categories           = new ArrayList<>();
   public Integer        maxTags              = 10;
-  public Boolean        includeOwn           = true;
-  public Boolean        ignoreAccessRights   = false;
+  public boolean        includeOwn           = true;
+  public boolean        ignoreAccessRights   = false;
   
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser);
@@ -62,9 +62,9 @@ public class SSRecommTagsPar extends SSServPar{
     final SSUri         entity, 
     final List<String>  categories, 
     final Integer       maxTags, 
-    final Boolean       includeOwn, 
-    final Boolean       ignoreAccessRights,
-    final Boolean       withUserRestriction){
+    final boolean       includeOwn, 
+    final boolean       ignoreAccessRights,
+    final boolean       withUserRestriction){
     
     super(SSVarNames.recommTags, null, user);
     

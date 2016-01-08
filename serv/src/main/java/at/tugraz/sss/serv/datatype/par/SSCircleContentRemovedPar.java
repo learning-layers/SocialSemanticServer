@@ -29,17 +29,17 @@ public class SSCircleContentRemovedPar{
   public SSUri          user                         = null;
   public SSUri          circle                       = null;
   public List<SSUri>    entities                     = new ArrayList<>();
-  public Boolean        removeCircleSpecificMetadata = false;
-  public Boolean        withUserRestriction          = true;
-  public Boolean        shouldCommit                 = false;
+  public boolean        removeCircleSpecificMetadata = false;
+  public boolean        withUserRestriction          = true;
+  public boolean        shouldCommit                 = false;
   
   public SSCircleContentRemovedPar(
     final SSUri          user,
     final SSUri          circle,
     final List<SSUri>    entities,
-    final Boolean        removeCircleSpecificMetadata,
-    final Boolean        withUserRestriction,
-    final Boolean        shouldCommit){
+    final boolean        removeCircleSpecificMetadata,
+    final boolean        withUserRestriction,
+    final boolean        shouldCommit){
     
     this.user           = user;
     this.circle         = circle;

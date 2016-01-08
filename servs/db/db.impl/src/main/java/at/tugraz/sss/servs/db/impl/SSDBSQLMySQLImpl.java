@@ -48,7 +48,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   private static DataSource   connectionPool           = null;
   public         Connection   connector                = null;
-  private        Boolean      gotCon                   = false;
+  private        boolean      gotCon                   = false;
   private        Integer      numberTimesTriedToGetCon = 0;
   
   public SSDBSQLMySQLImpl(final SSConfA conf) throws SSErr {
@@ -1004,7 +1004,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public void startTrans(
-    Boolean shouldCommit) throws SSErr{
+    boolean shouldCommit) throws SSErr{
     
     if(!shouldCommit){
       return;
@@ -1061,7 +1061,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   }
   
   @Override
-  public Boolean rollBack(final Boolean shouldCommit){
+  public boolean rollBack(final boolean shouldCommit) throws SSErr{
     
     try{
       
@@ -1078,13 +1078,13 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       return true;
       
     }catch(Exception error){
-      SSServErrReg.regErr(error);
-      return null;
+      SSServErrReg.regErrThrow(error);
+      return false;
     }
   }
   
   @Override
-  public void commit(Boolean shouldCommit) throws SSErr{
+  public void commit(boolean shouldCommit) throws SSErr{
     
     if(!shouldCommit){
       return;

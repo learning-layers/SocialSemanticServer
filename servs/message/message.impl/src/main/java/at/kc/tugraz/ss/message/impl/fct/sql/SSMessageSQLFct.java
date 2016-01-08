@@ -92,7 +92,9 @@ public class SSMessageSQLFct extends SSDBSQLFctA{
       
       resultSet = dbSQL.select(SSSQLVarNames.messageTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
         
       return SSMessage.get(
         bindingStrToUri        (resultSet, SSSQLVarNames.messageId), 

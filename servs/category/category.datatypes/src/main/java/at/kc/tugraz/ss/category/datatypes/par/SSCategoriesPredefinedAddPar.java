@@ -45,7 +45,7 @@ public class SSCategoriesPredefinedAddPar extends SSServPar{
   public SSCategoriesPredefinedAddPar(
     final SSUri                  user,
     final List<SSCategoryLabel>  labels,
-    final Boolean                shouldCommit) throws Exception{
+    final boolean                shouldCommit) throws Exception{
     
     super(SSVarNames.categoriesPredefinedAdd, null, user);
     

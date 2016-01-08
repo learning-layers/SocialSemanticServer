@@ -32,7 +32,6 @@ import at.kc.tugraz.sss.comment.datatypes.par.SSCommentEntitiesGetPar;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
-
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import at.kc.tugraz.sss.comment.api.SSCommentClientI;
 import at.kc.tugraz.sss.comment.api.SSCommentServerI;
@@ -43,18 +42,14 @@ import at.kc.tugraz.sss.comment.datatypes.ret.SSCommentsGetRet;
 import at.kc.tugraz.sss.comment.impl.fct.sql.SSCommentSQLFct;
 import at.kc.tugraz.sss.comment.impl.fct.userrelationgather.SSCommentUserRelationGatherFct;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-
-
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.reg.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
-
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -203,22 +198,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return par.entity;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return commentsAdd(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

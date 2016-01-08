@@ -20,15 +20,13 @@
 */
 package at.kc.tugraz.sss.app.datatypes.par;
 
-
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 
 public class SSAppGetPar extends SSServPar{
   
   public SSUri   app                  = null;
-  public Boolean invokeEntityHandlers = false;
 
   public String getApp(){
     return SSStrU.removeTrailingSlash(app);
@@ -43,7 +41,7 @@ public class SSAppGetPar extends SSServPar{
   public SSAppGetPar(
     final SSUri     user, 
     final SSUri     app, 
-    final Boolean   invokeEntityHandlers){
+    final boolean   invokeEntityHandlers){
     
     super(SSVarNames.appGet, null, user);
     

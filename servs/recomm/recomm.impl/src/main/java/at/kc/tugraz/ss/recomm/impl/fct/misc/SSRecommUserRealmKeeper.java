@@ -62,10 +62,10 @@ public class SSRecommUserRealmKeeper{
     final SSRecommConf    conf,
     final SSUri           user,
     String                realm,
-    final Boolean         checkForUpdate,
+    final boolean         checkForUpdate,
     final EngineInterface engine, 
     final SSRecommSQLFct  sqlFct,
-    final Boolean         storeToDB) throws Exception{
+    final boolean         storeToDB) throws Exception{
     
     try{
       

@@ -38,7 +38,7 @@ public enum SSAuthEnum {
     return SSAuthEnum.valueOf(type);
   }
     
-  public static Boolean isSame(
+  public static boolean isSame(
     final SSAuthEnum type1, 
     final SSAuthEnum type2){
     

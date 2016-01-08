@@ -151,7 +151,7 @@ implements
   }
 
   @Override
-  public Boolean evalLog(final SSEvalLogPar par) throws SSErr{
+  public boolean evalLog(final SSEvalLogPar par) throws SSErr{
     
     try{
       
@@ -238,8 +238,7 @@ implements
       
       return true;
     }catch(Exception error){
-      SSServErrReg.reset();
-      SSLogU.warn("eval logging failed");
+      SSLogU.warn("eval logging failed", error);
       return false;
     }
   }

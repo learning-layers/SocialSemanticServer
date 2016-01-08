@@ -139,7 +139,7 @@ implements
   }
   
   @Override
-  public Boolean userExists(final SSUserExistsPar par) throws SSErr{
+  public boolean userExists(final SSUserExistsPar par) throws SSErr{
     
     try{
       return sql.existsUser(par.email);
@@ -342,22 +342,29 @@ implements
       
       return userUri;
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return userAdd(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -438,7 +445,7 @@ implements
 //    final SSUri          callingUser,
 //    final SSUser         user,
 //    final SSImageServerI imageServ,
-//    final Boolean        withUserRestriction) throws SSErr{
+//    final boolean        withUserRestriction) throws SSErr{
 //
 //    try{
 //

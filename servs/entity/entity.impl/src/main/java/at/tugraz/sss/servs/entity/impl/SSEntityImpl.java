@@ -129,10 +129,8 @@ import at.tugraz.sss.serv.datatype.SSEntityContext;
 import at.tugraz.sss.serv.datatype.par.SSEntityCopiedPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityDownloadURIsGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityTypesGetPar;
-import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
@@ -447,7 +445,7 @@ implements
       userCommons.checkKeyAndSetUser(parA);
       
       final SSEntityCopyPar par    = (SSEntityCopyPar) parA.getFromClient(clientType, parA, SSEntityCopyPar.class);
-      final Boolean         worked = entityCopy(par);
+      final boolean         worked = entityCopy(par);
       final SSEntityCopyRet ret    = SSEntityCopyRet.get(worked);
       
       if(worked){
@@ -470,7 +468,7 @@ implements
   }
   
   @Override
-  public Boolean entityCopy(final SSEntityCopyPar par) throws SSErr{
+  public boolean entityCopy(final SSEntityCopyPar par) throws SSErr{
     
     try{   
       
@@ -494,22 +492,29 @@ implements
       
       return true;
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return false;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return false;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return entityCopy(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }
@@ -822,7 +827,7 @@ implements
       
       final SSEntityUpdatePar par = (SSEntityUpdatePar) parA.getFromClient(clientType, parA, SSEntityUpdatePar.class);
       final SSUri             entityURI;
-      Boolean                 isPlaceholderAdd = false;
+      boolean                 isPlaceholderAdd = false;
       
       par.fromClient = true;
       
@@ -946,9 +951,7 @@ implements
           par.read);
       }
       
-      if(
-        par.setPublic != null &&
-        par.setPublic){
+      if(par.setPublic){
           
         final SSUri entityURI =
           entityShare(
@@ -980,22 +983,29 @@ implements
         
       return par.entity;
       
-   }catch(Exception error){
+   }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return entityUpdate(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1009,22 +1019,29 @@ implements
       sql.deleteEntityIfExists(par.entity);
       
       return par.entity;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return entityRemove(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1092,22 +1109,29 @@ implements
         par.shouldCommit);
       
       return par.entity;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return entityEntitiesAttach(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1141,22 +1165,29 @@ implements
         par.shouldCommit);
       
       return par.entity;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return entityEntitiesAttachedRemove(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1209,22 +1240,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return par.entity;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return entityDownloadsAdd(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1365,22 +1403,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return par.entity;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return entityShare(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1445,22 +1490,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return par.entity;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return entityUnpublicize(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1566,22 +1618,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return par.entities;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return circleEntitiesRemove(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1647,22 +1706,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return par.users;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return circleUsersRemove(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1814,22 +1880,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return circleUri;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return circleCreate(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1895,22 +1968,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return par.circle;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return circleRemove(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -2037,22 +2117,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return par.circle;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return circleUsersAdd(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -2190,7 +2277,7 @@ implements
           null, //description,
           null, //creationTime,
           null, //read,
-          null, //setPublic
+          false, //setPublic
           true, //createIfNotExists
           par.withUserRestriction, //withUserRestriction
           false); //shouldCommit
@@ -2217,22 +2304,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return par.circle;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return circleEntitiesAdd(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -2265,7 +2359,7 @@ implements
   }
   
   @Override
-  public Boolean circleIsEntityPrivate(final SSCircleIsEntityPrivatePar par) throws SSErr{
+  public boolean circleIsEntityPrivate(final SSCircleIsEntityPrivatePar par) throws SSErr{
     
     try{
       
@@ -2300,7 +2394,7 @@ implements
   }
   
   @Override
-  public Boolean circleIsEntityShared(final SSCircleIsEntitySharedPar par) throws SSErr{
+  public boolean circleIsEntityShared(final SSCircleIsEntitySharedPar par) throws SSErr{
     
     try{
       
@@ -2321,7 +2415,7 @@ implements
   }
   
   @Override
-  public Boolean circleIsEntityPublic(final SSCircleIsEntityPublicPar par) throws SSErr{
+  public boolean circleIsEntityPublic(final SSCircleIsEntityPublicPar par) throws SSErr{
     
     try{
       
@@ -2629,22 +2723,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return circleURI;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return circlePrivURIGet(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -2691,22 +2792,29 @@ implements
       
       return pubCircleUri;
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return circlePubURIGet(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -2752,22 +2860,29 @@ implements
       
       return par.circle;
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return circleUsersInvite(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -2836,22 +2951,29 @@ implements
       
       return par.circle;
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return circleTypeChange(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -2918,25 +3040,31 @@ implements
       
       dbSQL.commit(par.shouldCommit);
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          circleAddEntitiesToCirclesOfEntity(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
-  public Boolean isUserInCircle(
+  
+  public boolean isUserInCircle(
     final SSUri          user,
     final SSUri          circle) throws Exception{
     
@@ -2953,7 +3081,7 @@ implements
   public void addCircle(
     final SSUri          circleUri,
     final SSCircleE      circleType,
-    final Boolean        isSystemCircle,
+    final boolean        isSystemCircle,
     final SSUri          userToAdd) throws Exception{
     
     try{
@@ -3315,7 +3443,7 @@ implements
 //  }
   
   
-  //    public Boolean hasCircleOfTypeRight(
+  //    public boolean hasCircleOfTypeRight(
 //    final SSUri          circle,
 //    final SSCircleRightE accessRight) throws Exception{
 //    
@@ -3327,7 +3455,7 @@ implements
 //    }
 //  }
   
-//  public Boolean doesUserHaveRightInAnyCircleOfEntity(
+//  public boolean doesUserHaveRightInAnyCircleOfEntity(
 //    final SSUri          user,
 //    final SSUri          entity,
 //    final SSCircleRightE accessRight) throws Exception{
@@ -3349,7 +3477,7 @@ implements
 //    }
 //  }
   
-//  private Boolean doesCircleOfTypeHaveRight(
+//  private boolean doesCircleOfTypeHaveRight(
 //    final SSCircleE      circleType,
 //    final SSCircleRightE accessRight) throws Exception{
 //    
@@ -3384,7 +3512,7 @@ implements
 //    }
 //  }
   
-//  public Boolean canUserForEntityType(
+//  public boolean canUserForEntityType(
 //    final SSUri          user,
 //    final SSEntity       entity) throws Exception{
 //    
@@ -3555,7 +3683,7 @@ implements
 //    }
 //  }
 
-//  public static Boolean canUserRead(
+//  public static boolean canUserRead(
 //    final SSUri user, 
 //    final SSUri entityURI) throws Exception{
 //    
@@ -3578,7 +3706,7 @@ implements
 //    }
 //  }
 //  
-//  public static Boolean canUserRead(
+//  public static boolean canUserRead(
 //    final SSUri       user, 
 //    final List<SSUri> entityURIs) throws Exception{
 //    
@@ -3605,7 +3733,7 @@ implements
 //    }
 //  }
   
-//  public static Boolean canUserAll(
+//  public static boolean canUserAll(
 //    final SSUri   user,
 //    final SSUri   entityURI) throws Exception{
 //    

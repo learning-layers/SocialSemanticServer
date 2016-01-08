@@ -29,7 +29,7 @@ import java.util.List;
 public class SSUser extends SSEntity{
 
   public List<SSEntity> friends        = new ArrayList<>();
-  public Boolean        friend         = null;
+  public boolean        friend         = false;
   public String         email          = null;
   
   public static SSUser get(
@@ -74,7 +74,7 @@ public class SSUser extends SSEntity{
       }
     }
     
-    if(user.friend != null){
+    if(user.friend){
       this.friend = user.friend;
     }else{
       

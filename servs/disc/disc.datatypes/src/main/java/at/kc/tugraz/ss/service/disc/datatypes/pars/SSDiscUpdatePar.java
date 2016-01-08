@@ -21,11 +21,9 @@
 package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.SSTextComment;
-import at.tugraz.sss.serv.datatype.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.SSTextComment;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,8 +88,8 @@ public class SSDiscUpdatePar extends SSServPar{
     final List<SSUri>         entitiesToAttach,
     final List<SSLabel>       entityLabels,
     final Boolean             read,
-    final Boolean             withUserRestriction,
-    final Boolean             shouldCommit){
+    final boolean             withUserRestriction,
+    final boolean             shouldCommit){
     
     super(SSVarNames.discUpdate, null, user);
     

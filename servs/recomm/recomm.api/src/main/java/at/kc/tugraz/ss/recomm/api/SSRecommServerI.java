@@ -44,7 +44,7 @@ public interface SSRecommServerI extends SSServServerI{
   public void                       recommUpdateBulk                        (final SSRecommUpdateBulkPar                      par) throws SSErr;
   public void                       recommUpdateBulkUserRealmsFromConf      (final SSRecommUpdateBulkUserRealmsFromConfPar    par) throws SSErr;
   public void                       recommUpdateBulkUserRealmsFromCircles   (final SSRecommUpdateBulkUserRealmsFromCirclesPar par) throws SSErr;
-  public Boolean                    recommUpdate                            (final SSRecommUpdatePar                          par) throws SSErr;
-  public Boolean                    recommUpdateBulkEntities                (final SSRecommUpdateBulkEntitiesPar              par) throws SSErr;
+  public boolean                    recommUpdate                            (final SSRecommUpdatePar                          par) throws SSErr;
+  public boolean                    recommUpdateBulkEntities                (final SSRecommUpdateBulkEntitiesPar              par) throws SSErr;
   public void                       recommLoadUserRealms                    (final SSRecommLoadUserRealmsPar                  par) throws SSErr;
 }

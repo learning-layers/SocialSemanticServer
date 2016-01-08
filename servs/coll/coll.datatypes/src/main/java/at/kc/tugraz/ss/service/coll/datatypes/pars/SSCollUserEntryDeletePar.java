@@ -52,8 +52,8 @@ public class SSCollUserEntryDeletePar extends SSServPar{
     final SSUri          user,
     final SSUri          coll, 
     final SSUri          entry, 
-    final Boolean        withUserRestriction, 
-    final Boolean        shouldCommit){
+    final boolean        withUserRestriction, 
+    final boolean        shouldCommit){
     
     super(SSVarNames.collEntryDelete, null, user);
     

@@ -33,9 +33,9 @@ import java.util.List;
 
 public interface SSRatingServerI extends SSServServerI{
   
-  public Boolean               ratingSet           (final SSRatingSetPar           par)     throws SSErr;
+  public boolean               ratingSet           (final SSRatingSetPar           par)     throws SSErr;
   public Integer               ratingGet           (final SSRatingGetPar           par)     throws SSErr;
   public SSRatingOverall       ratingOverallGet    (final SSRatingOverallGetPar    par)     throws SSErr;
-  public Boolean               ratingsRemove       (final SSRatingsRemovePar       par)     throws SSErr;
+  public boolean               ratingsRemove       (final SSRatingsRemovePar       par)     throws SSErr;
   public List<SSUri>           ratingEntityURIsGet (final SSRatingEntityURIsGetPar par)     throws SSErr;
 }

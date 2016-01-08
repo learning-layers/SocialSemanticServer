@@ -42,8 +42,8 @@ public class SSLearnEpVersionCreatePar extends SSServPar{
   public SSLearnEpVersionCreatePar(
     final SSUri      user,
     final SSUri      learnEp,
-    final Boolean    withUserRestriction,
-    final Boolean    shouldCommit){
+    final boolean    withUserRestriction,
+    final boolean    shouldCommit){
       
     super(SSVarNames.learnEpVersionCreate, null, user);
     

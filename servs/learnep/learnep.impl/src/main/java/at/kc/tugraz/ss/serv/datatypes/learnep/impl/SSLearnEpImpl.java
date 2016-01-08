@@ -217,9 +217,7 @@ implements
       }
       
     }catch(Exception error){
-      
       SSLogU.err(error);
-      SSServErrReg.reset();
     }
   }
   
@@ -794,22 +792,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return par.learnEp;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return learnEpRemove(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -893,22 +898,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return learnEpVersion;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return learnEpVersionCreate(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1101,22 +1113,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return circle;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return learnEpVersionCircleAdd(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1275,22 +1294,29 @@ implements
       
       return learnEpEntity;
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return learnEpVersionEntityAdd(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1349,22 +1375,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return learnEp;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return learnEpCreate(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1393,7 +1426,7 @@ implements
         par.user,
         learnEp);
       
-      final Boolean                         worked;
+      final boolean                         worked;
       
       worked = learnEpVersionCircleUpdate(par);
       
@@ -1421,7 +1454,7 @@ implements
   }
   
   @Override
-  public Boolean learnEpVersionCircleUpdate(final SSLearnEpVersionCircleUpdatePar par) throws SSErr{
+  public boolean learnEpVersionCircleUpdate(final SSLearnEpVersionCircleUpdatePar par) throws SSErr{
     
     try{
       
@@ -1459,22 +1492,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return true;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return false;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return false;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return learnEpVersionCircleUpdate(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }
@@ -1498,7 +1538,7 @@ implements
         learnEp);
       
       final List<SSEntity>                  versionCirclesBefore   = new ArrayList<>();
-      final Boolean                         worked;
+      final boolean                         worked;
       
       versionCirclesBefore.addAll(
         learnEpVersionCirclesWithEntriesGet(
@@ -1536,7 +1576,7 @@ implements
   }
   
   @Override
-  public Boolean learnEpVersionEntityUpdate(final SSLearnEpVersionEntityUpdatePar par) throws SSErr{
+  public boolean learnEpVersionEntityUpdate(final SSLearnEpVersionEntityUpdatePar par) throws SSErr{
     
     try{
       
@@ -1560,22 +1600,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return true;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return false;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return false;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return learnEpVersionEntityUpdate(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }
@@ -1591,7 +1638,7 @@ implements
       final SSLearnEpVersionCircleRemovePar par              = (SSLearnEpVersionCircleRemovePar) parA.getFromClient(clientType, parA, SSLearnEpVersionCircleRemovePar.class);
       final SSUri                           learnEp          = sql.getLearnEpForCircle        (par.learnEpCircle);
       final SSUri                           learnEpVersion   = sql.getLearnEpVersionForCircle (par.learnEpCircle);
-      final Boolean                         worked;
+      final boolean                         worked;
       
       SSLearnEpAccessController.checkHasLock (
         learnEpConf,
@@ -1639,7 +1686,7 @@ implements
   }
   
   @Override
-  public Boolean learnEpVersionCircleRemove(final SSLearnEpVersionCircleRemovePar par) throws SSErr{
+  public boolean learnEpVersionCircleRemove(final SSLearnEpVersionCircleRemovePar par) throws SSErr{
     
     try{
       
@@ -1660,22 +1707,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return true;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return false;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return false;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return learnEpVersionCircleRemove(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }
@@ -1691,7 +1745,7 @@ implements
       final SSUri                           learnEpVersion = sql.getLearnEpVersionForEntity       (par.learnEpEntity);
       final SSUri                           learnEp        = sql.getLearnEpForVersion             (learnEpVersion);
       final SSUri                           entity         = sql.getEntity                        (learnEpVersion, par.learnEpEntity);
-      final Boolean                         worked;
+      final boolean                         worked;
       
       SSLearnEpAccessController.checkHasLock(
         learnEpConf,
@@ -1735,7 +1789,7 @@ implements
   }
   
   @Override
-  public Boolean learnEpVersionEntityRemove(final SSLearnEpVersionEntityRemovePar par) throws SSErr{
+  public boolean learnEpVersionEntityRemove(final SSLearnEpVersionEntityRemovePar par) throws SSErr{
     
     try{
       
@@ -1756,22 +1810,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return true;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return false;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return false;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return learnEpVersionEntityRemove(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }
@@ -1850,22 +1911,29 @@ implements
       
       return learnEpTimelineStateUri;
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return learnEpVersionTimelineStateSet(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -2005,14 +2073,21 @@ implements
           par.withUserRestriction,
           par.invokeEntityHandlers));
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.learnEpCurrentVersionNotSet)){
-        SSServErrReg.regErrThrow(error, false);
-      }else{
-        SSServErrReg.regErrThrow(error);
+      switch(error.code){
+        case learnEpCurrentVersionNotSet:{
+          SSServErrReg.regErrThrow(error, false);
+          return null;
+        }
+        
+        default:{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
       }
-      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
       return null;
     }
   }
@@ -2056,22 +2131,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return par.learnEpVersion;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return learnEpVersionCurrentSet(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -2190,7 +2272,7 @@ implements
   }
   
   @Override
-  public Boolean learnEpLockSet(final SSLearnEpLockSetPar par) throws SSErr{
+  public boolean learnEpLockSet(final SSLearnEpLockSetPar par) throws SSErr{
     
     try{
       if(par.withUserRestriction){
@@ -2215,7 +2297,7 @@ implements
         }
       }
       
-      Boolean lockResult = false;
+      boolean lockResult = false;
       
       if(learnEpConf.useEpisodeLocking){
         
@@ -2247,10 +2329,10 @@ implements
   }
   
   @Override
-  public Boolean learnEpLockRemove(final SSLearnEpLockRemovePar par) throws SSErr{
+  public boolean learnEpLockRemove(final SSLearnEpLockRemovePar par) throws SSErr{
     
     try{
-      Boolean unLockResult = false;
+      boolean unLockResult = false;
       
       if(!learnEpConf.useEpisodeLocking){
         return unLockResult;
@@ -2341,7 +2423,7 @@ implements
 //  private List<SSUri> getLearnEpEntityAttachedEntities(
 //    final SSUri   user,
 //    final SSUri   entity,
-//    final Boolean withUserRestriction) throws SSErr{
+//    final boolean withUserRestriction) throws SSErr{
 //
 //    try{
 //      final List<SSEntity> attachedEntities = new ArrayList<>();

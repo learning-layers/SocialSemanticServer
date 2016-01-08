@@ -49,7 +49,7 @@ public class SSLearnEpRemainingTimeTask extends TimerTask {
       
       SSServReg.regTimerThread(thread);
     }catch(Exception error){
-      SSServErrReg.regErr(error);
+      SSLogU.err(error);
     }
   }
   
@@ -81,8 +81,8 @@ public class SSLearnEpRemainingTimeTask extends TimerTask {
           }
         }
         
-      }catch(Exception error1){
-        SSServErrReg.regErr(error1);
+      }catch(Exception error){
+        SSLogU.err(error);
       }finally{
         
         try{

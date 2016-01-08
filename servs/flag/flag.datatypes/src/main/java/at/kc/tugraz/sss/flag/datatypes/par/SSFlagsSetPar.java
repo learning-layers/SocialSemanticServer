@@ -59,8 +59,8 @@ public class SSFlagsSetPar extends SSServPar{
     final List<SSFlagE>  types, 
     final Integer        value, 
     final Long           endTime,
-    final Boolean        withUserRestriction,
-    final Boolean        shouldCommit){
+    final boolean        withUserRestriction,
+    final boolean        shouldCommit){
     
     super(SSVarNames.flagsSet, null, user);
     

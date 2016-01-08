@@ -27,6 +27,6 @@ import java.util.List;
 
 public interface SSMailServerI {
 
-  public Boolean        mailSend     (final SSMailSendPar     par) throws Exception;
+  public boolean        mailSend     (final SSMailSendPar     par) throws Exception;
   public List<SSEntity> mailsReceive (final SSMailsReceivePar par) throws Exception;
 }

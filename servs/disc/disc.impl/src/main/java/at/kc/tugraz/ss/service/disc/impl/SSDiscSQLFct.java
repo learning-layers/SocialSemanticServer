@@ -302,7 +302,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
     }
   }
   
-  public Boolean isDisc(
+  public boolean isDisc(
     final SSUri     entityUri,
     final SSEntityE discType) throws Exception {
     
@@ -328,13 +328,13 @@ public class SSDiscSQLFct extends SSCoreSQL {
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
   }
   
-  public Boolean isDisc(
+  public boolean isDisc(
     final SSUri entityUri) throws Exception {
     
     ResultSet resultSet   = null;
@@ -353,13 +353,13 @@ public class SSDiscSQLFct extends SSCoreSQL {
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
   }
   
-  public Boolean isDiscEntry(
+  public boolean isDiscEntry(
     final SSUri entityUri) throws Exception {
     
     ResultSet resultSet   = null;
@@ -378,7 +378,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
@@ -408,7 +408,9 @@ public class SSDiscSQLFct extends SSCoreSQL {
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       discObj =
         SSDisc.get(
@@ -508,7 +510,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
   
   public SSDisc getDisc(
     final SSUri   discUri,
-    final Boolean setEntries) throws Exception {
+    final boolean setEntries) throws Exception {
     
     ResultSet resultSet = null;
     
@@ -562,7 +564,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
     }
   }
 
-  public Boolean ownsUserDisc(
+  public boolean ownsUserDisc(
     final SSUri user, 
     final SSUri disc) throws Exception {
     
@@ -583,7 +585,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
       return resultSet.first();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
@@ -620,7 +622,9 @@ public class SSDiscSQLFct extends SSCoreSQL {
       
       resultSet = dbSQL.select(SSSQLVarNames.discEntriesTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return bindingStrToUri(resultSet, SSSQLVarNames.discId);
       

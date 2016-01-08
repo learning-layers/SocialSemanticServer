@@ -37,7 +37,7 @@ public class SSSearchFct {
     
     final List<SSEntity>      searchResults               = new ArrayList<>();
     final List<SSUri>         checkEntityUris             = new ArrayList<>();
-    Boolean                   resourceExistsForEachTag;
+    boolean                   resourceExistsForEachTag;
     
     switch(searchOp){
       

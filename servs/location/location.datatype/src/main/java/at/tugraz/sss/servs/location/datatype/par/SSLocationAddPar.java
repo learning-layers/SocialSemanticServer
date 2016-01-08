@@ -50,8 +50,8 @@ public class SSLocationAddPar extends SSServPar{
     final Double            latitude,
     final Double            longitude,
     final Float             accuracy,
-    final Boolean           withUserRestriction,
-    final Boolean           shouldCommit){
+    final boolean           withUserRestriction,
+    final boolean           shouldCommit){
     
     super(SSVarNames.locationAdd, null, user);
     

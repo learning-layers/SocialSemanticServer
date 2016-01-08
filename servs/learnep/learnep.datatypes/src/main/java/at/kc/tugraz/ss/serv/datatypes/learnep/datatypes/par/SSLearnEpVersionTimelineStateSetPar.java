@@ -46,8 +46,8 @@ public class SSLearnEpVersionTimelineStateSetPar extends SSServPar{
     final SSUri         learnEpVersion, 
     final Long          startTime,
     final Long          endTime,
-    final Boolean       withUserRestriction,
-    final Boolean       shouldCommit){
+    final boolean       withUserRestriction,
+    final boolean       shouldCommit){
     
     super(SSVarNames.learnEpVersionTimelineStateSet, null, user);
     

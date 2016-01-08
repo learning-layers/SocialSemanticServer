@@ -44,8 +44,8 @@ public class SSLikeUserSetPar extends SSServPar{
     final SSUri      user,
     final SSUri      entity,
     final Integer    value,
-    final Boolean    withUserRestriction, 
-    final Boolean    shouldCommit){
+    final boolean    withUserRestriction, 
+    final boolean    shouldCommit){
     
     super(SSVarNames.likeSet, null, user);
     

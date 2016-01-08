@@ -44,7 +44,7 @@ public class SSLearnEpsLockHoldPar extends SSServPar{
   public SSLearnEpsLockHoldPar(
     final SSUri        user,
     final List<SSUri>  learnEps,
-    final Boolean      withUserRestriction){
+    final boolean      withUserRestriction){
     
     super(SSVarNames.learnEpsLockHold, null, user);
     

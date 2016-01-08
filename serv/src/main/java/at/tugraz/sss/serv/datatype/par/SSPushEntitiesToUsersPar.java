@@ -29,13 +29,13 @@ public class SSPushEntitiesToUsersPar {
   public SSUri          user                = null;
   public List<SSEntity> entities            = new ArrayList<>();
   public List<SSUri>    users               = new ArrayList<>();
-  public Boolean        withUserRestriction = true;
+  public boolean        withUserRestriction = true;
   
   public SSPushEntitiesToUsersPar(
     final SSUri          user, 
     final List<SSEntity> entities, 
     final List<SSUri>    users, 
-    final Boolean        withUserRestriction){
+    final boolean        withUserRestriction){
     
     this.user           = user;
     

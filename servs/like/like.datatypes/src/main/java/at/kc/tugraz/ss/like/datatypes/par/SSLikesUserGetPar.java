@@ -52,7 +52,7 @@ public class SSLikesUserGetPar extends SSServPar{
     final SSUri   user,
     final SSUri   entity,
     final SSUri   forUser,
-    final Boolean withUserRestriction){
+    final boolean withUserRestriction){
     
     super(SSVarNames.likesGet, null, user);
     

@@ -45,7 +45,7 @@ public class SSUserSQLFct extends SSCoreSQL{
     super(dbSQL, systemUserURI);
   }
   
-  public Boolean existsUser(final String email) throws Exception{
+  public boolean existsUser(final String email) throws Exception{
     
     ResultSet resultSet  = null;
     
@@ -71,7 +71,7 @@ public class SSUserSQLFct extends SSCoreSQL{
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
@@ -99,7 +99,9 @@ public class SSUserSQLFct extends SSCoreSQL{
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return bindingStrToUri(resultSet, SSSQLVarNames.id);
       
@@ -133,7 +135,9 @@ public class SSUserSQLFct extends SSCoreSQL{
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return SSUser.get(
         user,

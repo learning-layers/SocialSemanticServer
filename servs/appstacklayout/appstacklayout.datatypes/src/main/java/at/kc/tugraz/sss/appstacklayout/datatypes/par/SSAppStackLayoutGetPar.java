@@ -20,15 +20,13 @@
   */
 package at.kc.tugraz.sss.appstacklayout.datatypes.par;
 
-
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 
 public class SSAppStackLayoutGetPar extends SSServPar{
   
   public SSUri   stack                 = null;
-  public Boolean invokeEntityHandlers  = false;
 
   public String getStack(){
     return SSStrU.removeTrailingSlash(stack);
@@ -43,8 +41,8 @@ public class SSAppStackLayoutGetPar extends SSServPar{
   public SSAppStackLayoutGetPar(
     final SSUri     user, 
     final SSUri     stack, 
-    final Boolean   withUserRestriction, 
-    final Boolean   invokeEntityHandlers){
+    final boolean   withUserRestriction, 
+    final boolean   invokeEntityHandlers){
     
     super(SSVarNames.appStackLayoutGet, null, user);
     

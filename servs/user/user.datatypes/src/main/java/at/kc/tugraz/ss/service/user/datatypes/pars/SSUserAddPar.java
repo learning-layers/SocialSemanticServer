@@ -21,15 +21,14 @@
 package at.kc.tugraz.ss.service.user.datatypes.pars;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
 
 public class SSUserAddPar extends SSServPar{
   
   public SSLabel    label        = null;
   public String     email        = null;
-  public Boolean    isSystemUser = null;
+  public boolean    isSystemUser = false;
 
   public String getLabel(){
     return SSStrU.toStr(label);
@@ -43,11 +42,11 @@ public class SSUserAddPar extends SSServPar{
   
   public SSUserAddPar(
     final SSUri     user,
-    final Boolean   shouldCommit,
+    final boolean   shouldCommit,
     final SSLabel   label,
     final String    email, 
-    final Boolean   isSystemUser,
-    final Boolean   withUserRestriction){
+    final boolean   isSystemUser,
+    final boolean   withUserRestriction){
     
     super(SSVarNames.userAdd, null, user);
     

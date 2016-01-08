@@ -27,12 +27,12 @@ public class SSEntitiesSharedWithUsersPar {
  
   public SSUri          user                = null;
   public SSEntity       circle              = null;
-  public Boolean        withUserRestriction = true;
+  public boolean        withUserRestriction = true;
   
   public SSEntitiesSharedWithUsersPar(
     final SSUri          user, 
     final SSEntity       circle,
-    final Boolean        withUserRestriction){
+    final boolean        withUserRestriction){
     
     this.user                = user;
     this.circle              = circle;

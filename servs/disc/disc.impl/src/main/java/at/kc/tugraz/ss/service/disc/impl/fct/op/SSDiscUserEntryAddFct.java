@@ -59,7 +59,7 @@ public class SSDiscUserEntryAddFct{
     final SSEntityE     discType, 
     final SSLabel       discLabel,
     final SSTextComment description,
-    final Boolean       withUserRestriction) throws Exception{
+    final boolean       withUserRestriction) throws Exception{
     
     try{
       
@@ -98,7 +98,7 @@ public class SSDiscUserEntryAddFct{
     final SSUri         userUri,
     final SSUri         discUri, 
     final SSTextComment content,
-    final Boolean       withUserRestriction) throws Exception{
+    final boolean       withUserRestriction) throws Exception{
     
     try{
       final SSEntityE discType =

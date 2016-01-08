@@ -33,5 +33,5 @@ public interface SSFlagServerI extends SSServServerI{
   
   public SSFlag         flagGet      (final SSFlagGetPar  par) throws SSErr;
   public List<SSEntity> flagsGet     (final SSFlagsGetPar par) throws SSErr;
-  public Boolean        flagsSet     (final SSFlagsSetPar par) throws SSErr;
+  public boolean        flagsSet     (final SSFlagsSetPar par) throws SSErr;
 }

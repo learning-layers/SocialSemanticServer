@@ -41,8 +41,8 @@ public class SSRatingsRemovePar extends SSServPar{
   public SSRatingsRemovePar(
     final SSUri     user,
     final SSUri     entity,
-    final Boolean   withUserRestriction, 
-    final Boolean   shouldCommit){
+    final boolean   withUserRestriction, 
+    final boolean   shouldCommit){
     
     super(SSVarNames.ratingsRemove, null, user);
     

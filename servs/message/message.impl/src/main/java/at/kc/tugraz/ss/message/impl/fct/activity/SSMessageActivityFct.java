@@ -40,7 +40,7 @@ public class SSMessageActivityFct{
     final SSUri           forUser,
     final SSUri           message,
     final SSTextComment   content,
-    final Boolean         shouldCommit) throws Exception{
+    final boolean         shouldCommit) throws Exception{
     
     try{
       

@@ -24,7 +24,6 @@ import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
-import at.tugraz.sss.serv.datatype.*;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.List;
@@ -139,5 +138,5 @@ public class SSDiscEntryAddRESTAPIV2Par{
   @ApiModelProperty(
     required = false,
     value = "whether a new disc should be created")
-  public Boolean          addNewDisc    = null;
+  public boolean          addNewDisc    = false;
 }

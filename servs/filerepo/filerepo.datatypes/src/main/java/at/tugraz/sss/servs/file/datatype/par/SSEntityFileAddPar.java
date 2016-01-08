@@ -36,9 +36,9 @@ public class SSEntityFileAddPar extends SSServPar{
   public SSEntityE  type                         = null;
   public SSLabel    label                        = null;
   public SSUri      entity                       = null;
-  public Boolean    createThumb                  = false;
+  public boolean    createThumb                  = false;
   public SSUri      entityToAddThumbTo           = null;
-  public Boolean    removeExistingFilesForEntity = false;
+  public boolean    removeExistingFilesForEntity = false;
 
   public String getFileExt() {
     return SSStrU.toStr(fileExt);
@@ -99,11 +99,11 @@ public class SSEntityFileAddPar extends SSServPar{
     final SSEntityE  type,
     final SSLabel    label,
     final SSUri      entity,
-    final Boolean    createThumb,
+    final boolean    createThumb,
     final SSUri      entityToAddThumbTo, 
-    final Boolean    removeExistingFilesForEntity,
-    final Boolean    withUserRestriction, 
-    final Boolean    shouldCommit) {
+    final boolean    removeExistingFilesForEntity,
+    final boolean    withUserRestriction, 
+    final boolean    shouldCommit) {
     
     super(SSVarNames.fileAdd, null, user);
     

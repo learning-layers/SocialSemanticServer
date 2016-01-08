@@ -51,10 +51,10 @@ public interface SSEvernoteServerI extends SSServServerI{
   public Notebook             evernoteNotebookGet        (final SSEvernoteNotebookGetPar        par) throws SSErr;
   public Resource             evernoteResourceByHashGet  (final SSEvernoteResourceByHashGetPar  par) throws SSErr;
   public List<SharedNotebook> evernoteNotebooksSharedGet (final SSEvernoteNotebooksSharedGetPar par) throws SSErr;
-  public Boolean              evernoteUserAdd            (final SSEvernoteUserAddPar            par) throws SSErr;
-  public Boolean              evernoteNoteAdd            (final SSEvernoteNoteAddPar            par) throws SSErr;
-  public Boolean              evernoteUSNSet             (final SSEvernoteUSNSetPar             par) throws SSErr;
-  public Boolean              evernoteResourceAdd        (final SSEvernoteResourceAddPar        par) throws SSErr;
+  public boolean              evernoteUserAdd            (final SSEvernoteUserAddPar            par) throws SSErr;
+  public boolean              evernoteNoteAdd            (final SSEvernoteNoteAddPar            par) throws SSErr;
+  public boolean              evernoteUSNSet             (final SSEvernoteUSNSetPar             par) throws SSErr;
+  public boolean              evernoteResourceAdd        (final SSEvernoteResourceAddPar        par) throws SSErr;
 
   //  public String               evernoteUsersAuthTokenGet  (final SSServPar parA) throws Exception;
 //  public List<Note>           evernoteNotesLinkedGet     (final SSServPar parA) throws Exception;

@@ -68,31 +68,31 @@ public class SSEntityCopyRESTAPIV2Par{
   @ApiModelProperty(
     required = false,
     value = "whether the label of a single 'forUser' shall be appended to the label")
-  public Boolean appendUserNameToLabel                              = false;
+  public boolean appendUserNameToLabel                              = false;
     
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "include users from the origin entity")
-  public Boolean includeUsers                              = false;
+  public boolean includeUsers                              = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "include entities from the origin entity")
-  public Boolean includeEntities                           = false;
+  public boolean includeEntities                           = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "include metadata which is specific to the copied entity and its entities within")
-  public Boolean includeMetaSpecificToEntityAndItsEntities = false;
+  public boolean includeMetaSpecificToEntityAndItsEntities = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "include the user which triggers the copy process")
-  public Boolean includeOriginUser = false;
+  public boolean includeOriginUser = false;
   
   @XmlElement
   @ApiModelProperty(

@@ -47,7 +47,7 @@ public class SSActivityContent extends SSEntityA{
     return result;
   }
   
-  public static Boolean isActivityContent(final String string) throws Exception{
+  public static boolean isActivityContent(final String string) throws Exception{
     
     if(string == null){
       return false;

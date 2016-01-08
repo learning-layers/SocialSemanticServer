@@ -33,7 +33,7 @@ import java.util.List;
 
 public class SSCollMiscFct{
 
-  public static Boolean ownsUserASubColl(
+  public static boolean ownsUserASubColl(
     final SSCollSQLFct sqlFct, 
     final SSUri        userUri,
     final SSUri        collUri) throws Exception{

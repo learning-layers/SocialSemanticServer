@@ -53,7 +53,7 @@ public class SSTagActAndLogFct {
     final List<SSUri>      entities,
     final List<SSUri>      tagURIs,
     final List<SSTagLabel> labels,
-    final Boolean          shouldCommit) throws Exception{
+    final boolean          shouldCommit) throws Exception{
     
     if(entities.isEmpty()){
       return;
@@ -125,7 +125,7 @@ public class SSTagActAndLogFct {
     final SSUri            user,
     final SSUri            entity,
     final SSTagLabel       label,
-    final Boolean          shouldCommit) throws Exception{
+    final boolean          shouldCommit) throws Exception{
     
     try{
       

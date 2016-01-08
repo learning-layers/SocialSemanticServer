@@ -42,7 +42,7 @@ public class SSFriendAddPar extends SSServPar{
   public SSFriendAddPar(
     final SSUri     user,
     final SSUri     friend,
-    final Boolean   shouldCommit){
+    final boolean   shouldCommit){
     
     super(SSVarNames.friendAdd, null, user);
     

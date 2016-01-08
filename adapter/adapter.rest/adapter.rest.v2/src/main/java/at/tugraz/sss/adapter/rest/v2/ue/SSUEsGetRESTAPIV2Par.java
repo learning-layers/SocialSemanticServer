@@ -78,13 +78,13 @@ public class SSUEsGetRESTAPIV2Par{
   @ApiModelProperty(
     required = false,
     value = "whether tags for entitis shall be set")
-  public Boolean            setTags  = false;
+  public boolean            setTags  = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "whether flags for entitis shall be set")
-  public Boolean            setFlags  = false;
+  public boolean            setFlags  = false;
   
   public SSUEsGetRESTAPIV2Par(){}
 }

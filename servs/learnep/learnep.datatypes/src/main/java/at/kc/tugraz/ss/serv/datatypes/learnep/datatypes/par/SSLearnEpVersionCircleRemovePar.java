@@ -42,8 +42,8 @@ public class SSLearnEpVersionCircleRemovePar extends SSServPar{
   public SSLearnEpVersionCircleRemovePar(
     final SSUri         user,
     final SSUri         learnEpCircle,
-    final Boolean       withUserRestriction,
-    final Boolean       shouldCommit){
+    final boolean       withUserRestriction,
+    final boolean       shouldCommit){
     
     super(SSVarNames.learnEpVersionCircleRemove, null, user);
     

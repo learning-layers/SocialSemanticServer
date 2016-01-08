@@ -35,7 +35,7 @@ import java.util.List;
 public interface SSUserServerI extends SSServServerI{
 
   public List<SSEntity> usersGet              (final SSUsersGetPar              par) throws SSErr;
-  public Boolean        userExists            (final SSUserExistsPar            par) throws SSErr;
+  public boolean        userExists            (final SSUserExistsPar            par) throws SSErr;
   public SSUri          userURIGet            (final SSUserURIGetPar            par) throws SSErr;
   public List<SSUri>    userURIsGet           (final SSUserURIsGetPar           par) throws SSErr;
   public SSUri          userAdd               (final SSUserAddPar               par) throws SSErr;

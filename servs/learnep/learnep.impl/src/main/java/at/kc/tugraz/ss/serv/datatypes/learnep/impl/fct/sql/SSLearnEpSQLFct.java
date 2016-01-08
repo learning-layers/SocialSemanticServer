@@ -31,7 +31,6 @@ import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.par.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,7 +84,9 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
             null, 
             tableCons));
         
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return SSLearnEp.get(bindingStrToUri(resultSet, SSSQLVarNames.learnEpId));
       
@@ -204,9 +205,9 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   
   public SSLearnEpVersion getLearnEpVersion(
     final SSUri   learnEpVersionUri,
-    final Boolean setCircles,
-    final Boolean setEntities, 
-    final Boolean setTimelineState) throws Exception {
+    final boolean setCircles,
+    final boolean setEntities, 
+    final boolean setTimelineState) throws Exception {
     
     ResultSet                  resultSet       = null;
     
@@ -233,7 +234,9 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
           null, 
           null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       final SSLearnEpVersion learnEpVersion =
         SSLearnEpVersion.get(
@@ -757,7 +760,9 @@ bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
       
       resultSet = dbSQL.select(SSSQLVarNames.learnEpVersionsTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return bindingStrToUri(resultSet, SSSQLVarNames.learnEpId);
     }catch(Exception error){
@@ -781,7 +786,9 @@ bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
       
       resultSet = dbSQL.select(SSSQLVarNames.learnEpVersionCirclesTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return bindingStrToUri(resultSet, SSSQLVarNames.learnEpVersionId);
     }catch(Exception error){
@@ -805,7 +812,9 @@ bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
       
       resultSet = dbSQL.select(SSSQLVarNames.learnEpVersionEntitiesTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return bindingStrToUri(resultSet, SSSQLVarNames.learnEpVersionId);
     }catch(Exception error){
@@ -845,7 +854,9 @@ bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
           null, 
           null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return bindingStrToUri(resultSet, SSSQLVarNames.learnEpId);
     }catch(Exception error){
@@ -885,7 +896,9 @@ bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
           null, 
           null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return bindingStrToUri(resultSet, SSSQLVarNames.learnEpId);
     }catch(Exception error){
@@ -944,7 +957,9 @@ bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return bindingStrToUri(resultSet, SSSQLVarNames.entityId);
     }catch(Exception error){
@@ -1039,11 +1054,11 @@ bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
 //    return learnEpEntity;
 //  }
 
-//  public Boolean isLearnEp(SSUri entityUri) throws Exception{
+//  public boolean isLearnEp(SSUri entityUri) throws Exception{
 //    
 //    ResultSet           resultSet  = null;
 //    Map<String, String> selectPars = new HashMap<>();
-//    Boolean             isLearnEp  = false;
+//    boolean             isLearnEp  = false;
 //    
 //    selectPars.put(SSSQLVarU.learnEpId, entityUri.toString());
 //    
@@ -1061,11 +1076,11 @@ bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
 //    return isLearnEp;
 //  }
 //
-//  public Boolean isLearnEpVersion(SSUri entityUri) throws Exception{
+//  public boolean isLearnEpVersion(SSUri entityUri) throws Exception{
 //    
 //    ResultSet           resultSet  = null;
 //    Map<String, String> selectPars = new HashMap<>();
-//    Boolean             isVersion  = false;
+//    boolean             isVersion  = false;
 //    
 //    selectPars.put(SSSQLVarU.learnEpVersionId, entityUri.toString());
 //    
@@ -1083,11 +1098,11 @@ bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
 //    return isVersion;
 //  }
 //
-//  public Boolean isLearnEpCircle(SSUri entityUri) throws Exception{
+//  public boolean isLearnEpCircle(SSUri entityUri) throws Exception{
 //    
 //    ResultSet           resultSet  = null;
 //    Map<String, String> selectPars = new HashMap<>();
-//    Boolean             isCircle   = false;
+//    boolean             isCircle   = false;
 //    
 //    selectPars.put(SSSQLVarU.learnEpCircleId, entityUri.toString());
 //    
@@ -1105,11 +1120,11 @@ bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
 //    return isCircle;
 //  }
 //
-//  public Boolean isLearnEpEntity(SSUri entityUri) throws Exception{
+//  public boolean isLearnEpEntity(SSUri entityUri) throws Exception{
 //    
 //    ResultSet           resultSet  = null;
 //    Map<String, String> selectPars = new HashMap<>();
-//    Boolean             isEntity   = false;
+//    boolean             isEntity   = false;
 //    
 //    selectPars.put(SSSQLVarU.learnEpEntityId, entityUri.toString());
 //    
@@ -1127,11 +1142,11 @@ bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
 //    return isEntity;
 //  }
 //
-//  public Boolean isLearnEpTimelineState(SSUri entityUri) throws Exception{
+//  public boolean isLearnEpTimelineState(SSUri entityUri) throws Exception{
 //    
 //    ResultSet           resultSet         = null;
 //    Map<String, String> selectPars        = new HashMap<>();
-//    Boolean             isTimelineState   = false;
+//    boolean             isTimelineState   = false;
 //    
 //    selectPars.put(SSSQLVarU.learnEpTimelineStateId, entityUri.toString());
 //    
@@ -1149,7 +1164,7 @@ bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
 //    return isTimelineState;
 //  }
 
-//  public Boolean ownsUserLearnEp(
+//  public boolean ownsUserLearnEp(
 //    final SSUri user, 
 //    final SSUri learnEp) throws Exception {
 //    

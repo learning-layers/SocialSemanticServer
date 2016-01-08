@@ -29,16 +29,16 @@ import java.util.Map;
 
 public class SSLearnEpLockSetRet extends SSServRetI{
 
-  public Boolean worked = null;
+  public boolean worked = false;
 
   public static SSLearnEpLockSetRet get(
-    final Boolean worked){
+    final boolean worked){
     
     return new SSLearnEpLockSetRet(worked);
   }
   
   private SSLearnEpLockSetRet(
-    final Boolean worked){
+    final boolean worked){
     
     super(SSVarNames.learnEpLockSet);
     

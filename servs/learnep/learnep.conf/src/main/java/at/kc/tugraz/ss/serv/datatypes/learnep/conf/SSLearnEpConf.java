@@ -24,7 +24,7 @@ import at.tugraz.sss.serv.conf.api.SSServConfA;
 
 public class SSLearnEpConf extends SSServConfA{
   
-  public Boolean useEpisodeLocking = false;
+  public boolean useEpisodeLocking = false;
   
   public static SSLearnEpConf copy(final SSLearnEpConf orig){
     

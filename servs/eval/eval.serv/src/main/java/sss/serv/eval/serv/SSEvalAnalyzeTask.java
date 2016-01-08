@@ -22,7 +22,6 @@ package sss.serv.eval.serv;
 
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.conf.SSConf;
-import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import java.util.TimerTask;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
@@ -47,7 +46,7 @@ public class SSEvalAnalyzeTask extends TimerTask {
       SSServReg.regTimerThread(thread);
       
     }catch(Exception error){
-      SSServErrReg.regErr(error);
+      SSLogU.err(error);
     }
   }
   
@@ -66,7 +65,7 @@ public class SSEvalAnalyzeTask extends TimerTask {
         evalServ.evalAnalyze(new SSEvalAnalyzePar(SSConf.systemUserUri));
         
       }catch(Exception error){
-        SSServErrReg.regErr(error);
+        SSLogU.err(error);
       }finally{
         
         try{

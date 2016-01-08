@@ -20,13 +20,10 @@
 */
 package at.tugraz.sss.serv.datatype.par;
 
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar;import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.datatype.*;
- import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +33,12 @@ public class SSCirclesGetPar extends SSServPar{
   public SSUri           forUser                  = null;
   public SSUri           entity                   = null;
   public List<SSEntityE> entityTypesToIncludeOnly = new ArrayList<>();
-  public Boolean         withSystemCircles        = false;
-  public Boolean         setEntities              = false;
-  public Boolean         setUsers                 = false;
-  public Boolean         invokeEntityHandlers     = false;
-  public Boolean         setProfilePicture        = false;
-  public Boolean         setThumb                 = false;
-  public Boolean         setTags                  = false;
+  public boolean         withSystemCircles        = false;
+  public boolean         setEntities              = false;
+  public boolean         setUsers                 = false;
+  public boolean         setProfilePicture        = false;
+  public boolean         setThumb                 = false;
+  public boolean         setTags                  = false;
 
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser);
@@ -75,11 +71,11 @@ public class SSCirclesGetPar extends SSServPar{
     final SSUri           forUser,
     final SSUri           entity,
     final List<SSEntityE> entityTypesToIncludeOnly,
-    final Boolean         setEntities, 
-    final Boolean         setUsers,
-    final Boolean         withUserRestriction,
-    final Boolean         withSystemCircles,
-    final Boolean         invokeEntityHandlers) {
+    final boolean         setEntities, 
+    final boolean         setUsers,
+    final boolean         withUserRestriction,
+    final boolean         withSystemCircles,
+    final boolean         invokeEntityHandlers) {
     
     super(SSVarNames.circlesGet, null, user);
     

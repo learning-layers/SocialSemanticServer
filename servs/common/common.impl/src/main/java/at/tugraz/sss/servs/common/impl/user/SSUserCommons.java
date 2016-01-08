@@ -57,7 +57,7 @@ public class SSUserCommons {
     }
   }
     
-  public Boolean areUsersUsers(
+  public boolean areUsersUsers(
     final List<SSUri> userURIs) throws SSErr{
     
     try{

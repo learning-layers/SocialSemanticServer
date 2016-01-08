@@ -23,10 +23,10 @@ package at.kc.tugraz.ss.activity.datatypes.par;
 import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class SSActivitiesGetPar extends SSServPar{
   
@@ -37,8 +37,7 @@ public class SSActivitiesGetPar extends SSServPar{
   public List<SSUri>            circles                   = new ArrayList<>();
   public Long                   startTime                 = null;
   public Long                   endTime                   = null;
-  public Boolean                includeOnlyLastActivities = false;
-  public Boolean                invokeEntityHandlers      = false;
+  public boolean                includeOnlyLastActivities = false;
 
   public List<String> getActivities() {
     return SSStrU.removeTrailingSlash(activities);
@@ -91,9 +90,9 @@ public class SSActivitiesGetPar extends SSServPar{
     final List<SSUri>           circles,
     final Long                  startTime,
     final Long                  endTime,
-    final Boolean               includeOnlyLastActivities, 
-    final Boolean               withUserRestriction,
-    final Boolean               invokeEntityHandlers){
+    final boolean               includeOnlyLastActivities, 
+    final boolean               withUserRestriction,
+    final boolean               invokeEntityHandlers){
     
     super(SSVarNames.activitiesGet, null, user);
 

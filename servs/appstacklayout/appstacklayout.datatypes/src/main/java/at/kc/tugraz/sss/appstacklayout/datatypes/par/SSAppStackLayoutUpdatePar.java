@@ -74,8 +74,8 @@ public class SSAppStackLayoutUpdatePar extends SSServPar{
     final SSUri          app,
     final SSLabel        label,
     final SSTextComment  description, 
-    final Boolean        withUserDescription, 
-    final Boolean        shouldCommit){
+    final boolean        withUserDescription, 
+    final boolean        shouldCommit){
     
     super(SSVarNames.appStackLayoutUpdate, null, user);
     

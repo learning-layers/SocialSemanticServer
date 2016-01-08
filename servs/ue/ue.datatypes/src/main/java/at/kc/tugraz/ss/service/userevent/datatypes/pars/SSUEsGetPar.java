@@ -22,9 +22,9 @@ package at.kc.tugraz.ss.service.userevent.datatypes.pars;
 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,9 +36,8 @@ public class SSUEsGetPar extends SSServPar{
   public List<SSUEE>     types                = new ArrayList<>();
   public Long            startTime            = null;
   public Long            endTime              = null;
-  public Boolean         invokeEntityHandlers = false;
-  public Boolean         setTags              = false;
-  public Boolean         setFlags             = false;
+  public boolean         setTags              = false;
+  public boolean         setFlags             = false;
 
   public List<String> getUserEvents() {
     return SSStrU.removeTrailingSlash(userEvents);
@@ -82,8 +81,8 @@ public class SSUEsGetPar extends SSServPar{
     final List<SSUEE> types, 
     final Long        startTime, 
     final Long        endTime,
-    final Boolean     withUserRestriction, 
-    final Boolean     invokeEntityHandlers){
+    final boolean     withUserRestriction, 
+    final boolean     invokeEntityHandlers){
     
     super(SSVarNames.userEventsGet, null, user);
 

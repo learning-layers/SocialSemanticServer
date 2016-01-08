@@ -39,8 +39,8 @@ public class SSMailSendPar extends SSServPar{
     final String    toEmail,
     final String    subject,
     final String    content,
-    final Boolean   withUserRestriction,
-    final Boolean   shouldCommit){
+    final boolean   withUserRestriction,
+    final boolean   shouldCommit){
     
     super(SSVarNames.mailSend, null, user);
     

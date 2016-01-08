@@ -30,8 +30,8 @@ import java.util.List;
 
 public class SSLearnEp extends SSEntity {
 
-  public Boolean    locked       = false;
-  public Boolean    lockedByUser = false;
+  public boolean    locked       = false;
+  public boolean    lockedByUser = false;
   
   public List<SSEntity> getVersions(){
     return entries;

@@ -37,9 +37,9 @@ public class SSSearchPar extends SSServPar{
   public List<SSUri>         authorsToSearchFor                            = new ArrayList<>();
   public List<SSSearchLabel> labelsToSearchFor                             = new ArrayList<>();
   public List<SSSearchLabel> descriptionsToSearchFor                       = new ArrayList<>();
-  public Boolean             applyGlobalSearchOpBetweenLabelAndDescription = false;
+  public boolean             applyGlobalSearchOpBetweenLabelAndDescription = false;
   public List<SSEntityE>     typesToSearchOnlyFor                          = new ArrayList<>();
-  public Boolean             includeRecommendedResults                     = false;
+  public boolean             includeRecommendedResults                     = false;
   public String              pagesID                                       = null;
   public Integer             pageNumber                                    = null;
   public Integer             pageSize                                      = 10;
@@ -49,9 +49,8 @@ public class SSSearchPar extends SSServPar{
   public Long                endTime                                       = null;
   public SSSearchOpE         localSearchOp                                 = SSSearchOpE.or;
   public SSSearchOpE         globalSearchOp                                = SSSearchOpE.or;
-  public Boolean             orderByLabel                                  = false;
-  public Boolean             orderByCreationTime                           = false;
-  public Boolean             invokeEntityHandlers                          = false;
+  public boolean             orderByLabel                                  = false;
+  public boolean             orderByCreationTime                           = false;
 
   public void setAuthorsToSearchFor(final List<String> authorsToSearchFor) throws Exception{
     this.authorsToSearchFor = SSUri.get(authorsToSearchFor);
@@ -110,9 +109,9 @@ public class SSSearchPar extends SSServPar{
     final List<SSUri>         authorsToSearchFor         , 
     final List<SSSearchLabel> labelsToSearchFor          ,
     final List<SSSearchLabel> descriptionsToSearchFor    ,
-    final Boolean             applyGlobalSearchOpBetweenLabelAndDescription,
+    final boolean             applyGlobalSearchOpBetweenLabelAndDescription,
     final List<SSEntityE>     typesToSearchOnlyFor       ,
-    final Boolean             includeRecommendedResults  ,
+    final boolean             includeRecommendedResults  ,
     final Integer             pageSize,  
     final String              pagesID                    ,
     final Integer             pageNumber                 ,
@@ -122,10 +121,10 @@ public class SSSearchPar extends SSServPar{
     final Long                endTime,
     final SSSearchOpE         localSearchOp              ,
     final SSSearchOpE         globalSearchOp             , 
-    final Boolean             orderByLabel       , 
-    final Boolean             orderByCreationTime       , 
-    final Boolean             withUserRestriction, 
-    final Boolean             invokeEntityHandlers){
+    final boolean             orderByLabel       , 
+    final boolean             orderByCreationTime       , 
+    final boolean             withUserRestriction, 
+    final boolean             invokeEntityHandlers){
     
     super(SSVarNames.search, null, user);
     

@@ -33,41 +33,41 @@ public class SSDiscGetRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "whether comments of threads and entries shall be retrieved")
-  public Boolean    setComments       = null;
+  public boolean    setComments       = false;
   
   @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "whether likes for entries shall be set")
-  public Boolean    setLikes       = null;
+  public boolean    setLikes       = false;
   
   @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "whether the types of circles the discussion is in shall be set")
-  public Boolean    setCircleTypes   = null;
+  public boolean    setCircleTypes   = false;
   
   @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "whether the entries of the discussion shall be returned")
-  public Boolean    setEntries   = null;
+  public boolean    setEntries   = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "whether tags for disc and entries shall be set")
-  public Boolean    setTags   = null;
+  public boolean    setTags   = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "whether attached entities shall be set for disc and entries")
-  public Boolean    setAttachedEntities   = null;
+  public boolean    setAttachedEntities   = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "whether information on whether querying user read given entries shall be provided")
-  public Boolean    setReads   = null;
+  public boolean    setReads   = false;
 }

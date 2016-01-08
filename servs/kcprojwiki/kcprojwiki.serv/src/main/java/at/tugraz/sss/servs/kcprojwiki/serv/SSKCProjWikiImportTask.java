@@ -46,7 +46,7 @@ public class SSKCProjWikiImportTask extends TimerTask {
       SSServReg.regTimerThread(thread);
       
     }catch(Exception error){
-      SSServErrReg.regErr(error);
+      SSLogU.err(error);
     }
   }
   
@@ -63,7 +63,7 @@ public class SSKCProjWikiImportTask extends TimerTask {
         ((SSKCProjWikiServerI) SSServReg.getServ(SSKCProjWikiServerI.class)).kcprojwikiImport(new SSKCProjWikiImportPar(SSConf.systemUserUri));
         
       }catch(Exception error){
-        SSServErrReg.regErr(error);
+        SSLogU.err(error);
       }finally{
         
         try{

@@ -74,7 +74,7 @@ public class SSVideoAnnotationsSetRESTAPIV2Par {
   @ApiModelProperty(
     required = true,
     value = "")
-  public Boolean               removeExisting        = null;
+  public boolean               removeExisting        = false;
     
   public SSVideoAnnotationsSetRESTAPIV2Par(){}
 }

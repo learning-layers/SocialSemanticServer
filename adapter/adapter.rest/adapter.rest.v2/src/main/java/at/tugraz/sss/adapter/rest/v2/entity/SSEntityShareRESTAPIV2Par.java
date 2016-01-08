@@ -57,7 +57,7 @@ public class SSEntityShareRESTAPIV2Par{
   @ApiModelProperty(
     required = false,
     value = "set the entity public")
-  public Boolean setPublic = null;
+  public boolean setPublic = false;
   
   @ApiModelProperty(
     required = false,

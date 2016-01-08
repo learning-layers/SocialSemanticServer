@@ -27,7 +27,6 @@ import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.datatype.enums.*;
@@ -94,9 +93,9 @@ public abstract class SSDBSQLFctA extends SSDBFctA{
   protected static void update(
     final Map<String, String> updates,
     final String              key,
-    final Boolean             value) throws SSErr{
+    final boolean             value) throws SSErr{
     
-    updates.put(key, value.toString());
+    updates.put(key, Boolean.toString(value));
   }
   
   protected static void update(
@@ -222,23 +221,7 @@ public abstract class SSDBSQLFctA extends SSDBFctA{
     tableCons.add(table1 + SSStrU.dot + key1 + SSStrU.equal + table2 + SSStrU.dot + key2);
   }
   
-  protected static void checkFirstResult(
-    final ResultSet resultSet) throws SSErr{
-    
-    try{
-      
-      if(!resultSet.first()){
-        throw SSErr.get(SSErrE.sqlNoResultFound);
-      }
-      
-    }catch(SQLException sqlError){
-      SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
-    }catch(SSErr error){
-      SSServErrReg.regErrThrow(error, false);
-    }
-  }
-  
-  protected static Boolean existsFirstResult(
+  protected static boolean existsFirstResult(
     final ResultSet resultSet) throws SSErr {
     
     try{
@@ -407,11 +390,11 @@ public abstract class SSDBSQLFctA extends SSDBFctA{
     return SSLabel.get(bindingStr(resultSet, binding));
   }
   
-  protected static Boolean bindingStrToBoolean(
+  protected static boolean bindingStrToBoolean(
     final ResultSet resultSet,
     final String    binding) throws SSErr{
     
-    return Boolean.valueOf(bindingStr(resultSet, binding));
+    return Boolean.parseBoolean(bindingStr(resultSet, binding));
   }
   
   protected static SSTextComment bindingStrToTextComment(

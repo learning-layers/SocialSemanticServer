@@ -23,8 +23,7 @@ package at.kc.tugraz.ss.recomm.datatypes.par;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,11 +34,10 @@ public class SSRecommResourcesPar extends SSServPar{
   public SSUri           entity               = null;
   public List<String>    categories           = new ArrayList<>();
   public Integer         maxResources         = 10;
-  public Boolean         setCircleTypes       = false;
+  public boolean         setCircleTypes       = false;
   public List<SSEntityE> typesToRecommOnly    = new ArrayList<>();
-  public Boolean         includeOwn           = true;
-  public Boolean         ignoreAccessRights   = false;
-  public Boolean         invokeEntityHandlers = false;
+  public boolean         includeOwn           = true;
+  public boolean         ignoreAccessRights   = false;
   
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser);
@@ -75,11 +73,11 @@ public class SSRecommResourcesPar extends SSServPar{
     final List<String>    categories, 
     final Integer         maxResources, 
     final List<SSEntityE> typesToRecommOnly, 
-    final Boolean         setCircleTypes, 
-    final Boolean         includeOwn, 
-    final Boolean         ignoreAccessRights, 
-    final Boolean         withUserRestriction, 
-    final Boolean         invokeEntityHandlers){
+    final boolean         setCircleTypes, 
+    final boolean         includeOwn, 
+    final boolean         ignoreAccessRights, 
+    final boolean         withUserRestriction, 
+    final boolean         invokeEntityHandlers){
     
     super(SSVarNames.recommResources, null, user);
     

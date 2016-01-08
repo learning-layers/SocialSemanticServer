@@ -20,15 +20,14 @@
 */
 package at.tugraz.sss.servs.kcprojwiki.datatype;
 
-
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 
 public class SSKCProjWikiImportPar extends SSServPar{
 
-  public Boolean setRead              = false;
-  public Boolean setCircleTypes       = false;
-  public Boolean invokeEntityHandlers = false;
+  public boolean setRead              = false;
+  public boolean setCircleTypes       = false;
   
   public SSKCProjWikiImportPar(){}
     

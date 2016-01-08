@@ -30,7 +30,7 @@ public class SSCommentEntitiesGetPar extends SSServPar{
     
   public SSCommentEntitiesGetPar(
     final SSUri                user,
-    final Boolean              withUserRestriction){
+    final boolean              withUserRestriction){
     
     super(SSVarNames.commentEntitiesGet, null, user);
     

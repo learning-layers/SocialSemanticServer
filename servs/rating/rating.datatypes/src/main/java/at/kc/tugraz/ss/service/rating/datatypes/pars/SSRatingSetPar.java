@@ -29,7 +29,7 @@ public class SSRatingSetPar extends SSServPar{
 
   public SSUri     entity          = null;
   public Integer   value            = -1;
-  public Boolean   allowToRateAgain = false;
+  public boolean   allowToRateAgain = false;
   
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity);
@@ -45,9 +45,9 @@ public class SSRatingSetPar extends SSServPar{
     final SSUri     user, 
     final SSUri     entity, 
     final Integer   value, 
-    final Boolean   allowToRateAgain, 
-    final Boolean   withUserRestriction, 
-    final Boolean   shouldCommit){
+    final boolean   allowToRateAgain, 
+    final boolean   withUserRestriction, 
+    final boolean   shouldCommit){
     
     super(SSVarNames.ratingSet, null, user);
     

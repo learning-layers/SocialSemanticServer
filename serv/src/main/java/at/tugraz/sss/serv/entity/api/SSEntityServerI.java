@@ -70,7 +70,7 @@ public interface SSEntityServerI extends SSServServerI{
   public List<SSEntity>                  entitiesGet                   (final SSEntitiesGetPar                   par) throws SSErr;
   public List<SSUri>                     entityURIsGet                 (final SSEntityURIsGetPar                 par) throws SSErr;
   public SSUri                           entityUpdate                  (final SSEntityUpdatePar                  par) throws SSErr;
-  public Boolean                         entityCopy                    (final SSEntityCopyPar                    par) throws SSErr;
+  public boolean                         entityCopy                    (final SSEntityCopyPar                    par) throws SSErr;
   public SSEntity                        entityGet                     (final SSEntityGetPar                     par) throws SSErr;
   public List<SSEntity>                  entityFromTypeAndLabelGet     (final SSEntityFromTypeAndLabelGetPar     par) throws SSErr;
   public SSUri                           entityShare                   (final SSEntitySharePar                   par) throws SSErr;
@@ -95,9 +95,9 @@ public interface SSEntityServerI extends SSServServerI{
   public List<SSUri>                     circleUsersRemove                        (final SSCircleUsersRemovePar                 par) throws SSErr;
   public SSUri                           circleRemove                             (final SSCircleRemovePar                      par) throws SSErr;
   public SSUri                           circleUsersInvite                        (final SSCircleUsersInvitePar                 par) throws SSErr;
-  public Boolean                         circleIsEntityPrivate                    (final SSCircleIsEntityPrivatePar             par) throws SSErr;
-  public Boolean                         circleIsEntityShared                     (final SSCircleIsEntitySharedPar              par) throws SSErr;
-  public Boolean                         circleIsEntityPublic                     (final SSCircleIsEntityPublicPar              par) throws SSErr;
+  public boolean                         circleIsEntityPrivate                    (final SSCircleIsEntityPrivatePar             par) throws SSErr;
+  public boolean                         circleIsEntityShared                     (final SSCircleIsEntitySharedPar              par) throws SSErr;
+  public boolean                         circleIsEntityPublic                     (final SSCircleIsEntityPublicPar              par) throws SSErr;
   public SSUri                           circleTypeChange                         (final SSCircleTypeChangePar                  par) throws SSErr;
   public void                            circleAddEntitiesToCirclesOfEntity       (final SSCircleAddEntitiesToCircleOfEntityPar par) throws SSErr;
 }

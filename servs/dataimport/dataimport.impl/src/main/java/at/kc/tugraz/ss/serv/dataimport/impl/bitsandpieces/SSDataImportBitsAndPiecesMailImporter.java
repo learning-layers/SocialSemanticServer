@@ -185,10 +185,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
           txtFilePath);
         
       }catch(Exception error){
-        
-        SSServErrReg.reset();
-        SSLogU.warn("PDF from mail content failed");
-        
+        SSLogU.warn("PDF from mail content failed", error);
       }finally{
         
         try{
@@ -325,7 +322,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
     }
   }
 
-  private Boolean areResourceDimensionsOk(final SSUri resource) throws Exception{
+  private boolean areResourceDimensionsOk(final SSUri resource) throws Exception{
     
     try{
 

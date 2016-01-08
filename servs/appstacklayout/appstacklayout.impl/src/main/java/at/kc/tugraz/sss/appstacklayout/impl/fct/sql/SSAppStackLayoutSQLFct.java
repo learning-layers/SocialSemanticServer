@@ -65,7 +65,9 @@ public class SSAppStackLayoutSQLFct extends SSCoreSQL{
       
       resultSet = dbSQL.select(SSSQLVarNames.appStackLayoutTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
         
       return SSAppStackLayout.get(
         bindingStrToUri         (resultSet, SSSQLVarNames.stackId),

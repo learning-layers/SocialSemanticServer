@@ -48,7 +48,7 @@ public interface SSCollServerI extends SSServServerI{
   public List<SSEntity>   collHierarchyGet               (final SSCollUserHierarchyGetPar     par) throws SSErr;
   public List<SSEntity>   collsEntityIsInGet             (final SSCollsUserEntityIsInGetPar   par) throws SSErr;
   public List<SSEntity>   collsGet                       (final SSCollsGetPar                 par) throws SSErr;
-  public Boolean          collRootAdd                    (final SSCollUserRootAddPar          par) throws SSErr;
+  public boolean          collRootAdd                    (final SSCollUserRootAddPar          par) throws SSErr;
   public SSUri            collEntryAdd                   (final SSCollUserEntryAddPar         par) throws SSErr;
   public List<SSUri>      collEntriesAdd                 (final SSCollUserEntriesAddPar       par) throws SSErr;
   public SSUri            collEntryDelete                (final SSCollUserEntryDeletePar      par) throws SSErr;

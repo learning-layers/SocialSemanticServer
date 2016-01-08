@@ -26,7 +26,6 @@ import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
 import at.tugraz.sss.conf.SSConf;
-import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import java.util.TimerTask;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
@@ -73,7 +72,7 @@ public class SSDataImportBitsAndPiecesTask extends TimerTask {
       new Thread(new SSDataImportBitsAndPiecesEmailUpdater()).start();
       
     }catch(Exception error){
-      SSServErrReg.regErr(error);
+      SSLogU.err(error);
     }
   }
   
@@ -117,12 +116,12 @@ public class SSDataImportBitsAndPiecesTask extends TimerTask {
                 true, //withUserRestriction,
                 true));
           }catch(Exception error){
-            SSServErrReg.reset();
+            SSLogU.err(error);
           }
         }
         
       }catch(Exception error){
-        SSServErrReg.regErr(error);
+        SSLogU.err(error);
       }finally{
         
         try{
@@ -152,7 +151,7 @@ public class SSDataImportBitsAndPiecesTask extends TimerTask {
         ((SSDataImportServerI) SSServReg.getServ(SSDataImportServerI.class)).dataImportBitsAndPieces(par);
         
       }catch(Exception error){
-        SSServErrReg.regErr(error);
+        SSLogU.err(error);
       }finally{
         
         try{

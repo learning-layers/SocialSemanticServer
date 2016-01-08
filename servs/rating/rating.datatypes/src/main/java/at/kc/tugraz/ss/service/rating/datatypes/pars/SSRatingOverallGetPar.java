@@ -41,7 +41,7 @@ public class SSRatingOverallGetPar extends SSServPar{
   public SSRatingOverallGetPar(
     final SSUri     user, 
     final SSUri     entity, 
-    final Boolean   withUserRestriction){
+    final boolean   withUserRestriction){
     
     super(SSVarNames.ratingOverallGet, null, user);
     

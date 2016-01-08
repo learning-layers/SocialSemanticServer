@@ -81,7 +81,7 @@ public class SSSearchRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "whether the global search op shall hold between label and description, i.e., same keywords in label and description for AND" )
-  public Boolean             applyGlobalSearchOpBetweenLabelAndDescription     = null;
+  public boolean             applyGlobalSearchOpBetweenLabelAndDescription     = false;
   
   @ApiModelProperty( 
     required = false,
@@ -97,7 +97,7 @@ public class SSSearchRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "whether possibly recommended entities should be included in search results" )
-  public Boolean             includeRecommendedResults  = null;
+  public boolean             includeRecommendedResults  = false;
   
   @XmlElement
   @ApiModelProperty(
@@ -165,14 +165,14 @@ public class SSSearchRESTAPIV2Par{
   @ApiModelProperty(
     required = false,
     value = "" )
-  public Boolean             orderByLabel  = null;
+  public boolean             orderByLabel  = false;
   
   
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "" )
-  public Boolean             orderByCreationTime  = null;
+  public boolean             orderByCreationTime  = false;
   
   public SSSearchRESTAPIV2Par(){}
 }

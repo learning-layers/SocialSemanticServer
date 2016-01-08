@@ -88,7 +88,7 @@ public class SSEvalLogPar extends SSServPar{
     final String         content, 
     final List<SSUri>    entities,
     final List<SSUri>    users, 
-    final Boolean        shouldCommit){
+    final boolean        shouldCommit){
     
     super(SSVarNames.evalLog, null, user);
     

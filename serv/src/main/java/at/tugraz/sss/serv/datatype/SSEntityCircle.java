@@ -31,7 +31,7 @@ public class SSEntityCircle extends SSEntity{
  
   public SSCircleE                      circleType     = null;
   public List<SSCircleRightE>           accessRights   = new ArrayList<>();
-  public Boolean                        isSystemCircle = null;
+  public boolean                        isSystemCircle = false;
   
    public String getCircleType(){
     return SSStrU.toStr(circleType);
@@ -51,7 +51,7 @@ public class SSEntityCircle extends SSEntity{
   public static SSEntityCircle get(
     final SSUri                          id,
     final SSCircleE                      circleType,
-    final Boolean                        isSystemCircle) throws Exception{
+    final boolean                        isSystemCircle) throws Exception{
     
     return new SSEntityCircle(id, circleType, isSystemCircle);
   }
@@ -74,7 +74,7 @@ public class SSEntityCircle extends SSEntity{
   protected SSEntityCircle(
     final SSUri                           id,
     final SSCircleE                       circleType, 
-    final Boolean                         isSystemCircle) throws Exception{
+    final boolean                         isSystemCircle) throws Exception{
     
     super(id, SSEntityE.circle);
     

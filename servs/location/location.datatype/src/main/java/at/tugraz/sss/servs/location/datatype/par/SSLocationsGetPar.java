@@ -21,13 +21,12 @@
 package at.tugraz.sss.servs.location.datatype.par;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 
 public class SSLocationsGetPar extends SSServPar{
 
   public SSUri   entity               = null;
-  public Boolean invokeEntityHandlers = false;
 
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
@@ -42,8 +41,8 @@ public class SSLocationsGetPar extends SSServPar{
   public SSLocationsGetPar(
     final SSUri         user, 
     final SSUri         entity, 
-    final Boolean       withUserRestriction, 
-    final Boolean       invokeEntityHandlers){
+    final boolean       withUserRestriction, 
+    final boolean       invokeEntityHandlers){
       
     super(SSVarNames.locationsGet, null, user);
     

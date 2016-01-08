@@ -82,7 +82,9 @@ public class SSUESQLFct extends SSCoreSQL{
           null,
           null);
         
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
 //      try{
 //        eventTypeFromDB = SSUEE.get(bindingStr(resultSet, SSSQLVarNames.eventType));

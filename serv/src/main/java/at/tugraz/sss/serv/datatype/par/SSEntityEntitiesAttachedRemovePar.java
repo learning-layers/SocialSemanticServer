@@ -56,8 +56,8 @@ public class SSEntityEntitiesAttachedRemovePar extends SSServPar{
     final SSUri               user,
     final SSUri               entity,
     final List<SSUri>         entities,
-    final Boolean             withUserRestriction, 
-    final Boolean             shouldCommit){
+    final boolean             withUserRestriction, 
+    final boolean             shouldCommit){
 
     super(SSVarNames.entityEntitiesAttachedRemove, null, user);
   

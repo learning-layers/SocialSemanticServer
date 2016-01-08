@@ -53,7 +53,7 @@ public class SSEntityShareWithUsers {
     final SSCircleE   circleType,
     final SSEntity    entity,
     final List<SSUri> users,
-    final Boolean     withUserRestriction){
+    final boolean     withUserRestriction){
     
     try{
       
@@ -98,7 +98,7 @@ public class SSEntityShareWithUsers {
             user,
             circleUri,
             null, //entityTypesToIncludeOnly,
-            null, //setTags,
+            false, //setTags,
             null, //tagSpace,
             true, //setEntities,
             true, //setUsers
@@ -118,7 +118,7 @@ public class SSEntityShareWithUsers {
           withUserRestriction));
       
     }catch(Exception error){
-      SSServErrReg.reset();
+      SSLogU.err(error);
     }
   }
 }

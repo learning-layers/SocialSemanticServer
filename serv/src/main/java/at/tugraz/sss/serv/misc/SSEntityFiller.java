@@ -53,7 +53,7 @@ public class SSEntityFiller {
     }
   }
   
-  public Boolean containsFilledEntity(final SSUri entityURI) throws Exception {
+  public boolean containsFilledEntity(final SSUri entityURI) throws Exception {
     
     try{
       
@@ -65,11 +65,11 @@ public class SSEntityFiller {
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
   
-  public Boolean containsFilledEntity(final SSEntity entity) throws Exception {
+  public boolean containsFilledEntity(final SSEntity entity) throws Exception {
     
     try{
       
@@ -81,7 +81,7 @@ public class SSEntityFiller {
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
   

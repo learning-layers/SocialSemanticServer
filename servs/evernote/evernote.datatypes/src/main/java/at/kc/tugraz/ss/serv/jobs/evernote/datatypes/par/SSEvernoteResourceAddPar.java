@@ -33,7 +33,7 @@ public class SSEvernoteResourceAddPar extends SSServPar{
     final SSUri   user,
     final SSUri   note,
     final SSUri   resource,
-    final Boolean shouldCommit){
+    final boolean shouldCommit){
     
     super(SSVarNames.evernoteResourceAdd, null, user);
     

@@ -57,8 +57,8 @@ public class SSUEAddPar extends SSServPar{
     final SSUEE       type,
     final String      content,
     final Long        creationTime,
-    final Boolean     withUserRestriction, 
-    final Boolean     shouldCommit){
+    final boolean     withUserRestriction, 
+    final boolean     shouldCommit){
     
     super(SSVarNames.userEventAdd, null, user);
     

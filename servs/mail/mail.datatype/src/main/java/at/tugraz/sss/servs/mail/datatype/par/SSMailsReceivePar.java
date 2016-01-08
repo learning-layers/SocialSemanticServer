@@ -37,8 +37,8 @@ public class SSMailsReceivePar extends SSServPar{
     final String    fromUser,
     final String    fromPassword,
     final String    receiverEmail, 
-    final Boolean   withUserRestriction,
-    final Boolean   shouldCommit){
+    final boolean   withUserRestriction,
+    final boolean   shouldCommit){
     
     super(SSVarNames.mailsReceive, null, user);
     

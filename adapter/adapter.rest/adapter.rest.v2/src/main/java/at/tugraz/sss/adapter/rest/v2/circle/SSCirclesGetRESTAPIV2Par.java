@@ -21,7 +21,6 @@
 package at.tugraz.sss.adapter.rest.v2.circle;
 
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.datatype.*;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
@@ -57,25 +56,25 @@ public class SSCirclesGetRESTAPIV2Par{
   @ApiModelProperty(
     required = false,
     value = "whether the profile picture of the circle shall be set")
-  public Boolean setProfilePicture = null;
+  public boolean setProfilePicture = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "")
-  public Boolean setThumb = null;
+  public boolean setThumb = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "")
-  public Boolean setTags = null;
+  public boolean setTags = false;
     
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "")
-  public Boolean invokeEntityHandlers = null;
+  public boolean invokeEntityHandlers = true;
     
   public SSCirclesGetRESTAPIV2Par(){}
 }

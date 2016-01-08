@@ -24,5 +24,5 @@ import at.tugraz.sss.serv.impl.api.SSServServerI;
 
 public interface SSIntegrationTestServerI extends SSServServerI {
   
-  public Boolean integrationTestSolrForSearch              () throws Exception;
+  public boolean integrationTestSolrForSearch              () throws Exception;
 }

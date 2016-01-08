@@ -29,7 +29,7 @@ import java.net.Socket;
 public class SSFileDownloadPar extends SSServPar{
   
   public SSUri        file             = null;
-  public Boolean      isPublicDownload = false;
+  public boolean      isPublicDownload = false;
   public SSClientE    clientType       = SSClientE.socket;
   
   public String getFile(){
@@ -46,7 +46,7 @@ public class SSFileDownloadPar extends SSServPar{
     final SSUri         user,
     final SSUri         file, 
     final Socket        clientSocket, 
-    final Boolean       isPublicDownload,
+    final boolean       isPublicDownload,
     final SSClientE     clientType){
     
     super(SSVarNames.fileDownload, null, user);

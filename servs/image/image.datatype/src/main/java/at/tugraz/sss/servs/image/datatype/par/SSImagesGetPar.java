@@ -53,7 +53,7 @@ public class SSImagesGetPar extends SSServPar{
     final SSUri         user,
     final SSUri         entity,
     final SSImageE      imageType,
-    final Boolean       withUserRestriction){
+    final boolean       withUserRestriction){
     
     super(SSVarNames.imagesGet, null, user);
     

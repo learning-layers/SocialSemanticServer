@@ -52,11 +52,11 @@ public class SSEntityActAndLogFct {
 
   public void entityUpdate(
     final SSUri         user, 
-    final Boolean       fromClient, 
+    final boolean       fromClient, 
     final SSEntity      entity, 
     final SSLabel       label, 
     final SSTextComment description,
-    final Boolean       shouldCommit) throws Exception{
+    final boolean       shouldCommit) throws Exception{
 
     if(
       !fromClient ||
@@ -125,7 +125,7 @@ public class SSEntityActAndLogFct {
     final SSUri         targetEntity, 
     final List<SSUri>   forUsers, 
     final SSTextComment comment,
-    final Boolean       shouldCommit) throws Exception{
+    final boolean       shouldCommit) throws Exception{
     
     try{
       
@@ -180,7 +180,7 @@ SSUri.asListNotNull(targetEntity), //entities
     final SSUri       user, 
     final SSUri       entity, 
     final List<SSUri> entities, 
-    final Boolean     shouldCommit) throws Exception{
+    final boolean     shouldCommit) throws Exception{
     
     if(
       entity == null ||
@@ -217,7 +217,7 @@ SSUri.asListNotNull(targetEntity), //entities
     final SSUri       user, 
     final SSUri       entity, 
     final List<SSUri> entities, 
-    final Boolean     shouldCommit) throws Exception{
+    final boolean     shouldCommit) throws Exception{
     
     if(
       entity == null ||

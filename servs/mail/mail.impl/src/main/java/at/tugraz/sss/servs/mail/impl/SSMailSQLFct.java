@@ -40,12 +40,12 @@ public class SSMailSQLFct extends SSDBSQLFctA{
     super(dbSQL);
   }
   
-  public Boolean existsMail(
+  public boolean existsMail(
     final SSUri  mail,
     final String hash,
     final String receiverEmail) throws Exception{
     
-    ResultSet resultSet  = null;
+    ResultSet resultSet = null;
     
     try{
       
@@ -81,23 +81,11 @@ public class SSMailSQLFct extends SSDBSQLFctA{
           null, 
           null);
       
-      try{
-        checkFirstResult(resultSet);
-      }catch(Exception error){
-        
-        if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
-          SSServErrReg.reset();
-          return false;
-        }
-        
-        throw error;
-      }
-      
-      return true;
+      return existsFirstResult(resultSet);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       dbSQL.closeStmt(resultSet);
     }

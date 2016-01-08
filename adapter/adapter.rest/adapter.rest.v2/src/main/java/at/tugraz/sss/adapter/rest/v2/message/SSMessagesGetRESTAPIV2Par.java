@@ -33,7 +33,7 @@ public class SSMessagesGetRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "whether also already read messages should be included")
-  public Boolean includeRead = false;
+  public boolean includeRead = false;
   
   @XmlElement
   @ApiModelProperty( 

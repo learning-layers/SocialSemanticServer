@@ -20,17 +20,15 @@
  */
 package at.tugraz.sss.servs.livingdocument.datatype.par;
 
-
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 
 public class SSLivingDocGetPar extends SSServPar{
   
   public SSUri   livingDoc            = null;
-  public Boolean invokeEntityHandlers = false;
-  public Boolean setUsers             = false;
-  public Boolean setDiscs             = false;
+  public boolean setUsers             = false;
+  public boolean setDiscs             = false;
   
   public void setLivingDoc(final String livingDoc) throws Exception{
     this.livingDoc = SSUri.get(livingDoc);
@@ -45,8 +43,8 @@ public class SSLivingDocGetPar extends SSServPar{
   public SSLivingDocGetPar(
     final SSUri         user,
     final SSUri         livingDoc, 
-    final Boolean       withUserRestriction,
-    final Boolean       invokeEntityHandlers){
+    final boolean       withUserRestriction,
+    final boolean       invokeEntityHandlers){
     
     super(SSVarNames.livingDocGet, null, user);
     

@@ -38,7 +38,7 @@ public enum SSCircleRightE{
     return SSStrU.toStr(accessRight);
   }
   
-  public static Boolean equals(
+  public static boolean equals(
     final SSCircleRightE right1,
     final SSCircleRightE right2){
     
@@ -49,7 +49,7 @@ public enum SSCircleRightE{
     return right1.toString().equals(right2.toString());
   }
   
-  public static Boolean contains(
+  public static boolean contains(
     final List<SSCircleRightE> rights, 
     final SSCircleRightE       certainRight){
     

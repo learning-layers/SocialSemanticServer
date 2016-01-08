@@ -24,7 +24,7 @@ public class SSObjU {
   
   private SSObjU(){}
   
-  public static Boolean isNull(final Object... objects) {
+  public static boolean isNull(final Object... objects) {
     
     if(objects == null){
       return true;

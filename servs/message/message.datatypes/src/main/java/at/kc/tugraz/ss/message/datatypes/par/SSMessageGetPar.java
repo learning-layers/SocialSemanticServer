@@ -22,13 +22,11 @@ package at.kc.tugraz.ss.message.datatypes.par;
 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 
 public class SSMessageGetPar extends SSServPar{
   
   public SSUri   message              = null;
-  public Boolean invokeEntityHandlers = false;
   
   public void setMessage(final String message) throws Exception{
     this.message = SSUri.get(message);
@@ -43,8 +41,8 @@ public class SSMessageGetPar extends SSServPar{
   public SSMessageGetPar(
     final SSUri         user,
     final SSUri         message, 
-    final Boolean       withUserRestriction, 
-    final Boolean       invokeEntityHandlers){
+    final boolean       withUserRestriction, 
+    final boolean       invokeEntityHandlers){
     
     super(SSVarNames.messageGet, null, user);
     

@@ -75,7 +75,7 @@ public class SSRecommResourcesRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "whether circle types (i.e. priv, group, pub) for recommended entities shall be set")
-  public Boolean       setCircleTypes    = null;
+  public boolean       setCircleTypes    = false;
   
   @ApiModelProperty( 
     required = false, 
@@ -91,7 +91,7 @@ public class SSRecommResourcesRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "whether own entities should be included in the result")
-  public Boolean includeOwn = true;
+  public boolean includeOwn = true;
     
   public SSRecommResourcesRESTAPIV2Par(){}
 }

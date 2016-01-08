@@ -66,8 +66,8 @@ public class SSAppStackLayoutCreatePar extends SSServPar{
     final SSUri          app,
     final SSLabel        label,
     final SSTextComment  description,
-    final Boolean        withUserRestriction, 
-    final Boolean        shouldCommit){
+    final boolean        withUserRestriction, 
+    final boolean        shouldCommit){
     
     super(SSVarNames.appStackLayoutCreate, null, user);
     

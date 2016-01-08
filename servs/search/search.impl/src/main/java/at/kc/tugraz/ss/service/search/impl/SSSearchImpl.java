@@ -311,11 +311,11 @@ implements
           
           final List<SSUri> filteredResults = new ArrayList<>();
           final List<SSUri> tmpUris         = new ArrayList<>();
-          Boolean           tagsThere;
-          Boolean           contentThere;
-          Boolean           labelsThere;
-          Boolean           descriptionsThere;
-          Boolean           ratingsThere;
+          boolean           tagsThere;
+          boolean           contentThere;
+          boolean           labelsThere;
+          boolean           descriptionsThere;
+          boolean           ratingsThere;
           
           tmpUris.addAll(currentResults);
           
@@ -369,9 +369,7 @@ implements
               }
             }
             
-            if(
-              par.applyGlobalSearchOpBetweenLabelAndDescription != null &&
-              par.applyGlobalSearchOpBetweenLabelAndDescription){
+            if(par.applyGlobalSearchOpBetweenLabelAndDescription){
               
               if(
                 !par.labelsToSearchFor.isEmpty() &&
@@ -470,16 +468,19 @@ implements
           null, //startTime
           false)); //withUserRestriction
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.servServerNotAvailable)){
-        SSLogU.warn(SSErrE.servServerNotAvailable.toString());
-      }else{
-        SSLogU.warn(error.getMessage());
+      switch(error.code){
+        
+        default:{
+          SSLogU.warn(error.code);
+          return new ArrayList<>();
+        }
       }
       
-      SSServErrReg.reset();
-      return new ArrayList<>();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -604,9 +605,7 @@ implements
     
     try{
       
-      if(
-        par.includeRecommendedResults == null ||
-        !par.includeRecommendedResults){
+      if(!par.includeRecommendedResults){
         return new ArrayList<>();
       }
       
@@ -634,16 +633,19 @@ implements
       
       return result;
       
-    }catch(Exception error){
+     }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.servServerNotAvailable)){
-        SSLogU.warn(SSErrE.servServerNotAvailable.toString());
-      }else{
-        SSLogU.warn(error.getMessage());
+      switch(error.code){
+        
+        default:{
+          SSLogU.warn(error.code);
+          return new ArrayList<>();
+        }
       }
       
-      SSServErrReg.reset();
-      return new ArrayList<>();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -661,16 +663,19 @@ implements
         par.localSearchOp,
         par.documentContentsToSearchFor);
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.servServerNotAvailable)){
-        SSLogU.warn(SSErrE.servServerNotAvailable.toString());
-      }else{
-        SSLogU.warn(error.getMessage());
+      switch(error.code){
+        
+        default:{
+          SSLogU.warn(error.code);
+          return new ArrayList<>();
+        }
       }
       
-      SSServErrReg.reset();
-      return new ArrayList<>();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -697,16 +702,19 @@ implements
           par.maxRating,
           false));
       
-    }catch(Exception error){
+         }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.servServerNotAvailable)){
-        SSLogU.warn(SSErrE.servServerNotAvailable.toString());
-      }else{
-        SSLogU.warn(error.getMessage());
+      switch(error.code){
+        
+        default:{
+          SSLogU.warn(error.code);
+          return new ArrayList<>();
+        }
       }
       
-      SSServErrReg.reset();
-      return new ArrayList<>();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -878,7 +886,7 @@ implements
 //
 //  private List<SSEntity> filterSearchResultsForSubEntitySearch(
 //    final List<SSEntity> searchResults,
-//    final Boolean        onlySubEntities,
+//    final boolean        onlySubEntities,
 //    final List<SSUri>    subEntities) throws SSErr{
 //
 //    try{

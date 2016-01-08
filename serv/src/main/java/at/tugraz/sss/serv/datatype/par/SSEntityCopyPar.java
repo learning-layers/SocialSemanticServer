@@ -34,11 +34,11 @@ public class SSEntityCopyPar extends SSServPar{
   public SSUri         targetEntity                                  = null;
   public List<SSUri>   forUsers                                      = new ArrayList<>();
   public SSLabel       label                                         = null;
-  public Boolean       appendUserNameToLabel                         = false;
-  public Boolean       includeUsers                                  = false;
-  public Boolean       includeEntities                               = false;
-  public Boolean       includeMetadataSpecificToEntityAndItsEntities = false;
-  public Boolean       includeOriginUser                             = false;
+  public boolean       appendUserNameToLabel                         = false;
+  public boolean       includeUsers                                  = false;
+  public boolean       includeEntities                               = false;
+  public boolean       includeMetadataSpecificToEntityAndItsEntities = false;
+  public boolean       includeOriginUser                             = false;
   public List<SSUri>   entitiesToExclude                             = new ArrayList<>();
   public SSTextComment comment                                       = null;
     
@@ -98,14 +98,14 @@ public class SSEntityCopyPar extends SSServPar{
     final SSUri         targetEntity,
     final List<SSUri>   forUsers, 
     final SSLabel       label,
-    final Boolean       includeUsers,
-    final Boolean       includeEntities,
-    final Boolean       includeMetadataSpecificToEntityAndItsEntities,
-    final Boolean       includeOriginUser,
+    final boolean       includeUsers,
+    final boolean       includeEntities,
+    final boolean       includeMetadataSpecificToEntityAndItsEntities,
+    final boolean       includeOriginUser,
     final List<SSUri>   entitiesToExclude, 
     final SSTextComment comment, 
-    final Boolean       withUserRestriction,
-    final Boolean       shouldCommit){
+    final boolean       withUserRestriction,
+    final boolean       shouldCommit){
     
     super(SSVarNames.entityCopy, null, user);
     

@@ -31,8 +31,8 @@ public class SSDataImportBitsAndPiecesPar extends SSServPar{
   public String  emailInUser      = null;
   public String  emailInPassword  = null;
   public String  emailInEmail     = null;
-  public Boolean importEvernote   = false;
-  public Boolean importEmails     = false;
+  public boolean importEvernote   = false;
+  public boolean importEmails     = false;
   
   public SSDataImportBitsAndPiecesPar(){}
   
@@ -43,10 +43,10 @@ public class SSDataImportBitsAndPiecesPar extends SSServPar{
     final String  emailInUser,
     final String  emailInPassword,
     final String  emailInEmail,
-    final Boolean importEvernote, 
-    final Boolean importEmails,
-    final Boolean withUserRestriction,
-    final Boolean shouldCommit){
+    final boolean importEvernote, 
+    final boolean importEmails,
+    final boolean withUserRestriction,
+    final boolean shouldCommit){
     
     super(SSVarNames.dataImportBitsAndPieces, null, user);
     

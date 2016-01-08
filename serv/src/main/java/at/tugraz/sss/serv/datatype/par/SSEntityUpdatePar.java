@@ -31,10 +31,10 @@ public class SSEntityUpdatePar extends SSServPar{
   public SSTextComment       description       = null;
   public Long                creationTime      = null;
   public Boolean             read              = null;
-  public Boolean             setPublic         = false;
-  public Boolean             createIfNotExists = false;
+  public boolean             setPublic         = false;
+  public boolean             createIfNotExists = false;
 
-  public Boolean             fromClient       = false;
+  public boolean             fromClient       = false;
   
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
@@ -78,10 +78,10 @@ public class SSEntityUpdatePar extends SSServPar{
     final SSTextComment       description,
     final Long                creationTime, 
     final Boolean             read,
-    final Boolean             setPublic,
-    final Boolean             createIfNotExists, 
-    final Boolean             withUserRestriction, 
-    final Boolean             shouldCommit){
+    final boolean             setPublic,
+    final boolean             createIfNotExists, 
+    final boolean             withUserRestriction, 
+    final boolean             shouldCommit){
 
     super(SSVarNames.entityUpdate, null, user);
   

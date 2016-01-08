@@ -21,13 +21,12 @@
 package at.tugraz.sss.servs.file.datatype.par;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.util.*;
 
 public class SSFileGetPar extends SSServPar{
   
   public SSUri   file                  = null;
-  public Boolean invokeEntityHandlers = false;
     
   public String getFile(){
     return SSStrU.removeTrailingSlash(file);
@@ -42,8 +41,8 @@ public class SSFileGetPar extends SSServPar{
   public SSFileGetPar(
     final SSUri         user,
     final SSUri         file, 
-    final Boolean       withUserRestriction, 
-    final Boolean       invokeEntityHandlers){
+    final boolean       withUserRestriction, 
+    final boolean       invokeEntityHandlers){
       
     super(SSVarNames.fileGet, null, user);
     

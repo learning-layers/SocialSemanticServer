@@ -39,7 +39,7 @@ public class SSAuthSQLFct extends SSDBSQLFctA{
     super(dbSQL);
   }
 
-  public Boolean hasKey(
+  public boolean hasKey(
     final SSUri userUri) throws Exception{
     
     ResultSet resultSet = null;
@@ -54,20 +54,11 @@ public class SSAuthSQLFct extends SSDBSQLFctA{
       
       resultSet = dbSQL.select(SSSQLVarNames.authTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
-      
-      return true;
+      return existsFirstResult(resultSet);
       
     }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
-        SSServErrReg.reset();
-        return false;
-      }
-        
       SSServErrReg.regErrThrow(error);
-      return null;
-      
+      return false;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
@@ -88,7 +79,9 @@ public class SSAuthSQLFct extends SSDBSQLFctA{
       
       resultSet = dbSQL.select(SSSQLVarNames.authTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return bindingStr(resultSet, SSSQLVarNames.authKey);
       
@@ -115,7 +108,9 @@ public class SSAuthSQLFct extends SSDBSQLFctA{
       
       resultSet = dbSQL.select(SSSQLVarNames.authTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return bindingStrToUri(resultSet, SSSQLVarNames.userId);
       

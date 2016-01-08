@@ -28,7 +28,7 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 
 public class SSCollEntryDeleteFct{
   
-  public static Boolean removeColl(
+  public static boolean removeColl(
     final SSCollSQLFct             sqlFct,
     final SSEntityServerI          circleServ,
     final SSCollUserEntryDeletePar par) throws Exception{
@@ -51,7 +51,7 @@ public class SSCollEntryDeleteFct{
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
 

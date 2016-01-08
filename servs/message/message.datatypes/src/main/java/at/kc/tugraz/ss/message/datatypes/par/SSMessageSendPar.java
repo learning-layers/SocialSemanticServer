@@ -53,7 +53,7 @@ public class SSMessageSendPar extends SSServPar{
     final SSUri         user,
     final SSUri         forUser, 
     final SSTextComment message, 
-    final Boolean       shouldCommit){
+    final boolean       shouldCommit){
     
     super(SSVarNames.messageSend, null, user);
     

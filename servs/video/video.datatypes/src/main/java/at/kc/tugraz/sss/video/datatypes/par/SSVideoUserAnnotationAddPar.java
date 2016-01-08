@@ -72,8 +72,8 @@ public class SSVideoUserAnnotationAddPar extends SSServPar{
     final Float                y,
     final SSLabel              label,
     final SSTextComment        description, 
-    final Boolean              withUserRestriction, 
-    final Boolean              shouldCommit){
+    final boolean              withUserRestriction, 
+    final boolean              shouldCommit){
     
     super(SSVarNames.videoAnnotationAdd, null, user);
     

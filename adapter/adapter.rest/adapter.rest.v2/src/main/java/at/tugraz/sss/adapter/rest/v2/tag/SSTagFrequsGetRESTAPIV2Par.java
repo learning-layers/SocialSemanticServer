@@ -90,7 +90,7 @@ public class SSTagFrequsGetRESTAPIV2Par{
   @ApiModelProperty(
     required = false, 
     value = "whether all user's entities in the system shall be considered to retrieve tag frequencies")
-  public Boolean               useUsersEntities  = false;
+  public boolean               useUsersEntities  = false;
   
   public SSTagFrequsGetRESTAPIV2Par(){}
 }

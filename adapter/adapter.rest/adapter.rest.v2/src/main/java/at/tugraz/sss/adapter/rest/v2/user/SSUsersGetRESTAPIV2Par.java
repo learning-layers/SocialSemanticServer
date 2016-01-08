@@ -33,55 +33,55 @@ public class SSUsersGetRESTAPIV2Par{
   @ApiModelProperty(
     required = false, 
     value = "")
-  public Boolean               setFriends      = null;
+  public boolean               setFriends      = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false, 
     value = "")
-  public Boolean               setProfilePicture      = null;
+  public boolean               setProfilePicture      = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false, 
     value = "")
-  public Boolean               setThumb      = null;
+  public boolean               setThumb      = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false, 
     value = "")
-  public Boolean               setMessages      = null;
+  public boolean               setMessages      = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false, 
     value = "")
-  public Boolean               setActivities      = null;
+  public boolean               setActivities      = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false, 
     value = "")
-  public Boolean               setCircles      = null;
+  public boolean               setCircles      = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "")
-  public Boolean               setDiscs      = null;
+  public boolean               setDiscs      = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "")
-  public Boolean               setColls      = null;
+  public boolean               setColls      = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "")
-  public Boolean               setTags      = null;
+  public boolean               setTags      = false;
   
   public SSUsersGetRESTAPIV2Par(){}
 }

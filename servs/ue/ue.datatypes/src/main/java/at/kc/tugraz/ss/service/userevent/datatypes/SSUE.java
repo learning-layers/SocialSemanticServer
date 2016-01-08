@@ -150,7 +150,7 @@ public class SSUE extends SSEntity {
     return result;
   }
   
-	public static Boolean isRatingContentCorrect(final SSUE event) {
+	public static boolean isRatingContentCorrect(final SSUE event) {
 	
     if(SSStrU.equals(event.content, SSStrU.valueNA)){
       return false;

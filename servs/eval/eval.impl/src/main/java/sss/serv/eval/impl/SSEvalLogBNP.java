@@ -326,8 +326,7 @@ public class SSEvalLogBNP {
               }
             }
           }catch(Exception error){
-            SSServErrReg.reset();
-            SSLogU.warn("learn ep version couldnt be retrieved");
+            SSLogU.warn("learn ep version couldnt be retrieved", error);
           }
           
           break;
@@ -359,8 +358,7 @@ public class SSEvalLogBNP {
       SSLogU.trace(logText, false);
       
     }catch(Exception error){
-      SSServErrReg.reset();
-      SSLogU.warn("eval logging failed");
+      SSLogU.warn("eval logging failed", error);
     }
   }
 }

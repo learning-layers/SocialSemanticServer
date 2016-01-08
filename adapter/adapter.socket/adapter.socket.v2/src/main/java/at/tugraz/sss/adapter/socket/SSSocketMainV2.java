@@ -252,26 +252,26 @@ public class SSSocketMainV2 extends SSServImplStartA{
         
       }catch(Exception error){
         
-        SSServErrReg.regErr(error, false);
+        SSLogU.err(error);
         
         if(par == null){
-          SSServErrReg.regErr(new Exception("couldnt get serv par"), true);
+          SSLogU.err(new Exception("couldnt get serv par"));
         }
         
         try{
           socketAdapterU.writeError(outputStreamWriter, par.op);
-        }catch(Exception error2){
-          SSServErrReg.regErr(error2, true);
+        }catch(Exception error1){
+          SSLogU.err(error1);
         }
       }finally{
         
         try {
           SSServReg.inst.unregClientRequest(par.op, par.user, servImpl);
-        } catch (Exception error) {
-          SSServErrReg.regErr(error);
+        }catch(Exception error) {
+          SSLogU.err(error);
         }
         
-        SSServErrReg.logAndReset(true);
+//        SSServErrReg.logAndReset(true);
       }
     }
   }

@@ -51,7 +51,7 @@ public class SSEntityFromTypeAndLabelGetPar extends SSServPar{
     final SSUri                user,
     final SSLabel              label,
     final SSEntityE            type,
-    final Boolean              withUserRestriction){
+    final boolean              withUserRestriction){
     
     super(SSVarNames.entityFromTypeAndLabelGet, null, user);
     

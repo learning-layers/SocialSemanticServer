@@ -76,8 +76,8 @@ public class SSLearnEpVersionCircleUpdatePar extends SSServPar{
     final Float         yR,
     final Float         xC,
     final Float         yC,
-    final Boolean       withUserRestriction,
-    final Boolean       shouldCommit){
+    final boolean       withUserRestriction,
+    final boolean       shouldCommit){
     
     super(SSVarNames.learnEpVersionCircleUpdate, null, user);
     

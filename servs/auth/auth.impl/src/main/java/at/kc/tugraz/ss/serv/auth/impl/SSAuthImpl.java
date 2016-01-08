@@ -161,7 +161,7 @@ implements
       }
       
       final SSUri     userUri;
-      final Boolean   userExists;
+      final boolean   userExists;
       
       userExists = 
         userServ.userExists(

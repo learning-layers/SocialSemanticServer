@@ -37,7 +37,7 @@ public class SSEntitySharePar extends SSServPar{
   public SSUri         entity          = null;
   public List<SSUri>   users           = new ArrayList<>();
   public List<SSUri>   circles         = new ArrayList<>();
-  public Boolean       setPublic       = false;
+  public boolean       setPublic       = false;
   public SSTextComment comment         = null;
   
   public void setEntity(final String entity) throws Exception{
@@ -79,10 +79,10 @@ public class SSEntitySharePar extends SSServPar{
     final SSUri         entity,
     final List<SSUri>   users,
     final List<SSUri>   circles,
-    final Boolean       setPublic,
+    final boolean       setPublic,
     final SSTextComment comment, 
-    final Boolean       withUserRestriction, 
-    final Boolean       shouldCommit){
+    final boolean       withUserRestriction, 
+    final boolean       shouldCommit){
     
     super(SSVarNames.entityShare, null, user);
     

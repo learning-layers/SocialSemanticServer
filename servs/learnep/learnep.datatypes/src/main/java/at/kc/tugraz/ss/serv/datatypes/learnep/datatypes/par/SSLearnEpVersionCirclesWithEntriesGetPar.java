@@ -20,7 +20,8 @@
  */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 
 import at.tugraz.sss.serv.util.*;
@@ -28,7 +29,6 @@ import at.tugraz.sss.serv.util.*;
 public class SSLearnEpVersionCirclesWithEntriesGetPar extends SSServPar{
   
   public SSUri   learnEpVersion       = null;
-  public Boolean invokeEntityHandlers = false; 
   
   public String getLearnEpVersion(){
     return SSStrU.removeTrailingSlash(learnEpVersion);
@@ -43,8 +43,8 @@ public class SSLearnEpVersionCirclesWithEntriesGetPar extends SSServPar{
   public SSLearnEpVersionCirclesWithEntriesGetPar(
     final SSUri         user,
     final SSUri         learnEpVersion,
-    final Boolean       withUserRestriction,
-    final Boolean       invokeEntityHandlers){
+    final boolean       withUserRestriction,
+    final boolean       invokeEntityHandlers){
     
     super(SSVarNames.learnEpVersionCirclesWithEntriesGet, null, user);
     

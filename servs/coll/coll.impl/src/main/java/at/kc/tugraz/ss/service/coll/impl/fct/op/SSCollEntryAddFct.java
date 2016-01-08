@@ -40,7 +40,7 @@ public class SSCollEntryAddFct{
     final SSCollSQLFct          sqlFct,
     final SSCollUserEntryAddPar par) throws Exception{
     
-    final Boolean isParentCollSharedOrPublic;
+    final boolean isParentCollSharedOrPublic;
     
     if(circleServ.circleIsEntityPrivate(new SSCircleIsEntityPrivatePar(par.user, par.coll))){
       isParentCollSharedOrPublic = false;

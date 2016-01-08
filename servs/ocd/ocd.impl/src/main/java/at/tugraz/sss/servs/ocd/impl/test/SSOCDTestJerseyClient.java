@@ -30,9 +30,7 @@ import at.tugraz.sss.servs.ocd.impl.jerseyclient.SSOCDResource;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-
 public class SSOCDTestJerseyClient {
-  
   
   public static void main(String[] args) throws Exception {
     
@@ -60,8 +58,5 @@ public class SSOCDTestJerseyClient {
     deleteGraphPar.setGraphId("7");
     //String response = SSOCDResource.requestDeleteGraph(deleteGraphPar);
     System.out.println(response);
-    
-    
   }
-  
 }

@@ -35,7 +35,7 @@ import java.util.*;
 
 public class SSUri extends SSEntityA{
   
-  public static Boolean isURI(final String string){
+  public static boolean isURI(final String string){
     
     //import org.apache.commons.httpclient.URIException;
 //import org.apache.commons.httpclient.util.URIUtil;

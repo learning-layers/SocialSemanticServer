@@ -30,7 +30,6 @@ import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
-
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import at.kc.tugraz.sss.flag.api.SSFlagClientI;
 import at.kc.tugraz.sss.flag.api.SSFlagServerI;
@@ -43,21 +42,18 @@ import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsSetPar;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsSetRet;
 import at.kc.tugraz.sss.flag.impl.fct.sql.SSFlagSQLFct;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-
 import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.SSEntityContext;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import java.util.List;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.reg.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import at.tugraz.sss.serv.entity.api.SSUsersResourcesGathererI;
 import java.util.ArrayList;
 import java.util.Map;
@@ -121,7 +117,6 @@ implements
       
     }catch(Exception error){
       SSLogU.err(error);
-      SSServErrReg.reset();
     }
   }
   
@@ -196,7 +191,7 @@ implements
   }
 
   @Override
-  public Boolean flagsSet(final SSFlagsSetPar par) throws SSErr{
+  public boolean flagsSet(final SSFlagsSetPar par) throws SSErr{
     
     try{
       
@@ -290,22 +285,29 @@ implements
       
       return true;
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return false;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return false;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return flagsSet(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }

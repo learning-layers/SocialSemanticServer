@@ -38,5 +38,5 @@ public interface SSAppStackLayoutServerI extends SSServServerI{
   public SSUri            appStackLayoutUpdate   (final SSAppStackLayoutUpdatePar par) throws SSErr;
   public List<SSEntity>   appStackLayoutsGet     (final SSAppStackLayoutsGetPar   par) throws SSErr;
   public SSAppStackLayout appStackLayoutGet      (final SSAppStackLayoutGetPar    par) throws SSErr;
-  public Boolean          appStackLayoutDelete   (final SSAppStackLayoutDeletePar par) throws SSErr;
+  public boolean          appStackLayoutDelete   (final SSAppStackLayoutDeletePar par) throws SSErr;
 }

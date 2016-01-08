@@ -56,8 +56,8 @@ public class SSCircleUsersAddPar extends SSServPar{
     final SSUri          user,
     final SSUri          circle,
     final List<SSUri>    users,
-    final Boolean        withUserRestriction,
-    final Boolean        shouldCommit){
+    final boolean        withUserRestriction,
+    final boolean        shouldCommit){
     
     super(SSVarNames.circleUsersAdd, null, user);
     

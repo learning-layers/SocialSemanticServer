@@ -36,12 +36,12 @@ import sss.serv.eval.datatypes.SSEvalLogEntry;
 
 public interface SSDataImportServerI extends SSServServerI{
   
-  public Boolean                          dataImportBitsAndPieces                  (final SSDataImportBitsAndPiecesPar       par) throws SSErr;
+  public boolean                          dataImportBitsAndPieces                  (final SSDataImportBitsAndPiecesPar       par) throws SSErr;
   public Map<String, SSKCProjWikiVorgang> dataImportKCProjWikiVorgaenge            (final SSDataImportKCProjWikiVorgaengePar par) throws SSErr;
   public Map<String, SSKCProjWikiProject> dataImportKCProjWikiProjects             (final SSDataImportKCProjWikiProjectsPar  par) throws SSErr;
   public List<SSEvalLogEntry>             dataImportEvalLogFile                    (final SSDataImportEvalLogFilePar         par) throws SSErr;
   public Map<String, String>              dataImportSSSUsersFromCSVFile            (final SSDataImportSSSUsersFromCSVFilePar par) throws SSErr;
   public void                             dataImportMediaWikiUser                  (final SSDataImportMediaWikiUserPar       par) throws SSErr;
 
-//  public Boolean             dataImportUserResourceTagFromWikipedia   (final SSServPar parA) throws Exception;
+//  public boolean             dataImportUserResourceTagFromWikipedia   (final SSServPar parA) throws Exception;
 }

@@ -20,19 +20,17 @@
 */
 package at.kc.tugraz.sss.app.datatypes.par;
 
-
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 
 public class SSAppsGetPar extends SSServPar{
-  
-  public Boolean invokeEntityHandlers = false;
   
   public SSAppsGetPar(){}
     
   public SSAppsGetPar(
     final SSUri     user, 
-    final Boolean   invokeEntityHandlers){
+    final boolean   invokeEntityHandlers){
     
     super(SSVarNames.appsGet, null, user);
     

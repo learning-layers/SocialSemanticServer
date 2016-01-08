@@ -42,7 +42,7 @@ public class SSVideoAnnotationsGetPar extends SSServPar{
   public SSVideoAnnotationsGetPar(
     final SSUri     user, 
     final SSUri     video,
-    final Boolean   withUserRestriction){
+    final boolean   withUserRestriction){
     
     super(SSVarNames.videoAnnotationsGet, null, user);
     

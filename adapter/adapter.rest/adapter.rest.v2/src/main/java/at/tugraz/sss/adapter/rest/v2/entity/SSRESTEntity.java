@@ -31,7 +31,6 @@ import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserEntityUsersGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserEntityUsersGetRet;
 import at.kc.tugraz.sss.comment.api.*;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsAddPar;
-import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesAccessibleGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
@@ -40,7 +39,6 @@ import at.tugraz.sss.serv.datatype.par.SSEntitySharePar;
 import at.tugraz.sss.serv.datatype.par.SSEntityTypesGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUnpublicizePar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
-import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntitiesGetRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityCopyRet;
@@ -298,7 +296,7 @@ public class SSRESTEntity{
           input.description, //description
           input.creationTime, //creationTime
           input.read,  //read
-          null, //setPublic
+          false, //setPublic
           true, //createIfNotExists
           true, //withUserRestriction,
           true); //shouldCommit
@@ -351,7 +349,7 @@ public class SSRESTEntity{
           input.description, //description
           input.creationTime, //creationTime
           input.read,  //read
-          null, //setPublic
+          false, //setPublic
           true,  //createIfNotExists
           true, //withUserRestriction,
           true); //shouldCommit

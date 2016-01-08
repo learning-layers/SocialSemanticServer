@@ -44,8 +44,8 @@ public class SSEntityUnpublicizePar extends SSServPar{
   public SSEntityUnpublicizePar(
     final SSUri         user,
     final SSUri         entity,
-    final Boolean       withUserRestriction,
-    final Boolean       shouldCommit){
+    final boolean       withUserRestriction,
+    final boolean       shouldCommit){
     
     super(SSVarNames.entityUnpublicize, null, user);
     

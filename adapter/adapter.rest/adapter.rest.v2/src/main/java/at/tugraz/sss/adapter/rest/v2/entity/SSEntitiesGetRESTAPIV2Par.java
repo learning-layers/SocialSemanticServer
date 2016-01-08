@@ -46,7 +46,7 @@ public class SSEntitiesGetRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "")
-  public Boolean     setTags             = false;
+  public boolean     setTags             = false;
   
   @ApiModelProperty(
     required = false,
@@ -62,43 +62,43 @@ public class SSEntitiesGetRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "")
-  public Boolean     setOverallRating    = false;
+  public boolean     setOverallRating    = false;
   
   @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "")
-  public Boolean     setDiscs            = false;
+  public boolean     setDiscs            = false;
   
   @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "")
-  public Boolean     setUEs              = false;
+  public boolean     setUEs              = false;
   
   @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "")
-  public Boolean     setThumb            = false;
+  public boolean     setThumb            = false;
   
   @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "")
-  public Boolean     setFlags            = false;
+  public boolean     setFlags            = false;
   
   @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "")
-  public Boolean     setCircles          = false;
+  public boolean     setCircles          = false;
   
   @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "")
-  public Boolean     setProfilePicture   = false;
+  public boolean     setProfilePicture   = false;
   
   public SSEntitiesGetRESTAPIV2Par(){}
 }

@@ -127,7 +127,6 @@ implements
       
     }catch(Exception error){
       SSLogU.err(error);
-      SSServErrReg.reset();
     }
   }
   
@@ -378,8 +377,7 @@ implements
               500);
           
         }catch(Exception error){
-          SSServErrReg.reset();
-          SSLogU.warn("thumb creation failed");
+          SSLogU.warn("thumb creation failed", error);
         }
       }
       
@@ -502,22 +500,29 @@ implements
       dbSQL.commit(par.shouldCommit);
 
       return new SSImageAddRet(imageUri, thumbURI);
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return imageAdd(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -642,22 +647,29 @@ implements
       
       return par.entity;
         
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return imageProfilePictureSet(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -666,7 +678,7 @@ implements
   private void removeThumbsFromEntity(
     final SSUri   user,
     final SSUri   entity,
-    final Boolean withUserRestriction) throws Exception{
+    final boolean withUserRestriction) throws Exception{
     
     try{
       
@@ -685,15 +697,15 @@ implements
     }
   }
 
-  private Boolean addThumbFromFileToEntity(
+  private boolean addThumbFromFileToEntity(
     final SSUri   user,
     final SSUri   entity,
     final SSUri   file,
-    final Boolean withUserRestriction) throws Exception{
+    final boolean withUserRestriction) throws Exception{
     
     try{
       //TODO refactor public setting: shall be done with hooks for entityPublicSet in respective entity type service implementations
-      Boolean worked = false;
+      boolean worked = false;
       SSUri   thumbForEntity;
       SSUri   thumbURI;
       SSUri   thumbFileURI;
@@ -775,7 +787,7 @@ implements
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
 

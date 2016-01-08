@@ -30,15 +30,15 @@ import java.util.Map;
 
 public class SSTagsRemoveRet extends SSServRetI{
 
-  public Boolean worked = false;
+  public boolean worked = false;
 
   public static SSTagsRemoveRet get(
-    final Boolean worked){
+    final boolean worked){
     return new SSTagsRemoveRet(worked);
   }
   
   private SSTagsRemoveRet(
-    final Boolean worked){
+    final boolean worked){
     
     super(SSVarNames.tagsRemove);
     

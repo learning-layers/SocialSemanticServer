@@ -37,8 +37,8 @@ public interface SSDBSQLI{
   public Connection getConnection();
   public void       closeCon  ()   throws SSErr;
   
-  public Boolean rollBack(
-    final Boolean shouldCommit);
+  public boolean rollBack(
+    final boolean shouldCommit) throws SSErr;
 
   public ResultSet select(
     final String query) throws SSErr;
@@ -110,10 +110,10 @@ public interface SSDBSQLI{
     final ResultSet resultSet) throws SSErr;
  
   public void startTrans(
-    final Boolean shouldCommit) throws SSErr;
+    final boolean shouldCommit) throws SSErr;
   
   public void commit(
-    final Boolean shouldCommit) throws SSErr;
+    final boolean shouldCommit) throws SSErr;
 }
 
 //  public void       insert         (String tableName, Map<String, String> parNamesWithValues)  throws Exception;

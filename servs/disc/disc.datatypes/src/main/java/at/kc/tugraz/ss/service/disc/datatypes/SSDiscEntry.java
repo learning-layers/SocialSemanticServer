@@ -30,7 +30,7 @@ public class SSDiscEntry extends SSEntity{
   
   public  Integer             pos;
   public  SSTextComment       content;
-  public  Boolean             accepted = false;
+  public  boolean             accepted = false;
   
   public String getContent(){
     return SSStrU.toStr(content);
@@ -41,7 +41,7 @@ public class SSDiscEntry extends SSEntity{
     final SSEntityE              type,
     final int                    pos,
     final SSTextComment          content,
-    final Boolean                accepted) throws Exception{
+    final boolean                accepted) throws Exception{
     
     return new SSDiscEntry(
       id,
@@ -84,7 +84,7 @@ public class SSDiscEntry extends SSEntity{
       }
     }
     
-    if(discEntry.accepted != null){
+    if(discEntry.accepted){
       this.accepted = discEntry.accepted;
     }else{
       
@@ -99,7 +99,7 @@ public class SSDiscEntry extends SSEntity{
     final SSEntityE              type,
     final int                    pos,
     final SSTextComment          content, 
-    final Boolean                accepted) throws Exception{
+    final boolean                accepted) throws Exception{
     
     super(id, type);
     

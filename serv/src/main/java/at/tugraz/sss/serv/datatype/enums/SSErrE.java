@@ -31,7 +31,6 @@ public enum SSErrE{
   maxNumClientConsForOpReached,       
     
   //sql
-  sqlNoResultFound,
   sqlDeadLock,
   sqlDefaultErr,
   mySQLConnectionFailed,

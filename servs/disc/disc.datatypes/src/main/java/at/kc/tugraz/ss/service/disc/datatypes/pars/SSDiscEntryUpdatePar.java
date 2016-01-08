@@ -78,8 +78,8 @@ public class SSDiscEntryUpdatePar extends SSServPar{
     final List<SSUri>         entitiesToRemove,
     final List<SSUri>         entitiesToAttach,
     final List<SSLabel>       entityLabels,
-    final Boolean             withUserRestriction,
-    final Boolean             shouldCommit){
+    final boolean             withUserRestriction,
+    final boolean             shouldCommit){
     
     super(SSVarNames.discEntryUpdate, null, user);
     

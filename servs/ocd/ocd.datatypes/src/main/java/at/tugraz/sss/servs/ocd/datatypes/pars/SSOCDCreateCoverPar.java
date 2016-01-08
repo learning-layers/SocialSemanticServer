@@ -37,7 +37,7 @@ public class SSOCDCreateCoverPar extends SSServPar {
    //final SSOCDGraphInputE            graphInputFormat,
     final SSOCDAlgoE                  algorithm,
     final byte[]                      content,
-    final Boolean                     shouldCommit) {
+    final boolean                     shouldCommit) {
     
     super(SSVarNames.ocdCreateCover, null, user);
     

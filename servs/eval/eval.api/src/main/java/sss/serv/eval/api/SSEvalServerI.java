@@ -27,6 +27,6 @@ import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public interface SSEvalServerI extends SSServServerI{
   
-  public Boolean evalLog      (final SSEvalLogPar     par) throws SSErr;
+  public boolean evalLog      (final SSEvalLogPar     par) throws SSErr;
   public void    evalAnalyze  (final SSEvalAnalyzePar par) throws SSErr;
 }

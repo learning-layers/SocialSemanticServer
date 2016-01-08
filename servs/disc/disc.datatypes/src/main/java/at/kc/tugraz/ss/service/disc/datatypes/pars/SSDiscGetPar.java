@@ -22,20 +22,18 @@ package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar;
 
 public class SSDiscGetPar extends SSServPar{
   
   public SSUri      disc                 = null;
-  public Boolean    invokeEntityHandlers = null;
-  public Boolean    setEntries           = false;
-  public Boolean    setLikes             = false;
-  public Boolean    setCircleTypes       = false;
-  public Boolean    setComments          = false;
-  public Boolean    setTags              = false;
-  public Boolean    setAttachedEntities  = false;
-  public Boolean    setReads             = false;
+  public boolean    setEntries           = false;
+  public boolean    setLikes             = false;
+  public boolean    setCircleTypes       = false;
+  public boolean    setComments          = false;
+  public boolean    setTags              = false;
+  public boolean    setAttachedEntities  = false;
+  public boolean    setReads             = false;
   
   public void setDisc(final String disc) throws Exception{
     this.disc = SSUri.get(disc);
@@ -50,9 +48,9 @@ public class SSDiscGetPar extends SSServPar{
   public SSDiscGetPar(
     final SSUri     user,
     final SSUri     disc,
-    final Boolean   setEntries,
-    final Boolean   withUserRestriction,
-    final Boolean   invokeEntityHandlers){
+    final boolean   setEntries,
+    final boolean   withUserRestriction,
+    final boolean   invokeEntityHandlers){
     
     super(SSVarNames.discGet, null, user);
     

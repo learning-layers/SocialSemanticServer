@@ -40,7 +40,7 @@ public class SSRestMainV2 extends Application {
   
   public static Response prepareErrors() {
     
-    SSServErrReg.logAndReset(true);
+//    SSServErrReg.logAndReset(true);
     
     return Response.status(500).build();
   }
@@ -109,8 +109,8 @@ public class SSRestMainV2 extends Application {
 //public static SSRESTObject handleRequest(
 //    final HttpHeaders      headers,
 //    final SSServPar        par, 
-//    final Boolean          keepSSSConnectionOpen,
-//    final Boolean          getKeyFromHeaders){
+//    final boolean          keepSSSConnectionOpen,
+//    final boolean          getKeyFromHeaders){
 //    
 //    return handleRequest(
 //      headers, 
@@ -122,8 +122,8 @@ public class SSRestMainV2 extends Application {
 //  public static SSRESTObject handleRequest(
 //    final HttpHeaders      headers,
 //    SSRESTObject           restObj,
-//    final Boolean          keepSSSConnectionOpen,
-//    final Boolean          getKeyFromHeaders){
+//    final boolean          keepSSSConnectionOpen,
+//    final boolean          getKeyFromHeaders){
 //    
 //    final ObjectMapper sssJSONResponseMapper    = new ObjectMapper();
 //    final JsonNode     sssJSONResponseRootNode;
@@ -252,7 +252,7 @@ public class SSRestMainV2 extends Application {
 //    final HttpHeaders headers,
 //    SSRESTObject      restObj,
 //    final String      fileName,
-//    final Boolean     getKeyFromHeaders){
+//    final boolean     getKeyFromHeaders){
 //    
 //    final StreamingOutput stream;
 //    final SSSocketCon     sssCon;

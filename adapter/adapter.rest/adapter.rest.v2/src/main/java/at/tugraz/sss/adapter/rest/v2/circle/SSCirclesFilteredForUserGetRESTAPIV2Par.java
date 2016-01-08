@@ -46,25 +46,25 @@ public class SSCirclesFilteredForUserGetRESTAPIV2Par{
   @ApiModelProperty(
     required = false,
     value = "whether the profile picture of the circle shall be set")
-  public Boolean setProfilePicture = null;
+  public boolean setProfilePicture = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "")
-  public Boolean setThumb = null;
+  public boolean setThumb = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "")
-  public Boolean setTags = null;
+  public boolean setTags = false;
     
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "")
-  public Boolean invokeEntityHandlers = null;
+  public boolean invokeEntityHandlers = true;
     
   public SSCirclesFilteredForUserGetRESTAPIV2Par(){}
 }

@@ -28,7 +28,6 @@ import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util
 public class SSUserEntityUsersGetPar extends SSServPar{
   
   public SSUri        entity               = null;
-  public Boolean      invokeEntityHandlers = false;
   
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
@@ -43,8 +42,8 @@ public class SSUserEntityUsersGetPar extends SSServPar{
   public SSUserEntityUsersGetPar(
     final SSUri         user,
     final SSUri         entity,
-    final Boolean       invokeEntityHandlers, 
-    final Boolean       withUserRestriction){
+    final boolean       invokeEntityHandlers, 
+    final boolean       withUserRestriction){
     
     super(SSVarNames.userEntityUsersGet, null, user);
   

@@ -20,10 +20,9 @@
 */
 package at.kc.tugraz.ss.recomm.datatypes.par;
 
-
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,8 +33,7 @@ public class SSRecommUsersPar extends SSServPar{
   public SSUri         entity               = null;
   public List<String>  categories           = new ArrayList<>();
   public Integer       maxUsers             = 10;
-  public Boolean       ignoreAccessRights   = false;
-  public Boolean       invokeEntityHandlers = false;
+  public boolean       ignoreAccessRights   = false;
 
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser);
@@ -62,9 +60,9 @@ public class SSRecommUsersPar extends SSServPar{
     final SSUri        entity, 
     final List<String> categories, 
     final Integer      maxUsers, 
-    final Boolean      ignoreAccessRights, 
-    final Boolean      withUserRestriction, 
-    final Boolean      invokeEntityHandlers){
+    final boolean      ignoreAccessRights, 
+    final boolean      withUserRestriction, 
+    final boolean      invokeEntityHandlers){
   
     super(SSVarNames.recommUsers, null, user);
     

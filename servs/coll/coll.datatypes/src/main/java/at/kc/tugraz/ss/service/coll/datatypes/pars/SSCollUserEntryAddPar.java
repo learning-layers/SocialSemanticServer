@@ -21,15 +21,14 @@
  package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+ import at.tugraz.sss.serv.util.*;
 
 public class SSCollUserEntryAddPar extends SSServPar{
   
   public SSUri        coll        = null;
   public SSLabel      label       = null;
-  public Boolean      addNewColl  = null;
+  public boolean      addNewColl  = false;
   public SSUri        entry       = null;
   
   public void setColl(final String coll) throws Exception{
@@ -63,9 +62,9 @@ public class SSCollUserEntryAddPar extends SSServPar{
     final SSUri         coll,
     final SSUri         entry,
     final SSLabel       label,
-    final Boolean       addNewColl, 
-    final Boolean       withUserRestriction, 
-    final Boolean       shouldCommit){
+    final boolean       addNewColl, 
+    final boolean       withUserRestriction, 
+    final boolean       shouldCommit){
   
     super(SSVarNames.collEntryAdd, null, user);
     

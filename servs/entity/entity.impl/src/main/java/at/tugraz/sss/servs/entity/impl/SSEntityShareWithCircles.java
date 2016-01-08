@@ -28,6 +28,7 @@ import at.tugraz.sss.serv.datatype.SSEntityCircle;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class SSEntityShareWithCircles {
     final SSUri       user,
     final SSEntity    entity,
     final List<SSUri> circles,
-    final Boolean     withUserRestriction) throws Exception{
+    final boolean     withUserRestriction) throws Exception{
     
     try{
       
@@ -83,7 +84,7 @@ public class SSEntityShareWithCircles {
           withUserRestriction);
       }
     }catch(Exception error){
-      SSServErrReg.reset();
+      SSLogU.err(error);
     }
   }
 }

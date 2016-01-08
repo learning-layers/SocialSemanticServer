@@ -174,9 +174,9 @@ public class SSActivitySQLFct extends SSCoreSQL{
     final List<SSActivityE> types,
     final Long              startTime,
     final Long              endTime,
-    final Boolean           sortByTime,
+    final boolean           sortByTime,
     final Integer           limit,
-    final Boolean           includeOnlyLastActivities) throws Exception{
+    final boolean           includeOnlyLastActivities) throws Exception{
     
     ResultSet resultSet = null;
       
@@ -442,7 +442,9 @@ public class SSActivitySQLFct extends SSCoreSQL{
           null, 
           null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return SSActivity.get(
         bindingStrToUri           (resultSet, SSSQLVarNames.id),

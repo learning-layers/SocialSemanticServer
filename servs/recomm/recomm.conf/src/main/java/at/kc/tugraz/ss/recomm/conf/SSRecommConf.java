@@ -63,7 +63,7 @@ public class SSRecommConf extends SSServConfA{
 //  public Integer         userLevel                                                                                     = null;
 //  public Integer         resourceLevel                                                                                 = null;
 //  public Integer         tagLevel                                                                                      = null;
-//  public Boolean         predictTags                                                                                   = null;
+//  public boolean         predictTags                                                                                   = null;
 //  public Integer         topics                                                                                        = null;
 //  public Integer         sampleCount                                                                                   = null;
 //  public Integer         neighbors                                                                                     = null;

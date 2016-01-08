@@ -33,7 +33,7 @@ public class SSCircleEntitiesRemoveRESTAPIV2Par {
   @ApiModelProperty(
     required = false,
     value = "whether metadata attached to given entities shall be removed")
-  public Boolean removeCircleSpecificMetadata       = null;
+  public boolean removeCircleSpecificMetadata       = false;
   
   public SSCircleEntitiesRemoveRESTAPIV2Par(){}
 }

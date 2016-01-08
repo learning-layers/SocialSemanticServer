@@ -38,7 +38,7 @@ public class SSTagFrequsGetPar extends SSServPar{
   public List<SSSpaceE>     spaces               = new ArrayList<>();
   public List<SSUri>        circles              = new ArrayList<>();
   public Long               startTime            = null;
-  public Boolean            useUsersEntities     = false;
+  public boolean            useUsersEntities     = false;
 
   public String getForUser(){
     return SSStrU.removeTrailingSlash(forUser);
@@ -90,8 +90,8 @@ public class SSTagFrequsGetPar extends SSServPar{
     final List<SSSpaceE>     spaces, 
     final List<SSUri>        circles, 
     final Long               startTime,
-    final Boolean            useUsersEntities,
-    final Boolean            withUserRestriction){
+    final boolean            useUsersEntities,
+    final boolean            withUserRestriction){
     
     super(SSVarNames.tagFrequsGet, null, user);
     

@@ -20,16 +20,15 @@
 */
 package at.kc.tugraz.ss.message.datatypes.par;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 
 public class SSMessagesGetPar extends SSServPar{
   
   public SSUri   forUser              = null;
-  public Boolean includeRead          = false;
+  public boolean includeRead          = false;
   public Long    startTime            = null;
-  public Boolean invokeEntityHandlers = false;
 
   public String getForUser() {
     return SSStrU.removeTrailingSlash(forUser);
@@ -44,10 +43,10 @@ public class SSMessagesGetPar extends SSServPar{
   public SSMessagesGetPar(
     final SSUri     user, 
     final SSUri     forUser, 
-    final Boolean   includeRead, 
+    final boolean   includeRead, 
     final Long      startTime, 
-    final Boolean   withUserRestriction, 
-    final Boolean   invokeEntityHandlers){
+    final boolean   withUserRestriction, 
+    final boolean   invokeEntityHandlers){
     
     super(SSVarNames.messagesGet, null, user);
     

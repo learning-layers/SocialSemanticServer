@@ -42,7 +42,7 @@ public class SSSolrKeywordLabel extends SSEntityA{
     return result;
   }
   
-  public static Boolean isSolrKeywordLabel(
+  public static boolean isSolrKeywordLabel(
     final String string) throws Exception{
     
     if(string == null || string.trim().isEmpty()){

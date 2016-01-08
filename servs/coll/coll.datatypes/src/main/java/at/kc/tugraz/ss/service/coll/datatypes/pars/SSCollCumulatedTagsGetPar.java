@@ -42,7 +42,7 @@ public class SSCollCumulatedTagsGetPar extends SSServPar{
   public SSCollCumulatedTagsGetPar(
     final SSUri              user,
     final SSUri              coll, 
-    final Boolean            withUserRestriction){
+    final boolean            withUserRestriction){
     
     super(SSVarNames.collCumulatedTagsGet, null, user);
     

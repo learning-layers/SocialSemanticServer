@@ -459,9 +459,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       try{
         fileExt = SSMimeTypeE.fileExtForMimeType1(resourceWithContent.getMime());
       }catch(Exception error){
-        
-        SSLogU.warn("resource with mimetype " + resourceWithContent.getMime() + " not stored");
-        SSServErrReg.reset();
+        SSLogU.warn("resource with mimetype " + resourceWithContent.getMime() + " not stored", error);
         continue;
       }
         
@@ -657,7 +655,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
 }
 
 
-//  public Boolean isSharedNootebook(SSUri notebookUri, SSLabel userName, Notebook notebook) {
+//  public boolean isSharedNootebook(SSUri notebookUri, SSLabel userName, Notebook notebook) {
 //    return uriHelper.isSharedNotebookUri(userName, notebook, notebookUri);
 //  }
 
@@ -687,7 +685,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
 //    return SSUri.get(linkedNotebook.getWebApiUrlPrefix() + "share/view/" + linkedNotebook.getShareKey() + "?#n=" + note.getGuid());
 //  }
 //
-//  private static Boolean isSharedNotebookUri(SSLabel userName, Notebook notebook, SSUri notebookUri){
+//  private static boolean isSharedNotebookUri(SSLabel userName, Notebook notebook, SSUri notebookUri){
 //
 //    String sharedNotebookUriStr;
 //

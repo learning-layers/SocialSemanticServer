@@ -28,16 +28,16 @@ import java.util.Map;
 
 public class SSEntityCopyRet extends SSServRetI{
 
-  public Boolean worked = null;
+  public boolean worked = false;
 
   public static SSEntityCopyRet get(
-    final Boolean  worked){
+    final boolean  worked){
     
     return new SSEntityCopyRet(worked);
   }
   
   private SSEntityCopyRet(
-    final Boolean   worked){
+    final boolean   worked){
     
     super(SSVarNames.entityCopy);
     

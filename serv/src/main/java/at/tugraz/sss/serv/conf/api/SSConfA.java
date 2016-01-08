@@ -31,10 +31,10 @@ public abstract class SSConfA{
   protected static String       sssWorkDirDataCsv          = null;
   protected static String       localWorkPath              = null;
   
-  public Boolean         use                        = false;
-  public Boolean         initAtStartUp              = false;
-  public Boolean         schedule                   = false;
-  public Boolean         executeScheduleAtStartUp   = false;
+  public boolean         use                        = false;
+  public boolean         initAtStartUp              = false;
+  public boolean         schedule                   = false;
+  public boolean         executeScheduleAtStartUp   = false;
   public List<String>    scheduleOps                = new ArrayList<>();
   public List<Integer>   scheduleIntervals          = new ArrayList<>();
 

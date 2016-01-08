@@ -79,8 +79,8 @@ public class SSTagsAddPar extends SSServPar{
     final SSSpaceE           space,
     final SSUri              circle,
     final Long               creationTime,
-    final Boolean            withUserRestriction,
-    final Boolean            shouldCommit){
+    final boolean            withUserRestriction,
+    final boolean            shouldCommit){
     
     super(SSVarNames.tagsAdd, null, user);
     

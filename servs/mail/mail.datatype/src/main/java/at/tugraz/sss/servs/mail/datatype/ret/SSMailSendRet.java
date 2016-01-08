@@ -22,20 +22,19 @@ package at.tugraz.sss.servs.mail.datatype.ret;
 
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import at.tugraz.sss.serv.util.*;
-import java.util.Map;
 
 public class SSMailSendRet extends SSServRetI{
 
-  public Boolean worked = null;
+  public boolean worked = false;
 
   public static SSMailSendRet get(
-    final Boolean worked){
+    final boolean worked){
     
     return new SSMailSendRet(worked);
   }
   
   private SSMailSendRet(
-    final Boolean worked){
+    final boolean worked){
     
     super(SSVarNames.mailSend);
     

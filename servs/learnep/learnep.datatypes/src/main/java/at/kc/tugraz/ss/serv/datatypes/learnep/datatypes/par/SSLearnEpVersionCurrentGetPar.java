@@ -20,20 +20,18 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 
 public class SSLearnEpVersionCurrentGetPar extends SSServPar{
-  
-  public Boolean invokeEntityHandlers = null;
   
   public SSLearnEpVersionCurrentGetPar(){}
     
   public SSLearnEpVersionCurrentGetPar(
     final SSUri         user,
-    final Boolean       withUserRestriction, 
-    final Boolean       invokeEntityHandlers){
+    final boolean       withUserRestriction, 
+    final boolean       invokeEntityHandlers){
     
     super(SSVarNames.learnEpVersionCurrentGet, null, user);
     

@@ -26,7 +26,7 @@ import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
 
 public class SSRecommResourcesFct{
   
-  public static Boolean handleType(
+  public static boolean handleType(
     final SSRecommResourcesPar par, 
     final SSEntity             entity){
 

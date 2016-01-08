@@ -56,8 +56,8 @@ public class SSEntityDownloadsAddPar extends SSServPar{
     final SSUri               user,
     final SSUri               entity,
     final List<SSUri>         downloads,
-    final Boolean             withUserRestriction, 
-    final Boolean             shouldCommit){
+    final boolean             withUserRestriction, 
+    final boolean             shouldCommit){
 
     super(SSVarNames.entityDownloadsAdd, null, user);
   

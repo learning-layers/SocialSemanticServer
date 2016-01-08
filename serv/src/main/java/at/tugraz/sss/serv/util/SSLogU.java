@@ -99,9 +99,16 @@ public class SSLogU{
     log.info(getMsg(logText));
   }
   
+  public static void info(
+    final String    logText, 
+    final Exception error){
+    
+    log.info(getMsg(error, logText));
+  }
+  
   public static void trace(
     final String  logText,
-    final Boolean provideRuntimeInfo){
+    final boolean provideRuntimeInfo){
     
     if(provideRuntimeInfo){
       log.trace(getMsg(logText));

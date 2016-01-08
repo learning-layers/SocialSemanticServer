@@ -20,20 +20,19 @@
 */
 package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar;
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-
 
 public class SSCollsGetPar extends SSServPar{
 
-  public Boolean invokeEntityHandlers = false;
   
   public SSCollsGetPar(){}
     
   public SSCollsGetPar(
     final SSUri         user,
-    final Boolean       withUserRestriction, 
-    final Boolean       invokeEntityHandlers){
+    final boolean       withUserRestriction, 
+    final boolean       invokeEntityHandlers){
     
     super(SSVarNames.collsGet, null, user);
      

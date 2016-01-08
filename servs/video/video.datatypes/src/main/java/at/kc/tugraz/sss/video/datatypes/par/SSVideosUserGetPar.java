@@ -20,15 +20,13 @@
 */
 package at.kc.tugraz.sss.video.datatypes.par;
 
-
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 
 public class SSVideosUserGetPar extends SSServPar{
   
   public SSUri   forEntity            = null;
-  public Boolean invokeEntityHandlers = false;
 
   public String getForEntity(){
     return SSStrU.removeTrailingSlash(forEntity);
@@ -43,8 +41,8 @@ public class SSVideosUserGetPar extends SSServPar{
   public SSVideosUserGetPar(
     final SSUri     user, 
     final SSUri     forEntity,
-    final Boolean   withUserRestriction, 
-    final Boolean   invokeEntityHandlers){
+    final boolean   withUserRestriction, 
+    final boolean   invokeEntityHandlers){
     
     super(SSVarNames.videosGet, null, user);
     

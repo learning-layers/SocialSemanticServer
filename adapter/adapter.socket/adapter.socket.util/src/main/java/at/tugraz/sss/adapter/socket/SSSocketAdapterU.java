@@ -27,9 +27,7 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.util.*;
 import java.io.OutputStreamWriter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SSSocketAdapterU {
   
@@ -61,7 +59,7 @@ public class SSSocketAdapterU {
     final String             op) throws SSErr{
     
     try{
-      final List<SSErr> errors       = SSServErrReg.getErrors();
+      final List<SSErr> errors       = new ArrayList<>();//SSServErrReg.getErrors();
       final String      errorString;
       
       if(errors.isEmpty()){

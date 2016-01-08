@@ -99,7 +99,7 @@ public class SSCategoriesGetPar extends SSServPar{
     final List<SSSpaceE>          spaces,
     final List<SSUri>             circles,
     final Long                    startTime,
-    final Boolean                 withUserRestriction){
+    final boolean                 withUserRestriction){
     
     super(SSVarNames.categoriesGet, null, user);
     

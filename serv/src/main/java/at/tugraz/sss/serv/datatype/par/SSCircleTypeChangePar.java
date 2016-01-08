@@ -56,8 +56,8 @@ public class SSCircleTypeChangePar extends SSServPar{
     final SSUri          user,
     final SSUri          circle,
     final SSCircleE      type,
-    final Boolean        withUserRestriction,
-    final Boolean        shouldCommit) throws Exception{
+    final boolean        withUserRestriction,
+    final boolean        shouldCommit) throws Exception{
     
     super(SSVarNames.circleTypeChange, null, user);
     

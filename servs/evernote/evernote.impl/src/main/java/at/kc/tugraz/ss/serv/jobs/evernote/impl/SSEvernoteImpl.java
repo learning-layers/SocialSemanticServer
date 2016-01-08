@@ -45,9 +45,7 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUserAddPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.fct.sql.SSEvernoteSQLFct;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.conf.api.SSConfA;
-
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-
 import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
@@ -66,14 +64,10 @@ import com.evernote.edam.type.Notebook;
 import com.evernote.edam.type.Resource;
 import com.evernote.edam.type.SharedNotebook;
 import java.util.List;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.enums.SSWarnE;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class SSEvernoteImpl
 extends SSServImplWithDBA
@@ -228,8 +222,6 @@ implements
       
       if(edamError.getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
         
-        SSServErrReg.reset();
-        
         SSLogU.info("evernoteNoteStoreGet goes to sleep for " + edamError.getRateLimitDuration() + " seconds for RATE EXCEPTION for " + par.authEmail);
         
         try{
@@ -257,8 +249,6 @@ implements
     }catch(EDAMSystemException edamError){
       
       if(edamError.getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
-        
-        SSServErrReg.reset();
         
         SSLogU.info("evernoteNotebookGet goes to sleep for " + edamError.getRateLimitDuration() + " seconds for RATE EXCEPTION");
         
@@ -310,8 +300,6 @@ implements
       
       if(edamError.getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
         
-        SSServErrReg.reset();
-        
         SSLogU.info("evernoteResourceByHashGet goes to sleep for " + edamError.getRateLimitDuration() + " seconds for RATE EXCEPTION");
         
         try{
@@ -339,8 +327,6 @@ implements
     }catch(EDAMSystemException edamError){
       
       if(edamError.getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
-        
-        SSServErrReg.reset();
         
         SSLogU.info("evernoteNotebooksSharedGet goes to sleep for " + edamError.getRateLimitDuration() + " seconds for RATE EXCEPTION");
         
@@ -371,8 +357,6 @@ implements
       
       if(edamError.getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
         
-        SSServErrReg.reset();
-        
         SSLogU.info("evernoteNoteTagNamesGet goes to sleep for " + edamError.getRateLimitDuration() + " seconds for RATE EXCEPTION");
         
         try{
@@ -401,8 +385,6 @@ implements
     }catch(EDAMSystemException edamError){
       
       if(edamError.getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
-        
-        SSServErrReg.reset();
         
         SSLogU.info("evernoteNoteGet goes to sleep for " + edamError.getRateLimitDuration() + " seconds for RATE EXCEPTION");
         
@@ -433,8 +415,6 @@ implements
       
       if(edamError.getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
         
-        SSServErrReg.reset();
-        
         SSLogU.info("evernoteResourceGet goes to sleep for " + edamError.getRateLimitDuration() + " seconds for RATE EXCEPTION");
         
         try{
@@ -455,7 +435,7 @@ implements
   }
   
   @Override
-  public Boolean evernoteUserAdd(final SSEvernoteUserAddPar par) throws SSErr{
+  public boolean evernoteUserAdd(final SSEvernoteUserAddPar par) throws SSErr{
     
     try{
       dbSQL.startTrans(par.shouldCommit);
@@ -466,29 +446,36 @@ implements
       
       return true;
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return false;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return false;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return evernoteUserAdd(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }
   }
   
   @Override
-  public Boolean evernoteNoteAdd(final SSEvernoteNoteAddPar par) throws SSErr{
+  public boolean evernoteNoteAdd(final SSEvernoteNoteAddPar par) throws SSErr{
     
     try{
       dbSQL.startTrans(par.shouldCommit);
@@ -499,29 +486,36 @@ implements
       
       return true;
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return false;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return false;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return evernoteNoteAdd(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
   
   @Override
-  public Boolean evernoteResourceAdd(final SSEvernoteResourceAddPar par) throws SSErr{
+  public boolean evernoteResourceAdd(final SSEvernoteResourceAddPar par) throws SSErr{
     
     try{
       dbSQL.startTrans(par.shouldCommit);
@@ -532,29 +526,36 @@ implements
       
       return true;
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return false;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return false;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return evernoteResourceAdd(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }
   }
   
   @Override
-  public Boolean evernoteUSNSet(final SSEvernoteUSNSetPar par) throws SSErr{
+  public boolean evernoteUSNSet(final SSEvernoteUSNSetPar par) throws SSErr{
     
     try{
       dbSQL.startTrans(par.shouldCommit);
@@ -565,22 +566,29 @@ implements
       
       return true;
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return false;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return false;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return evernoteUSNSet(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }

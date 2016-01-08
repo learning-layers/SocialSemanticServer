@@ -91,7 +91,9 @@ public class SSLocationSQLFct extends SSCoreSQL{
       
       resultSet = dbSQL.select(SSSQLVarNames.locationTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return SSLocation.get(
         bindingStrToUri   (resultSet, SSSQLVarNames.locationId),

@@ -21,9 +21,8 @@
  package at.kc.tugraz.sss.flag.datatypes.par;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
-
 import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,6 @@ public class SSFlagsGetPar extends SSServPar{
   public List<SSFlagE> types                = new ArrayList<>();
   public Long          startTime            = null;
   public Long          endTime              = null;
-  public Boolean       invokeEntityHandlers = false;
 
   public List<String> getEntities(){
     return SSStrU.removeTrailingSlash(entities);
@@ -60,8 +58,8 @@ public class SSFlagsGetPar extends SSServPar{
     final List<SSFlagE> types,
     final Long          startTime, 
     final Long          endTime,
-    final Boolean       withUserRestriction, 
-    final Boolean       invokeEntityHandlers){
+    final boolean       withUserRestriction, 
+    final boolean       invokeEntityHandlers){
     
     super(SSVarNames.flagsGet, null, user);
      

@@ -64,7 +64,7 @@ public class SSEntitiesGetPar extends SSServPar{
     final SSUri                user,
     final List<SSUri>          entities,
     final SSEntityDescriberPar descPar,
-    final Boolean              withUserRestriction){
+    final boolean              withUserRestriction){
     
     super(SSVarNames.entitiesGet, null, user);
     

@@ -103,8 +103,8 @@ public class SSInitializer extends SSServImplStartA implements ServletContextLis
         SSMimeTypeE.init   ();
         SSJSONLDU.init(SSCoreConf.instGet().getJsonLD().uri);
         
-      }catch(Exception error1){
-        SSServErrReg.regErr(error1);
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
       }
       
 //      CLASS.FORNAME("ASDF").NEWINSTANCE()
@@ -148,8 +148,8 @@ public class SSInitializer extends SSServImplStartA implements ServletContextLis
         SSMailServ.inst.regServ            ();
         SSKCProjWikiServ.inst.regServ      ();
         
-      }catch(Exception error1){
-        SSServErrReg.regErr(error1);
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
       }
       
       try{ //initializing
@@ -158,14 +158,14 @@ public class SSInitializer extends SSServImplStartA implements ServletContextLis
         SSDataImportServ.inst.initServ();
         SSCategoryServ.inst.initServ();
         SSRecommServ.inst.initServ();
-      }catch(Exception error1){
-        SSServErrReg.regErr(error1);
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
       }
       
       try{ //integration tests
         SSIntegrationTestServ.inst.initServ();
-      }catch(Exception error1){
-        SSServErrReg.regErr(error1);
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
       }
       
       try{ //scheduling
@@ -176,12 +176,12 @@ public class SSInitializer extends SSServImplStartA implements ServletContextLis
         SSRecommServ.inst.schedule         ();
         SSKCProjWikiServ.inst.schedule     ();
         SSEvalServ.inst.schedule           ();
-      }catch(Exception error1){
-        SSServErrReg.regErr(error1);
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
       }
       
-    }catch(Exception error1){
-      SSServErrReg.regErr(error1);
+    }catch(Exception error){
+      SSLogU.err(error);
     }
   }
 }

@@ -46,8 +46,8 @@ public class SSCircleRemovePar extends SSServPar{
   public SSCircleRemovePar(
     final SSUri          user,
     final SSUri          circle,
-    final Boolean        withUserRestriction,
-    final Boolean        shouldCommit) throws Exception{
+    final boolean        withUserRestriction,
+    final boolean        shouldCommit) throws Exception{
     
     super(SSVarNames.circleRemove, null, user);
     

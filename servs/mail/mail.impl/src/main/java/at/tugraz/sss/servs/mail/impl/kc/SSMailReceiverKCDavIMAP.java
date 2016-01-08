@@ -67,7 +67,7 @@ public class SSMailReceiverKCDavIMAP {
 //  final String  fromUser,
 //    final String  receiverEmail,
 //    final String  fromPassword,
-//    final Boolean shouldCommit
+//    final boolean shouldCommit
   
   public List<SSEntity> receiveMails(
     final SSMailsReceivePar par) throws Exception {
@@ -158,7 +158,7 @@ public class SSMailReceiverKCDavIMAP {
   private void createMessageFromMessageParts(
     final Part    message, 
     final SSMail  mail,
-    final Boolean isFirstLevel) throws Exception{
+    final boolean isFirstLevel) throws Exception{
     
     try{
       
@@ -214,7 +214,7 @@ public class SSMailReceiverKCDavIMAP {
   private void handleAttachment(
     final Part      bodyPart,
     final SSMail    mail, 
-    final Boolean   isFirstLevel){
+    final boolean   isFirstLevel){
     
     try{
       
@@ -239,7 +239,7 @@ public class SSMailReceiverKCDavIMAP {
   private void handleMultiPartContent(
     final Multipart multipart, 
     final SSMail    mail, 
-    final Boolean   isFirstLevel) throws Exception{
+    final boolean   isFirstLevel) throws Exception{
     
     try{
       

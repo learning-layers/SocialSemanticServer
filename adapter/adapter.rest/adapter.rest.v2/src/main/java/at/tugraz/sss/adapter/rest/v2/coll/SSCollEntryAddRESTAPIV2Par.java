@@ -55,7 +55,7 @@ public class SSCollEntryAddRESTAPIV2Par{
   @ApiModelProperty(
     required = false,
     value = "whether to add new collection")
-  public Boolean            addNewColl = false;
+  public boolean            addNewColl = false;
 
   public SSCollEntryAddRESTAPIV2Par(){}
 }

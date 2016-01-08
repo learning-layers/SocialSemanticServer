@@ -29,6 +29,7 @@ import at.tugraz.sss.serv.datatype.SSEntityCircle;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class SSEntitySetPublic {
   public void handle(
     final SSUri       user,
     final SSEntity    entity,
-    final Boolean     withUserRestriction) throws Exception{
+    final boolean     withUserRestriction) throws Exception{
     
     try{
       
@@ -71,7 +72,7 @@ public class SSEntitySetPublic {
             user,
             pubCircleURI,
             null, //entityTypesToIncludeOnly,
-            null, //setTags,
+            false, //setTags,
             null, //tagSpace,
             false, //setEntities,
             true, //setUsers
@@ -85,7 +86,7 @@ public class SSEntitySetPublic {
         withUserRestriction);
       
     }catch(Exception error){
-      SSServErrReg.reset();
+      SSLogU.err(error);
     }
   }
 }

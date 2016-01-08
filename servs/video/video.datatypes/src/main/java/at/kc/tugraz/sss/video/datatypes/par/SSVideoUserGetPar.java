@@ -27,7 +27,6 @@ import at.tugraz.sss.serv.util.*;
 public class SSVideoUserGetPar extends SSServPar{
   
   public SSUri    video                = null;
-  public Boolean  invokeEntityHandlers = false;
   
   public void setVideo(final String video) throws Exception{
     this.video = SSUri.get(video);
@@ -42,8 +41,8 @@ public class SSVideoUserGetPar extends SSServPar{
   public SSVideoUserGetPar(
     final SSUri          user,
     final SSUri          video, 
-    final Boolean        withUserRestriction, 
-    final Boolean        invokeEntityHandlers){
+    final boolean        withUserRestriction, 
+    final boolean        invokeEntityHandlers){
     
     super(SSVarNames.videoGet, null, user);
     

@@ -63,17 +63,17 @@ public interface SSLearnEpServerI extends SSServServerI{
   public SSUri                        learnEpVersionCircleAdd              (final SSLearnEpVersionCircleAddPar             par) throws SSErr;
   public SSUri                        learnEpVersionEntityAdd              (final SSLearnEpVersionEntityAddPar             par) throws SSErr;
   public SSUri                        learnEpCreate                        (final SSLearnEpCreatePar                       par) throws SSErr;
-  public Boolean                      learnEpVersionCircleUpdate           (final SSLearnEpVersionCircleUpdatePar          par) throws SSErr;
-  public Boolean                      learnEpVersionEntityUpdate           (final SSLearnEpVersionEntityUpdatePar          par) throws SSErr;
-  public Boolean                      learnEpVersionCircleRemove           (final SSLearnEpVersionCircleRemovePar          par) throws SSErr;
-  public Boolean                      learnEpVersionEntityRemove           (final SSLearnEpVersionEntityRemovePar          par) throws SSErr;
+  public boolean                      learnEpVersionCircleUpdate           (final SSLearnEpVersionCircleUpdatePar          par) throws SSErr;
+  public boolean                      learnEpVersionEntityUpdate           (final SSLearnEpVersionEntityUpdatePar          par) throws SSErr;
+  public boolean                      learnEpVersionCircleRemove           (final SSLearnEpVersionCircleRemovePar          par) throws SSErr;
+  public boolean                      learnEpVersionEntityRemove           (final SSLearnEpVersionEntityRemovePar          par) throws SSErr;
   public SSUri                        learnEpVersionTimelineStateSet       (final SSLearnEpVersionTimelineStateSetPar      par) throws SSErr;
   public SSLearnEpTimelineState       learnEpVersionTimelineStateGet       (final SSLearnEpVersionTimelineStateGetPar      par) throws SSErr;
   public SSLearnEpVersion             learnEpVersionCurrentGet             (final SSLearnEpVersionCurrentGetPar            par) throws SSErr;
   public SSUri                        learnEpVersionCurrentSet             (final SSLearnEpVersionCurrentSetPar            par) throws SSErr;
   public List<SSLearnEpLockHoldRet>   learnEpsLockHold                     (final SSLearnEpsLockHoldPar                    par) throws SSErr;
   public SSLearnEpLockHoldRet         learnEpLockHold                      (final SSLearnEpLockHoldPar                     par) throws SSErr;
-  public Boolean                      learnEpLockSet                       (final SSLearnEpLockSetPar                      par) throws SSErr;
-  public Boolean                      learnEpLockRemove                    (final SSLearnEpLockRemovePar                   par) throws SSErr;
+  public boolean                      learnEpLockSet                       (final SSLearnEpLockSetPar                      par) throws SSErr;
+  public boolean                      learnEpLockRemove                    (final SSLearnEpLockRemovePar                   par) throws SSErr;
   public List<SSEntity>               learnEpVersionCirclesWithEntriesGet  (final SSLearnEpVersionCirclesWithEntriesGetPar par) throws SSErr;
 }

@@ -96,8 +96,6 @@ public class SSServReg{
       return;
     }
     
-    SSServErrReg.destroy();
-    
 //    for(TimerTask timerTask : timerTasks){
 //      timerTask.cancel();
 //    }
@@ -633,7 +631,7 @@ public class SSServReg{
     final SSUri             circle,
     final List<SSEntity>    entities,
     final List<SSUri>       recursiveEntities,
-    final Boolean           withUserRestriction) throws Exception{
+    final boolean           withUserRestriction) throws Exception{
     
     try{
       final List<SSEntity> addedAffiliatedEntities = new ArrayList<>();
@@ -671,7 +669,7 @@ public class SSServReg{
     final SSUri          user, 
     final SSEntityCircle circle,
     final List<SSUri>    users, 
-    final Boolean        withUserRestriction) throws Exception {
+    final boolean        withUserRestriction) throws Exception {
     
     try{
       
@@ -809,7 +807,7 @@ public class SSServReg{
     final SSUri          user, 
     final SSEntityCircle circle,
     final List<SSEntity> entities,
-    final Boolean        withUserRestriction) throws Exception{
+    final boolean        withUserRestriction) throws Exception{
     
     try{
       
@@ -852,7 +850,7 @@ public class SSServReg{
     final SSUri                user,
     final SSEntity             entity,
     final SSEntityDescriberPar descPar,
-    final Boolean              withUserRestriction) throws SSErr{
+    final boolean              withUserRestriction) throws SSErr{
     
     try{
       

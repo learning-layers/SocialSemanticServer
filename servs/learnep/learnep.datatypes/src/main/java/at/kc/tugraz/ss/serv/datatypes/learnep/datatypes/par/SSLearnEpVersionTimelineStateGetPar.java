@@ -42,7 +42,7 @@ public class SSLearnEpVersionTimelineStateGetPar extends SSServPar{
   public SSLearnEpVersionTimelineStateGetPar(
     final SSUri         user,
     final SSUri         learnEpVersion,
-    final Boolean       withUserRestriction){
+    final boolean       withUserRestriction){
     
     super(SSVarNames.learnEpVersionTimelineStateGet, null, user);
     

@@ -32,7 +32,7 @@ public class SSCirclePubURIGetPar extends SSServPar{
   
   public SSCirclePubURIGetPar(
     final SSUri         user, 
-    final Boolean       shouldCommit) throws Exception{
+    final boolean       shouldCommit) throws Exception{
       
     super(SSVarNames.circlePubURIGet, null, user);
     

@@ -106,12 +106,6 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       return entities;
     }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
-        SSServErrReg.reset();
-        return null;
-      }
-        
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
@@ -562,7 +556,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
     }
   }
   
-  public Boolean getEntityRead(
+  public boolean getEntityRead(
     final SSUri user, 
     final SSUri entity) throws SSErr{
     
@@ -583,7 +577,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       
       try{
@@ -597,7 +591,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   public void setEntityRead(
     final SSUri   user, 
     final SSUri   entity,
-    final Boolean read) throws SSErr{
+    final boolean read) throws SSErr{
     
     try{
 
@@ -692,7 +686,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   public SSEntity getEntityTest(
     final SSUri   user,
     final SSUri   entity,
-    final Boolean withUserRestriction) throws SSErr{
+    final boolean withUserRestriction) throws SSErr{
     
     ResultSet resultSet  = null;
     
@@ -729,7 +723,9 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       resultSet = dbSQL.select(query);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return SSEntity.get(
         bindingStrToUri        (resultSet, SSSQLVarNames.id),
@@ -737,15 +733,9 @@ public class SSCoreSQL extends SSDBSQLFctA{
         bindingStrToLabel      (resultSet, SSSQLVarNames.label),
         bindingStrToTextComment(resultSet, SSSQLVarNames.description),
         bindingStrToLong       (resultSet, SSSQLVarNames.creationTime),
-        bindingStrToAuthor     (resultSet, SSSQLVarNames.author)); 
+        bindingStrToAuthor     (resultSet, SSSQLVarNames.author));
       
     }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
-        SSServErrReg.reset();
-        return null;
-      }
-        
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
@@ -758,10 +748,10 @@ public class SSCoreSQL extends SSDBSQLFctA{
     }
   }
   
-  public Boolean isUserAuthor(
+  public boolean isUserAuthor(
     final SSUri   user, 
     final SSUri   entityURI,
-    final Boolean withUserRestriction) throws SSErr{
+    final boolean withUserRestriction) throws SSErr{
     
     try{
       
@@ -783,7 +773,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       return true;
     }catch(Exception error){
-      SSServErrReg.reset();
+      SSServErrReg.regErrThrow(error);
       return false;
     }
   }
@@ -903,12 +893,6 @@ public class SSCoreSQL extends SSDBSQLFctA{
       return getURIsFromResult(resultSet, SSSQLVarNames.id);
       
     }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
-        SSServErrReg.reset();
-        return null;
-      }
-        
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
@@ -946,7 +930,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
     }
   }
   
-  public Boolean existsEntity(
+  public boolean existsEntity(
     final SSUri entity) throws SSErr{
     
     ResultSet resultSet  = null;
@@ -969,23 +953,11 @@ public class SSCoreSQL extends SSDBSQLFctA{
           null, 
           null);
       
-      try{
-        checkFirstResult(resultSet);
-      }catch(Exception error){
-        
-        if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
-          SSServErrReg.reset();
-          return false;
-        }
-        
-        throw error;
-      }
-      
-      return true;
+      return existsFirstResult(resultSet);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       
       try{
@@ -1340,7 +1312,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
     }
   }
 public List<SSUri> getCircleURIs(
-    final Boolean withSystemCircles) throws SSErr{
+    final boolean withSystemCircles) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -1373,7 +1345,7 @@ public List<SSUri> getCircleURIs(
   public void addCircle(
     final SSUri     circleUri,
     final SSCircleE circleType,
-    final Boolean   isSystemCircle) throws SSErr{
+    final boolean   isSystemCircle) throws SSErr{
     
     try{
       
@@ -1601,7 +1573,7 @@ public List<SSUri> getCircleURIs(
   public List<SSUri> getCircleURIsCommonForUserAndEntity(
     final SSUri   userUri,
     final SSUri   entityUri,
-    final Boolean withSystemCircles) throws SSErr{
+    final boolean withSystemCircles) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -1647,7 +1619,7 @@ public List<SSUri> getCircleURIs(
     }
   }
   
-  public Boolean isSystemCircle(
+  public boolean isSystemCircle(
     final SSUri circleUri) throws SSErr{
     
     ResultSet resultSet = null;
@@ -1663,12 +1635,14 @@ public List<SSUri> getCircleURIs(
       
       resultSet = dbSQL.select(SSSQLVarNames.circleTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return false;
+      }
       
       return bindingStrToBoolean(resultSet, SSSQLVarNames.isSystemCircle);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       
       try{
@@ -1681,9 +1655,9 @@ public List<SSUri> getCircleURIs(
   
   public SSEntityCircle getCircle(
     final SSUri                circleUri,
-    final Boolean              withUsers,
-    final Boolean              withEntities,
-    final Boolean              withCircleRights,
+    final boolean              withUsers,
+    final boolean              withEntities,
+    final boolean              withCircleRights,
     final List<SSEntityE>      entityTypesToIncludeOnly) throws SSErr{
     
     ResultSet resultSet = null;
@@ -1709,7 +1683,9 @@ public List<SSUri> getCircleURIs(
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       circleObj =
         SSEntityCircle.get(
@@ -1750,7 +1726,7 @@ public List<SSUri> getCircleURIs(
   
   public List<SSUri> getCircleURIsForEntity(
     final SSUri   entityUri,
-    final Boolean withSystemCircles) throws SSErr{
+    final boolean withSystemCircles) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -1812,7 +1788,9 @@ public List<SSUri> getCircleURIs(
       
       resultSet = dbSQL.select(SSSQLVarNames.circleTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return SSCircleE.get(bindingStr(resultSet, SSSQLVarNames.circleType));
       
@@ -1829,7 +1807,7 @@ public List<SSUri> getCircleURIs(
     }
   }
   
-  public Boolean isUserInCircle(
+  public boolean isUserInCircle(
     final SSUri          userUri,
     final SSUri          circleUri) throws SSErr{
     
@@ -1837,11 +1815,11 @@ public List<SSUri> getCircleURIs(
       return SSStrU.contains(getCircleURIsForUser(userUri, true), circleUri);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
   
-  public Boolean isGroupOrPubCircleCircle(
+  public boolean isGroupOrPubCircleCircle(
     final SSUri circleUri) throws SSErr{
     
     try{
@@ -1860,11 +1838,11 @@ public List<SSUri> getCircleURIs(
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
   
-  private Boolean hasCircleUser(
+  private boolean hasCircleUser(
     final SSUri circleUri,
     final SSUri userUri) throws SSErr{
     
@@ -1886,7 +1864,7 @@ public List<SSUri> getCircleURIs(
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       
       try{
@@ -1920,17 +1898,13 @@ public List<SSUri> getCircleURIs(
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return bindingStrToUri(resultSet, SSSQLVarNames.circleId);
       
     }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
-        SSServErrReg.reset();
-        return null;
-      }
-      
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
@@ -1958,17 +1932,13 @@ public List<SSUri> getCircleURIs(
       
       resultSet = dbSQL.select(SSSQLVarNames.circleTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return bindingStrToUri(resultSet, SSSQLVarNames.circleId);
       
     }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
-        SSServErrReg.reset();
-        return null;
-      }
-      
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
@@ -2015,7 +1985,7 @@ public List<SSUri> getCircleURIs(
   
   public List<SSUri> getCircleURIsForUser(
     final SSUri   userUri,
-    final Boolean withSystemCircles) throws SSErr{
+    final boolean withSystemCircles) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -2254,7 +2224,7 @@ public List<SSUri> getCircleURIs(
   }
 }
 
-//private Boolean hasCircleEntity(
+//private boolean hasCircleEntity(
 //    final SSUri circleUri,
 //    final SSUri entityUri) throws SSErr{
 //
@@ -2364,7 +2334,7 @@ public List<SSUri> getCircleURIs(
 //    }
 //  }
 
-//  public Boolean existsEntity(SSUri entityUri) throws SSErr{
+//  public boolean existsEntity(SSUri entityUri) throws SSErr{
 //    
 //    if(entityUri == null){
 //      SSServErrReg.regErrThrow(new Exception("entity null"));
@@ -2393,7 +2363,7 @@ public List<SSUri> getCircleURIs(
 
 //public List<SSUri> getEntityURIsUserCanAccess(
 //    final SSUri           user,
-//    final Boolean         withSystemCircles,
+//    final boolean         withSystemCircles,
 //    final List<SSUri>     entities,
 //    final List<SSEntityE> types,
 //    final List<SSUri>     authors) throws SSErr{

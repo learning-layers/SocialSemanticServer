@@ -89,7 +89,7 @@ public class SSActivitiesGetRESTAPIV2Par{
   @ApiModelProperty(
     required = false,
     value = "includeOnlyLastActivities")
-  public Boolean                includeOnlyLastActivities = null;
+  public boolean                includeOnlyLastActivities = false;
   
   public SSActivitiesGetRESTAPIV2Par(){}
 }

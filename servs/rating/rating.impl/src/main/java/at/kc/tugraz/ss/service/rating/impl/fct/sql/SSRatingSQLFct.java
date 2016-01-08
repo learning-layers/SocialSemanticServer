@@ -49,7 +49,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
     super(dbSQL, systemUserURI);
   }
   
-  public Boolean hasUserRatedEntity(
+  public boolean hasUserRatedEntity(
     final SSUri   userUri, 
     final SSUri   entityUri) throws Exception{
     
@@ -81,7 +81,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
       return resultSet.first();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
@@ -147,7 +147,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
     final SSUri   userUri, 
     final SSUri   entityUri, 
     final Integer ratingValue, 
-    final Boolean userRatedEntityBefore) throws Exception{
+    final boolean userRatedEntityBefore) throws Exception{
    
     if(userRatedEntityBefore){
       

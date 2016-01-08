@@ -23,8 +23,6 @@ package at.kc.tugraz.ss.service.search.service.task;
 import at.kc.tugraz.ss.service.search.api.SSSearchServerI;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchCleanUpPar;
 import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import at.tugraz.sss.serv.reg.*;
 import java.util.TimerTask;
 import at.tugraz.sss.conf.SSConf;
@@ -47,7 +45,7 @@ public class SSSearchResultPagesCacheCleanerTask extends TimerTask {
       SSServReg.regTimerThread(thread);
             
     }catch(Exception error){
-      SSServErrReg.regErr(error);
+      SSLogU.err(error);
     }
   }
   
@@ -64,8 +62,8 @@ public class SSSearchResultPagesCacheCleanerTask extends TimerTask {
         final SSSearchServerI searchServ = (SSSearchServerI) SSServReg.getServ(SSSearchServerI.class);
         
         searchServ.searchCleanUp(new SSSearchCleanUpPar(SSConf.systemUserUri));
-      }catch(Exception error1){
-        SSServErrReg.regErr(error1);
+      }catch(Exception error){
+        SSLogU.err(error);
       }finally{
         
         try{

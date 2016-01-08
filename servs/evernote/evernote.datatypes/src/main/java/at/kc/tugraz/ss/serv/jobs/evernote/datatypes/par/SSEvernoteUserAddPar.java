@@ -31,7 +31,7 @@ public class SSEvernoteUserAddPar extends SSServPar{
   public SSEvernoteUserAddPar(
     final SSUri   user, 
     final String  authToken,
-    final Boolean shouldCommit){
+    final boolean shouldCommit){
     
     super(SSVarNames.evernoteUserAdd, null, user);
     

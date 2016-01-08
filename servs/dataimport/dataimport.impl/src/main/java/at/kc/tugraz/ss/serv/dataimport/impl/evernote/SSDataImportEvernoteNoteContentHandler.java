@@ -97,9 +97,7 @@ public class SSDataImportEvernoteNoteContentHandler{
           true);
         
       }catch(Exception error){
-        
-        SSServErrReg.reset();
-        SSLogU.info("PDF creation from XHTML failed");
+        SSLogU.info("PDF creation from XHTML failed", error);
         
         try{
           
@@ -134,7 +132,7 @@ public class SSDataImportEvernoteNoteContentHandler{
           }
           
         }catch(Exception error1){
-          SSServErrReg.reset();
+          SSLogU.err(error);
           return;
         }
       }finally{

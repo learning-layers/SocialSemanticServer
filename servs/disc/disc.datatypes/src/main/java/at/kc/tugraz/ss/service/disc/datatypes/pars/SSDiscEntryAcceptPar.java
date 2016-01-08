@@ -42,8 +42,8 @@ public class SSDiscEntryAcceptPar extends SSServPar{
   public SSDiscEntryAcceptPar(
     final SSUri     user,
     final SSUri     entry,
-    final Boolean   withUserRestriction,
-    final Boolean   shouldCommit){
+    final boolean   withUserRestriction,
+    final boolean   shouldCommit){
     
     super(SSVarNames.discEntryAccept, null, user);
     

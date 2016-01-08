@@ -26,8 +26,6 @@ import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkUserRealmsFromConfPar;
 import at.kc.tugraz.ss.recomm.serv.SSRecommServ;
 import at.tugraz.sss.conf.SSConf;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import at.tugraz.sss.serv.reg.*;
 import java.util.TimerTask;
 
@@ -53,7 +51,7 @@ public class SSRecommUpdateBulkUserRealmsFromConfTask extends TimerTask {
       
       SSServReg.regTimerThread(thread);
     }catch(Exception error){
-      SSServErrReg.regErr(error);
+      SSLogU.err(error);
     }
   }
   
@@ -76,8 +74,8 @@ public class SSRecommUpdateBulkUserRealmsFromConfTask extends TimerTask {
           new SSRecommUpdateBulkUserRealmsFromConfPar(
             SSConf.systemUserUri));
         
-      }catch(Exception error1){
-        SSServErrReg.regErr(error1);
+      }catch(Exception error){
+        SSLogU.err(error);
       }finally{
         
         try{

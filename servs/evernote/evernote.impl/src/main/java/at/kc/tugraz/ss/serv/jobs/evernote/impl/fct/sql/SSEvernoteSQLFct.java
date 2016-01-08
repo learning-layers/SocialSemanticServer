@@ -95,7 +95,9 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
       
       resultSet = dbSQL.select(SSSQLVarNames.evernoteUserTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
         
       return bindingStr(resultSet, SSSQLVarNames.authToken);
       
@@ -163,7 +165,9 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
       
       resultSet = dbSQL.select(SSSQLVarNames.evernoteResourceTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
         
       return SSEvernoteResource.get(
         resourceId, 
@@ -192,15 +196,11 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
       
       resultSet = dbSQL.select(SSSQLVarNames.evernoteUserTable, columns, wheres, null, null, null);
       
-      try{
-        
-        checkFirstResult(resultSet);
-        
-        return bindingStrToInteger(resultSet, SSSQLVarNames.usn);
-      }catch(Exception error){
-        SSServErrReg.reset();
+      if(!existsFirstResult(resultSet)){
         return 0;
       }
+      
+      return bindingStrToInteger(resultSet, SSSQLVarNames.usn);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -226,7 +226,9 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
       
       resultSet = dbSQL.select(SSSQLVarNames.evernoteNoteTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return SSEvernoteNote.get(
         noteUri,

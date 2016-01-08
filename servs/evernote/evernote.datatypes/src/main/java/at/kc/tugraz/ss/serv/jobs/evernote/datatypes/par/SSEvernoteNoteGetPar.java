@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import com.evernote.clients.NoteStoreClient;
 
@@ -29,13 +29,13 @@ public class SSEvernoteNoteGetPar extends SSServPar{
   
   public NoteStoreClient  noteStore      = null;
   public String           noteGUID       = null;
-  public Boolean          includeContent = null;
+  public boolean          includeContent = false;
   
   public SSEvernoteNoteGetPar(
     final SSUri            user,
     final NoteStoreClient  noteStore,
     final String           noteGUID,
-    final Boolean          includeContent){
+    final boolean          includeContent){
     
     super(SSVarNames.evernoteNoteGet, null, user);
     

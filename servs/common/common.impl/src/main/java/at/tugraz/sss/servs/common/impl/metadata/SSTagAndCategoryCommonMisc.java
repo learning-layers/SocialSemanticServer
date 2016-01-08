@@ -242,7 +242,7 @@ public class SSTagAndCategoryCommonMisc {
       
   public List<SSEntity> filterMetadataByEntitiesUserCanAccess(
     final List<SSEntity>   metadata, 
-    final Boolean          withUserRestriction, 
+    final boolean          withUserRestriction, 
     final SSUri            user, 
     final SSUri            forUser) throws Exception{
     
@@ -1025,7 +1025,7 @@ public class SSTagAndCategoryCommonMisc {
 
 //public List<SSUri> filterEntitiesUserCanAccess(
 //    final List<SSUri> entityURIs, 
-//    final Boolean     withUserRestriction, 
+//    final boolean     withUserRestriction, 
 //    final SSUri       user, 
 //    final SSUri       forUser) throws Exception{
 //    

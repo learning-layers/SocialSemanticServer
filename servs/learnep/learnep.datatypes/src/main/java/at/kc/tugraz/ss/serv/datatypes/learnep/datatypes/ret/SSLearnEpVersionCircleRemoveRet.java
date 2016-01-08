@@ -29,13 +29,13 @@ import java.util.Map;
 
 public class SSLearnEpVersionCircleRemoveRet extends SSServRetI{
 
-  public Boolean worked = null;
+  public boolean worked = false;
 
-  public static SSLearnEpVersionCircleRemoveRet get(Boolean worked){
+  public static SSLearnEpVersionCircleRemoveRet get(boolean worked){
     return new SSLearnEpVersionCircleRemoveRet(worked);
   }
   
-  private SSLearnEpVersionCircleRemoveRet(Boolean worked){
+  private SSLearnEpVersionCircleRemoveRet(boolean worked){
     
     super(SSVarNames.learnEpVersionCircleRemove);
     

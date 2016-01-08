@@ -32,7 +32,7 @@ public class SSCircleCreatePar extends SSServPar{
   public SSLabel               label                = null;
   public SSTextComment         description          = null;
   public SSCircleE             circleType           = null;               
-  public Boolean               isSystemCircle       = false;
+  public boolean               isSystemCircle       = false;
 
   public void setLabel(final String label) throws Exception{
     this.label = SSLabel.get(label);
@@ -65,9 +65,9 @@ public class SSCircleCreatePar extends SSServPar{
     final SSCircleE       circleType,
     final SSLabel         label,
     final SSTextComment   description,
-    final Boolean         isSystemCircle,
-    final Boolean         withUserRestriction, 
-    final Boolean         shouldCommit){
+    final boolean         isSystemCircle,
+    final boolean         withUserRestriction, 
+    final boolean         shouldCommit){
     
     super(SSVarNames.circleCreate, null, user);
     

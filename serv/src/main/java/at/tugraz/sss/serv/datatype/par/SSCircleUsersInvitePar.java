@@ -49,8 +49,8 @@ public class SSCircleUsersInvitePar extends SSServPar{
     final SSUri          user,
     final SSUri          circle,
     final List<String>   emails,
-    final Boolean        withUserRestriction,
-    final Boolean        shouldCommit) throws Exception{
+    final boolean        withUserRestriction,
+    final boolean        shouldCommit) throws Exception{
     
     super(SSVarNames.circleUsersInvite, null, user);
     

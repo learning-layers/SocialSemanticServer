@@ -47,7 +47,7 @@ public class SSRatingEntityURIsGetPar extends SSServPar{
     final List<SSUri> entities,
     final Integer     minOverallRating,
     final Integer     maxOverallRating,
-    final Boolean     withUserRestriction){
+    final boolean     withUserRestriction){
     
     super(SSVarNames.ratingEntityURIsGet, null, user);
     

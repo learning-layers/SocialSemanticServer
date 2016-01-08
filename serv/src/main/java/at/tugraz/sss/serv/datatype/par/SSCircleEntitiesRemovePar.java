@@ -57,8 +57,8 @@ public class SSCircleEntitiesRemovePar extends SSServPar{
     final SSUri          user,
     final SSUri          circle,
     final List<SSUri>    entities,
-    final Boolean        withUserRestriction,
-    final Boolean        shouldCommit) throws Exception{
+    final boolean        withUserRestriction,
+    final boolean        shouldCommit) throws Exception{
     
     super(SSVarNames.circleEntitiesRemove, null, user);
     

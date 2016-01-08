@@ -57,7 +57,9 @@ public class SSDataImportSQLFct extends SSDBSQLFctA{
       
       resultSet = dbSQL.select("user", columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return;
+      }
       
       userId    = resultSet.getString("user_id");
       

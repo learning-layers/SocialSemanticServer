@@ -54,8 +54,8 @@ public class SSDiscTargetsAddPar extends SSServPar{
     final SSUri       user,
     final SSUri       discussion,
     final List<SSUri> targets,
-    final Boolean     withUserRestriction,
-    final Boolean     shouldCommit){
+    final boolean     withUserRestriction,
+    final boolean     shouldCommit){
     
     super(SSVarNames.discTargetsAdd, null, user);
     

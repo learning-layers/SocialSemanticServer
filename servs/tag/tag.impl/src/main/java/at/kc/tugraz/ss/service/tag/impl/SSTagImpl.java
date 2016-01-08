@@ -33,7 +33,6 @@ import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
-import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.entity.api.SSUserRelationGathererI;
@@ -68,7 +67,6 @@ import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import java.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSSearchOpE;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
@@ -366,22 +364,29 @@ implements
       SSStrU.distinctWithoutNull2(tags);
       
       return tags;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return tagsAdd(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -520,22 +525,29 @@ implements
       
       return tagUri;
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return tagAdd(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -548,7 +560,7 @@ implements
       userCommons.checkKeyAndSetUser(parA);
       
       final SSTagsRemovePar par    = (SSTagsRemovePar) parA.getFromClient(clientType, parA, SSTagsRemovePar.class);
-      final Boolean         worked = tagsRemove(par);
+      final boolean         worked = tagsRemove(par);
       final SSTagsRemoveRet ret    = SSTagsRemoveRet.get(worked);
       
       if(worked){
@@ -569,7 +581,7 @@ implements
   }
   
   @Override
-  public Boolean tagsRemove(final SSTagsRemovePar par) throws SSErr {
+  public boolean tagsRemove(final SSTagsRemovePar par) throws SSErr {
     
     try{
       
@@ -703,22 +715,29 @@ implements
       
       throw new Exception("reached not reachable code");
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return false;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return false;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return tagsRemove(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }

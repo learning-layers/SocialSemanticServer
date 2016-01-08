@@ -32,8 +32,8 @@ public class SSEntityCopiedPar {
   public SSEntity       entity                                          = null;
   public List<SSEntity> entities                                        = new ArrayList<>();
   public SSUri          targetEntity                                    = null;
-  public Boolean        includeMetadataSpecificToEntityAndItsEntities   = false;
-  public Boolean        withUserRestriction                             = true;
+  public boolean        includeMetadataSpecificToEntityAndItsEntities   = false;
+  public boolean        withUserRestriction                             = true;
   
   public SSEntityCopiedPar(
     final SSUri          user,
@@ -41,7 +41,7 @@ public class SSEntityCopiedPar {
     final SSEntity       entity, 
     final List<SSEntity> entities,
     final SSUri          targetEntity, 
-    final Boolean        withUserRestriction){
+    final boolean        withUserRestriction){
     
     this.user         = user;
     this.targetUser   = targetUser;

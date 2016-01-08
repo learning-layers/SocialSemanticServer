@@ -52,8 +52,8 @@ public class SSLearnEpLockRemovePar extends SSServPar{
     final SSUri      user,
     final SSUri      forUser, 
     final SSUri      learnEp,
-    final Boolean    withUserRestriction,
-    final Boolean    shouldCommit){
+    final boolean    withUserRestriction,
+    final boolean    shouldCommit){
     
     super(SSVarNames.learnEpLockRemove, null, user);
    

@@ -60,19 +60,19 @@ public enum SSSpaceE{
     return result;
   }
   
-  public static Boolean isShared(
+  public static boolean isShared(
     final SSSpaceE space){
     
     return SSStrU.equals(space, SSSpaceE.sharedSpace);
   }
   
-  public static Boolean isPrivate(
+  public static boolean isPrivate(
     final SSSpaceE space) {
     
     return SSStrU.equals(space, SSSpaceE.privateSpace);
   }
   
-  public static Boolean isPrivateOrShared(
+  public static boolean isPrivateOrShared(
     final SSSpaceE space){
     
     return isPrivate(space) || isShared(space);

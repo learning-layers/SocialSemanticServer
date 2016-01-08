@@ -30,7 +30,7 @@ public class SSAddAffiliatedEntitiesToCirclePar {
   public SSUri          user                = null;
   public SSUri          circle              = null;
   public List<SSEntity> entities            = new ArrayList<>();
-  public Boolean        withUserRestriction = true;
+  public boolean        withUserRestriction = true;
   public List<SSUri>    recursiveEntities   = new ArrayList<>();
   
   public SSAddAffiliatedEntitiesToCirclePar(
@@ -38,7 +38,7 @@ public class SSAddAffiliatedEntitiesToCirclePar {
     final SSUri          circle,
     final List<SSEntity> entities,
     final List<SSUri>    recursiveEntities,
-    final Boolean        withUserRestriction){
+    final boolean        withUserRestriction){
     
     this.user           = user;
     this.circle         = circle;

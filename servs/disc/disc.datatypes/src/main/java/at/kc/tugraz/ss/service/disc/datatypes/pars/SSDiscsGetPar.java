@@ -20,8 +20,7 @@
 */
 package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
-
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import java.util.ArrayList;
@@ -29,17 +28,16 @@ import java.util.List;
 
 public class SSDiscsGetPar extends SSServPar{
 
-  public Boolean     setEntries           = false;
+  public boolean     setEntries           = false;
   public SSUri       forUser              = null;
   public List<SSUri> discs                = new ArrayList<>();
   public List<SSUri> targets              = new ArrayList<>();
-  public Boolean     invokeEntityHandlers = false;
-  public Boolean     setLikes             = false;
-  public Boolean     setCircleTypes       = false;
-  public Boolean     setComments          = false;
-  public Boolean     setTags              = false;
-  public Boolean     setAttachedEntities  = false;
-  public Boolean     setReads             = false;
+  public boolean     setLikes             = false;
+  public boolean     setCircleTypes       = false;
+  public boolean     setComments          = false;
+  public boolean     setTags              = false;
+  public boolean     setAttachedEntities  = false;
+  public boolean     setReads             = false;
 
   public String getForUser() {
     return SSStrU.removeTrailingSlash(forUser);
@@ -69,12 +67,12 @@ public class SSDiscsGetPar extends SSServPar{
     
   public SSDiscsGetPar(
     final SSUri       user,
-    final Boolean     setEntries,
+    final boolean     setEntries,
     final SSUri       forUser,
     final List<SSUri> discs,
     final List<SSUri> targets,
-    final Boolean     withUserRestriction,
-    final Boolean     invokeEntityHandlers){
+    final boolean     withUserRestriction,
+    final boolean     invokeEntityHandlers){
     
     super(SSVarNames.discsGet, null, user);
     

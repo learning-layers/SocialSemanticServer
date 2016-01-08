@@ -91,7 +91,7 @@ implements
     this.sqlFct          = new SSDataImportSQLFct(dbSQL);
   }
   
-  private Boolean addBitsAndPiecesEvernoteImport(
+  private boolean addBitsAndPiecesEvernoteImport(
     final String authToken,
     final String authEmail) throws SSErr{
     
@@ -140,7 +140,7 @@ implements
     }
   }
   
-  private Boolean addBitsAndPiecesEmailImport(
+  private boolean addBitsAndPiecesEmailImport(
     final String authToken,
     final String authEmail) throws SSErr{
     
@@ -190,7 +190,7 @@ implements
   }
   
   @Override
-  public Boolean dataImportBitsAndPieces(final SSDataImportBitsAndPiecesPar par) throws SSErr{
+  public boolean dataImportBitsAndPieces(final SSDataImportBitsAndPiecesPar par) throws SSErr{
     
     try{
       
@@ -213,7 +213,7 @@ implements
       final SSEvernoteServerI evernoteServ    = (SSEvernoteServerI) SSServReg.getServ(SSEvernoteServerI.class);
       final SSTagServerI      tagServ         = (SSTagServerI)      SSServReg.getServ(SSTagServerI.class);
       final SSEvalServerI     evalServ        = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
-      Boolean                 worked          = true;
+      boolean                 worked          = true;
       SSUri                   userUri         = null;
       
       try{
@@ -240,7 +240,7 @@ implements
           SSLogU.warn("sql rollback failed");
         }
         
-        SSServErrReg.reset();
+        SSLogU.err(error);
       }
       
       if(
@@ -271,7 +271,7 @@ implements
             SSLogU.warn("sql rollback failed");
           }
 
-          SSServErrReg.reset();
+          SSLogU.err(error);
         }
       }
       
@@ -303,7 +303,7 @@ implements
             SSLogU.warn("sql rollback failed");
           }
 
-          SSServErrReg.reset();
+          SSLogU.err(error);
         }
       }
       
@@ -389,22 +389,26 @@ implements
       
       dbSQL.commit(par.shouldCommit);
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          dataImportMediaWikiUser(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
-          return;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
@@ -608,7 +612,7 @@ implements
   }
 }
 
-//  private Boolean evernoteNoteUploadPNGToWebDav(String pngFilePath, String pngFileID){
+//  private boolean evernoteNoteUploadPNGToWebDav(String pngFilePath, String pngFileID){
 //    
 //    FileInputStream in = null;
 //    
@@ -664,7 +668,7 @@ implements
 //    }
 
 //@Override
-//  public Boolean dataImportUserResourceTagFromWikipedia(final SSServPar parA) throws SSErr {
+//  public boolean dataImportUserResourceTagFromWikipedia(final SSServPar parA) throws SSErr {
 //    
 //    final SSAuthServerI                               authServ      = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
 //    final SSDataImportUserResourceTagFromWikipediaPar par           = new SSDataImportUserResourceTagFromWikipediaPar(parA);
@@ -762,24 +766,26 @@ implements
 //
 //      return true;
 //
-//    }catch(Exception error){
-//      
-//      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-//        
-//        if(dbSQL.rollBack(parA.shouldCommit)){
-//          
-//          SSServErrReg.reset();
-//          
-//          return dataImportUserResourceTagFromWikipedia(parA);
-//        }else{
+//    }catch(SSErr error){
+      
+//      if(error.code == SSErrE.sqlDeadLock){
+//
+//        try{
+//          dbSQL.rollBack(par.shouldCommit);
 //          SSServErrReg.regErrThrow(error);
+//          return null;
+//        }catch(Exception error2){
+//          SSServErrReg.regErrThrow(error2);
 //          return null;
 //        }
 //      }
 //      
-//      dbSQL.rollBack(parA.shouldCommit);
 //      SSServErrReg.regErrThrow(error);
 //      return null;
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
 //    }finally{
 //      
 //      if(lineReader != null){

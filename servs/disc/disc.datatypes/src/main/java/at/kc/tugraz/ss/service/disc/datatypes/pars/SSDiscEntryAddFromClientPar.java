@@ -55,7 +55,7 @@ public class SSDiscEntryAddFromClientPar extends SSDiscEntryAddPar{
     final SSUri         disc,
     final List<SSUri>   targets, 
     final SSTextComment entry, 
-    final Boolean       addNewDisc,
+    final boolean       addNewDisc,
     final SSEntityE     type, 
     final SSLabel       label, 
     final SSTextComment description, 

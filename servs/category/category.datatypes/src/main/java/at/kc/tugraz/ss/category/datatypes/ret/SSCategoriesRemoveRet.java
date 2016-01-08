@@ -27,15 +27,15 @@ import java.util.Map;
 
 public class SSCategoriesRemoveRet extends SSServRetI{
 
-  public Boolean worked = false;
+  public boolean worked = false;
 
   public static SSCategoriesRemoveRet get(
-    final Boolean worked){
+    final boolean worked){
     return new SSCategoriesRemoveRet(worked);
   }
   
   private SSCategoriesRemoveRet(
-    final Boolean worked){
+    final boolean worked){
     
     super(SSVarNames.categoriesRemove);
     

@@ -37,7 +37,7 @@ public class SSVideoAnnotationsSetPar extends SSServPar{
   public List<Float>               y                  = new ArrayList<>();
   public List<SSLabel>             labels             = new ArrayList<>();
   public List<SSTextComment>       descriptions       = new ArrayList<>();
-  public Boolean                   removeExisting     = false;
+  public boolean                   removeExisting     = false;
 
   public void setVideo(final String video) throws Exception{
     this.video = SSUri.get(video);
@@ -73,9 +73,9 @@ public class SSVideoAnnotationsSetPar extends SSServPar{
     final List<Float>          y,
     final List<SSLabel>        labels,
     final List<SSTextComment>  descriptions, 
-    final Boolean              removeExisting,
-    final Boolean              withUserRestriction, 
-    final Boolean              shouldCommit){
+    final boolean              removeExisting,
+    final boolean              withUserRestriction, 
+    final boolean              shouldCommit){
     
     super(SSVarNames.videoAnnotationsSet, null, user);
     

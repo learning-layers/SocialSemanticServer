@@ -84,7 +84,7 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
   }
   
   public List<String> getMetadata(
-    final Boolean isPredefined) throws Exception{
+    final boolean isPredefined) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -100,11 +100,7 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
       table(tables, metadataSQLTableName);
       table(tables, SSSQLVarNames.entityTable);
       
-      if(isPredefined == null){
-        where(wheres, SSSQLVarNames.isPredefined, false);
-      }else{
-        where(wheres, SSSQLVarNames.isPredefined, isPredefined);
-      }
+      where(wheres, SSSQLVarNames.isPredefined, isPredefined);
       
       tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, metadataSQLTableName, metadataIdSQLName);
       
@@ -280,19 +276,14 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
   
   public void addMetadataIfNotExists(
     final SSUri           metadataURI, 
-    final Boolean         isPredefined) throws Exception{
+    final boolean         isPredefined) throws Exception{
     
     try{
       final Map<String, String> inserts    = new HashMap<>();
       final Map<String, String> uniqueKeys = new HashMap<>();
       
-      insert    (inserts, metadataIdSQLName,     metadataURI);
-      
-      if(isPredefined == null){
-        insert    (inserts, SSSQLVarNames.isPredefined,   false);
-      }else{
-        insert    (inserts, SSSQLVarNames.isPredefined,   isPredefined);
-      }
+      insert    (inserts, metadataIdSQLName,            metadataURI);
+      insert    (inserts, SSSQLVarNames.isPredefined,   isPredefined);
       
       uniqueKey (uniqueKeys, metadataIdSQLName,  metadataURI);
       

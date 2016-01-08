@@ -50,7 +50,7 @@ implements
   }
   
   @Override
-  public Boolean integrationTestSolrForSearch() throws Exception {
+  public boolean integrationTestSolrForSearch() throws Exception {
     
     try{
       

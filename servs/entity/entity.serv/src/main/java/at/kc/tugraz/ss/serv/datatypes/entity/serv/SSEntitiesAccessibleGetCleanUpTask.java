@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.serv.datatypes.entity.serv;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesAccessibleGetCleanUpPar;
 import java.util.TimerTask;
@@ -45,7 +44,7 @@ public class SSEntitiesAccessibleGetCleanUpTask extends TimerTask {
       
       SSServReg.regTimerThread(thread);
     }catch(Exception error){
-      SSServErrReg.regErr(error);
+      SSLogU.err(error);
     }
   }
   
@@ -63,8 +62,8 @@ public class SSEntitiesAccessibleGetCleanUpTask extends TimerTask {
       
       entityServ.entitiesAccessibleGetCleanUp(new SSEntitiesAccessibleGetCleanUpPar(SSConf.systemUserUri));
       
-      }catch(Exception error1){
-        SSServErrReg.regErr(error1);
+      }catch(Exception error){
+        SSLogU.err(error);
       }finally{
         
         try{

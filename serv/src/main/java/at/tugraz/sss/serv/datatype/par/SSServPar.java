@@ -28,21 +28,31 @@ import at.tugraz.sss.serv.reg.*;
 import java.util.Map;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.map.ObjectMapper;
 import java.net.Socket;
   
 @XmlRootElement
 public class SSServPar{
 
+  @XmlElement
   public String               op                  = null;
+  
   public SSUri                user                = null;
+  
+  @XmlElement
+  public void setUser(final String user) throws Exception{
+    this.user = SSUri.get(user);
+  }
+  
+  @XmlElement
   public String               key                 = null;
   
   @XmlElement
-  public Boolean              withUserRestriction = true;
+  public boolean              withUserRestriction = true;
 
+  @XmlElement
+  public boolean             invokeEntityHandlers = false;
+    
   @JsonIgnore
   public Socket               clientSocket        = null;
   
@@ -50,18 +60,13 @@ public class SSServPar{
   public Map<String, Object>  pars                = null;
   
   @JsonIgnore
-  public Boolean              shouldCommit        = true;
+  public boolean              shouldCommit        = true;
 
   @JsonIgnore
   public String               clientJSONRequ      = null;
   
 //  @JsonIgnore
 //  public JsonNode             clientJSONObj       = null;
-  
-  @XmlElement
-  public void setUser(final String user) throws Exception{
-    this.user = SSUri.get(user);
-  }
   
   public String getUser(){
     return SSStrU.removeTrailingSlash(user);
@@ -129,10 +134,11 @@ public class SSServPar{
     try{
       final SSServPar result = (SSServPar) SSJSONU.obj(clientJSONRequ, subClass);
       
-      result.op                  = op;
-      result.key                 = key;
-      result.user                = user;
-      result.withUserRestriction = withUserRestriction;
+      result.op                   = op;
+      result.key                  = key;
+      result.user                 = user;
+      result.withUserRestriction  = withUserRestriction;
+      result.invokeEntityHandlers = invokeEntityHandlers;
       
       return result;
     }catch(Exception error){
@@ -288,10 +294,10 @@ public class SSServPar{
 //    }catch(Exception error){}
 //    
 //    try{
-//      shouldCommit = (Boolean) pars.get(SSVarNames.shouldCommit);
+//      shouldCommit = (boolean) pars.get(SSVarNames.shouldCommit);
 //    }catch(Exception error){}
 //    
 //    try{
-//      withUserRestriction = (Boolean) pars.get(SSVarNames.withUserRestriction);
+//      withUserRestriction = (boolean) pars.get(SSVarNames.withUserRestriction);
 //    }catch(Exception error){}
 //  }

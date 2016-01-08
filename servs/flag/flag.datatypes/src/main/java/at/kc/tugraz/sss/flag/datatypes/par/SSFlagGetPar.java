@@ -21,13 +21,12 @@
  package at.kc.tugraz.sss.flag.datatypes.par;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 
 public class SSFlagGetPar extends SSServPar{
 
   public SSUri   flag                 = null;
-  public Boolean invokeEntityHandlers = false;
 
   public String getFlag(){
     return SSStrU.removeTrailingSlash(flag);
@@ -42,8 +41,8 @@ public class SSFlagGetPar extends SSServPar{
   public SSFlagGetPar(
     final SSUri         user,
     final SSUri         flag,
-    final Boolean       withUserRestriction,
-    final Boolean       invokeEntityHandlers){
+    final boolean       withUserRestriction,
+    final boolean       invokeEntityHandlers){
     
     super(SSVarNames.flagGet, null, user);
      

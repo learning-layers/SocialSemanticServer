@@ -102,8 +102,8 @@ public class SSVideoUserAddPar extends SSServPar{
     final SSTextComment  description,
     final Long           creationTime,
     final SSUri          file, 
-    final Boolean        withUserRestriction, 
-    final Boolean        shouldCommit){
+    final boolean        withUserRestriction, 
+    final boolean        shouldCommit){
     
     super(SSVarNames.videoAdd, null, user);
     

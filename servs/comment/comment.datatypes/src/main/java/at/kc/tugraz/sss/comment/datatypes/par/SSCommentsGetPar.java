@@ -41,7 +41,7 @@ public class SSCommentsGetPar extends SSServPar{
   public SSCommentsGetPar(
     final SSUri                user,
     final SSUri                entity,
-    final Boolean              withUserRestriction){
+    final boolean              withUserRestriction){
     
     super(SSVarNames.commentsGet, null, user);
     

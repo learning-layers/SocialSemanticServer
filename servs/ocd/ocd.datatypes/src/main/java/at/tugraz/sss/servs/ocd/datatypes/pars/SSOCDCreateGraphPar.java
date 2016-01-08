@@ -23,7 +23,7 @@ public class SSOCDCreateGraphPar extends SSServPar {
   private String graphName = null;
   private SSOCDCreationTypeE creationType = null;
   private SSOCDGraphInputE graphInputFormat = null;
-  private Boolean makeUndirected = null;
+  private boolean makeUndirected = false;
   private String content = null;
 
   public SSOCDCreateGraphPar(
@@ -31,9 +31,9 @@ public class SSOCDCreateGraphPar extends SSServPar {
     final String graphName,
     final SSOCDCreationTypeE creationType,
     final SSOCDGraphInputE graphInputFormat,
-    final Boolean makeUndirected,
+    final boolean makeUndirected,
     final String content,
-    final Boolean shouldCommit) {
+    final boolean shouldCommit) {
 
       super(SSVarNames.ocdCreateGraph, null, user);
 
@@ -63,11 +63,11 @@ public class SSOCDCreateGraphPar extends SSServPar {
     this.graphInputFormat = graphInputFormat;
   }
 
-  public Boolean getMakeUndirected() {
+  public boolean getMakeUndirected() {
     return makeUndirected;
   }
 
-  public void setMakeUndirected(Boolean makeUndirected) {
+  public void setMakeUndirected(boolean makeUndirected) {
     this.makeUndirected = makeUndirected;
   }
 
@@ -78,6 +78,4 @@ public class SSOCDCreateGraphPar extends SSServPar {
   public void setContent(String content) {
     this.content = content;
   }
-
-  
 }

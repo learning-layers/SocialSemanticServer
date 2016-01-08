@@ -66,7 +66,7 @@ public class SSEntitiesAccessibleGetPar extends SSServPar{
     final Long                 startTime, 
     final Long                 endTime,
     final SSEntityDescriberPar descPar,
-    final Boolean              withUserRestriction) throws Exception{
+    final boolean              withUserRestriction) throws Exception{
     
     super(SSVarNames.entitiesAccessibleGet, null, user);
 

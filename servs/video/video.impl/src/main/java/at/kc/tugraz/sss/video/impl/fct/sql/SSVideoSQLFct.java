@@ -203,7 +203,9 @@ public class SSVideoSQLFct extends SSCoreSQL{
           null, 
           null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       video =
         SSVideo.get(
@@ -284,7 +286,9 @@ public class SSVideoSQLFct extends SSCoreSQL{
 
       resultSet = dbSQL.select(SSSQLVarNames.videoAnnotationTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return
         SSVideoAnnotation.get(

@@ -28,16 +28,16 @@ import java.util.Map;
 
 public class SSFlagsSetRet extends SSServRetI{
   
-  public Boolean worked = null;
+  public boolean worked = false;
   
   public static SSFlagsSetRet get(
-    final Boolean  worked){
+    final boolean  worked){
     
     return new SSFlagsSetRet(worked);
   }
   
   private SSFlagsSetRet(
-    final Boolean  worked) {
+    final boolean  worked) {
     
     super(SSVarNames.flagsSet);
     

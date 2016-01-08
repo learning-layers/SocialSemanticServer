@@ -54,7 +54,9 @@ public class SSLivingDocSQLFct extends SSCoreSQL{
       
       resultSet = dbSQL.select(SSSQLVarNames.livingDocTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return SSLivingDocument.get(livingDoc);
       

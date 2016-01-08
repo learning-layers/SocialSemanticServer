@@ -20,17 +20,15 @@
  */
 package at.tugraz.sss.servs.livingdocument.datatype.par;
 
-
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 
 public class SSLivingDocsGetPar extends SSServPar{
   
   public SSUri   forUser              = null;
-  public Boolean invokeEntityHandlers = false;
-  public Boolean setUsers             = false;
-  public Boolean setDiscs             = false;
+  public boolean setUsers             = false;
+  public boolean setDiscs             = false;
 
   public String getForUser(){
     return SSStrU.removeTrailingSlash(forUser);
@@ -45,8 +43,8 @@ public class SSLivingDocsGetPar extends SSServPar{
   public SSLivingDocsGetPar(
     final SSUri         user,
     final SSUri         forUser,
-    final Boolean       withUserRestriction,
-    final Boolean       invokeEntityHandlers){
+    final boolean       withUserRestriction,
+    final boolean       invokeEntityHandlers){
     
     super(SSVarNames.livingDocsGet, null, user);
     

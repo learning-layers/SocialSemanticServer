@@ -69,7 +69,7 @@ public class SSUECountGetPar extends SSServPar{
     final SSUEE     type, 
     final Long      startTime, 
     final Long      endTime, 
-    final Boolean   withUserRestriction){
+    final boolean   withUserRestriction){
     
     super(SSVarNames.userEventCountGet, null, user);
   

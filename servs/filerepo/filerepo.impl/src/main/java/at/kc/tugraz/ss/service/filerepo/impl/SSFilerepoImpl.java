@@ -506,8 +506,6 @@ implements
 //      }else{
 //        SSLogU.warn(error.getMessage());
 //      }
-      
-       SSServErrReg.reset();
     }
   }
   
@@ -515,7 +513,7 @@ implements
     final SSUri   user,
     final SSUri   fileUri,
     final SSLabel label,
-    final Boolean withUserRestriction) throws Exception{
+    final boolean withUserRestriction) throws Exception{
     
     try{
       
@@ -547,7 +545,7 @@ implements
   private void evalLogFileUpload(
     final SSUri   user,
     final SSUri   fileUri,
-    final Boolean shouldCommit) {
+    final boolean shouldCommit) {
     
     try{
       final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
@@ -565,7 +563,6 @@ implements
       
     }catch(Exception error){
       SSLogU.warn(error);
-      SSServErrReg.reset();
     }
   }
 
@@ -637,7 +634,7 @@ implements
           null, //description, 
           null, //creationTime, 
           null, //read, 
-          null, //setPublic, 
+          false, //setPublic, 
           true, //createIfNotExists
           par.withUserRestriction, //withUserRestriction
           false)); //shouldCommit)
@@ -712,22 +709,29 @@ implements
       
       return new SSFileAddRet(par.file, thumbURI);
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return fileAdd(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

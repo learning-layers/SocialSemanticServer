@@ -99,7 +99,9 @@ public class SSImageSQLFct extends SSCoreSQL{
       
       resultSet = dbSQL.select(SSSQLVarNames.imageTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return SSImage.get(
         bindingStrToUri(resultSet, SSSQLVarNames.imageId),

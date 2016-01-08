@@ -59,7 +59,7 @@ public class SSLearnEpActivityAndLogFct{
     final SSUri                        learnEpVersion,
     final SSUri                        circle,
     final SSUri                        learnEp,
-    final Boolean                      shouldCommit) throws Exception{
+    final boolean                      shouldCommit) throws Exception{
     
     try{
       
@@ -116,7 +116,7 @@ SSUri.asListNotNull(learnEp), //entities
     final SSUri                        entity,
     final SSUri                        learnEpEntity,
     final SSUri                        learnEp,
-    final Boolean                      shouldCommit) throws Exception{
+    final boolean                      shouldCommit) throws Exception{
     
     try{
       
@@ -172,7 +172,7 @@ SSUri.asListNotNull(learnEp), //entities
     final SSUri                           learnEpVersion,
     final SSUri                           learnEp,
     final SSUri                           learnEpCircle,
-    final Boolean                         shouldCommit) throws Exception{
+    final boolean                         shouldCommit) throws Exception{
     
     try{
       
@@ -228,7 +228,7 @@ SSUri.asListNotNull(learnEp), //entities
     final SSUri                           learnEpVersion,
     final SSUri                           learnEp,
     final SSEntity                        learnEpCircle,
-    final Boolean                         shouldCommit) throws Exception{
+    final boolean                         shouldCommit) throws Exception{
     
     try{
       
@@ -268,7 +268,7 @@ SSUri.asListNotNull(learnEp), //entities
     final SSUri                           learnEpVersion,
     final SSUri                           learnEp,
     final SSEntity                        learnEpCircle,
-    final Boolean                         shouldCommit) throws Exception{
+    final boolean                         shouldCommit) throws Exception{
     
     final List<SSUri> uris = new ArrayList<>();
     
@@ -341,7 +341,7 @@ SSUri.asListNotNull(learnEp), //entities
     final SSUri                           learnEpEntity,
     final SSUri                           entity,
     final SSUri                           learnEp,
-    final Boolean                         shouldCommit) throws Exception{
+    final boolean                         shouldCommit) throws Exception{
     
     try{
       
@@ -396,7 +396,7 @@ SSUri.asListNotNull(learnEp), //entities
     final SSUri       user,
     final SSUri       learnEp,
     final List<SSUri> usersToShareWith,
-    final Boolean     shouldCommit) throws SSErr {
+    final boolean     shouldCommit) throws SSErr {
     
     try{
       
@@ -452,7 +452,7 @@ SSUri.asListNotNull(learnEp), //entities
     final SSUri       learnEp,
     final List<SSUri> usersToCopyFor,
     final List<SSUri> includedEntities,
-    final Boolean     shouldCommit) throws Exception{
+    final boolean     shouldCommit) throws Exception{
     
     try{
       
@@ -511,7 +511,7 @@ SSUri.asListNotNull(usersToCopyFor),
     final SSUri                           learnEpVersion,
     final SSUri                           learnEpCircle,
     final SSUri                           learnEp,
-    final Boolean                         shouldCommit) throws Exception{
+    final boolean                         shouldCommit) throws Exception{
     
     try{
       
@@ -579,7 +579,7 @@ SSUri.asListNotNull(usersToCopyFor),
     final SSUri   learnEpEntity,
     final SSUri   entity,
     final SSUri   circle,
-    final Boolean shouldCommit) throws Exception{
+    final boolean shouldCommit) throws Exception{
     
     try{
       
@@ -637,7 +637,7 @@ SSUri.asListNotNull(learnEp, circle), //entities
     final SSUri   learnEpEntity,
     final SSUri   entity,
     final SSUri   circle,
-    final Boolean shouldCommit) throws Exception{
+    final boolean shouldCommit) throws Exception{
     
     try{
       
@@ -696,9 +696,9 @@ SSUri.asListNotNull(learnEp, circle), //entities
     final SSUri          learnEpEntity,
     final SSUri          entity,
     final List<SSEntity> versionCirclesBefore,
-    final Boolean        calledFromRemove, 
-    final Boolean        calledFromAdd, 
-    final Boolean        shouldCommit) throws Exception{
+    final boolean        calledFromRemove, 
+    final boolean        calledFromAdd, 
+    final boolean        shouldCommit) throws Exception{
     
     try{
       
@@ -728,7 +728,7 @@ SSUri.asListNotNull(learnEp, circle), //entities
         }
       }
       
-      Boolean entityRemovedFromCircle = false;
+      boolean entityRemovedFromCircle = false;
       
       for(SSUri circle : entityCircleUrisBefore){
         
@@ -760,7 +760,7 @@ SSUri.asListNotNull(learnEp, circle), //entities
           shouldCommit);
       }
       
-      Boolean entityAddToCircle = false;
+      boolean entityAddToCircle = false;
       
       for(SSUri circle : entityCircleUrisAfter){
         

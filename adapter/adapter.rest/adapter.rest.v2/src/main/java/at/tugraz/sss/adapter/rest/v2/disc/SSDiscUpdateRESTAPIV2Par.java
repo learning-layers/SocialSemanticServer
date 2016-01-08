@@ -23,7 +23,6 @@ package at.tugraz.sss.adapter.rest.v2.disc;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
-import at.tugraz.sss.serv.datatype.*;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.List;

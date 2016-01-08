@@ -29,13 +29,13 @@ public class SSEvernoteResourceGetPar extends SSServPar{
   
   public NoteStoreClient  noteStore      = null;
   public String           resourceGUID   = null;
-  public Boolean          includeContent = null;
+  public boolean          includeContent = false;
   
   public SSEvernoteResourceGetPar(
     final SSUri user,
     final NoteStoreClient  noteStore,
     final String           resourceGUID,
-    final Boolean          includeContent){
+    final boolean          includeContent){
     
     super(SSVarNames.evernoteResourceGet, null, user);
     

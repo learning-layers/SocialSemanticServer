@@ -46,7 +46,7 @@ public class SSCircleGetRESTAPIV2Par{
   @ApiModelProperty(
     required = false,
     value = "whether tags for contained entities shall be set")
-  public Boolean setTags = null;
+  public boolean setTags = false;
   
   @ApiModelProperty(
     required = false,
@@ -62,19 +62,19 @@ public class SSCircleGetRESTAPIV2Par{
   @ApiModelProperty(
     required = false,
     value = "whether the profile picture of the circle shall be set")
-  public Boolean setProfilePicture = null;
+  public boolean setProfilePicture = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "")
-  public Boolean setThumb = null;
+  public boolean setThumb = false;
   
   @XmlElement
   @ApiModelProperty(
     required = false,
     value = "")
-  public Boolean invokeEntityHandlers = null;
+  public boolean invokeEntityHandlers = true;
     
   public SSCircleGetRESTAPIV2Par(){}
 }

@@ -660,21 +660,26 @@ implements
       
       dbSQL.commit(par.shouldCommit);
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          recommUpdateBulk(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
@@ -756,21 +761,26 @@ implements
       
       dbSQL.commit(par.shouldCommit);
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          recommUpdateBulkUserRealmsFromConf(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
@@ -871,21 +881,26 @@ implements
         }
       }
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          recommUpdateBulkUserRealmsFromCircles(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
@@ -907,7 +922,7 @@ implements
   }
   
   @Override
-  public Boolean recommUpdate(final SSRecommUpdatePar par) throws SSErr{
+  public boolean recommUpdate(final SSRecommUpdatePar par) throws SSErr{
     
     try{
       
@@ -939,22 +954,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return true;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return false;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return false;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return recommUpdate(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }
@@ -977,7 +999,7 @@ implements
   }
   
   @Override
-  public Boolean recommUpdateBulkEntities(final SSRecommUpdateBulkEntitiesPar par) throws SSErr{
+  public boolean recommUpdateBulkEntities(final SSRecommUpdateBulkEntitiesPar par) throws SSErr{
     
     try{
       
@@ -1041,22 +1063,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return true;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return false;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return false;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return recommUpdateBulkEntities(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }

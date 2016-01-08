@@ -21,24 +21,23 @@
  package at.kc.tugraz.ss.service.user.datatypes.pars;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+ import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSUsersGetPar extends SSServPar{
   
   public List<SSUri> users                = new ArrayList<>();
-  public Boolean     invokeEntityHandlers = false;
-  public Boolean     setProfilePicture    = false;
-  public Boolean     setFriends           = false;
-  public Boolean     setThumb             = false;
-  public Boolean     setMessages          = false;
-  public Boolean     setActivities        = false;
-  public Boolean     setCircles           = false;
-  public Boolean     setDiscs             = false;
-  public Boolean     setColls             = false;
-  public Boolean     setTags              = false;
+  public boolean     setProfilePicture    = false;
+  public boolean     setFriends           = false;
+  public boolean     setThumb             = false;
+  public boolean     setMessages          = false;
+  public boolean     setActivities        = false;
+  public boolean     setCircles           = false;
+  public boolean     setDiscs             = false;
+  public boolean     setColls             = false;
+  public boolean     setTags              = false;
 
   public List<String> getUsers() throws Exception{
     return SSStrU.removeTrailingSlash(users);
@@ -53,7 +52,7 @@ public class SSUsersGetPar extends SSServPar{
   public SSUsersGetPar(
     final SSUri       user,
     final List<SSUri> users, 
-    final Boolean     invokeEntityHandlers){
+    final boolean     invokeEntityHandlers){
    
     super(SSVarNames.usersGet, null, user);
     

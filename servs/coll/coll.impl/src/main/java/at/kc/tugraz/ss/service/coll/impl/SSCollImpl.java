@@ -24,7 +24,6 @@ import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.entity.api.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.entity.api.SSGetParentEntitiesI;
 import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
@@ -53,10 +52,8 @@ import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
-import at.tugraz.sss.serv.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.coll.api.*;
 import at.kc.tugraz.ss.service.coll.datatypes.*;
@@ -73,7 +70,6 @@ import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesDeletePar;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesAddRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesDeleteRet;
 import at.tugraz.sss.serv.entity.api.SSUserRelationGathererI;
-
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollCumulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserHierarchyGetPar;
@@ -234,9 +230,7 @@ implements
       }
       
     }catch(Exception error){
-      
       SSLogU.err(error);
-      SSServErrReg.reset();
     }
   }
   
@@ -879,7 +873,7 @@ implements
   }
   
   @Override
-  public Boolean collRootAdd(final SSCollUserRootAddPar par) throws SSErr{
+  public boolean collRootAdd(final SSCollUserRootAddPar par) throws SSErr{
     
     try{
       
@@ -942,22 +936,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return true;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return false;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return false;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return collRootAdd(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }
@@ -1075,22 +1076,29 @@ implements
       
       return par.entry;
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return collEntryAdd(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1147,22 +1155,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return addedEntries;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return collEntriesAdd(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1206,22 +1221,29 @@ implements
       dbSQL.commit(par.shouldCommit);
       
       return par.entry;
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return collEntryDelete(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1275,22 +1297,29 @@ implements
       
       return deletedEntries;
       
-    }catch(Exception error){
+    }catch(SSErr error){
       
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
         
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return collEntriesDelete(par);
-        }else{
+        default:{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(par.shouldCommit);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1385,7 +1414,7 @@ implements
 //  }
 
 //@Override
-//  public Boolean collUserEntryChangePos(SSServPar parA) throws SSErr{
+//  public boolean collUserEntryChangePos(SSServPar parA) throws SSErr{
 //
 //    try{
 //
@@ -1408,22 +1437,23 @@ implements
 //      dbSQL.commit(par.shouldCommit);
 //
 //      return true;
-//    }catch(Exception error){
+////    }catch(SSErr error){
+//      
+//      if(error.code == SSErrE.sqlDeadLock){
 //
-//      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-//
-//        if(dbSQL.rollBack(parA.shouldCommit)){
-//
-//          SSServErrReg.reset();
-//
-//          return collUserEntryChangePos(parA);
-//        }else{
+//        try{
+//          dbSQL.rollBack(par.shouldCommit);
 //          SSServErrReg.regErrThrow(error);
+//          return null;
+//        }catch(Exception error2){
+//          SSServErrReg.regErrThrow(error2);
 //          return null;
 //        }
 //      }
-//
-//      dbSQL.rollBack(parA.shouldCommit);
+//      
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }catch(Exception error){
 //      SSServErrReg.regErrThrow(error);
 //      return null;
 //    }
