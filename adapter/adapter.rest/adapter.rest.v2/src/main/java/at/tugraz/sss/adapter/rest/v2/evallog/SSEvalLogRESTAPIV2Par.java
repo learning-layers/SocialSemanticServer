@@ -23,16 +23,12 @@ package at.tugraz.sss.adapter.rest.v2.evallog;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.serv.datatype.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import sss.serv.eval.datatypes.SSEvalLogE;
 
-@XmlRootElement
-@ApiModel(value = "evalLog request parameter")
+@ApiModel
 public class SSEvalLogRESTAPIV2Par {
   
   @ApiModelProperty(
@@ -40,7 +36,7 @@ public class SSEvalLogRESTAPIV2Par {
     value = "context in tool where log was triggered")
   public SSToolContextE   toolContext  = null;
 
-  @XmlElement
+  
   public void setToolContext(final String toolContext) throws Exception {
     this.toolContext = SSToolContextE.get(toolContext);
   }
@@ -50,7 +46,7 @@ public class SSEvalLogRESTAPIV2Par {
     value = "type of the log event")
   public SSEvalLogE       type         = null;
   
-  @XmlElement
+  
   public void setType(final String type) throws Exception{
     this.type = SSEvalLogE.get(type);
   }
@@ -60,7 +56,7 @@ public class SSEvalLogRESTAPIV2Par {
     value = "entity to be logged")
   public SSUri         entity       = null;
   
-  @XmlElement
+  
   public void setEntity(final String entity) throws Exception{
    this.entity = SSUri.get(entity, SSConf.sssUri);
   }
@@ -70,7 +66,7 @@ public class SSEvalLogRESTAPIV2Par {
     value = "entities to be logged")
   public List<SSUri>   entities     = new ArrayList<>();
   
-  @XmlElement
+  
   public void setEntities(final List<String> entities) throws Exception{
     this.entities = SSUri.get(entities, SSConf.sssUri);
   }
@@ -80,12 +76,12 @@ public class SSEvalLogRESTAPIV2Par {
     value = "users to be logged")
   public List<SSUri>   users        = new ArrayList<>();
   
-  @XmlElement
+  
   public void setUsers(final List<String> users)throws Exception{
     this.users = SSUri.get(users, SSConf.sssUri);
   }
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "content to be logged")

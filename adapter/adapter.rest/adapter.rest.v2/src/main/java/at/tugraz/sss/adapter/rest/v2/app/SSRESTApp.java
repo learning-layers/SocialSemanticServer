@@ -29,14 +29,11 @@ import at.kc.tugraz.sss.app.datatypes.par.SSAppsGetPar;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppAddRet;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppsDeleteRet;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppsGetRet;
-import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import javax.annotation.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -44,8 +41,8 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/apps")
-@Api( value = "/apps") //, basePath = "/apps"
+@Path("/apps/apps")
+@Api(value = "apps") //, basePath = "/apps"
 public class SSRESTApp{
   
   @PostConstruct

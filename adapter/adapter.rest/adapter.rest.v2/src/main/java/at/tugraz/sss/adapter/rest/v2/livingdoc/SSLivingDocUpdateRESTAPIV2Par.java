@@ -24,13 +24,9 @@ import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "living doc update request parameter")
+@ApiModel
 public class SSLivingDocUpdateRESTAPIV2Par{
   
   @ApiModelProperty(
@@ -38,7 +34,7 @@ public class SSLivingDocUpdateRESTAPIV2Par{
     value = "")
   public SSLabel   label       = null;
   
-  @XmlElement
+  
   public void setLabel(final String label) throws Exception{
     this.label = SSLabel.get(label);
   }
@@ -48,7 +44,7 @@ public class SSLivingDocUpdateRESTAPIV2Par{
     value = "")
   public SSTextComment   description       = null;
   
-  @XmlElement
+  
   public void setDescription(final String description) throws Exception{
     this.description = SSTextComment.get(description);
   }
@@ -58,7 +54,7 @@ public class SSLivingDocUpdateRESTAPIV2Par{
     value = "")
   public SSUri discussion       = null;
   
-  @XmlElement
+  
   public void setDiscussion(final String discussion) throws Exception{
     this.discussion = SSUri.get(discussion, SSConf.sssUri);
   }

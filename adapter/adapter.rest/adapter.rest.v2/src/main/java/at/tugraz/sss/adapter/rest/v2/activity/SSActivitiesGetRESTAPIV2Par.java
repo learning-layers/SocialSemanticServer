@@ -23,72 +23,61 @@ package at.tugraz.sss.adapter.rest.v2.activity;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "activitiesGet request parameter")
+@ApiModel
 public class SSActivitiesGetRESTAPIV2Par{
   
   @ApiModelProperty(
-    required = false,
-    value = "types")
+    required = false)
   public List<SSActivityE>      types                     = null;
   
-  @XmlElement
+  
   public void setTypes(final List<String> types) throws Exception{
     this.types = SSActivityE.get(types);
   }
   
   @ApiModelProperty(
-    required = false,
-    value = "false")
+    required = false)
   public List<SSUri>            users                     = null;
   
-   @XmlElement
+  
   public void setUsers(final List<String> users) throws Exception{
     this.users = SSUri.get(users, SSConf.sssUri);
   }
   
   @ApiModelProperty(
-    required = false,
-    value = "entities")
+    required = false)
   public List<SSUri>            entities                  = null;
   
-  @XmlElement
+  
   public void setEntities(final List<String> entities) throws Exception{
     this.entities = SSUri.get(entities, SSConf.sssUri);
   }
   
   @ApiModelProperty(
-    required = false,
-    value = "circles")
+    required = false)
   public List<SSUri>            circles                   = null;
   
-  @XmlElement
+  
   public void setCircles(final List<String> circles) throws Exception{
     this.circles = SSUri.get(circles, SSConf.sssUri);
   }
   
-  @XmlElement
+  
   @ApiModelProperty(
-    required = false,
-    value = "startTime")
+    required = false)
   public Long                   startTime                 = null;
   
-  @XmlElement
+  
   @ApiModelProperty(
-    required = false,
-    value = "endTime")
+    required = false)
   public Long                   endTime                   = null;
   
-  @XmlElement
+  
   @ApiModelProperty(
-    required = false,
-    value = "includeOnlyLastActivities")
+    required = false)
   public boolean                includeOnlyLastActivities = false;
   
   public SSActivitiesGetRESTAPIV2Par(){}

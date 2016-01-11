@@ -20,16 +20,20 @@
 */
 package at.kc.tugraz.ss.activity.datatypes.ret;
 
-
 import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import at.tugraz.sss.serv.util.*;
+import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+@ApiModel
 public class SSActivitiesGetRet extends SSServRetI{
- 
-  public List<SSEntity>   activities = new ArrayList<>();
+
+  @ApiModelProperty
+  public List<SSEntity> activities = new ArrayList<>();
+  
+  @ApiModelProperty
   public Long             queryTime  = null;
 
   public static SSActivitiesGetRet get(

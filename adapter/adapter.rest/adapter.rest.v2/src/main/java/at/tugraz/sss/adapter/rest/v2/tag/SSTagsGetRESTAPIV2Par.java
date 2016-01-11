@@ -24,14 +24,10 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "tagsGet request parameter")
+@ApiModel
 public class SSTagsGetRESTAPIV2Par{
   
   @ApiModelProperty(
@@ -39,7 +35,7 @@ public class SSTagsGetRESTAPIV2Par{
     value = "user to retrieve tag assignments for")
   public SSUri              forUser        = null;
   
-  @XmlElement
+  
   public void setForUser(final String forUser) throws Exception {
     this.forUser = SSUri.get(forUser, SSConf.sssUri); 
   }
@@ -49,18 +45,18 @@ public class SSTagsGetRESTAPIV2Par{
     value = "entities to retrieve tag assignments for")
   public List<SSUri>        entities       = null;
   
-  @XmlElement
+  
   public void setEntities(final List<String> entities) throws Exception {
     this.entities = SSUri.get(entities, SSConf.sssUri);
   }
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false, 
     value = "tag labels to consider for retrieving tag assignments")
   public List<SSTagLabel>   labels         = null;
   
-    @XmlElement
+    
   public void setLabels(final List<String> labels) throws Exception{
     this.labels = SSTagLabel.get(labels);
   }
@@ -70,7 +66,7 @@ public class SSTagsGetRESTAPIV2Par{
     value = "access restriction for to be retrieved tag assignments (i.e. privateSpace, sharedSpace)")
   public SSSpaceE           space          = null;
       
-  @XmlElement
+  
   public void setSpace(final String space) throws Exception{
     this.space = SSSpaceE.get(space);
   }
@@ -80,12 +76,12 @@ public class SSTagsGetRESTAPIV2Par{
     value = "circles to limit tag assignments found")
   public List<SSUri>        circles       = null;
   
-  @XmlElement
+  
   public void setCircles(final List<String> circles) throws Exception {
     this.circles = SSUri.get(circles, SSConf.sssUri);
   }
 
-  @XmlElement
+  
   @ApiModelProperty(
     required = false, 
     value = "timestamp to retrieve tag assignments from a certain point in time (optional)")

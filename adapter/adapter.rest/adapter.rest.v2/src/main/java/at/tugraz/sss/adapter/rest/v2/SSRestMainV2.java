@@ -49,18 +49,55 @@ import at.tugraz.sss.serv.util.SSJSONU;
 import at.tugraz.sss.serv.util.*;
 import java.util.HashMap;
 import java.util.Map;
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.HttpHeaders;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import java.util.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import org.glassfish.jersey.jackson.*;
 import org.glassfish.jersey.media.multipart.*;
+import org.glassfish.jersey.server.*;
 
-@ApplicationPath("/rest")
-public class SSRestMainV2 extends Application{
+@ApplicationPath("/*")
+public class SSRestMainV2 extends ResourceConfig{
 
   public SSRestMainV2() throws Exception{
+    
+    super(
+      MultiPartFeature.class,
+      JacksonFeature.class, //register Jackson as JAXB mediator
+      SSRESTJSONMapper.class, //register the object mapper jackson shall use
+      SSRESTAuth.class,
+      SSRESTActivity.class,
+      SSRESTApp.class,
+      SSRESTAppStackLayout.class,
+      SSRESTCategory.class,
+      SSRESTCircle.class,
+      SSRESTColl.class,
+      SSRESTDisc.class,
+      SSRESTEntity.class,
+      SSRESTEval.class,
+      SSRESTFile.class,
+      SSRESTFlag.class,
+      SSRESTFriend.class,
+      SSRESTImage.class,
+      SSRESTLearnEp.class,
+      SSRESTLike.class,
+      SSRESTLivingDoc.class,
+      SSRESTMessage.class,
+      SSRESTRating.class,
+      SSRESTRecomm.class,
+      SSRESTSearch.class,
+      SSRESTTag.class,
+      SSRESTUE.class,
+      SSRESTUser.class,
+      SSRESTVideo.class);
+    
+//    SwaggerConfig swaggerConfig = new SwaggerConfig( );
+//    ConfigFactory.setConfig( swaggerConfig );
+//    swaggerConfig.setApiVersion( "0.0.1" );
+//    swaggerConfig.setBasePath( "http://localhost:8080/MyService/api" );
+//    ScannerFactory.setScanner( new DefaultJaxrsScanner( ) );
+//    ClassReaders.setReader( new DefaultJaxrsApiReader( ) );
   }
   
   public static Response prepareErrors() {
@@ -70,49 +107,10 @@ public class SSRestMainV2 extends Application{
     return Response.status(500).build();
   }
   
-  @Override
-  public Set<Class<?>> getClasses() {
-
-    final Set<Class<?>> classes = new HashSet<>();
-    
-    classes.add(MultiPartFeature.class);
-
-    classes.add(SSRESTActivity.class);
-    classes.add(SSRESTApp.class);
-    classes.add(SSRESTAppStackLayout.class);
-    classes.add(SSRESTAuth.class);
-    classes.add(SSRESTCategory.class);
-    classes.add(SSRESTCircle.class);
-    classes.add(SSRESTColl.class);
-    classes.add(SSRESTDisc.class);
-    classes.add(SSRESTEntity.class);
-    classes.add(SSRESTEval.class);
-    classes.add(SSRESTFile.class);
-    classes.add(SSRESTFlag.class);
-    classes.add(SSRESTFriend.class);
-    classes.add(SSRESTImage.class);
-    classes.add(SSRESTLearnEp.class);
-    classes.add(SSRESTLike.class);
-    classes.add(SSRESTLivingDoc.class);
-    classes.add(SSRESTMessage.class);
-    classes.add(SSRESTRating.class);
-    classes.add(SSRESTRecomm.class);
-    classes.add(SSRESTSearch.class);
-    classes.add(SSRESTTag.class);
-    classes.add(SSRESTUE.class);
-    classes.add(SSRESTUser.class);
-    classes.add(SSRESTVideo.class);
-    
-    return classes;
-  }
-  
   public static String getBearer(
     final HttpHeaders headers) throws Exception{
     
-    SSLogU.info("getBearer");
-    
-    String bearer = headers.getRequestHeader("authorization").get(0);
-    return SSStrU.replaceAll(bearer, "Bearer ", SSStrU.empty);
+    return SSStrU.replaceAll(headers.getRequestHeader("authorization").get(0), "Bearer ", SSStrU.empty);
   }
   
   public static String getJSONStrForError(
@@ -500,4 +498,39 @@ public class SSRestMainV2 extends Application{
 //        SSLogU.warn("socket connection not closed correctly");
 //      }
 //    }
+//  }
+//  @Override
+//  public Set<Class<?>> getClasses() {
+//
+//    final Set<Class<?>> classes = new HashSet<>();
+//    
+//    classes.add(MultiPartFeature.class);
+//
+//    classes.add(SSRESTActivity.class);
+//    classes.add(SSRESTApp.class);
+//    classes.add(SSRESTAppStackLayout.class);
+//    classes.add(SSRESTAuth.class);
+//    classes.add(SSRESTCategory.class);
+//    classes.add(SSRESTCircle.class);
+//    classes.add(SSRESTColl.class);
+//    classes.add(SSRESTDisc.class);
+//    classes.add(SSRESTEntity.class);
+//    classes.add(SSRESTEval.class);
+//    classes.add(SSRESTFile.class);
+//    classes.add(SSRESTFlag.class);
+//    classes.add(SSRESTFriend.class);
+//    classes.add(SSRESTImage.class);
+//    classes.add(SSRESTLearnEp.class);
+//    classes.add(SSRESTLike.class);
+//    classes.add(SSRESTLivingDoc.class);
+//    classes.add(SSRESTMessage.class);
+//    classes.add(SSRESTRating.class);
+//    classes.add(SSRESTRecomm.class);
+//    classes.add(SSRESTSearch.class);
+//    classes.add(SSRESTTag.class);
+//    classes.add(SSRESTUE.class);
+//    classes.add(SSRESTUser.class);
+//    classes.add(SSRESTVideo.class);
+//    
+//    return classes;
 //  }

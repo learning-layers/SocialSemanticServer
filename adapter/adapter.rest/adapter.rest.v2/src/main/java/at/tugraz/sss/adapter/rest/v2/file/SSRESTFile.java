@@ -26,16 +26,12 @@ import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.*;
-import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.SSMimeTypeE;
 import at.tugraz.sss.serv.util.*;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import java.io.*;
 import javax.annotation.*;
 import javax.ws.rs.Consumes;
@@ -48,8 +44,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.*;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
-@Path("/files")
-@Api( value = "/files")
+@Path("/files/files")
+@Api( value = "files")
 public class SSRESTFile{
   
   @PostConstruct

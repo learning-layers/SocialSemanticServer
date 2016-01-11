@@ -24,13 +24,9 @@ import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.datatype.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "tagsRemove request parameter")
+@ApiModel
 public class SSTagsRemoveRESTAPIV2Par{
   
   @ApiModelProperty(
@@ -38,7 +34,7 @@ public class SSTagsRemoveRESTAPIV2Par{
     value = "label of the tag to consider when removing tag-assignments")
   public SSTagLabel   label      = null;
   
-  @XmlElement
+  
   public void setLabel(final String label) throws Exception{
     this.label = SSTagLabel.get(label);
   }
@@ -48,7 +44,7 @@ public class SSTagsRemoveRESTAPIV2Par{
     value = "access restriction (i.e. privateSpace, sharedSpace) for tag-assignments to be removed")
   public SSSpaceE     space      = null;
 
-  @XmlElement
+  
   public void setSpace(final String space) throws Exception{
     this.space = SSSpaceE.get(space);
   }
@@ -58,7 +54,7 @@ public class SSTagsRemoveRESTAPIV2Par{
     value = "circle if space set to 'circleSpace'")
   public SSUri     circle      = null;
 
-  @XmlElement
+  
   public void setCircle(final String circle) throws Exception{
     this.circle = SSUri.get(circle, SSConf.sssUri);
   }

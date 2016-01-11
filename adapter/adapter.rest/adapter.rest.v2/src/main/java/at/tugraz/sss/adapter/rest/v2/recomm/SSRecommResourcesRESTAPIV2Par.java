@@ -23,17 +23,13 @@ package at.tugraz.sss.adapter.rest.v2.recomm;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "recommResources request parameter")
+@ApiModel
 public class SSRecommResourcesRESTAPIV2Par{
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "realm the user wants to query")
@@ -44,7 +40,7 @@ public class SSRecommResourcesRESTAPIV2Par{
     value = "user to be considered to retrieve recommendations for")
   public SSUri         forUser    = null;
   
-  @XmlElement
+  
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser, SSConf.sssUri);
   }
@@ -54,24 +50,24 @@ public class SSRecommResourcesRESTAPIV2Par{
     value = "resource to be considered to retrieve recommendations for")
   public SSUri         entity     = null;
   
-  @XmlElement
+  
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity, SSConf.sssUri);
   }
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "additional information to be taken into account")
   public List<String>  categories = null;
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "number of resources to be returned")
   public Integer       maxResources    = 10;
     
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "whether circle types (i.e. priv, group, pub) for recommended entities shall be set")
@@ -82,12 +78,12 @@ public class SSRecommResourcesRESTAPIV2Par{
     value = "entity types to be recommended")
   public List<SSEntityE> typesToRecommOnly = null;
 
-  @XmlElement
+  
   public void setTypesToRecommOnly(final List<String> typesToRecommOnly) throws Exception{
     this.typesToRecommOnly = SSEntityE.get(typesToRecommOnly);
   }
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "whether own entities should be included in the result")

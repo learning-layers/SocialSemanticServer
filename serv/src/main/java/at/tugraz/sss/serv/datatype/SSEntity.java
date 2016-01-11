@@ -24,150 +24,124 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.enums.SSCircleE;
 import at.tugraz.sss.serv.datatype.api.SSEntityA;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.*;
 
+@ApiModel
 public class SSEntity extends SSEntityA{
   
   @ApiModelProperty(
-    required = false,
-    value = "uri")
+    required = false)
   public SSUri               id               = null; //entity
   
   @ApiModelProperty(
-    required = false,
-    value = "name")
+    required = false)
   public SSLabel             label            = null;
   
   @ApiModelProperty(
-    required = false,
-    value = "creation / timestamp in milliseconds")
+    required = false)
   public Long                creationTime     = null;
   
   @ApiModelProperty(
-    required = false,
-    value = "sss entity data type")
+    required = false)
   public SSEntityE           type             = null;
   
   @ApiModelProperty(
-    required = false,
-    value = "creator")
+    required = false)
   public SSEntity               author           = null;
   
   @ApiModelProperty(
-    required = false,
-    value = "textual description")
+    required = false)
   public SSTextComment       description      = null;
   
   @ApiModelProperty(
-    required = false,
-    value = "types of circles the entity is in")
+    required = false)
   public List<SSCircleE>     circleTypes      = new ArrayList<>();
   
   @ApiModelProperty(
-    required = false,
-    value = "entities sub-entities")
+    required = false)
   public List<SSEntity>       entries          = new ArrayList<>();
   
   @ApiModelProperty(
-    required = false,
-    value = "attached entities")
+    required = false)
   public List<SSEntity>      attachedEntities = new ArrayList<>();
   
   @ApiModelProperty(
-    required = false,
-    value = "comments given by users")
+    required = false)
   public List<SSTextComment> comments         = new ArrayList<>();
   
   @ApiModelProperty(
-    required = false,
-    value = "overall star rating")
+    required = false)
   public SSEntityA           overallRating    = null; //new
   
   @ApiModelProperty(
-    required = false,
-    value = "tags assigned")
+    required = false)
   public List<SSEntity>        tags             = new ArrayList<>(); //new
   
   @ApiModelProperty(
-    required = false,
-    value = "categories assigned")
+    required = false)
   public List<SSEntity>        categories     = new ArrayList<>();
   
   @ApiModelProperty(
-    required = false,
-    value = "discussions about")
+    required = false)
   public List<SSEntity>     discs            = new ArrayList<>(); //new
   
   @ApiModelProperty(
-    required = false,
-    value = "user events")
+    required = false)
   public List<SSEntity>     userEvents              = new ArrayList<>(); //new
   
   @ApiModelProperty(
-    required = false,
-    value = "thumbnail")
+    required = false)
   public SSEntity              thumb            = null; //new
   
   @ApiModelProperty(
-    required = false,
-    value = "physical file")
+    required = false)
   public SSEntity               file             = null; //new
   
   @ApiModelProperty(
-    required = false,
-    value = "flags assigned")
+    required = false)
   public List<SSEntityA>     flags            = new ArrayList<>(); //new
   
   @ApiModelProperty(
-    required = false,
-    value = "users involved")
+    required = false)
   public List<SSEntity>         users        = new ArrayList<>();
   
   @ApiModelProperty(
-    required = false,
-    value = "entities involved")
+    required = false)
   public List<SSEntity>         entities     = new ArrayList<>();
   
   @ApiModelProperty(
-    required = false,
-    value = "circles")
+    required = false)
   public List<SSEntity>       circles      = new ArrayList<>();
   
   @ApiModelProperty(
-    required = false,
-    value = "locations")
+    required = false)
   public List<SSEntity>       locations    = new ArrayList<>();
   
   @ApiModelProperty(
-    required = false,
-    value = "whether user has read the entry")
+    required = false)
   public  Boolean       read = false;
   
   @ApiModelProperty(
-    required = false,
-    value = "likes for the entity")
+    required = false)
   public  SSEntityA       likes = null;
   
   @ApiModelProperty(
-    required = false,
-    value = "profile picture for entity")
+    required = false)
   public SSEntity       profilePicture = null;
   
   @ApiModelProperty(
-    required = false,
-    value = "activities")
+    required = false)
   public SSQueryResultPage activityPage = null;
   
   @ApiModelProperty(
-    required = false,
-    value = "messages")
+    required = false)
   public SSQueryResultPage messagesPage = null;
   
   @ApiModelProperty(
-    required = false,
-    value = "colls")
+    required = false)
   public SSQueryResultPage collsPage = null;
   
   public String getId() {

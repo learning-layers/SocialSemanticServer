@@ -21,14 +21,14 @@
 package at.tugraz.sss.serv.datatype.ret;
 
 import at.tugraz.sss.serv.jsonld.SSServRetJSONLDI;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 import java.util.Map;
 
+@ApiModel
 public abstract class SSServRetI implements SSServRetJSONLDI{
   
   @ApiModelProperty(
-    required = true,
-    value = "service operation executed")
+    required = true)
   public final String op;
 
   public SSServRetI(final String op){

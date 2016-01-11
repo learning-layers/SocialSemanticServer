@@ -23,13 +23,9 @@ package at.tugraz.sss.adapter.rest.v2.ue;
 import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.tugraz.sss.serv.datatype.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "ueAdd request parameter")
+@ApiModel
 public class SSUEAddRESTAPIV2Par{
   
   @ApiModelProperty(
@@ -37,7 +33,7 @@ public class SSUEAddRESTAPIV2Par{
     value = "type of the user event")
   public SSUEE            type    = null;
   
-  @XmlElement
+  
   public void setType(final String type) throws Exception{
     this.type = SSUEE.get(type);
   }
@@ -47,12 +43,12 @@ public class SSUEAddRESTAPIV2Par{
     value = "entity with which some interaction shall be traced")
   public SSUri            entity     = null;
   
-  @XmlElement
+  
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity, SSConf.sssUri);
   }  
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = true,
     value = "possible additional textual information of the trace")

@@ -23,13 +23,14 @@ package at.kc.tugraz.ss.activity.datatypes.ret;
 import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.util.*;
+import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+@ApiModel
 public class SSActivityTypesGetRet extends SSServRetI{
- 
+
+  @ApiModelProperty
   public List<SSActivityE> types = new ArrayList<>();
 
   public List<String> getTypes() throws Exception {

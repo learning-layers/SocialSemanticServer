@@ -23,14 +23,9 @@ package at.tugraz.sss.adapter.rest.v2.livingdoc;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
-import at.tugraz.sss.serv.datatype.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "living doc add request parameter")
+@ApiModel
 public class SSLivingDocAddRESTAPIV2Par{
   
   @ApiModelProperty(
@@ -38,7 +33,7 @@ public class SSLivingDocAddRESTAPIV2Par{
     value = "")
   public SSUri uri       = null;
   
-  @XmlElement
+  
   public void setUri(final String uri) throws Exception{
     this.uri = SSUri.get(uri, SSConf.sssUri);
   }
@@ -48,7 +43,7 @@ public class SSLivingDocAddRESTAPIV2Par{
     value = "")
   public SSLabel   label       = null;
   
-  @XmlElement
+  
   public void setLabel(final String label) throws Exception{
     this.label = SSLabel.get(label);
   }
@@ -58,7 +53,7 @@ public class SSLivingDocAddRESTAPIV2Par{
     value = "")
   public SSTextComment   description       = null;
   
-  @XmlElement
+  
   public void setDescription(final String description) throws Exception{
     this.description = SSTextComment.get(description);
   }
@@ -68,7 +63,7 @@ public class SSLivingDocAddRESTAPIV2Par{
     value = "")
   public SSUri discussion       = null;
   
-  @XmlElement
+  
   public void setDiscussion(final String discussion) throws Exception{
     this.discussion = SSUri.get(discussion, SSConf.sssUri);
   }

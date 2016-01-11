@@ -25,23 +25,17 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchLabel;
 import at.tugraz.sss.serv.datatype.enums.SSSearchOpE;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "SSSearchPar")
-@ApiModel(value = "search request parameter")
+@ApiModel
 public class SSSearchRESTAPIV2Par{
   
-  @XmlElement
   @ApiModelProperty(
     value = "keywords to be used in textual content search in documents",
     required = false)
   public List<String>        documentContentsToSearchFor           = null;
   
-  @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "tags to be searched for" )
@@ -52,7 +46,6 @@ public class SSSearchRESTAPIV2Par{
     value = "authors to be searched for" )
   public List<SSUri>        authorsToSearchFor            = null;
   
-  @XmlElement
   public void setAuthorsToSearchFor(final List<String> authorsToSearchFor) throws Exception{
     this.authorsToSearchFor = SSUri.get(authorsToSearchFor, SSConf.sssUri);
   }
@@ -62,7 +55,7 @@ public class SSSearchRESTAPIV2Par{
     value = "certain labels to be searched for" )
   public List<SSSearchLabel> labelsToSearchFor          = null;
   
-  @XmlElement
+  
   public void setLabelsToSearchFor(final List<String> labelsToSearchFor) throws Exception{
     this.labelsToSearchFor = SSSearchLabel.get(labelsToSearchFor);
   }
@@ -72,12 +65,12 @@ public class SSSearchRESTAPIV2Par{
     value = "certain descriptions to be searched for" )
   public List<SSSearchLabel> descriptionsToSearchFor    = null;
   
-  @XmlElement
+  
   public void setDescriptionsToSearchFor(final List<String> descriptionsToSearchFor) throws Exception{
     this.descriptionsToSearchFor = SSSearchLabel.get(descriptionsToSearchFor);
   }
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "whether the global search op shall hold between label and description, i.e., same keywords in label and description for AND" )
@@ -88,54 +81,54 @@ public class SSSearchRESTAPIV2Par{
     value = "list of entity types to be considered for search exclusively " )
   public List<SSEntityE>     typesToSearchOnlyFor       = null;
   
-  @XmlElement
+  
   public void setTypesToSearchOnlyFor(final List<String> typesToSearchOnlyFor) throws Exception{
     this.typesToSearchOnlyFor = SSEntityE.get(typesToSearchOnlyFor);
   }
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "whether possibly recommended entities should be included in search results" )
   public boolean             includeRecommendedResults  = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "size of the resulting pages")
   public Integer              pageSize             = null;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "unique identifier for the pages of a previous search result")
   public String              pagesID             = null;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "number of the page to be requested from a previous search result")
   public Integer             pageNumber             = null;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "minimum overall star rating the entity must have to be returned")
   public Integer              minRating             = null;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "maximum overall star rating the entity must have to be returned")
   public Integer              maxRating             = null;
   
-    @XmlElement
+    
   @ApiModelProperty(
     required = false,
     value = "start timestamp")
   public Long            startTime      = null;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "end timestamp")
@@ -146,7 +139,7 @@ public class SSSearchRESTAPIV2Par{
     value = "how results will be comined for query parameter separately (i.e. or | and; e.g. and: results have to match for all tags given in tagsToSearchFor)")
   public SSSearchOpE              localSearchOp     = SSSearchOpE.or;
   
-  @XmlElement
+  
   public void setLocalSearchOp(final String localSearchOp) throws Exception{
     this.localSearchOp = SSSearchOpE.get(localSearchOp);
   }
@@ -156,19 +149,19 @@ public class SSSearchRESTAPIV2Par{
     value = "how results will be comined overall (i.e. or | and; e.g. and: results have to match all given tags labels)")
   public SSSearchOpE              globalSearchOp     = SSSearchOpE.or;
   
-  @XmlElement
+  
   public void setGlobalSearchOp(final String globalSearchOp) throws Exception{
     this.globalSearchOp = SSSearchOpE.get(globalSearchOp);
   }
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "" )
   public boolean             orderByLabel  = false;
   
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "" )

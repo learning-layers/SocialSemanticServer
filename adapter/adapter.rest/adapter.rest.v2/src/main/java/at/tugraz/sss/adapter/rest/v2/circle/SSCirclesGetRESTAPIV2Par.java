@@ -22,14 +22,11 @@ package at.tugraz.sss.adapter.rest.v2.circle;
 
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "circles get request parameter")
+import java.util.List;
+
+@ApiModel
 public class SSCirclesGetRESTAPIV2Par{
   
   @ApiModelProperty(
@@ -37,7 +34,7 @@ public class SSCirclesGetRESTAPIV2Par{
     value = "user to retrieve circles for")
   public SSUri   forUser             = null;
   
-  @XmlElement
+  
   public void setForUser(final String forUser) throws Exception{
      this.forUser = SSUri.get(forUser);
   }
@@ -47,30 +44,30 @@ public class SSCirclesGetRESTAPIV2Par{
     value = "entity types to include in 'entitites' only")
   public List<SSEntityE>   entityTypesToIncludeOnly             = null;
   
-  @XmlElement
+  
   public void setEntityTypesToIncludeOnly(final List<String> entityTypesToIncludeOnly) throws Exception{
      this.entityTypesToIncludeOnly = SSEntityE.get(entityTypesToIncludeOnly);
   }
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "whether the profile picture of the circle shall be set")
   public boolean setProfilePicture = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "")
   public boolean setThumb = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "")
   public boolean setTags = false;
     
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "")

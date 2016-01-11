@@ -24,16 +24,11 @@ import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.conf.SSConf;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "appStackLayoutCreate request parameter")
+@ApiModel
 public class SSAppStackLayoutCreateRESTAPIV2Par{
   
-  @XmlElement
   @ApiModelProperty(
     required = false,
     value = "app stack's uuid (if provided used as id)")
@@ -44,17 +39,15 @@ public class SSAppStackLayoutCreateRESTAPIV2Par{
     value = "app this stack is for")
   public SSUri               app        = null;
   
-  @XmlElement
   public void setApp(final String app) throws Exception{
     this.app = SSUri.get(app, SSConf.sssUri);
   }
-  
+
   @ApiModelProperty(
     required = false,
     value = "name")
   public SSLabel               label        = null;
   
-  @XmlElement
   public void setLabel(final String label) throws Exception{
     this.label = SSLabel.get(label);
   }
@@ -64,7 +57,6 @@ public class SSAppStackLayoutCreateRESTAPIV2Par{
     value = "description")
   public SSTextComment               description        = null;
   
-  @XmlElement
   public void setDescription(final String description) throws Exception{
     this.description = SSTextComment.get(description);
   }

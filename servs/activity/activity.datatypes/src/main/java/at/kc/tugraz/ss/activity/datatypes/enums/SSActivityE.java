@@ -22,7 +22,11 @@ package at.kc.tugraz.ss.activity.datatypes.enums;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.*;
+import io.swagger.annotations.*;
 
+
+@ApiModel
 public enum SSActivityE{
 
   //friend

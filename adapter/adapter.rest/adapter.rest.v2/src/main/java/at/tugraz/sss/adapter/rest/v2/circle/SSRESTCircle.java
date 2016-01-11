@@ -35,7 +35,6 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCirclesGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.conf.SSConf;
-import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.SSCircleCreateFromClientPar;
 import at.tugraz.sss.serv.datatype.par.SSCircleCreatePar;
@@ -49,10 +48,8 @@ import at.tugraz.sss.serv.datatype.par.SSCircleUsersAddPar;
 import at.tugraz.sss.serv.datatype.par.SSCircleUsersInvitePar;
 import at.tugraz.sss.serv.datatype.par.SSCircleUsersRemovePar;
 import at.tugraz.sss.serv.datatype.par.SSCirclesGetPar;
-import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -67,8 +64,8 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/circles")
-@Api( value = "/circles") //, basePath = "/circles"
+@Path("/circles/circles")
+@Api( value = "circles") //, basePath = "/circles"
 public class SSRESTCircle{
   
   @PostConstruct

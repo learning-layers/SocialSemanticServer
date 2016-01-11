@@ -20,34 +20,35 @@
 */
 package at.tugraz.sss.servs.ocd.impl.types;
 
-import com.sun.research.ws.wadl.HTTPMethods;
+//import com.sun.research.ws.wadl.HTTPMethods;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 public enum SSOCDRestMethodType {
   
-  GET_ALGORITHMS("getAlgorithmNames","algorithms", HTTPMethods.GET, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
-  CREATE_GRAPH("createGraph", "graphs", HTTPMethods.POST, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
-  GET_GRAPHS("getGraphs", "graphs", HTTPMethods.GET, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
-  GET_GRAPH("getGraph", "graphs/%s", HTTPMethods.GET, MediaType.TEXT_PLAIN_TYPE, MediaType.TEXT_PLAIN_TYPE),
-  DELETE_GRAPH("deleteGraph", "graphs/%s", HTTPMethods.DELETE, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
-  CREATE_COVER("createCover", "covers/graphs/%s", HTTPMethods.POST, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
-  GET_COVERS("getCovers", "covers", HTTPMethods.GET, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
-  GET_COVER("getCover", "covers/%s/graphs/%s", HTTPMethods.GET, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
-  DELETE_COVER("deleteCover", "covers/%s/graphs/%s", HTTPMethods.DELETE, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
-  RUN_ALGORITHM("runAlgorithm", "covers/graphs/%s/algorithms", HTTPMethods.POST, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
-  RUN_GROUND_TRUTH_BENCHMARK("runGroundTruthBenchmark", "graphs/benchmarks", HTTPMethods.POST, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
-  RUN_STATISTICAL_MEASURE("runStatisticalMeasure", "covers/%s/graphs/%s/metrics/statistical", HTTPMethods.POST, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
-  RUN_KNOWLEDGE_DRIVEN_MEASURE("runKnowledgeDrivenMeasure", "covers/%s/graphs/%s/metrics/knowledgedriven/groundtruth/%s", HTTPMethods.POST, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE);
+  GET_ALGORITHMS("getAlgorithmNames","algorithms", HttpMethod.GET, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
+  CREATE_GRAPH("createGraph", "graphs", HttpMethod.POST, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
+  GET_GRAPHS("getGraphs", "graphs", HttpMethod.GET, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
+  GET_GRAPH("getGraph", "graphs/%s", HttpMethod.GET, MediaType.TEXT_PLAIN_TYPE, MediaType.TEXT_PLAIN_TYPE),
+  DELETE_GRAPH("deleteGraph", "graphs/%s", HttpMethod.DELETE, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
+  CREATE_COVER("createCover", "covers/graphs/%s", HttpMethod.POST, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
+  GET_COVERS("getCovers", "covers", HttpMethod.GET, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
+  GET_COVER("getCover", "covers/%s/graphs/%s", HttpMethod.GET, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
+  DELETE_COVER("deleteCover", "covers/%s/graphs/%s", HttpMethod.DELETE, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
+  RUN_ALGORITHM("runAlgorithm", "covers/graphs/%s/algorithms", HttpMethod.POST, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
+  RUN_GROUND_TRUTH_BENCHMARK("runGroundTruthBenchmark", "graphs/benchmarks", HttpMethod.POST, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
+  RUN_STATISTICAL_MEASURE("runStatisticalMeasure", "covers/%s/graphs/%s/metrics/statistical", HttpMethod.POST, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE),
+  RUN_KNOWLEDGE_DRIVEN_MEASURE("runKnowledgeDrivenMeasure", "covers/%s/graphs/%s/metrics/knowledgedriven/groundtruth/%s", HttpMethod.POST, MediaType.TEXT_XML_TYPE, MediaType.TEXT_PLAIN_TYPE);
   
   
 
   private String methodName = null;
   private String path = null;
-  private HTTPMethods httpMethod = null;
+  private String httpMethod = null;
   private MediaType acceptedResponseType = null;
   private MediaType consumes = null;
 
-  private SSOCDRestMethodType(String methodName, String path, HTTPMethods httpMethod, MediaType acceptedResponseType, MediaType consumes) {
+  private SSOCDRestMethodType(String methodName, String path, String httpMethod, MediaType acceptedResponseType, MediaType consumes) {
     this.methodName = methodName;
     this.path = path;
     this.httpMethod = httpMethod;
@@ -63,7 +64,7 @@ public enum SSOCDRestMethodType {
     return path;
   }
 
-  public HTTPMethods getHttpMethod() {
+  public String getHttpMethod() {
     return httpMethod;
   }
 
@@ -74,7 +75,4 @@ public enum SSOCDRestMethodType {
   public MediaType getConsumes() {
     return consumes;
   }
-
 }
-
-

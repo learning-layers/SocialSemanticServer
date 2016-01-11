@@ -24,70 +24,60 @@ import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "activity add request parameter")
+@ApiModel
 public class SSActivityAddRESTAPIV2Par{
   
   @ApiModelProperty(
-    required = true,
-    value = "type")
+    required = true)
   public SSActivityE            type             = null;
   
-  @XmlElement
+  
   public void setType(final String type) throws Exception{
     this.type = SSActivityE.get(type);
   }
   
   @ApiModelProperty(
-    required = true,
-    value = "entity")
+    required = true)
   public SSUri                  entity           = null;
   
-  @XmlElement
+  
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity, SSConf.sssUri);
   }
   
   @ApiModelProperty(
-    required = false,
-    value = "users")
+    required = false)
   public List<SSUri>            users            = null;
   
-  @XmlElement
+  
   public void setUsers(final List<String> users) throws Exception{
     this.users = SSUri.get(users, SSConf.sssUri);
   }
   
   @ApiModelProperty(
-    required = false,
-    value = "entities")
+    required = false)
   public List<SSUri>            entities         = null;
   
-  @XmlElement
+  
   public void setEntities(final List<String> entities) throws Exception{
     this.entities = SSUri.get(entities, SSConf.sssUri);
   }
   
   @ApiModelProperty(
-    required = false,
-    value = "comments")
+    required = false)
   public List<SSTextComment>    comments         = null;
   
-  @XmlElement
+  
   public void setComments(final List<String> comments) throws Exception{
     this.comments = SSTextComment.get(comments);
   }
   
-  @XmlElement
+  
   @ApiModelProperty(
-    required = false,
-    value = "creationTime")
+    required = false)
   public Long                   creationTime     = null;
   
   public SSActivityAddRESTAPIV2Par(){}

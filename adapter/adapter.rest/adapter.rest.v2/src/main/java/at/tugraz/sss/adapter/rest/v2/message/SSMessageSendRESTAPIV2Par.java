@@ -23,13 +23,9 @@ package at.tugraz.sss.adapter.rest.v2.message;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "messageSend request parameter")
+@ApiModel
 public class SSMessageSendRESTAPIV2Par{
   
   @ApiModelProperty( 
@@ -37,7 +33,7 @@ public class SSMessageSendRESTAPIV2Par{
     value = "forUser")
   public SSUri       forUser   = null;
   
-  @XmlElement
+  
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser, SSConf.sssUri);
   }
@@ -47,7 +43,7 @@ public class SSMessageSendRESTAPIV2Par{
     value = "message to send")
   public SSTextComment       message   = null;
   
-  @XmlElement
+  
   public void setMessage(final String message) throws Exception{
     this.message = SSTextComment.get(message);
   }

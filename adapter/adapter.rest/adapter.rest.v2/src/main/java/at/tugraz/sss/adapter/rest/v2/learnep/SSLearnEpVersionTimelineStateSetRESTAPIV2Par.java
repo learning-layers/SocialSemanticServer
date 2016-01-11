@@ -20,12 +20,9 @@
  */
 package at.tugraz.sss.adapter.rest.v2.learnep;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "learnEpVersionTimelineStateSet request parameter")
+@ApiModel
 public class SSLearnEpVersionTimelineStateSetRESTAPIV2Par{
   
   @ApiModelProperty(

@@ -20,16 +20,12 @@
  */
 package at.tugraz.sss.adapter.rest.v2.circle;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "circle entities remove request parameter")
+@ApiModel
 public class SSCircleEntitiesRemoveRESTAPIV2Par {
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "whether metadata attached to given entities shall be removed")

@@ -24,13 +24,9 @@ import at.kc.tugraz.ss.service.search.api.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
-import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
-import at.tugraz.sss.serv.util.*;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -41,8 +37,8 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/search")
-@Api( value = "/search") // , basePath = "/search"
+@Path("/search/search")
+@Api( value = "search") // , basePath = "/search"
 public class SSRESTSearch{
   
   @PostConstruct

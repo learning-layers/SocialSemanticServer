@@ -25,14 +25,11 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.SSCircleE;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "entityUserCircleCreate request parameter")
+import java.util.List;
+
+@ApiModel
 public class SSCircleCreateRESTAPIV2Par{
   
   @ApiModelProperty(
@@ -40,7 +37,7 @@ public class SSCircleCreateRESTAPIV2Par{
     value = "circle name")
   public SSLabel                label          = null;
   
-  @XmlElement
+  
   public void setLabel(final String label) throws Exception{
     this.label = SSLabel.get(label);
   }
@@ -50,7 +47,7 @@ public class SSCircleCreateRESTAPIV2Par{
     value = "circle type (i.e., group or pubCircle")
   public SSCircleE                type          = null;
   
-  @XmlElement
+  
   public void setType(final String type) throws Exception{
     this.type = SSCircleE.get(type);
   }
@@ -60,7 +57,7 @@ public class SSCircleCreateRESTAPIV2Par{
     value = "entities to add")
   public List<SSUri>            entities       = null;
   
-  @XmlElement
+  
   public void setEntities(final List<String> entities) throws Exception{
     this.entities = SSUri.get(entities, SSConf.sssUri);
   }
@@ -70,7 +67,7 @@ public class SSCircleCreateRESTAPIV2Par{
     value = "users to add")
   public List<SSUri>            users          = null;
   
-  @XmlElement
+  
   public void setUsers(final List<String> users) throws Exception{
     this.users = SSUri.get(users, SSConf.sssUri);
   }
@@ -80,7 +77,7 @@ public class SSCircleCreateRESTAPIV2Par{
     value = "user (emails) to invite")
   public List<String>            invitees          = null;
   
-  @XmlElement
+  
   public void setInvitees(final List<String> invitees) throws Exception{
     this.invitees = invitees;
   }
@@ -90,7 +87,7 @@ public class SSCircleCreateRESTAPIV2Par{
     value = "textual annotation")
   public SSTextComment          description    = null;
 
-  @XmlElement
+  
   public void setDescription(final String description) throws Exception{
     this.description = SSTextComment.get(description);
   }

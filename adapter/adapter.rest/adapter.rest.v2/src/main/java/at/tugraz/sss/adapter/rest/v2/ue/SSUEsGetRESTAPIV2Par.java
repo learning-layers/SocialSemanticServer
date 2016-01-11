@@ -23,14 +23,10 @@ package at.tugraz.sss.adapter.rest.v2.ue;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@ApiModel(value = "uesGet request parameter")
-@XmlRootElement
+@ApiModel
 public class SSUEsGetRESTAPIV2Par{
   
   @ApiModelProperty(
@@ -38,7 +34,7 @@ public class SSUEsGetRESTAPIV2Par{
     value = "user to retrieve user events for")
   public SSUri           forUser        = null;
   
-  @XmlElement
+  
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser, SSConf.sssUri);
   }
@@ -48,7 +44,7 @@ public class SSUEsGetRESTAPIV2Par{
     value = "entity to retrieve user events for")
   public SSUri           entity         = null;
   
-  @XmlElement
+  
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity, SSConf.sssUri);
   }
@@ -62,25 +58,25 @@ public class SSUEsGetRESTAPIV2Par{
     this.types = SSUEE.get(types);
   }
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "start timestamp for retrieving user events for")
   public Long            startTime      = null;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "end timestamp for retrieving user events for")
   public Long            endTime        = null;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "whether tags for entitis shall be set")
   public boolean            setTags  = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "whether flags for entitis shall be set")

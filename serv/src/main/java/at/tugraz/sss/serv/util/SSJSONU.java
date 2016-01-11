@@ -20,21 +20,23 @@
 */
 package at.tugraz.sss.serv.util;
 
-import java.util.List;
-import java.util.Map;
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonToken;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.type.JavaType;
-import org.codehaus.jackson.type.TypeReference;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.*;
 
 public class SSJSONU{
 
-  public static final JsonToken jsonEnd = JsonToken.END_OBJECT;
+  public static ObjectMapper createDefaultMapper(){
+    
+    final ObjectMapper objectMapper = new ObjectMapper();
+    
+    objectMapper.enable                   (SerializationFeature.INDENT_OUTPUT);
+    objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    objectMapper.configure                (SerializationFeature.WRITE_NULL_MAP_VALUES, true);
+    
+    //    objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_EMPTY);
+    
+    return objectMapper;
+  }
   
   public static String getValueFromJSON(
     final String jsonStr,
@@ -43,54 +45,42 @@ public class SSJSONU{
     final ObjectMapper mapper = new ObjectMapper();
     final JsonNode     node   = mapper.readTree(jsonStr).get(name);
     
-    if(node ==  null){
+    if(node == null){
       return null;
     }
     
-    return node.getTextValue();
+    return node.textValue(); //getTextValue();
   }
   
   public static Object obj(
     final String  jsonStr, 
     final Class   customClass) throws Exception{
     
-    final ObjectMapper objectMapper = new ObjectMapper();
-    
-    objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
-//    objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_EMPTY);
-    
-    objectMapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, true);
-    
-    return objectMapper.readValue(jsonStr, customClass);
+    return createDefaultMapper().readValue(jsonStr, customClass);
   }
   
   public static String jsonStr(
-    final Object  obj) throws Exception{
+    final Object obj) throws Exception{
     
-    final ObjectMapper objectMapper = new ObjectMapper();
-    
-    objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
-//    objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_EMPTY);
-    
-    objectMapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, true);
-    
-    return objectMapper.writeValueAsString(obj);
-  }
-  
-  public static List<String> jsonArrayList(final String jsonStr) throws Exception {
-    
-    ObjectMapper mapper = new ObjectMapper();
-    
-    JavaType     type   = mapper.getTypeFactory().constructCollectionType(List.class, String.class);
-    
-    return mapper.readValue(jsonStr, type);
-  }
-  
-  public static Map<String, String> jsonMap(String jsonStr) throws Exception{
-    return new ObjectMapper().readValue(jsonStr, new TypeReference<Map<String,String>>() { });
-  }
-  
-  public static JsonParser jsonParser(String jsonStr) throws Exception{
-    return new JsonFactory().createJsonParser(jsonStr);
+    return createDefaultMapper().writeValueAsString(obj);
   }
 }
+
+//  public static final JsonToken jsonEnd = JsonToken.END_OBJECT;
+
+//  public static List<String> jsonArrayList(final String jsonStr) throws Exception {
+//    
+//    ObjectMapper mapper = new ObjectMapper();
+//    
+//    JavaType     type   = mapper.getTypeFactory().constructCollectionType(List.class, String.class);
+//    
+//    return mapper.readValue(jsonStr, type);
+//  }
+  
+//  public static Map<String, String> jsonMap(String jsonStr) throws Exception{
+//    return new ObjectMapper().readValue(jsonStr, new TypeReference<Map<String,String>>() { });
+//  }
+  
+//  public static JsonParser jsonParser(String jsonStr) throws Exception{
+//    return new JsonFactory().createJsonParser(jsonStr);
+//  }

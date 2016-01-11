@@ -21,29 +21,23 @@
 package at.tugraz.sss.adapter.rest.v2.auth;
 
 import at.tugraz.sss.serv.datatype.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "auth register user request parameter")
+@ApiModel
 public class SSAuthRegisterUserRESTAPIV2Par{
   
   @ApiModelProperty(
-    required = true,
-    value = "name of the user, e.g. 'hugo'")
+    required = true)
   public SSLabel label = null;
 
-  @XmlElement
+  
   public void setLabel(final String label) throws Exception{
     this.label = SSLabel.get(label);
   }
   
-  @XmlElement
+  
   @ApiModelProperty( 
-    required = true, 
-    value = "the user’s password")
+    required = true)
   public String  password = null;
   
   public SSAuthRegisterUserRESTAPIV2Par(){}

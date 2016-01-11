@@ -20,22 +20,17 @@
 */
 package at.tugraz.sss.adapter.rest.v2.message;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "messagesGet request parameter")
+@ApiModel
 public class SSMessagesGetRESTAPIV2Par{
   
-  @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "whether also already read messages should be included")
   public boolean includeRead = false;
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "start time to retrieve messages")

@@ -22,17 +22,12 @@ package at.tugraz.sss.adapter.rest.v2.recomm;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.conf.SSConf;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "recommUpdate request parameter")
+@ApiModel
 public class SSRecommUpdateRESTAPIV2Par{
 
-  @XmlElement
   @ApiModelProperty(
     required = true,
     value = "realm the user wants to query")
@@ -43,7 +38,7 @@ public class SSRecommUpdateRESTAPIV2Par{
     value = "forUser")
   public SSUri       forUser     = null;
   
-  @XmlElement
+  
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser, SSConf.sssUri);
   }
@@ -53,18 +48,18 @@ public class SSRecommUpdateRESTAPIV2Par{
     value = "entity")
   public SSUri       entity     = null;
   
-  @XmlElement
+  
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity, SSConf.sssUri);
   }
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "tags")
   public List<String>       tags     = null;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "categories")

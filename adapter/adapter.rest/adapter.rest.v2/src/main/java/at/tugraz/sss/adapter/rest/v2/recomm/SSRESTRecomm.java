@@ -36,13 +36,9 @@ import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateBulkRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUsersRet;
 import at.tugraz.sss.conf.SSConf;
-import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import java.io.InputStream;
 import javax.annotation.*;
 import javax.ws.rs.Consumes;
@@ -58,8 +54,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
-@Path("/recomm")
-@Api( value = "/recomm")
+@Path("/recomm/recomm")
+@Api( value = "recomm")
 public class SSRESTRecomm{
   
   @PostConstruct

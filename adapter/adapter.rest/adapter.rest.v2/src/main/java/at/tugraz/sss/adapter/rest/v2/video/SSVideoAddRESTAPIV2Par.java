@@ -25,16 +25,12 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.sss.video.datatypes.SSVideoE;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "videoAdd request parameter")
+@ApiModel
 public class SSVideoAddRESTAPIV2Par{
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "video's uuid (if provided used within id if link is not set)")
@@ -45,7 +41,7 @@ public class SSVideoAddRESTAPIV2Par{
     value = "video's link (if provided used as id)")
   public SSUri                link        = null;
   
-  @XmlElement
+  
   public void setLink(final String link) throws Exception{
     this.link = SSUri.get(link, SSConf.sssUri);
   }
@@ -55,7 +51,7 @@ public class SSVideoAddRESTAPIV2Par{
     value = "video type, e.g., achso")
   public SSVideoE               type = null;
   
-  @XmlElement
+  
   public void setType(final String type) throws Exception{
     this.type = SSVideoE.get(type);
   }
@@ -65,12 +61,12 @@ public class SSVideoAddRESTAPIV2Par{
     value = "entity for which to attach this video")
   public SSUri                forEntity        = null;
   
-  @XmlElement
+  
   public void setForEntity(final String forEntity) throws Exception{
     this.forEntity = SSUri.get(forEntity, SSConf.sssUri);
   }
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "video's genre")
@@ -81,7 +77,7 @@ public class SSVideoAddRESTAPIV2Par{
     value = "name")
   public SSLabel               label        = null;
   
-  @XmlElement
+  
   public void setLabel(final String label) throws Exception{
     this.label = SSLabel.get(label);
   }
@@ -91,30 +87,30 @@ public class SSVideoAddRESTAPIV2Par{
     value = "description")
   public SSTextComment               description        = null;
   
-  @XmlElement
+  
   public void setDescription(final String description) throws Exception{
     this.description = SSTextComment.get(description);
   }
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "creation time of the video")
   public Long               creationTime        = null;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "latitude")
   public Double               latitude = null;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "longitude")
   public Double               longitude = null;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "accuracy")

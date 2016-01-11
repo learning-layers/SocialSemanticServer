@@ -22,14 +22,10 @@ package at.tugraz.sss.adapter.rest.v2.entity;
 
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "entities accessible get request parameter")
+@ApiModel
 public class SSEntitiesAccessibleGetRESTAPIV2Par{
   
   @ApiModelProperty( 
@@ -37,7 +33,7 @@ public class SSEntitiesAccessibleGetRESTAPIV2Par{
     value = "")
   public List<SSEntityE>            types         = null;
 
-  @XmlElement
+  
   public void setTypes(final List<String> types) throws Exception{
      this.types = SSEntityE.get(types); 
   }
@@ -47,30 +43,30 @@ public class SSEntitiesAccessibleGetRESTAPIV2Par{
     value = "")
   public List<SSUri>            authors         = null;
 
-  @XmlElement
+  
   public void setAuthors(final List<String> authors) throws Exception{
      this.authors = SSUri.get(authors); 
   }
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "unique identifier for the pages of a previous query")
   public String              pagesID             = null;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "number of the page to be requested from a previous query")
   public Integer             pageNumber             = null;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "start timestamp")
   public Long            startTime      = null;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "end timestamp")

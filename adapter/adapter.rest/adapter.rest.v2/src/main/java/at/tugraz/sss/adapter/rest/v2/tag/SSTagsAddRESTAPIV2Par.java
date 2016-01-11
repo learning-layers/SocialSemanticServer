@@ -24,14 +24,10 @@ import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.datatype.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "tags add request parameter")
+@ApiModel
 public class SSTagsAddRESTAPIV2Par{
   
   @ApiModelProperty(
@@ -39,7 +35,7 @@ public class SSTagsAddRESTAPIV2Par{
     value = "tag labels")
   public List<SSTagLabel>     labels        = null;
   
-  @XmlElement
+  
   public void setLabels(final List<String> labels) throws Exception{
     this.labels = SSTagLabel.get(labels);
   }
@@ -49,7 +45,7 @@ public class SSTagsAddRESTAPIV2Par{
     value = "access restriction for the tag (i.e. privateSpace, sharedSpace)")
   public SSSpaceE     space        = null;
   
-  @XmlElement
+  
   public void setSpace(final String space) throws Exception{
     this.space = SSSpaceE.get(space);
   }
@@ -59,12 +55,12 @@ public class SSTagsAddRESTAPIV2Par{
     value = "circle, if space is circleSpace; restricts the tag to be visible to users in circle")
   public SSUri     circle        = null;
   
-  @XmlElement
+  
   public void setCircle(final String circle) throws Exception{
     this.circle = SSUri.get(circle, SSConf.sssUri);
   }
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "timestamp for the tag assignment to be created at in milliseconds")

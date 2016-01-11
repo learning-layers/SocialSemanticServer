@@ -135,8 +135,6 @@
   
   <properties>
     <sssVersion>11.10.0-alpha</sssVersion>
-    <ssSwaggerVersion>1.3.12</ssSwaggerVersion>
-    <ssSwaggerMavenPluginVersion>2.3.4</ssSwaggerMavenPluginVersion>
     <ssLog4JVersion>1.2.17</ssLog4JVersion>
     <ssJUnitVersion>4.11</ssJUnitVersion>
     <!--<junitVersion>4.10</junitVersion>-->

@@ -24,14 +24,10 @@ import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "disc entry update request parameter")
+@ApiModel
 public class SSDiscEntryUpdateRESTAPIV2Par{
   
   @ApiModelProperty(
@@ -39,7 +35,7 @@ public class SSDiscEntryUpdateRESTAPIV2Par{
     value = "attachments to remove")
   public List<SSUri>            entitiesToRemove      = null;
   
-  @XmlElement
+  
   public void setEntitiesToRemove(final List<String> entitiesToRemove) throws Exception{
     this.entitiesToRemove = SSUri.get(entitiesToRemove, SSConf.sssUri);
   }
@@ -49,7 +45,7 @@ public class SSDiscEntryUpdateRESTAPIV2Par{
     value = "entities to attach")
   public List<SSUri>            entitiesToAttach      = null;
   
-  @XmlElement
+  
   public void setEntitiesToAttach(final List<String> entitiesToAttach) throws Exception{
     this.entitiesToAttach = SSUri.get(entitiesToAttach, SSConf.sssUri);
   }
@@ -59,7 +55,7 @@ public class SSDiscEntryUpdateRESTAPIV2Par{
     value = "labels for the entities to be attached")
   public List<SSLabel>            entityLabels       = null;
   
-  @XmlElement
+  
   public void setEntityLabels(final List<String> entityLabels) throws Exception{
    this.entityLabels = SSLabel.get(entityLabels);
   }
@@ -69,7 +65,7 @@ public class SSDiscEntryUpdateRESTAPIV2Par{
     value = "text for the comment / answer / opinion")
   public SSTextComment          content    = null;
 
-  @XmlElement
+  
   public void setContent(final String content) throws Exception{
     this.content = SSTextComment.get(content);
   }

@@ -22,13 +22,9 @@ package at.tugraz.sss.adapter.rest.v2.learnep;
 
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "learnEpVersionEntityUpdate request parameter")
+@ApiModel
 public class SSLearnEpVersionEntityUpdateRESTAPIV2Par{
   
   @ApiModelProperty(
@@ -36,7 +32,7 @@ public class SSLearnEpVersionEntityUpdateRESTAPIV2Par{
     value = "")
   public SSUri    entity         = null;
   
-  @XmlElement
+  
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity, SSConf.sssUri);
   }

@@ -22,14 +22,10 @@ package at.tugraz.sss.adapter.rest.v2.coll;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "collUserEntriesAdd request parameter")
+@ApiModel
 public class SSCollEntriesAddRESTAPIV2Par{
   
   @ApiModelProperty(
@@ -37,7 +33,7 @@ public class SSCollEntriesAddRESTAPIV2Par{
     value = "entities to add")
   public List<SSUri>       entries       = null;
   
-  @XmlElement
+  
   public void setEntries(final List<String> entries) throws Exception{
     this.entries = SSUri.get(entries);
   }
@@ -47,7 +43,7 @@ public class SSCollEntriesAddRESTAPIV2Par{
     value = "collection item labels")
   public List<SSLabel>     labels        = null;
   
-  @XmlElement
+  
   public void setLabels(final List<String> labels) throws Exception{
     this.labels = SSLabel.get(labels);
   }

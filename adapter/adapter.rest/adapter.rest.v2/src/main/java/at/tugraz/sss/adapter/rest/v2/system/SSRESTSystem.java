@@ -21,11 +21,11 @@
 package at.tugraz.sss.adapter.rest.v2.system;
 
 import at.tugraz.sss.serv.conf.api.*;
-import com.wordnik.swagger.annotations.Api;
+import io.swagger.annotations.*;
 import javax.ws.rs.Path;
 
 @Path("/system")
-@Api(value = "/system")
+//@Api(value = "/system")
 public class SSRESTSystem{
 
   //TODO reimplement

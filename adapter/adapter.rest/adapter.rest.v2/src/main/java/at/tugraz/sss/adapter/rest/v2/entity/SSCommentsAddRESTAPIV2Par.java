@@ -21,14 +21,10 @@
 package at.tugraz.sss.adapter.rest.v2.entity;
 
 import at.tugraz.sss.serv.datatype.SSTextComment;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "comments add request parameter")
+@ApiModel
 public class SSCommentsAddRESTAPIV2Par{
 
   @ApiModelProperty(
@@ -36,7 +32,7 @@ public class SSCommentsAddRESTAPIV2Par{
     value = "comments to add to the entitys")
   public List<SSTextComment> comments = null;
   
-  @XmlElement
+  
   public void setComments(final List<String> comments) throws Exception{
     this.comments = SSTextComment.get(comments);
   }

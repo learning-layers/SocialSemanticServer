@@ -24,14 +24,11 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "tagUserFrequsGet request parameter")
+import java.util.List;
+
+@ApiModel
 public class SSTagFrequsGetRESTAPIV2Par{
   
   @ApiModelProperty(
@@ -39,7 +36,7 @@ public class SSTagFrequsGetRESTAPIV2Par{
     value = "user to retrieve tags for")
   public SSUri              forUser    = null;
   
-  @XmlElement
+  
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser, SSConf.sssUri);
   }
@@ -49,7 +46,7 @@ public class SSTagFrequsGetRESTAPIV2Par{
     value = "entities to retrieve tags for")
   public List<SSUri>        entities   = null;
   
-  @XmlElement
+  
   public void setEntities(final List<String> entities) throws Exception{
     this.entities = SSUri.get(entities, SSConf.sssUri);
   }
@@ -59,12 +56,12 @@ public class SSTagFrequsGetRESTAPIV2Par{
     value = "tag labels to consider for retrieving tags")
   public List<SSTagLabel>   labels     = null;
   
-  @XmlElement
+  
   public void setLabels(final List<String> labels) throws Exception{
     this.labels = SSTagLabel.get(labels);
   }
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "access restriction for to be retrieved tags (i.e. privateSpace, sharedSpace)")
@@ -75,18 +72,18 @@ public class SSTagFrequsGetRESTAPIV2Par{
     value = "circles to limit tags found")
   public List<SSUri>        circles       = null;
   
-  @XmlElement
+  
   public void setCircles(final List<String> circles) throws Exception {
     this.circles = SSUri.get(circles, SSConf.sssUri);
   }
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false, 
     value = "timestamp to retrieve tags from a certain point in time")
   public Long               startTime  = null;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false, 
     value = "whether all user's entities in the system shall be considered to retrieve tag frequencies")

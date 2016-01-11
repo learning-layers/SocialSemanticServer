@@ -22,10 +22,13 @@ package at.tugraz.sss.serv.datatype.enums;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
+import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApiModel
 public enum SSEntityE{
+  
   entity,
   coll,
   disc,

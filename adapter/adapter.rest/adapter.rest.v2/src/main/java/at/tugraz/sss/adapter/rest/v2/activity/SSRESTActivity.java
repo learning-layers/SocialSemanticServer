@@ -24,16 +24,11 @@ import at.kc.tugraz.ss.activity.api.*;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesGetPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityTypesGetPar;
-import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesGetRet;
-import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
+import at.kc.tugraz.ss.activity.datatypes.ret.*;
 import at.tugraz.sss.adapter.rest.v2.*;
-import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
-import at.tugraz.sss.serv.util.*;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -45,13 +40,12 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/activities")
-@Api( value = "/activities")
+@Path("/activities/activities")
+@Api( value = "activities")
 public class SSRESTActivity{
   
   @PostConstruct
   public void createRESTResource(){
-    
   }
   
   @PreDestroy
@@ -154,7 +148,7 @@ public class SSRESTActivity{
   @Produces(MediaType.APPLICATION_JSON)
   @ApiOperation(
     value = "add an activity",
-    response = SSActivitiesGetRet.class)
+    response = SSActivityAddRet.class)
   public Response activityAdd(
     @Context
     final HttpHeaders headers,
@@ -194,6 +188,5 @@ public class SSRESTActivity{
     }catch(Exception error){
       return SSRestMainV2.prepareErrors();
     }
-    
   }
 }

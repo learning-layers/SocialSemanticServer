@@ -21,13 +21,9 @@
 package at.tugraz.sss.adapter.rest.v2.learnep;
 
 import at.tugraz.sss.serv.datatype.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "learnEpVersionCircleAdd request parameter")
+@ApiModel
 public class SSLearnEpVersionAddCircleRESTAPIV2Par{
   
   @ApiModelProperty(
@@ -35,7 +31,6 @@ public class SSLearnEpVersionAddCircleRESTAPIV2Par{
     value = "")
   public SSLabel   label       = null;
   
-  @XmlElement
   public void setLabel(final String label) throws Exception{
     this.label = SSLabel.get(label);
   }

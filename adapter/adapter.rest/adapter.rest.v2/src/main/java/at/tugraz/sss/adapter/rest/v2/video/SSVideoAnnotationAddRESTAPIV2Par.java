@@ -22,28 +22,23 @@ package at.tugraz.sss.adapter.rest.v2.video;
 
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "videoAnnotationAdd request parameter")
+@ApiModel
 public class SSVideoAnnotationAddRESTAPIV2Par{
   
-  @XmlElement
   @ApiModelProperty(
     required = true,
     value = "time point the annotation is attached to the video")
   public Long               timePoint        = null;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = true,
     value = "x coordinate the annotation is attached to the video")
   public Float               x        = null;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = true,
     value = "y coordinate the annotation is attached to the video")
@@ -54,7 +49,7 @@ public class SSVideoAnnotationAddRESTAPIV2Par{
     value = "name")
   public SSLabel               label        = null;
   
-  @XmlElement
+  
   public void setLabel(final String label) throws Exception{
     this.label = SSLabel.get(label);
   }
@@ -64,7 +59,7 @@ public class SSVideoAnnotationAddRESTAPIV2Par{
     value = "description")
   public SSTextComment               description        = null;
   
-  @XmlElement
+  
   public void setDescription(final String description) throws Exception{
     this.description = SSTextComment.get(description);
   }

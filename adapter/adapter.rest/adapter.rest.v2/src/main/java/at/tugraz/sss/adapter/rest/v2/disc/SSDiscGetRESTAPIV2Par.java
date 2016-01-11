@@ -20,52 +20,47 @@
 */
 package at.tugraz.sss.adapter.rest.v2.disc;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "discGet request parameter")
+@ApiModel
 public class SSDiscGetRESTAPIV2Par{
   
-  @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "whether comments of threads and entries shall be retrieved")
   public boolean    setComments       = false;
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "whether likes for entries shall be set")
   public boolean    setLikes       = false;
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "whether the types of circles the discussion is in shall be set")
   public boolean    setCircleTypes   = false;
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "whether the entries of the discussion shall be returned")
   public boolean    setEntries   = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "whether tags for disc and entries shall be set")
   public boolean    setTags   = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "whether attached entities shall be set for disc and entries")
   public boolean    setAttachedEntities   = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "whether information on whether querying user read given entries shall be provided")

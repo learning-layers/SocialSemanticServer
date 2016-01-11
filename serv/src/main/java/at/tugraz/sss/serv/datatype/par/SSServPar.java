@@ -25,39 +25,35 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.reg.*;
-import java.util.Map;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
+
+
 import java.net.Socket;
   
-@XmlRootElement
+
 public class SSServPar{
 
-  @XmlElement
+  
   public String               op                  = null;
   
   public SSUri                user                = null;
   
-  @XmlElement
+  
   public void setUser(final String user) throws Exception{
     this.user = SSUri.get(user);
   }
   
-  @XmlElement
+  
   public String               key                 = null;
   
-  @XmlElement
+  
   public boolean              withUserRestriction = true;
 
-  @XmlElement
+  
   public boolean             invokeEntityHandlers = false;
     
   @JsonIgnore
   public Socket               clientSocket        = null;
-  
-  @JsonIgnore
-  public Map<String, Object>  pars                = null;
   
   @JsonIgnore
   public boolean              shouldCommit        = true;
@@ -147,6 +143,10 @@ public class SSServPar{
     }
   }
 }
+
+//  @JsonIgnore
+//  public Map<String, Object>  pars                = null;
+
 //public class SSRequ {
 //
 //  public  String      op      = null;

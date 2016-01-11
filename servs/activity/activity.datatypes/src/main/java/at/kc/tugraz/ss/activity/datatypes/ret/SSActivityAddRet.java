@@ -22,11 +22,13 @@ package at.kc.tugraz.ss.activity.datatypes.ret;
 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
-import java.util.Map;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import io.swagger.annotations.*;
 
+@ApiModel
 public class SSActivityAddRet extends SSServRetI{
- 
+
+  @ApiModelProperty
   public SSUri activity = null;
 
   public String getActivity() {

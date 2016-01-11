@@ -20,13 +20,10 @@
  */
 package at.tugraz.sss.adapter.rest.v2.livingdoc;
 
-import at.kc.tugraz.ss.like.api.*;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
-import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.livingdocument.api.*;
@@ -40,8 +37,7 @@ import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocGetRet;
 import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocRemoveRet;
 import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocUpdateRet;
 import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocsGetRet;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -56,8 +52,8 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/livingdocs")
-@Api( value = "/livingdocs")
+@Path("/livingdocs/livingdocs")
+@Api( value = "livingdocs")
 public class SSRESTLivingDoc{
   
   @PostConstruct

@@ -23,13 +23,9 @@ package at.tugraz.sss.adapter.rest.v2.entity;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.datatype.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "entitiesGet request parameter")
+@ApiModel
 public class SSEntitiesGetRESTAPIV2Par{
   
   @ApiModelProperty( 
@@ -37,12 +33,12 @@ public class SSEntitiesGetRESTAPIV2Par{
     value = "")
   public SSUri     circle             = null;
   
-  @XmlElement
+  
   public void setCircle(final String circle) throws Exception{
     this.circle = SSUri.get(circle, SSConf.sssUri);
   }
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "")
@@ -53,48 +49,48 @@ public class SSEntitiesGetRESTAPIV2Par{
     value = "")
   public SSSpaceE     tagSpace             = null;
   
-  @XmlElement
+  
   public void setTagSpace(final String tagSpace) throws Exception{
     this.tagSpace = SSSpaceE.get(tagSpace);
   }
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "")
   public boolean     setOverallRating    = false;
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "")
   public boolean     setDiscs            = false;
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "")
   public boolean     setUEs              = false;
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "")
   public boolean     setThumb            = false;
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "")
   public boolean     setFlags            = false;
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "")
   public boolean     setCircles          = false;
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "")

@@ -23,122 +23,106 @@ package at.tugraz.sss.adapter.rest.v2.app;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.conf.SSConf;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "appAdd request parameter")
+@ApiModel
 public class SSAppAddRESTAPIV2Par{
   
   @ApiModelProperty(
-    required = true,
-    value = "name")
+    required = true)
   public SSLabel               label        = null;
   
-  @XmlElement
+  
   public void setLabel(final String label) throws Exception{
     this.label = SSLabel.get(label);
   }
   
   @ApiModelProperty(
-    required = false,
-    value = "short description")
+    required = false)
   public SSTextComment               descriptionShort        = null;
   
-  @XmlElement
+  
   public void setDescriptionShort(final String descriptionShort) throws Exception{
     this.descriptionShort = SSTextComment.get(descriptionShort);
   }
   
   @ApiModelProperty(
-    required = false,
-    value = "functional description")
+    required = false)
   public SSTextComment               descriptionFunctional        = null;
   
-  @XmlElement
+  
   public void setDescriptionFunctional(final String descriptionFunctional) throws Exception{
     this.descriptionFunctional = SSTextComment.get(descriptionFunctional);
   }
   
   @ApiModelProperty(
-    required = false,
-    value = "technical description")
+    required = false)
   public SSTextComment               descriptionTechnical        = null;
   
-  @XmlElement
+  
   public void setDescriptionTechnical(final String descriptionTechnical) throws Exception{
     this.descriptionTechnical = SSTextComment.get(descriptionTechnical);
   }
   
   @ApiModelProperty(
-    required = false,
-    value = "install description")
+    required = false)
   public SSTextComment               descriptionInstall        = null;
   
-  @XmlElement
+  
   public void setDescriptionInstall(final String descriptionInstall) throws Exception{
     this.descriptionInstall = SSTextComment.get(descriptionInstall);
   }
 
   @ApiModelProperty(
-    required = false,
-    value = "download links")
+    required = false)
   public List<SSUri>               downloads       = null;
   
-  @XmlElement
+  
   public void setDownloads(final List<String> downloads) throws Exception{
     this.downloads = SSUri.get(downloads, SSConf.sssUri);
   }
   
   @ApiModelProperty(
-    required = false,
-    value = "download link IOS")
+    required = false)
   public SSUri               downloadIOS        = null;
   
-  @XmlElement
+  
   public void setDownloadIOS(final String downloadIOS) throws Exception{
     this.downloadIOS = SSUri.get(downloadIOS, SSConf.sssUri);
   }
   
   @ApiModelProperty(
-    required = false,
-    value = "download link Android")
+    required = false)
   public SSUri               downloadAndroid        = null;
   
-  @XmlElement
+  
   public void setDownloadAndroid(final String downloadAndroid) throws Exception{
     this.downloadAndroid = SSUri.get(downloadAndroid, SSConf.sssUri);
   } 
   
   @ApiModelProperty(
-    required = false,
-    value = "github fork link")
+    required = false)
   public SSUri               fork        = null;
   
-  @XmlElement
+  
   public void setFork(final String fork) throws Exception{
     this.fork = SSUri.get(fork, SSConf.sssUri);
   }
   
   @ApiModelProperty(
-    required = false,
-    value = "screenShots")
+    required = false)
   public List<SSUri>               screenShots        = null;
   
-  @XmlElement
+  
   public void setScreenShots(final List<String> screenShots) throws Exception{
     this.screenShots = SSUri.get(screenShots, SSConf.sssUri);
   }
   
   @ApiModelProperty(
-    required = false,
-    value = "videos")
+    required = false)
   public List<SSUri>               videos        = null;
   
-  @XmlElement
   public void setVideos(final List<String> videos) throws Exception{
     this.videos = SSUri.get(videos, SSConf.sssUri);
   }

@@ -23,13 +23,9 @@ package at.tugraz.sss.adapter.rest.v2.ue;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "ueCountGet request parameter")
+@ApiModel
 public class SSUECountGetRESTAPIV2Par{
   
   @ApiModelProperty(
@@ -37,7 +33,7 @@ public class SSUECountGetRESTAPIV2Par{
     value = "user to count user events for")
   public SSUri            forUser    = null;
   
-  @XmlElement
+  
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser, SSConf.sssUri);
   }
@@ -47,7 +43,7 @@ public class SSUECountGetRESTAPIV2Par{
     value = "entity to count user events for")
   public SSUri            entity     = null;
   
-  @XmlElement
+  
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity, SSConf.sssUri);
   }
@@ -57,18 +53,18 @@ public class SSUECountGetRESTAPIV2Par{
     value = "user event type to retrieve")
   public SSUEE            type       = null;
 
-  @XmlElement
+  
   public void setType(final String type) throws Exception{
     this.type = SSUEE.get(type);
   }
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "begin for user event inclusion")
   public Long             startTime  = null;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "end for user event inclusion")

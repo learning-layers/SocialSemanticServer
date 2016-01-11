@@ -22,13 +22,9 @@ package at.tugraz.sss.adapter.rest.v2.appstacklayout;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.conf.SSConf;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "appStackLayoutDelete request parameter")
+@ApiModel
 public class SSAppStackLayoutDeleteRESTAPIV2Par{
   
   @ApiModelProperty(
@@ -36,7 +32,7 @@ public class SSAppStackLayoutDeleteRESTAPIV2Par{
     value = "app stack layout to delete")
   public SSUri stack = null;
   
-  @XmlElement
+  
   public void setStack(final String stack) throws Exception{
     this.stack = SSUri.get(stack, SSConf.sssUri);
   }

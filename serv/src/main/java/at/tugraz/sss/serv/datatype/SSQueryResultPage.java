@@ -20,14 +20,29 @@
 */
 package at.tugraz.sss.serv.datatype;
 
+import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.*;
 
+
+@ApiModel
 public class SSQueryResultPage {
+
   
+  @ApiModelProperty
   public String         pagesID     = null;
+  
+  
+  @ApiModelProperty
   public Integer        pageNumber  = null;
+  
+  
+  @ApiModelProperty
   public Integer        pagesCount  = null;
+  
+  
+  @ApiModelProperty
   public List<SSEntity> entities    = new ArrayList<>();
   
    public SSQueryResultPage(

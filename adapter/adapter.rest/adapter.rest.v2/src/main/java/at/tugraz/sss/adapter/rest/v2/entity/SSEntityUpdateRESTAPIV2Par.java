@@ -23,13 +23,9 @@ package at.tugraz.sss.adapter.rest.v2.entity;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "entityUpdate request parameter")
+@ApiModel
 public class SSEntityUpdateRESTAPIV2Par{
   
   @ApiModelProperty( 
@@ -37,7 +33,7 @@ public class SSEntityUpdateRESTAPIV2Par{
     value = "type of the entity: entity or placeholder allowed; will be taken into account if entity doesnt exist yet")
   public SSEntityE            type         = null;
 
-  @XmlElement
+  
   public void setType(final String type) throws Exception{
      this.type = SSEntityE.get(type); 
   }
@@ -47,18 +43,18 @@ public class SSEntityUpdateRESTAPIV2Par{
     value = "name / title for the entity")
   public SSLabel            label         = null;
 
-  @XmlElement
+  
   public void setLabel(final String label) throws Exception{
      this.label = SSLabel.get(label); 
   }
 
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "description for the entity")
   public SSTextComment      description         = null;
   
-  @XmlElement
+  
   public void setDescription(final String description) throws Exception{
     this.description = SSTextComment.get(description);
   }

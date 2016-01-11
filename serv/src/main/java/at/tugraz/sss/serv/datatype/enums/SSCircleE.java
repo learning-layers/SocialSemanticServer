@@ -15,9 +15,11 @@
  */
 package at.tugraz.sss.serv.datatype.enums;
 
+import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApiModel
 public enum SSCircleE{
   
   priv,

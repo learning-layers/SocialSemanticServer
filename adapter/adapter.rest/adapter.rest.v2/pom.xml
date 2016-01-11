@@ -30,7 +30,7 @@
       
       <!-- MAVEN WAR end -->
       
-      <!-- MAVEEN resources start --> 
+      <!-- MAVEN resources start --> 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
@@ -87,44 +87,43 @@
       <plugin>
         <groupId>com.github.kongchen</groupId>
         <artifactId>swagger-maven-plugin</artifactId>
-        <version>${ssSwaggerMavenPluginVersion}</version>
+        <version>3.1.2</version>
+        
         <configuration>
-         
           <apiSources>
-                       
             <apiSource>
-              <apiVersion>v2</apiVersion>
-              <basePath>http://localhost:8080/sss.adapter.rest.v2/rest</basePath> 
-              <!-- 
-                localhost:8080/sss.adapter.rest.v2  
-                test-ll.know-center.tugraz.at/layers.test
-              -->
-              <locations>at.tugraz.sss.adapter.rest.v2</locations>
               
-              <apiInfo>
+              <locations>at.tugraz.sss.adapter.rest.v2</locations>
+              <host>localhost:8080</host>
+              <basePath>/sss.adapter.rest.v2/rest</basePath>
+              <info>
+                <version>v2</version>
                 <title>Social Semantic Server REST API</title>
                 <description>https://github.com/learning-layers/SocialSemanticServer/</description>
-                <termsOfServiceUrl>https://github.com/learning-layers/</termsOfServiceUrl>
-                <contact>${project.contact}</contact>
-                <license>${project.license}</license>
-                <licenseUrl>${project.licenseURI}</licenseUrl>
-              </apiInfo>
-              
+                <termsOfService>https://github.com/learning-layers/</termsOfService>
+                <contact>
+                  <email>${project.contact}</email>
+                </contact>
+                <license>
+                  <name>${project.license}</name>
+                  <url>${project.licenseURI}</url>
+                </license>
+              </info>
+                
               <swaggerUIDocBasePath>http://localhost:8080/sss.adapter.rest.v2/api-docs</swaggerUIDocBasePath> 
               <!-- 
                 localhost:8080/sss.adapter.rest.v2/api-docs 
                 test-ll.know-center.tugraz.at/layers.test/api-docs  
               -->
-              <swaggerInternalFilter>com.wordnik.swagger.config.DefaultSpecFilter</swaggerInternalFilter>
+              <!--<swaggerInternalFilter>com.wordnik.swagger.config.DefaultSpecFilter</swaggerInternalFilter>-->
               <!--<overridingModels>/swagger-overriding-models.json</overridingModels>-->
               <outputPath>${basedir}/src/main/webapp/api-docs</outputPath>
               <swaggerDirectory>${basedir}/src/main/webapp/api-docs</swaggerDirectory>
-              <useOutputFlatStructure>false</useOutputFlatStructure>
+              <!--<useOutputFlatStructure>false</useOutputFlatStructure>-->
             </apiSource>
-            
           </apiSources>
-          
         </configuration>
+        
         <executions>
           <execution>
             <phase>compile</phase>
@@ -364,55 +363,6 @@
       <version>${project.version}</version>
     </dependency>
     
-    <!-- servlet 3.0 start -->
-    
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>3.0.1</version>
-      <!--<scope>provided</scope>-->
-    </dependency>
-    
-    <!-- servlet 3.0 end -->
-    
-    <!-- jersey start -->
-    
-    <dependency>
-      <groupId>org.glassfish.jersey.core</groupId>
-      <artifactId>jersey-server</artifactId>
-      <version>2.21</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.glassfish.jersey.core</groupId>
-      <artifactId>jersey-common</artifactId>
-      <version>2.21</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.glassfish.jersey.containers</groupId>
-      <artifactId>jersey-container-servlet</artifactId>
-      <version>2.21</version>
-    </dependency>
-              
-    <dependency>
-      <groupId>org.glassfish.jersey.media</groupId>
-      <artifactId>jersey-media-multipart</artifactId>
-      <version>2.21</version>
-    </dependency>
-    
-    <!-- jersey end -->
-    
-    <!-- jackson start -->
-    
-    <dependency>
-      <groupId>com.fasterxml.jackson.jaxrs</groupId>
-      <artifactId>jackson-jaxrs-json-provider</artifactId>
-      <version>2.6.1</version>
-    </dependency>
-    
-    <!-- jackson end -->
-    
     <!-- tocmat start -->
     
     <dependency>
@@ -430,16 +380,90 @@
     </dependency>
     
     <!-- tocmat end -->
-     
-    <!-- swagger start --> 
+    
+    <!-- servlet 3.0 start -->
     
     <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+    
+    <!-- servlet 3.0 end -->
+    
+    <!-- jersey start -->
+    
+    <dependency> <!-- jersey to support additional Servlet 3.x deployment modes and asynchronous JAX-RS resource programming model -->
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-servlet</artifactId>
+      <version>2.21</version>
+    </dependency>
+    
+<!--    <dependency>  jersey core servlet integration support 
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-servlet-core</artifactId>
+      <version>2.21</version>
+    </dependency>-->
+    
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-server</artifactId>
+      <version>2.21</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-common</artifactId>
+      <version>2.21</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-multipart</artifactId>
+      <version>2.21</version>
+    </dependency>
+    
+    <!-- jersey end -->
+    
+    <!-- jackson start -->
+    
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-json-jackson</artifactId>
+      <version>2.21</version>
+    </dependency>
+    
+    <!-- jackson end -->
+    
+    <!-- swagger already included in serv project --> 
+<!--    <dependency>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-core</artifactId>
+      <version>1.5.3</version>
+      <scope>compile</scope>
+    </dependency>-->
+
+    <dependency>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-jersey2-jaxrs</artifactId>
+      <version>1.5.6</version>
+      <scope>compile</scope>
+    </dependency>
+    
+<!--    <dependency>
       <groupId>com.wordnik</groupId>
       <artifactId>swagger-jersey2-jaxrs_2.11</artifactId>
       <version>1.3.12</version>
       <scope>compile</scope>
-      <!--<version>${ssSwaggerVersion}</version>-->
-    </dependency>
+    </dependency>-->
+    
+<!--    <dependency>
+      <groupId>com.wordnik</groupId>
+      <artifactId>swagger-jersey2-jaxrs_2.11</artifactId>
+      <version>1.3.12</version>
+      <scope>compile</scope>
+    </dependency>-->
     
     <!-- swagger end --> 
     

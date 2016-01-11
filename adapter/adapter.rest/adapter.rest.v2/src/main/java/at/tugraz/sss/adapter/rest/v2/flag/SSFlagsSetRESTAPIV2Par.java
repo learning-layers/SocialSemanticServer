@@ -23,14 +23,10 @@ package at.tugraz.sss.adapter.rest.v2.flag;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "flagsSet request parameter")
+@ApiModel
 public class SSFlagsSetRESTAPIV2Par{
   
   @ApiModelProperty(
@@ -38,7 +34,7 @@ public class SSFlagsSetRESTAPIV2Par{
     value = "")
   public List<SSUri>   entities       = null;
   
-  @XmlElement
+  
   public void setEntities(final List<String> entities) throws Exception{
     this.entities = SSUri.get(entities, SSConf.sssUri);
   }
@@ -48,18 +44,18 @@ public class SSFlagsSetRESTAPIV2Par{
     value = "" )
   public List<SSFlagE> types          = null;
   
-  @XmlElement
+  
   public void setTypes(final List<String> types) throws Exception{
     this.types = SSFlagE.get(types);
   }
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "" )
   public Integer       value          = null;
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "" )

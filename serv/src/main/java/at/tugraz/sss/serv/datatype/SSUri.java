@@ -23,16 +23,19 @@ package at.tugraz.sss.serv.datatype;
 import at.tugraz.sss.serv.util.SSEncodingU;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.datatype.enums.SSWarnE;
 import at.tugraz.sss.serv.datatype.api.SSEntityA;
+import io.swagger.annotations.*;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.*;
+import javax.xml.bind.annotation.*;
 
+
+@ApiModel
 public class SSUri extends SSEntityA{
   
   public static boolean isURI(final String string){

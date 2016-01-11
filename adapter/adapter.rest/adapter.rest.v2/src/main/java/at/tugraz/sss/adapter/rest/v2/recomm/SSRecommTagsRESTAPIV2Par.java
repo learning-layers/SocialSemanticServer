@@ -23,17 +23,12 @@ package at.tugraz.sss.adapter.rest.v2.recomm;
 
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "recommTags request parameter")
+@ApiModel
 public class SSRecommTagsRESTAPIV2Par{
   
-  @XmlElement
   @ApiModelProperty(
     required = false,
     value = "realm the user wants to query")
@@ -44,7 +39,7 @@ public class SSRecommTagsRESTAPIV2Par{
     value = "user to be considered to retrieve recommendations for")
   public SSUri         forUser    = null;
   
-  @XmlElement
+  
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser, SSConf.sssUri);
   }
@@ -54,30 +49,30 @@ public class SSRecommTagsRESTAPIV2Par{
     value = "resource to be considered to retrieve recommendations for")
   public SSUri         entity     = null;
   
-  @XmlElement
+  
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity, SSConf.sssUri);
   }
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "additional information to be taken into account")
   public List<String>  categories = null;
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "number of tags to be returned")
   public Integer       maxTags    = 10;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "whether own tags should be included in the result")
   public boolean includeOwn = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "whether access rights shall be ignored, as data from external tool is used")

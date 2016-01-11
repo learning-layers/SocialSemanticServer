@@ -26,8 +26,7 @@ import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -41,8 +40,8 @@ import sss.serv.eval.api.*;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 import sss.serv.eval.datatypes.ret.SSEvalLogRet;
 
-@Path("/eval")
-@Api( value = "/eval")
+@Path("/eval/eval")
+@Api( value = "eval")
 public class SSRESTEval{
   
   @PostConstruct

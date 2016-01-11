@@ -22,14 +22,11 @@ package at.tugraz.sss.adapter.rest.v2.circle;
 
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "circleGet request parameter")
+import java.util.List;
+
+@ApiModel
 public class SSCircleGetRESTAPIV2Par{
   
   @ApiModelProperty(
@@ -37,12 +34,12 @@ public class SSCircleGetRESTAPIV2Par{
     value = "entity types to include in 'entitites' only")
   public List<SSEntityE>   entityTypesToIncludeOnly             = null;
   
-  @XmlElement
+  
   public void setEntityTypesToIncludeOnly(final List<String> entityTypesToIncludeOnly) throws Exception{
      this.entityTypesToIncludeOnly = SSEntityE.get(entityTypesToIncludeOnly);
   }
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "whether tags for contained entities shall be set")
@@ -53,24 +50,24 @@ public class SSCircleGetRESTAPIV2Par{
     value = "space to set tags from")
   public SSSpaceE tagSpace = null;
   
-  @XmlElement
+  
   public void setTagSpace(final String tagSpace) throws Exception{
      this.tagSpace = SSSpaceE.get(tagSpace);
   }
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "whether the profile picture of the circle shall be set")
   public boolean setProfilePicture = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "")
   public boolean setThumb = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "")

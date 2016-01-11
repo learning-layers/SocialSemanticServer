@@ -22,11 +22,9 @@ package at.tugraz.sss.adapter.rest.v2.system;
 
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = SSVarNames.jsonLD + "systemVersionGet"  + "request parameter")
+@ApiModel
 public class SSSystemVersionGetPar extends SSServPar{
   
   public SSSystemVersionGetPar(){

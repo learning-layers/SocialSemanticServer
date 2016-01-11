@@ -1,0 +1,5723 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "https://github.com/learning-layers/SocialSemanticServer/",
+    "version" : "v2",
+    "title" : "Social Semantic Server REST API",
+    "termsOfService" : "https://github.com/learning-layers/",
+    "contact" : {
+      "email" : "dtheiler#tugraz$at"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host" : "localhost:8080",
+  "basePath" : "/sss.adapter.rest.v2/rest",
+  "tags" : [ {
+    "name" : "activities"
+  }, {
+    "name" : "apps"
+  }, {
+    "name" : "appstacklayouts"
+  }, {
+    "name" : "auth"
+  }, {
+    "name" : "categories"
+  }, {
+    "name" : "circles"
+  }, {
+    "name" : "colls"
+  }, {
+    "name" : "discs"
+  }, {
+    "name" : "entities"
+  }, {
+    "name" : "eval"
+  }, {
+    "name" : "files"
+  }, {
+    "name" : "flags"
+  }, {
+    "name" : "friends"
+  }, {
+    "name" : "images"
+  }, {
+    "name" : "learneps"
+  }, {
+    "name" : "likes"
+  }, {
+    "name" : "livingdocs"
+  }, {
+    "name" : "messages"
+  }, {
+    "name" : "ratings"
+  }, {
+    "name" : "recomm"
+  }, {
+    "name" : "search"
+  }, {
+    "name" : "tags"
+  }, {
+    "name" : "ues"
+  }, {
+    "name" : "users"
+  }, {
+    "name" : "videos"
+  } ],
+  "paths" : {
+    "/activities/activities" : {
+      "post" : {
+        "tags" : [ "activities" ],
+        "summary" : "add an activity",
+        "description" : "",
+        "operationId" : "activityAdd",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSActivityAddRet"
+            }
+          }
+        }
+      }
+    },
+    "/activities/activities/filtered" : {
+      "post" : {
+        "tags" : [ "activities" ],
+        "summary" : "retrieve activities",
+        "description" : "",
+        "operationId" : "activitiesGetFiltered",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSActivitiesGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/activities/activities/types" : {
+      "get" : {
+        "tags" : [ "activities" ],
+        "summary" : "retrieve available activity types",
+        "description" : "",
+        "operationId" : "activityTypesGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSActivityTypesGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/apps/apps" : {
+      "get" : {
+        "tags" : [ "apps" ],
+        "summary" : "retrieve apps",
+        "description" : "",
+        "operationId" : "appsGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSAppsGetRet"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "apps" ],
+        "summary" : "add an app",
+        "description" : "",
+        "operationId" : "appAddPost",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSAppAddRet"
+            }
+          }
+        }
+      }
+    },
+    "/apps/apps/{apps}" : {
+      "delete" : {
+        "tags" : [ "apps" ],
+        "summary" : "remove apps",
+        "description" : "",
+        "operationId" : "appsDelete",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "apps",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSAppsDeleteRet"
+            }
+          }
+        }
+      }
+    },
+    "/appstacklayouts/appstacklayouts" : {
+      "get" : {
+        "tags" : [ "appstacklayouts" ],
+        "summary" : "retrieve appStackLayouts",
+        "description" : "",
+        "operationId" : "appStackLayoutsAccessibleGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSAppStackLayoutsGetRet"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "appstacklayouts" ],
+        "summary" : "create an arrangement of tiles within an app",
+        "description" : "",
+        "operationId" : "appStackLayoutCreatePost",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSAppStackLayoutCreateRet"
+            }
+          }
+        }
+      }
+    },
+    "/appstacklayouts/appstacklayouts/{stacks}" : {
+      "get" : {
+        "tags" : [ "appstacklayouts" ],
+        "summary" : "retrieve given appStackLayouts",
+        "description" : "",
+        "operationId" : "appStackLayoutsGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "stacks",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSAppStackLayoutsGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/appstacklayouts/appstacklayouts/{stack}" : {
+      "put" : {
+        "tags" : [ "appstacklayouts" ],
+        "summary" : "update an arrangement of tiles within an app",
+        "description" : "",
+        "operationId" : "appStackLayoutUpdate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "stack",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSAppStackLayoutUpdateRet"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "appstacklayouts" ],
+        "summary" : "delete an arrangement of tiles within an app",
+        "description" : "",
+        "operationId" : "appStackLayoutDelete",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "stack",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSAppStackLayoutDeleteRet"
+            }
+          }
+        }
+      }
+    },
+    "/auth/auth" : {
+      "get" : {
+        "tags" : [ "auth" ],
+        "summary" : "validate given OIDC authentication token (sent as header 'Authorization: Bearer yourToken') and retrieve the user's uri for given token ('only available for SSS 'oidcAuth')",
+        "description" : "",
+        "operationId" : "checkCredWithAuthToken",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSAuthCheckCredRet"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "auth" ],
+        "summary" : "retrieve sss authentication key and the user's uri for given user name and password (only available for SSS 'csvFileAuth')",
+        "description" : "",
+        "operationId" : "checkCredWithUserNamePassword",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSAuthCheckCredRet"
+            }
+          }
+        }
+      }
+    },
+    "/auth/auth/{email}" : {
+      "post" : {
+        "tags" : [ "auth" ],
+        "summary" : "",
+        "description" : "",
+        "operationId" : "authRegisterUser",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "email",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSAuthCheckCredRet"
+            }
+          }
+        }
+      }
+    },
+    "/categories/categories" : {
+      "post" : {
+        "tags" : [ "categories" ],
+        "summary" : "add a category for an entity in given space",
+        "description" : "",
+        "operationId" : "categoryAdd",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCategoryAddRet"
+            }
+          }
+        }
+      }
+    },
+    "/categories/categories/filtered/frequs" : {
+      "post" : {
+        "tags" : [ "categories" ],
+        "summary" : "retrieve category frequencies",
+        "description" : "",
+        "operationId" : "categoryFrequsGetFiltered",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCategoryFrequsGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/categories/categories/frequs" : {
+      "get" : {
+        "tags" : [ "categories" ],
+        "summary" : "retrieve category frequencies",
+        "description" : "",
+        "operationId" : "categoryFrequsGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCategoryFrequsGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/categories/categories/predefined" : {
+      "get" : {
+        "tags" : [ "categories" ],
+        "summary" : "retrieve predefined categories",
+        "description" : "",
+        "operationId" : "categoriesPredefinedGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCategoriesPredefinedGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/circles/circles" : {
+      "get" : {
+        "tags" : [ "circles" ],
+        "summary" : "retrieve circles",
+        "description" : "",
+        "operationId" : "circlesGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCirclesGetRet"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "circles" ],
+        "summary" : "create a circle and add users / entities",
+        "description" : "",
+        "operationId" : "circleCreate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCircleCreateRet"
+            }
+          }
+        }
+      }
+    },
+    "/circles/circles/filtered" : {
+      "post" : {
+        "tags" : [ "circles" ],
+        "summary" : "retrieve filtered circles",
+        "description" : "",
+        "operationId" : "circlesFilteredGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCirclesGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/circles/circles/filtered/users/{forUser}" : {
+      "post" : {
+        "tags" : [ "circles" ],
+        "summary" : "retrieve filtered circles for user",
+        "description" : "",
+        "operationId" : "circlesFilteredForUserGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "forUser",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCirclesGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/circles/circles/filtered/{circle}" : {
+      "post" : {
+        "tags" : [ "circles" ],
+        "summary" : "retrieve a filtered circle",
+        "description" : "",
+        "operationId" : "circleFilteredGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "circle",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCircleGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/circles/circles/users/{forUser}" : {
+      "get" : {
+        "tags" : [ "circles" ],
+        "summary" : "retrieve circles for user",
+        "description" : "",
+        "operationId" : "circlesForUsersGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "forUser",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCirclesGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/circles/circles/{circle}" : {
+      "get" : {
+        "tags" : [ "circles" ],
+        "summary" : "retrieve a circle",
+        "description" : "",
+        "operationId" : "circleGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "circle",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCircleGetRet"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "circles" ],
+        "summary" : "remove circle",
+        "description" : "",
+        "operationId" : "circleRemove",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "circle",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCircleRemoveRet"
+            }
+          }
+        }
+      }
+    },
+    "/circles/circles/{circle}/entities/{entities}" : {
+      "post" : {
+        "tags" : [ "circles" ],
+        "summary" : "add given entities to a circle",
+        "description" : "",
+        "operationId" : "circleEntitiesAdd",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "circle",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "entities",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCircleEntitiesAddRet"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "circles" ],
+        "summary" : "remove given entities from circle",
+        "description" : "",
+        "operationId" : "circleEntitiesRemove",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "circle",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "entities",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCircleEntitiesRemoveRet"
+            }
+          }
+        }
+      }
+    },
+    "/circles/circles/{circle}/type/{type}" : {
+      "put" : {
+        "tags" : [ "circles" ],
+        "summary" : "change circle's type",
+        "description" : "",
+        "operationId" : "circleTypeChange",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "circle",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "type",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCircleTypeChangeRet"
+            }
+          }
+        }
+      }
+    },
+    "/circles/circles/{circle}/users/invite/{emails}" : {
+      "post" : {
+        "tags" : [ "circles" ],
+        "summary" : "invite users to a circle",
+        "description" : "",
+        "operationId" : "circleUsersInvite",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "circle",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "emails",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCircleUsersInviteRet"
+            }
+          }
+        }
+      }
+    },
+    "/circles/circles/{circle}/users/{users}" : {
+      "post" : {
+        "tags" : [ "circles" ],
+        "summary" : "add given users to a circle",
+        "description" : "",
+        "operationId" : "circleUsersAdd",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "circle",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "users",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCircleUsersAddRet"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "circles" ],
+        "summary" : "remove users from circle",
+        "description" : "",
+        "operationId" : "circleUsersRemove",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "circle",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "users",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCircleUsersRemoveRet"
+            }
+          }
+        }
+      }
+    },
+    "/colls/colls/entries/{entity}/colls" : {
+      "get" : {
+        "tags" : [ "colls" ],
+        "summary" : "retrieve all the user's collections given entity is in",
+        "description" : "",
+        "operationId" : "collsEntityIsInGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entity",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCollsUserEntityIsInGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/colls/colls/root" : {
+      "get" : {
+        "tags" : [ "colls" ],
+        "summary" : "retrieve the user's root collection",
+        "description" : "",
+        "operationId" : "collRootGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCollUserRootGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/colls/colls/{coll}" : {
+      "get" : {
+        "tags" : [ "colls" ],
+        "summary" : "retrieve a user's collection with entries",
+        "description" : "",
+        "operationId" : "collGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "coll",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCollGetRet"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "colls" ],
+        "summary" : "add a (new) collection or any other entity to given user's collection",
+        "description" : "",
+        "operationId" : "collEntryAdd",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "coll",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCollUserEntryAddRet"
+            }
+          }
+        }
+      }
+    },
+    "/colls/colls/{coll}/entries" : {
+      "post" : {
+        "tags" : [ "colls" ],
+        "summary" : "add existing collections or (new) entities to a collection",
+        "description" : "",
+        "operationId" : "collEntriesAdd",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "coll",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCollUserEntriesAddRet"
+            }
+          }
+        }
+      }
+    },
+    "/colls/colls/{coll}/entries/{entries}" : {
+      "delete" : {
+        "tags" : [ "colls" ],
+        "summary" : "delete one or more entries from a collection",
+        "description" : "",
+        "operationId" : "collEntriesDelete",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "coll",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "entries",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCollUserEntriesDeleteRet"
+            }
+          }
+        }
+      }
+    },
+    "/colls/colls/{coll}/hierarchy" : {
+      "get" : {
+        "tags" : [ "colls" ],
+        "summary" : "retrieve the parent collection order for a user's collection",
+        "description" : "",
+        "operationId" : "collHierarchyGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "coll",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCollUserHierarchyGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/colls/colls/{coll}/tags/cumulated" : {
+      "get" : {
+        "tags" : [ "colls" ],
+        "summary" : "retrieve the cumulated tags (and their frequencies) for all the sub collections and respective entities",
+        "description" : "",
+        "operationId" : "collCumulatedTagsGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "coll",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCollUserCumulatedTagsGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/discs/discs" : {
+      "post" : {
+        "tags" : [ "discs" ],
+        "summary" : "add a textual comment/answer/opinion to a discussion [for given entity] or create a new discussion",
+        "description" : "",
+        "operationId" : "discEntryAdd",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSDiscEntryAddRet"
+            }
+          }
+        }
+      }
+    },
+    "/discs/discs/entries/{entry}" : {
+      "put" : {
+        "tags" : [ "discs" ],
+        "summary" : "update a textual comment/answer/opinion of a discussion",
+        "description" : "",
+        "operationId" : "discEntryUpdate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entry",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSDiscEntryUpdateRet"
+            }
+          }
+        }
+      }
+    },
+    "/discs/discs/entry/{entry}/accept" : {
+      "put" : {
+        "tags" : [ "discs" ],
+        "summary" : "accept a qa answer",
+        "description" : "",
+        "operationId" : "discEntryAccept",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entry",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSDiscEntryAcceptRet"
+            }
+          }
+        }
+      }
+    },
+    "/discs/discs/filtered" : {
+      "post" : {
+        "tags" : [ "discs" ],
+        "summary" : "retrieve discussions",
+        "description" : "",
+        "operationId" : "discsGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSDiscsGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/discs/discs/filtered/targets/{targets}" : {
+      "post" : {
+        "tags" : [ "discs" ],
+        "summary" : "retrieve discussions for certain entities, i.e., targets",
+        "description" : "",
+        "operationId" : "discsForTargetsFilteredGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "targets",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSDiscsGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/discs/discs/filtered/{disc}" : {
+      "post" : {
+        "tags" : [ "discs" ],
+        "summary" : "retrieve a discussion with its entries",
+        "description" : "",
+        "operationId" : "discWithEntriesGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "disc",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSDiscGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/discs/discs/targets/{targets}" : {
+      "get" : {
+        "tags" : [ "discs" ],
+        "summary" : "retrieve discussions for certain entities, i.e., targets",
+        "description" : "",
+        "operationId" : "discsForTargetsGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "targets",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSDiscsGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/discs/discs/{disc}" : {
+      "put" : {
+        "tags" : [ "discs" ],
+        "summary" : "update discussion",
+        "description" : "",
+        "operationId" : "discUpdate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "disc",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSDiscUpdateRet"
+            }
+          }
+        }
+      }
+    },
+    "/discs/discs/{disc}/targets/{targets}" : {
+      "put" : {
+        "tags" : [ "discs" ],
+        "summary" : "add targets to a discussion",
+        "description" : "",
+        "operationId" : "discTargetsAdd",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "disc",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "targets",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSDiscTargetsAddRet"
+            }
+          }
+        }
+      }
+    },
+    "/entities/entities" : {
+      "post" : {
+        "tags" : [ "entities" ],
+        "summary" : "adds a new entity with given properties",
+        "description" : "",
+        "operationId" : "entityAdd",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSEntityUpdateRet"
+            }
+          }
+        },
+        "deprecated" : true
+      }
+    },
+    "/entities/entities/accessible" : {
+      "get" : {
+        "tags" : [ "entities" ],
+        "summary" : "retrieve accessible entities",
+        "description" : "",
+        "operationId" : "entitiesAccessibleGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSEntityTypesGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/entities/entities/filtered/accessible" : {
+      "post" : {
+        "tags" : [ "entities" ],
+        "summary" : "retrieve accessible entities",
+        "description" : "",
+        "operationId" : "entitiesAccessibleFilteredGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSEntityTypesGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/entities/entities/filtered/{entities}" : {
+      "post" : {
+        "tags" : [ "entities" ],
+        "summary" : "retrieve entities information for given ID(s) or encoded URI(s)",
+        "description" : "",
+        "operationId" : "entitiesGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entities",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSEntitiesGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/entities/entities/types" : {
+      "get" : {
+        "tags" : [ "entities" ],
+        "summary" : "retrieve available entity types",
+        "description" : "",
+        "operationId" : "entityTypesGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSEntityTypesGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/entities/entities/{entity}" : {
+      "put" : {
+        "tags" : [ "entities" ],
+        "summary" : "updates / adds given properties for given entity",
+        "description" : "",
+        "operationId" : "entityUpdate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entity",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSEntityUpdateRet"
+            }
+          }
+        }
+      }
+    },
+    "/entities/entities/{entity}/comments" : {
+      "post" : {
+        "tags" : [ "entities" ],
+        "summary" : "add comments to the entity",
+        "description" : "",
+        "operationId" : "commentsAdd",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entity",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCommentsAddPar"
+            }
+          }
+        }
+      }
+    },
+    "/entities/entities/{entity}/copy" : {
+      "put" : {
+        "tags" : [ "entities" ],
+        "summary" : "copy an entity",
+        "description" : "",
+        "operationId" : "entityCopy",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entity",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSEntityCopyRet"
+            }
+          }
+        }
+      }
+    },
+    "/entities/entities/{entity}/share" : {
+      "put" : {
+        "tags" : [ "entities" ],
+        "summary" : "share an entity with users, circles or set it public (make it accessible for everyone)",
+        "description" : "",
+        "operationId" : "entityShare",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entity",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSEntityShareRet"
+            }
+          }
+        }
+      }
+    },
+    "/entities/entities/{entity}/unpublicize" : {
+      "put" : {
+        "tags" : [ "entities" ],
+        "summary" : "remove an entity from public space",
+        "description" : "",
+        "operationId" : "entityUnpublicize",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entity",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSEntityUnpublicizeRet"
+            }
+          }
+        }
+      }
+    },
+    "/entities/entities/{entity}/users" : {
+      "get" : {
+        "tags" : [ "entities" ],
+        "summary" : "retrieve users who can access given entity",
+        "description" : "",
+        "operationId" : "entityUsersGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entity",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSUserEntityUsersGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/eval/eval/log" : {
+      "post" : {
+        "tags" : [ "eval" ],
+        "summary" : "log events for evaluation purposes",
+        "description" : "",
+        "operationId" : "evalLog",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSEvalLogRet"
+            }
+          }
+        }
+      }
+    },
+    "/files/files/download" : {
+      "get" : {
+        "tags" : [ "files" ],
+        "summary" : "download a file with query params",
+        "description" : "",
+        "operationId" : "fileDownloadQueryParam",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/octet-stream" ],
+        "parameters" : [ {
+          "name" : "key",
+          "in" : "query",
+          "description" : "authentication token",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "file",
+          "in" : "query",
+          "description" : "file to be downloaded",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "string",
+              "format" : "byte"
+            }
+          }
+        }
+      }
+    },
+    "/files/files/upload" : {
+      "post" : {
+        "tags" : [ "files" ],
+        "summary" : "upload a file",
+        "description" : "",
+        "operationId" : "fileUpload",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "label for the file",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "circle to consider for metadata visibility",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "mimeType for the file",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "file data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/InputStream"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSFileUploadRet"
+            }
+          }
+        }
+      }
+    },
+    "/files/files/{file}/download" : {
+      "get" : {
+        "tags" : [ "files" ],
+        "summary" : "download a file",
+        "description" : "",
+        "operationId" : "fileDownload",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/octet-stream" ],
+        "parameters" : [ {
+          "name" : "file",
+          "in" : "path",
+          "description" : "file to be downloaded",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "string",
+              "format" : "byte"
+            }
+          }
+        }
+      }
+    },
+    "/files/files/{file}/download/public" : {
+      "get" : {
+        "tags" : [ "files" ],
+        "summary" : "download a public file",
+        "description" : "",
+        "operationId" : "fileDownloadPublic",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/octet-stream" ],
+        "parameters" : [ {
+          "name" : "file",
+          "in" : "path",
+          "description" : "file to be downloaded",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "string",
+              "format" : "byte"
+            }
+          }
+        }
+      }
+    },
+    "/flags/flags" : {
+      "post" : {
+        "tags" : [ "flags" ],
+        "summary" : "set flags",
+        "description" : "",
+        "operationId" : "flagsSet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSFlagsSetRet"
+            }
+          }
+        }
+      }
+    },
+    "/flags/flags/filtered" : {
+      "post" : {
+        "tags" : [ "flags" ],
+        "summary" : "retrieve flags",
+        "description" : "",
+        "operationId" : "flagsGetFiltered",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSFlagsGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/friends/friends" : {
+      "get" : {
+        "tags" : [ "friends" ],
+        "summary" : "get friends",
+        "description" : "",
+        "operationId" : "friendsGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSFriendsGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/friends/friends/{friend}" : {
+      "post" : {
+        "tags" : [ "friends" ],
+        "summary" : "add a friend",
+        "description" : "",
+        "operationId" : "friendAddPost",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "friend",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSFriendAddRet"
+            }
+          }
+        }
+      }
+    },
+    "/images/images/profile/picture/entity/{entity}/file/{file}" : {
+      "put" : {
+        "tags" : [ "images" ],
+        "summary" : "set an entity's profile picture",
+        "description" : "",
+        "operationId" : "imageProfilePictureSet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entity",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "file",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSImageProfilePictureSetRet"
+            }
+          }
+        }
+      }
+    },
+    "/learneps/learneps" : {
+      "get" : {
+        "tags" : [ "learneps" ],
+        "summary" : "retrieve learning episodes for a user",
+        "description" : "",
+        "operationId" : "learnEpsGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpsGetRet"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "learneps" ],
+        "summary" : "create learning episode",
+        "description" : "",
+        "operationId" : "learnEpCreate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpCreateRet"
+            }
+          }
+        }
+      }
+    },
+    "/learneps/learneps/circles/{learnEpCircle}" : {
+      "put" : {
+        "tags" : [ "learneps" ],
+        "summary" : "update a circle",
+        "description" : "",
+        "operationId" : "learnEpVersionCircleUpdate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "learnEpCircle",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpVersionCircleUpdateRet"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "learneps" ],
+        "summary" : "remove a circle",
+        "description" : "",
+        "operationId" : "learnEpVersionCircleRemove",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "learnEpCircle",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpVersionCircleRemoveRet"
+            }
+          }
+        }
+      }
+    },
+    "/learneps/learneps/entities/{learnEpEntity}" : {
+      "put" : {
+        "tags" : [ "learneps" ],
+        "summary" : "update an entity",
+        "description" : "",
+        "operationId" : "learnEpVersionEntityUpdate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "learnEpEntity",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpVersionEntityUpdateRet"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "learneps" ],
+        "summary" : "remove an entity",
+        "description" : "",
+        "operationId" : "learnEpVersionEntityRemove",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "learnEpEntity",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpVersionEntityRemoveRet"
+            }
+          }
+        }
+      }
+    },
+    "/learneps/learneps/versions/current" : {
+      "get" : {
+        "tags" : [ "learneps" ],
+        "summary" : "retrieve current learning episode version",
+        "description" : "",
+        "operationId" : "learnEpVersionCurrentGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpVersionCurrentGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/learneps/learneps/versions/current/{learnEpVersion}" : {
+      "post" : {
+        "tags" : [ "learneps" ],
+        "summary" : "set current learning episode version",
+        "description" : "",
+        "operationId" : "learnEpVersionCurrentSet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "learnEpVersion",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpVersionCurrentSetRet"
+            }
+          }
+        }
+      }
+    },
+    "/learneps/learneps/versions/{learnEpVersion}" : {
+      "get" : {
+        "tags" : [ "learneps" ],
+        "summary" : "retrieve given learning episode version",
+        "description" : "",
+        "operationId" : "learnEpVersionGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "learnEpVersion",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpVersionGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/learneps/learneps/versions/{learnEpVersion}/circles" : {
+      "post" : {
+        "tags" : [ "learneps" ],
+        "summary" : "add a circle to given learning episode version",
+        "description" : "",
+        "operationId" : "learnEpVersionCircleAdd",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "learnEpVersion",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpVersionCircleAddRet"
+            }
+          }
+        }
+      }
+    },
+    "/learneps/learneps/versions/{learnEpVersion}/entities" : {
+      "post" : {
+        "tags" : [ "learneps" ],
+        "summary" : "add an entity to given learning episode version",
+        "description" : "",
+        "operationId" : "learnEpVersionEntityAdd",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "learnEpVersion",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpVersionEntityAddRet"
+            }
+          }
+        }
+      }
+    },
+    "/learneps/learneps/versions/{learnEpVersion}/timeline/state" : {
+      "get" : {
+        "tags" : [ "learneps" ],
+        "summary" : "get timeline state for learning episode version",
+        "description" : "",
+        "operationId" : "learnEpVersionTimelineStateGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "learnEpVersion",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpVersionTimelineStateGetRet"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "learneps" ],
+        "summary" : "set timeline state for learning episode version",
+        "description" : "",
+        "operationId" : "learnEpVersionTimelineStateSet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "learnEpVersion",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpVersionTimelineStateSetRet"
+            }
+          }
+        }
+      }
+    },
+    "/learneps/learneps/{learnEps}/locks" : {
+      "get" : {
+        "tags" : [ "learneps" ],
+        "summary" : "get lock information on given learning episodes",
+        "description" : "",
+        "operationId" : "learnEpsLockHold",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "learnEps",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpsLockHoldRet"
+            }
+          }
+        }
+      }
+    },
+    "/learneps/learneps/{learnEp}" : {
+      "delete" : {
+        "tags" : [ "learneps" ],
+        "summary" : "remove learning episode",
+        "description" : "",
+        "operationId" : "learnEpRemove",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "learnEp",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpRemoveRet"
+            }
+          }
+        }
+      }
+    },
+    "/learneps/learneps/{learnEp}/locks" : {
+      "post" : {
+        "tags" : [ "learneps" ],
+        "summary" : "set lock on given learning episode",
+        "description" : "",
+        "operationId" : "learnEpLockSet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "learnEp",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpLockSetRet"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "learneps" ],
+        "summary" : "remove lock on given learning episode",
+        "description" : "",
+        "operationId" : "learnEpLockRemove",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "learnEp",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpLockRemoveRet"
+            }
+          }
+        }
+      }
+    },
+    "/learneps/learneps/{learnEp}/versions" : {
+      "get" : {
+        "tags" : [ "learneps" ],
+        "summary" : "retrieve learning episode versions for given episode",
+        "description" : "",
+        "operationId" : "learnEpVersionsGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "learnEp",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpVersionsGetRet"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "learneps" ],
+        "summary" : "create learning episode version",
+        "description" : "",
+        "operationId" : "learnEpVersionCreate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "learnEp",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpVersionCreateRet"
+            }
+          }
+        }
+      }
+    },
+    "/likes/likes/entities/{entity}/value/{value}" : {
+      "put" : {
+        "tags" : [ "likes" ],
+        "summary" : "like / dislike / neutral an entity",
+        "description" : "",
+        "operationId" : "likeUpdate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entity",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "value",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLikeUserSetRet"
+            }
+          }
+        }
+      }
+    },
+    "/livingdocs/livingdocs" : {
+      "get" : {
+        "tags" : [ "livingdocs" ],
+        "summary" : "retrieve living docs for a user",
+        "description" : "",
+        "operationId" : "livingDocsGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLivingDocsGetRet"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "livingdocs" ],
+        "summary" : "add a living doc",
+        "description" : "",
+        "operationId" : "livingDocAdd",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLivingDocAddRet"
+            }
+          }
+        }
+      }
+    },
+    "/livingdocs/livingdocs/filtered" : {
+      "post" : {
+        "tags" : [ "livingdocs" ],
+        "summary" : "retrieve living docs for a user",
+        "description" : "",
+        "operationId" : "livingDocsFilteredGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLivingDocsGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/livingdocs/livingdocs/filtered/{livingDoc}" : {
+      "post" : {
+        "tags" : [ "livingdocs" ],
+        "summary" : "retrieve living doc for a user",
+        "description" : "",
+        "operationId" : "livingDocFilteredGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "livingDoc",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLivingDocGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/livingdocs/livingdocs/{livingDoc}" : {
+      "get" : {
+        "tags" : [ "livingdocs" ],
+        "summary" : "retrieve a living doc",
+        "description" : "",
+        "operationId" : "livingDocGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "livingDoc",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLivingDocGetRet"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "livingdocs" ],
+        "summary" : "update a living doc",
+        "description" : "",
+        "operationId" : "livingDocUpdate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "livingDoc",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLivingDocUpdateRet"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "livingdocs" ],
+        "summary" : "remove a living doc",
+        "description" : "",
+        "operationId" : "livingDocRemove",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "livingDoc",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLivingDocRemoveRet"
+            }
+          }
+        }
+      }
+    },
+    "/messages/messages" : {
+      "post" : {
+        "tags" : [ "messages" ],
+        "summary" : "send a message to a user",
+        "description" : "",
+        "operationId" : "messageSend",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSMessageSendRet"
+            }
+          }
+        }
+      }
+    },
+    "/messages/messages/filtered" : {
+      "post" : {
+        "tags" : [ "messages" ],
+        "summary" : "retrieve messages",
+        "description" : "",
+        "operationId" : "messagesGetFiltered",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSMessagesGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/ratings/ratings/entities/{entity}/overall" : {
+      "get" : {
+        "tags" : [ "ratings" ],
+        "summary" : "retrieve the overall rating (by all users) for given entity",
+        "description" : "",
+        "operationId" : "ratingOverallGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entity",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSRatingOverallGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/ratings/ratings/entities/{entity}/value/{value}" : {
+      "post" : {
+        "tags" : [ "ratings" ],
+        "summary" : "set the user's rating for given entity",
+        "description" : "",
+        "operationId" : "ratingSet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entity",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "value",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSRatingSetRet"
+            }
+          }
+        }
+      }
+    },
+    "/recomm/recomm/filtered/resources" : {
+      "post" : {
+        "tags" : [ "recomm" ],
+        "summary" : "retrieve resource recommendations",
+        "description" : "",
+        "operationId" : "recommResources",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSRecommResourcesRet"
+            }
+          }
+        }
+      }
+    },
+    "/recomm/recomm/filtered/tags" : {
+      "post" : {
+        "tags" : [ "recomm" ],
+        "summary" : "retrieve tag recommendations based on user, entity, tag, time and category combinations",
+        "description" : "",
+        "operationId" : "recommTags",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSRecommTagsRet"
+            }
+          }
+        }
+      }
+    },
+    "/recomm/recomm/update" : {
+      "put" : {
+        "tags" : [ "recomm" ],
+        "summary" : "add a new combination of user, entity, tags, categories to be used for recommendations",
+        "description" : "",
+        "operationId" : "recommUpdate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSRecommUpdateRet"
+            }
+          }
+        }
+      }
+    },
+    "/recomm/recomm/update/bulk/entities" : {
+      "put" : {
+        "tags" : [ "recomm" ],
+        "summary" : "add tags, categories for the user's given entities to be used for recommendations",
+        "description" : "",
+        "operationId" : "recommUpdateBulkEntities",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSRecommUpdateRet"
+            }
+          }
+        }
+      }
+    },
+    "/recomm/recomm/update/bulk/{realm}" : {
+      "post" : {
+        "tags" : [ "recomm" ],
+        "summary" : "add a file containing user, entity, tag, category combinations to be used for recommendations",
+        "description" : "",
+        "operationId" : "recommUpdateBulk",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "realm",
+          "in" : "path",
+          "description" : "recomm realm the user wants to query",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "data file containing: user1;entity1;;tag1,tag2;cat1,cat2;",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/InputStream"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSRecommUpdateBulkRet"
+            }
+          }
+        }
+      }
+    },
+    "/recomm/recomm/users" : {
+      "get" : {
+        "tags" : [ "recomm" ],
+        "summary" : "retrieve user recommendations",
+        "description" : "",
+        "operationId" : "recommUsers",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSRecommUsersRet"
+            }
+          }
+        }
+      }
+    },
+    "/recomm/recomm/users/entity/{entity}" : {
+      "get" : {
+        "tags" : [ "recomm" ],
+        "summary" : "retrieve user recommendations",
+        "description" : "",
+        "operationId" : "recommUsersForEntity",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entity",
+          "in" : "path",
+          "description" : "resource to be considered to retrieve recommendations for",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSRecommUsersRet"
+            }
+          }
+        }
+      }
+    },
+    "/recomm/recomm/users/ignoreaccessrights/realm/{realm}" : {
+      "get" : {
+        "tags" : [ "recomm" ],
+        "summary" : "retrieve user recommendations",
+        "description" : "",
+        "operationId" : "recommUsersIgnoreAccessRights",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "realm",
+          "in" : "path",
+          "description" : "recomm realm the user wants to query",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSRecommUsersRet"
+            }
+          }
+        }
+      }
+    },
+    "/recomm/recomm/users/ignoreaccessrights/realm/{realm}/entity/{entity}" : {
+      "get" : {
+        "tags" : [ "recomm" ],
+        "summary" : "retrieve user recommendations",
+        "description" : "",
+        "operationId" : "recommUsersForEntityIgnoreAccessRights",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "realm",
+          "in" : "path",
+          "description" : "recomm realm the user wants to query",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "entity",
+          "in" : "path",
+          "description" : "resource to be considered to retrieve recommendations for",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSRecommUsersRet"
+            }
+          }
+        }
+      }
+    },
+    "/recomm/recomm/users/ignoreaccessrights/realm/{realm}/user/{forUser}" : {
+      "get" : {
+        "tags" : [ "recomm" ],
+        "summary" : "retrieve user recommendations",
+        "description" : "",
+        "operationId" : "recommUsersForUserIgnoreAccessRights",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "realm",
+          "in" : "path",
+          "description" : "recomm realm the user wants to query",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "forUser",
+          "in" : "path",
+          "description" : "user to be considered to retrieve recommendations for",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSRecommUsersRet"
+            }
+          }
+        }
+      }
+    },
+    "/recomm/recomm/users/ignoreaccessrights/realm/{realm}/user/{forUser}/entity/{entity}" : {
+      "get" : {
+        "tags" : [ "recomm" ],
+        "summary" : "retrieve user recommendations",
+        "description" : "",
+        "operationId" : "recommUsersForUserEntityIgnoreAccessRights",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "realm",
+          "in" : "path",
+          "description" : "recomm realm the user wants to query",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "forUser",
+          "in" : "path",
+          "description" : "user to be considered to retrieve recommendations for",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "entity",
+          "in" : "path",
+          "description" : "resource to be considered to retrieve recommendations for",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSRecommUsersRet"
+            }
+          }
+        }
+      }
+    },
+    "/recomm/recomm/users/realm/{realm}" : {
+      "get" : {
+        "tags" : [ "recomm" ],
+        "summary" : "retrieve user recommendations",
+        "description" : "",
+        "operationId" : "recommUsers",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "realm",
+          "in" : "path",
+          "description" : "recomm realm the user wants to query",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSRecommUsersRet"
+            }
+          }
+        }
+      }
+    },
+    "/recomm/recomm/users/realm/{realm}/entity/{entity}" : {
+      "get" : {
+        "tags" : [ "recomm" ],
+        "summary" : "retrieve user recommendations",
+        "description" : "",
+        "operationId" : "recommUsersForEntity",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "realm",
+          "in" : "path",
+          "description" : "recomm realm the user wants to query",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "entity",
+          "in" : "path",
+          "description" : "resource to be considered to retrieve recommendations for",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSRecommUsersRet"
+            }
+          }
+        }
+      }
+    },
+    "/recomm/recomm/users/realm/{realm}/user/{forUser}" : {
+      "get" : {
+        "tags" : [ "recomm" ],
+        "summary" : "retrieve user recommendations",
+        "description" : "",
+        "operationId" : "recommUsersForUser",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "realm",
+          "in" : "path",
+          "description" : "recomm realm the user wants to query",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "forUser",
+          "in" : "path",
+          "description" : "user to be considered to retrieve recommendations for",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSRecommUsersRet"
+            }
+          }
+        }
+      }
+    },
+    "/recomm/recomm/users/realm/{realm}/user/{forUser}/entity/{entity}" : {
+      "get" : {
+        "tags" : [ "recomm" ],
+        "summary" : "retrieve user recommendations",
+        "description" : "",
+        "operationId" : "recommUsersForUserEntity",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "realm",
+          "in" : "path",
+          "description" : "recomm realm the user wants to query",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "forUser",
+          "in" : "path",
+          "description" : "user to be considered to retrieve recommendations for",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "entity",
+          "in" : "path",
+          "description" : "resource to be considered to retrieve recommendations for",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSRecommUsersRet"
+            }
+          }
+        }
+      }
+    },
+    "/recomm/recomm/users/user/{forUser}" : {
+      "get" : {
+        "tags" : [ "recomm" ],
+        "summary" : "retrieve user recommendations",
+        "description" : "",
+        "operationId" : "recommUsersForUser",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "forUser",
+          "in" : "path",
+          "description" : "user to be considered to retrieve recommendations for",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSRecommUsersRet"
+            }
+          }
+        }
+      }
+    },
+    "/recomm/recomm/users/user/{forUser}/entity/{entity}" : {
+      "get" : {
+        "tags" : [ "recomm" ],
+        "summary" : "retrieve user recommendations",
+        "description" : "",
+        "operationId" : "recommUsersForUserEntity",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "forUser",
+          "in" : "path",
+          "description" : "user to be considered to retrieve recommendations for",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "entity",
+          "in" : "path",
+          "description" : "resource to be considered to retrieve recommendations for",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSRecommUsersRet"
+            }
+          }
+        }
+      }
+    },
+    "/search/search/filtered" : {
+      "post" : {
+        "tags" : [ "search" ],
+        "summary" : "search for entities",
+        "description" : "",
+        "operationId" : "search",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSSearchRet"
+            }
+          }
+        }
+      }
+    },
+    "/tags/tags" : {
+      "get" : {
+        "tags" : [ "tags" ],
+        "summary" : "retrieve tag assignments",
+        "description" : "",
+        "operationId" : "tagsGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSTagsGetRet"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "tags" ],
+        "summary" : "add a tag for an entity within given space",
+        "description" : "",
+        "operationId" : "tagAdd",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSTagAddRet"
+            }
+          }
+        }
+      }
+    },
+    "/tags/tags/entities/{entities}" : {
+      "post" : {
+        "tags" : [ "tags" ],
+        "summary" : "add tags for entities",
+        "description" : "",
+        "operationId" : "tagsAdd",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entities",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSTagsAddRet"
+            }
+          }
+        }
+      }
+    },
+    "/tags/tags/entities/{entity}" : {
+      "delete" : {
+        "tags" : [ "tags" ],
+        "summary" : "remove tag, user, entity, space combinations for given entity",
+        "description" : "",
+        "operationId" : "tagsRemove",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entity",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSTagsRemoveRet"
+            }
+          }
+        }
+      }
+    },
+    "/tags/tags/filtered" : {
+      "post" : {
+        "tags" : [ "tags" ],
+        "summary" : "retrieve tag assignments",
+        "description" : "",
+        "operationId" : "tagsGetFiltered",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSTagsGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/tags/tags/filtered/entities" : {
+      "post" : {
+        "tags" : [ "tags" ],
+        "summary" : "retrieve entities for tags (currently startTime is not used to retrieve entities)",
+        "description" : "",
+        "operationId" : "tagEntitiesForTagsGetFiltered",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSTagEntitiesForTagsGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/tags/tags/filtered/frequs" : {
+      "post" : {
+        "tags" : [ "tags" ],
+        "summary" : "retrieve tag frequencies",
+        "description" : "",
+        "operationId" : "tagFrequsGetFiltered",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSTagFrequsGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/tags/tags/frequs" : {
+      "get" : {
+        "tags" : [ "tags" ],
+        "summary" : "retrieve tag frequencies",
+        "description" : "",
+        "operationId" : "tagFrequsGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSTagFrequsGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/ues/ues" : {
+      "post" : {
+        "tags" : [ "ues" ],
+        "summary" : "adds a usage-based trace, i.e. user event, for entity, user combination",
+        "description" : "",
+        "operationId" : "uEAdd",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSUEAddRet"
+            }
+          }
+        }
+      }
+    },
+    "/ues/ues/filtered" : {
+      "post" : {
+        "tags" : [ "ues" ],
+        "summary" : "retrieve user events for user, entity, time combination",
+        "description" : "",
+        "operationId" : "uEsGetFiltered",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSUEsGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/ues/ues/filtered/count" : {
+      "post" : {
+        "tags" : [ "ues" ],
+        "summary" : "retrieve the number of certain user events",
+        "description" : "",
+        "operationId" : "uECountGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSUECountGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/ues/ues/{uE}" : {
+      "get" : {
+        "tags" : [ "ues" ],
+        "summary" : "retrieve given user event",
+        "description" : "",
+        "operationId" : "uEGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "uE",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSUEGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/users/users" : {
+      "get" : {
+        "tags" : [ "users" ],
+        "summary" : "retrieve users",
+        "description" : "",
+        "operationId" : "usersGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSUsersGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/users/users/filtered/{users}" : {
+      "post" : {
+        "tags" : [ "users" ],
+        "summary" : "retieve given users",
+        "description" : "",
+        "operationId" : "usersFilteredGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "users",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSUsersGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/users/users/{users}" : {
+      "get" : {
+        "tags" : [ "users" ],
+        "summary" : "retrieve given users",
+        "description" : "",
+        "operationId" : "usersGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "users",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSUsersGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/videos/videos" : {
+      "get" : {
+        "tags" : [ "videos" ],
+        "summary" : "retrieve videos",
+        "description" : "",
+        "operationId" : "videosGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSVideosUserGetRet"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "videos" ],
+        "summary" : "add a video",
+        "description" : "",
+        "operationId" : "videoAdd",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSVideoUserAddRet"
+            }
+          }
+        }
+      }
+    },
+    "/videos/videos/{video}/annotations" : {
+      "post" : {
+        "tags" : [ "videos" ],
+        "summary" : "add an annotation to a video",
+        "description" : "",
+        "operationId" : "videoAnnotationAddPost",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "video",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSVideoUserAnnotationAddRet"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "videos" ],
+        "summary" : "set annotation to a video",
+        "description" : "",
+        "operationId" : "videoAnnotationsSet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "video",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSVideoAnnotationsSetRet"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "InputStream" : {
+      "type" : "object"
+    },
+    "SSActivitiesGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "activities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "queryTime" : {
+          "type" : "integer",
+          "format" : "int64"
+        }
+      }
+    },
+    "SSActivityAddRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "activity" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSActivityTypesGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "types" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "SSAppAddRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "app" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSAppStackLayoutCreateRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "stack" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSAppStackLayoutDeleteRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "worked" : {
+          "type" : "boolean",
+          "default" : false
+        }
+      }
+    },
+    "SSAppStackLayoutUpdateRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "stack" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSAppStackLayoutsGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "stacks" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        }
+      }
+    },
+    "SSAppsDeleteRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "apps" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "SSAppsGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "apps" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        }
+      }
+    },
+    "SSAuthCheckCredRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "user" : {
+          "type" : "string"
+        },
+        "key" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSCategoriesPredefinedGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "categories" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "SSCategoryAddRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "category" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSCategoryFrequ" : {
+      "type" : "object",
+      "properties" : {
+        "label" : {
+          "type" : "string"
+        },
+        "space" : {
+          "type" : "string"
+        },
+        "frequ" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    },
+    "SSCategoryFrequsGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "categoryFrequs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSCategoryFrequ"
+          }
+        }
+      }
+    },
+    "SSCircleCreateRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "circle" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSCircleEntitiesAddRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "circle" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSCircleEntitiesRemoveRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "entities" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "SSCircleGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "circle" : {
+          "$ref" : "#/definitions/SSEntityCircle"
+        }
+      }
+    },
+    "SSCircleRemoveRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "circle" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSCircleTypeChangeRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "circle" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSCircleUsersAddRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "circle" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSCircleUsersInviteRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "circle" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSCircleUsersRemoveRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "users" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "SSCirclesGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "circles" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        }
+      }
+    },
+    "SSColl" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "label" : {
+          "type" : "string"
+        },
+        "creationTime" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "author" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "entries" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "attachedEntities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "comments" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "overallRating" : {
+          "$ref" : "#/definitions/SSEntityA"
+        },
+        "tags" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "categories" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "discs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "userEvents" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "thumb" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "file" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "flags" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntityA"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "circles" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "locations" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "read" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "likes" : {
+          "$ref" : "#/definitions/SSEntityA"
+        },
+        "profilePicture" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "activityPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "messagesPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "collsPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        }
+      }
+    },
+    "SSCollGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "coll" : {
+          "$ref" : "#/definitions/SSColl"
+        }
+      }
+    },
+    "SSCollUserCumulatedTagsGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "tagFrequs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSTagFrequ"
+          }
+        }
+      }
+    },
+    "SSCollUserEntriesAddRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "entries" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "SSCollUserEntriesDeleteRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "entries" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "SSCollUserEntryAddRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "entity" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSCollUserHierarchyGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "colls" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        }
+      }
+    },
+    "SSCollUserRootGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "coll" : {
+          "$ref" : "#/definitions/SSColl"
+        }
+      }
+    },
+    "SSCollsUserEntityIsInGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "colls" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        }
+      }
+    },
+    "SSCommentsAddPar" : {
+      "type" : "object",
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "user" : {
+          "type" : "string"
+        },
+        "key" : {
+          "type" : "string"
+        },
+        "withUserRestriction" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "invokeEntityHandlers" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "entity" : {
+          "type" : "string"
+        },
+        "comments" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "SSDisc" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "label" : {
+          "type" : "string"
+        },
+        "creationTime" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "author" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "entries" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "attachedEntities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "comments" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "overallRating" : {
+          "$ref" : "#/definitions/SSEntityA"
+        },
+        "tags" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "categories" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "discs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "userEvents" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "thumb" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "file" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "flags" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntityA"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "circles" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "locations" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "read" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "likes" : {
+          "$ref" : "#/definitions/SSEntityA"
+        },
+        "profilePicture" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "activityPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "messagesPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "collsPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "targets" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        }
+      }
+    },
+    "SSDiscEntryAcceptRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "entry" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSDiscEntryAddRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "disc" : {
+          "type" : "string"
+        },
+        "entry" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSDiscEntryUpdateRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "disc" : {
+          "type" : "string"
+        },
+        "entry" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSDiscGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "disc" : {
+          "$ref" : "#/definitions/SSDisc"
+        }
+      }
+    },
+    "SSDiscTargetsAddRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "disc" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSDiscUpdateRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "disc" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSDiscsGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "discs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        }
+      }
+    },
+    "SSEntitiesGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "entities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        }
+      }
+    },
+    "SSEntity" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "label" : {
+          "type" : "string"
+        },
+        "creationTime" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "author" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "entries" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "attachedEntities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "comments" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "overallRating" : {
+          "$ref" : "#/definitions/SSEntityA"
+        },
+        "tags" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "categories" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "discs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "userEvents" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "thumb" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "file" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "flags" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntityA"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "circles" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "locations" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "read" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "likes" : {
+          "$ref" : "#/definitions/SSEntityA"
+        },
+        "profilePicture" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "activityPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "messagesPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "collsPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        }
+      }
+    },
+    "SSEntityA" : {
+      "type" : "object"
+    },
+    "SSEntityCircle" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "label" : {
+          "type" : "string"
+        },
+        "creationTime" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "author" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "entries" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "attachedEntities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "comments" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "overallRating" : {
+          "$ref" : "#/definitions/SSEntityA"
+        },
+        "tags" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "categories" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "discs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "userEvents" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "thumb" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "file" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "flags" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntityA"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "circles" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "locations" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "read" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "likes" : {
+          "$ref" : "#/definitions/SSEntityA"
+        },
+        "profilePicture" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "activityPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "messagesPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "collsPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "circleType" : {
+          "type" : "string"
+        },
+        "accessRights" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "isSystemCircle" : {
+          "type" : "boolean",
+          "default" : false
+        }
+      }
+    },
+    "SSEntityCopyRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "worked" : {
+          "type" : "boolean",
+          "default" : false
+        }
+      }
+    },
+    "SSEntityShareRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "entity" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSEntityTypesGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "types" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "SSEntityUnpublicizeRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "entity" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSEntityUpdateRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "entity" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSEvalLogRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "worked" : {
+          "type" : "boolean",
+          "default" : false
+        }
+      }
+    },
+    "SSFileUploadRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "file" : {
+          "type" : "string"
+        },
+        "thumb" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSFlagsGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "flags" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        }
+      }
+    },
+    "SSFlagsSetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "worked" : {
+          "type" : "boolean",
+          "default" : false
+        }
+      }
+    },
+    "SSFriendAddRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "friend" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSFriendsGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "friends" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        }
+      }
+    },
+    "SSImageProfilePictureSetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "user" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSLearnEpCreateRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "learnEp" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSLearnEpLockHoldRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "learnEp" : {
+          "type" : "string"
+        },
+        "lockedByUser" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "locked" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "remainingTime" : {
+          "type" : "integer",
+          "format" : "int64"
+        }
+      }
+    },
+    "SSLearnEpLockRemoveRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "worked" : {
+          "type" : "boolean",
+          "default" : false
+        }
+      }
+    },
+    "SSLearnEpLockSetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "worked" : {
+          "type" : "boolean",
+          "default" : false
+        }
+      }
+    },
+    "SSLearnEpRemoveRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "learnEp" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSLearnEpTimelineState" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "label" : {
+          "type" : "string"
+        },
+        "creationTime" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "author" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "entries" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "attachedEntities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "comments" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "overallRating" : {
+          "$ref" : "#/definitions/SSEntityA"
+        },
+        "tags" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "categories" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "discs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "userEvents" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "thumb" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "file" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "flags" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntityA"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "circles" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "locations" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "read" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "likes" : {
+          "$ref" : "#/definitions/SSEntityA"
+        },
+        "profilePicture" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "activityPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "messagesPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "collsPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "learnEpVersion" : {
+          "type" : "string"
+        },
+        "startTime" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "endTime" : {
+          "type" : "integer",
+          "format" : "int64"
+        }
+      }
+    },
+    "SSLearnEpVersion" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "label" : {
+          "type" : "string"
+        },
+        "creationTime" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "author" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "entries" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "attachedEntities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "comments" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "overallRating" : {
+          "$ref" : "#/definitions/SSEntityA"
+        },
+        "tags" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "categories" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "discs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "userEvents" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "thumb" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "file" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "flags" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntityA"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "circles" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "locations" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "read" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "likes" : {
+          "$ref" : "#/definitions/SSEntityA"
+        },
+        "profilePicture" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "activityPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "messagesPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "collsPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "learnEp" : {
+          "type" : "string"
+        },
+        "learnEpEntities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "learnEpCircles" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "learnEpTimelineState" : {
+          "$ref" : "#/definitions/SSLearnEpTimelineState"
+        }
+      }
+    },
+    "SSLearnEpVersionCircleAddRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "learnEpCircle" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSLearnEpVersionCircleRemoveRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "worked" : {
+          "type" : "boolean",
+          "default" : false
+        }
+      }
+    },
+    "SSLearnEpVersionCircleUpdateRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "worked" : {
+          "type" : "boolean",
+          "default" : false
+        }
+      }
+    },
+    "SSLearnEpVersionCreateRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "learnEpVersion" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSLearnEpVersionCurrentGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "learnEpVersion" : {
+          "$ref" : "#/definitions/SSLearnEpVersion"
+        }
+      }
+    },
+    "SSLearnEpVersionCurrentSetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "learnEpVersion" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSLearnEpVersionEntityAddRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "learnEpEntity" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSLearnEpVersionEntityRemoveRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "worked" : {
+          "type" : "boolean",
+          "default" : false
+        }
+      }
+    },
+    "SSLearnEpVersionEntityUpdateRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "worked" : {
+          "type" : "boolean",
+          "default" : false
+        }
+      }
+    },
+    "SSLearnEpVersionGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "learnEpVersion" : {
+          "$ref" : "#/definitions/SSLearnEpVersion"
+        }
+      }
+    },
+    "SSLearnEpVersionTimelineStateGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "learnEpTimelineState" : {
+          "$ref" : "#/definitions/SSLearnEpTimelineState"
+        }
+      }
+    },
+    "SSLearnEpVersionTimelineStateSetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "learnEpTimelineState" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSLearnEpVersionsGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "learnEpVersions" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        }
+      }
+    },
+    "SSLearnEpsGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "learnEps" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        }
+      }
+    },
+    "SSLearnEpsLockHoldRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "learnEpLocks" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSLearnEpLockHoldRet"
+          }
+        }
+      }
+    },
+    "SSLikeUserSetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "entity" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSLivingDocAddRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "livingDoc" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSLivingDocGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "livingDoc" : {
+          "$ref" : "#/definitions/SSEntity"
+        }
+      }
+    },
+    "SSLivingDocRemoveRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "livingDoc" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSLivingDocUpdateRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "livingDoc" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSLivingDocsGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "livingDocs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        }
+      }
+    },
+    "SSMessageSendRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "message" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSMessagesGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "messages" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "queryTime" : {
+          "type" : "integer",
+          "format" : "int64"
+        }
+      }
+    },
+    "SSQueryResultPage" : {
+      "type" : "object",
+      "properties" : {
+        "pagesID" : {
+          "type" : "string"
+        },
+        "pageNumber" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "pagesCount" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "entities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        }
+      }
+    },
+    "SSRatingOverall" : {
+      "type" : "object",
+      "properties" : {
+        "score" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "frequ" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    },
+    "SSRatingOverallGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "ratingOverall" : {
+          "$ref" : "#/definitions/SSRatingOverall"
+        }
+      }
+    },
+    "SSRatingSetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "worked" : {
+          "type" : "boolean",
+          "default" : false
+        }
+      }
+    },
+    "SSRecommResourcesRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "resources" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSResourceLikelihood"
+          }
+        }
+      }
+    },
+    "SSRecommTagsRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "tags" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSTagLikelihood"
+          }
+        }
+      }
+    },
+    "SSRecommUpdateBulkRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "worked" : {
+          "type" : "boolean",
+          "default" : false
+        }
+      }
+    },
+    "SSRecommUpdateRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "worked" : {
+          "type" : "boolean",
+          "default" : false
+        }
+      }
+    },
+    "SSRecommUsersRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "users" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSUserLikelihood"
+          }
+        }
+      }
+    },
+    "SSResourceLikelihood" : {
+      "type" : "object",
+      "properties" : {
+        "resource" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "likelihood" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      }
+    },
+    "SSSearchRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "pagesID" : {
+          "type" : "string"
+        },
+        "pageNumber" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "pageNumbers" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "entities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        }
+      }
+    },
+    "SSTagAddRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "tag" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSTagEntitiesForTagsGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "entities" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "SSTagFrequ" : {
+      "type" : "object",
+      "properties" : {
+        "label" : {
+          "type" : "string"
+        },
+        "space" : {
+          "type" : "string"
+        },
+        "frequ" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    },
+    "SSTagFrequsGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "tagFrequs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSTagFrequ"
+          }
+        }
+      }
+    },
+    "SSTagLikelihood" : {
+      "type" : "object",
+      "properties" : {
+        "label" : {
+          "type" : "string"
+        },
+        "likelihood" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      }
+    },
+    "SSTagsAddRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "tags" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "SSTagsGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "tags" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        }
+      }
+    },
+    "SSTagsRemoveRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "worked" : {
+          "type" : "boolean",
+          "default" : false
+        }
+      }
+    },
+    "SSUE" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "label" : {
+          "type" : "string"
+        },
+        "creationTime" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "author" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "entries" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "attachedEntities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "comments" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "overallRating" : {
+          "$ref" : "#/definitions/SSEntityA"
+        },
+        "tags" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "categories" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "discs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "userEvents" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "thumb" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "file" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "flags" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntityA"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "circles" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "locations" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "read" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "likes" : {
+          "$ref" : "#/definitions/SSEntityA"
+        },
+        "profilePicture" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "activityPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "messagesPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "collsPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "user" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "entity" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "userEventType" : {
+          "type" : "string"
+        },
+        "content" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSUEAddRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "userEvent" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSUECountGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "count" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    },
+    "SSUEGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "userEvent" : {
+          "$ref" : "#/definitions/SSUE"
+        }
+      }
+    },
+    "SSUEsGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "userEvents" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        }
+      }
+    },
+    "SSUserEntityUsersGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "users" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        }
+      }
+    },
+    "SSUserLikelihood" : {
+      "type" : "object",
+      "properties" : {
+        "user" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "likelihood" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      }
+    },
+    "SSUsersGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "users" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        }
+      }
+    },
+    "SSVideoAnnotationsSetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "annotations" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "SSVideoUserAddRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "video" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSVideoUserAnnotationAddRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "annotation" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSVideosUserGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "videos" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        }
+      }
+    }
+  }
+}

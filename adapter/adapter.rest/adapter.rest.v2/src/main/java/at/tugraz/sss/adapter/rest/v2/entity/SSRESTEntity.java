@@ -46,8 +46,7 @@ import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityShareRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityTypesGetRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUnpublicizeRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUpdateRet;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -61,8 +60,8 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/entities")
-@Api( value = "/entities") //, basePath = "/entities"
+@Path("/entities/entities")
+@Api( value = "entities") //, basePath = "/entities"
 public class SSRESTEntity{
   
   @PostConstruct

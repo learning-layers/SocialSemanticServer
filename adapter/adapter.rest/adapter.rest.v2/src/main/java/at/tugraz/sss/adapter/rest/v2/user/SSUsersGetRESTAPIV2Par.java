@@ -20,64 +20,60 @@
   */
 package at.tugraz.sss.adapter.rest.v2.user;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "users get request parameter")
+@ApiModel
 public class SSUsersGetRESTAPIV2Par{
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false, 
     value = "")
   public boolean               setFriends      = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false, 
     value = "")
   public boolean               setProfilePicture      = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false, 
     value = "")
   public boolean               setThumb      = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false, 
     value = "")
   public boolean               setMessages      = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false, 
     value = "")
   public boolean               setActivities      = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false, 
     value = "")
   public boolean               setCircles      = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "")
   public boolean               setDiscs      = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "")
   public boolean               setColls      = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "")

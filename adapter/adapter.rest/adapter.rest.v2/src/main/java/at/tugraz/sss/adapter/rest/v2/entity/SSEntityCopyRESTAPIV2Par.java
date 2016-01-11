@@ -24,14 +24,10 @@ import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "entity copy request parameter")
+@ApiModel
 public class SSEntityCopyRESTAPIV2Par{
 
   @ApiModelProperty(
@@ -39,7 +35,7 @@ public class SSEntityCopyRESTAPIV2Par{
     value = "the entity merge the to be copied in")
   public SSUri targetEntity = null;
   
-  @XmlElement
+  
   public void setTargetEntity(final String targetEntity) throws Exception{
     this.targetEntity = SSUri.get(targetEntity, SSConf.sssUri);
   }
@@ -49,7 +45,7 @@ public class SSEntityCopyRESTAPIV2Par{
     value = "users to copy for")
   public List<SSUri> forUsers = null;
   
-  @XmlElement
+  
   public void setForUsers(final List<String> forUsers) throws Exception{
     this.forUsers = SSUri.get(forUsers, SSConf.sssUri);
   }
@@ -59,48 +55,48 @@ public class SSEntityCopyRESTAPIV2Par{
     value = "label for the copy")
   public SSLabel label = null;
   
-  @XmlElement
+  
   public void setLabel(final String label) throws Exception{
     this.label = SSLabel.get(label);
   }
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "whether the label of a single 'forUser' shall be appended to the label")
   public boolean appendUserNameToLabel                              = false;
     
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "include users from the origin entity")
   public boolean includeUsers                              = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "include entities from the origin entity")
   public boolean includeEntities                           = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "include metadata which is specific to the copied entity and its entities within")
   public boolean includeMetaSpecificToEntityAndItsEntities = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "include the user which triggers the copy process")
   public boolean includeOriginUser = false;
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "entities to exclude in copying")
   public List<SSUri>   entitiesToExclude = null;
   
-  @XmlElement
+  
   public void setEntitiesToExclude(final List<String> entitiesToExclude) throws Exception{
     this.entitiesToExclude = SSUri.get(entitiesToExclude, SSConf.sssUri);
   }
@@ -110,7 +106,7 @@ public class SSEntityCopyRESTAPIV2Par{
     value = "comment to add the share process")
   public SSTextComment comment = null;
   
-  @XmlElement
+  
   public void setComment(final String comment) throws Exception{
     this.comment = SSTextComment.get(comment);
   }

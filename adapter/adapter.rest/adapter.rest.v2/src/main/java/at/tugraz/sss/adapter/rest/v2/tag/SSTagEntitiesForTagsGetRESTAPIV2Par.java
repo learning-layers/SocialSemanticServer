@@ -24,14 +24,11 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.annotations.*;
 
-@XmlRootElement
-@ApiModel(value = "tagEntitiesForTagsGet request parameter")
+import java.util.List;
+
+@ApiModel
 public class SSTagEntitiesForTagsGetRESTAPIV2Par{
 
   @ApiModelProperty( 
@@ -39,7 +36,7 @@ public class SSTagEntitiesForTagsGetRESTAPIV2Par{
     value = "user to retrieve entities via tags for")
   public SSUri             forUser   = null;
   
-  @XmlElement
+  
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser, SSConf.sssUri);
   }
@@ -49,7 +46,7 @@ public class SSTagEntitiesForTagsGetRESTAPIV2Par{
     value = "tag labels to consider for retrieving entities via tags")
   public List<SSTagLabel>  labels    = null;
   
-  @XmlElement
+  
   public void setLabels(final List<String> labels) throws Exception{
     this.labels = SSTagLabel.get(labels);
   }
@@ -59,12 +56,12 @@ public class SSTagEntitiesForTagsGetRESTAPIV2Par{
     value = "access restriction for tags to be considered (i.e. privateSpace, sharedSpace)")
   public SSSpaceE          space     = null;
   
-  @XmlElement
+  
   public void setSpace(final String space) throws Exception{
     this.space = SSSpaceE.get(space);
   }
   
-  @XmlElement
+  
   @ApiModelProperty( 
     required = false, 
     value = "timestamp to retrieve tags")

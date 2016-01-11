@@ -23,14 +23,10 @@ package at.tugraz.sss.adapter.rest.v2.entity;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "entityShare request parameter")
+@ApiModel
 public class SSEntityShareRESTAPIV2Par{
 
   @ApiModelProperty(
@@ -38,7 +34,7 @@ public class SSEntityShareRESTAPIV2Par{
     value = "users to share with")
   public List<SSUri> users = null;
   
-  @XmlElement
+  
   public void setUsers(final List<String> users) throws Exception{
     this.users = SSUri.get(users, SSConf.sssUri);
   }
@@ -48,12 +44,12 @@ public class SSEntityShareRESTAPIV2Par{
     value = "circles to share with")
   public List<SSUri> circles = null;
   
-  @XmlElement
+  
   public void setCircles(final List<String> circles) throws Exception{
     this.circles = SSUri.get(circles, SSConf.sssUri);
   }
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "set the entity public")
@@ -64,7 +60,7 @@ public class SSEntityShareRESTAPIV2Par{
     value = "comment to add the share process")
   public SSTextComment comment = null;
   
-  @XmlElement
+  
   public void setComment(final String comment) throws Exception{
     this.comment = SSTextComment.get(comment);
   }

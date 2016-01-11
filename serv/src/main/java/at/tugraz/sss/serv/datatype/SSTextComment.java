@@ -21,11 +21,14 @@
 package at.tugraz.sss.serv.datatype;
 
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.api.SSEntityA;
+import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.*;
 
+
+@ApiModel
 public class SSTextComment extends SSEntityA {
 
   public static SSTextComment get(final String comment) throws SSErr {

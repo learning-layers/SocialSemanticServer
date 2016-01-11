@@ -5,20 +5,17 @@
 */
 package at.tugraz.sss.adapter.rest.v2.image;
 
-import at.kc.tugraz.ss.friend.api.*;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
-import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.image.api.*;
 import at.tugraz.sss.servs.image.datatype.par.SSImageProfilePictureSetPar;
 import at.tugraz.sss.servs.image.datatype.ret.SSImageProfilePictureSetRet;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
+
 import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
@@ -30,8 +27,8 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/images")
-@Api( value = "/images") //, basePath = "/entities"
+@Path("/images/images")
+@Api( value = "images") //, basePath = "/entities"
 public class SSRESTImage{
   
   @PostConstruct

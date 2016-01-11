@@ -24,14 +24,10 @@ import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.conf.SSConf;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "category frequs get request parameter")
+@ApiModel
 public class SSCategoryFrequsGetRESTAPIV2Par{
   
   @ApiModelProperty(
@@ -39,7 +35,7 @@ public class SSCategoryFrequsGetRESTAPIV2Par{
     value = "user to retrieve categories for")
   public SSUri              forUser    = null;
   
-  @XmlElement
+  
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser, SSConf.sssUri);
   }
@@ -49,7 +45,7 @@ public class SSCategoryFrequsGetRESTAPIV2Par{
     value = "entities to retrieve categoires for")
   public List<SSUri>        entities   = null;
   
-  @XmlElement
+  
   public void setEntities(final List<String> entities) throws Exception{
     this.entities = SSUri.get(entities, SSConf.sssUri);
   }
@@ -59,12 +55,12 @@ public class SSCategoryFrequsGetRESTAPIV2Par{
     value = "category labels to consider for retrieving tags")
   public List<SSCategoryLabel>   labels     = null;
   
-  @XmlElement
+  
   public void setLabels(final List<String> labels) throws Exception{
     this.labels = SSCategoryLabel.get(labels);
   }
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "access restriction for to be retrieved categories (i.e. privateSpace, sharedSpace)")
@@ -75,12 +71,12 @@ public class SSCategoryFrequsGetRESTAPIV2Par{
     value = "circles to limit categories found")
   public List<SSUri>        circles       = null;
   
-  @XmlElement
+  
   public void setCircles(final List<String> circles) throws Exception {
     this.circles = SSUri.get(circles, SSConf.sssUri);
   }
   
-  @XmlElement
+  
   @ApiModelProperty(
     required = false,
     value = "timestamp to retrieve categories from a certain point in time")
