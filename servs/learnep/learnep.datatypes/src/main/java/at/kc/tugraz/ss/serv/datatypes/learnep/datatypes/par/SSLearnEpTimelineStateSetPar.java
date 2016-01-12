@@ -20,33 +20,29 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 
-import at.tugraz.sss.serv.util.*;
-
-public class SSLearnEpVersionTimelineStateGetPar extends SSServPar{
+public class SSLearnEpTimelineStateSetPar extends SSServPar{
   
-  public SSUri  learnEpVersion = null;
+  public Long     startTime         = null;
+  public Long     endTime           = null;
 
-  public String getLearnEpVersion(){
-    return SSStrU.removeTrailingSlash(learnEpVersion);
-  }
-
-  public void setLearnEpVersion(final String learnEpVersion) throws Exception{
-    this.learnEpVersion = SSUri.get(learnEpVersion);
-  }
+  public SSLearnEpTimelineStateSetPar(){}
   
-  public SSLearnEpVersionTimelineStateGetPar(){}
-  
-  public SSLearnEpVersionTimelineStateGetPar(
+  public SSLearnEpTimelineStateSetPar(
     final SSUri         user,
-    final SSUri         learnEpVersion,
-    final boolean       withUserRestriction){
+    final Long          startTime,
+    final Long          endTime,
+    final boolean       withUserRestriction,
+    final boolean       shouldCommit){
     
-    super(SSVarNames.learnEpVersionTimelineStateGet, null, user);
+    super(SSVarNames.learnEpTimelineStateSet, null, user);
     
-    this.learnEpVersion      = learnEpVersion;
+    this.startTime           = startTime;
+    this.endTime             = endTime;
     this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

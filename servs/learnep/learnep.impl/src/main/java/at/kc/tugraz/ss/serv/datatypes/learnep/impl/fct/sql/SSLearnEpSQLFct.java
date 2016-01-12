@@ -25,31 +25,24 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpCircle;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
-import at.tugraz.sss.serv.util.SSSQLVarNames;
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.datatype.par.SSDBSQLSelectPar;
-import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.util.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.reg.SSServErrReg;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
-import at.tugraz.sss.serv.db.api.SSCoreSQL;
 
 public class SSLearnEpSQLFct extends SSCoreSQL{
   
-  public SSLearnEpSQLFct(
-    final SSDBSQLI dbSQL, 
-    final SSUri    systemUserURI){
-    
-    super(dbSQL, systemUserURI);
+  public SSLearnEpSQLFct(final SSDBSQLI dbSQL, final SSUri systemUserUri){
+    super(dbSQL, systemUserUri);
   }
   
   public SSLearnEp getLearnEp(
@@ -171,6 +164,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
     }
   }
   
+  
   public SSUri getLearnEpCurrentVersionURI(
     final SSUri user) throws Exception {
     
@@ -187,8 +181,8 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
       
       resultSet = dbSQL.select(SSSQLVarNames.learnEpVersionCurrentTable, columns, wheres, null, null, null);
       
-      if(!resultSet.first()){
-        throw SSErr.get(SSErrE.learnEpCurrentVersionNotSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
       }
       
       return bindingStrToUri(resultSet, SSSQLVarNames.learnEpVersionId);
@@ -205,9 +199,8 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   
   public SSLearnEpVersion getLearnEpVersion(
     final SSUri   learnEpVersionUri,
-    final boolean setCircles,
-    final boolean setEntities, 
-    final boolean setTimelineState) throws Exception {
+    final Boolean setCircles,
+    final Boolean setEntities) throws Exception {
     
     ResultSet                  resultSet       = null;
     
@@ -247,8 +240,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
           null,
           bindingStrToUri               (resultSet, SSSQLVarNames.learnEpId),
           null, //entities, 
-          null, //circles, 
-          null); //timelineState
+          null); //circles, 
         
       
       if(setCircles){
@@ -259,9 +251,9 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
         learnEpVersion.learnEpEntities.addAll(getLearnEpVersionEntities     (learnEpVersionUri));
       }
       
-      if(setTimelineState){
-        learnEpVersion.learnEpTimelineState = getLearnEpVersionTimelineState(learnEpVersionUri);
-      }
+//      if(setTimelineState){
+//        learnEpVersion.learnEpTimelineState = getLearnEpVersionTimelineState(learnEpVersionUri);
+//      }
       
       return learnEpVersion;
       
@@ -666,43 +658,50 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
     }
   }
   
-  //TODO improve
-  public SSUri setLearnEpVersionTimelineState(
-    final SSUri learnEpTimelineStateUri, 
-    final SSUri learnEpVersionUri, 
+  public void createTimelineState(
+    final SSUri user,
+    final SSUri timelineStateURI,
     final Long  startTime, 
     final Long  endTime) throws Exception {
     
     try{
       final Map<String, String> inserts = new HashMap<>();
-      final Map<String, String> wheres = new HashMap<>();
       
-      insert(inserts, SSSQLVarNames.learnEpTimelineStateId, learnEpTimelineStateUri);
-      insert(inserts, SSSQLVarNames.startTime,              startTime);
-      insert(inserts, SSSQLVarNames.endTime,                endTime);
+      insert(inserts, SSSQLVarNames.userId,                  user);
+      insert(inserts, SSSQLVarNames.learnEpTimelineStateId,  timelineStateURI);
+      insert(inserts, SSSQLVarNames.startTime,               startTime);
+      insert(inserts, SSSQLVarNames.endTime,                 endTime);
       
       dbSQL.insert(SSSQLVarNames.learnEpTimelineStateTable, inserts);
       
-      where(wheres, SSSQLVarNames.learnEpVersionId, learnEpVersionUri);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+    
+  public void updateTimelineState(
+    final SSUri timelineStateURI,
+    final Long  startTime, 
+    final Long  endTime) throws Exception {
+    
+    try{
+      final Map<String, String> updates = new HashMap<>();
+      final Map<String, String> wheres  = new HashMap<>();
       
-      dbSQL.delete(SSSQLVarNames.learnEpVersionTimelineStatesTable, wheres);
+      update(updates, SSSQLVarNames.startTime,              startTime);
+      update(updates, SSSQLVarNames.endTime,                endTime);
       
-      inserts.clear();
-      insert(inserts, SSSQLVarNames.learnEpVersionId,       learnEpVersionUri);
-      insert(inserts, SSSQLVarNames.learnEpTimelineStateId, learnEpTimelineStateUri);
+      where(wheres, SSSQLVarNames.learnEpTimelineStateId, timelineStateURI);
       
-      dbSQL.insert(SSSQLVarNames.learnEpVersionTimelineStatesTable, inserts);
-      
-      return learnEpTimelineStateUri;
+      dbSQL.update(SSSQLVarNames.learnEpTimelineStateTable, wheres, updates);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
     }
   }
   
-  public SSLearnEpTimelineState getLearnEpVersionTimelineState(
-    final SSUri learnEpVersionUri) throws Exception{
+  public SSLearnEpTimelineState getTimelineState(
+    final SSUri user) throws Exception{
     
     ResultSet resultSet        = null;
     
@@ -710,39 +709,38 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
       
       final Map<String, String>    wheres      = new HashMap<>();
       final List<String>           columns     = new ArrayList<>();
-      final List<String>           tables      = new ArrayList<>();
-      final List<String>           tableCons   = new ArrayList<>();
       
-      column(columns, SSSQLVarNames.learnEpVersionTimelineStatesTable, SSSQLVarNames.learnEpTimelineStateId);
+      column(columns, SSSQLVarNames.learnEpTimelineStateId);
       column(columns, SSSQLVarNames.startTime);
       column(columns, SSSQLVarNames.endTime);
       
-      table(tables, SSSQLVarNames.learnEpTimelineStateTable);
-      table(tables, SSSQLVarNames.learnEpVersionTimelineStatesTable);
+      where(wheres, SSSQLVarNames.userId, user);
       
-      where(wheres, SSSQLVarNames.learnEpVersionId, learnEpVersionUri);
-      
-      tableCon(tableCons, SSSQLVarNames.learnEpTimelineStateTable, SSSQLVarNames.learnEpTimelineStateId, SSSQLVarNames.learnEpVersionTimelineStatesTable, SSSQLVarNames.learnEpTimelineStateId);
-      
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
-      
+      resultSet = 
+        dbSQL.select(
+          SSSQLVarNames.learnEpTimelineStateTable,
+          columns, 
+          wheres, 
+          null, 
+          null, 
+          null);
+
       if(!resultSet.first()){
-//        SSLogU.warn("no timeline state set for version " + learnEpVersionUri);
         return null;
       }
       
       return SSLearnEpTimelineState.get(
-bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
-        learnEpVersionUri,
+        bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
+        user,
         bindingStrToLong(resultSet, SSSQLVarNames.startTime),
         bindingStrToLong(resultSet, SSSQLVarNames.endTime));
-        
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
-      }finally{
-        dbSQL.closeStmt(resultSet);
-      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
   }
 
   public SSUri getLearnEpForVersion(
@@ -1054,11 +1052,11 @@ bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
 //    return learnEpEntity;
 //  }
 
-//  public boolean isLearnEp(SSUri entityUri) throws Exception{
+//  public Boolean isLearnEp(SSUri entityUri) throws Exception{
 //    
 //    ResultSet           resultSet  = null;
 //    Map<String, String> selectPars = new HashMap<>();
-//    boolean             isLearnEp  = false;
+//    Boolean             isLearnEp  = false;
 //    
 //    selectPars.put(SSSQLVarU.learnEpId, entityUri.toString());
 //    
@@ -1076,11 +1074,11 @@ bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
 //    return isLearnEp;
 //  }
 //
-//  public boolean isLearnEpVersion(SSUri entityUri) throws Exception{
+//  public Boolean isLearnEpVersion(SSUri entityUri) throws Exception{
 //    
 //    ResultSet           resultSet  = null;
 //    Map<String, String> selectPars = new HashMap<>();
-//    boolean             isVersion  = false;
+//    Boolean             isVersion  = false;
 //    
 //    selectPars.put(SSSQLVarU.learnEpVersionId, entityUri.toString());
 //    
@@ -1098,11 +1096,11 @@ bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
 //    return isVersion;
 //  }
 //
-//  public boolean isLearnEpCircle(SSUri entityUri) throws Exception{
+//  public Boolean isLearnEpCircle(SSUri entityUri) throws Exception{
 //    
 //    ResultSet           resultSet  = null;
 //    Map<String, String> selectPars = new HashMap<>();
-//    boolean             isCircle   = false;
+//    Boolean             isCircle   = false;
 //    
 //    selectPars.put(SSSQLVarU.learnEpCircleId, entityUri.toString());
 //    
@@ -1120,11 +1118,11 @@ bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
 //    return isCircle;
 //  }
 //
-//  public boolean isLearnEpEntity(SSUri entityUri) throws Exception{
+//  public Boolean isLearnEpEntity(SSUri entityUri) throws Exception{
 //    
 //    ResultSet           resultSet  = null;
 //    Map<String, String> selectPars = new HashMap<>();
-//    boolean             isEntity   = false;
+//    Boolean             isEntity   = false;
 //    
 //    selectPars.put(SSSQLVarU.learnEpEntityId, entityUri.toString());
 //    
@@ -1142,11 +1140,11 @@ bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
 //    return isEntity;
 //  }
 //
-//  public boolean isLearnEpTimelineState(SSUri entityUri) throws Exception{
+//  public Boolean isLearnEpTimelineState(SSUri entityUri) throws Exception{
 //    
 //    ResultSet           resultSet         = null;
 //    Map<String, String> selectPars        = new HashMap<>();
-//    boolean             isTimelineState   = false;
+//    Boolean             isTimelineState   = false;
 //    
 //    selectPars.put(SSSQLVarU.learnEpTimelineStateId, entityUri.toString());
 //    
@@ -1164,7 +1162,7 @@ bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
 //    return isTimelineState;
 //  }
 
-//  public boolean ownsUserLearnEp(
+//  public Boolean ownsUserLearnEp(
 //    final SSUri user, 
 //    final SSUri learnEp) throws Exception {
 //    

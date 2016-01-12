@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,32 +18,24 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
+package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import java.util.HashMap;
-import java.util.Map;
 
-public class SSLearnEpVersionTimelineStateSetRet extends SSServRetI{
+import at.tugraz.sss.serv.util.*;
 
-  public SSUri learnEpTimelineState = null;
-
-  public String getLearnEpTimelineState() throws Exception {
-    return SSStrU.removeTrailingSlash(learnEpTimelineState);
-  }
+public class SSLearnEpTimelineStateGetPar extends SSServPar{
   
-  public static SSLearnEpVersionTimelineStateSetRet get(SSUri learnEpTimelineStateUri){
-    return new SSLearnEpVersionTimelineStateSetRet(learnEpTimelineStateUri);
-  }
+  public SSLearnEpTimelineStateGetPar(){}
   
-  private SSLearnEpVersionTimelineStateSetRet(SSUri learnEpTimelineStateUri){
+  public SSLearnEpTimelineStateGetPar(
+    final SSUri         user,
+    final boolean       withUserRestriction){
     
-    super(SSVarNames.learnEpVersionTimelineStateSet);
+    super(SSVarNames.learnEpTimelineStateGet, null, user);
     
-    this.learnEpTimelineState = learnEpTimelineStateUri;
+    this.withUserRestriction = withUserRestriction;
   }
 }

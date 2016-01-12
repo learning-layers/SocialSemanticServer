@@ -21,24 +21,20 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
-
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
-import java.util.HashMap;
-import java.util.Map;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 
-public class SSLearnEpVersionTimelineStateGetRet extends SSServRetI{
+public class SSLearnEpTimelineStateGetRet extends SSServRetI{
 
   public SSLearnEpTimelineState learnEpTimelineState = null;
 
-  public static SSLearnEpVersionTimelineStateGetRet get(SSLearnEpTimelineState learnEpTimelineState){
-    return new SSLearnEpVersionTimelineStateGetRet(learnEpTimelineState);
+  public static SSLearnEpTimelineStateGetRet get(SSLearnEpTimelineState learnEpTimelineState){
+    return new SSLearnEpTimelineStateGetRet(learnEpTimelineState);
   }
   
-  private SSLearnEpVersionTimelineStateGetRet(SSLearnEpTimelineState learnEpTimelineState){
+  private SSLearnEpTimelineStateGetRet(SSLearnEpTimelineState learnEpTimelineState){
     
-    super(SSVarNames.learnEpVersionTimelineStateGet);
+    super(SSVarNames.learnEpTimelineStateGet);
     
     this.learnEpTimelineState = learnEpTimelineState;
   }

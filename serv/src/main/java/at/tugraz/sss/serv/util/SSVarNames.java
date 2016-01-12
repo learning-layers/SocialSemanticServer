@@ -133,8 +133,8 @@ public class SSVarNames{
   public static final String learnEpVersionEntityUpdate                                                      = "learnEpVersionEntityUpdate";
   public static final String learnEpVersionCircleRemove                                                      = "learnEpVersionCircleRemove";
   public static final String learnEpVersionEntityRemove                                                      = "learnEpVersionEntityRemove";
-  public static final String learnEpVersionTimelineStateSet                                                  = "learnEpVersionTimelineStateSet";
-  public static final String learnEpVersionTimelineStateGet                                                  = "learnEpVersionTimelineStateGet";
+  public static final String learnEpTimelineStateSet                                                         = "learnEpTimelineStateSet";
+  public static final String learnEpTimelineStateGet                                                         = "learnEpTimelineStateGet";
   public static final String learnEpLockRemove                                   = "learnEpLockRemove";
   public static final String learnEpLockSet                                   = "learnEpLockSet";
   public static final String learnEpsLockHold                                   = "learnEpsLockHold";

@@ -172,7 +172,6 @@ public class SSSQLVarNames{
   public static final String learnEpVersionTable = "learnepversion";
   public static final String learnEpUserTable = "learnepuser";
   public static final String learnEpVersionCurrentTable = "learnepversioncurrent";
-  public static final String learnEpVersionTimelineStatesTable = "learnepversiontimelinestates";
   public static final String learnEpVersionEntitiesTable = "learnepversionentities";
   public static final String learnEpEntityTable = "learnepentity";
   public static final String learnEpTimelineStateTable = "learneptimelinestate";

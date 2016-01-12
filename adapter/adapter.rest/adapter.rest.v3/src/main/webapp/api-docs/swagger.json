@@ -1597,6 +1597,40 @@
         }
       }
     },
+    "/learneps/timelinestate" : {
+      "get" : {
+        "tags" : [ "learneps" ],
+        "summary" : "get timeline state",
+        "description" : "",
+        "operationId" : "learnEpTimelineStateGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpTimelineStateGetRet"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "learneps" ],
+        "summary" : "set timeline state",
+        "description" : "",
+        "operationId" : "learnEpTimelineStateSet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpTimelineStateSetRet"
+            }
+          }
+        }
+      }
+    },
     "/learneps/versions/current" : {
       "get" : {
         "tags" : [ "learneps" ],
@@ -1706,52 +1740,6 @@
             "description" : "successful operation",
             "schema" : {
               "$ref" : "#/definitions/SSLearnEpVersionEntityAddRet"
-            }
-          }
-        }
-      }
-    },
-    "/learneps/versions/{learnEpVersion}/timeline/state" : {
-      "get" : {
-        "tags" : [ "learneps" ],
-        "summary" : "get timeline state for learning episode version",
-        "description" : "",
-        "operationId" : "learnEpVersionTimelineStateGet",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "learnEpVersion",
-          "in" : "path",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/SSLearnEpVersionTimelineStateGetRet"
-            }
-          }
-        }
-      },
-      "post" : {
-        "tags" : [ "learneps" ],
-        "summary" : "set timeline state for learning episode version",
-        "description" : "",
-        "operationId" : "learnEpVersionTimelineStateSet",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "learnEpVersion",
-          "in" : "path",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/SSLearnEpVersionTimelineStateSetRet"
             }
           }
         }
@@ -4669,7 +4657,7 @@
         "collsPage" : {
           "$ref" : "#/definitions/SSQueryResultPage"
         },
-        "learnEpVersion" : {
+        "user" : {
           "type" : "string"
         },
         "startTime" : {
@@ -4679,6 +4667,30 @@
         "endTime" : {
           "type" : "integer",
           "format" : "int64"
+        }
+      }
+    },
+    "SSLearnEpTimelineStateGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "learnEpTimelineState" : {
+          "$ref" : "#/definitions/SSLearnEpTimelineState"
+        }
+      }
+    },
+    "SSLearnEpTimelineStateSetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "learnEpTimelineState" : {
+          "type" : "string"
         }
       }
     },
@@ -4824,9 +4836,6 @@
           "items" : {
             "$ref" : "#/definitions/SSEntity"
           }
-        },
-        "learnEpTimelineState" : {
-          "$ref" : "#/definitions/SSLearnEpTimelineState"
         }
       }
     },
@@ -4951,30 +4960,6 @@
         },
         "learnEpVersion" : {
           "$ref" : "#/definitions/SSLearnEpVersion"
-        }
-      }
-    },
-    "SSLearnEpVersionTimelineStateGetRet" : {
-      "type" : "object",
-      "required" : [ "op" ],
-      "properties" : {
-        "op" : {
-          "type" : "string"
-        },
-        "learnEpTimelineState" : {
-          "$ref" : "#/definitions/SSLearnEpTimelineState"
-        }
-      }
-    },
-    "SSLearnEpVersionTimelineStateSetRet" : {
-      "type" : "object",
-      "required" : [ "op" ],
-      "properties" : {
-        "op" : {
-          "type" : "string"
-        },
-        "learnEpTimelineState" : {
-          "type" : "string"
         }
       }
     },

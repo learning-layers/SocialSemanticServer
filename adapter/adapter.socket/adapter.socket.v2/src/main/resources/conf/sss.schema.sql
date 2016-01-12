@@ -1,7 +1,5 @@
 CREATE DATABASE  IF NOT EXISTS `SSS_MYSQL_SCHEME` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `SSS_MYSQL_SCHEME`;
-
--- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
+USE `SSS_MYSQL_SCHEME`;-- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
 -- Host: localhost    Database: sss
 -- ------------------------------------------------------
@@ -1219,6 +1217,7 @@ CREATE TABLE `learneptimelinestate` (
   `learnEpTimelineStateId` varchar(200) NOT NULL,
   `startTime` varchar(200) NOT NULL,
   `endTime` varchar(200) NOT NULL,
+  `userId` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`learnEpTimelineStateId`),
   CONSTRAINT `learnEpTimelineStateIdFKlearneptimelinestate` FOREIGN KEY (`learnEpTimelineStateId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1383,32 +1382,6 @@ CREATE TABLE `learnepversions` (
 LOCK TABLES `learnepversions` WRITE;
 /*!40000 ALTER TABLE `learnepversions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `learnepversions` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `learnepversiontimelinestates`
---
-
-DROP TABLE IF EXISTS `learnepversiontimelinestates`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `learnepversiontimelinestates` (
-  `learnEpVersionId` varchar(200) NOT NULL,
-  `learnEpTimelineStateId` varchar(200) NOT NULL,
-  PRIMARY KEY (`learnEpVersionId`,`learnEpTimelineStateId`),
-  KEY `learnEpTimelineStateId_idx` (`learnEpTimelineStateId`),
-  CONSTRAINT `learnEpTimelineStateIdFKlearnepversiontimelinestates` FOREIGN KEY (`learnEpTimelineStateId`) REFERENCES `learneptimelinestate` (`learnEpTimelineStateId`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `learnEpVersionIdFKlearnepversiontimelinestates` FOREIGN KEY (`learnEpVersionId`) REFERENCES `learnepversion` (`learnEpVersionId`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `learnepversiontimelinestates`
---
-
-LOCK TABLES `learnepversiontimelinestates` WRITE;
-/*!40000 ALTER TABLE `learnepversiontimelinestates` DISABLE KEYS */;
-/*!40000 ALTER TABLE `learnepversiontimelinestates` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1842,4 +1815,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-27  7:51:32
+-- Dump completed on 2016-01-12 13:58:14

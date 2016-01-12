@@ -20,29 +20,31 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.api;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import at.tugraz.sss.serv.util.*;
 
 public interface SSLearnEpClientI {
 
-  public SSServRetI learnEpRemove                       (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI learnEpsGet                         (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI learnEpVersionsGet                  (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI learnEpVersionGet                   (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI learnEpVersionCreate                (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI learnEpVersionCircleAdd             (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI learnEpVersionEntityAdd             (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI learnEpCreate                       (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI learnEpVersionCircleUpdate          (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI learnEpVersionEntityUpdate          (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI learnEpVersionCircleRemove          (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI learnEpVersionEntityRemove          (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI learnEpVersionTimelineStateSet      (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI learnEpVersionTimelineStateGet      (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI learnEpVersionCurrentGet            (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI learnEpVersionCurrentSet            (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI learnEpsLockHold                    (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI learnEpLockSet                      (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI learnEpLockRemove                   (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI learnEpRemove                       (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI learnEpsGet                         (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI learnEpVersionsGet                  (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI learnEpVersionGet                   (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI learnEpVersionCreate                (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI learnEpVersionCircleAdd             (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI learnEpVersionEntityAdd             (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI learnEpCreate                       (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI learnEpVersionCircleUpdate          (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI learnEpVersionEntityUpdate          (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI learnEpVersionCircleRemove          (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI learnEpVersionEntityRemove          (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI learnEpTimelineStateSet             (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI learnEpTimelineStateGet             (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI learnEpVersionCurrentGet            (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI learnEpVersionCurrentSet            (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI learnEpsLockHold                    (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI learnEpLockSet                      (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI learnEpLockRemove                   (final SSClientE clientType, final SSServPar parA) throws SSErr;
 }

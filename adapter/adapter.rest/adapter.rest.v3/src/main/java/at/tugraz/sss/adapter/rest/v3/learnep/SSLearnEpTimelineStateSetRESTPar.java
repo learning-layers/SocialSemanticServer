@@ -23,7 +23,7 @@ package at.tugraz.sss.adapter.rest.v3.learnep;
 import io.swagger.annotations.*;
 
 @ApiModel
-public class SSLearnEpVersionTimelineStateSetRESTPar{
+public class SSLearnEpTimelineStateSetRESTPar{
   
   @ApiModelProperty(
     required = true,
@@ -35,5 +35,5 @@ public class SSLearnEpVersionTimelineStateSetRESTPar{
     value = "")
   public Long    endTime              = null;
   
-  public SSLearnEpVersionTimelineStateSetRESTPar(){}
+  public SSLearnEpTimelineStateSetRESTPar(){}
 }

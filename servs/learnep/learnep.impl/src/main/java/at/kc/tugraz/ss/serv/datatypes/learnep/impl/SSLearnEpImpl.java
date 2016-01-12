@@ -34,48 +34,8 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpCircle;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpCreatePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpGetPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockHoldPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockRemovePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockSetPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpRemovePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleAddPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityAddPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCreatePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCurrentGetPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCurrentSetPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionTimelineStateGetPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleRemovePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityRemovePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionTimelineStateSetPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleUpdatePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCirclesWithEntriesGetPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityUpdatePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionGetPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionsGetPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsGetPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsLockHoldPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpCreateRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpLockHoldRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpLockRemoveRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpLockSetRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpRemoveRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCircleAddRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionEntityAddRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCreateRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCurrentGetRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCurrentSetRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionGetRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionTimelineStateGetRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCircleRemoveRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionEntityRemoveRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionTimelineStateSetRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCircleUpdateRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionEntityUpdateRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionsGetRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpsGetRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpsLockHoldRet;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.*;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.*;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access.SSLearnEpAccessController;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.activity.SSLearnEpActivityAndLogFct;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
@@ -91,9 +51,7 @@ import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.entity.api.SSCopyEntityI;
-
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-
 import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.entity.api.SSEntitiesSharedWithUsersI;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesSharedWithUsersPar;
@@ -430,18 +388,6 @@ implements
             
             copiedEntities.add(((SSLearnEpEntity) learnEpEntity).entity);
           }
-          
-          if(((SSLearnEpVersion) version).learnEpTimelineState != null){
-            
-            learnEpVersionTimelineStateSet(
-              new SSLearnEpVersionTimelineStateSetPar(
-                forUser,
-                copyVersionUri,
-                ((SSLearnEpVersion) version).learnEpTimelineState.startTime,
-                ((SSLearnEpVersion) version).learnEpTimelineState.endTime,
-                false,
-                false));
-          }
         }
         
         entityCopiedPar =
@@ -667,8 +613,7 @@ implements
           sql.getLearnEpVersion(
             versionUri,
             false, //setCircles
-            false, //setEntities
-            false); //setTimelineState
+            false); //setEntities
         
         if(version == null){
           continue;
@@ -696,7 +641,6 @@ implements
         
         fct.setLearnEpVersionCircles       (version);
         fct.setLearnEpVersionEntities      (par, version);
-        fct.setLearnEpVersionTimelineState (version);
         
         versions.add(version);
       }
@@ -1839,15 +1783,15 @@ implements
   }
   
   @Override
-  public SSServRetI learnEpVersionTimelineStateSet(final SSClientE clientType, final SSServPar parA) throws SSErr{
+  public SSServRetI learnEpTimelineStateSet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSLearnEpVersionTimelineStateSetPar par = (SSLearnEpVersionTimelineStateSetPar) parA.getFromClient(clientType, parA, SSLearnEpVersionTimelineStateSetPar.class);
+      final SSLearnEpTimelineStateSetPar par = (SSLearnEpTimelineStateSetPar) parA.getFromClient(clientType, parA, SSLearnEpTimelineStateSetPar.class);
       
-      return SSLearnEpVersionTimelineStateSetRet.get(learnEpVersionTimelineStateSet(par));
+      return SSLearnEpTimelineStateSetRet.get(learnEpTimelineStateSet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -1856,61 +1800,61 @@ implements
   }
   
   @Override
-  public SSUri learnEpVersionTimelineStateSet(final SSLearnEpVersionTimelineStateSetPar par) throws SSErr{
+  public SSUri learnEpTimelineStateSet(final SSLearnEpTimelineStateSetPar par) throws SSErr{
     
     try{
-      
-      final SSEntity learnEpVerison =
-        sql.getEntityTest(
-          par.user,
-          par.learnEpVersion,
-          par.withUserRestriction);
-      
-      if(learnEpVerison == null){
-        return null;
-      }
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      final SSUri learnEpTimelineStateUri =
-        entityServ.entityUpdate(
-          new SSEntityUpdatePar(
-            par.user,
-            SSConf.vocURICreate(),
-            SSEntityE.learnEpTimelineState, //type,
-            null, //label
-            null,//description,
-            null, //creationTime,
-            null, //read,
-            false, //setPublic
-            true, //createIfNotExists
-            false, //withUserRestriction
-            false)); //shouldCommit)
-      
-      if(learnEpTimelineStateUri == null){
-        dbSQL.rollBack(par.shouldCommit);
-        return null;
-      }
-      
-      sql.setLearnEpVersionTimelineState(
-        learnEpTimelineStateUri,
-        par.learnEpVersion,
-        par.startTime,
-        par.endTime);
-      
-      circleServ.circleAddEntitiesToCirclesOfEntity(
-        new SSCircleAddEntitiesToCircleOfEntityPar(
-          par.user,
-          par.learnEpVersion,
-          SSUri.asListNotNull(learnEpTimelineStateUri), //entities
-          false, //withUserRestriction
-          false, //invokeEntityHandlers,
-          false)); //shouldCommit
-            
-      dbSQL.commit(par.shouldCommit);
-      
-      return learnEpTimelineStateUri;
-      
+ 
+       final SSLearnEpTimelineState timelineState = 
+         learnEpTimelineStateGet(
+           new SSLearnEpTimelineStateGetPar(
+             par.user, 
+             par.withUserRestriction));
+        		        
+       final SSUri timelineStateURI;
+       
+       dbSQL.startTrans(par.shouldCommit);
+       
+       if(timelineState == null){
+         
+         timelineStateURI =
+           entityServ.entityUpdate(
+             new SSEntityUpdatePar(
+               par.user,
+               SSConf.vocURICreate(),
+               SSEntityE.learnEpTimelineState, //type,
+               null, //label
+               null,//description,
+               null, //creationTime,
+               null, //read,
+               false, //setPublic
+               true, //createIfNotExists
+               false, //withUserRestriction
+               false)); //shouldCommit)
+         
+         if(timelineStateURI == null){
+           dbSQL.rollBack(par.shouldCommit);
+           return null;
+         }
+         
+         sql.createTimelineState(
+           par.user,
+           timelineStateURI,
+           par.startTime,
+           par.endTime);
+         
+       }else{
+         timelineStateURI = timelineState.id;
+         
+         sql.updateTimelineState(
+           timelineStateURI,
+           par.startTime,
+           par.endTime);
+       }
+        		        
+       dbSQL.commit(par.shouldCommit);
+       
+       return timelineStateURI;
+ 
     }catch(SSErr error){
       
       switch(error.code){
@@ -2008,14 +1952,14 @@ implements
   }
   
   @Override
-  public SSServRetI learnEpVersionTimelineStateGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
+  public SSServRetI learnEpTimelineStateGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSLearnEpVersionTimelineStateGetPar par = (SSLearnEpVersionTimelineStateGetPar) parA.getFromClient(clientType, parA, SSLearnEpVersionTimelineStateGetPar.class);
+      final SSLearnEpTimelineStateGetPar par = (SSLearnEpTimelineStateGetPar) parA.getFromClient(clientType, parA, SSLearnEpTimelineStateGetPar.class);
       
-      return SSLearnEpVersionTimelineStateGetRet.get(learnEpVersionTimelineStateGet(par));
+      return SSLearnEpTimelineStateGetRet.get(learnEpTimelineStateGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -2024,21 +1968,11 @@ implements
   }
   
   @Override
-  public SSLearnEpTimelineState learnEpVersionTimelineStateGet(final SSLearnEpVersionTimelineStateGetPar par) throws SSErr{
+  public SSLearnEpTimelineState learnEpTimelineStateGet(final SSLearnEpTimelineStateGetPar par) throws SSErr{
     
     try{
       
-      final SSEntity learnEpVerison =
-        sql.getEntityTest(
-          par.user,
-          par.learnEpVersion,
-          par.withUserRestriction);
-      
-      if(learnEpVerison == null){
-        return null;
-      }
-      
-      return sql.getLearnEpVersionTimelineState(learnEpVerison.id);
+      return sql.getTimelineState(par.user);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -2387,8 +2321,7 @@ implements
           sql.getLearnEpVersion(
             learnEpVersionUri,
             true, //setCircles,
-            true, //setEntities,
-            true); //setTimeLineState
+            true); //setEntities,
         
         for(SSEntity circle : learnEpVersion.learnEpCircles){
           learnEpContentUris.add(circle.id);
@@ -2404,10 +2337,6 @@ implements
 //              user,
 //              ((SSLearnEpEntity) learnEpEntity).entity.id,
 //              withUserRestriction));
-        }
-        
-        if(learnEpVersion.learnEpTimelineState != null){
-          learnEpContentUris.add(learnEpVersion.learnEpTimelineState.id);
         }
       }
       

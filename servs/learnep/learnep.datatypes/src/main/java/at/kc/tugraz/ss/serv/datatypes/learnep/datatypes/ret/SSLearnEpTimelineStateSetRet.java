@@ -18,46 +18,28 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
+package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.enums.*;
 
-public class SSLearnEpTimelineState extends SSEntity {
+public class SSLearnEpTimelineStateSetRet extends SSServRetI{
 
-  public SSUri user                    = null;
-  public Long  startTime               = null;
-  public Long  endTime                 = null;
-  
-  public void setUser(final String user) throws SSErr {
-    this.user = SSUri.get(user);
+  public SSUri learnEpTimelineState = null;
+
+  public String getLearnEpTimelineState() throws Exception {
+    return SSStrU.removeTrailingSlash(learnEpTimelineState);
   }
   
-  public String getUser(){
-    return SSStrU.removeTrailingSlash(user);
+  public static SSLearnEpTimelineStateSetRet get(SSUri learnEpTimelineStateUri){
+    return new SSLearnEpTimelineStateSetRet(learnEpTimelineStateUri);
   }
   
-  public static SSLearnEpTimelineState get(
-    final SSUri id, 
-    final SSUri user, 
-    final Long  startTime, 
-    final Long  endTime) throws Exception{
+  private SSLearnEpTimelineStateSetRet(SSUri learnEpTimelineStateUri){
     
-    return new SSLearnEpTimelineState(id, user, startTime, endTime);
-  }
-  
-  protected SSLearnEpTimelineState(
-    final SSUri id,
-    final SSUri user,
-    final Long  startTime,
-    final Long  endTime)throws Exception{
+    super(SSVarNames.learnEpTimelineStateSet);
     
-    super(id, SSEntityE.learnEpTimelineState);
-    
-    this.user          = user;
-    this.startTime     = startTime;
-    this.endTime       = endTime;
+    this.learnEpTimelineState = learnEpTimelineStateUri;
   }
 }
