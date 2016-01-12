@@ -63,7 +63,7 @@
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
-      <version>${ssLog4JVersion}</version>
+      <version>${sssLog4JVersion}</version>
     </dependency>
     
     <dependency>

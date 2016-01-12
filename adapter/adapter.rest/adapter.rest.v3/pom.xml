@@ -94,7 +94,7 @@
             <apiSource>
               
               <locations>at.tugraz.sss.adapter.rest.v3</locations>
-              <host>test-ll.know.center.tugraz.at</host>
+              <host>test-ll.know-center.tugraz.at</host>
 <!--              <host>localhost:8080</host>-->
               <basePath>/bp.preparation/rest</basePath>
               <info>

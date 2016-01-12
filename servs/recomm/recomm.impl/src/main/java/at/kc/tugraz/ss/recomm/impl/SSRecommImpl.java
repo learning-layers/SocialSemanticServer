@@ -656,7 +656,7 @@ implements
      
         dataExportServ.dataExportUsersEntitiesTagsCategoriesTimestampsFile(dataExportPar);
      
-      userRealmEngine.engine.loadFile(userRealmEngine.realm);
+      userRealmEngine.engine.loadFile(conf.getSssWorkDirDataCsv(), userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -755,7 +755,7 @@ implements
               sql, //sqlFct
               false); //storeToDB
           
-          userRealmEngine.engine.loadFile(userRealmEngine.realm);
+          userRealmEngine.engine.loadFile(conf.getSssWorkDirDataCsv(), userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
         }
       }
       
@@ -877,7 +877,7 @@ implements
               sql,
               false);
           
-          userRealmEngine.engine.loadFile(userRealmEngine.realm);
+          userRealmEngine.engine.loadFile(conf.getSssWorkDirDataCsv(), userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
         }
       }
       
@@ -949,7 +949,7 @@ implements
           par.categories,
           userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt));
       
-      userRealmEngine.engine.loadFile(userRealmEngine.realm);
+      userRealmEngine.engine.loadFile(conf.getSssWorkDirDataCsv(), userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -1058,7 +1058,7 @@ implements
             userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt));
       }
       
-      userRealmEngine.engine.loadFile(userRealmEngine.realm);
+      userRealmEngine.engine.loadFile(conf.getSssWorkDirDataCsv(), userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
       
       dbSQL.commit(par.shouldCommit);
       

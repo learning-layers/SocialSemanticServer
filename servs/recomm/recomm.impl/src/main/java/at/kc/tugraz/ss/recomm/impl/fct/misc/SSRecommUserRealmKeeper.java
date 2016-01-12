@@ -177,7 +177,7 @@ public class SSRecommUserRealmKeeper{
               SSFileU.openOrCreateFileWithPathForWrite(
                 conf.getSssWorkDirDataCsv() + userRealm + SSStrU.dot + SSFileExtE.txt);
             
-            userRealmEngine.engine.loadFile(userRealm);
+            userRealmEngine.engine.loadFile(conf.getSssWorkDirDataCsv(), userRealm + SSStrU.dot + SSFileExtE.txt);
             
             userRealmEngines.get(userRealms.getKey()).add(userRealmEngine);
           }catch(Exception error){
