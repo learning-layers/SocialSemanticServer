@@ -23,7 +23,6 @@
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import java.util.Map;
 
 public class SSFriend extends SSEntity{
   

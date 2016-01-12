@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.api;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteAddPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteGetPar;
@@ -43,8 +43,7 @@ import java.util.List;
 
 public interface SSEvernoteServerI extends SSServServerI{
   
-  public SSEvernoteInfo evernoteNoteStoreGet(final SSEvernoteNoteStoreGetPar par) throws SSErr;
-  
+  public SSEvernoteInfo       evernoteNoteStoreGet       (final SSEvernoteNoteStoreGetPar       par) throws SSErr;
   public Resource             evernoteResourceGet        (final SSEvernoteResourceGetPar        par) throws SSErr;
   public Note                 evernoteNoteGet            (final SSEvernoteNoteGetPar            par) throws SSErr;
   public List<String>         evernoteNoteTagNamesGet    (final SSEvernoteNoteTagNamesGetPar    par) throws SSErr;

@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.tugraz.sss.adapter.socket;
+package at.tugraz.sss.adapter.socket.v3;
 
 import at.kc.tugraz.ss.activity.serv.*;
 import at.kc.tugraz.ss.category.ss.category.serv.*;
@@ -46,6 +46,7 @@ import at.kc.tugraz.sss.appstacklayout.serv.*;
 import at.kc.tugraz.sss.comment.serv.*;
 import at.kc.tugraz.sss.flag.serv.*;
 import at.kc.tugraz.sss.video.serv.*;
+import at.tugraz.sss.adapter.socket.SSSocketAdapterU;
 import at.tugraz.sss.conf.*;
 import at.tugraz.sss.serv.util.SSSocketU;
 import at.tugraz.sss.serv.util.SSEncodingU;
@@ -71,9 +72,9 @@ import java.io.OutputStreamWriter;
 import java.net.*;
 import sss.serv.eval.serv.*;
 
-public class SSSocketMainV2 extends SSServImplStartA{
+public class SSSocketMain extends SSServImplStartA{
   
-  public SSSocketMainV2() {
+  public SSSocketMain() {
     super(null);
   }
   
@@ -81,9 +82,7 @@ public class SSSocketMainV2 extends SSServImplStartA{
     
 //    System.getProperties().list(System.out);
     
-    
-    new SSSocketMainV2().start(args);
-    
+    new SSSocketMain().start(args);
   }
   
   public void start(String[] args) throws Exception {
@@ -188,7 +187,7 @@ public class SSSocketMainV2 extends SSServImplStartA{
         final ServerSocket server = new ServerSocket(SSCoreConf.instGet().getSss().port);
         
         while(true){
-          new Thread(new SSSocketMain(server.accept())).start();    //SSCoreConf.instGet().getCloud().use));
+          new Thread(new SSSocket(server.accept())).start();    //SSCoreConf.instGet().getCloud().use));
         }
       }
       
@@ -199,7 +198,7 @@ public class SSSocketMainV2 extends SSServImplStartA{
     }
   }
   
-  public class SSSocketMain implements Runnable{
+  public class SSSocket implements Runnable{
     
     private final Socket             clientSocket;
     private final OutputStreamWriter outputStreamWriter;
@@ -211,7 +210,7 @@ public class SSSocketMainV2 extends SSServImplStartA{
     private SSServPar                par         = null;
     private SSServRetI               ret         = null;
     
-    public SSSocketMain(
+    public SSSocket(
       final Socket  clientSocket) throws Exception{
       
       this.clientSocket      = clientSocket;

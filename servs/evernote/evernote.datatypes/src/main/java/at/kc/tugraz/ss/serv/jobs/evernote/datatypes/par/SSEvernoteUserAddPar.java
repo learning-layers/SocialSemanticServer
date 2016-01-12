@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 
 public class SSEvernoteUserAddPar extends SSServPar{

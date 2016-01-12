@@ -139,20 +139,26 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
   
   private void setBasicEvernoteInfo() throws Exception{
     
-    evernoteInfo = 
-      evernoteServ.evernoteNoteStoreGet(
-        new SSEvernoteNoteStoreGetPar(
-          par.user, 
-          par.authToken, 
-          par.authEmail));
-    
-    evernoteInfo.userName = SSLabel.get(evernoteInfo.userStore.getUser().getUsername());
-    
-    evernoteServ.evernoteUserAdd(
-      new SSEvernoteUserAddPar(
-        this.userUri,
-        par.authToken, 
-        false));
+    try{
+      
+      evernoteInfo =
+        evernoteServ.evernoteNoteStoreGet(
+          new SSEvernoteNoteStoreGetPar(
+            par.user,
+            par.authToken,
+            par.authEmail));
+      
+      evernoteInfo.userName = SSLabel.get(evernoteInfo.userStore.getUser().getUsername());
+      
+      evernoteServ.evernoteUserAdd(
+        new SSEvernoteUserAddPar(
+          this.userUri,
+          par.authToken,
+          false));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   private void setUSN() throws Exception{
@@ -282,30 +288,34 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
   
   private void handleLinkedNotebooks() throws Exception{
     
-    final List<LinkedNotebook> linkedNotebooks = evernoteInfo.noteStoreSyncChunk.getLinkedNotebooks();
-    int                        timeCounter     = 1;
-    SSUri                      notebookUri;
-    Long                       creationTimeForLinkedNotebook;
-    
-    if(linkedNotebooks == null){
-      return;
-    }
-    
-    for(LinkedNotebook linkedNotebook : linkedNotebooks){
+    try{
+      final List<LinkedNotebook> linkedNotebooks = evernoteInfo.noteStoreSyncChunk.getLinkedNotebooks();
+      int                        timeCounter     = 1;
+      SSUri                      notebookUri;
+      Long                       creationTimeForLinkedNotebook;
       
-      notebookUri                   = getLinkedNotebookUri     (linkedNotebook);
-      creationTimeForLinkedNotebook = new Date().getTime() - (SSDateU.dayInMilliSeconds * timeCounter);
-      timeCounter++;
+      if(linkedNotebooks == null){
+        return;
+      }
       
-      miscFct.addNotebook(
-        notebookUri,
-        getLinkedNotebookLabel(
-          linkedNotebook),
-        creationTimeForLinkedNotebook);
-      
-      addLinkedNotebookUEs(
-        notebookUri,
-        creationTimeForLinkedNotebook);
+      for(LinkedNotebook linkedNotebook : linkedNotebooks){
+        
+        notebookUri                   = getLinkedNotebookUri     (linkedNotebook);
+        creationTimeForLinkedNotebook = new Date().getTime() - (SSDateU.dayInMilliSeconds * timeCounter);
+        timeCounter++;
+        
+        miscFct.addNotebook(
+          notebookUri,
+          getLinkedNotebookLabel(
+            linkedNotebook),
+          creationTimeForLinkedNotebook);
+        
+        addLinkedNotebookUEs(
+          notebookUri,
+          creationTimeForLinkedNotebook);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   

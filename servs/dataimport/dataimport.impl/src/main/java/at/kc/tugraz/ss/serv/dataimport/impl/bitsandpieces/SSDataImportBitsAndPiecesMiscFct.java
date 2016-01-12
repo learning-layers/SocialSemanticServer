@@ -35,7 +35,6 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
-import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
 import com.evernote.edam.type.Note;
@@ -75,30 +74,35 @@ public class SSDataImportBitsAndPiecesMiscFct {
     final SSLabel  notebookLabel,
     final Long     notebookCreationTime) throws Exception{
     
-    entityServ.entityUpdate(
-      new SSEntityUpdatePar(
-        userUri,
-        notebookUri,
-        SSEntityE.evernoteNotebook, //type,
-        notebookLabel, //label
-        null, //description,
-        notebookCreationTime, //creationTime,
-        null, //read,
-        false, //setPublic
-        true, //createIfNotExists
-        true, //withUserRestriction
-        false)); //shouldCommit)
-    
-    evalServ.evalLog(
-      new SSEvalLogPar(
-        userUri,
-        SSToolContextE.evernoteImport,
-        SSEvalLogE.addNotebook,
-        notebookUri,
-        null,  //content
-        null, //entities
-        null,  //users
-        false)); //shouldCommit
+    try{
+      entityServ.entityUpdate(
+        new SSEntityUpdatePar(
+          userUri,
+          notebookUri,
+          SSEntityE.evernoteNotebook, //type,
+          notebookLabel, //label
+          null, //description,
+          notebookCreationTime, //creationTime,
+          null, //read,
+          false, //setPublic
+          true, //createIfNotExists
+          true, //withUserRestriction
+          false)); //shouldCommit)
+      
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          userUri,
+          SSToolContextE.evernoteImport,
+          SSEvalLogE.addNotebook,
+          notebookUri,
+          null,  //content
+          null, //entities
+          null,  //users
+          false)); //shouldCommit
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   public void addNote(
@@ -146,7 +150,8 @@ public class SSDataImportBitsAndPiecesMiscFct {
         new SSEvernoteNoteAddPar(
           this.userUri,
           notebookUri,
-          noteUri));
+          noteUri, 
+          false)); //shouldCommit
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -170,181 +175,186 @@ public class SSDataImportBitsAndPiecesMiscFct {
     final Long         creationTime,
     final Long         updateTime) throws Exception {
     
-    final List<SSEntity> existingCreationUEs =
-      ueServ.userEventsGet(
-        new SSUEsGetPar(
-          userUri, //user
-          null, //userEvents
-          userUri, //forUser
-          noteUri, //entity
-          SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteCreate), //types
-          null,
-          null,
-          true, //withUserRestriction,
-          false)); //invokeEntityHandlers
-    
-    if(existingCreationUEs.isEmpty()){
+    try{
       
-      ueServ.userEventAdd(
-        new SSUEAddPar(
-          userUri,
-          noteUri,
-          SSUEE.evernoteNoteCreate,
-          SSStrU.empty,
-          creationTime,
-          true,
-          false)); //shouldCommit
-    }
-    
-    final List<SSEntity> existingUpdateUEs =
-      ueServ.userEventsGet(
-        new SSUEsGetPar(
-          userUri, //user
-          null, //userEvents
-          userUri, //forUser
-          noteUri, //entity
-          SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteUpdate), //types
-          updateTime,
-          updateTime,
-          true, //withUserRestriction,
-          false)); //invokeEntityHandlers
-    
-    if(existingUpdateUEs.isEmpty()){
+      final List<SSEntity> existingCreationUEs =
+        ueServ.userEventsGet(
+          new SSUEsGetPar(
+            userUri, //user
+            null, //userEvents
+            userUri, //forUser
+            noteUri, //entity
+            SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteCreate), //types
+            null,
+            null,
+            true, //withUserRestriction,
+            false)); //invokeEntityHandlers
       
-      ueServ.userEventAdd(
-        new SSUEAddPar(
-          userUri,
-          noteUri,
-          SSUEE.evernoteNoteUpdate,
-          SSStrU.empty,
-          updateTime,
-          true,
-          false)); //shouldCommit
-    }
-    
-    if(note != null){
-      
-      if(note.getDeleted() != 0L){
+      if(existingCreationUEs.isEmpty()){
         
-        final List<SSEntity> existingDeleteUEs =
-          ueServ.userEventsGet(
-            new SSUEsGetPar(
-              userUri, //user
-              null, //userEvents
-              userUri, //forUser
-              noteUri, //entity
-              SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteDelete), //types
-              null,
-              null,
-              true, //withUserRestriction,
-              false)); //invokeEntityHandlers
+        ueServ.userEventAdd(
+          new SSUEAddPar(
+            userUri,
+            noteUri,
+            SSUEE.evernoteNoteCreate,
+            SSStrU.empty,
+            creationTime,
+            true, //withUserRestriction
+            false)); //shouldCommit
+      }
+      
+      final List<SSEntity> existingUpdateUEs =
+        ueServ.userEventsGet(
+          new SSUEsGetPar(
+            userUri, //user
+            null, //userEvents
+            userUri, //forUser
+            noteUri, //entity
+            SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteUpdate), //types
+            updateTime,
+            updateTime,
+            true, //withUserRestriction,
+            false)); //invokeEntityHandlers
+      
+      if(existingUpdateUEs.isEmpty()){
         
-        if(existingDeleteUEs.isEmpty()){
+        ueServ.userEventAdd(
+          new SSUEAddPar(
+            userUri,
+            noteUri,
+            SSUEE.evernoteNoteUpdate,
+            SSStrU.empty,
+            updateTime,
+            true, //withUserRestriction
+            false)); //shouldCommit
+      }
+      
+      if(note != null){
+        
+        if(note.getDeleted() != 0L){
           
-          ueServ.userEventAdd(
-            new SSUEAddPar(
-              userUri,
-              noteUri,
-              SSUEE.evernoteNoteDelete,
-              SSStrU.empty,
-              note.getDeleted(),
-              true,
-              false)); //shouldCommit
+          final List<SSEntity> existingDeleteUEs =
+            ueServ.userEventsGet(
+              new SSUEsGetPar(
+                userUri, //user
+                null, //userEvents
+                userUri, //forUser
+                noteUri, //entity
+                SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteDelete), //types
+                null,
+                null,
+                true, //withUserRestriction,
+                false)); //invokeEntityHandlers
+          
+          if(existingDeleteUEs.isEmpty()){
+            
+            ueServ.userEventAdd(
+              new SSUEAddPar(
+                userUri,
+                noteUri,
+                SSUEE.evernoteNoteDelete,
+                SSStrU.empty,
+                note.getDeleted(),
+                true, //withUserRestriction
+                false)); //shouldCommit
+          }
+        }
+        
+        final NoteAttributes noteAttr = note.getAttributes();
+        
+        if(noteAttr == null){
+          return;
+        }
+        
+        if(noteAttr.getShareDate() != 0L){
+          
+          final List<SSEntity> existingShareUEs =
+            ueServ.userEventsGet(
+              new SSUEsGetPar(
+                userUri, //user
+                null, //userEvents
+                userUri, //forUser
+                noteUri, //entity
+                SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteShare), //types
+                noteAttr.getShareDate(),
+                noteAttr.getShareDate(),
+                true, //withUserRestriction,
+                false)); //invokeEntityHandlers
+          
+          if(existingShareUEs.isEmpty()){
+            
+            ueServ.userEventAdd(
+              new SSUEAddPar(
+                userUri,
+                noteUri,
+                SSUEE.evernoteNoteShare,
+                SSStrU.empty,
+                noteAttr.getShareDate(),
+                true, //withUserRestriction
+                false)); //shouldCommit
+          }
+        }
+        
+        if(noteAttr.getReminderDoneTime() != 0L){
+          
+          final List<SSEntity> existingReminderUEs =
+            ueServ.userEventsGet(
+              new SSUEsGetPar(
+                userUri, //user
+                null, //userEvents
+                userUri, //forUser
+                noteUri, //entity
+                SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteReminderDone), //types
+                noteAttr.getReminderDoneTime(),
+                noteAttr.getReminderDoneTime(),
+                true, //withUserRestriction,
+                false)); //invokeEntityHandlers
+          
+          if(existingReminderUEs.isEmpty()){
+            
+            ueServ.userEventAdd(
+              new SSUEAddPar(
+                userUri,
+                noteUri,
+                SSUEE.evernoteReminderDone,
+                SSStrU.empty,
+                noteAttr.getReminderDoneTime(),
+                true, //withUserRestriction
+                false)); //shouldCommit
+          }
+        }
+        
+        if(noteAttr.getReminderTime() != 0L){
+          
+          final List<SSEntity> existingReminder2UEs =
+            ueServ.userEventsGet(
+              new SSUEsGetPar(
+                userUri, //user
+                null, //userEvents
+                userUri, //forUser
+                noteUri, //entity
+                SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteReminderCreate), //types
+                noteAttr.getReminderTime(),
+                noteAttr.getReminderTime(),
+                true, //withUserRestriction,
+                false)); //invokeEntityHandlers
+          
+          if(existingReminder2UEs.isEmpty()){
+            
+            ueServ.userEventAdd(
+              new SSUEAddPar(
+                userUri,
+                noteUri,
+                SSUEE.evernoteReminderCreate,
+                SSStrU.empty,
+                noteAttr.getReminderTime(),
+                true, //withUserRestriction
+                false)); //shouldCommit
+          }
         }
       }
-      
-      final NoteAttributes noteAttr = note.getAttributes();
-      
-      if(noteAttr == null){
-        return;
-      }
-      
-      if(noteAttr.getShareDate() != 0L){
-        
-        final List<SSEntity> existingShareUEs =
-          ueServ.userEventsGet(
-            new SSUEsGetPar(
-              userUri, //user
-              null, //userEvents
-              userUri, //forUser
-              noteUri, //entity
-              SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteShare), //types
-              noteAttr.getShareDate(),
-              noteAttr.getShareDate(),
-              true, //withUserRestriction,
-              false)); //invokeEntityHandlers
-        
-        if(existingShareUEs.isEmpty()){
-          
-          ueServ.userEventAdd(
-            new SSUEAddPar(
-              userUri,
-              noteUri,
-              SSUEE.evernoteNoteShare,
-              SSStrU.empty,
-              noteAttr.getShareDate(),
-              true,
-              false)); //shouldCommit
-        }
-      }
-      
-      if(noteAttr.getReminderDoneTime() != 0L){
-        
-        final List<SSEntity> existingReminderUEs =
-          ueServ.userEventsGet(
-            new SSUEsGetPar(
-              userUri, //user
-              null, //userEvents
-              userUri, //forUser
-              noteUri, //entity
-              SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteReminderDone), //types
-              noteAttr.getReminderDoneTime(),
-              noteAttr.getReminderDoneTime(),
-              true, //withUserRestriction,
-              false)); //invokeEntityHandlers
-        
-        if(existingReminderUEs.isEmpty()){
-          
-          ueServ.userEventAdd(
-            new SSUEAddPar(
-              userUri,
-              noteUri,
-              SSUEE.evernoteReminderDone,
-              SSStrU.empty,
-              noteAttr.getReminderDoneTime(),
-              true,
-              false)); //shouldCommit
-        }
-      }
-      
-      if(noteAttr.getReminderTime() != 0L){
-        
-        final List<SSEntity> existingReminder2UEs =
-          ueServ.userEventsGet(
-            new SSUEsGetPar(
-              userUri, //user
-              null, //userEvents
-              userUri, //forUser
-              noteUri, //entity
-              SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteReminderCreate), //types
-              noteAttr.getReminderTime(),
-              noteAttr.getReminderTime(),
-              true, //withUserRestriction,
-              false)); //invokeEntityHandlers
-        
-        if(existingReminder2UEs.isEmpty()){
-          
-          ueServ.userEventAdd(
-            new SSUEAddPar(
-              userUri,
-              noteUri,
-              SSUEE.evernoteReminderCreate,
-              SSStrU.empty,
-              noteAttr.getReminderTime(),
-              true,
-              false)); //shouldCommit
-        }
-      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   
@@ -352,30 +362,35 @@ public class SSDataImportBitsAndPiecesMiscFct {
     final SSUri resourceUri,
     final Long  resourceAddTime) throws Exception{
     
-    final List<SSEntity> existingUEs =
-      ueServ.userEventsGet(
-        new SSUEsGetPar(
-          userUri, //user
-          null, //userEvents
-          userUri, //forUser
-          resourceUri, //entity
-          SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteResourceAdd), //types
-          resourceAddTime,
-          resourceAddTime,
-          true, //withUserRestriction,
-          false)); //invokeEntityHandlers
-    
-    if(existingUEs.isEmpty()){
+    try{
       
-      ueServ.userEventAdd(
-        new SSUEAddPar(
-          userUri,
-          resourceUri,
-          SSUEE.evernoteResourceAdd,
-          SSStrU.empty,
-          resourceAddTime,
-          true,
-          false)); //shouldCommit
+      final List<SSEntity> existingUEs =
+        ueServ.userEventsGet(
+          new SSUEsGetPar(
+            userUri, //user
+            null, //userEvents
+            userUri, //forUser
+            resourceUri, //entity
+            SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteResourceAdd), //types
+            resourceAddTime,
+            resourceAddTime,
+            true, //withUserRestriction,
+            false)); //invokeEntityHandlers
+      
+      if(existingUEs.isEmpty()){
+        
+        ueServ.userEventAdd(
+          new SSUEAddPar(
+            userUri,
+            resourceUri,
+            SSUEE.evernoteResourceAdd,
+            SSStrU.empty,
+            resourceAddTime,
+            true, //withUserRestriction
+            false)); //shouldCommit
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   
@@ -385,38 +400,13 @@ public class SSDataImportBitsAndPiecesMiscFct {
     final Long    resourceAddTime,
     final SSUri   noteUri) throws Exception{
     
-    entityServ.entityUpdate(
-      new SSEntityUpdatePar(
-        userUri,
-        resourceUri,
-        SSEntityE.evernoteResource, //type,
-        resourceLabel, //label
-        null, //description,
-        resourceAddTime, //creationTime,
-        null, //read,
-        false, //setPublic
-        true, //createIfNotExists
-        true, //withUserRestriction
-        false)); //shouldCommit)
-    
-    //TODO fix this hack
     try{
-      
-      evernoteServ.evernoteResourceAdd(
-        new SSEvernoteResourceAddPar(
-          this.userUri,
-          noteUri,
-          resourceUri,
-          false));
-      
-    }catch(Exception error){
-      
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
           userUri,
-          noteUri,
-          SSEntityE.evernoteNote, //type,
-          null, //label
+          resourceUri,
+          SSEntityE.evernoteResource, //type,
+          resourceLabel, //label
           null, //description,
           resourceAddTime, //creationTime,
           null, //read,
@@ -425,23 +415,53 @@ public class SSDataImportBitsAndPiecesMiscFct {
           true, //withUserRestriction
           false)); //shouldCommit)
       
-      evernoteServ.evernoteResourceAdd(
-        new SSEvernoteResourceAddPar(
-          this.userUri,
-          noteUri,
-          resourceUri, 
-          false));
+      //TODO fix this hack
+      try{
+        
+        evernoteServ.evernoteResourceAdd(
+          new SSEvernoteResourceAddPar(
+            this.userUri,
+            noteUri,
+            resourceUri,
+            false)); //shouldCommit
+        
+      }catch(Exception error){
+        
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            userUri,
+            noteUri,
+            SSEntityE.evernoteNote, //type,
+            null, //label
+            null, //description,
+            resourceAddTime, //creationTime,
+            null, //read,
+            false, //setPublic
+            true, //createIfNotExists
+            true, //withUserRestriction
+            false)); //shouldCommit)
+        
+        evernoteServ.evernoteResourceAdd(
+          new SSEvernoteResourceAddPar(
+            this.userUri,
+            noteUri,
+            resourceUri,
+            false)); //shouldCommit
+      }
+      
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          userUri,
+          SSToolContextE.evernoteImport,
+          SSEvalLogE.addResource,
+          resourceUri,
+          null, //content
+          SSUri.asListNotNull(noteUri), //entitites
+          null,  //users
+          false)); //shouldCommit
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
-    
-    evalServ.evalLog(
-      new SSEvalLogPar(
-        userUri,
-        SSToolContextE.evernoteImport,
-        SSEvalLogE.addResource,
-        resourceUri,
-        null, //content
-        SSUri.asListNotNull(noteUri), //entitites
-        null,  //users
-        false)); //shouldCommit
   }
 }

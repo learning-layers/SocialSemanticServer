@@ -1,4 +1,7 @@
-!!at.kc.tugraz.ss.conf.conf.SSMainConf
+!!at.tugraz.sss.conf.SSCoreConf
+#!!at.kc.tugraz.ss.conf.conf.SSMainConf
+#!!at.tugraz.sss.serv.SSDBSQLConf
+#!!at.tugraz.sss.serv.SSDBNoSQLConf
 #core services 
 sss:
   version: x.x.x
@@ -6,16 +9,16 @@ sss:
   port: SSS_PORT
   restAPIPath: SSS_REST_API_PATH
   sssWorkDir: SSS_LOCAL_WORK_PATH #leave empty for workingDir/tmp
-dbSQL: !!at.tugraz.sss.serv.SSDBSQLConf
+dbSQL:
   host: SSS_MYSQL_HOST
   port: SSS_MYSQL_PORT
   username: SSS_MYSQL_USERNAME
   password: SSS_MYSQL_PASSWORD
   schema: SSS_MYSQL_SCHEME
-dbNoSQL: !!at.tugraz.sss.serv.SSDBNoSQLConf
+dbNoSQL:
   uri: SSS_SOLR_HOST
   username: 
-  password: 
+  password:
 auth: 
   authType: SSS_AUTH_TYPE #noAuth, csvFileAuth, oidc
   initAtStartUp: true
@@ -25,7 +28,7 @@ auth:
 entity:
   use: true
 jsonLD:
-  uri: 
+  use: true
 eval:
   tools: #- leave empty for no tool usage to be traced
     #- bnp
@@ -37,6 +40,7 @@ eval:
   scheduleIntervals:
     - 0
 integrationTest: 
+  use: true
   tests:
     #- something
 
@@ -86,13 +90,15 @@ recomm: #files have to be provided in sss's_working_dir/data/csv/
   scheduleIntervals:
     - 5
   fileNameForRec: sss_recomm
-  recommResourceAlgorithm: RESOURCETAGCB #RESOURCECF, RESOURCETAGCB
+  recommResourceAlgorithm: RESOURCECF #RESOURCECF, RESOURCETAGCB
   recommUserAlgorithm: USERTAGCB #USERTAGCB
   recommTagsRandomAlgos:
     - BLLacMPr
-    #- BLLcoll
+    #- BLL
     #- THREELcoll
+    #- BLLcoll
     #- MP
+    #- THREEL
   recommTagsUserPerRealm:
     #- circle1:userEmail1
     #- circle1:userEmail2
@@ -117,7 +123,7 @@ evernote:
 dataImport:
   use: true
   schedule: false
-  executeScheduleAtStartUp: true
+  executeScheduleAtStartUp: false
   scheduleOps:
     - dataImportBitsAndPieces #dataImportBitsAndPieces 
   scheduleIntervals:

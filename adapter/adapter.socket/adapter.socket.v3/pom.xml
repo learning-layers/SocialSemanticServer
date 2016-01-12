@@ -6,7 +6,7 @@
     <artifactId>adapter.socket</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>adapter.socket.v2</artifactId>
+  <artifactId>adapter.socket.v3</artifactId>
   <packaging>jar</packaging>
     
   <build>
@@ -428,4 +428,5 @@
       <version>1.25.1</version>
     </dependency>
   </dependencies>
+    <name>adapter.socket.v3</name>
 </project>

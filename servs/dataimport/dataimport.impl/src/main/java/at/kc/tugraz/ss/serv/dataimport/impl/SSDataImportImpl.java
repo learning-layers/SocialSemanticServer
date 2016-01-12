@@ -1,23 +1,23 @@
-/**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.serv.dataimport.impl;
 
 import at.tugraz.sss.serv.util.SSFileU;
@@ -55,7 +55,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiProject;
@@ -66,11 +65,11 @@ import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.SSEvalLogEntry;
 
-public class SSDataImportImpl 
-extends 
-  SSServImplWithDBA 
-implements 
-  SSDataImportClientI, 
+public class SSDataImportImpl
+extends
+  SSServImplWithDBA
+implements
+  SSDataImportClientI,
   SSDataImportServerI{
   
   public  static final Integer                 bitsAndPiecesImageMinWidth          = 250;
@@ -109,7 +108,7 @@ implements
       bitsAndPiecesEvernoteImports.put(Thread.currentThread(), authToken);
       
       return true;
-        
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
@@ -158,7 +157,7 @@ implements
       bitsAndPiecesEmailsImports.put(Thread.currentThread(), authToken);
       
       return true;
-        
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
@@ -205,7 +204,7 @@ implements
         !addBitsAndPiecesEmailImport(par.authToken, par.authEmail)){
         return false;
       }
-            
+      
       final SSEntityServerI   entityServ      = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
       final SSUEServerI       ueServ          = (SSUEServerI)       SSServReg.getServ(SSUEServerI.class);
       final SSFileRepoServerI fileServ        = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
@@ -217,9 +216,9 @@ implements
       SSUri                   userUri         = null;
       
       try{
-
+        
         dbSQL.startTrans(par.shouldCommit);
-
+        
         userUri =
           authServ.authRegisterUser(
             new SSAuthRegisterUserPar(
@@ -230,27 +229,42 @@ implements
               false, //isSystemUser,
               false, //withUserRestriction,
               false)); //shouldCommit
-            
+        
         dbSQL.commit(par.shouldCommit);
-      }catch(Exception error){
+      }catch(SSErr error){
         
         worked = false;
         
-        if(!dbSQL.rollBack(par.shouldCommit)){
-          SSLogU.warn("sql rollback failed");
+        switch(error.code){
+          
+          case sqlDeadLock:{
+            
+            try{
+              dbSQL.rollBack(par.shouldCommit);
+              SSLogU.err(error);
+            }catch(Exception error2){
+              SSLogU.err(error2);
+            }
+            
+            break;
+          }
+          
+          default:{
+            SSLogU.err(error);
+          }
         }
         
+      }catch(Exception error){
+        worked = false;
         SSLogU.err(error);
       }
       
-      if(
-      par.importEvernote &&
-      userUri != null){
+      if(worked && par.importEvernote){
         
         try{
-
+          
           dbSQL.startTrans(par.shouldCommit);
-
+          
           new SSDataImportBitsAndPiecesEvernoteImporter(
             dataImportConf,
             par,
@@ -261,16 +275,33 @@ implements
             tagServ,
             evalServ,
             userUri).handle();
-
+          
           dbSQL.commit(par.shouldCommit);
-        }catch(Exception error){
-
+        }catch(SSErr error){
+          
           worked = false;
-
-          if(!dbSQL.rollBack(par.shouldCommit)){
-            SSLogU.warn("sql rollback failed");
+          
+          switch(error.code){
+            
+            case sqlDeadLock:{
+              
+              try{
+                dbSQL.rollBack(par.shouldCommit);
+                SSLogU.err(error);
+              }catch(Exception error2){
+                SSLogU.err(error2);
+              }
+              
+              break;
+            }
+            
+            default:{
+              SSLogU.err(error);
+            }
           }
-
+          
+        }catch(Exception error){
+          worked = false;
           SSLogU.err(error);
         }
       }
@@ -280,40 +311,52 @@ implements
         userUri != null){
         
         try{
-
+          
           dbSQL.startTrans(par.shouldCommit);
-
+          
           new SSDataImportBitsAndPiecesMailImporter(
             dataImportConf,
             par,
             entityServ,
-            fileServ, 
-            evalServ, 
+            fileServ,
+            evalServ,
             ueServ,
             evernoteServ,
             userUri).handle();
-
+          
           dbSQL.commit(par.shouldCommit);
-
-        }catch(Exception error){
-
+          
+        }catch(SSErr error){
+          
           worked = false;
-
-          if(!dbSQL.rollBack(par.shouldCommit)){
-            SSLogU.warn("sql rollback failed");
+          
+          switch(error.code){
+            
+            case sqlDeadLock:{
+              
+              try{
+                dbSQL.rollBack(par.shouldCommit);
+                SSLogU.err(error);
+              }catch(Exception error2){
+                SSLogU.err(error2);
+              }
+              
+              break;
+            }
+            
+            default:{
+              SSLogU.err(error);
+            }
           }
-
+          
+        }catch(Exception error){
+          worked = false;
           SSLogU.err(error);
         }
       }
       
       return worked;
     }catch(Exception error){
-      
-      if(!dbSQL.rollBack(par.shouldCommit)){
-        SSLogU.warn("sql rollback failed");
-      }
-      
       SSServErrReg.regErrThrow(error);
       return false;
     }finally{
@@ -328,7 +371,7 @@ implements
           removeBitsAndPiecesEmailImport(par.authToken);
         }
       }catch(Exception error){
-        SSLogU.warn("removing evernote import thread failed");
+        SSLogU.err("removing evernote import thread failed");
       }
     }
   }
@@ -357,7 +400,7 @@ implements
   
   @Override
   public void dataImportMediaWikiUser(final SSDataImportMediaWikiUserPar par) throws SSErr{
-
+    
     try{
       
       final List<String[]> lines = SSDataImportReaderFct.readAllFromCSV(conf.getSssWorkDirDataCsv(), ((SSDataImportConf)conf).fileName);
@@ -392,7 +435,7 @@ implements
     }catch(SSErr error){
       
       switch(error.code){
-
+        
         case sqlDeadLock:{
           
           try{
@@ -436,7 +479,7 @@ implements
       for(Integer lineCounter = 1; lineCounter < lines.size(); lineCounter++){
         
         try{
-        
+          
           line = lines.get(lineCounter);
           
           projectNumber      = line[0].trim();
@@ -457,18 +500,18 @@ implements
             }
           }else{
             
-            vorgang = 
+            vorgang =
               new SSKCProjWikiVorgang(
                 projectNumber,
                 vorgangNumber);
             
             vorgaenge.put(vorgangNumber, vorgang);
           }
-
+          
           if(
             vorgang.totalResources != null &&
             vorgang.totalResources.compareTo(totalResources) != 0){
-           
+            
             SSLogU.warn("line " + (lineCounter + 1) + " total resources difference; wont be imported");
             continue;
           }
@@ -476,7 +519,7 @@ implements
           if(
             vorgang.usedResources != null &&
             vorgang.usedResources.compareTo(usedResources) != 0){
-           
+            
             SSLogU.warn("line " + (lineCounter + 1) + " used resources difference; wont be imported");
             continue;
           }
@@ -519,14 +562,14 @@ implements
       final List<String[]>                   lines;
       String[]                               line;
       SSEvalLogEntry                         entry;
-
+      
       //timestamp;tool context;user label;log type;entity;entity type;entity label;content;tag type;entities' ids;entities' labels;users' labels;episodespace;selected bits measure;not selected entities' ids;not selected entities' labels
       lines = SSDataImportReaderFct.readAllFromCSV(par.filePath);
       
       for(Integer lineCounter = 1; lineCounter < lines.size(); lineCounter++){
         
         try{
-        
+          
           line  = lines.get(lineCounter);
           entry = new SSEvalLogEntry();
           
@@ -613,23 +656,23 @@ implements
 }
 
 //  private boolean evernoteNoteUploadPNGToWebDav(String pngFilePath, String pngFileID){
-//    
+//
 //    FileInputStream in = null;
-//    
+//
 //    try{
 //      SSFileU.openFileForRead(pngFilePath);
-//    
+//
 //      SardineFactory.begin("wduza", "w!123a").put("http://kedemo.know-center.tugraz.at:80/webdav/knowBrainWeb/" + pngFileID, in);
-//      
+//
 //      return true;
-//      
+//
 //    }catch(Exception error){
 //      SSLogU.logError(error, "couldnt upload note png to webdav");
 //      return false;
 //    }finally{
-//      
+//
 //      if(in != null){
-//        
+//
 //        try {
 //          in.close();
 //        } catch (IOException error2) {
@@ -642,23 +685,23 @@ implements
 
 
 //    try{
-//      
+//
 //      String inputFile = SSFileU.dirWorkingTmp() + htmlFileName;
 //        String url = new File(inputFile).toURI().toURL().toString();
 //        String outputFile = SSFileU.dirWorkingTmp() + pdfFileName;
 //        noteOutputStream = new FileOutputStream(outputFile);
-//        
+//
 //        ITextRenderer renderer = new ITextRenderer();
 //        renderer.setDocument(url);
 //        renderer.layout();
 //        renderer.createPDF(noteOutputStream);
-//      
+//
 //    } catch (Exception error1) {
 //      SSLogU.logError(error1, "couldnt write to pdf");
 //    }finally{
-//      
+//
 //      if(noteOutputStream != null){
-//        
+//
 //        try {
 //          noteOutputStream.close();
 //        } catch (IOException error) {
@@ -669,7 +712,7 @@ implements
 
 //@Override
 //  public boolean dataImportUserResourceTagFromWikipedia(final SSServPar parA) throws SSErr {
-//    
+//
 //    final SSAuthServerI                               authServ      = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
 //    final SSDataImportUserResourceTagFromWikipediaPar par           = new SSDataImportUserResourceTagFromWikipediaPar(parA);
 //    int                                               counter       = 1;
@@ -685,7 +728,7 @@ implements
 //    String                                            tags;
 //    String                                            categories;
 //    Long                                              timestamp;
-//    
+//
 //    try{
 //      ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsRemove(
 //        new SSTagsRemovePar(
@@ -697,43 +740,43 @@ implements
 //          null, //circle
 //          false,
 //          par.shouldCommit));
-//      
+//
 //      dataImportFileIn = SSFileU.openFileForRead   (SSFileU.dirWorkingDataCsv() + ((SSDataImportConf)conf).fileName);
 //      lineReader       = new BufferedReader        (new InputStreamReader(dataImportFileIn));
 //      line             = lineReader.readLine();
-//      
+//
 //      while(line != null){
-//        
+//
 //        line       = SSStrU.removeDoubleQuotes(line); //        line       = SSStrU.replaceAll(line, SSStrU.dot,     SSStrU.empty);
 //        line       = SSStrU.replaceAll        (line, SSStrU.percent, SSStrU.empty);
 //        lineSplit  = SSStrU.split             (line, SSStrU.semiColon);
-//        
+//
 //        if(
 //          lineSplit == null ||
 //          lineSplit.size() < 5){
-//          
+//
 //          line = lineReader.readLine();
 //          continue;
 //        }
-//        
+//
 //        categories = lineSplit.get(4);
-//        
+//
 ////        if(!categories.contains("health")){
 ////          line = lineReader.readLine();
 ////          continue;
 ////        }
-//        
+//
 //        try{
 //          resource  = SSUri.get(lineSplit.get(1));
 //        }catch(Exception error){
 //          line = lineReader.readLine();
 //          continue;
 //        }
-//        
+//
 //        userLabel   = lineSplit.get   (0);
 //        timestamp   = Long.parseLong  (lineSplit.get(2)) * 1000;
 //        tags        = lineSplit.get   (3);
-//        
+//
 //        user=
 //          authServ.authRegisterUser(
 //            new SSAuthRegisterUserPar(
@@ -744,7 +787,7 @@ implements
 //              false, //isSystemUser,
 //              false, //withUserRestriction,
 //              false)); //shouldCommit
-//        
+//
 //        tagList     = SSStrU.splitDistinctWithoutEmptyAndNull(tags, SSStrU.comma);
 //        tagCounter += tagList.size();
 //
@@ -767,7 +810,7 @@ implements
 //      return true;
 //
 //    }catch(SSErr error){
-      
+
 //      if(error.code == SSErrE.sqlDeadLock){
 //
 //        try{
@@ -779,7 +822,7 @@ implements
 //          return null;
 //        }
 //      }
-//      
+//
 //      SSServErrReg.regErrThrow(error);
 //      return null;
 //    }catch(Exception error){
@@ -787,7 +830,7 @@ implements
 //      return null;
 //    }
 //    }finally{
-//      
+//
 //      if(lineReader != null){
 //        lineReader.close();
 //      }
