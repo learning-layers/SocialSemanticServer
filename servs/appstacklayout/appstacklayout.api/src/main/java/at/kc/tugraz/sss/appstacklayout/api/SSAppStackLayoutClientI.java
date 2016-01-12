@@ -20,14 +20,15 @@
 */
 package at.kc.tugraz.sss.appstacklayout.api;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 
 public interface SSAppStackLayoutClientI{
   
-  public SSServRetI appStackLayoutsGet     (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI appStackLayoutCreate   (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI appStackLayoutUpdate   (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI appStackLayoutDelete   (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI appStackLayoutsGet     (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI appStackLayoutCreate   (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI appStackLayoutUpdate   (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI appStackLayoutDelete   (final SSClientE clientType, final SSServPar parA) throws SSErr;
 }

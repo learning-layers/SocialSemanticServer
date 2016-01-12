@@ -24,8 +24,6 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.jsonld.*;
 import io.swagger.annotations.*;
-import javax.xml.bind.annotation.*;
-
 
 @ApiModel
 public abstract class SSEntityA implements SSJSONLDPropI{

@@ -20,13 +20,14 @@
 */
 package at.kc.tugraz.ss.activity.api;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 
 public interface SSActivityClientI{
 
-  public SSServRetI activityAdd      (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI activitiesGet    (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI activityTypesGet (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI activityAdd      (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI activitiesGet    (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI activityTypesGet (final SSClientE clientType, final SSServPar parA) throws SSErr;
 }

@@ -20,16 +20,17 @@
 */
 package at.kc.tugraz.ss.category.api;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
 
 public interface SSCategoryClientI{
 
-  public SSServRetI categoriesPredefinedGet           (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI categoryAdd                       (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI categoriesRemove                  (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI categoriesGet                     (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI categoryEntitiesForCategoriesGet  (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI categoryFrequsGet                 (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI categoriesPredefinedGet           (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI categoryAdd                       (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI categoriesRemove                  (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI categoriesGet                     (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI categoryEntitiesForCategoriesGet  (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI categoryFrequsGet                 (final SSClientE clientType, final SSServPar parA) throws SSErr;
 }

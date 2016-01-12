@@ -67,7 +67,7 @@ implements
   @Override
   public SSEntity describeEntity(
     final SSEntity             entity,
-    final SSEntityDescriberPar par) throws Exception{
+    final SSEntityDescriberPar par) throws SSErr{
     
     try{
       
@@ -109,7 +109,7 @@ implements
   }
   
   @Override
-  public SSLocation locationGet(final SSLocationGetPar par) throws Exception{
+  public SSLocation locationGet(final SSLocationGetPar par) throws SSErr{
     
     try{
       
@@ -126,7 +126,7 @@ implements
   }
   
   @Override
-  public List<SSEntity> locationsGet(final SSLocationsGetPar par) throws Exception{
+  public List<SSEntity> locationsGet(final SSLocationsGetPar par) throws SSErr{
     
     try{
       
@@ -171,7 +171,7 @@ implements
   }
     
   @Override
-  public SSUri locationAdd(final SSLocationAddPar par) throws Exception{
+  public SSUri locationAdd(final SSLocationAddPar par) throws SSErr{
     
     try{
       

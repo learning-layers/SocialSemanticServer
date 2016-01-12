@@ -1,5 +1,10 @@
 /**
- * Copyright 2014 Graz University of Technology - KTI (Knowledge Technologies Institute)
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +20,8 @@
  */
 package at.tugraz.sss.serv.datatype.enums;
 
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.reg.*;
 import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +34,7 @@ public enum SSCircleE{
   pubCircle,
   pub;
   
-  public static List<SSCircleE> get(final List<String> values) throws Exception{
+  public static List<SSCircleE> get(final List<String> values) throws SSErr{
     
     final List<SSCircleE> result = new ArrayList<>();
     
@@ -38,9 +45,13 @@ public enum SSCircleE{
     return result;
   }
   
-  public static SSCircleE get(final String value) throws Exception{
-    return SSCircleE.valueOf(value);
-  }
-  
-  private SSCircleE(){}
+  public static SSCircleE get(final String value) throws SSErr{
+    
+    try{
+      return SSCircleE.valueOf(value);
+    }catch(IllegalArgumentException error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }  
 }

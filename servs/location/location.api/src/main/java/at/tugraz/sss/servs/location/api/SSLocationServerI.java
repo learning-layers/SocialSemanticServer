@@ -30,7 +30,7 @@ import java.util.List;
 
 public interface SSLocationServerI{
 
-  public SSUri          locationAdd  (final SSLocationAddPar  par) throws Exception;
-  public SSLocation     locationGet  (final SSLocationGetPar  par) throws Exception;
-  public List<SSEntity> locationsGet (final SSLocationsGetPar par) throws Exception;
+  public SSUri          locationAdd  (final SSLocationAddPar  par) throws SSErr;
+  public SSLocation     locationGet  (final SSLocationGetPar  par) throws SSErr;
+  public List<SSEntity> locationsGet (final SSLocationsGetPar par) throws SSErr;
 }

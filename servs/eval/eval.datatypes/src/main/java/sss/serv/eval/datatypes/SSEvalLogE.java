@@ -20,7 +20,8 @@
 */
 package sss.serv.eval.datatypes;
 
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +89,7 @@ public enum SSEvalLogE{
   tagAdd //server
   ;
   
-  public static SSEvalLogE get(final String space) throws Exception{
+  public static SSEvalLogE get(final String space) throws SSErr{
     
     try{
       
@@ -98,11 +99,12 @@ public enum SSEvalLogE{
       
       return SSEvalLogE.valueOf(space);
     }catch(Exception error){
-      throw new Exception("tool context nvalid");
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
-  public static List<SSEvalLogE> get(final List<String> strings) throws Exception{
+  public static List<SSEvalLogE> get(final List<String> strings) throws SSErr{
 
     final List<SSEvalLogE> result = new ArrayList<>();
     

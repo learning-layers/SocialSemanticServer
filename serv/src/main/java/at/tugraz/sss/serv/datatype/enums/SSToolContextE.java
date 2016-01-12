@@ -20,6 +20,8 @@
 */
 package at.tugraz.sss.serv.datatype.enums;
 
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.reg.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +37,7 @@ public enum SSToolContextE{
   evernoteImport,
   sss;
   
-  public static SSToolContextE get(final String space) throws Exception{
+  public static SSToolContextE get(final String space) throws SSErr{
     
     try{
       
@@ -44,12 +46,13 @@ public enum SSToolContextE{
       }
       
       return SSToolContextE.valueOf(space);
-    }catch(Exception error){
-      throw new Exception("tool context nvalid");
+    }catch(IllegalArgumentException error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
-  public static List<SSToolContextE> get(final List<String> strings) throws Exception{
+  public static List<SSToolContextE> get(final List<String> strings) throws SSErr{
 
     final List<SSToolContextE> result = new ArrayList<>();
     

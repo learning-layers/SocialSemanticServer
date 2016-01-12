@@ -1,7 +1,0 @@
-!!at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf
-sss:
-  host: SSS_HOST
-  port: SSS_PORT_FOR_TOMCAT
-  localWorkPath:
-jsonLD:
-  uri: 

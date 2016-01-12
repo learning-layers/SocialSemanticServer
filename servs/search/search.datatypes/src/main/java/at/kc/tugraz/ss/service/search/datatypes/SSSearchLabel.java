@@ -21,22 +21,26 @@
 package at.kc.tugraz.ss.service.search.datatypes;
 
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.*;
 import at.tugraz.sss.serv.datatype.api.SSEntityA;
-import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchInvalidSearchLabelErr;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.reg.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSSearchLabel extends SSEntityA{
 
   public static SSSearchLabel get(
-    final String string) throws Exception{
+    final String value) throws SSErr{
     
-    return new SSSearchLabel(string);
+    if(value == null){
+      return null;
+    }
+    
+    return new SSSearchLabel(value);
   }
   
   public static List<SSSearchLabel> get(
-    final List<String> strings) throws Exception{
+    final List<String> strings) throws SSErr{
 
     final List<SSSearchLabel> result = new ArrayList<>();
     
@@ -75,11 +79,11 @@ public class SSSearchLabel extends SSEntityA{
 //    }
 //  }
   
-  protected SSSearchLabel(final String label) throws Exception{
+  protected SSSearchLabel(final String label) throws SSErr{
     super(getSearchLabel(label));
   }
   
-  private static String getSearchLabel(final String label) throws Exception{
+  private static String getSearchLabel(final String label) throws SSErr{
     
     try{
       
@@ -90,7 +94,8 @@ public class SSSearchLabel extends SSEntityA{
       
       return tmpLabel;
     }catch(Exception error){
-      throw new SSSearchInvalidSearchLabelErr("search label: " + label + "is not valid");
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 }

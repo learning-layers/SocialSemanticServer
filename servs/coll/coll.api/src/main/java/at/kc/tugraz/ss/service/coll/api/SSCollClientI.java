@@ -20,18 +20,19 @@
 */
 package at.kc.tugraz.ss.service.coll.api;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 
 public interface SSCollClientI{
   
-  public SSServRetI collRootGet           (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI collEntriesDelete     (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI collEntryAdd          (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI collEntriesAdd        (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI collGet               (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI collHierarchyGet      (final SSClientE clientType, final SSServPar parA) throws Exception; 
-  public SSServRetI collCumulatedTagsGet  (final SSClientE clientType, final SSServPar parA) throws Exception; 
-  public SSServRetI collsEntityIsInGet    (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI collRootGet           (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI collEntriesDelete     (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI collEntryAdd          (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI collEntriesAdd        (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI collGet               (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI collHierarchyGet      (final SSClientE clientType, final SSServPar parA) throws SSErr; 
+  public SSServRetI collCumulatedTagsGet  (final SSClientE clientType, final SSServPar parA) throws SSErr; 
+  public SSServRetI collsEntityIsInGet    (final SSClientE clientType, final SSServPar parA) throws SSErr;
 }

@@ -20,19 +20,23 @@
  */
 package at.tugraz.sss.serv.datatype.enums;
 
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.reg.*;
+
 public enum SSSearchOpE{
   
   and,
   or;
   
-  public static SSSearchOpE get(final String value) throws Exception{
+  public static SSSearchOpE get(final String value) throws SSErr{
     
     try{
       
       return valueOf(value);
       
-    }catch(Exception error){
-      throw new Exception("search op invalid");
+    }catch(IllegalArgumentException error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 }

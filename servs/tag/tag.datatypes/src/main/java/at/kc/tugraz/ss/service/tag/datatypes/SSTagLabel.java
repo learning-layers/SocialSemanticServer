@@ -22,10 +22,8 @@ package at.kc.tugraz.ss.service.tag.datatypes;
 
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.*;
 import at.tugraz.sss.serv.datatype.api.SSEntityA;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +31,7 @@ import java.util.List;
 public class SSTagLabel extends SSEntityA{
 
   public static SSTagLabel get(
-    final String string) throws Exception{
+    final String string) throws SSErr{
     
     if(string == null){
       return null;
@@ -43,7 +41,7 @@ public class SSTagLabel extends SSEntityA{
   }
   
   public static List<SSTagLabel> get(
-    final List<String> strings) throws Exception{
+    final List<String> strings) throws SSErr{
 
     final List<SSTagLabel> result = new ArrayList<>();
     
@@ -108,11 +106,11 @@ public class SSTagLabel extends SSEntityA{
     return asListNotEmpty(labels.toArray(new SSTagLabel[labels.size()]));
   }
   
-  protected SSTagLabel(final String label) throws Exception{
+  protected SSTagLabel(final String label) throws SSErr{
     super(getTagLabel(label));
   }
   
-  private static String getTagLabel(final String label) throws Exception{
+  private static String getTagLabel(final String label) throws SSErr{
     
     if(label == null){
       return null;
@@ -150,11 +148,9 @@ public class SSTagLabel extends SSEntityA{
 //    return result;
 //  }
 
-
 //  public static SSTagLabel[] toTagStringArray(Collection<SSTagLabel> toConvert) {
 //    return (SSTagLabel[]) toConvert.toArray(new SSTagLabel[toConvert.size()]);
 //  } 
-
 
 //  public static boolean isTagLabel(
 //    final String string) throws Exception {

@@ -21,6 +21,7 @@
 package at.tugraz.sss.serv.datatype.enums;
 
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import io.swagger.annotations.*;
 import java.util.ArrayList;
@@ -120,8 +121,9 @@ public enum SSEntityE{
       }
       
       return SSEntityE.valueOf(value);
-    }catch(Exception error){
-      throw SSErr.get(SSErrE.entityTypeInvalid);
+    }catch(IllegalArgumentException error){
+      SSServErrReg.regErrThrow(SSErrE.entityTypeInvalid, error);
+      return null;
     }
   }
   

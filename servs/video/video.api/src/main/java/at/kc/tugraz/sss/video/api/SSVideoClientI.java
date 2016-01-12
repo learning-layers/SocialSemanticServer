@@ -20,14 +20,15 @@
 */
 package at.kc.tugraz.sss.video.api;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.datatype.ret.*;
 
 public interface SSVideoClientI{
   
-  public SSServRetI videosGet              (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI videoAdd               (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI videoAnnotationAdd     (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI videoAnnotationsSet    (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI videosGet              (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI videoAdd               (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI videoAnnotationAdd     (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI videoAnnotationsSet    (final SSClientE clientType, final SSServPar parA) throws SSErr;
 }

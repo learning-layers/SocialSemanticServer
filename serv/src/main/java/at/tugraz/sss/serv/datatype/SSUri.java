@@ -26,14 +26,13 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.datatype.enums.SSWarnE;
 import at.tugraz.sss.serv.datatype.api.SSEntityA;
+import at.tugraz.sss.serv.reg.*;
 import io.swagger.annotations.*;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.*;
-import javax.xml.bind.annotation.*;
-
 
 @ApiModel
 public class SSUri extends SSEntityA{
@@ -261,11 +260,15 @@ public class SSUri extends SSEntityA{
   }
 
   private SSUri(final String string) throws SSErr{
-   
+    
     super(SSStrU.addTrailingSlash(string));
     
-    if(!isURI(val)){
-      throw SSErr.get(SSErrE.uriInvalid);
+    try{
+      if(!isURI(val)){
+        throw SSErr.get(SSErrE.uriInvalid);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
 }

@@ -20,12 +20,13 @@
 */
 package at.kc.tugraz.sss.flag.api;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 
 public interface SSFlagClientI{
   
-  public SSServRetI flagsSet  (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI flagsGet  (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI flagsSet  (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI flagsGet  (final SSClientE clientType, final SSServPar parA) throws SSErr;
 }

@@ -25,8 +25,6 @@ import at.tugraz.sss.serv.datatype.api.SSEntityA;
 import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.*;
-
 
 @ApiModel
 public class SSTextComment extends SSEntityA {
@@ -37,7 +35,7 @@ public class SSTextComment extends SSEntityA {
       return null;
     }
     
-    return new SSTextComment(SSStrU.replaceAllLineFeedsWithTextualRepr(comment));
+    return new SSTextComment(comment);
   }
   
   public static List<SSTextComment> get(final List<String> strings) throws SSErr {
@@ -95,7 +93,7 @@ public class SSTextComment extends SSEntityA {
     }
   }
   
-  private SSTextComment(final String value) throws SSErr {
-    super(value);
+  protected SSTextComment(final String value) throws SSErr {
+    super(SSStrU.replaceAllLineFeedsWithTextualRepr(value));
   }
 }

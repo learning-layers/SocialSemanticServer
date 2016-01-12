@@ -20,13 +20,14 @@
 */
 package at.kc.tugraz.sss.app.api;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 
 public interface SSAppClientI{
   
-  public SSServRetI appsGet    (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI appsDelete (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI appAdd     (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI appsGet    (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI appsDelete (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI appAdd     (final SSClientE clientType, final SSServPar parA) throws SSErr;
 }

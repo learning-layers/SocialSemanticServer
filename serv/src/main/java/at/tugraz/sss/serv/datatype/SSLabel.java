@@ -25,8 +25,6 @@ import at.tugraz.sss.serv.datatype.api.SSEntityA;
 import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.*;
-
 
 @ApiModel
 public class SSLabel extends SSEntityA{

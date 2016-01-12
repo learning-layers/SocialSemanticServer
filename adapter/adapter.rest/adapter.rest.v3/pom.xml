@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>sss.adapter.rest</groupId>
+    <artifactId>adapter.rest</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>sss.adapter.rest</groupId>
+  <artifactId>adapter.rest.v3</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>war</packaging>
+
+  <name>adapter.rest.v3</name>
+
+  <build>
+    
+      <plugins>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.1.1</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+          <packagingExcludes>WEB-INF/web.xml</packagingExcludes>
+        </configuration>
+      </plugin>
+      
+      <!-- MAVEN WAR end -->
+      
+      <!-- MAVEN resources start --> 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.5</version>
+        <configuration>
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+        
+        <executions>
+        
+          <execution>
+            <id>copy-docker-conf</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/conf/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/src/main/resources/</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          
+<!--          <execution>
+            <id>copy-conf</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/conf/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/src/main/resources/</directory>
+                  <includes>
+                    <include>log4j.properties</include>
+                    <include>sss.adapter.rest.v2.conf.yaml</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>-->
+          
+        </executions>
+      </plugin>
+      
+      <!-- MAVEEN resources end --> 
+      
+       <!-- SWAGGER start -->
+      
+      <plugin>
+        <groupId>com.github.kongchen</groupId>
+        <artifactId>swagger-maven-plugin</artifactId>
+        <version>3.1.2</version>
+        
+        <configuration>
+          <apiSources>
+            <apiSource>
+              
+              <locations>at.tugraz.sss.adapter.rest.v3</locations>
+              <host>localhost:8080</host>
+              <basePath>/sss.adapter.rest.v3/rest</basePath>
+              <info>
+                <version>v2</version>
+                <title>Social Semantic Server REST API</title>
+                <description>https://github.com/learning-layers/SocialSemanticServer/</description>
+                <termsOfService>https://github.com/learning-layers/</termsOfService>
+                <contact>
+                  <email>${project.contact}</email>
+                </contact>
+                <license>
+                  <name>${project.license}</name>
+                  <url>${project.licenseURI}</url>
+                </license>
+              </info>
+                
+              <swaggerUIDocBasePath>http://localhost:8080/sss.adapter.rest.v3/api-docs</swaggerUIDocBasePath> 
+              <!-- 
+                localhost:8080/sss.adapter.rest.v2/api-docs 
+                test-ll.know-center.tugraz.at/layers.test/api-docs  
+              -->
+              <!--<swaggerInternalFilter>com.wordnik.swagger.config.DefaultSpecFilter</swaggerInternalFilter>-->
+              <!--<overridingModels>/swagger-overriding-models.json</overridingModels>-->
+              <outputPath>${basedir}/src/main/webapp/api-docs</outputPath>
+              <swaggerDirectory>${basedir}/src/main/webapp/api-docs</swaggerDirectory>
+              <!--<useOutputFlatStructure>false</useOutputFlatStructure>-->
+            </apiSource>
+          </apiSources>
+        </configuration>
+        
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
+      <!-- SWAGGER end -->
+        
+    </plugins>
+  </build>
+  
+  <dependencies>
+   
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>kcprojwiki.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>mail.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>livingdocument.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>location.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>integrationtest.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+     <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>db.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>image.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>eval.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>like.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>video.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>appstacklayout.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>friend.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>app.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>message.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>activity.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>evernote.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>entity.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>learnep.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>dataexport.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>recomm.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>comment.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>flag.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>user.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>ue.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss</groupId>
+      <artifactId>conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>dataimport.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>coll.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>jsonld.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss</groupId>
+      <artifactId>serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>auth.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>filerepo.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>disc.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>rating.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>category.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>tag.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>search.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>ocd.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <!-- tocmat start -->
+    
+    <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-catalina</artifactId>
+      <version>8.0.15</version>
+      <scope>provided</scope>
+    </dependency>
+            
+    <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-coyote</artifactId>
+      <version>8.0.15</version>
+      <scope>provided</scope>
+    </dependency>
+    
+    <!-- tocmat end -->
+    
+    <!-- servlet 3.0 start -->
+    
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+    
+    <!-- servlet 3.0 end -->
+    
+    <!-- jersey start -->
+    
+    <dependency> <!-- jersey to support additional Servlet 3.x deployment modes and asynchronous JAX-RS resource programming model -->
+      <groupId>org.glassfish.jersey.containers</groupId> <!-- includes jersey-container-servlet-core -->
+      <artifactId>jersey-container-servlet</artifactId>
+      <version>2.21</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-server</artifactId>
+      <version>2.21</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-common</artifactId>
+      <version>2.21</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-multipart</artifactId>
+      <version>2.21</version>
+    </dependency>
+    
+    <!-- jersey end -->
+    
+    <!-- jackson start -->
+    
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-json-jackson</artifactId>
+      <version>2.21</version>
+    </dependency>
+    
+    <!-- jackson end -->
+    
+    <!-- swagger start --> 
+    <dependency>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-jersey2-jaxrs</artifactId>
+      <version>${sssSwaggerJerseyVersion}</version>
+      <scope>compile</scope>
+    </dependency>
+    
+    <!-- swagger end --> 
+    
+    <!-- cors start -->
+   
+    <dependency>
+      <groupId>com.thetransactioncompany</groupId>
+      <artifactId>cors-filter</artifactId>
+      <version>1.9.1</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.thetransactioncompany</groupId>
+      <artifactId>java-property-utils</artifactId>
+      <version>1.9</version>
+    </dependency>
+    
+    <!-- cors end --> 
+
+  </dependencies>
+</project>

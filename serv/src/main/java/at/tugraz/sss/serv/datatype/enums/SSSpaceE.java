@@ -21,6 +21,7 @@
 package at.tugraz.sss.serv.datatype.enums;
 
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +41,9 @@ public enum SSSpaceE{
       }
       
       return SSSpaceE.valueOf(space);
-    }catch(Exception error){
-      throw SSErr.get(SSErrE.spaceInvalid);
+    }catch(IllegalArgumentException error){
+      SSServErrReg.regErrThrow(SSErrE.spaceInvalid, error);
+      return null;
     }
   }
   

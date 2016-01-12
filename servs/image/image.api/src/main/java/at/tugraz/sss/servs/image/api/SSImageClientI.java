@@ -20,12 +20,13 @@
 */
 package at.tugraz.sss.servs.image.api;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 
 public interface SSImageClientI{
   
-  public SSServRetI imagesGet              (SSClientE clientType, SSServPar parA) throws Exception;
-  public SSServRetI imageProfilePictureSet (SSClientE clientType, SSServPar parA) throws Exception;
+  public SSServRetI imagesGet              (SSClientE clientType, SSServPar parA) throws SSErr;
+  public SSServRetI imageProfilePictureSet (SSClientE clientType, SSServPar parA) throws SSErr;
 }

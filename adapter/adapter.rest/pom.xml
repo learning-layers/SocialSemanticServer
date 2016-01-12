@@ -10,6 +10,6 @@
   <artifactId>adapter.rest</artifactId>
   <packaging>pom</packaging>
   <modules>
-    <module>adapter.rest.v2</module>
+    <module>adapter.rest.v3</module>
   </modules>
 </project>

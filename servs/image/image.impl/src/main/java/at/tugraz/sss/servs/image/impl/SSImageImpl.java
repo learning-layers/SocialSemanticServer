@@ -59,7 +59,6 @@ import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import at.tugraz.sss.servs.image.api.SSImageClientI;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
-import at.tugraz.sss.servs.image.conf.SSImageConf;
 import at.tugraz.sss.servs.image.datatype.par.SSImageProfilePictureSetPar;
 import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
 import at.tugraz.sss.servs.image.datatype.par.SSImageGetPar;
@@ -95,7 +94,7 @@ implements
   
   @Override
   public void getUsersResources(
-    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
+    final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
     
     try{
       
@@ -133,7 +132,7 @@ implements
   @Override
   public SSEntity describeEntity(
     final SSEntity             entity,
-    final SSEntityDescriberPar par) throws Exception{
+    final SSEntityDescriberPar par) throws SSErr{
     
     try{
       
@@ -194,7 +193,7 @@ implements
   }
 
   @Override
-  public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws Exception{
+  public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws SSErr{
     
     try{
       final SSEntityServerI circleServ         = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
@@ -249,7 +248,7 @@ implements
   }
   
   @Override
-  public SSImage imageGet(final SSImageGetPar par) throws Exception{
+  public SSImage imageGet(final SSImageGetPar par) throws SSErr{
 
     try{
       
@@ -283,7 +282,7 @@ implements
   }
   
   @Override
-  public SSServRetI imagesGet(SSClientE clientType, SSServPar parA) throws Exception{
+  public SSServRetI imagesGet(SSClientE clientType, SSServPar parA) throws SSErr{
 
     userCommons.checkKeyAndSetUser(parA);
 
@@ -293,7 +292,7 @@ implements
   }
 
   @Override
-  public List<SSEntity> imagesGet(final SSImagesGetPar par) throws Exception{
+  public List<SSEntity> imagesGet(final SSImagesGetPar par) throws SSErr{
     
     try{
       
@@ -335,7 +334,7 @@ implements
   }
   
   @Override
-  public SSImageAddRet imageAdd(final SSImageAddPar par) throws Exception{
+  public SSImageAddRet imageAdd(final SSImageAddPar par) throws SSErr{
 
     try{
       
@@ -529,7 +528,7 @@ implements
   }
   
   @Override
-  public SSServRetI imageProfilePictureSet(SSClientE clientType, SSServPar parA) throws Exception {
+  public SSServRetI imageProfilePictureSet(SSClientE clientType, SSServPar parA) throws SSErr {
     
     userCommons.checkKeyAndSetUser(parA);
 
@@ -539,7 +538,7 @@ implements
   }
   
   @Override 
-  public SSUri imageProfilePictureSet(final SSImageProfilePictureSetPar par) throws Exception{
+  public SSUri imageProfilePictureSet(final SSImageProfilePictureSetPar par) throws SSErr{
     
     try{
       
@@ -678,7 +677,7 @@ implements
   private void removeThumbsFromEntity(
     final SSUri   user,
     final SSUri   entity,
-    final boolean withUserRestriction) throws Exception{
+    final boolean withUserRestriction) throws SSErr{
     
     try{
       
@@ -701,7 +700,7 @@ implements
     final SSUri   user,
     final SSUri   entity,
     final SSUri   file,
-    final boolean withUserRestriction) throws Exception{
+    final boolean withUserRestriction) throws SSErr{
     
     try{
       //TODO refactor public setting: shall be done with hooks for entityPublicSet in respective entity type service implementations
@@ -793,7 +792,7 @@ implements
 
   private SSUri createThumbnail(
     final SSUri      fileURI,
-    final Integer    width) throws Exception{
+    final Integer    width) throws SSErr{
     
     try{
     
@@ -859,7 +858,7 @@ implements
   }
 }
 //@Override
-//  public String imageBase64Get(final SSImageBase64GetPar par) throws Exception{
+//  public String imageBase64Get(final SSImageBase64GetPar par) throws SSErr{
 //
 //    try{
 //      final List<SSEntity> images =

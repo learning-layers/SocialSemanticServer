@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.service.userevent.datatypes;
 
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.*;
+import at.tugraz.sss.serv.datatype.*;
 import java.util.*;
 
 public enum SSUEE{
@@ -76,18 +76,18 @@ public enum SSUEE{
   ;
   
   public static SSUEE get(
-    final String value) throws Exception{
+    final String value) throws SSErr{
     
     try{
       return valueOf(value);
     }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("ue type not available: " + value));
+      SSServErrReg.regErrThrow(error);
       return null;
     }
   }
   
   public static List<SSUEE> get(
-    final List<String> values) throws Exception{
+    final List<String> values) throws SSErr{
     
     final List<SSUEE> result = new ArrayList<>();
     

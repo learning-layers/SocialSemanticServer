@@ -20,12 +20,13 @@
 */
  package at.kc.tugraz.ss.service.filerepo.api;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 
 public interface SSFileRepoClientI{
   
-  public SSServRetI fileDownload              (final SSClientE clientType, final SSServPar par) throws Exception;
-  public SSServRetI fileUpload                (final SSClientE clientType, final SSServPar par) throws Exception;
+  public SSServRetI fileDownload              (final SSClientE clientType, final SSServPar par) throws SSErr;
+  public SSServRetI fileUpload                (final SSClientE clientType, final SSServPar par) throws SSErr;
 }

@@ -20,9 +20,10 @@
 */
 package at.kc.tugraz.ss.activity.datatypes.enums;
 
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.reg.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.*;
 import io.swagger.annotations.*;
 
 
@@ -93,11 +94,17 @@ public enum SSActivityE{
   discussEntity,
   addDiscEntry;
 
-  public static SSActivityE get(final String value){
-    return SSActivityE.valueOf(value);
+  public static SSActivityE get(final String value) throws SSErr{
+    
+    try{
+      return SSActivityE.valueOf(value);
+    }catch(IllegalArgumentException error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
-  public static List<SSActivityE> get(final List<String> values){
+  public static List<SSActivityE> get(final List<String> values) throws SSErr{
     
     final List<SSActivityE> result = new ArrayList<>();
     

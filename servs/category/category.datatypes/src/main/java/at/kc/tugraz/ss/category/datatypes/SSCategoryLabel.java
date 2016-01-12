@@ -22,10 +22,8 @@ package at.kc.tugraz.ss.category.datatypes;
 
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.*;
 import at.tugraz.sss.serv.datatype.api.SSEntityA;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +31,7 @@ import java.util.List;
 public class SSCategoryLabel extends SSEntityA{
 
   public static SSCategoryLabel get(
-    final String string) throws Exception{
+    final String string) throws SSErr{
     
     if(string == null){
       return null;
@@ -43,7 +41,7 @@ public class SSCategoryLabel extends SSEntityA{
   }
   
   public static List<SSCategoryLabel> get(
-    final List<String> strings) throws Exception{
+    final List<String> strings) throws SSErr{
 
     final List<SSCategoryLabel> result = new ArrayList<>();
     
@@ -108,17 +106,16 @@ public class SSCategoryLabel extends SSEntityA{
     return result;
   }
   
-  protected SSCategoryLabel(final String label) throws Exception{
+  protected SSCategoryLabel(final String label) throws SSErr{
     super(getCategoryLabel(label));
   }
   
-  private static String getCategoryLabel(final String label) throws Exception{
-    
-    if(label == null){
-      return null;
-    }
+  private static String getCategoryLabel(final String label) throws SSErr{
     
     try{
+      if(label == null){
+        return null;
+      }
       
 //previously replaced blanks with underlines automatically SSStrU.replaceAll(label, SSStrU.blank, SSStrU.underline);
 //previously accepted only latin letters, numbers and underline return tmpLabel.replaceAll("[^a-zA-Z0-9_]+", SSStrU.empty);
