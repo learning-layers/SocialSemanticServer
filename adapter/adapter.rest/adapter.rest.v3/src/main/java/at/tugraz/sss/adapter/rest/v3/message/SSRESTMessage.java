@@ -93,7 +93,7 @@ public class SSRESTMessage{
       return Response.status(200).entity(messageServ.messagesGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -137,7 +137,7 @@ public class SSRESTMessage{
       return Response.status(200).entity(messageServ.messageSend(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }

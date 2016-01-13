@@ -122,7 +122,7 @@ public class SSRESTDisc{
       return Response.status(200).entity(discServ.discsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -173,7 +173,7 @@ public class SSRESTDisc{
       return Response.status(200).entity(discServ.discEntryAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -227,7 +227,7 @@ public class SSRESTDisc{
       return Response.status(200).entity(discServ.discUpdate(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -278,7 +278,7 @@ public class SSRESTDisc{
       return Response.status(200).entity(discServ.discEntryUpdate(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -333,7 +333,7 @@ public class SSRESTDisc{
       return Response.status(200).entity(discServ.discsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -382,7 +382,7 @@ public class SSRESTDisc{
       return Response.status(200).entity(discServ.discsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -440,7 +440,7 @@ public class SSRESTDisc{
       return Response.status(200).entity(discServ.discsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -486,7 +486,7 @@ public class SSRESTDisc{
       return Response.status(200).entity(discServ.discEntryAccept(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -536,7 +536,7 @@ public class SSRESTDisc{
       return Response.status(200).entity(discServ.discTargetsAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }

@@ -96,6 +96,7 @@ public class SSSocketMain extends SSServImplStartA{
     try{
       
       SSCoreConf.instSet("C:\\workspace_git\\tomcat\\SocialSemanticServer\\sssWorkDir\\" + SSFileU.fileNameSSSConf);
+//      SSCoreConf.instSet("/home/dtheiler/bp.preparation/" + SSFileU.fileNameSSSConf);
       
       try{
         SSLogU.init(SSCoreConf.instGet().getSss().getSssWorkDir());

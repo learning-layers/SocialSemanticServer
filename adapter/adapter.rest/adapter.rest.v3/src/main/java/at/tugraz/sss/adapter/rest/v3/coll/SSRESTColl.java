@@ -110,7 +110,7 @@ public class SSRESTColl{
       return Response.status(200).entity(collServ.collGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -152,7 +152,7 @@ public class SSRESTColl{
       return Response.status(200).entity(collServ.collRootGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -198,7 +198,7 @@ public class SSRESTColl{
       return Response.status(200).entity(collServ.collHierarchyGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -249,7 +249,7 @@ public class SSRESTColl{
       return Response.status(200).entity(collServ.collEntryAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -299,7 +299,7 @@ public class SSRESTColl{
       return Response.status(200).entity(collServ.collEntriesAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -345,7 +345,7 @@ public class SSRESTColl{
       return Response.status(200).entity(collServ.collsEntityIsInGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -390,7 +390,7 @@ public class SSRESTColl{
       return Response.status(200).entity(collServ.collCumulatedTagsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -440,7 +440,7 @@ public class SSRESTColl{
       return Response.status(200).entity(collServ.collEntriesDelete(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
 }

@@ -100,7 +100,7 @@ public class SSRESTVideo{
       return Response.status(200).entity(videoServ.videosGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -149,7 +149,7 @@ public class SSRESTVideo{
       return Response.status(200).entity(videoServ.videoAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -203,7 +203,7 @@ public class SSRESTVideo{
       return Response.status(200).entity(videoServ.videoAnnotationsSet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -256,7 +256,7 @@ public class SSRESTVideo{
       return Response.status(200).entity(videoServ.videoAnnotationAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }

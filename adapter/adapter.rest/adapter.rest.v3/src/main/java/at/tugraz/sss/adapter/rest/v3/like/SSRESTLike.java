@@ -98,7 +98,7 @@ public class SSRESTLike{
       return Response.status(200).entity(likeServ.likeSet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }

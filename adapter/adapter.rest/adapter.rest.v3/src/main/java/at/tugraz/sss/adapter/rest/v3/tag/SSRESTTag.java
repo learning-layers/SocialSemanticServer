@@ -106,7 +106,7 @@ public class SSRESTTag{
       return Response.status(200).entity(tagServ.tagsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -155,7 +155,7 @@ public class SSRESTTag{
       return Response.status(200).entity(tagServ.tagsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -203,7 +203,7 @@ public class SSRESTTag{
       return Response.status(200).entity(tagServ.tagFrequsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -251,7 +251,7 @@ public class SSRESTTag{
       return Response.status(200).entity(tagServ.tagFrequsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -299,7 +299,7 @@ public class SSRESTTag{
       return Response.status(200).entity(tagServ.tagEntitiesForTagsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -349,7 +349,7 @@ public class SSRESTTag{
       return Response.status(200).entity(tagServ.tagsAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -400,7 +400,7 @@ public class SSRESTTag{
       return Response.status(200).entity(tagServ.tagsRemove(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -447,7 +447,7 @@ public class SSRESTTag{
       return Response.status(200).entity(tagServ.tagAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
 }

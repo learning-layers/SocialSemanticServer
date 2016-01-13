@@ -101,58 +101,36 @@ public class SSRestMain extends ResourceConfig{
 //    ClassReaders.setReader( new DefaultJaxrsApiReader( ) );
   }
   
-  public static Response prepareErrors() {
+  public static Response prepareErrors(final Exception originalError){
     
-//    SSServErrReg.logAndReset(true);
+    //    SSServErrReg.logAndReset(true);
+    try{
+      
+      final Map<String, Object> jsonObj = new HashMap<>();
+      
+      if(originalError instanceof SSErr){
+        
+        jsonObj.put(SSVarNames.id,                    ((SSErr) originalError).code);
+        jsonObj.put(SSVarNames.message,               ((SSErr) originalError).code);
+      }else{
     
-    return Response.status(500).build();
+        jsonObj.put(SSVarNames.id,                      originalError.getClass());
+        jsonObj.put(SSVarNames.message,                 originalError.getMessage());
+      }
+      
+      return Response.status(500).entity(SSJSONU.jsonStr(jsonObj)).build();
+      
+    }catch(Exception error){
+      SSLogU.err(error);
+      
+      return Response.status(500).entity(SSErrE.unknownError).build();
+    }
   }
   
   public static String getBearer(
     final HttpHeaders headers) throws SSErr{
     
     return SSStrU.replaceAll(headers.getRequestHeader("authorization").get(0), "Bearer ", SSStrU.empty);
-  }
-  
-  public static String getJSONStrForError(
-    final SSErrE id){
-    
-    final Map<String, Object> jsonObj     = new HashMap<>();
-    
-    if(id == null){
-      jsonObj.put(SSVarNames.id,                    null);
-      jsonObj.put(SSVarNames.message,               null);
-    }else{
-      jsonObj.put(SSVarNames.id,                    id.toString());
-      jsonObj.put(SSVarNames.message,               id.toString());
-    }
-    
-    try{
-      return SSJSONU.jsonStr(jsonObj);
-    } catch(Exception error){
-      return null;
-    }
-  }
-  
-  public static String getJSONStrForError(
-    final String id,
-    final String message) throws SSErr{
-    
-    final Map<String, Object> jsonObj     = new HashMap<>();
-    
-    jsonObj.put(SSVarNames.id,                      id);
-    
-    if(message == null){
-      jsonObj.put(SSVarNames.message,               id);
-    }else{
-      jsonObj.put(SSVarNames.message,               message);
-    }
-    
-    try{
-      return SSJSONU.jsonStr(jsonObj);
-    } catch(Exception error){
-      return null;
-    }
   }
 }
 

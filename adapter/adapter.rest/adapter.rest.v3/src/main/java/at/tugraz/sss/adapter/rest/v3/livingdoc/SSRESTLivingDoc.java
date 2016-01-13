@@ -101,7 +101,7 @@ public class SSRESTLivingDoc{
       return Response.status(200).entity(ldServ.livingDocsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -152,7 +152,7 @@ public class SSRESTLivingDoc{
       return Response.status(200).entity(ldServ.livingDocGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -200,7 +200,7 @@ public class SSRESTLivingDoc{
       return Response.status(200).entity(ldServ.livingDocsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -246,7 +246,7 @@ public class SSRESTLivingDoc{
       return Response.status(200).entity(ldServ.livingDocsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -293,7 +293,7 @@ public class SSRESTLivingDoc{
       return Response.status(200).entity(ldServ.livingDocAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -339,7 +339,7 @@ public class SSRESTLivingDoc{
       return Response.status(200).entity(ldServ.livingDocRemove(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -390,7 +390,7 @@ public class SSRESTLivingDoc{
       return Response.status(200).entity(ldServ.livingDocUpdate(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
 }

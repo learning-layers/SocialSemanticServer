@@ -22,6 +22,9 @@ package at.tugraz.sss.serv.datatype.enums;
 
 public enum SSErrE{
 
+  //misc
+  unknownError,
+  
   //service
   servNotRunning,
   servImplCreationFailed,
@@ -68,8 +71,6 @@ public enum SSErrE{
   userDoesntHaveRightInAnyCircleOfEntity,
   circleDoesntHaveQueriedRight,
   userCannotShareWithHimself,
-  
-  
   
   //user //auth
   userNotRegistered,

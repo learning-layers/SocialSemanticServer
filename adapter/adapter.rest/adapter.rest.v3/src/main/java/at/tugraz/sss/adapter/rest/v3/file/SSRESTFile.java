@@ -122,7 +122,7 @@ public class SSRESTFile{
       return Response.status(200).entity(fileServ.fileUpload(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -173,7 +173,7 @@ public class SSRESTFile{
         build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -232,7 +232,7 @@ public class SSRESTFile{
         build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -280,7 +280,7 @@ public class SSRESTFile{
         build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
 }

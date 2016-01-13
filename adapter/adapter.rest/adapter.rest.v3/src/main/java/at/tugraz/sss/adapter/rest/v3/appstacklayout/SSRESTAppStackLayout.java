@@ -98,7 +98,7 @@ public class SSRESTAppStackLayout{
       return Response.status(200).entity(appStackLayoutServ.appStackLayoutsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -142,7 +142,7 @@ public class SSRESTAppStackLayout{
       return Response.status(200).entity(appStackLayoutServ.appStackLayoutsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -185,7 +185,7 @@ public class SSRESTAppStackLayout{
       return Response.status(200).entity(appStackLayoutServ.appStackLayoutCreate(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -229,7 +229,7 @@ public class SSRESTAppStackLayout{
       return Response.status(200).entity(appStackLayoutServ.appStackLayoutDelete(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -278,7 +278,7 @@ public class SSRESTAppStackLayout{
       return Response.status(200).entity(appStackLayoutServ.appStackLayoutUpdate(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }

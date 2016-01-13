@@ -88,7 +88,7 @@ public class SSRESTAuth{
       return Response.status(200).entity(authServ.authCheckCred(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -120,7 +120,7 @@ public class SSRESTAuth{
       return Response.status(200).entity(authServ.authCheckCred(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -161,7 +161,7 @@ public class SSRESTAuth{
       return Response.status(200).entity(authServ.authRegisterUser(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
 }

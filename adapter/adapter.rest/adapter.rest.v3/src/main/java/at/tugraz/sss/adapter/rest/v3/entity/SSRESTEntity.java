@@ -112,7 +112,7 @@ public class SSRESTEntity{
       return Response.status(200).entity(entityServ.entitiesAccessibleGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -164,7 +164,7 @@ public class SSRESTEntity{
       return Response.status(200).entity(entityServ.entitiesAccessibleGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -202,7 +202,7 @@ public class SSRESTEntity{
       return Response.status(200).entity(entityServ.entityTypesGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -262,7 +262,7 @@ public class SSRESTEntity{
       return Response.status(200).entity(entityServ.entitiesGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -314,7 +314,7 @@ public class SSRESTEntity{
       return Response.status(200).entity(entityServ.entityUpdate(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -367,7 +367,7 @@ public class SSRESTEntity{
       return Response.status(200).entity(entityServ.entityUpdate(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -418,7 +418,7 @@ public class SSRESTEntity{
       return Response.status(200).entity(entityServ.entityShare(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -463,7 +463,7 @@ public class SSRESTEntity{
       return Response.status(200).entity(entityServ.entityUnpublicize(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -521,7 +521,7 @@ public class SSRESTEntity{
       return Response.status(200).entity(entityServ.entityCopy(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -566,7 +566,7 @@ public class SSRESTEntity{
       return Response.status(200).entity(userServ.userEntityUsersGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -614,7 +614,7 @@ public class SSRESTEntity{
       return Response.status(200).entity(commentServ.commentsAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
 }

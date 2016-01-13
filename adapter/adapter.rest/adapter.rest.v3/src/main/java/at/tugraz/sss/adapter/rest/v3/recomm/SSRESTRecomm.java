@@ -108,7 +108,7 @@ public class SSRESTRecomm{
       return Response.status(200).entity(recommServ.recommUpdate(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -164,7 +164,7 @@ public class SSRESTRecomm{
       return Response.status(200).entity(recommServ.recommUpdateBulk(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -210,7 +210,7 @@ public class SSRESTRecomm{
       return Response.status(200).entity(recommServ.recommUpdateBulkEntities(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -258,7 +258,7 @@ public class SSRESTRecomm{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -312,7 +312,7 @@ public class SSRESTRecomm{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -366,7 +366,7 @@ public class SSRESTRecomm{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -425,7 +425,7 @@ public class SSRESTRecomm{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -491,7 +491,7 @@ public class SSRESTRecomm{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -557,7 +557,7 @@ public class SSRESTRecomm{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -611,7 +611,7 @@ public class SSRESTRecomm{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -672,7 +672,7 @@ public class SSRESTRecomm{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -732,7 +732,7 @@ public class SSRESTRecomm{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -786,7 +786,7 @@ public class SSRESTRecomm{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -846,7 +846,7 @@ public class SSRESTRecomm{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -905,7 +905,7 @@ public class SSRESTRecomm{
       return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -957,7 +957,7 @@ public class SSRESTRecomm{
       return Response.status(200).entity(recommServ.recommResources(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -1006,7 +1006,7 @@ public class SSRESTRecomm{
       return Response.status(200).entity(recommServ.recommTags(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }

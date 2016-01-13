@@ -89,7 +89,7 @@ public class SSRESTCategory{
       return Response.status(200).entity(categoryServ.categoriesPredefinedGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -136,7 +136,7 @@ public class SSRESTCategory{
       return Response.status(200).entity(categoryServ.categoryAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -182,7 +182,7 @@ public class SSRESTCategory{
       return Response.status(200).entity(categoryServ.categoryFrequsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -230,7 +230,7 @@ public class SSRESTCategory{
       return Response.status(200).entity(categoryServ.categoryFrequsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }

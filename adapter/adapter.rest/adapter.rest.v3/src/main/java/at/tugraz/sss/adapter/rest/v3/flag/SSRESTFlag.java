@@ -93,7 +93,7 @@ public class SSRESTFlag{
       return Response.status(200).entity(flagServ.flagsSet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -141,7 +141,7 @@ public class SSRESTFlag{
       return Response.status(200).entity(flagServ.flagsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }

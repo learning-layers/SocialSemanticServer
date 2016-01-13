@@ -105,7 +105,7 @@ public class SSRESTUE{
       return Response.status(200).entity(ueServ.userEventsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -150,7 +150,7 @@ public class SSRESTUE{
       return Response.status(200).entity(ueServ.userEventGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -198,7 +198,7 @@ public class SSRESTUE{
       return Response.status(200).entity(ueServ.userEventCountGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -244,7 +244,7 @@ public class SSRESTUE{
       return Response.status(200).entity(ueServ.userEventAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
 }

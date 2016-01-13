@@ -96,7 +96,7 @@ public class SSRESTEval{
       return Response.status(200).entity(evalServ.evalLog(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }

@@ -121,7 +121,7 @@ public class SSRESTCircle{
       return Response.status(200).entity(entityServ.circlesGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -172,7 +172,7 @@ public class SSRESTCircle{
       return Response.status(200).entity(entityServ.circlesGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -226,7 +226,7 @@ public class SSRESTCircle{
       return Response.status(200).entity(entityServ.circlesGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -283,7 +283,7 @@ public class SSRESTCircle{
       return Response.status(200).entity(entityServ.circlesGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -334,7 +334,7 @@ public class SSRESTCircle{
       return Response.status(200).entity(entityServ.circleGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -390,7 +390,7 @@ public class SSRESTCircle{
       return Response.status(200).entity(entityServ.circleGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -439,7 +439,7 @@ public class SSRESTCircle{
       return Response.status(200).entity(entityServ.circleUsersAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -499,7 +499,7 @@ public class SSRESTCircle{
       return Response.status(200).entity(entityServ.circleEntitiesAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -549,7 +549,7 @@ public class SSRESTCircle{
       return Response.status(200).entity(entityServ.circleEntitiesRemove(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -600,7 +600,7 @@ public class SSRESTCircle{
       return Response.status(200).entity(entityServ.circleCreate(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -649,7 +649,7 @@ public class SSRESTCircle{
       return Response.status(200).entity(entityServ.circleUsersRemove(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -695,7 +695,7 @@ public class SSRESTCircle{
       return Response.status(200).entity(entityServ.circleRemove(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -745,7 +745,7 @@ public class SSRESTCircle{
       return Response.status(200).entity(entityServ.circleUsersInvite(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -795,7 +795,7 @@ public class SSRESTCircle{
       return Response.status(200).entity(entityServ.circleTypeChange(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
 }

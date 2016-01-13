@@ -87,7 +87,7 @@ public class SSRESTApp{
       return Response.status(200).entity(appServ.appsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -139,7 +139,7 @@ public class SSRESTApp{
       return Response.status(200).entity(appServ.appAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -185,7 +185,7 @@ public class SSRESTApp{
       return Response.status(200).entity(appServ.appsDelete(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
 }

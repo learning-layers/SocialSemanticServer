@@ -90,7 +90,7 @@ public class SSRESTFriend{
       return Response.status(200).entity(friendServ.friendsGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -135,7 +135,7 @@ public class SSRESTFriend{
       return Response.status(200).entity(friendServ.friendAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }

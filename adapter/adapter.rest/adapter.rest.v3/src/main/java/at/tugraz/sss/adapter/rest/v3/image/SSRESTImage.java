@@ -83,7 +83,7 @@ public class SSRESTImage{
       return Response.status(200).entity(imageServ.imageProfilePictureSet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }

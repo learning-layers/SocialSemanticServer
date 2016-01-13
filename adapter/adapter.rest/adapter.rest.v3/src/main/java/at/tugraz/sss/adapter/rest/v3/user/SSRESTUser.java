@@ -90,7 +90,7 @@ public class SSRESTUser{
       return Response.status(200).entity(userServ.usersGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -135,7 +135,7 @@ public class SSRESTUser{
       return Response.status(200).entity(userServ.usersGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }
@@ -192,7 +192,7 @@ public class SSRESTUser{
       return Response.status(200).entity(userServ.usersGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
     
   }

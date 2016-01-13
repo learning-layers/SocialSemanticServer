@@ -101,7 +101,7 @@ public class SSRESTActivity{
       return Response.status(200).entity(activityServ.activitiesGet(SSClientE.rest, par)).build();
       
     }catch(SSErr error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -140,7 +140,7 @@ public class SSRESTActivity{
       return Response.status(200).entity(activityServ.activityTypesGet(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
   
@@ -187,7 +187,7 @@ public class SSRESTActivity{
       return Response.status(200).entity(activityServ.activityAdd(SSClientE.rest, par)).build();
       
     }catch(Exception error){
-      return SSRestMain.prepareErrors();
+      return SSRestMain.prepareErrors(error);
     }
   }
 }
