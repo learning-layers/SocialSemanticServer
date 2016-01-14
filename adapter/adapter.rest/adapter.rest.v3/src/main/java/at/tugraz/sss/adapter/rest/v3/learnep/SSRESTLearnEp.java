@@ -847,7 +847,7 @@ public class SSRESTLearnEp{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("{learnEps}/locks")
+  @Path    ("/{learnEps}/locks")
   @ApiOperation(
     value = "get lock information on given learning episodes",
     response = SSLearnEpsLockHoldRet.class)
@@ -891,7 +891,7 @@ public class SSRESTLearnEp{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("{learnEp}/locks")
+  @Path    ("/{learnEp}/locks")
   @ApiOperation(
     value = "set lock on given learning episode",
     response = SSLearnEpLockSetRet.class)
@@ -938,7 +938,7 @@ public class SSRESTLearnEp{
   @DELETE
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("{learnEp}/locks")
+  @Path    ("/{learnEp}/locks")
   @ApiOperation(
     value = "remove lock on given learning episode",
     response = SSLearnEpLockRemoveRet.class)
@@ -979,6 +979,5 @@ public class SSRESTLearnEp{
     }catch(Exception error){
       return SSRestMain.prepareErrors(error);
     }
-    
   }
 }

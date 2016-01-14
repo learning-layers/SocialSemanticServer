@@ -104,10 +104,11 @@ public class SSEntityServ extends SSServContainerI{
       return;
     }
     
-    SSDateU.scheduleAtFixedRate(
-      new SSEntitiesAccessibleGetCleanUpTask(),
-      SSDateU.getDatePlusMinutes(5),
-      5 * SSDateU.minuteInMilliSeconds);
+    SSServReg.regScheduler(
+      SSDateU.scheduleAtFixedRate(
+        new SSEntitiesAccessibleGetCleanUpTask(),
+        SSDateU.getDatePlusMinutes(5),
+        5 * SSDateU.minuteInMilliSeconds));
   }
   
   @Override

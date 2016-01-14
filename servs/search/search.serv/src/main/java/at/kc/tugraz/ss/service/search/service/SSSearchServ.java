@@ -88,10 +88,11 @@ public class SSSearchServ extends SSServContainerI{
       return;
     }
     
-    SSDateU.scheduleAtFixedRate(
-      new SSSearchResultPagesCacheCleanerTask(),
-      SSDateU.getDatePlusMinutes(5),
-      5 * SSDateU.minuteInMilliSeconds);
+    SSServReg.regScheduler(
+      SSDateU.scheduleAtFixedRate(
+        new SSSearchResultPagesCacheCleanerTask(),
+        SSDateU.getDatePlusMinutes(5),
+        5 * SSDateU.minuteInMilliSeconds));
   }
   
   @Override

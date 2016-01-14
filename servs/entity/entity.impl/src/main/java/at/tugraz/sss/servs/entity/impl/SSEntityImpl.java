@@ -783,7 +783,7 @@ implements
         par.descPar.user                = par.user;
         par.descPar.withUserRestriction = par.withUserRestriction;
         
-        SSServReg.inst.describeEntity(par.user, entity, par.descPar, par.withUserRestriction);
+        entity = SSServReg.inst.describeEntity(par.user, entity, par.descPar, par.withUserRestriction);
 //        for(SSServContainerI serv : SSServReg.inst.getServsHandlingDescribeEntity()){
 //          entity = ((SSDescribeEntityI) serv.getServImpl()).describeEntity(entity, par.descPar);
 //        }
@@ -2104,7 +2104,9 @@ implements
         }
       }
       
-      if(userCommons.areUsersUsers(par.users)){
+      if(
+        SSStrU.isEmpty(par.users) ||
+        !userCommons.areUsersUsers(par.users)){
         return null;
       }
       

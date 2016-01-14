@@ -22,7 +22,6 @@ package at.tugraz.sss.conf;
 
 import at.tugraz.sss.serv.conf.api.SSCoreServConfA;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.util.SSFileU;
 import at.tugraz.sss.serv.util.*;
 
 public class SSConf extends SSCoreServConfA{
@@ -32,7 +31,7 @@ public class SSConf extends SSCoreServConfA{
   public static final String systemEmailPostFix             = "know-center.at";
   public static final String systemUserEmail                = systemUserLabel + "@" + systemEmailPostFix;
   public static final String serverNameLocalhost            = "localhost";
-  public static final String restAPIResourceFile            = "files/files/";
+  public static final String restAPIResourceFile            = "files/";
   public static final String restAPIPathFileDownloadPublic  = "download/public/";
   
   public static SSUri  systemUserUri     = null;

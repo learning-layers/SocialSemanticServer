@@ -28,14 +28,16 @@ import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportClientI;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
+import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.*;
 import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportImpl;
-import at.kc.tugraz.ss.serv.dataimport.serv.task.SSDataImportBitsAndPiecesTask;
+import at.kc.tugraz.ss.serv.jobs.evernote.conf.*;
+import at.tugraz.sss.conf.*;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
-import java.util.List;
+import java.util.*;
 
 public class SSDataImportServ extends SSServContainerI{
   
@@ -121,8 +123,7 @@ public class SSDataImportServ extends SSServContainerI{
       for(String scheduleOp : dataImportConf.scheduleOps){
         
         if(SSStrU.equals(scheduleOp, SSVarNames.dataImportBitsAndPieces)){
-          SSDateU.scheduleNow(new SSDataImportBitsAndPiecesTask());
-          continue;
+          scheduleNowDataImportBitsAndPieces();
         }
         
         SSLogU.warn("attempt to schedule op at startup with no schedule task defined");
@@ -132,12 +133,9 @@ public class SSDataImportServ extends SSServContainerI{
     for(int counter = 0; counter < dataImportConf.scheduleOps.size(); counter++){
       
       if(SSStrU.equals(dataImportConf.scheduleOps.get(counter), SSVarNames.dataImportBitsAndPieces)){
-        
-        SSDateU.scheduleAtFixedRate(
-          new SSDataImportBitsAndPiecesTask(),
-          SSDateU.getDatePlusMinutes(dataImportConf.scheduleIntervals.get(counter)),
-          dataImportConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
-        continue;
+        scheduleAtFixedRateDataImportBitsAndPieces(
+          SSDateU.getDatePlusMinutes(conf.scheduleIntervals.get(counter)),
+          conf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
       }
       
       SSLogU.warn("attempt to schedule op with no schedule task defined");
@@ -149,5 +147,123 @@ public class SSDataImportServ extends SSServContainerI{
     final SSCoreConfA coreConfA,
     final List<Class> configuredServs) throws Exception{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+  
+  private void scheduleNowDataImportBitsAndPieces(){
+    
+    try{
+      
+      final SSEvernoteConf evernoteConf = SSCoreConf.instGet().getEvernote();
+      
+      for(int counter = 0; counter < SSCoreConf.instGet().getEvernote().getAuthTokens().size(); counter++){
+        
+        try{
+          
+          new SSDataImportBitsAndPiecesTask(
+            new SSDataImportBitsAndPiecesPar(
+              SSConf.systemUserUri,
+              evernoteConf.getAuthTokens().get(counter),
+              evernoteConf.getAuthEmails().get(counter),
+              null,
+              null,
+              null,
+              true, //importEvernote,
+              false, //importEmail,
+              true, //withUserRestriction,
+              true)).handle(); //shouldCommit
+          
+        }catch(Exception error){
+          SSLogU.err(error);
+        }
+      }
+      
+      for(int counter = 0; counter < evernoteConf.getEmailInEmails().size(); counter++){
+        
+        try{
+          
+          new SSDataImportBitsAndPiecesTask(
+            new SSDataImportBitsAndPiecesPar(
+              SSConf.systemUserUri,
+              evernoteConf.getAuthTokens().get(counter),
+              evernoteConf.getAuthEmails().get(counter),
+              evernoteConf.getEmailInUsers().get(counter),
+              evernoteConf.getEmailInPasswords().get(counter),
+              evernoteConf.getEmailInEmails().get(counter),
+              false, //importEvernote,
+              true, //importEmail,
+              true, //withUserRestriction,
+              true)).handle(); //shouldCommit
+          
+        }catch(Exception error){
+          SSLogU.err(error);
+        }
+      }
+      
+    }catch(Exception error){
+      SSLogU.err(error);
+    }
+  }
+  
+  private void scheduleAtFixedRateDataImportBitsAndPieces(final Date startDate, final long timeBetween){
+    
+    try{
+      
+      final SSEvernoteConf evernoteConf = SSCoreConf.instGet().getEvernote();
+      
+      for(int counter = 0; counter < SSCoreConf.instGet().getEvernote().getAuthTokens().size(); counter++){
+        
+        try{
+          
+          SSServReg.regScheduler(
+            SSDateU.scheduleAtFixedRate(
+              new SSDataImportBitsAndPiecesTask(
+                new SSDataImportBitsAndPiecesPar(
+                  SSConf.systemUserUri,
+                  evernoteConf.getAuthTokens().get(counter),
+                  evernoteConf.getAuthEmails().get(counter),
+                  null,
+                  null,
+                  null,
+                  true, //importEvernote,
+                  false, //importEmail,
+                  true, //withUserRestriction,
+                  true)), //shouldCommit
+              startDate,
+              timeBetween));
+          
+        }catch(Exception error){
+          SSLogU.err(error);
+        }
+      }
+      
+      for(int counter = 0; counter < evernoteConf.getEmailInEmails().size(); counter++){
+        
+        try{
+          
+          SSServReg.regScheduler(
+            SSDateU.scheduleAtFixedRate(
+              new SSDataImportBitsAndPiecesTask(
+                new SSDataImportBitsAndPiecesPar(
+                  SSConf.systemUserUri,
+                  evernoteConf.getAuthTokens().get(counter),
+                  evernoteConf.getAuthEmails().get(counter),
+                  evernoteConf.getEmailInUsers().get(counter),
+                  evernoteConf.getEmailInPasswords().get(counter),
+                  evernoteConf.getEmailInEmails().get(counter),
+                  false, //importEvernote,
+                  true, //importEmail,
+                  true, //withUserRestriction,
+                  true)), //shouldCommit
+              startDate,
+              timeBetween));
+          
+        }catch(Exception error){
+          SSLogU.err(error);
+        }
+      }
+      
+    }catch(Exception error){
+      SSLogU.err(error);
+    }
   }
 }

@@ -65,7 +65,7 @@ public class SSUserCommons {
       if(
         userURIs == null ||
         userURIs.isEmpty()){
-        return false;
+        return true;
       }
       
       final SSUserServerI userServ = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);

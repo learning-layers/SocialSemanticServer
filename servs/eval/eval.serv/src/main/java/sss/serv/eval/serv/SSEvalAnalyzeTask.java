@@ -22,58 +22,20 @@ package sss.serv.eval.serv;
 
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.conf.SSConf;
-import java.util.TimerTask;
-import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.par.SSEvalAnalyzePar;
 
-public class SSEvalAnalyzeTask extends TimerTask {
+public class SSEvalAnalyzeTask{
   
-  public SSEvalAnalyzeTask() throws Exception{
-    SSServReg.regTimerTask(this);
-  }
-  
-  @Override
-  public void run(){
+  public void handle() {
     
     try{
       
-      final Thread thread = new Thread(new SSEvalAnalyzer());
-      
-      thread.start();
-      
-      SSServReg.regTimerThread(thread);
+      ((SSEvalServerI) SSServReg.getServ(SSEvalServerI.class)).evalAnalyze(new SSEvalAnalyzePar(SSConf.systemUserUri));
       
     }catch(Exception error){
       SSLogU.err(error);
-    }
-  }
-  
-  protected class SSEvalAnalyzer implements Runnable{
-    
-    public SSEvalAnalyzer() throws Exception{
-    }
-    
-    @Override
-    public void run() {
-      
-      try{
-        
-        final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
-        
-        evalServ.evalAnalyze(new SSEvalAnalyzePar(SSConf.systemUserUri));
-        
-      }catch(Exception error){
-        SSLogU.err(error);
-      }finally{
-        
-        try{
-//          finalizeImpl();
-        }catch(Exception error2){
-          SSLogU.err(error2);
-        }
-      }
     }
   }
 }

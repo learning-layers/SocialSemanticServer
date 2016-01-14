@@ -17,8 +17,6 @@ public abstract class SSServContainerI {
   
 //      ExecutorService          executor  = Executors.newFixedThreadPool(10);
 ////    Future<ReturnType> result = executor.submit(new CallableTask());
-//    ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-////    scheduler.scheduleAtFixedRate(new SomeDailyJob(), 0, 1, TimeUnit.DAYS);
   
   protected SSServContainerI(
     final Class servImplClientInteraceClass,

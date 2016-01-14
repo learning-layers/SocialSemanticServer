@@ -61,7 +61,9 @@ public class SSEntityShareWithUsers {
         throw SSErr.get(SSErrE.userCannotShareWithHimself);
       }
       
-      if(!userCommons.areUsersUsers(users)){
+      if(
+        SSStrU.isEmpty(users) ||
+        !userCommons.areUsersUsers(users)){
         return;
       }
       

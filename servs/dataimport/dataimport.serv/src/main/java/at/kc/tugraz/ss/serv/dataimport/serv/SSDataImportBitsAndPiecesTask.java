@@ -3,7 +3,7 @@
  * http://www.learning-layers.eu
  * Development is partly funded by the FP7 Programme of the European Commission under
  * Grant Agreement FP7-ICT-318209.
- * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * Copyright (c) 2016, Graz University of Technology - KTI (Knowledge Technologies Institute).
  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,20 +18,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.tugraz.sss.adapter.rest.v3.learnep;
+package at.kc.tugraz.ss.serv.dataimport.serv;
 
-import io.swagger.annotations.*;
+import at.kc.tugraz.ss.serv.dataimport.api.*;
+import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.*;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.util.*;
 
-@ApiModel
-public class SSLearnEpTimelineStateSetRESTPar{
+public class SSDataImportBitsAndPiecesTask implements Runnable{
   
-  @ApiModelProperty(
-    required = true)
-  public Long    startTime              = null;
+  private final SSDataImportBitsAndPiecesPar par;
   
-  @ApiModelProperty(
-    required = true)
-  public Long    endTime              = null;
+  public SSDataImportBitsAndPiecesTask(
+    final SSDataImportBitsAndPiecesPar par) throws Exception{
+    
+    this.par = par;
+  }
   
-  public SSLearnEpTimelineStateSetRESTPar(){}
+  @Override
+  public void run() {
+    handle();
+  }
+  
+  public void handle(){
+    
+    try{
+      
+      ((SSDataImportServerI) SSServReg.getServ(SSDataImportServerI.class)).dataImportBitsAndPieces(par);
+      
+    }catch(Exception error){
+      SSLogU.err(error);
+    }
+  }
 }

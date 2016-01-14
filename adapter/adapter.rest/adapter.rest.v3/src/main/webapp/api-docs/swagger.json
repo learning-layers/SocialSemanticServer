@@ -67,24 +67,6 @@
     "name" : "videos"
   } ],
   "paths" : {
-    "/accessible" : {
-      "get" : {
-        "tags" : [ "entities" ],
-        "summary" : "retrieve accessible entities",
-        "description" : "",
-        "operationId" : "entitiesAccessibleGet",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/SSEntityTypesGetRet"
-            }
-          }
-        }
-      }
-    },
     "/activities" : {
       "post" : {
         "tags" : [ "activities" ],
@@ -1169,6 +1151,247 @@
         }
       }
     },
+    "/entities" : {
+      "post" : {
+        "tags" : [ "entities" ],
+        "summary" : "adds a new entity with given properties",
+        "description" : "",
+        "operationId" : "entityAdd",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSEntityUpdateRet"
+            }
+          }
+        },
+        "deprecated" : true
+      }
+    },
+    "/entities/accessible" : {
+      "get" : {
+        "tags" : [ "entities" ],
+        "summary" : "retrieve accessible entities",
+        "description" : "",
+        "operationId" : "entitiesAccessibleGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSEntityTypesGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/entities/filtered/accessible" : {
+      "post" : {
+        "tags" : [ "entities" ],
+        "summary" : "retrieve accessible entities",
+        "description" : "",
+        "operationId" : "entitiesAccessibleFilteredGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSEntityTypesGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/entities/filtered/{entities}" : {
+      "post" : {
+        "tags" : [ "entities" ],
+        "summary" : "retrieve entities information for given ID(s) or encoded URI(s)",
+        "description" : "",
+        "operationId" : "entitiesGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entities",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSEntitiesGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/entities/types" : {
+      "get" : {
+        "tags" : [ "entities" ],
+        "summary" : "retrieve available entity types",
+        "description" : "",
+        "operationId" : "entityTypesGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSEntityTypesGetRet"
+            }
+          }
+        }
+      }
+    },
+    "/entities/{entity}" : {
+      "put" : {
+        "tags" : [ "entities" ],
+        "summary" : "updates / adds given properties for given entity",
+        "description" : "",
+        "operationId" : "entityUpdate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entity",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSEntityUpdateRet"
+            }
+          }
+        }
+      }
+    },
+    "/entities/{entity}/comments" : {
+      "post" : {
+        "tags" : [ "entities" ],
+        "summary" : "add comments to the entity",
+        "description" : "",
+        "operationId" : "commentsAdd",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entity",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSCommentsAddPar"
+            }
+          }
+        }
+      }
+    },
+    "/entities/{entity}/copy" : {
+      "put" : {
+        "tags" : [ "entities" ],
+        "summary" : "copy an entity",
+        "description" : "",
+        "operationId" : "entityCopy",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entity",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSEntityCopyRet"
+            }
+          }
+        }
+      }
+    },
+    "/entities/{entity}/share" : {
+      "put" : {
+        "tags" : [ "entities" ],
+        "summary" : "share an entity with users, circles or set it public (make it accessible for everyone)",
+        "description" : "",
+        "operationId" : "entityShare",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entity",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSEntityShareRet"
+            }
+          }
+        }
+      }
+    },
+    "/entities/{entity}/unpublicize" : {
+      "put" : {
+        "tags" : [ "entities" ],
+        "summary" : "remove an entity from public space",
+        "description" : "",
+        "operationId" : "entityUnpublicize",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entity",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSEntityUnpublicizeRet"
+            }
+          }
+        }
+      }
+    },
+    "/entities/{entity}/users" : {
+      "get" : {
+        "tags" : [ "entities" ],
+        "summary" : "retrieve users who can access given entity",
+        "description" : "",
+        "operationId" : "entityUsersGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entity",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSUserEntityUsersGetRet"
+            }
+          }
+        }
+      }
+    },
     "/eval/log" : {
       "post" : {
         "tags" : [ "eval" ],
@@ -1317,48 +1540,6 @@
             "schema" : {
               "type" : "string",
               "format" : "byte"
-            }
-          }
-        }
-      }
-    },
-    "/filtered/accessible" : {
-      "post" : {
-        "tags" : [ "entities" ],
-        "summary" : "retrieve accessible entities",
-        "description" : "",
-        "operationId" : "entitiesAccessibleFilteredGet",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/SSEntityTypesGetRet"
-            }
-          }
-        }
-      }
-    },
-    "/filtered/{entities}" : {
-      "post" : {
-        "tags" : [ "entities" ],
-        "summary" : "retrieve entities information for given ID(s) or encoded URI(s)",
-        "description" : "",
-        "operationId" : "entitiesGet",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "entities",
-          "in" : "path",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/SSEntitiesGetRet"
             }
           }
         }
@@ -2772,24 +2953,6 @@
         }
       }
     },
-    "/types" : {
-      "get" : {
-        "tags" : [ "entities" ],
-        "summary" : "retrieve available entity types",
-        "description" : "",
-        "operationId" : "entityTypesGet",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/SSEntityTypesGetRet"
-            }
-          }
-        }
-      }
-    },
     "/ues" : {
       "post" : {
         "tags" : [ "ues" ],
@@ -3009,150 +3172,6 @@
             "description" : "successful operation",
             "schema" : {
               "$ref" : "#/definitions/SSVideoAnnotationsSetRet"
-            }
-          }
-        }
-      }
-    },
-    "/{entity}" : {
-      "put" : {
-        "tags" : [ "entities" ],
-        "summary" : "updates / adds given properties for given entity",
-        "description" : "",
-        "operationId" : "entityUpdate",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "entity",
-          "in" : "path",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/SSEntityUpdateRet"
-            }
-          }
-        }
-      }
-    },
-    "/{entity}/comments" : {
-      "post" : {
-        "tags" : [ "entities" ],
-        "summary" : "add comments to the entity",
-        "description" : "",
-        "operationId" : "commentsAdd",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "entity",
-          "in" : "path",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/SSCommentsAddPar"
-            }
-          }
-        }
-      }
-    },
-    "/{entity}/copy" : {
-      "put" : {
-        "tags" : [ "entities" ],
-        "summary" : "copy an entity",
-        "description" : "",
-        "operationId" : "entityCopy",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "entity",
-          "in" : "path",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/SSEntityCopyRet"
-            }
-          }
-        }
-      }
-    },
-    "/{entity}/share" : {
-      "put" : {
-        "tags" : [ "entities" ],
-        "summary" : "share an entity with users, circles or set it public (make it accessible for everyone)",
-        "description" : "",
-        "operationId" : "entityShare",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "entity",
-          "in" : "path",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/SSEntityShareRet"
-            }
-          }
-        }
-      }
-    },
-    "/{entity}/unpublicize" : {
-      "put" : {
-        "tags" : [ "entities" ],
-        "summary" : "remove an entity from public space",
-        "description" : "",
-        "operationId" : "entityUnpublicize",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "entity",
-          "in" : "path",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/SSEntityUnpublicizeRet"
-            }
-          }
-        }
-      }
-    },
-    "/{entity}/users" : {
-      "get" : {
-        "tags" : [ "entities" ],
-        "summary" : "retrieve users who can access given entity",
-        "description" : "",
-        "operationId" : "entityUsersGet",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "entity",
-          "in" : "path",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/SSUserEntityUsersGetRet"
             }
           }
         }

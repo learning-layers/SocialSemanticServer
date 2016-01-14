@@ -20,7 +20,6 @@
  */
 package at.tugraz.sss.servs.kcprojwiki.serv;
 
-import at.kc.tugraz.ss.serv.jsonld.conf.*;
 import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.util.SSDateU;
@@ -30,10 +29,7 @@ import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
-
 import at.tugraz.sss.serv.reg.*;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiClientI;
 import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiServerI;
 import at.tugraz.sss.servs.kcprojwiki.conf.SSKCProjWikiConf;
@@ -110,7 +106,7 @@ public class SSKCProjWikiServ extends SSServContainerI{
     }
     
     if(
-      SSObjU.isNull(projWikiConf.scheduleOps, projWikiConf.scheduleIntervals) ||
+      SSObjU.isNull(projWikiConf.scheduleOps, projWikiConf.scheduleIntervals)   ||
       projWikiConf.scheduleOps.isEmpty()                                        ||
       projWikiConf.scheduleIntervals.isEmpty()                                  ||
       projWikiConf.scheduleOps.size() != projWikiConf.scheduleIntervals.size()){
@@ -124,7 +120,8 @@ public class SSKCProjWikiServ extends SSServContainerI{
       for(String scheduleOp : projWikiConf.scheduleOps){
         
         if(SSStrU.equals(scheduleOp, SSVarNames.kcprojwikiImport)){
-          SSDateU.scheduleNow(new SSKCProjWikiImportTask());
+          
+          new SSKCProjWikiImportTask().handle();
           continue;
         }
         

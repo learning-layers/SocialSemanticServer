@@ -21,6 +21,7 @@
  package at.tugraz.sss.serv.util;
 
 import java.util.*;
+import java.util.concurrent.*;
 
 public class SSDateU{
 
@@ -42,18 +43,13 @@ public class SSDateU{
 		return System.nanoTime();
 	}
   
-  public static void scheduleNow(final TimerTask updater){
+  public static ScheduledExecutorService scheduleAtFixedRate(final Runnable task, final Date startDate, final long timeBetween){
     
-    Timer  timer = new Timer(); 
+    final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     
-    timer.schedule(updater, new Date()); 
-  }
-  
-  public static void scheduleAtFixedRate(final TimerTask updater, final Date date, final long timeBetween){
+    scheduler.scheduleAtFixedRate(task, startDate.getTime() - new Date().getTime(), timeBetween, TimeUnit.MILLISECONDS);
     
-    Timer  timer = new Timer(); 
-    
-    timer.scheduleAtFixedRate(updater, date, timeBetween); 
+    return scheduler;
   }
   
   public static Date getDatePlusMinutes(final Integer minutes){

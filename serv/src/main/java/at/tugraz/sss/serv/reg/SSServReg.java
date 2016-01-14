@@ -44,6 +44,7 @@ import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.datatype.par.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.datatype.enums.*;
 import java.util.*;
+import java.util.concurrent.*;
 
 public class SSServReg{
   
@@ -62,11 +63,10 @@ public class SSServReg{
   public static final List<SSServContainerI>               servsHandlingAddAffiliatedEntitiesToCircle   = new ArrayList<>();
   public static final List<SSServContainerI>               servsHandlingPushEntitiesToUsers             = new ArrayList<>();
   public static final List<SSServContainerI>               servsHandlingEntitiesSharedWithUsers         = new ArrayList<>();
-  public static final List<TimerTask>                      timerTasks                                   = new ArrayList<>();
-  public static final List<Thread>                         timerThreads                                 = new ArrayList<>();
   
-  public static final Map<String, Integer>                         requsLimitsForClientOpsPerUser  = new HashMap<>();
-  public static final Map<String, Map<String, List<SSServImplA>>>  currentRequsForClientOpsPerUser = new HashMap<>();
+  public    static final Map<String, Integer>                         requsLimitsForClientOpsPerUser  = new HashMap<>();
+  public    static final Map<String, Map<String, List<SSServImplA>>>  currentRequsForClientOpsPerUser = new HashMap<>();
+  protected static final List<ScheduledExecutorService>               schedulers                      = new ArrayList<>();
     
   public static void destroy() throws SSErr{
 
@@ -96,13 +96,9 @@ public class SSServReg{
       return;
     }
     
-//    for(TimerTask timerTask : timerTasks){
-//      timerTask.cancel();
-//    }
-//    
-//    for(Thread timerThread : timerThreads){
-//      timerThread.join();
-//    }
+    for(ScheduledExecutorService scheduler : schedulers){
+      scheduler.shutdown();
+    }
     
     servsForClientOps.clear();
     servsForServerI.clear();
@@ -118,19 +114,9 @@ public class SSServReg{
     servsHandlingAddAffiliatedEntitiesToCircle.clear();
     servsHandlingPushEntitiesToUsers.clear();
     servsHandlingEntitiesSharedWithUsers.clear();
-    timerTasks.clear();
-    timerThreads.clear();
     
     requsLimitsForClientOpsPerUser.clear();
     currentRequsForClientOpsPerUser.clear();
-  }
-  
-  public static void regTimerTask(final TimerTask timerTask) {
-    timerTasks.add(timerTask);
-  }
-  
-  public static void regTimerThread(final Thread timerThread){
-    timerThreads.add(timerThread);
   }
   
   public static SSServImplA getClientServ(final Class clientServClass) throws SSErr{
@@ -512,6 +498,21 @@ public class SSServReg{
         
         servsForGatheringUsersResources.add(servContainer);
       }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public static void regScheduler(final ScheduledExecutorService scheduler) throws SSErr{
+    
+    try{
+      
+      if(schedulers.contains(scheduler)){
+        return;
+      }
+      
+      schedulers.add(scheduler);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

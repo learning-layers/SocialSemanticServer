@@ -127,9 +127,9 @@ public class SSRecommServ extends SSServContainerI{
       for(String scheduleOp : recommConf.scheduleOps){
         
         if(SSStrU.equals(scheduleOp, SSVarNames.recommUpdate)){
-          SSDateU.scheduleNow(new SSRecommUpdateBulkTask                     (recommConf));
-          SSDateU.scheduleNow(new SSRecommUpdateBulkUserRealmsFromConfTask   (recommConf));
-          SSDateU.scheduleNow(new SSRecommUpdateBulkUserRealmsFromCirclesTask(recommConf));
+          new SSRecommUpdateBulkTask                     (recommConf).handle();
+          new SSRecommUpdateBulkUserRealmsFromConfTask   ().handle();
+          new SSRecommUpdateBulkUserRealmsFromCirclesTask().handle();
           continue;
         }
         
@@ -141,17 +141,23 @@ public class SSRecommServ extends SSServContainerI{
       
       if(SSStrU.equals(recommConf.scheduleOps.get(counter), SSVarNames.recommUpdate)){
         
-        SSDateU.scheduleAtFixedRate(new SSRecommUpdateBulkTask(recommConf),
-          SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
-          recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
+        SSServReg.regScheduler(
+          SSDateU.scheduleAtFixedRate(
+            new SSRecommUpdateBulkTask(recommConf),
+            SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
+            recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds));
         
-        SSDateU.scheduleAtFixedRate(new SSRecommUpdateBulkUserRealmsFromConfTask(recommConf),
-          SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
-          recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
+        SSServReg.regScheduler(
+          SSDateU.scheduleAtFixedRate(
+            new SSRecommUpdateBulkUserRealmsFromConfTask(),
+            SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
+            recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds));
         
-        SSDateU.scheduleAtFixedRate(new SSRecommUpdateBulkUserRealmsFromCirclesTask(recommConf),
-          SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
-          recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
+        SSServReg.regScheduler(
+          SSDateU.scheduleAtFixedRate(
+            new SSRecommUpdateBulkUserRealmsFromCirclesTask(),
+            SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
+            recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds));
         continue;
       }
       

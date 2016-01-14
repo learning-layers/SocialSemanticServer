@@ -60,6 +60,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+@Path("/entities")
 @Api( value = "entities")
 public class SSRESTEntity{
   

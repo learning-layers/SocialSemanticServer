@@ -155,7 +155,11 @@ public class SSSearchPar extends SSServPar{
     }    
     
     this.includeRecommendedResults  = includeRecommendedResults;
-    this.pageSize                   = pageSize;
+    
+    if(pageSize != null){
+      this.pageSize                   = pageSize;
+    }
+    
     this.pagesID                    = pagesID;
     this.pageNumber                 = pageNumber;
     this.minRating                  = minRating;

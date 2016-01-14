@@ -22,56 +22,21 @@ package at.kc.tugraz.ss.serv.datatypes.entity.serv;
 
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesAccessibleGetCleanUpPar;
-import java.util.TimerTask;
 import at.tugraz.sss.conf.SSConf;
 
-public class SSEntitiesAccessibleGetCleanUpTask extends TimerTask {
-  
-  public SSEntitiesAccessibleGetCleanUpTask() throws Exception{
-    SSServReg.regTimerTask(this);
-  }
+public class SSEntitiesAccessibleGetCleanUpTask implements Runnable{
   
   @Override
-  public void run(){
+  public void run() {
     
     try{
-       final Thread thread = new Thread(new SSEntitiesAccessibleGetCleaner());
       
-      thread.start();
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesAccessibleGetCleanUp(new SSEntitiesAccessibleGetCleanUpPar(SSConf.systemUserUri));
       
-      SSServReg.regTimerThread(thread);
     }catch(Exception error){
       SSLogU.err(error);
-    }
-  }
-  
-  protected class SSEntitiesAccessibleGetCleaner implements Runnable{
-    
-    public SSEntitiesAccessibleGetCleaner() throws Exception{
-    }
-    
-    @Override
-    public void run() {
-      
-      try{
-        
-      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      
-      entityServ.entitiesAccessibleGetCleanUp(new SSEntitiesAccessibleGetCleanUpPar(SSConf.systemUserUri));
-      
-      }catch(Exception error){
-        SSLogU.err(error);
-      }finally{
-        
-        try{
-//          finalizeImpl();
-        }catch(Exception error2){
-          SSLogU.err(error2);
-        }
-      }
     }
   }
 }

@@ -22,68 +22,27 @@ package at.kc.tugraz.ss.recomm.serv.task;
 
 import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.tugraz.sss.serv.util.SSLogU;
-import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkUserRealmsFromConfPar;
 import at.kc.tugraz.ss.recomm.serv.SSRecommServ;
 import at.tugraz.sss.conf.SSConf;
-import at.tugraz.sss.serv.reg.*;
-import java.util.TimerTask;
 
-public class SSRecommUpdateBulkUserRealmsFromConfTask extends TimerTask {
-  
-  private final SSRecommConf recommConf;
-  
-  public SSRecommUpdateBulkUserRealmsFromConfTask(
-    final SSRecommConf recommConf) throws Exception{
-    
-    this.recommConf = recommConf;
-    
-    SSServReg.regTimerTask(this);
-  }
+public class SSRecommUpdateBulkUserRealmsFromConfTask implements Runnable{
   
   @Override
-  public void run(){
-    
-    try{
-      final Thread thread = new Thread(new SSRecommBulkUserRealmsFromConfUpdater(recommConf));
-      
-      thread.start();
-      
-      SSServReg.regTimerThread(thread);
-    }catch(Exception error){
-      SSLogU.err(error);
-    }
+  public void run() {
+    handle();
   }
   
-  protected class SSRecommBulkUserRealmsFromConfUpdater implements Runnable{
+  public void handle(){
     
-    private final SSRecommConf recommConf;
-    
-    public SSRecommBulkUserRealmsFromConfUpdater(
-      final SSRecommConf recommConf) throws Exception{
+    try{
       
-      this.recommConf = recommConf;
-    }
-    
-    @Override
-    public void run() {
+      ((SSRecommServerI) SSRecommServ.inst.getServImpl()).recommUpdateBulkUserRealmsFromConf(
+        new SSRecommUpdateBulkUserRealmsFromConfPar(
+          SSConf.systemUserUri));
       
-      try{
-        
-        ((SSRecommServerI) SSRecommServ.inst.getServImpl()).recommUpdateBulkUserRealmsFromConf(
-          new SSRecommUpdateBulkUserRealmsFromConfPar(
-            SSConf.systemUserUri));
-        
-      }catch(Exception error){
-        SSLogU.err(error);
-      }finally{
-        
-        try{
-//          finalizeImpl();
-        }catch(Exception error2){
-          SSLogU.err(error2);
-        }
-      }
+    }catch(Exception error){
+      SSLogU.err(error);
     }
   }
 }
