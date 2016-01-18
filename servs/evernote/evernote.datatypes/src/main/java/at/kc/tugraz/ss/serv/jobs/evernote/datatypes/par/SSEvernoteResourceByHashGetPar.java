@@ -32,12 +32,13 @@ public class SSEvernoteResourceByHashGetPar extends SSServPar{
   public String          resourceHash = null;
   
   public SSEvernoteResourceByHashGetPar(
+    final SSServPar servPar, 
     final SSUri           user,
     final NoteStoreClient noteStore,
     final String          noteGUID,
     final String          resourceHash){
     
-    super(SSVarNames.evernoteResourceByHashGet, null, user);
+    super(SSVarNames.evernoteResourceByHashGet, null, user, servPar.sqlCon);
     
     this.noteStore        = noteStore;
     this.noteGUID         = noteGUID;

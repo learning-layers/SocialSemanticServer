@@ -28,6 +28,7 @@ import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.datatype.enums.SSSearchOpE;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,6 +93,7 @@ public class SSTagsGetPar extends SSServPar{
   public SSTagsGetPar(){}
   
   public SSTagsGetPar(
+    final SSServPar servPar,
     final SSUri              user,
     final SSUri              forUser,
     final List<SSUri>        entities,
@@ -102,7 +104,7 @@ public class SSTagsGetPar extends SSServPar{
     final Long               startTime,
     final boolean            withUserRestriction){
     
-    super(SSVarNames.tagsGet, null, user);
+    super(SSVarNames.tagsGet, null, user, servPar.sqlCon);
     
     this.forUser    = forUser;
     

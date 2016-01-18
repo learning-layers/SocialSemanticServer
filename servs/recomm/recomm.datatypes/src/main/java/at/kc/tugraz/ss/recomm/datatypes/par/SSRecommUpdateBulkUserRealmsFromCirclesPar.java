@@ -20,15 +20,17 @@
  */
 package at.kc.tugraz.ss.recomm.datatypes.par;
 
-
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSRecommUpdateBulkUserRealmsFromCirclesPar extends SSServPar{
   
   public SSRecommUpdateBulkUserRealmsFromCirclesPar(
+    final SSServPar servPar,
     final SSUri               user){
     
-    super(SSVarNames.recommUpdateBulkUserRealmsFromCircles, null, user);
+    super(SSVarNames.recommUpdateBulkUserRealmsFromCircles, null, user, servPar.sqlCon);
   }
 }

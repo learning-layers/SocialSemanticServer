@@ -40,12 +40,13 @@ public class SSCollUserParentGetPar extends SSServPar{
   public SSCollUserParentGetPar(){}
     
   public SSCollUserParentGetPar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         coll, 
     final boolean       withUserRestriction, 
     final boolean       invokeEntityHandlers){
     
-    super(SSVarNames.collParentGet, null, user);
+    super(SSVarNames.collParentGet, null, user, servPar.sqlCon);
      
     this.coll                 = coll;
     this.withUserRestriction  = withUserRestriction;

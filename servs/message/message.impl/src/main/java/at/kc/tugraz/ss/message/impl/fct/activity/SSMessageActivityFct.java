@@ -32,10 +32,12 @@ import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
+import at.tugraz.sss.serv.datatype.par.*;
 
 public class SSMessageActivityFct{
   
   public static void messageSend(
+    final SSServPar servPar,
     final SSUri           user,
     final SSUri           forUser,
     final SSUri           message,
@@ -47,6 +49,7 @@ public class SSMessageActivityFct{
       final SSUri activity =
         ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
           new SSActivityAddPar(
+            servPar,
             user,
             SSActivityE.messageSend,
             message,
@@ -58,6 +61,7 @@ public class SSMessageActivityFct{
         
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityContentAdd(
         new SSActivityContentAddPar(
+          servPar,
           user, 
           activity, 
           SSActivityContentE.text, 

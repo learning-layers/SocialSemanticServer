@@ -43,6 +43,7 @@ public class SSAuthRegisterUserPar extends SSServPar{
   public SSAuthRegisterUserPar(){}
      
   public SSAuthRegisterUserPar(
+    final SSServPar servPar,
     final String     email, 
     final String     password, 
     final SSLabel    label,
@@ -51,7 +52,7 @@ public class SSAuthRegisterUserPar extends SSServPar{
     final boolean    withUserRestriction, 
     final boolean    shouldCommit){
     
-    super(SSVarNames.authRegisterUser, null, null);
+    super(SSVarNames.authRegisterUser, null, null, servPar.sqlCon);
     
     this.email                 = email;
     this.password              = password;

@@ -82,12 +82,14 @@ implements
   
   @Override
   public void getUsersResources(
+    final SSServPar servPar,
     final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
     
     try{
       
       final SSFlagsGetPar flagsGetPar =
         new SSFlagsGetPar(
+          servPar,
           null, //user
           null, //entities,
           null, //types,
@@ -122,6 +124,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
+    final SSServPar servPar,
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws SSErr{
     
@@ -132,6 +135,7 @@ implements
          entity.flags.addAll(
            flagsGet(
              new SSFlagsGetPar(
+               servPar,
                par.user,
                SSUri.asListNotNull(entity.id), //entities,
                null, //types,
@@ -152,6 +156,7 @@ implements
            final SSFlag flag =
              flagGet(
                new SSFlagGetPar(
+                 servPar,
                  par.user,
                  entity.id,
                  par.withUserRestriction,
@@ -195,7 +200,7 @@ implements
     
     try{
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       SSUri entity;
       SSUri flag;
@@ -205,6 +210,7 @@ implements
         entity =
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
+              par,
               par.user,
               entityToAddFlag,
               null, //type,
@@ -218,7 +224,7 @@ implements
               false)); //shouldCommit)
         
         if(entity == null){
-          dbSQL.rollBack(par.shouldCommit);
+          dbSQL.rollBack(par, par.shouldCommit);
           return false;
         }
         
@@ -227,6 +233,7 @@ implements
           flag =
             entityServ.entityUpdate(
               new SSEntityUpdatePar(
+                par,
                 par.user,
                 SSConf.vocURICreate(),
                 SSEntityE.flag, //type,
@@ -240,11 +247,12 @@ implements
                 false)); //shouldCommit)
           
           if(flag == null){
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             return false;
           }
           
           sql.createFlag(
+            par,
             flag,
             flagType,
             par.endTime,
@@ -256,6 +264,7 @@ implements
               
               final List<SSUri> existingFlagUris =
                 sql.getFlagURIs(
+                  par,
                   SSUri.asListNotNull(par.user),
                   SSUri.asListNotNull(entity),
                   SSFlagE.asListWithoutNullAndEmpty(flagType),
@@ -265,6 +274,7 @@ implements
               for(SSUri existingFlagUri : existingFlagUris){
                 
                 sql.deleteFlagAss(
+                  par,
                   null,
                   existingFlagUri,
                   null,
@@ -275,13 +285,14 @@ implements
           }
           
           sql.addFlagAssIfNotExists(
+            par,
             par.user,
             flag,
             entity);
         }
       }
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return true;
       
@@ -292,7 +303,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return false;
           }catch(Exception error2){
@@ -317,7 +328,7 @@ implements
   public SSFlag flagGet(final SSFlagGetPar par) throws SSErr{
     
     try{
-      SSFlag                     flag    = sql.getFlag(par.flag);
+      SSFlag                     flag    = sql.getFlag(par, par.flag);
       
       if(flag == null){
         return null;
@@ -325,6 +336,7 @@ implements
       
       final SSEntityGetPar entityGetPar =
         new SSEntityGetPar(
+          par,
           par.user,
           par.flag,
           par.withUserRestriction,
@@ -393,6 +405,7 @@ implements
 
           enityEntity = 
             sql.getEntityTest(
+              par,
               par.user, 
               entity, 
               par.withUserRestriction);
@@ -408,6 +421,7 @@ implements
       //TODO for flags which should be retrieved for user-entity combination and not only based on the entity, change here:
       final List<SSUri> flagURIs =
         sql.getFlagURIs(
+          par,
           SSUri.asListNotNull(), //        SSUri.asListWithoutNullAndEmpty(par.user),
           par.entities,
           par.types,
@@ -416,6 +430,7 @@ implements
       
       final SSFlagGetPar flagGetPar =
         new SSFlagGetPar(
+          par,
           par.user,
           null, //flag
           par.withUserRestriction,

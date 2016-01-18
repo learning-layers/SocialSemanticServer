@@ -30,12 +30,13 @@ public class SSEvernoteUSNSetPar extends SSServPar{
   public Integer usn       = null;
   
   public SSEvernoteUSNSetPar(
+    final SSServPar servPar, 
     final SSUri    user,
     final String   authToken, 
     final Integer  usn,
     final boolean  shouldCommit){
     
-    super(SSVarNames.evernoteUSNSet, null, user);
+    super(SSVarNames.evernoteUSNSet, null, user,servPar.sqlCon);
     
     this.authToken     = authToken;
     this.usn           = usn;

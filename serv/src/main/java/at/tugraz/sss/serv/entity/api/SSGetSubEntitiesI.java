@@ -22,11 +22,13 @@ package at.tugraz.sss.serv.entity.api;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import java.util.List;
 
 public interface SSGetSubEntitiesI{
   
   public List<SSUri> getSubEntities(
+    final SSServPar     servPar, 
     final SSUri         user,
     final SSUri         entity,
     final SSEntityE     type) throws Exception;

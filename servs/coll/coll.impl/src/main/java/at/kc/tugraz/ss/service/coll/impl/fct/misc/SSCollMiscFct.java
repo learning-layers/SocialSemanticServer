@@ -27,6 +27,7 @@ import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,17 +35,18 @@ import java.util.List;
 public class SSCollMiscFct{
 
   public static boolean ownsUserASubColl(
+    final SSServPar servPar,
     final SSCollSQLFct sqlFct, 
     final SSUri        userUri,
     final SSUri        collUri) throws Exception{
     
     final List<SSUri> subCollUris = new ArrayList<>();
     
-    getAllChildCollURIs(sqlFct, collUri, collUri, subCollUris);
+    getAllChildCollURIs(servPar, sqlFct, collUri, collUri, subCollUris);
     
     for(SSUri subCollUri : subCollUris){
       
-      if(sqlFct.ownsUserColl(userUri, subCollUri)){
+      if(sqlFct.ownsUserColl(servPar, userUri, subCollUri)){
         return true;
       }
     }
@@ -53,13 +55,14 @@ public class SSCollMiscFct{
   }
   
   public static void getAllChildCollURIs(
+    final SSServPar servPar,
     final SSCollSQLFct sqlFct,
     final SSUri        startCollUri, 
     final SSUri        currentCollUri, 
     final List<SSUri>  subCollUris) throws Exception{
     
-    for(SSUri directSubCollUri : sqlFct.getDirectChildCollURIs(currentCollUri)){
-      getAllChildCollURIs(sqlFct, startCollUri, directSubCollUri, subCollUris);
+    for(SSUri directSubCollUri : sqlFct.getDirectChildCollURIs(servPar, currentCollUri)){
+      getAllChildCollURIs(servPar, sqlFct, startCollUri, directSubCollUri, subCollUris);
     }
     
     if(SSStrU.equals(startCollUri, currentCollUri)){
@@ -72,6 +75,7 @@ public class SSCollMiscFct{
   }
    
   public static List<SSUri> getCollSubCollAndEntryURIs(
+    final SSServPar servPar,
     final SSCollSQLFct sqlFct,
     final SSColl       startColl) throws Exception{
 
@@ -86,7 +90,7 @@ public class SSCollMiscFct{
       collAndCollEntryUris.addAll(SSUri.getDistinctNotNullFromEntities(startColl.entries));
 
       //add all coll sub coll und entry uris
-      getAllChildCollURIs(sqlFct, startColl.id, startColl.id, subCollUris);
+      getAllChildCollURIs(servPar, sqlFct, startColl.id, startColl.id, subCollUris);
 
       for(SSUri subCollUri : subCollUris){
 
@@ -94,7 +98,7 @@ public class SSCollMiscFct{
           collAndCollEntryUris.add(subCollUri);
         }
 
-        for(SSEntity collEntry : sqlFct.getCollWithEntries(subCollUri).entries){
+        for(SSEntity collEntry : sqlFct.getCollWithEntries(servPar, subCollUri).entries){
 
           if(!SSStrU.contains(collAndCollEntryUris, collEntry.id)){
             collAndCollEntryUris.add(collEntry.id);
@@ -110,19 +114,20 @@ public class SSCollMiscFct{
   }
   
   public static SSUri getDirectParentCollURIForUser(
+    final SSServPar servPar,
     final SSCollSQLFct sqlFct, 
     final SSUri        userUri, 
     final SSUri        childColl) throws Exception{
     
     try{
       
-      if(sqlFct.isCollRoot(childColl)){
+      if(sqlFct.isCollRoot(servPar, childColl)){
         return childColl;
       }
       
-      for(SSUri parentCollUri : sqlFct.getDirectParentCollURIs(childColl)){
+      for(SSUri parentCollUri : sqlFct.getDirectParentCollURIs(servPar, childColl)){
         
-        if(sqlFct.ownsUserColl(userUri, parentCollUri)){
+        if(sqlFct.ownsUserColl(servPar, userUri, parentCollUri)){
           return parentCollUri;
         }
       }

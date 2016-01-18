@@ -20,17 +20,19 @@
 */
 package at.kc.tugraz.ss.friend.datatypes.par;
 
-
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSFriendsGetPar extends SSServPar{
   
   public SSFriendsGetPar(){}
     
   public SSFriendsGetPar(
+    final SSServPar servPar,
     final SSUri      user){
     
-    super(SSVarNames.friendsGet, null, user);
+    super(SSVarNames.friendsGet, null, user, servPar.sqlCon);
   }
 }

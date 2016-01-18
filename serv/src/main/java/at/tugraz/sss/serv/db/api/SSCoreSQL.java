@@ -36,7 +36,8 @@ import at.tugraz.sss.serv.datatype.enums.SSCircleRightE;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.enums.SSCircleE;
 import at.tugraz.sss.serv.datatype.api.SSEntityA;
-import java.sql.ResultSet;
+import at.tugraz.sss.serv.datatype.par.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +47,7 @@ import javax.ws.rs.core.MultivaluedMap;
 
 public class SSCoreSQL extends SSDBSQLFctA{
 
-  private final SSUri systemUserURI;
+  protected final SSUri systemUserURI;
   
   public SSCoreSQL(
     final SSDBSQLI     dbSQL,
@@ -58,6 +59,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
   
   public List<SSEntity> getEntities(
+    final SSServPar servPar,
     final SSLabel   label,
     final SSEntityE type) throws SSErr{
     
@@ -85,6 +87,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       resultSet = 
         dbSQL.select(
+          servPar,
           SSSQLVarNames.entityTable, 
           columns, 
           where, 
@@ -119,6 +122,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
   
   public List<SSUri> getEntityURIs(
+    final SSServPar       servPar,
     final List<SSUri>     entities, 
     final List<SSEntityE> types, 
     final List<SSUri>     authors,
@@ -217,6 +221,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       resultSet =
         dbSQL.select(
           new SSDBSQLSelectPar(
+            servPar,
             tables, 
             columns,
             wheres, //orWheres
@@ -239,6 +244,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
   
   public List<SSEntity> getEntities(
+    final SSServPar       servPar,
     final List<SSUri>     entityURIs,
     final List<SSEntityE> types) throws SSErr{
     
@@ -298,6 +304,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       resultSet =
         dbSQL.select(
           new SSDBSQLSelectPar(
+            servPar,
             tables,
             columns,
             wheres,
@@ -335,6 +342,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
   
   public void addEntityToCircleIfNotExists(
+    final SSServPar       servPar,
     final SSUri circleUri,
     final SSUri entityUri) throws SSErr{
     
@@ -349,7 +357,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       uniqueKey(uniqueKeys, SSSQLVarNames.circleId, circleUri);
       uniqueKey(uniqueKeys, SSSQLVarNames.entityId, entityUri);
       
-      dbSQL.insertIfNotExists(SSSQLVarNames.circleEntitiesTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.circleEntitiesTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -357,6 +365,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
   
   public void addEntityIfNotExists(
+    final SSServPar       servPar,
     final SSUri         entity, 
     final SSEntityE     entityType,
     final SSEntityA     label,
@@ -366,7 +375,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
     
     try{
       
-      if(!existsEntity(entity)){
+      if(!existsEntity(servPar, entity)){
         
         final Map<String, String> inserts = new HashMap<>();
         
@@ -404,7 +413,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
           insert(inserts, SSSQLVarNames.description, description);
         }
         
-        dbSQL.insert(SSSQLVarNames.entityTable, inserts);
+        dbSQL.insert(servPar, SSSQLVarNames.entityTable, inserts);
       }else{
         
         final Map<String, String>  wheres   = new HashMap<>();
@@ -430,7 +439,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
           return;
         }
         
-        dbSQL.update(SSSQLVarNames.entityTable, wheres, updates);
+        dbSQL.update(servPar, SSSQLVarNames.entityTable, wheres, updates);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -438,6 +447,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
   
   public void deleteEntityIfExists(
+    final SSServPar       servPar,
     final SSUri entityUri) throws SSErr{
     
     try{
@@ -445,22 +455,24 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       where(wheres, SSSQLVarNames.id, entityUri);
       
-      dbSQL.deleteIgnore(SSSQLVarNames.entityTable, wheres);
+      dbSQL.deleteIgnore(servPar, SSSQLVarNames.entityTable, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
 
-  public void removeAllEntities() throws SSErr {
+  public void removeAllEntities(
+    final SSServPar       servPar) throws SSErr {
     
     try{
-      dbSQL.delete(SSSQLVarNames.entityTable);
+      dbSQL.delete(servPar, SSSQLVarNames.entityTable);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
   public void removeAttachedEntities(
+    final SSServPar       servPar,
     final SSUri       entity,
     final List<SSUri> attachments) throws SSErr{
     
@@ -480,7 +492,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
 
       wheres.add(whereAttachedEntities);
       
-      dbSQL.deleteIgnore(SSSQLVarNames.entityAttachedEntitiesTable, wheres);
+      dbSQL.deleteIgnore(servPar, SSSQLVarNames.entityAttachedEntitiesTable, wheres);
         
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -488,6 +500,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
   
   public void attachEntities(
+    final SSServPar       servPar,
     final SSUri       entity,
     final List<SSUri> entitiesToAttach) throws SSErr{
     
@@ -507,7 +520,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
         uniqueKey(uniqueKeys, SSSQLVarNames.entityId,          entity);
         uniqueKey(uniqueKeys, SSSQLVarNames.attachedEntityId,  entityToAttach);
 
-        dbSQL.insertIfNotExists(SSSQLVarNames.entityAttachedEntitiesTable, inserts, uniqueKeys);
+        dbSQL.insertIfNotExists(servPar, SSSQLVarNames.entityAttachedEntitiesTable, inserts, uniqueKeys);
       }
       
     }catch(Exception error){
@@ -516,6 +529,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
   
   public List<SSUri> getAttachedEntities(
+    final SSServPar       servPar,
     final SSUri entity) throws SSErr{
     
     ResultSet resultSet = null;
@@ -539,7 +553,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.entityAttachedEntitiesTable, SSSQLVarNames.attachedEntityId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.id);
       
@@ -557,6 +571,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
   
   public boolean getEntityRead(
+    final SSServPar       servPar,
     final SSUri user, 
     final SSUri entity) throws SSErr{
     
@@ -571,7 +586,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       where(wheres, SSSQLVarNames.userId,   user);
       where(wheres, SSSQLVarNames.entityId, entity);
       
-      resultSet = dbSQL.select(SSSQLVarNames.entityReadsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.entityReadsTable, columns, wheres, null, null, null);
       
       return resultSet.first();
       
@@ -589,6 +604,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
 
   public void setEntityRead(
+    final SSServPar       servPar,
     final SSUri   user, 
     final SSUri   entity,
     final boolean read) throws SSErr{
@@ -597,7 +613,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
 
       if(read){
       
-        if(getEntityRead(user, entity)){
+        if(getEntityRead(servPar, user, entity)){
           return;
         }
         
@@ -610,14 +626,14 @@ public class SSCoreSQL extends SSDBSQLFctA{
         uniqueKey(uniqueKeys, SSSQLVarNames.userId,   user);
         uniqueKey(uniqueKeys, SSSQLVarNames.entityId, entity);
 
-        dbSQL.insertIfNotExists(SSSQLVarNames.entityReadsTable, inserts, uniqueKeys);
+        dbSQL.insertIfNotExists(servPar, SSSQLVarNames.entityReadsTable, inserts, uniqueKeys);
       }else{
         final Map<String, String> wheres = new HashMap<>();
         
         where(wheres, SSSQLVarNames.userId,   user);
         where(wheres, SSSQLVarNames.entityId, entity);
         
-        dbSQL.deleteIgnore(SSSQLVarNames.entityReadsTable, wheres);
+        dbSQL.deleteIgnore(servPar, SSSQLVarNames.entityReadsTable, wheres);
       }
       
     }catch(Exception error){
@@ -626,6 +642,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
 
   public void addDownloads(
+    final SSServPar       servPar,
     final SSUri         entity,
     final List<SSUri>   downloads) throws SSErr{
     
@@ -645,7 +662,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
         uniqueKey(uniqueKeys, SSSQLVarNames.entityId,    entity);
         uniqueKey(uniqueKeys, SSSQLVarNames.downloadId,  download);
         
-        dbSQL.insertIfNotExists(SSSQLVarNames.entityDownloadsTable, inserts, uniqueKeys);
+        dbSQL.insertIfNotExists(servPar, SSSQLVarNames.entityDownloadsTable, inserts, uniqueKeys);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -653,6 +670,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
   
   public List<SSUri> getDownloads(
+    final SSServPar       servPar,
     final SSUri entity) throws SSErr{
     
     ResultSet resultSet = null;
@@ -666,7 +684,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       where(wheres, SSSQLVarNames.entityId, entity);
       
-      resultSet = dbSQL.select(SSSQLVarNames.entityDownloadsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.entityDownloadsTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.downloadId);
       
@@ -684,6 +702,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
   
   public SSEntity getEntityTest(
+    final SSServPar       servPar,
     final SSUri   user,
     final SSUri   entity,
     final boolean withUserRestriction) throws SSErr{
@@ -721,7 +740,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
         query = "select DISTINCT id, type, label, description, author, creationTime from entity where entity.id ='" + entityStr + "'";
       }
       
-      resultSet = dbSQL.select(query);
+      resultSet = dbSQL.select(servPar, query);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -749,6 +768,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
   
   public boolean isUserAuthor(
+    final SSServPar       servPar,
     final SSUri   user, 
     final SSUri   entityURI,
     final boolean withUserRestriction) throws SSErr{
@@ -761,6 +781,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       final SSEntity entity =
         getEntityTest(
+          servPar, 
           user, 
           entityURI, 
           withUserRestriction);
@@ -779,6 +800,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
   
   public List<SSUri> getAccessibleURIs(
+    final SSServPar       servPar,
     final SSUri           user,
     final List<SSEntityE> types,
     final List<SSUri>     authors,
@@ -888,7 +910,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
         query += SSStrU.bracketClose;
       }
       
-      resultSet = dbSQL.select(query);
+      resultSet = dbSQL.select(servPar, query);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.id);
       
@@ -931,6 +953,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
   
   public boolean existsEntity(
+    final SSServPar       servPar,
     final SSUri entity) throws SSErr{
     
     ResultSet resultSet  = null;
@@ -946,6 +969,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       resultSet = 
         dbSQL.select(
+          servPar, 
           SSSQLVarNames.entityTable, 
           columns, 
           where, 
@@ -969,6 +993,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
   
   public List<SSEntity> getEntitiesForLabelsAndDescriptionsWithSQLLike(
+    final SSServPar       servPar,
     final List<String> labelStrings,
     final List<String> descStrings,
     final SSSearchOpE  searchOp) throws SSErr{
@@ -1046,7 +1071,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
         }
       }
       
-      resultSet = dbSQL.selectLike(tables, columns, likes, tableCons, null, null, null);
+      resultSet = dbSQL.selectLike(servPar, tables, columns, likes, tableCons, null, null, null);
       
       while(resultSet.next()){
         
@@ -1077,6 +1102,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
   
   public List<SSUri> getEntitiesForLabelsWithLike(
+    final SSServPar       servPar,
     final List<String> labels) throws SSErr{
   
     ResultSet resultSet = null;
@@ -1108,6 +1134,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       resultSet =
         dbSQL.selectLike(
+          servPar, 
           tables,
           columns,
           likes,
@@ -1132,6 +1159,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
   
   public List<SSUri> getEntitiesForDescriptionsWithLike(
+    final SSServPar       servPar,
     final List<String> descs) throws SSErr{
   
     ResultSet resultSet = null;
@@ -1163,6 +1191,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       resultSet =
         dbSQL.selectLike(
+          servPar, 
           tables,
           columns,
           likes,
@@ -1187,6 +1216,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
   
   public List<SSUri> getEntitiesForLabelsWithMatch(
+    final SSServPar       servPar,
     final List<SSUri>  entities,
     final List<String> requireds,
     final List<String> absents,
@@ -1220,6 +1250,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       final SSDBSQLSelectPar selectPar =
         new SSDBSQLSelectPar(
+          servPar, 
           tables,
           columns,
           wheres,
@@ -1250,6 +1281,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
   
   public List<SSUri> getEntitiesForDescriptionsWithMatch(
+    final SSServPar       servPar,
     final List<SSUri>  entities,
     final List<String> requireds,
     final List<String> absents,
@@ -1283,6 +1315,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       final SSDBSQLSelectPar selectPar =
         new SSDBSQLSelectPar(
+          servPar, 
           tables,
           columns,
           wheres,
@@ -1312,6 +1345,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
     }
   }
 public List<SSUri> getCircleURIs(
+    final SSServPar       servPar,
     final boolean withSystemCircles) throws SSErr{
     
     ResultSet resultSet = null;
@@ -1325,7 +1359,7 @@ public List<SSUri> getCircleURIs(
       
       where(wheres, SSSQLVarNames.isSystemCircle, withSystemCircles);
       
-      resultSet = dbSQL.select(SSSQLVarNames.circleTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.circleTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.circleId);
       
@@ -1343,6 +1377,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public void addCircle(
+    final SSServPar       servPar,
     final SSUri     circleUri,
     final SSCircleE circleType,
     final boolean   isSystemCircle) throws SSErr{
@@ -1355,7 +1390,7 @@ public List<SSUri> getCircleURIs(
       insert(inserts, SSSQLVarNames.circleType,     circleType);
       insert(inserts, SSSQLVarNames.isSystemCircle, isSystemCircle);
       
-      dbSQL.insert(SSSQLVarNames.circleTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.circleTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -1363,12 +1398,13 @@ public List<SSUri> getCircleURIs(
   }
   
   public void addUserToCircleIfNotExists(
+    final SSServPar       servPar,
     final SSUri circleUri,
     final SSUri userUri) throws SSErr{
     
     try{
       
-      if(hasCircleUser(circleUri, userUri)){
+      if(hasCircleUser(servPar, circleUri, userUri)){
         return;
       }
       
@@ -1377,7 +1413,7 @@ public List<SSUri> getCircleURIs(
       insert(inserts, SSSQLVarNames.circleId, circleUri);
       insert(inserts, SSSQLVarNames.userId,   userUri);
       
-      dbSQL.insert(SSSQLVarNames.circleUsersTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.circleUsersTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -1385,10 +1421,11 @@ public List<SSUri> getCircleURIs(
   }
   
   public List<SSEntity> getUsersForCircle(
+    final SSServPar       servPar,
     final SSUri circleUri) throws SSErr{
     
     try{
-      return SSEntity.get(getUserURIsForCircle(circleUri), SSEntityE.user);
+      return SSEntity.get(getUserURIsForCircle(servPar, circleUri), SSEntityE.user);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -1396,6 +1433,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public List<SSUri> getUserURIsForCircle(
+    final SSServPar       servPar,
     final SSUri circleUri) throws SSErr{
     
     ResultSet resultSet = null;
@@ -1410,7 +1448,7 @@ public List<SSUri> getCircleURIs(
       
       where(wheres, SSSQLVarNames.circleId, circleUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.circleUsersTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.circleUsersTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.userId);
       
@@ -1428,6 +1466,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public List<SSCircleE> getCircleTypesForEntity(
+    final SSServPar       servPar,
     final SSUri entityUri) throws SSErr{
     
     ResultSet resultSet = null;
@@ -1445,7 +1484,7 @@ public List<SSUri> getCircleURIs(
       where    (wheres,    SSSQLVarNames.entityId, entityUri);
       tableCon (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.circleId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
       return SSCircleE.get(getStringsFromResult(resultSet, SSSQLVarNames.circleType));
       
@@ -1467,6 +1506,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public List<SSUri> getCirclesCommonForUserAndEntity(
+    final SSServPar       servPar,
     final SSUri userUri,
     final SSUri entityUri) throws SSErr{
     
@@ -1497,6 +1537,7 @@ public List<SSUri> getCircleURIs(
       
       resultSet =
         dbSQL.select(
+          servPar, 
           tables,
           columns,
           wheres,
@@ -1521,6 +1562,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public List<SSCircleE> getCircleTypesCommonForUserAndEntity(
+    final SSServPar       servPar,
     final SSUri userUri,
     final SSUri entityUri) throws SSErr{
     
@@ -1547,6 +1589,7 @@ public List<SSUri> getCircleURIs(
       
       resultSet =
         dbSQL.select(
+          servPar, 
           tables,
           columns,
           wheres,
@@ -1571,6 +1614,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public List<SSUri> getCircleURIsCommonForUserAndEntity(
+    final SSServPar       servPar,
     final SSUri   userUri,
     final SSUri   entityUri,
     final boolean withSystemCircles) throws SSErr{
@@ -1602,7 +1646,7 @@ public List<SSUri> getCircleURIs(
       tableCon  (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleUsersTable,    SSSQLVarNames.circleId);
       tableCon  (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.entityTable,         SSSQLVarNames.id);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.circleId);
       
@@ -1620,6 +1664,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public boolean isSystemCircle(
+    final SSServPar       servPar,
     final SSUri circleUri) throws SSErr{
     
     ResultSet resultSet = null;
@@ -1633,7 +1678,7 @@ public List<SSUri> getCircleURIs(
       
       where (wheres,    SSSQLVarNames.circleId, circleUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.circleTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.circleTable, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return false;
@@ -1654,6 +1699,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public SSEntityCircle getCircle(
+    final SSServPar       servPar,
     final SSUri                circleUri,
     final boolean              withUsers,
     final boolean              withEntities,
@@ -1681,7 +1727,7 @@ public List<SSUri> getCircleURIs(
       
       tableCon (tableCons, SSSQLVarNames.circleTable,  SSSQLVarNames.circleId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -1694,19 +1740,20 @@ public List<SSUri> getCircleURIs(
           bindingStrToBoolean     (resultSet,SSSQLVarNames.isSystemCircle));
       
       if(withUsers){
-        circleObj.users.addAll(getUsersForCircle(circleObj.id));
+        circleObj.users.addAll(getUsersForCircle(servPar, circleObj.id));
       }
       
       if(withEntities){
         
         circleObj.entities.addAll(
           getEntitiesForCircle(
+            servPar, 
             circleUri,
             entityTypesToIncludeOnly));
       }
       
       if(withCircleRights){
-        circleObj.accessRights.addAll(getCircleRights(circleObj.circleType));
+        circleObj.accessRights.addAll(getCircleRights(servPar, circleObj.circleType));
       }
       
       return circleObj;
@@ -1725,6 +1772,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public List<SSUri> getCircleURIsForEntity(
+    final SSServPar       servPar,
     final SSUri   entityUri,
     final boolean withSystemCircles) throws SSErr{
     
@@ -1740,7 +1788,7 @@ public List<SSUri> getCircleURIs(
       column (columns, SSSQLVarNames.circleId);
       where  (wheres,  SSSQLVarNames.entityId, entityUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.circleEntitiesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.circleEntitiesTable, columns, wheres, null, null, null);
       
       tmpCircleUris = getURIsFromResult(resultSet, SSSQLVarNames.circleId);
       
@@ -1750,7 +1798,7 @@ public List<SSUri> getCircleURIs(
         
         for(SSUri circleUri : tmpCircleUris){
           
-          if(!isSystemCircle(circleUri)){
+          if(!isSystemCircle(servPar, circleUri)){
             circleUris.add(circleUri);
           }
         }
@@ -1772,6 +1820,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public SSCircleE getTypeForCircle(
+    final SSServPar       servPar,
     final SSUri circleUri) throws SSErr{
     
     ResultSet resultSet = null;
@@ -1786,7 +1835,7 @@ public List<SSUri> getCircleURIs(
       
       where(wheres, SSSQLVarNames.circleId, circleUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.circleTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.circleTable, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -1808,11 +1857,12 @@ public List<SSUri> getCircleURIs(
   }
   
   public boolean isUserInCircle(
+    final SSServPar       servPar,
     final SSUri          userUri,
     final SSUri          circleUri) throws SSErr{
     
     try{
-      return SSStrU.contains(getCircleURIsForUser(userUri, true), circleUri);
+      return SSStrU.contains(getCircleURIsForUser(servPar, userUri, true), circleUri);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
@@ -1820,11 +1870,12 @@ public List<SSUri> getCircleURIs(
   }
   
   public boolean isGroupOrPubCircleCircle(
+    final SSServPar       servPar,
     final SSUri circleUri) throws SSErr{
     
     try{
       
-      final SSCircleE circleType = getTypeForCircle(circleUri);
+      final SSCircleE circleType = getTypeForCircle(servPar, circleUri);
       
       switch(circleType){
         
@@ -1843,6 +1894,7 @@ public List<SSUri> getCircleURIs(
   }
   
   private boolean hasCircleUser(
+    final SSServPar       servPar,
     final SSUri circleUri,
     final SSUri userUri) throws SSErr{
     
@@ -1858,7 +1910,7 @@ public List<SSUri> getCircleURIs(
       where(wheres, SSSQLVarNames.circleId, circleUri);
       where(wheres, SSSQLVarNames.userId,   userUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.circleUsersTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.circleUsersTable, columns, wheres, null, null, null);
       
       return resultSet.first();
       
@@ -1876,6 +1928,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public SSUri getPrivCircleURI(
+    final SSServPar       servPar,
     final SSUri     user) throws SSErr{
     
     ResultSet resultSet = null;
@@ -1896,7 +1949,7 @@ public List<SSUri> getCircleURIs(
       
       tableCon (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleUsersTable, SSSQLVarNames.circleId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -1917,7 +1970,8 @@ public List<SSUri> getCircleURIs(
     }
   }
   
-  public SSUri getPubCircleURI() throws SSErr{
+  public SSUri getPubCircleURI(
+    final SSServPar       servPar) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -1930,7 +1984,7 @@ public List<SSUri> getCircleURIs(
       
       where(wheres, SSSQLVarNames.circleType, SSCircleE.pub);
       
-      resultSet = dbSQL.select(SSSQLVarNames.circleTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.circleTable, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -1952,6 +2006,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public void removeUser(
+    final SSServPar       servPar,
     final SSUri circle,
     final SSUri user) throws SSErr{
     
@@ -1962,13 +2017,14 @@ public List<SSUri> getCircleURIs(
       where(wheres, SSSQLVarNames.circleId, circle);
       where(wheres, SSSQLVarNames.userId, user);
       
-      dbSQL.delete(SSSQLVarNames.circleUsersTable, wheres);
+      dbSQL.delete(servPar, SSSQLVarNames.circleUsersTable, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
   public void removeCircle(
+    final SSServPar       servPar,
     final SSUri circle) throws SSErr{
     
     try{
@@ -1977,13 +2033,14 @@ public List<SSUri> getCircleURIs(
       
       where(wheres, SSSQLVarNames.circleId, circle);
       
-      dbSQL.delete(SSSQLVarNames.circleTable, wheres);
+      dbSQL.delete(servPar, SSSQLVarNames.circleTable, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
   public List<SSUri> getCircleURIsForUser(
+    final SSServPar       servPar,
     final SSUri   userUri,
     final boolean withSystemCircles) throws SSErr{
     
@@ -2000,7 +2057,7 @@ public List<SSUri> getCircleURIs(
       
       where(wheres, SSSQLVarNames.userId, userUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.circleUsersTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.circleUsersTable, columns, wheres, null, null, null);
       
       tmpCircleUris = getURIsFromResult(resultSet, SSSQLVarNames.circleId);
       
@@ -2010,7 +2067,7 @@ public List<SSUri> getCircleURIs(
         
         for(SSUri circleUri : tmpCircleUris){
           
-          if(!isSystemCircle(circleUri)){
+          if(!isSystemCircle(servPar, circleUri)){
             circleUris.add(circleUri);
           }
         }
@@ -2032,6 +2089,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public List<SSEntity> getEntitiesForCircle(
+    final SSServPar       servPar,
     final SSUri           circleUri,
     final List<SSEntityE> types) throws SSErr{
     
@@ -2077,6 +2135,7 @@ public List<SSUri> getCircleURIs(
       resultSet =
         dbSQL.select(
           new SSDBSQLSelectPar(
+            servPar, 
             tables,
             columns,
             wheres,
@@ -2101,6 +2160,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public void inviteUsers(
+    final SSServPar       servPar,
     final SSUri        circle,
     final List<String> emails) throws SSErr {
     
@@ -2119,7 +2179,7 @@ public List<SSUri> getCircleURIs(
         uniqueKey(uniqueKeys, SSSQLVarNames.circleId,   circle);
         uniqueKey(uniqueKeys, SSSQLVarNames.inviteeId,  email);
         
-        dbSQL.insertIfNotExists(SSSQLVarNames.circleInviteesTable, inserts, uniqueKeys);
+        dbSQL.insertIfNotExists(servPar, SSSQLVarNames.circleInviteesTable, inserts, uniqueKeys);
       }
 //    }catch(Exception sqlError){
 //      SSServErrReg.regErrThrow(sqlError);
@@ -2127,6 +2187,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public List<String> getInvitedUsers(
+    final SSServPar       servPar,
     final SSUri circle) throws SSErr{
     
     ResultSet resultSet = null;
@@ -2140,7 +2201,7 @@ public List<SSUri> getCircleURIs(
       
       where(wheres, SSSQLVarNames.circleId, circle);
       
-      resultSet = dbSQL.select(SSSQLVarNames.circleInviteesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.circleInviteesTable, columns, wheres, null, null, null);
       
       return getStringsFromResult(resultSet, SSSQLVarNames.inviteeId);
       
@@ -2158,6 +2219,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public void changeCircleType(
+    final SSServPar       servPar,
     final SSUri     circle,
     final SSCircleE type) throws SSErr{
     
@@ -2175,7 +2237,7 @@ public List<SSUri> getCircleURIs(
         return;
       }
       
-      dbSQL.update(SSSQLVarNames.circleTable, wheres, updates);
+      dbSQL.update(servPar, SSSQLVarNames.circleTable, wheres, updates);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -2183,6 +2245,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public void removeEntityFromCircle(
+    final SSServPar       servPar,
     final SSUri circle,
     final SSUri entity) throws SSErr{
     
@@ -2193,13 +2256,14 @@ public List<SSUri> getCircleURIs(
       where(wheres, SSSQLVarNames.circleId, circle);
       where(wheres, SSSQLVarNames.entityId, entity);
       
-      dbSQL.delete(SSSQLVarNames.circleEntitiesTable, wheres);
+      dbSQL.delete(servPar, SSSQLVarNames.circleEntitiesTable, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
   public static List<SSCircleRightE> getCircleRights(
+    final SSServPar       servPar,
     final SSCircleE circleType) throws SSErr{
     
     try{

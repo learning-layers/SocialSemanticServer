@@ -39,6 +39,9 @@ import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
+import java.sql.*;
 import java.util.List;
 
 public class SSRecommServ extends SSServContainerI{
@@ -94,10 +97,30 @@ public class SSRecommServ extends SSServContainerI{
       return;
     }
     
-    ((SSRecommServerI) getServImpl()).recommLoadUserRealms(new SSRecommLoadUserRealmsPar(SSConf.systemUserUri));
+    Connection sqlCon = null;
     
-    if(!recommConf.initAtStartUp){
-      return;
+    try{
+      
+      final SSServPar servPar = new SSServPar(null);
+      
+      sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      
+      servPar.sqlCon = sqlCon;
+      
+      ((SSRecommServerI) getServImpl()).recommLoadUserRealms(
+        new SSRecommLoadUserRealmsPar(
+          servPar,
+          SSConf.systemUserUri));
+    }finally{
+      
+      if(sqlCon != null){
+        
+        try{
+          sqlCon.close();
+        }catch (SQLException error) {
+          SSLogU.err(error);
+        }
+      }
     }
   }
   

@@ -25,6 +25,7 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import java.net.Socket;
+import java.sql.*;
 
 public class SSFileDownloadPar extends SSServPar{
   
@@ -43,13 +44,14 @@ public class SSFileDownloadPar extends SSServPar{
   public SSFileDownloadPar(){}
   
   public SSFileDownloadPar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         file, 
     final Socket        clientSocket, 
     final boolean       isPublicDownload,
     final SSClientE     clientType){
     
-    super(SSVarNames.fileDownload, null, user);
+    super(SSVarNames.fileDownload, null, user, servPar.sqlCon);
     
     this.file             = file;
     this.clientSocket     = clientSocket;

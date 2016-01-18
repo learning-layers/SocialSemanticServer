@@ -28,8 +28,8 @@ import at.tugraz.sss.serv.datatype.enums.SSImageE;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,6 +47,7 @@ public class SSImageSQLFct extends SSCoreSQL{
   }
   
   public void addImage(
+    final SSServPar servPar,
     final SSUri    image,
     final SSImageE imageType,
     final SSUri    link) throws Exception{
@@ -71,7 +72,7 @@ public class SSImageSQLFct extends SSCoreSQL{
       
       uniqueKey(uniqueKeys, SSSQLVarNames.imageId, image);
       
-      dbSQL.insertIfNotExists(SSSQLVarNames.imageTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.imageTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -79,6 +80,7 @@ public class SSImageSQLFct extends SSCoreSQL{
   }
   
   public SSImage getImage(
+    final SSServPar servPar,
     final SSUri    image) throws Exception{
     
     if(image == null){
@@ -97,7 +99,7 @@ public class SSImageSQLFct extends SSCoreSQL{
       
       where   (wheres, SSSQLVarNames.imageTable, SSSQLVarNames.imageId, image);
       
-      resultSet = dbSQL.select(SSSQLVarNames.imageTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.imageTable, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -117,6 +119,7 @@ public class SSImageSQLFct extends SSCoreSQL{
   }
   
   public List<SSUri> getImages(
+    final SSServPar servPar,
     final SSUri    forEntity,
     final SSImageE imageType) throws Exception{
     
@@ -142,9 +145,9 @@ public class SSImageSQLFct extends SSCoreSQL{
       }
       
       if(!tableCons.isEmpty()){
-        resultSet = dbSQL.select(tables,     columns, wheres, tableCons, null, null, null);
+        resultSet = dbSQL.select(servPar, tables,     columns, wheres, tableCons, null, null, null);
       }else{
-        resultSet = dbSQL.select(SSSQLVarNames.imageTable, columns, wheres, null, null, null);
+        resultSet = dbSQL.select(servPar, SSSQLVarNames.imageTable, columns, wheres, null, null, null);
       }
       
       return getURIsFromResult(resultSet, SSSQLVarNames.imageId);
@@ -158,6 +161,7 @@ public class SSImageSQLFct extends SSCoreSQL{
   }
 
   public void addImageToEntity(
+    final SSServPar servPar,
     final SSUri image,
     final SSUri entity) throws Exception{
     
@@ -172,27 +176,31 @@ public class SSImageSQLFct extends SSCoreSQL{
       uniqueKey(uniqueKeys, SSSQLVarNames.entityId, entity);
       uniqueKey(uniqueKeys, SSSQLVarNames.imageId,  image);
       
-      dbSQL.insertIfNotExists(SSSQLVarNames.entityImagesTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.entityImagesTable, inserts, uniqueKeys);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  public void removeProfilePictures(final SSUri entity) throws Exception{
+  public void removeProfilePictures(
+    final SSServPar servPar,
+    final SSUri entity) throws Exception{
     
     try{
       final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarNames.entityId, entity);
       
-      dbSQL.deleteIgnore(SSSQLVarNames.entityProfilePicturesTable, wheres);
+      dbSQL.deleteIgnore(servPar, SSSQLVarNames.entityProfilePicturesTable, wheres);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  public void removeImagesFromEntity(final List<SSUri> images) throws Exception{
+  public void removeImagesFromEntity(
+    final SSServPar servPar,
+    final List<SSUri> images) throws Exception{
     
     try{
       
@@ -204,7 +212,7 @@ public class SSImageSQLFct extends SSCoreSQL{
        
         where(wheres, SSSQLVarNames.imageId, image);
         
-        dbSQL.deleteIgnore(SSSQLVarNames.entityImagesTable, wheres);
+        dbSQL.deleteIgnore(servPar, SSSQLVarNames.entityImagesTable, wheres);
       }
       
     }catch(Exception error){
@@ -213,6 +221,7 @@ public class SSImageSQLFct extends SSCoreSQL{
   }
   
   public void addProfilePicture(
+    final SSServPar servPar,
     final SSUri entity,
     final SSUri image) throws Exception{
     
@@ -226,7 +235,7 @@ public class SSImageSQLFct extends SSCoreSQL{
       uniqueKey(uniqueKeys, SSSQLVarNames.entityId, entity);
       uniqueKey(uniqueKeys, SSSQLVarNames.imageId,  image);
       
-      dbSQL.insertIfNotExists(SSSQLVarNames.entityProfilePicturesTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.entityProfilePicturesTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -234,6 +243,7 @@ public class SSImageSQLFct extends SSCoreSQL{
   }
   
   public List<SSUri> getProfilePictures(
+    final SSServPar servPar,
     final SSUri entity) throws Exception{
     
     ResultSet resultSet  = null;
@@ -246,7 +256,7 @@ public class SSImageSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.entityProfilePicturesTable, SSSQLVarNames.entityId, entity);
       
-      resultSet = dbSQL.select(SSSQLVarNames.entityProfilePicturesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.entityProfilePicturesTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.imageId);
       

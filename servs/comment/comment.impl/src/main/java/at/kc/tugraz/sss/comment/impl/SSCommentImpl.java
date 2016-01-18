@@ -75,11 +75,13 @@ implements
   
   @Override
   public void getUserRelations(
+    final SSServPar servPar,
     final List<String>             allUsers,
     final Map<String, List<SSUri>> userRelations) throws SSErr{
     
     try{
       SSCommentUserRelationGatherFct.getUserRelations(
+        servPar,
         allUsers,
         userRelations);
       
@@ -90,6 +92,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
+    final SSServPar servPar,
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws SSErr{
 
@@ -100,6 +103,7 @@ implements
         entity.comments.addAll(
           commentsGet(
             new SSCommentsGetPar(
+              servPar,
               par.user, 
               entity.id,
               par.withUserRestriction)));
@@ -140,11 +144,12 @@ implements
       
       final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri entity =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par,
             par.user,
             par.entity,
             null, //type,
@@ -158,7 +163,7 @@ implements
             false)); //shouldCommit))
       
       if(entity == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
@@ -169,6 +174,7 @@ implements
         commentUri =
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
+              par,
               par.user,
               SSConf.vocURICreate(),
               SSEntityE.comment, //type,
@@ -182,20 +188,22 @@ implements
               false)); //shouldCommit)
         
         if(commentUri == null){
-          dbSQL.rollBack(par.shouldCommit);
+          dbSQL.rollBack(par, par.shouldCommit);
           return null;
         }
         
         sql.createComment(
+          par, 
           commentUri, 
           content);
         
         sql.addComment(
+          par, 
           par.entity, 
           commentUri);
       }
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return par.entity;
     }catch(SSErr error){
@@ -205,7 +213,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -256,6 +264,7 @@ implements
         
         final SSEntity entity = 
           sql.getEntityTest(
+            par,
             par.user, 
             par.entity, 
             par.withUserRestriction);
@@ -265,7 +274,7 @@ implements
         }
       }
       
-      return sql.getComments(par.entity, null);
+      return sql.getComments(par, par.entity, null);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -282,7 +291,7 @@ implements
         throw SSErr.get(SSErrE.parameterMissing);
       }
       
-      final List<SSUri> entityURIs = sql.getEntityURIsCommented(par.user);
+      final List<SSUri> entityURIs = sql.getEntityURIsCommented(par, par.user);
       
       if(!par.withUserRestriction){
         return entityURIs;
@@ -295,6 +304,7 @@ implements
         entities,
         entityServ.entitiesGet(
           new SSEntitiesGetPar(
+            par,
             par.user,
             entityURIs, //entities
             null, //descPar,

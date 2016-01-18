@@ -23,17 +23,19 @@ package at.kc.tugraz.ss.service.coll.datatypes.pars;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSCollUserRootGetPar extends SSServPar{
 
   public SSCollUserRootGetPar(){}
     
   public SSCollUserRootGetPar(
+    final SSServPar servPar,
     final SSUri         user,
     final boolean       withUserRestriction,
     final boolean       invokeEntityHandlers){
     
-    super(SSVarNames.collRootGet, null, user);
+    super(SSVarNames.collRootGet, null, user, servPar.sqlCon);
     
     this.withUserRestriction  = withUserRestriction;
     this.invokeEntityHandlers = invokeEntityHandlers;

@@ -31,11 +31,12 @@ public class SSEvernoteNotebookGetPar extends SSServPar{
   public String          notebookGUID = null;
   
   public SSEvernoteNotebookGetPar(
+    final SSServPar servPar, 
     final SSUri           user,
     final NoteStoreClient noteStore,
     final String          notebookGUID){
     
-    super(SSVarNames.evernoteNotebookGet, null, user);
+    super(SSVarNames.evernoteNotebookGet, null, user, servPar.sqlCon);
     
     this.noteStore        = noteStore;
     this.notebookGUID     = notebookGUID;

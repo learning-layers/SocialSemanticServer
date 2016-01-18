@@ -29,8 +29,8 @@ import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.tugraz.sss.serv.datatype.SSAuthor;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.datatype.par.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -51,6 +51,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
   }
   
   public void addActivityContent(
+    final SSServPar servPar,
     final SSUri               activity,
     final SSActivityContentE  contentType,
     final SSActivityContent   content) throws Exception{
@@ -63,7 +64,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
       insert(inserts, SSSQLVarNames.contentType,    contentType);
       insert(inserts, SSSQLVarNames.content,        content);
       
-      dbSQL.insert(SSSQLVarNames.activityContentsTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.activityContentsTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -71,6 +72,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
   }
   
   public List<SSActivityContent> getActivityContents(
+    final SSServPar servPar,
     final SSUri activity) throws Exception{
     
     ResultSet resultSet = null;
@@ -84,7 +86,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.activityId, activity);
       
-      resultSet = dbSQL.select(SSSQLVarNames.activityContentsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.activityContentsTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         contents.add(SSActivityContent.get(bindingStr(resultSet, SSSQLVarNames.content)));
@@ -101,6 +103,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
   }
   
   public void addActivity(
+    final SSServPar servPar,
     final SSUri               author,
     final SSUri               activity, 
     final SSActivityE         type, 
@@ -123,13 +126,13 @@ public class SSActivitySQLFct extends SSCoreSQL{
         insert(inserts, SSSQLVarNames.textComment,   SSStrU.empty);
       }
       
-      dbSQL.insert(SSSQLVarNames.activityTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.activityTable, inserts);
       
       inserts.clear();
       insert(inserts, SSSQLVarNames.activityId,     activity);
       insert(inserts, SSSQLVarNames.userId,         author);
       
-      dbSQL.insert(SSSQLVarNames.activityUsersTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.activityUsersTable, inserts);
         
       for(SSUri user : users){
 
@@ -141,14 +144,14 @@ public class SSActivitySQLFct extends SSCoreSQL{
         insert(inserts, SSSQLVarNames.activityId,     activity);
         insert(inserts, SSSQLVarNames.userId,         user);
         
-        dbSQL.insert(SSSQLVarNames.activityUsersTable, inserts);
+        dbSQL.insert(servPar, SSSQLVarNames.activityUsersTable, inserts);
       }
       
       inserts.clear();
       insert(inserts, SSSQLVarNames.activityId,     activity);
       insert(inserts, SSSQLVarNames.entityId,       entity);
       
-      dbSQL.insert(SSSQLVarNames.activityEntitiesTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.activityEntitiesTable, inserts);
       
       for(SSUri entityUri : entityUris){
 
@@ -160,7 +163,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
         insert(inserts, SSSQLVarNames.activityId,     activity);
         insert(inserts, SSSQLVarNames.entityId,       entityUri);
         
-        dbSQL.insert(SSSQLVarNames.activityEntitiesTable, inserts);
+        dbSQL.insert(servPar, SSSQLVarNames.activityEntitiesTable, inserts);
       }
       
     }catch(Exception error){
@@ -169,6 +172,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
   }
   
   public List<SSUri> getActivityURIs(
+    final SSServPar servPar,
     final List<SSUri>       users,
     final List<SSUri>       entities,
     final List<SSActivityE> types,
@@ -277,6 +281,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
       
       selectPar =
         new SSDBSQLSelectPar(
+          servPar, 
           tables,
           columns,
           wheres,
@@ -334,7 +339,9 @@ public class SSActivitySQLFct extends SSCoreSQL{
     }
   }
   
-  public List<SSUri> getActivityUsers(final SSUri activity) throws Exception{
+  public List<SSUri> getActivityUsers(
+    final SSServPar servPar,
+    final SSUri activity) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -354,14 +361,16 @@ public class SSActivitySQLFct extends SSCoreSQL{
       
       tableCon (tableCons, SSSQLVarNames.activityTable, SSSQLVarNames.activityId, SSSQLVarNames.activityUsersTable, SSSQLVarNames.activityId);
       
-      resultSet = dbSQL.select(
-        tables, 
-        columns, 
-        wheres, 
-        tableCons,
-        null, 
-        null,
-        null);
+      resultSet =
+        dbSQL.select(
+          servPar,
+          tables,
+          columns,
+          wheres,
+          tableCons,
+          null,
+          null,
+          null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.userId);
     }catch(Exception error){
@@ -372,7 +381,9 @@ public class SSActivitySQLFct extends SSCoreSQL{
     }
   }
   
-  public List<SSUri> getActivityEntities(final SSUri activity) throws Exception{
+  public List<SSUri> getActivityEntities(
+    final SSServPar servPar,
+    final SSUri activity) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -394,6 +405,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
       
       resultSet = 
         dbSQL.select(
+          servPar, 
           tables, 
           columns, 
           wheres, 
@@ -411,7 +423,9 @@ public class SSActivitySQLFct extends SSCoreSQL{
     }
   }
 
-  public SSActivity getActivity(final SSUri activity) throws Exception{
+  public SSActivity getActivity(
+    final SSServPar servPar,
+    final SSUri activity) throws Exception{
    
     ResultSet resultSet = null;
       
@@ -434,6 +448,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
       
       resultSet = 
         dbSQL.select(
+          servPar, 
           tables, 
           columns, 
           wheres, 
@@ -451,7 +466,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
         bindingStrToLabel         (resultSet, SSSQLVarNames.label),
         bindingStrToTextComment   (resultSet, SSSQLVarNames.description),
         bindingStrToLong          (resultSet, SSSQLVarNames.creationTime),
-        getEntityTest             (null,      bindingStrToUri(resultSet, SSSQLVarNames.author), false),
+        getEntityTest             (servPar, null,      bindingStrToUri(resultSet, SSSQLVarNames.author), false),
         SSActivityE.get           (bindingStr(resultSet, SSSQLVarNames.activityType)),
         getEntityFromResult       (resultSet, SSSQLVarNames.entityId),
         null); //contents

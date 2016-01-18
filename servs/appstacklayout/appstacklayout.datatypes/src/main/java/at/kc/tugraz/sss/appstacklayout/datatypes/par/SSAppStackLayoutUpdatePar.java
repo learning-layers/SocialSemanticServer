@@ -20,12 +20,11 @@
 */
 package at.kc.tugraz.sss.appstacklayout.datatypes.par;
 
-
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSAppStackLayoutUpdatePar extends SSServPar{
   
@@ -69,6 +68,7 @@ public class SSAppStackLayoutUpdatePar extends SSServPar{
   public SSAppStackLayoutUpdatePar(){}
   
   public SSAppStackLayoutUpdatePar(
+    final SSServPar servPar,
     final SSUri          user,
     final SSUri          stack,
     final SSUri          app,
@@ -77,7 +77,7 @@ public class SSAppStackLayoutUpdatePar extends SSServPar{
     final boolean        withUserDescription, 
     final boolean        shouldCommit){
     
-    super(SSVarNames.appStackLayoutUpdate, null, user);
+    super(SSVarNames.appStackLayoutUpdate, null, user, servPar.sqlCon);
     
     this.stack               = stack;
     this.app                 = app;

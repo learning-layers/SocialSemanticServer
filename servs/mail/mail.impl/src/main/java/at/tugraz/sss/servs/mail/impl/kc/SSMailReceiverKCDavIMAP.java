@@ -70,19 +70,19 @@ public class SSMailReceiverKCDavIMAP {
 //    final boolean shouldCommit
   
   public List<SSEntity> receiveMails(
-    final SSMailsReceivePar par) throws Exception {
+    final SSMailsReceivePar servPar) throws Exception {
     
     Store  store  = null;
     Folder folder = null;
     
     try{
       final Properties                props   = new Properties();
-      final SSMailKCIMAPAuthenticator auth    = new SSMailKCIMAPAuthenticator(par.fromUser, par.fromPassword);
+      final SSMailKCIMAPAuthenticator auth    = new SSMailKCIMAPAuthenticator(servPar.fromUser, servPar.fromPassword);
       final Session                   session = Session.getDefaultInstance(props, auth); //session.setDebug(true);
       
       store = session.getStore("imap");
       
-      store.connect("kcs-davmail.know.know-center.at", 1143, par.fromUser, par.fromPassword);
+      store.connect("kcs-davmail.know.know-center.at", 1143, servPar.fromUser, servPar.fromPassword);
       
       folder = store.getFolder("INBOX");
       
@@ -102,9 +102,9 @@ public class SSMailReceiverKCDavIMAP {
             messages[counter].getSubject(),
             messages[counter].getSentDate().getTime());
 
-        hash = message.getMessageID() + par.receiverEmail;
+        hash = message.getMessageID() + servPar.receiverEmail;
         
-        if(sqlFct.existsMail(null, hash, par.receiverEmail)){
+        if(sqlFct.existsMail(servPar, null, hash, servPar.receiverEmail)){
           continue;
         }
         
@@ -115,7 +115,8 @@ public class SSMailReceiverKCDavIMAP {
         
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
-            par.user, 
+            servPar,
+            servPar.user, 
             mail.id,
             SSEntityE.mail, 
             mail.label, //label 
@@ -124,12 +125,13 @@ public class SSMailReceiverKCDavIMAP {
             null, //read, 
             false, //setPublic, 
             true, //createIfNotExists,
-            par.withUserRestriction, 
+            servPar.withUserRestriction, 
             false));
         
         sqlFct.addMailIfNotExists(
+          servPar, 
           mail.id, 
-          par.receiverEmail, 
+          servPar.receiverEmail, 
           hash);
         
         mails.add(mail);

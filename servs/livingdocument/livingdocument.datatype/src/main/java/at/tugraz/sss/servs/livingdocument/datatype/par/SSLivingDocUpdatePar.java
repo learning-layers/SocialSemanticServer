@@ -22,10 +22,11 @@ package at.tugraz.sss.servs.livingdocument.datatype.par;
 
 import at.tugraz.sss.serv.datatype.*;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 
 public class SSLivingDocUpdatePar extends SSServPar{
   
@@ -69,6 +70,7 @@ public class SSLivingDocUpdatePar extends SSServPar{
   public SSLivingDocUpdatePar(){}
     
   public SSLivingDocUpdatePar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         livingDoc, 
     final SSLabel       label, 
@@ -77,7 +79,7 @@ public class SSLivingDocUpdatePar extends SSServPar{
     final boolean       withUserRestriction,
     final boolean       shouldCommit){
     
-    super(SSVarNames.livingDocUpdate, null, user);
+    super(SSVarNames.livingDocUpdate, null, user, servPar.sqlCon);
     
     this.livingDoc            = livingDoc;
     this.label                = label;

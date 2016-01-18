@@ -1,23 +1,23 @@
- /**
-  * Code contributed to the Learning Layers project
-  * http://www.learning-layers.eu
-  * Development is partly funded by the FP7 Programme of the European Commission under
-  * Grant Agreement FP7-ICT-318209.
-  * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
-  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-  *
-  * Licensed under the Apache License, Version 2.0 (the "License");
-  * you may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at
-  *
-  * http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS,
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
-  */
+/**
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.tugraz.sss.adapter.rest.v3.user;
 
 import at.kc.tugraz.ss.service.user.api.*;
@@ -28,8 +28,11 @@ import at.kc.tugraz.ss.service.user.datatypes.ret.SSUsersGetRet;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.*;
 import io.swagger.annotations.*;
+import java.sql.*;
 import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -65,34 +68,54 @@ public class SSRESTUser{
     final HttpHeaders headers){
     
     final SSUsersGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSUsersGetPar(
-          null,
-          null, //users
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSUserClientI userServ = (SSUserClientI) SSServReg.getClientServ(SSUserClientI.class);
+      try{
+        
+        par =
+          new SSUsersGetPar(
+            new SSServPar(sqlCon),
+            null,
+            null, //users
+            true); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(userServ.usersGet(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSUserClientI userServ = (SSUserClientI) SSServReg.getClientServ(SSUserClientI.class);
+        
+        return Response.status(200).entity(userServ.usersGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @GET
@@ -110,34 +133,54 @@ public class SSRESTUser{
     final String users){
     
     final SSUsersGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSUsersGetPar(
-          null,
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma), SSConf.sssUri), //users
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSUserClientI userServ = (SSUserClientI) SSServReg.getClientServ(SSUserClientI.class);
+      try{
+        
+        par =
+          new SSUsersGetPar(
+            new SSServPar(sqlCon),
+            null,
+            SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma), SSConf.sssUri), //users
+            true); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(userServ.usersGet(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSUserClientI userServ = (SSUserClientI) SSServReg.getClientServ(SSUserClientI.class);
+        
+        return Response.status(200).entity(userServ.usersGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @POST
@@ -157,43 +200,63 @@ public class SSRESTUser{
     final SSUsersGetRESTPar input){
     
     final SSUsersGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSUsersGetPar(
-          null,
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma), SSConf.sssUri), //users
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      par.setFriends        = input.setFriends;
-      par.setProfilePicture = input.setProfilePicture;
-      par.setThumb          = input.setThumb;
-      par.setMessages       = input.setMessages;
-      par.setActivities     = input.setActivities;
-      par.setCircles        = input.setCircles;
-      par.setDiscs          = input.setDiscs;
-      par.setColls          = input.setColls;
-      par.setTags           = input.setTags;
+      try{
+        
+        par =
+          new SSUsersGetPar(
+            new SSServPar(sqlCon),
+            null,
+            SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma), SSConf.sssUri), //users
+            true); //invokeEntityHandlers
+        
+        par.setFriends        = input.setFriends;
+        par.setProfilePicture = input.setProfilePicture;
+        par.setThumb          = input.setThumb;
+        par.setMessages       = input.setMessages;
+        par.setActivities     = input.setActivities;
+        par.setCircles        = input.setCircles;
+        par.setDiscs          = input.setDiscs;
+        par.setColls          = input.setColls;
+        par.setTags           = input.setTags;
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
+      
+      try{
+        final SSUserClientI userServ = (SSUserClientI) SSServReg.getClientServ(SSUserClientI.class);
+        
+        return Response.status(200).entity(userServ.usersGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSUserClientI userServ = (SSUserClientI) SSServReg.getClientServ(SSUserClientI.class);
-      
-      return Response.status(200).entity(userServ.usersGet(SSClientE.rest, par)).build();
-      
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
-    }
-    
   }
 }

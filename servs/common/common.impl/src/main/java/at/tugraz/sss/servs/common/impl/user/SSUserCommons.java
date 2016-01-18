@@ -36,19 +36,19 @@ import java.util.List;
 
 public class SSUserCommons {
   
-  public void checkKeyAndSetUser(final SSServPar parA) throws SSErr{
+  public void checkKeyAndSetUser(final SSServPar servPar) throws SSErr{
     
     try{
       final SSAuthServerI authServ = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
-      final SSUri         user     = authServ.authCheckKey(new SSAuthCheckKeyPar(parA.key));
+      final SSUri         user     = authServ.authCheckKey(new SSAuthCheckKeyPar(servPar, servPar.key));
       
       if(user != null){
-        parA.user = user;
+        servPar.user = user;
       }
       
       if(
         user      == null &&
-        parA.user == null){
+        servPar.user == null){
         throw SSErr.get(SSErrE.authNoUserForKey);
       }
       
@@ -58,6 +58,7 @@ public class SSUserCommons {
   }
     
   public boolean areUsersUsers(
+    final SSServPar   servPar,
     final List<SSUri> userURIs) throws SSErr{
     
     try{
@@ -73,6 +74,7 @@ public class SSUserCommons {
       final List<SSEntity> users =
         userServ.usersGet(
           new SSUsersGetPar(
+            servPar,
             SSConf.systemUserUri, 
             userURIs,  //userURIs
             false)); //invokeEntityHandlers

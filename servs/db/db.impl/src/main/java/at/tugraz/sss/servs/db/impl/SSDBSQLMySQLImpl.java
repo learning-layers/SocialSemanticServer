@@ -31,6 +31,7 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplDBA;
 import at.tugraz.sss.serv.datatype.enums.SSWarnE;
+import at.tugraz.sss.serv.datatype.par.*;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLTransactionRollbackException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -46,16 +47,10 @@ import org.apache.tomcat.jdbc.pool.PoolProperties;
 
 public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
-  private static DataSource   connectionPool           = null;
-  public         Connection   connector                = null;
-  private        boolean      gotCon                   = false;
-  private        Integer      numberTimesTriedToGetCon = 0;
+  private static DataSource connectionPool = null;
   
   public SSDBSQLMySQLImpl(final SSConfA conf) throws SSErr {
-    
     super(conf);
-    
-    connectToMYSQL();
   }
   
   public static void closePool(){
@@ -63,6 +58,202 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     if(connectionPool != null){
       connectionPool.close();
       connectionPool = null;
+    }
+  }
+  
+  @Override
+  public void destroy() throws SSErr{
+  }
+  
+  @Override
+  public void startTrans(
+    final SSServPar  servPar,
+    final boolean    shouldCommit) throws SSErr{
+    
+    if(
+      servPar.sqlCon == null ||
+      !shouldCommit){
+      return;
+    }
+    
+    try{
+      servPar.sqlCon.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+      servPar.sqlCon.setAutoCommit(false);
+    }catch(SQLException error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
+  public void closeCon(final SSServPar servPar) throws SSErr{
+    
+    try{
+      if(servPar.sqlCon == null ||
+        servPar.sqlCon.isClosed()){
+        return;
+      }
+      
+      servPar.sqlCon.close();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
+  public void closeStmt(final ResultSet resultSet) throws SSErr{
+    
+    try{
+      
+      if(
+        resultSet                == null ||
+        resultSet.isClosed()             ||
+        resultSet.getStatement() == null ||
+        resultSet.getStatement().isClosed()){
+        return;
+      }
+      
+      resultSet.getStatement().close();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
+  public boolean rollBack(
+    final SSServPar  servPar,
+    final boolean    shouldCommit) throws SSErr{
+    
+    try{
+      
+      if(
+        !shouldCommit             ||
+        servPar.sqlCon == null         ||
+        servPar.sqlCon.getAutoCommit() ||
+        servPar.sqlCon.isClosed()){
+        return false;
+      }
+      
+      servPar.sqlCon.rollback();
+      
+      return true;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return false;
+    }
+  }
+  
+  @Override
+  public void commit(
+    final SSServPar  servPar,
+    final boolean    shouldCommit) throws SSErr{
+    
+    if(!shouldCommit){
+      return;
+    }
+    
+    try{
+      servPar.sqlCon.commit();
+      servPar.sqlCon.setAutoCommit(true);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
+  public Connection createConnection() throws SSErr{
+    
+    try{
+      
+      boolean      gotCon                   = false;
+      Integer      numberTimesTriedToGetCon = 0;
+      Connection   connection               = null;
+  
+      if(SSObjU.isNull(connectionPool)){
+        connectToMYSQLConnectionPool();
+      }
+      
+      while(!gotCon && numberTimesTriedToGetCon < 5){
+        
+        try{
+          connection = connectionPool.getConnection();
+          
+          SSLogU.info(connection.toString());
+          
+          if(connection == null){
+            throw new Exception("connector null");
+          }
+          
+          connection.setAutoCommit(true);
+          
+          gotCon = true;
+          
+        }catch(SQLException sqlError){
+          
+          SSLogU.warn("no db conn available anymore... going to sleep for 3000 ms", sqlError);
+          
+          numberTimesTriedToGetCon++;
+          
+          try{
+            Thread.sleep(3000);
+          }catch (InterruptedException threadError) {
+            throw SSErr.get(SSErrE.mySQLGetConnectionFromPoolFailed, threadError);
+          }
+        }
+      }
+      
+      return connection;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  private void connectToMYSQLConnectionPool()throws SSErr{
+    
+    try{
+      Class.forName("com.mysql.jdbc.Driver");
+      
+      //    private static BoneCP     connectionPool   = null;
+      //    BoneCPConfig config = new BoneCPConfig();
+//    config.setJdbcUrl  ("jdbc:mysql://" + ((SSDBSQLConf)conf).host + SSStrU.colon + ((SSDBSQLConf)conf).port + SSStrU.slash + ((SSDBSQLConf)conf).schema); // jdbc url specific to your database, eg jdbc:mysql://127.0.0.1/yourdb
+//    config.setUsername (((SSDBSQLConf)conf).username);
+//    config.setPassword (((SSDBSQLConf)conf).password);
+//    config.setMinConnectionsPerPartition(5);
+//    config.setMaxConnectionsPerPartition(10);
+//    config.setPartitionCount(4);
+//    config.setLogStatementsEnabled(true);
+//    config.setPoolStrategy("DEFAULT");
+//    config.setAcquireRetryAttempts(1);
+//    config.setAcquireRetryDelayInMs(1100);
+//    config.setConnectionTimeoutInMs(1300);
+//
+//    config.setTransactionRecoveryEnabled(false);
+//
+//    connectionPool = new BoneCP(config);
+      
+      
+      PoolProperties prop = new PoolProperties();
+      prop.setUrl             ("jdbc:mysql://" + ((SSDBSQLConf)conf).host + SSStrU.colon + ((SSDBSQLConf)conf).port + SSStrU.slash + ((SSDBSQLConf)conf).schema + "?autoReconnect=true");
+      prop.setDriverClassName ("com.mysql.jdbc.Driver");
+      prop.setUsername        (((SSDBSQLConf)conf).username);
+      prop.setPassword        (((SSDBSQLConf)conf).password);
+      prop.setFairQueue(true);
+      prop.setTestWhileIdle(true);
+      prop.setValidationInterval(30000);
+      prop.setMaxActive(100);
+      prop.setInitialSize(10);
+      prop.setMinIdle(10);
+      prop.setMaxWait(10000);
+      prop.setRemoveAbandoned(false);
+      prop.setMinEvictableIdleTimeMillis(30000);
+      prop.setTestOnBorrow(true);
+      prop.setValidationQuery("select 1");
+      
+      connectionPool = new DataSource(prop);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(SSErrE.mySQLConnectionFailed, error);
     }
   }
   
@@ -77,10 +268,12 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   }
   
   @Override
-  public ResultSet select(final String query) throws SSErr {
+  public ResultSet select(
+    final SSServPar  servPar, 
+    final String     query) throws SSErr {
     
     try{
-      final Statement stmt = connector.createStatement();
+      final Statement stmt = servPar.sqlCon.createStatement();
       
       return stmt.executeQuery(query);
       
@@ -244,7 +437,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
         query += " LIMIT " + par.limit;
       }
       
-      stmt = connector.prepareStatement(query);
+      stmt = par.servPar.sqlCon.prepareStatement(query);
       
       for(MultivaluedMap<String, String> where : par.orWheres){
         
@@ -301,6 +494,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public ResultSet select(
+    final SSServPar           servPar,
     final List<String>        tables,
     final List<String>        columns,
     final Map<String, String> wheres,
@@ -367,7 +561,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
         query += " LIMIT " + limit;
       }
       
-      stmt           = connector.prepareStatement(query);
+      stmt           = servPar.sqlCon.prepareStatement(query);
       
       if(
         wheres != null &&
@@ -388,6 +582,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public ResultSet select(
+    final SSServPar          servPar,
     final String              table,
     final List<String>        columns,
     final Map<String, String> wheres,
@@ -439,7 +634,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
         query += " LIMIT " + limit;
       }
       
-      stmt           = connector.prepareStatement(query);
+      stmt           = servPar.sqlCon.prepareStatement(query);
       
       if(
         wheres != null &&
@@ -461,6 +656,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public ResultSet selectLike(
+    final SSServPar                            servPar,
     final List<String>                         tables,
     final List<String>                         columns,
     final List<MultivaluedMap<String, String>> likes,
@@ -544,7 +740,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
         query += " LIMIT " + limit;
       }
       
-      stmt           = connector.prepareStatement(query);
+      stmt           = servPar.sqlCon.prepareStatement(query);
       
       for(MultivaluedMap<String, String> like : likes){
         
@@ -569,6 +765,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public void insertIfNotExists(
+    final SSServPar          servPar,
     final String              table,
     final Map<String, String> inserts,
     final Map<String, String> uniqueKeys) throws SSErr{
@@ -606,7 +803,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       }
       
       query          = SSStrU.removeTrailingString(query, " AND ") + ") LIMIT 1";
-      stmt           = connector.prepareStatement(query);
+      stmt           = servPar.sqlCon.prepareStatement(query);
       iterator       = inserts.entrySet().iterator();
       
       while(iterator.hasNext()){
@@ -639,13 +836,14 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public void delete(
+    final SSServPar          servPar,
     final String table) throws SSErr{
     
     PreparedStatement   stmt  = null;
     
     try{
       
-      stmt = connector.prepareStatement("DELETE FROM " + table);
+      stmt = servPar.sqlCon.prepareStatement("DELETE FROM " + table);
       
       stmt.executeUpdate();
       
@@ -668,6 +866,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public void updateIgnore(
+    final SSServPar          servPar,
     final String              table,
     final Map<String, String> wheres,
     final Map<String, String> values) throws SSErr{
@@ -691,7 +890,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       }
       
       query          = SSStrU.removeTrailingString(query, " AND ");
-      stmt           = connector.prepareStatement(query);
+      stmt           = servPar.sqlCon.prepareStatement(query);
       iterator       = values.entrySet().iterator();
       
       while(iterator.hasNext()){
@@ -725,6 +924,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public void update(
+    final SSServPar          servPar,
     final String              table,
     final Map<String, String> wheres,
     final Map<String, String> updates) throws SSErr{
@@ -749,7 +949,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       
       
       query          = SSStrU.removeTrailingString(query, " AND ");
-      stmt           = connector.prepareStatement(query);
+      stmt           = servPar.sqlCon.prepareStatement(query);
       iterator       = updates.entrySet().iterator();
       
       while(iterator.hasNext()){
@@ -783,6 +983,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public void insert(
+    final SSServPar          servPar,
     final String              table,
     final Map<String, String> inserts) throws SSErr{
     
@@ -806,7 +1007,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       }
       
       query          = SSStrU.removeTrailingString(query, SSStrU.comma) + SSStrU.bracketClose;
-      stmt           = connector.prepareStatement(query);
+      stmt           = servPar.sqlCon.prepareStatement(query);
       iterator       = inserts.entrySet().iterator();
       
       while(iterator.hasNext()){
@@ -833,6 +1034,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public void delete(
+    final SSServPar          servPar,
     final String              table,
     final Map<String, String> wheres) throws SSErr{
     
@@ -848,7 +1050,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       }
       
       query          = SSStrU.removeTrailingString(query, " AND ");
-      stmt           = connector.prepareStatement(query);
+      stmt           = servPar.sqlCon.prepareStatement(query);
       iterator       = wheres.entrySet().iterator();
       
       while(iterator.hasNext()){
@@ -876,6 +1078,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public void deleteIgnore(
+    final SSServPar          servPar,
     final String              table,
     final Map<String, String> deletes) throws SSErr{
     
@@ -891,7 +1094,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       }
       
       query          = SSStrU.removeTrailingString(query, " AND ");
-      stmt           = connector.prepareStatement(query);
+      stmt           = servPar.sqlCon.prepareStatement(query);
       iterator       = deletes.entrySet().iterator();
       
       while(iterator.hasNext()){
@@ -919,6 +1122,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public void deleteIgnore(
+    final SSServPar          servPar,
     final String                               table,
     final List<MultivaluedMap<String, String>> wheres) throws SSErr{
     
@@ -953,7 +1157,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       }
       
       query = SSStrU.removeTrailingString(query, " AND ");
-      stmt  = connector.prepareStatement(query);
+      stmt  = servPar.sqlCon.prepareStatement(query);
       
       for(MultivaluedMap<String, String> where : wheres){
         
@@ -984,204 +1188,6 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
           SSLogU.warn(SSWarnE.sqlCloseStatementFailed, sqlError);
         }
       }
-    }
-  }
-  
-  @Override
-  public Connection getConnection(){
-    return connector;
-  }
-  
-  @Override
-  public void destroy() throws SSErr{
-    
-    try{
-      closeCon();
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  @Override
-  public void startTrans(
-    boolean shouldCommit) throws SSErr{
-    
-    if(!shouldCommit){
-      return;
-    }
-    
-    if(connector == null){
-      SSLogU.warn("con null");
-      return;
-    }
-    
-    try{
-      connector.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-      connector.setAutoCommit(false);
-    }catch(SQLException error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  @Override
-  public void closeCon() throws SSErr{
-    
-    try{
-      if(connector == null){
-        return;
-      }
-      
-      if(connector.isClosed()){
-        connector = null;
-        return;
-      }
-      
-      connector.close();
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  @Override
-  public void closeStmt(final ResultSet resultSet) throws SSErr{
-    
-    try{
-      
-      if(
-        resultSet                == null ||
-        resultSet.isClosed()             ||
-        resultSet.getStatement() == null ||
-        resultSet.getStatement().isClosed()){
-        return;
-      }
-      
-      resultSet.getStatement().close();
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  @Override
-  public boolean rollBack(final boolean shouldCommit) throws SSErr{
-    
-    try{
-      
-      if(
-        !shouldCommit             ||
-        connector == null         ||
-        connector.getAutoCommit() ||
-        connector.isClosed()){
-        return false;
-      }
-      
-      connector.rollback();
-      
-      return true;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return false;
-    }
-  }
-  
-  @Override
-  public void commit(boolean shouldCommit) throws SSErr{
-    
-    if(!shouldCommit){
-      return;
-    }
-    
-    try{
-      connector.commit();
-      connector.setAutoCommit(true);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  private void connectToMYSQL() throws SSErr{
-    
-    try{
-      
-      if(SSObjU.isNull(connectionPool)){
-        connectToMYSQLConnectionPool();
-      }
-      
-      while(!gotCon && numberTimesTriedToGetCon < 5){
-        
-        try{
-          connector = connectionPool.getConnection();
-          
-          if(connector == null){
-            throw new Exception("connector null");
-          }
-          
-          connector.setAutoCommit(true);
-          
-          gotCon = true;
-          
-        }catch(SQLException sqlError){
-          
-          SSLogU.warn("no db conn available anymore... going to sleep for 3000 ms", sqlError);
-          
-          numberTimesTriedToGetCon++;
-          
-          try{
-            Thread.sleep(3000);
-          }catch (InterruptedException threadError) {
-            throw SSErr.get(SSErrE.mySQLGetConnectionFromPoolFailed, threadError);
-          }
-        }
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  private void connectToMYSQLConnectionPool()throws SSErr{
-    
-    try{
-      Class.forName("com.mysql.jdbc.Driver");
-      
-      //    private static BoneCP     connectionPool   = null;
-      //    BoneCPConfig config = new BoneCPConfig();
-//    config.setJdbcUrl  ("jdbc:mysql://" + ((SSDBSQLConf)conf).host + SSStrU.colon + ((SSDBSQLConf)conf).port + SSStrU.slash + ((SSDBSQLConf)conf).schema); // jdbc url specific to your database, eg jdbc:mysql://127.0.0.1/yourdb
-//    config.setUsername (((SSDBSQLConf)conf).username);
-//    config.setPassword (((SSDBSQLConf)conf).password);
-//    config.setMinConnectionsPerPartition(5);
-//    config.setMaxConnectionsPerPartition(10);
-//    config.setPartitionCount(4);
-//    config.setLogStatementsEnabled(true);
-//    config.setPoolStrategy("DEFAULT");
-//    config.setAcquireRetryAttempts(1);
-//    config.setAcquireRetryDelayInMs(1100);
-//    config.setConnectionTimeoutInMs(1300);
-//
-//    config.setTransactionRecoveryEnabled(false);
-//
-//    connectionPool = new BoneCP(config);
-      
-      
-      PoolProperties prop = new PoolProperties();
-      prop.setUrl             ("jdbc:mysql://" + ((SSDBSQLConf)conf).host + SSStrU.colon + ((SSDBSQLConf)conf).port + SSStrU.slash + ((SSDBSQLConf)conf).schema + "?autoReconnect=true");
-      prop.setDriverClassName ("com.mysql.jdbc.Driver");
-      prop.setUsername        (((SSDBSQLConf)conf).username);
-      prop.setPassword        (((SSDBSQLConf)conf).password);
-      prop.setFairQueue(true);
-      prop.setTestWhileIdle(true);
-      prop.setValidationInterval(30000);
-      prop.setMaxActive(100);
-      prop.setInitialSize(10);
-      prop.setMinIdle(10);
-      prop.setMaxWait(10000);
-      prop.setRemoveAbandoned(false);
-      prop.setMinEvictableIdleTimeMillis(30000);
-      prop.setTestOnBorrow(true);
-      prop.setValidationQuery("select 1");
-      
-      connectionPool = new DataSource(prop);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(SSErrE.mySQLConnectionFailed, error);
     }
   }
 }

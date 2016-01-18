@@ -132,6 +132,7 @@ implements
     try{
       final SSRecommUserRealmEngine userRealmEngine =
         userRealmKeeper.checkAddAndGetUserRealmEngine(
+          par,
           (SSRecommConf)conf,
           par.user, //user
           par.realm, //realm
@@ -154,6 +155,7 @@ implements
             
             final SSEntity entity =
               sql.getEntityTest(
+                par,
                 par.user,
                 par.entity,
                 par.withUserRestriction);
@@ -193,6 +195,7 @@ implements
       final SSEntityServerI entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class); 
       final SSEntityGetPar  entityGetPar = 
         new SSEntityGetPar(
+          par,
           par.user,
           null, //entity
           par.withUserRestriction, //withUserRestriction,
@@ -246,6 +249,7 @@ implements
       
       evalServ.evalLog(
         new SSEvalLogPar(
+          par,
           par.user,
           SSToolContextE.sss,
           SSEvalLogE.recommTagsQuery,
@@ -272,6 +276,7 @@ implements
       
       evalServ.evalLog(
         new SSEvalLogPar(
+          par,
           par.user,
           SSToolContextE.sss,
           SSEvalLogE.recommTagsResult,
@@ -315,6 +320,7 @@ implements
       
       final SSRecommUserRealmEngine userRealmEngine =
         userRealmKeeper.checkAddAndGetUserRealmEngine(
+          par,
           (SSRecommConf) conf,
           par.user,
           realmToUse, //realm
@@ -344,6 +350,7 @@ implements
             
             final SSEntity entity =
               sql.getEntityTest(
+                par,
                 par.user,
                 par.entity,
                 par.withUserRestriction);
@@ -419,6 +426,7 @@ implements
       
       final SSRecommUserRealmEngine userRealmEngine = 
         userRealmKeeper.checkAddAndGetUserRealmEngine(
+          par,
           (SSRecommConf)conf,
           par.user, 
           par.realm, //realm
@@ -448,6 +456,7 @@ implements
             
             final SSEntity entity =
               sql.getEntityTest(
+                par,
                 par.user,
                 par.entity,
                 par.withUserRestriction);
@@ -491,6 +500,7 @@ implements
       final SSEntityServerI entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSEntityGetPar  entityGetPar = 
         new SSEntityGetPar(
+          par,
           par.user,
           null, //entity
           par.withUserRestriction, //withUserRestriction,
@@ -542,7 +552,7 @@ implements
     try{
       
 //      SSRecommUserRealmKeeper.setUserRealmEnginesFromConf       (recommConf);
-      userRealmKeeper.setAndLoadUserRealmEnginesFromDB  (sql.getUserRealms());
+      userRealmKeeper.setAndLoadUserRealmEnginesFromDB  (sql.getUserRealms(par));
 //      SSRecommUserRealmKeeper.setSSSRealmEngine                 (recommConf);
       
     }catch(Exception error){
@@ -564,10 +574,11 @@ implements
       final SSRecommUpdateBulkRet       result             = SSRecommUpdateBulkRet.get(true);
       byte[]                            fileChunk         = null;
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       final SSRecommUserRealmEngine userRealmEngine =
         userRealmKeeper.checkAddAndGetUserRealmEngine(
+          par,
           recommConf,
           par.user,
           par.realm,
@@ -610,7 +621,7 @@ implements
         }
       }
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return result;
       
@@ -635,10 +646,11 @@ implements
     
     try{
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       final SSRecommUserRealmEngine userRealmEngine =
         userRealmKeeper.checkAddAndGetUserRealmEngine(
+          par,
           (SSRecommConf)conf,
           par.user,
           par.realm,//realm
@@ -650,6 +662,7 @@ implements
       final SSDataExportServerI                                      dataExportServ = (SSDataExportServerI) SSServReg.getServ(SSDataExportServerI.class);
       final SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar dataExportPar  =
         new SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar(
+          par,
           par.user,
           SSUri.asListNotNull(),
           userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
@@ -658,7 +671,7 @@ implements
      
       userRealmEngine.engine.loadFile(conf.getSssWorkDirDataCsv(), userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
     }catch(SSErr error){
       
@@ -667,7 +680,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
           }catch(Exception error2){
             SSServErrReg.regErrThrow(error2);
@@ -689,7 +702,7 @@ implements
     
     try{
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       if(
         ((SSRecommConf)conf).recommTagsUserPerRealm == null ||
@@ -733,12 +746,14 @@ implements
           userURIs.add(
             ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).userURIGet(
               new SSUserURIGetPar(
+                par,
                 par.user, 
                 user)));
         }
           
         dataExportServ.dataExportUsersEntitiesTagsCategoriesTimestampsFile(
           new SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar(
+            par,
             par.user,
             userURIs,
             usersForRealm.getKey() + SSStrU.dot + SSFileExtE.txt)); //fileName
@@ -747,6 +762,7 @@ implements
           
           userRealmEngine =
             userRealmKeeper.checkAddAndGetUserRealmEngine(
+              par,
               (SSRecommConf)conf,
               userURI,
               usersForRealm.getKey(), //realm
@@ -759,7 +775,7 @@ implements
         }
       }
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
     }catch(SSErr error){
       
@@ -768,7 +784,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
           }catch(Exception error2){
             SSServErrReg.regErrThrow(error2);
@@ -808,11 +824,13 @@ implements
       
       final SSUserURIGetPar userURIGetPar = 
         new SSUserURIGetPar(
+          par,
           par.user,
           null); //email
       
       final SSCirclesGetPar circlesGetPar =
         new SSCirclesGetPar(
+          par,
           null, //user
           null, //forUser
           null, //entity,
@@ -851,6 +869,7 @@ implements
       
       final SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar dataExportPar = 
         new SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar(
+          par,
             par.user,
             null, //circle
             null, //fileName
@@ -869,6 +888,7 @@ implements
           
           userRealmEngine =
             userRealmKeeper.checkAddAndGetUserRealmEngine(
+              par,
               (SSRecommConf) conf, //conf
               user, //user
               usersForRealm.getKey(), //realm
@@ -888,7 +908,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
           }catch(Exception error2){
             SSServErrReg.regErrThrow(error2);
@@ -926,10 +946,11 @@ implements
     
     try{
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       final SSRecommUserRealmEngine userRealmEngine =
         userRealmKeeper.checkAddAndGetUserRealmEngine(
+          par,
           (SSRecommConf)conf,
           par.user,
           par.realm, //realm
@@ -942,6 +963,7 @@ implements
       
       dataExportServ.dataExportUserEntityTagsCategoriesTimestampsLine(
         new SSDataExportUserEntityTagsCategoriesTimestampsLinePar(
+          par,
           par.user,
           par.forUser,
           par.entity,
@@ -951,7 +973,7 @@ implements
       
       userRealmEngine.engine.loadFile(conf.getSssWorkDirDataCsv(), userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return true;
     }catch(SSErr error){
@@ -961,7 +983,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return false;
           }catch(Exception error2){
@@ -1006,10 +1028,11 @@ implements
       List<String> tags;
       List<String> categories;
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       final SSRecommUserRealmEngine userRealmEngine = 
         userRealmKeeper.checkAddAndGetUserRealmEngine(
+          par,
           (SSRecommConf)conf,
           par.user, 
           par.realm,//realm
@@ -1050,6 +1073,7 @@ implements
         
         dataExportServ.dataExportUserEntityTagsCategoriesTimestampsLine(
           new SSDataExportUserEntityTagsCategoriesTimestampsLinePar(
+            par,
             par.user,
             par.forUser,
             par.entities.get(counter),
@@ -1060,7 +1084,7 @@ implements
       
       userRealmEngine.engine.loadFile(conf.getSssWorkDirDataCsv(), userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return true;
     }catch(SSErr error){
@@ -1070,7 +1094,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return false;
           }catch(Exception error2){

@@ -34,7 +34,6 @@ import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.conf.api.SSConfA;
-
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
@@ -47,7 +46,6 @@ import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 
 public class SSLikeImpl 
@@ -71,6 +69,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
+    final SSServPar servPar,
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws SSErr{
     
@@ -81,6 +80,7 @@ implements
         entity.likes =
           likesGet(
             new SSLikesUserGetPar(
+              servPar, 
               par.user,
               entity.id,
               null,
@@ -105,6 +105,7 @@ implements
       
       final SSEntity entity = 
         sql.getEntityTest(
+          par, 
           par.user, 
           par.entity, 
           par.withUserRestriction);
@@ -123,6 +124,7 @@ implements
       }
       
       return sql.getLikes(
+        par, 
         par.user, 
         par.forUser, 
         par.entity);
@@ -154,11 +156,12 @@ implements
     
     try{
 
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri entity =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par, 
             par.user,
             par.entity,
             null, //type,
@@ -172,16 +175,17 @@ implements
             false)); //shouldCommit)
       
       if(entity == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
       sql.like(
+        par, 
         par.user, 
         par.entity, 
         par.value);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return par.entity;
       
@@ -192,7 +196,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){

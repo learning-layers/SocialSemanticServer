@@ -29,6 +29,7 @@ import java.util.List;
 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSTagsAddPar extends SSServPar{
   
@@ -73,6 +74,7 @@ public class SSTagsAddPar extends SSServPar{
   public SSTagsAddPar(){}
   
   public SSTagsAddPar(
+    final SSServPar servPar,
     final SSUri              user,
     final List<SSTagLabel>   labels,
     final List<SSUri>        entities,
@@ -82,7 +84,7 @@ public class SSTagsAddPar extends SSServPar{
     final boolean            withUserRestriction,
     final boolean            shouldCommit){
     
-    super(SSVarNames.tagsAdd, null, user);
+    super(SSVarNames.tagsAdd, null, user, servPar.sqlCon);
     
     SSTagLabel.addDistinctNotEmpty (this.labels,   labels);
     SSUri.addDistinctWithoutNull   (this.entities, entities);

@@ -86,6 +86,7 @@ implements
   
   @Override
   public void getUsersResources(
+    final SSServPar servPar,
     final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
     
     try{
@@ -96,7 +97,7 @@ implements
         
         userID = SSUri.get(user);
         
-        for(SSUri entity : sql.getEntitiesRatedByUser(userID)){
+        for(SSUri entity : sql.getEntitiesRatedByUser(servPar, userID)){
           
           usersEntities.get(user).add(
             new SSEntityContext(
@@ -114,6 +115,7 @@ implements
   
   @Override
   public void getUserRelations(
+    final SSServPar servPar,
     final List<String>             allUsers,
     final Map<String, List<SSUri>> userRelations) throws SSErr{
     
@@ -125,6 +127,7 @@ implements
         
         for(SSEntity rating :
           sql.getRatingAsss(
+            servPar,
             SSUri.asListNotNull(SSUri.get(user)),
             null)){
           
@@ -145,6 +148,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
+    final SSServPar servPar,
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws SSErr{
     
@@ -155,6 +159,7 @@ implements
         entity.overallRating =
           ratingOverallGet(
             new SSRatingOverallGetPar(
+              servPar,
               par.user,
               entity.id,
               par.withUserRestriction));
@@ -190,7 +195,7 @@ implements
     
     try{
       
-      final boolean userRatedEntityBefore = sql.hasUserRatedEntity(par.user, par.entity);
+      final boolean userRatedEntityBefore = sql.hasUserRatedEntity(par, par.user, par.entity);
       
       if(
         !par.allowToRateAgain &&
@@ -198,11 +203,12 @@ implements
         return false;
       }
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       par.entity =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par, 
             par.user,
             par.entity, //entity,
             null, //type,
@@ -216,7 +222,7 @@ implements
             false)); //shouldCommit
       
       if(par.entity == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return false;
       }
       
@@ -227,6 +233,7 @@ implements
         ratingUri =
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
+              par, 
               par.user,
               SSConf.vocURICreate(),
               SSEntityE.rating, //type,
@@ -240,11 +247,12 @@ implements
               false)); //shouldCommit)
         
         if(ratingUri == null){
-          dbSQL.rollBack(par.shouldCommit);
+          dbSQL.rollBack(par, par.shouldCommit);
           return false;
         }
         
         sql.rateEntityByUser(
+          par, 
           ratingUri,
           par.user,
           par.entity,
@@ -254,6 +262,7 @@ implements
       }else{
         
         sql.rateEntityByUser(
+          par, 
           null,
           par.user,
           par.entity,
@@ -261,7 +270,7 @@ implements
           userRatedEntityBefore);
       }
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return true;
     }catch(SSErr error){
@@ -271,7 +280,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return false;
           }catch(Exception error2){
@@ -317,6 +326,7 @@ implements
         
         final SSEntity entityEntity =
           sql.getEntityTest(
+            par, 
             par.user,
             par.entity,
             par.withUserRestriction);
@@ -326,7 +336,7 @@ implements
         }
       }
       
-      return sql.getUserRating(par.user, par.entity);
+      return sql.getUserRating(par, par.user, par.entity);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -358,6 +368,7 @@ implements
         
         final SSEntity entityEntity =
           sql.getEntityTest(
+            par, 
             par.user,
             par.entity,
             par.withUserRestriction);
@@ -367,7 +378,7 @@ implements
         }
       }
       
-      return sql.getOverallRating(par.entity);
+      return sql.getOverallRating(par, par.entity);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -392,6 +403,7 @@ implements
           
           entityEntity =
             sql.getEntityTest(
+              par, 
               par.user,
               entity,
               par.withUserRestriction);
@@ -407,12 +419,13 @@ implements
         par.entities.addAll(entitiesToQuery);
       }
       
-      final List<SSEntity>         ratings             = sql.getRatingAsss(null, par.entities);
+      final List<SSEntity>         ratings             = sql.getRatingAsss(par, null, par.entities);
       final List<SSUri>            entityURIs          = new ArrayList<>();
       SSRatingOverall              overallRating;
       
       final SSRatingOverallGetPar overallRatingGetPar =
         new SSRatingOverallGetPar(
+          par, 
           par.user,
           null, //entity
           par.withUserRestriction);
@@ -462,6 +475,7 @@ implements
         
         final SSEntity entityEntity =
           sql.getEntityTest(
+            par, 
             par.user,
             par.entity,
             par.withUserRestriction);
@@ -471,11 +485,11 @@ implements
         }
       }
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
-      sql.deleteRatingAss(par.user, par.entity);
+      sql.deleteRatingAss(par, par.user, par.entity);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return true;
     }catch(SSErr error){
@@ -485,7 +499,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return false;
           }catch(Exception error2){

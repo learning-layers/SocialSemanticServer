@@ -29,11 +29,12 @@ public class SSEvernoteUserAddPar extends SSServPar{
   public String          authToken = null;
   
   public SSEvernoteUserAddPar(
+    final SSServPar servPar, 
     final SSUri   user, 
     final String  authToken,
     final boolean shouldCommit){
     
-    super(SSVarNames.evernoteUserAdd, null, user);
+    super(SSVarNames.evernoteUserAdd, null, user, servPar.sqlCon);
     
     this.authToken    = authToken;
     this.shouldCommit = shouldCommit;

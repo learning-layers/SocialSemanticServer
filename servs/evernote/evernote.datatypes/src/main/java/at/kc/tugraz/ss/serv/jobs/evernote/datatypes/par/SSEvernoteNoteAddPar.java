@@ -30,12 +30,13 @@ public class SSEvernoteNoteAddPar extends SSServPar{
   public SSUri     note       = null;
 
   public SSEvernoteNoteAddPar(
+    final SSServPar servPar, 
     final SSUri   user,
     final SSUri   notebook, 
     final SSUri   note, 
     final boolean shouldCommit){
     
-    super(SSVarNames.evernoteNoteAdd, null, user);
+    super(SSVarNames.evernoteNoteAdd, null, user, servPar.sqlCon);
     
     this.notebook     = notebook;
     this.note         = note;

@@ -102,11 +102,12 @@ implements
       final List<SSEvalLogEntry> logEntries =
         dataImportServ.dataImportEvalLogFile(
           new SSDataImportEvalLogFilePar(
+            par,
             par.user,
             conf.getSssWorkDirDataCsv() + SSFileU.fileNameSSSEvalLog,
             oct1.getTime())); //startTime
       
-      analyzer.setEpisodes ();
+      analyzer.setEpisodes (par);
       
       System.out.println();
       System.out.println();
@@ -117,7 +118,7 @@ implements
       System.out.println("##################################");
       System.out.println();
         
-      analyzer.analyzeUsers  (logEntries);
+      analyzer.analyzeUsers  (par, logEntries);
       
       System.out.println();
       System.out.println();
@@ -128,7 +129,7 @@ implements
       System.out.println("##################################");
       System.out.println();
       
-      analyzer.analyzeLDs(logEntries);
+      analyzer.analyzeLDs(par, logEntries);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -170,6 +171,7 @@ implements
       originUser = 
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
           new SSEntityGetPar(
+            par, 
             null,
             par.user,  //entity
             false, //withUserRestriction
@@ -179,6 +181,7 @@ implements
         targetEntity =
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
             new SSEntityGetPar(
+              par, 
               null,
               par.entity,  //entity
               false, //withUserRestriction
@@ -191,6 +194,7 @@ implements
           targetEntities,
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
             new SSEntitiesGetPar(
+              par, 
               par.user,
               par.entities,  //entities
               null,  //descPar
@@ -203,6 +207,7 @@ implements
           targetUsers,
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
             new SSEntitiesGetPar(
+              par, 
               par.user,
               par.users,  //entities
               null,  //descPar

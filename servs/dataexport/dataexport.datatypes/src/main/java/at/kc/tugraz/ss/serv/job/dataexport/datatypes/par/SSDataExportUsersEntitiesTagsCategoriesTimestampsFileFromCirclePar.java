@@ -21,8 +21,8 @@
 package at.kc.tugraz.ss.serv.job.dataexport.datatypes.par;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 
 public class SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar extends SSServPar{
   
@@ -30,12 +30,13 @@ public class SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar 
   public String       fileName   = null;
   
   public SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         circle, 
     final String        fileName,
     final boolean       withUserRestriction){
     
-    super(SSVarNames.dataExportUsersEntitiesTagsCategoriesTimestampsFileFromCircle, null, user);
+    super(SSVarNames.dataExportUsersEntitiesTagsCategoriesTimestampsFileFromCircle, null, user, servPar.sqlCon);
     
     this.circle              = circle;
     this.fileName            = fileName;

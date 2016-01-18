@@ -23,16 +23,18 @@ package at.kc.tugraz.sss.app.datatypes.par;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSAppsGetPar extends SSServPar{
   
   public SSAppsGetPar(){}
     
   public SSAppsGetPar(
+    final SSServPar servPar,
     final SSUri     user, 
     final boolean   invokeEntityHandlers){
     
-    super(SSVarNames.appsGet, null, user);
+    super(SSVarNames.appsGet, null, user, servPar.sqlCon);
     
     this.invokeEntityHandlers = invokeEntityHandlers;
   }

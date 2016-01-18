@@ -39,12 +39,13 @@ public class SSAppStackLayoutGetPar extends SSServPar{
   public SSAppStackLayoutGetPar(){}
   
   public SSAppStackLayoutGetPar(
+    final SSServPar servPar,
     final SSUri     user, 
     final SSUri     stack, 
     final boolean   withUserRestriction, 
     final boolean   invokeEntityHandlers){
     
-    super(SSVarNames.appStackLayoutGet, null, user);
+    super(SSVarNames.appStackLayoutGet, null, user, servPar.sqlCon);
     
     this.stack                = stack;
     this.withUserRestriction  = withUserRestriction;

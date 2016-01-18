@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import java.sql.*;
 
 public class SSDiscRemovePar extends SSServPar{
   
@@ -40,11 +40,12 @@ public class SSDiscRemovePar extends SSServPar{
   public SSDiscRemovePar(){}
   
   public SSDiscRemovePar(
+    final SSServPar servPar,
     final SSUri     user,
     final SSUri     disc,
     final boolean   shouldCommit){
     
-    super(SSVarNames.discRemove, null, user);
+    super(SSVarNames.discRemove, null, user, servPar.sqlCon);
     
     this.shouldCommit = shouldCommit;
   }

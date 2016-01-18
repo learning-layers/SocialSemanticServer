@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SSPushEntitiesToUsersPar {
- 
+
   public SSUri          user                = null;
   public List<SSEntity> entities            = new ArrayList<>();
   public List<SSUri>    users               = new ArrayList<>();

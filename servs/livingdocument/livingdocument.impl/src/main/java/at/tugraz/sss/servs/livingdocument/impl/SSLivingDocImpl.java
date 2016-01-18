@@ -79,7 +79,7 @@ implements
   
   private final SSLivingDocSQLFct  sql;
   private final SSLivingDocConf    livingDocConf;
-  private final SSUserCommons   userCommons;
+  private final SSUserCommons      userCommons;
   
   public SSLivingDocImpl(final SSConfA conf) throws SSErr{
     
@@ -92,12 +92,14 @@ implements
   
   @Override
   public void getUsersResources(
+    final SSServPar                          servPar,
     final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
     
     try{
       
       final SSLivingDocsGetPar ldsGetPar =
         new SSLivingDocsGetPar(
+          servPar,
           null, //user
           null, //forUser
           false, //withUserRestriction
@@ -130,6 +132,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
+    final SSServPar            servPar,
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws Exception{
     
@@ -140,6 +143,7 @@ implements
         return SSLivingDocument.get(
           livingDocGet(
             new SSLivingDocGetPar(
+              servPar,
               par.user,
               entity.id,
               par.withUserRestriction,
@@ -153,6 +157,7 @@ implements
   
   @Override
   public void pushEntitiesToUsers(
+    final SSServPar                servPar,
     final SSPushEntitiesToUsersPar par) throws Exception {
     
     try{
@@ -163,7 +168,7 @@ implements
           case livingDoc: {
             
             for(SSUri userToPushTo : par.users){
-              sql.addLivingDoc(entityToPush.id, userToPushTo);
+              sql.addLivingDoc(servPar, entityToPush.id, userToPushTo);
             }
             
             break;
@@ -195,6 +200,7 @@ implements
           
           discServ.discTargetsAdd(
             new SSDiscTargetsAddPar(
+              par,
               par.user,
               par.discussion,
               targets,
@@ -223,11 +229,12 @@ implements
       final SSEntityServerI  entityServ    = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSUri            livingDocUri;
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       livingDocUri =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par,
             par.user,
             par.uri,
             SSEntityE.livingDoc, //type,
@@ -241,13 +248,13 @@ implements
             false)); //shouldCommit)
       
       if(livingDocUri == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
-      sql.createLivingDoc(par.uri, par.user);
+      sql.createLivingDoc(par, par.uri, par.user);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return livingDocUri;
       
@@ -258,7 +265,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -299,6 +306,7 @@ implements
           
           discServ.discTargetsAdd(
             new SSDiscTargetsAddPar(
+              par,
               par.user,
               par.discussion,
               targets,
@@ -323,11 +331,12 @@ implements
       final SSEntityServerI  entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSUri            livingDocURI;
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       livingDocURI =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par,
             par.user,
             par.livingDoc,
             SSEntityE.livingDoc, //type,
@@ -340,7 +349,7 @@ implements
             par.withUserRestriction, //withUserRestriction
             false)); //shouldCommit)
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return livingDocURI;
       
@@ -351,7 +360,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -389,6 +398,7 @@ implements
       
       final SSEntity livingDoc = 
         sql.getEntityTest(
+          par,
           par.user, 
           par.livingDoc, 
           par.withUserRestriction);
@@ -397,11 +407,11 @@ implements
         return null;
       }
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
-      sql.removeLivingDoc(par.livingDoc);
+      sql.removeLivingDoc(par, par.livingDoc);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return par.livingDoc;
       
@@ -412,7 +422,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -448,7 +458,7 @@ implements
 
     try{
       
-      SSLivingDocument       livingDoc        = sql.getLivingDoc(par.livingDoc);
+      SSLivingDocument       livingDoc        = sql.getLivingDoc(par, par.livingDoc);
       
       if(livingDoc == null){
         return null;
@@ -468,6 +478,7 @@ implements
       final SSEntity         livingDocEntity  =
         entityServ.entityGet(
           new SSEntityGetPar(
+            par,
             par.user,
             par.livingDoc,
             par.withUserRestriction,
@@ -486,13 +497,14 @@ implements
         return livingDoc;
       }
 
-      final List<SSUri> userURIs = sql.getLivingDocUserURIs(livingDoc.id);
+      final List<SSUri> userURIs = sql.getLivingDocUserURIs(par, livingDoc.id);
       
       descPar = new SSEntityDescriberPar(livingDoc.id);
       
       livingDoc.users.addAll(
         entityServ.entitiesGet(
           new SSEntitiesGetPar(
+            par,
             par.user,
             userURIs, //entities
             descPar, //descpar
@@ -534,14 +546,15 @@ implements
       final List<SSUri> livinDocURIs;
       
       if(par.forUser == null){
-        livinDocURIs = sql.getLivingDocURIs();
+        livinDocURIs = sql.getLivingDocURIs(par);
       }else{
-        livinDocURIs = sql.getLivingDocURIsForUser(par.forUser);
+        livinDocURIs = sql.getLivingDocURIsForUser(par, par.forUser);
       }
       
       final List<SSEntity>    docs            = new ArrayList<>();
       final SSLivingDocGetPar livingDocGetPar =
         new SSLivingDocGetPar(
+          par,
           par.user,
           null, //livingDoc
           par.withUserRestriction,

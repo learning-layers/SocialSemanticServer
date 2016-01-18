@@ -27,7 +27,6 @@ import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.db.conf.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.db.impl.*;
@@ -68,7 +67,7 @@ public class SSDBSQL extends SSServContainerI{
   }
   
   @Override
-  public SSServContainerI regServ() throws Exception{
+    public SSServContainerI regServ() throws Exception{
     
     this.conf = SSCoreConf.instGet().getDbSQL();
     

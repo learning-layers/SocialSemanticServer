@@ -27,9 +27,7 @@ import sss.serv.eval.impl.helpers.SSWorkedOnReceivedSharedEpisodeInfo;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscGetPar;
-import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityFromTypeAndLabelGetPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocServerI;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocsGetPar;
 import sss.serv.eval.impl.helpers.SSEpisodeCreationInfo;
@@ -84,7 +82,9 @@ public class SSEvalLogAnalyzer {
     ignoredUsers.add("mar7in.bachl@hotmail.com");
   }
   
-  public void analyzeLDs(final List<SSEvalLogEntry> logEntries) throws Exception{
+  public void analyzeLDs(
+    final SSServPar servPar,
+    final List<SSEvalLogEntry> logEntries) throws Exception{
     
     try{
       
@@ -92,6 +92,7 @@ public class SSEvalLogAnalyzer {
       
       final SSLivingDocsGetPar ldDocsGetPar =
         new SSLivingDocsGetPar(
+          servPar,
           SSConf.systemUserUri,
           null, //forUser,
           false, //withUserRestriction,
@@ -101,6 +102,7 @@ public class SSEvalLogAnalyzer {
       
       final SSDiscGetPar discGetPar =
         new SSDiscGetPar(
+          servPar,
           SSConf.systemUserUri,
           null, //disc
           true, //setEntries
@@ -168,7 +170,9 @@ public class SSEvalLogAnalyzer {
     }
   }
   
-  public void analyzeUsers(final List<SSEvalLogEntry> logEntries) throws Exception{
+  public void analyzeUsers(
+    final SSServPar            servPar,
+    final List<SSEvalLogEntry> logEntries) throws Exception{
     
     try{
       
@@ -186,6 +190,7 @@ public class SSEvalLogAnalyzer {
             episodesForLabel.addAll(
               entityServ.entityFromTypeAndLabelGet(
                 new SSEntityFromTypeAndLabelGetPar(
+                  servPar,
                   SSConf.systemUserUri,
                   logEntry.entityLabel,
                   SSEntityE.learnEp,
@@ -251,6 +256,7 @@ public class SSEvalLogAnalyzer {
       for(SSEntity messageEntity :
         messageServ.messagesGet(
           new SSMessagesGetPar(
+            servPar,
             SSConf.systemUserUri,
             null, //forUser,
             true, //includeRead,
@@ -304,7 +310,7 @@ public class SSEvalLogAnalyzer {
           
           case addDiscEntry:{
             
-            addWorkedOnReceivedDiscussion(userInfos, logEntry);
+            addWorkedOnReceivedDiscussion(servPar,userInfos, logEntry);
             break;
           }
           
@@ -320,8 +326,8 @@ public class SSEvalLogAnalyzer {
           case setImportance:
           case removeTag:{
           
-            addWorkedOnOwnBit           (userInfos, logEntry);
-            addWorkedOnReceivedSharedBit(userInfos, logEntry);
+            addWorkedOnOwnBit           (servPar,userInfos, logEntry);
+            addWorkedOnReceivedSharedBit(servPar,userInfos, logEntry);
             break;
           }
 
@@ -340,8 +346,8 @@ public class SSEvalLogAnalyzer {
           case removeEntityFromLearnEpCircle:
           case removeLearnEpVersionCircleWithEntitites:{
 
-            addWorkedOnOwnEpisode           (userInfos, logEntry);
-            addWorkedOnReceivedSharedEpisode(userInfos, logEntry);
+            addWorkedOnOwnEpisode           (servPar, userInfos, logEntry);
+            addWorkedOnReceivedSharedEpisode(servPar, userInfos, logEntry);
             break;
           }
         }
@@ -435,6 +441,7 @@ public class SSEvalLogAnalyzer {
   }
       
   private void addWorkedOnReceivedSharedBit(
+    final SSServPar servPar,
     final Map<String, SSUserInfo> userInfos,
     final SSEvalLogEntry          logEntry) throws Exception{
     
@@ -446,6 +453,7 @@ public class SSEvalLogAnalyzer {
       final SSEntity entity =
         entityServ.entityGet(
           new SSEntityGetPar(
+            servPar,
             SSConf.systemUserUri,
             logEntry.entity,
             false, //withUserRestriction
@@ -486,7 +494,7 @@ public class SSEvalLogAnalyzer {
 //          logEntry.timestamp,
 //          logEntry.content));
       
-      addBitActionDetails(workedOnBit, logEntry);
+      addBitActionDetails(servPar, workedOnBit, logEntry);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -562,6 +570,7 @@ public class SSEvalLogAnalyzer {
   }
   
   private void addWorkedOnOwnBit(
+    final SSServPar servPar,
     final Map<String, SSUserInfo> userInfos,
     final SSEvalLogEntry          logEntry) throws Exception{
     
@@ -573,6 +582,7 @@ public class SSEvalLogAnalyzer {
       final SSEntity entity =
         entityServ.entityGet(
           new SSEntityGetPar(
+            servPar,
             SSConf.systemUserUri,
             logEntry.entity,
             false, //withUserRestriction
@@ -614,7 +624,7 @@ public class SSEvalLogAnalyzer {
 //          logEntry.content));
       
       
-      addBitActionDetails(workedOnBit, logEntry);
+      addBitActionDetails(servPar,workedOnBit, logEntry);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -622,6 +632,7 @@ public class SSEvalLogAnalyzer {
   }
   
   private void addWorkedOnReceivedDiscussion(
+    final SSServPar servPar,
     final Map<String, SSUserInfo> userInfos,
     final SSEvalLogEntry          logEntry) throws Exception{
     
@@ -641,6 +652,7 @@ public class SSEvalLogAnalyzer {
         final SSEntity disc = 
           discServ.discGet(
             new SSDiscGetPar(
+              servPar,
               SSConf.systemUserUri, 
               logEntry.entity, //disc
               true, //setEntries
@@ -679,6 +691,7 @@ public class SSEvalLogAnalyzer {
   }
   
   private void addWorkedOnReceivedSharedEpisode(
+    final SSServPar               servPar,
     final Map<String, SSUserInfo> userInfos,
     final SSEvalLogEntry          logEntry) throws Exception{
     
@@ -743,7 +756,7 @@ public class SSEvalLogAnalyzer {
       
       SSEvalLogE.addDistinctNotNull(workedOnEpisode.actions, logEntry.logType);
       
-      addEpisodeActionDetails(workedOnEpisode, logEntry);
+      addEpisodeActionDetails(servPar, workedOnEpisode, logEntry);
           
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -751,6 +764,7 @@ public class SSEvalLogAnalyzer {
   }
   
   private void addWorkedOnOwnEpisode(
+    final SSServPar servPar,
     final Map<String, SSUserInfo> userInfos,
     final SSEvalLogEntry          logEntry) throws Exception{
     
@@ -815,13 +829,14 @@ public class SSEvalLogAnalyzer {
       
       SSEvalLogE.addDistinctNotNull(workedOnEpisode.actions, logEntry.logType);
       
-      addEpisodeActionDetails(workedOnEpisode, logEntry);
+      addEpisodeActionDetails(servPar, workedOnEpisode, logEntry);
         
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   private void addBitActionDetails(
+    final SSServPar servPar,
     final SSWorkedOnBitInfo        workedOnBitInfo,
     final SSEvalLogEntry           logEntry) throws Exception{
     
@@ -829,6 +844,7 @@ public class SSEvalLogAnalyzer {
       
       final SSEntityGetPar entityGetPar =
         new SSEntityGetPar(
+          servPar,
           SSConf.systemUserUri,
           null, //entity,
           false, //withUserRestriction,
@@ -836,6 +852,7 @@ public class SSEvalLogAnalyzer {
       
       final SSEntitiesGetPar entitiesGetPar = 
         new SSEntitiesGetPar(
+          servPar,
           SSConf.systemUserUri, 
           null, //entities, 
           null, //descPar, 
@@ -870,6 +887,7 @@ public class SSEvalLogAnalyzer {
   }
   
   private void addEpisodeActionDetails(
+    final SSServPar servPar,
     final SSWorkedOnEpisodeInfo    workedOnEpisodeInfo,
     final SSEvalLogEntry           logEntry) throws Exception{
     
@@ -877,6 +895,7 @@ public class SSEvalLogAnalyzer {
       
       final SSEntityGetPar entityGetPar =
         new SSEntityGetPar(
+          servPar,
           SSConf.systemUserUri,
           null, //entity,
           false, //withUserRestriction,
@@ -884,6 +903,7 @@ public class SSEvalLogAnalyzer {
       
       final SSEntitiesGetPar entitiesGetPar = 
         new SSEntitiesGetPar(
+          servPar,
           SSConf.systemUserUri, 
           null, //entities, 
           null, //descPar, 
@@ -1260,13 +1280,15 @@ public class SSEvalLogAnalyzer {
     }
   }
   
-  public void setEpisodes() throws Exception{
+  public void setEpisodes(
+    final SSServPar servPar) throws Exception{
     
     try{
       
       for(SSEntity learnEp :
         learnEpServ.learnEpsGet(
           new SSLearnEpsGetPar(
+            servPar,
             SSConf.systemUserUri,
             null, //forUser
             false,  //withUserRestriction

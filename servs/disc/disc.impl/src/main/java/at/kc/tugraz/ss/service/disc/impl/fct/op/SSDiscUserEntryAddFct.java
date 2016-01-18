@@ -20,25 +20,17 @@
 */
 package at.kc.tugraz.ss.service.disc.impl.fct.op;
 
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSCircleAddEntitiesToCircleOfEntityPar;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.*;
-
-import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
 import at.kc.tugraz.ss.service.disc.impl.SSDiscSQLFct;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
-import java.util.List;
 
 public class SSDiscUserEntryAddFct{
   
@@ -54,6 +46,7 @@ public class SSDiscUserEntryAddFct{
   }
   
   public SSUri addDisc(
+    final SSServPar servPar,
     final SSDiscSQLFct  sqlFct,
     final SSUri         userUri, 
     final SSEntityE     discType, 
@@ -66,6 +59,7 @@ public class SSDiscUserEntryAddFct{
       final SSUri disc =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            servPar,
             userUri,
             SSConf.vocURICreate(),
             discType, //type,
@@ -83,6 +77,7 @@ public class SSDiscUserEntryAddFct{
       }
       
       sqlFct.createDisc(
+        servPar,
         userUri, 
         disc);
       
@@ -94,6 +89,7 @@ public class SSDiscUserEntryAddFct{
   }
 
   public SSUri addDiscEntry(
+    final SSServPar servPar,
     final SSDiscSQLFct  sqlFct, 
     final SSUri         userUri,
     final SSUri         discUri, 
@@ -104,6 +100,7 @@ public class SSDiscUserEntryAddFct{
       final SSEntityE discType =
         entityServ.entityGet(
           new SSEntityGetPar(
+            servPar,
             null,
             discUri,  //entity
             false, //withUserRestriction
@@ -121,6 +118,7 @@ public class SSDiscUserEntryAddFct{
       final SSUri discEntry =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            servPar,
             userUri,
             SSConf.vocURICreate(),
             discEntryType, //type,
@@ -138,12 +136,14 @@ public class SSDiscUserEntryAddFct{
       }
       
       sqlFct.addDiscEntry(
+        servPar,
         discEntry,
         discUri,
         content);
       
       circleServ.circleAddEntitiesToCirclesOfEntity(
         new SSCircleAddEntitiesToCircleOfEntityPar(
+          servPar,
           userUri,
           discUri,
           SSUri.asListNotNull(discEntry), //entities

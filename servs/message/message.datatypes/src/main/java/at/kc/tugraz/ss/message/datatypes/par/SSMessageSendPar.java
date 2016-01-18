@@ -23,8 +23,8 @@ package at.kc.tugraz.ss.message.datatypes.par;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar;
+import java.sql.*;
 
 public class SSMessageSendPar extends SSServPar{
   
@@ -50,12 +50,13 @@ public class SSMessageSendPar extends SSServPar{
   public SSMessageSendPar(){}
   
   public SSMessageSendPar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         forUser, 
     final SSTextComment message, 
     final boolean       shouldCommit){
     
-    super(SSVarNames.messageSend, null, user);
+    super(SSVarNames.messageSend, null, user, servPar.sqlCon);
     
     this.forUser      = forUser;
     this.message      = message;

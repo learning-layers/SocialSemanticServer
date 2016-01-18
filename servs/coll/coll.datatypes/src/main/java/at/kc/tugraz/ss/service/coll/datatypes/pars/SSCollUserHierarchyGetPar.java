@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.service.coll.datatypes.pars;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import java.sql.*;
 
 public class SSCollUserHierarchyGetPar extends SSServPar{
   
@@ -39,12 +40,13 @@ public class SSCollUserHierarchyGetPar extends SSServPar{
   public SSCollUserHierarchyGetPar(){}
     
   public SSCollUserHierarchyGetPar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         coll, 
     final boolean       withUserRestriction, 
     final boolean       invokeEntityHandlers){
     
-    super(SSVarNames.collHierarchyGet, null, user);
+    super(SSVarNames.collHierarchyGet, null, user, servPar.sqlCon);
      
     this.coll                 = coll;
     this.withUserRestriction  = withUserRestriction;

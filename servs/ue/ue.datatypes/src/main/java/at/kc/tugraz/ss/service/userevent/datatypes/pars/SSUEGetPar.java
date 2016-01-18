@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.service.userevent.datatypes.pars;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSUEGetPar extends SSServPar{
   
@@ -41,12 +42,13 @@ public class SSUEGetPar extends SSServPar{
   public SSUEGetPar(){}
   
   public SSUEGetPar(
+    final SSServPar servPar,
     final SSUri     user,
     final SSUri     userEvent, 
     final boolean   withUserRestriction, 
     final boolean   invokeEntityHandlers){
     
-    super(SSVarNames.userEventGet, null, user);
+    super(SSVarNames.userEventGet, null, user, servPar.sqlCon);
     
     this.userEvent            = userEvent;
     this.withUserRestriction  = withUserRestriction;

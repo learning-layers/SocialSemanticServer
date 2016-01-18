@@ -24,9 +24,9 @@ import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLFctA;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
-
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNote;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResource;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -41,6 +41,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
   }
   
   public void addUserIfNotExists(
+    final SSServPar servPar,
     final SSUri  user,
     final String authToken) throws Exception{
     
@@ -54,7 +55,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
       
       uniqueKey(uniqueKeys, SSSQLVarNames.userId, user);
       
-      dbSQL.insertIfNotExists(SSSQLVarNames.evernoteUserTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.evernoteUserTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -62,6 +63,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
   }
   
   public void setUSN(
+    final SSServPar servPar,
     final String  authToken,
     final Integer usn) throws Exception{
     
@@ -72,7 +74,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
       where  (wheres,  SSSQLVarNames.authToken, authToken);
       update (updates, SSSQLVarNames.usn,       usn);
       
-      dbSQL.update(SSSQLVarNames.evernoteUserTable, wheres, updates);
+      dbSQL.update(servPar, SSSQLVarNames.evernoteUserTable, wheres, updates);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -80,6 +82,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
   }
     
   public String getAuthToken(
+    final SSServPar servPar,
     final SSUri user) throws Exception{
     
     ResultSet resultSet = null;
@@ -93,7 +96,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
       
       where(wheres, SSSQLVarNames.userId, user);
       
-      resultSet = dbSQL.select(SSSQLVarNames.evernoteUserTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.evernoteUserTable, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -110,6 +113,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
   }
   
   public void addNoteIfNotExists(
+    final SSServPar servPar,
     final SSUri notebookUri,
     final SSUri noteUri) throws Exception{
     
@@ -122,7 +126,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
 
         uniqueKey(uniqueKeys, SSSQLVarNames.noteId, noteUri);
       
-      dbSQL.insertIfNotExists(SSSQLVarNames.evernoteNoteTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.evernoteNoteTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -130,6 +134,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
   }
 
   public void addResourceIfNotExists(
+    final SSServPar servPar,
     final SSUri noteUri,
     final SSUri resourceUri) throws Exception{
     
@@ -142,7 +147,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
       
       uniqueKey(uniqueKeys, SSSQLVarNames.entityId, resourceUri);
       
-      dbSQL.insertIfNotExists(SSSQLVarNames.evernoteResourceTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.evernoteResourceTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -150,6 +155,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
   }
 
   public SSEvernoteResource getResource(
+    final SSServPar servPar,
     final SSUri resourceId) throws Exception{
     
     ResultSet resultSet = null;
@@ -163,7 +169,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
       
       where(wheres, SSSQLVarNames.entityId, resourceId);
       
-      resultSet = dbSQL.select(SSSQLVarNames.evernoteResourceTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.evernoteResourceTable, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -181,7 +187,9 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
     }
   }
 
-  public Integer getUSN(final String authToken) throws Exception{
+  public Integer getUSN(
+    final SSServPar servPar,
+    final String authToken) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -194,7 +202,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
       
       where(wheres, SSSQLVarNames.authToken, authToken);
       
-      resultSet = dbSQL.select(SSSQLVarNames.evernoteUserTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.evernoteUserTable, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return 0;
@@ -211,6 +219,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
   }
   
   public SSEvernoteNote getNote(
+    final SSServPar servPar,
     final SSUri noteUri) throws Exception{
     
     ResultSet resultSet = null;
@@ -224,7 +233,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
       
       where(wheres, SSSQLVarNames.noteId, noteUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.evernoteNoteTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.evernoteNoteTable, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;

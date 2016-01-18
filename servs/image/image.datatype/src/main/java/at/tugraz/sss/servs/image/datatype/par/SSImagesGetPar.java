@@ -25,6 +25,7 @@ import at.tugraz.sss.serv.datatype.enums.SSImageE;
 import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 
 public class SSImagesGetPar extends SSServPar{
   
@@ -50,12 +51,13 @@ public class SSImagesGetPar extends SSServPar{
   public SSImagesGetPar(){}
   
   public SSImagesGetPar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         entity,
     final SSImageE      imageType,
     final boolean       withUserRestriction){
     
-    super(SSVarNames.imagesGet, null, user);
+    super(SSVarNames.imagesGet, null, user, servPar.sqlCon);
     
     this.entity              = entity;
     this.imageType           = imageType;

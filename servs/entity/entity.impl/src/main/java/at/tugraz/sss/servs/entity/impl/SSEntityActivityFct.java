@@ -40,6 +40,7 @@ public class SSEntityActivityFct{
       
      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
         new SSActivityAddPar(
+          par,
           par.user, 
           SSActivityE.shareEntityWithUsers, 
           par.entity,
@@ -68,6 +69,7 @@ public class SSEntityActivityFct{
       
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
         new SSActivityAddPar(
+          par,
           par.user, 
           SSActivityE.shareEntityWithCircles, 
           par.entity,
@@ -96,6 +98,7 @@ public class SSEntityActivityFct{
       
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
         new SSActivityAddPar(
+          par,
           par.user, 
           SSActivityE.setEntityPublic, 
           par.entity,

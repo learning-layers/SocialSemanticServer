@@ -24,6 +24,7 @@ import at.tugraz.sss.serv.db.api.SSCoreSQL;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.servs.livingdocument.datatype.SSLivingDocument;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class SSLivingDocSQLFct extends SSCoreSQL{
   }
   
   public SSLivingDocument getLivingDoc(
+    final SSServPar   servPar,
     final SSUri livingDoc) throws Exception{
     
     ResultSet resultSet  = null;
@@ -52,7 +54,7 @@ public class SSLivingDocSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.livingDocId, livingDoc);
       
-      resultSet = dbSQL.select(SSSQLVarNames.livingDocTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.livingDocTable, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -68,7 +70,8 @@ public class SSLivingDocSQLFct extends SSCoreSQL{
     }
   }
 
-  public List<SSUri> getLivingDocURIs() throws Exception{
+  public List<SSUri> getLivingDocURIs(
+  final SSServPar   servPar) throws Exception{
     
     ResultSet resultSet  = null;
     
@@ -79,7 +82,7 @@ public class SSLivingDocSQLFct extends SSCoreSQL{
       
       column(columns, SSSQLVarNames.livingDocId);
       
-      resultSet = dbSQL.select(SSSQLVarNames.livingDocTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.livingDocTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.livingDocId);
       
@@ -92,6 +95,7 @@ public class SSLivingDocSQLFct extends SSCoreSQL{
   }
    
   public List<SSUri> getLivingDocURIsForUser(
+    final SSServPar   servPar,
     final SSUri           user) throws Exception{
     
     ResultSet resultSet  = null;
@@ -105,7 +109,7 @@ public class SSLivingDocSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.userId, user);
       
-      resultSet = dbSQL.select(SSSQLVarNames.livingDocUsersTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.livingDocUsersTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.livingDocId);
       
@@ -118,6 +122,7 @@ public class SSLivingDocSQLFct extends SSCoreSQL{
   }
   
   public void createLivingDoc(
+    final SSServPar   servPar,
     final SSUri    livingDocURI,
     final SSUri    user) throws Exception{
     
@@ -128,9 +133,9 @@ public class SSLivingDocSQLFct extends SSCoreSQL{
       insert   (inserts,    SSSQLVarNames.livingDocId, livingDocURI);
       uniqueKey(uniqueKeys, SSSQLVarNames.livingDocId, livingDocURI);
       
-      dbSQL.insertIfNotExists(SSSQLVarNames.livingDocTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.livingDocTable, inserts, uniqueKeys);
       
-      addLivingDoc(livingDocURI, user);
+      addLivingDoc(servPar, livingDocURI, user);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -138,6 +143,7 @@ public class SSLivingDocSQLFct extends SSCoreSQL{
   }
   
   public void addLivingDoc(
+    final SSServPar   servPar,
     final SSUri    livingDocURI,
     final SSUri    user) throws Exception{
     
@@ -151,7 +157,7 @@ public class SSLivingDocSQLFct extends SSCoreSQL{
       uniqueKey(uniqueKeys, SSSQLVarNames.userId,      user);
       uniqueKey(uniqueKeys, SSSQLVarNames.livingDocId, livingDocURI);
       
-      dbSQL.insertIfNotExists(SSSQLVarNames.livingDocUsersTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.livingDocUsersTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -159,6 +165,7 @@ public class SSLivingDocSQLFct extends SSCoreSQL{
   }
   
   public List<SSUri> getLivingDocUserURIs(
+    final SSServPar   servPar,
     final SSUri livingDoc) throws Exception{
 
     ResultSet resultSet   = null;
@@ -172,7 +179,7 @@ public class SSLivingDocSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.livingDocId, livingDoc);
       
-      resultSet = dbSQL.select(SSSQLVarNames.livingDocUsersTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.livingDocUsersTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.userId);
     }catch(Exception error){
@@ -183,14 +190,16 @@ public class SSLivingDocSQLFct extends SSCoreSQL{
     }
   }
 
-  public void removeLivingDoc(final SSUri livingDoc) throws Exception{
+  public void removeLivingDoc(
+    final SSServPar   servPar, 
+    final SSUri livingDoc) throws Exception{
     
     try{
       final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarNames.livingDocId, livingDoc);
       
-      dbSQL.deleteIgnore(SSSQLVarNames.livingDocTable, wheres);
+      dbSQL.deleteIgnore(servPar, SSSQLVarNames.livingDocTable, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

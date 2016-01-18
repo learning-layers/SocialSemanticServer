@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
-
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,13 +51,14 @@ public class SSDiscTargetsAddPar extends SSServPar{
   public SSDiscTargetsAddPar(){}
     
   public SSDiscTargetsAddPar(
+    final SSServPar servPar,
     final SSUri       user,
     final SSUri       discussion,
     final List<SSUri> targets,
     final boolean     withUserRestriction,
     final boolean     shouldCommit){
     
-    super(SSVarNames.discTargetsAdd, null, user);
+    super(SSVarNames.discTargetsAdd, null, user, servPar.sqlCon);
     
     this.discussion = discussion;
 

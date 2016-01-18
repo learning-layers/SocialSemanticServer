@@ -1,4 +1,4 @@
-/**
+ /**
   * Code contributed to the Learning Layers project
   * http://www.learning-layers.eu
   * Development is partly funded by the FP7 Programme of the European Commission under
@@ -31,7 +31,7 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
-import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import java.util.List;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
@@ -49,15 +49,16 @@ public class SSEntityActAndLogFct {
     this.activityServ = activityServ;
     this.evalServ     = evalServ;
   }
-
+  
   public void entityUpdate(
-    final SSUri         user, 
-    final boolean       fromClient, 
-    final SSEntity      entity, 
-    final SSLabel       label, 
+    final SSServPar servPar,
+    final SSUri         user,
+    final boolean       fromClient,
+    final SSEntity      entity,
+    final SSLabel       label,
     final SSTextComment description,
     final boolean       shouldCommit) throws Exception{
-
+    
     if(
       !fromClient ||
       entity == null){
@@ -70,6 +71,7 @@ public class SSEntityActAndLogFct {
         
         evalServ.evalLog(
           new SSEvalLogPar(
+            servPar,
             user,
             SSToolContextE.sss,
             SSEvalLogE.changeLabel,
@@ -97,6 +99,7 @@ public class SSEntityActAndLogFct {
         
         evalServ.evalLog(
           new SSEvalLogPar(
+            servPar,
             user,
             SSToolContextE.sss,
             SSEvalLogE.changeDescription,
@@ -106,7 +109,7 @@ public class SSEntityActAndLogFct {
             null, //users
             shouldCommit));
       }
-
+      
     }catch(SSErr error){
       
       switch(error.code){
@@ -118,12 +121,13 @@ public class SSEntityActAndLogFct {
       SSServErrReg.regErrThrow(error);
     }
   }
-
+  
   public void entityCopy(
-    final SSUri         user, 
-    final SSUri         entity, 
-    final SSUri         targetEntity, 
-    final List<SSUri>   forUsers, 
+    final SSServPar servPar,
+    final SSUri         user,
+    final SSUri         entity,
+    final SSUri         targetEntity,
+    final List<SSUri>   forUsers,
     final SSTextComment comment,
     final boolean       shouldCommit) throws Exception{
     
@@ -131,6 +135,7 @@ public class SSEntityActAndLogFct {
       
       activityServ.activityAdd(
         new SSActivityAddPar(
+          servPar,
           user,
           SSActivityE.copyEntityForUsers,
           entity,
@@ -152,15 +157,16 @@ public class SSEntityActAndLogFct {
     }
     
     try{
-    
+      
       evalServ.evalLog(
         new SSEvalLogPar(
+          servPar,
           user,
           SSToolContextE.sss,
           SSEvalLogE.entityCopy,
           entity,  //entity
           null, //content,
-SSUri.asListNotNull(targetEntity), //entities
+          SSUri.asListNotNull(targetEntity), //entities
           forUsers, //users
           shouldCommit));
       
@@ -175,11 +181,12 @@ SSUri.asListNotNull(targetEntity), //entities
       SSServErrReg.regErrThrow(error);
     }
   }
-
+  
   public void attachEntities(
-    final SSUri       user, 
-    final SSUri       entity, 
-    final List<SSUri> entities, 
+    final SSServPar servPar,
+    final SSUri       user,
+    final SSUri       entity,
+    final List<SSUri> entities,
     final boolean     shouldCommit) throws Exception{
     
     if(
@@ -192,6 +199,7 @@ SSUri.asListNotNull(targetEntity), //entities
       
       evalServ.evalLog(
         new SSEvalLogPar(
+          servPar,
           user,
           SSToolContextE.sss,
           SSEvalLogE.attachEntities,
@@ -212,11 +220,12 @@ SSUri.asListNotNull(targetEntity), //entities
       SSServErrReg.regErrThrow(error);
     }
   }
-
+  
   public void removeEntities(
-    final SSUri       user, 
-    final SSUri       entity, 
-    final List<SSUri> entities, 
+    final SSServPar servPar,
+    final SSUri       user,
+    final SSUri       entity,
+    final List<SSUri> entities,
     final boolean     shouldCommit) throws Exception{
     
     if(
@@ -229,6 +238,7 @@ SSUri.asListNotNull(targetEntity), //entities
       
       evalServ.evalLog(
         new SSEvalLogPar(
+          servPar,
           user,
           SSToolContextE.sss,
           SSEvalLogE.removeEntities,

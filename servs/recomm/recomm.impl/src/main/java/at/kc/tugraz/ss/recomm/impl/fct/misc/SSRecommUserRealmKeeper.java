@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.util.SSFileExtE;
 import at.tugraz.sss.serv.util.SSFileU;
 import at.tugraz.sss.serv.util.SSLogU;
@@ -59,6 +60,7 @@ public class SSRecommUserRealmKeeper{
 //  }
   
   public SSRecommUserRealmEngine checkAddAndGetUserRealmEngine(
+    final SSServPar       servPar,
     final SSRecommConf    conf,
     final SSUri           user,
     String                realm,
@@ -119,7 +121,7 @@ public class SSRecommUserRealmKeeper{
         //refactor this to loadSingleUserRealm
         
         if(storeToDB){
-          sqlFct.addUserRealm(user, realm);
+          sqlFct.addUserRealm(servPar, user, realm);
         }
         
         if(!userRealmEngines.containsKey(userStr)){

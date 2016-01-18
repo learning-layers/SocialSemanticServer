@@ -24,14 +24,16 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar;import at.tugraz.sss.serv.datatype.*;
  import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSEntitiesAccessibleGetCleanUpPar extends SSServPar{
   
   public SSEntitiesAccessibleGetCleanUpPar(){}
   
   public SSEntitiesAccessibleGetCleanUpPar(
+    final SSServPar servPar,
     final SSUri                user) throws Exception{
     
-    super(SSVarNames.entitiesAccessibleGetCleanUp, null, user);
+    super(SSVarNames.entitiesAccessibleGetCleanUp, null, user, servPar.sqlCon);
   }
 }

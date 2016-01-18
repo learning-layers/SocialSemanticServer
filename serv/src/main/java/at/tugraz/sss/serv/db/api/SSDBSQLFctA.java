@@ -31,8 +31,7 @@ import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.api.SSEntityA;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +46,7 @@ public abstract class SSDBSQLFctA extends SSDBFctA{
     
     super();
     
-    this.dbSQL = dbSQL;
+    this.dbSQL         = dbSQL;
   }
   
   protected static void insert(

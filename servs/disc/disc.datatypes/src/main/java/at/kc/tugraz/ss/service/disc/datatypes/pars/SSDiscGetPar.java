@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.service.disc.datatypes.pars;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
+import java.sql.*;
 
 public class SSDiscGetPar extends SSServPar{
   
@@ -46,13 +47,14 @@ public class SSDiscGetPar extends SSServPar{
   public SSDiscGetPar(){}
   
   public SSDiscGetPar(
+    final SSServPar servPar,
     final SSUri     user,
     final SSUri     disc,
     final boolean   setEntries,
     final boolean   withUserRestriction,
     final boolean   invokeEntityHandlers){
     
-    super(SSVarNames.discGet, null, user);
+    super(SSVarNames.discGet, null, user, servPar.sqlCon);
     
     this.disc                 = disc;
     this.setEntries           = setEntries;

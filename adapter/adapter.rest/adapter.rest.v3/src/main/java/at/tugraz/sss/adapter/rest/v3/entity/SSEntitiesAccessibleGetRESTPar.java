@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.adapter.rest.v3.entity;
 
+import at.tugraz.sss.conf.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
 import io.swagger.annotations.*;
@@ -29,48 +30,64 @@ import java.util.List;
 public class SSEntitiesAccessibleGetRESTPar{
   
   @ApiModelProperty( 
-    required = false, 
-    value = "")
+    required = false)
   public List<SSEntityE>            types         = null;
 
-  
   public void setTypes(final List<String> types) throws SSErr{
      this.types = SSEntityE.get(types); 
   }
   
   @ApiModelProperty( 
-    required = false, 
-    value = "")
+    required = false)
   public List<SSUri>            authors         = null;
 
-  
   public void setAuthors(final List<String> authors) throws SSErr{
      this.authors = SSUri.get(authors); 
   }
-  
+
+  @ApiModelProperty(
+    required = false)
+  public int              pageSize             = 10;
   
   @ApiModelProperty(
     required = false,
     value = "unique identifier for the pages of a previous query")
   public String              pagesID             = null;
   
-  
   @ApiModelProperty(
     required = false,
     value = "number of the page to be requested from a previous query")
   public Integer             pageNumber             = null;
-  
   
   @ApiModelProperty(
     required = false,
     value = "start timestamp")
   public Long            startTime      = null;
   
-  
   @ApiModelProperty(
     required = false,
     value = "end timestamp")
   public Long            endTime        = null;
+ 
+  @ApiModelProperty(
+    required = false,
+    value = "entity to retrieve user events for")
+  public SSUri           entity         = null;
+  
+  public void setEntity(final String entity) throws SSErr{
+    this.entity = SSUri.get(entity, SSConf.sssUri);
+  }
+  
+  @ApiModelProperty(
+    required = false,
+    value = "whether tags for entitis shall be set")
+  public boolean            setTags  = false;
+  
+  
+  @ApiModelProperty(
+    required = false,
+    value = "whether flags for entitis shall be set")
+  public boolean            setFlags  = false;
   
   public SSEntitiesAccessibleGetRESTPar(){}
 }

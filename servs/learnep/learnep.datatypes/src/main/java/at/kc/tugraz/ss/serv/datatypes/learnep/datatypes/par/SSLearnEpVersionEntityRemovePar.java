@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 
 public class SSLearnEpVersionEntityRemovePar extends SSServPar{
   
@@ -40,12 +40,13 @@ public class SSLearnEpVersionEntityRemovePar extends SSServPar{
   public SSLearnEpVersionEntityRemovePar(){}
   
   public SSLearnEpVersionEntityRemovePar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         learnEpEntity,
     final boolean       withUserRestriction,
     final boolean       shouldCommit){
     
-    super(SSVarNames.learnEpVersionEntityRemove, null, user);
+    super(SSVarNames.learnEpVersionEntityRemove, null, user, servPar.sqlCon);
     
     this.learnEpEntity       = learnEpEntity;
     this.withUserRestriction = withUserRestriction;

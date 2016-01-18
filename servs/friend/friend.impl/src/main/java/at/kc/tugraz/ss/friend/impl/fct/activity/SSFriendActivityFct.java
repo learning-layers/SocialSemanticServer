@@ -28,18 +28,21 @@ import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendAddPar;
 import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 
 public class SSFriendActivityFct{
   
-   public static void addFriend(
-     final SSFriendAddPar par) throws Exception{
+  public static void addFriend(
+    final SSServPar      servPar,
+    final SSFriendAddPar par) throws Exception{
     
     try{
       
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
         new SSActivityAddPar(
+          servPar,
           par.user,
           SSActivityE.friendAdd,
           par.user,

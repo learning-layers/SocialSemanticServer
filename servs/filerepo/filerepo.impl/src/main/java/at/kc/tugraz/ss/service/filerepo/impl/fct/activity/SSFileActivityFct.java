@@ -28,12 +28,14 @@ import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
 import java.util.List;
 import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 
 public class SSFileActivityFct{
   
   public static void shareFileWithUser(
+    final SSServPar   servPar,
     final SSUri       user,
     final SSUri       entity,
     final List<SSUri> usersToShareWith) throws Exception{
@@ -42,6 +44,7 @@ public class SSFileActivityFct{
       
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
         new SSActivityAddPar(
+          servPar,
           user, 
           SSActivityE.shareFileWithUsers, 
           entity, 

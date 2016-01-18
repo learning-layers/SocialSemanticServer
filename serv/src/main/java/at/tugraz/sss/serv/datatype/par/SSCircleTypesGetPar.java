@@ -20,13 +20,9 @@
 */
 package at.tugraz.sss.serv.datatype.par;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
-
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSCircleTypesGetPar extends SSServPar{
 
@@ -43,11 +39,12 @@ public class SSCircleTypesGetPar extends SSServPar{
   public SSCircleTypesGetPar(){}
     
   public SSCircleTypesGetPar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         entity,
     final boolean       withUserRestriction){
     
-    super(SSVarNames.circleTypesGet, null, user);
+    super(SSVarNames.circleTypesGet, null, user, servPar.sqlCon);
     
     this.entity              = entity;
     this.withUserRestriction = withUserRestriction;

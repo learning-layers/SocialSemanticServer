@@ -20,8 +20,11 @@
  */
 package at.tugraz.sss.serv.entity.api;
 
-import at.tugraz.sss.serv.datatype.par.SSCircleContentRemovedPar;
+import at.tugraz.sss.serv.datatype.par.*;
 
 public interface SSCircleContentRemovedI {
-  public void circleContentRemoved (final SSCircleContentRemovedPar par) throws Exception;
+  
+  public void circleContentRemoved(
+    final SSServPar                 servPar, 
+    final SSCircleContentRemovedPar par) throws Exception;
 }

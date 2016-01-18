@@ -26,6 +26,7 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSCircleE;
+import java.sql.*;
 
 public class SSCircleCreatePar extends SSServPar{
   
@@ -61,6 +62,7 @@ public class SSCircleCreatePar extends SSServPar{
   public SSCircleCreatePar(){}
     
   public SSCircleCreatePar(
+    final SSServPar servPar,
     final SSUri           user,
     final SSCircleE       circleType,
     final SSLabel         label,
@@ -69,7 +71,7 @@ public class SSCircleCreatePar extends SSServPar{
     final boolean         withUserRestriction, 
     final boolean         shouldCommit){
     
-    super(SSVarNames.circleCreate, null, user);
+    super(SSVarNames.circleCreate, null, user, servPar.sqlCon);
     
     this.circleType               = circleType;
     this.label                    = label;

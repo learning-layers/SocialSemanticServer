@@ -27,8 +27,12 @@ import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsSetPar;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsGetRet;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsSetRet;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.util.*;
 import io.swagger.annotations.*;
+import java.sql.*;
 import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -64,38 +68,59 @@ public class SSRESTFlag{
     final SSFlagsSetRESTPar input){
     
     final SSFlagsSetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSFlagsSetPar(
-          null,
-          input.entities,
-          input.types,
-          input.value,
-          input.endTime,
-          true, //withUserRestriction
-          true); //shouldCommit
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSFlagClientI flagServ = (SSFlagClientI) SSServReg.getClientServ(SSFlagClientI.class);
+      try{
+        
+        par =
+          new SSFlagsSetPar(
+            new SSServPar
+      (((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection()),
+            null,
+            input.entities,
+            input.types,
+            input.value,
+            input.endTime,
+            true, //withUserRestriction
+            true); //shouldCommit
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(flagServ.flagsSet(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSFlagClientI flagServ = (SSFlagClientI) SSServReg.getClientServ(SSFlagClientI.class);
+        
+        return Response.status(200).entity(flagServ.flagsSet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @POST
@@ -112,37 +137,57 @@ public class SSRESTFlag{
     final SSFlagsGetRESTPar input){
     
     final SSFlagsGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSFlagsGetPar(
-          null,
-          input.entities,
-          input.types,
-          input.startTime,
-          input.endTime,
-          true, //withUserRestriction
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSFlagClientI flagServ = (SSFlagClientI) SSServReg.getClientServ(SSFlagClientI.class);
+      try{
+        
+        par =
+          new SSFlagsGetPar(
+            new SSServPar(sqlCon),
+            null,
+            input.entities,
+            input.types,
+            input.startTime,
+            input.endTime,
+            true, //withUserRestriction
+            true); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(flagServ.flagsGet(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSFlagClientI flagServ = (SSFlagClientI) SSServReg.getClientServ(SSFlagClientI.class);
+        
+        return Response.status(200).entity(flagServ.flagsGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
 }

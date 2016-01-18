@@ -20,9 +20,10 @@
 */
  package at.kc.tugraz.ss.service.user.datatypes.pars;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,10 +34,11 @@ public class SSUserURIsGetPar extends SSServPar{
   public SSUserURIsGetPar(){}
     
   public SSUserURIsGetPar(
+    final SSServPar servPar,
     final SSUri         user,
     final List<String>  emails){
    
-    super(SSVarNames.userURIsGet, null, user);
+    super(SSVarNames.userURIsGet, null, user, servPar.sqlCon);
 
     if(emails != null){
       this.emails.addAll(emails);

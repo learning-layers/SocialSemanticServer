@@ -26,8 +26,8 @@ import at.kc.tugraz.sss.video.datatypes.SSVideoE;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import java.sql.*;
 
 public class SSVideoUserAddPar extends SSServPar{
   
@@ -92,6 +92,7 @@ public class SSVideoUserAddPar extends SSServPar{
   public SSVideoUserAddPar(){}
   
   public SSVideoUserAddPar(
+    final SSServPar servPar,
     final SSUri          user,
     final String         uuid,
     final SSUri          link,
@@ -105,7 +106,7 @@ public class SSVideoUserAddPar extends SSServPar{
     final boolean        withUserRestriction, 
     final boolean        shouldCommit){
     
-    super(SSVarNames.videoAdd, null, user);
+    super(SSVarNames.videoAdd, null, user, servPar.sqlCon);
     
     this.uuid                = uuid;
     this.link                = link;

@@ -36,8 +36,12 @@ import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
+import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 public class SSDataImportServ extends SSServContainerI{
   
@@ -154,13 +158,15 @@ public class SSDataImportServ extends SSServContainerI{
     try{
       
       final SSEvernoteConf evernoteConf = SSCoreConf.instGet().getEvernote();
-      
+      final SSServPar      servPar      = new SSServPar(null);
+     
       for(int counter = 0; counter < SSCoreConf.instGet().getEvernote().getAuthTokens().size(); counter++){
         
         try{
           
           new SSDataImportBitsAndPiecesTask(
             new SSDataImportBitsAndPiecesPar(
+              servPar,
               SSConf.systemUserUri,
               evernoteConf.getAuthTokens().get(counter),
               evernoteConf.getAuthEmails().get(counter),
@@ -183,6 +189,7 @@ public class SSDataImportServ extends SSServContainerI{
           
           new SSDataImportBitsAndPiecesTask(
             new SSDataImportBitsAndPiecesPar(
+              servPar,
               SSConf.systemUserUri,
               evernoteConf.getAuthTokens().get(counter),
               evernoteConf.getAuthEmails().get(counter),
@@ -209,6 +216,7 @@ public class SSDataImportServ extends SSServContainerI{
     try{
       
       final SSEvernoteConf evernoteConf = SSCoreConf.instGet().getEvernote();
+      final SSServPar      servPar      = new SSServPar(null);
       
       for(int counter = 0; counter < SSCoreConf.instGet().getEvernote().getAuthTokens().size(); counter++){
         
@@ -218,6 +226,7 @@ public class SSDataImportServ extends SSServContainerI{
             SSDateU.scheduleAtFixedRate(
               new SSDataImportBitsAndPiecesTask(
                 new SSDataImportBitsAndPiecesPar(
+                  servPar,
                   SSConf.systemUserUri,
                   evernoteConf.getAuthTokens().get(counter),
                   evernoteConf.getAuthEmails().get(counter),
@@ -244,6 +253,7 @@ public class SSDataImportServ extends SSServContainerI{
             SSDateU.scheduleAtFixedRate(
               new SSDataImportBitsAndPiecesTask(
                 new SSDataImportBitsAndPiecesPar(
+                  servPar,
                   SSConf.systemUserUri,
                   evernoteConf.getAuthTokens().get(counter),
                   evernoteConf.getAuthEmails().get(counter),

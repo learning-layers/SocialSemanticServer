@@ -22,6 +22,7 @@ package at.tugraz.sss.serv.datatype.par;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
  
 public class SSEntityRemovePar extends SSServPar{
   
@@ -36,10 +37,11 @@ public class SSEntityRemovePar extends SSServPar{
   }
   
   public SSEntityRemovePar(
+    final SSServPar servPar,
     final SSUri user, 
     final SSUri entity){
       
-    super(SSVarNames.entityRemove, null, user);
+    super(SSVarNames.entityRemove, null, user, servPar.sqlCon);
       
     this.entity = entity;
   }

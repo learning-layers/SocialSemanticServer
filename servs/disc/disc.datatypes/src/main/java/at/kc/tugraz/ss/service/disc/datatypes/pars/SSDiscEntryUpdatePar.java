@@ -21,11 +21,10 @@
  package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar;
+ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
-import at.tugraz.sss.serv.datatype.*;
-
-import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +71,7 @@ public class SSDiscEntryUpdatePar extends SSServPar{
   public SSDiscEntryUpdatePar(){}
   
   public SSDiscEntryUpdatePar(
+    final SSServPar servPar,
     final SSUri               user,
     final SSUri               entry, 
     final SSTextComment       content,
@@ -81,7 +81,7 @@ public class SSDiscEntryUpdatePar extends SSServPar{
     final boolean             withUserRestriction,
     final boolean             shouldCommit){
     
-    super(SSVarNames.discEntryUpdate, null, user);
+    super(SSVarNames.discEntryUpdate, null, user, servPar.sqlCon);
     
     this.entry          = entry;
     this.content        = content;

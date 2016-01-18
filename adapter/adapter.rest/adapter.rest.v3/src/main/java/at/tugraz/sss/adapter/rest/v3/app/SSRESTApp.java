@@ -1,23 +1,23 @@
-/**
- * Code contributed to the Learning Layers project
- * http://www.learning-layers.eu
- * Development is partly funded by the FP7 Programme of the European Commission under
- * Grant Agreement FP7-ICT-318209.
- * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
- * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.tugraz.sss.adapter.rest.v3.app;
 
 import at.kc.tugraz.sss.app.api.*;
@@ -32,8 +32,11 @@ import at.kc.tugraz.sss.app.datatypes.ret.SSAppsGetRet;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.*;
 import io.swagger.annotations.*;
+import java.sql.*;
 import javax.annotation.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -63,33 +66,53 @@ public class SSRESTApp{
     @Context HttpHeaders       headers){
     
     final SSAppsGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSAppsGetPar(
-          null,
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSAppClientI appServ = (SSAppClientI) SSServReg.getClientServ(SSAppClientI.class);
+      try{
+        
+        par =
+          new SSAppsGetPar(
+            new SSServPar(sqlCon),
+            null,
+            true); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(appServ.appsGet(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSAppClientI appServ = (SSAppClientI) SSServReg.getClientServ(SSAppClientI.class);
+        
+        return Response.status(200).entity(appServ.appsGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @POST
@@ -103,45 +126,65 @@ public class SSRESTApp{
     final SSAppAddRESTPar input){
     
     final SSAppAddPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSAppAddPar(
-          null,
-          input.label,
-          input.descriptionShort,
-          input.descriptionFunctional,
-          input.descriptionTechnical,
-          input.descriptionInstall,
-          input.downloads,
-          input.downloadIOS,
-          input.downloadAndroid,
-          input.fork,
-          input.screenShots,
-          input.videos,
-          true, //withUserRestriction,
-          true); //shouldCommmit);
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSAppClientI appServ = (SSAppClientI) SSServReg.getClientServ(SSAppClientI.class);
+      try{
+        
+        par =
+          new SSAppAddPar(
+            new SSServPar(sqlCon),
+            null,
+            input.label,
+            input.descriptionShort,
+            input.descriptionFunctional,
+            input.descriptionTechnical,
+            input.descriptionInstall,
+            input.downloads,
+            input.downloadIOS,
+            input.downloadAndroid,
+            input.fork,
+            input.screenShots,
+            input.videos,
+            true, //withUserRestriction,
+            true); //shouldCommmit);
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(appServ.appAdd(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSAppClientI appServ = (SSAppClientI) SSServReg.getClientServ(SSAppClientI.class);
+        
+        return Response.status(200).entity(appServ.appAdd(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @DELETE
@@ -159,33 +202,54 @@ public class SSRESTApp{
     final String apps){
     
     final SSAppsDeletePar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSAppsDeletePar(
-          null,
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(apps, SSStrU.comma), SSConf.sssUri),
-          true, //withUserRestriction
-          true); //shouldCommit
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSAppClientI appServ = (SSAppClientI) SSServReg.getClientServ(SSAppClientI.class);
+      try{
+        
+        par =
+          new SSAppsDeletePar(
+            new SSServPar(sqlCon),
+            null,
+            SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(apps, SSStrU.comma), SSConf.sssUri),
+            true, //withUserRestriction
+            true); //shouldCommit
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(appServ.appsDelete(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSAppClientI appServ = (SSAppClientI) SSServReg.getClientServ(SSAppClientI.class);
+        
+        return Response.status(200).entity(appServ.appsDelete(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
 }

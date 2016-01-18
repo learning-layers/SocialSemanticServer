@@ -21,12 +21,7 @@
 package at.tugraz.sss.serv.datatype.par;
 
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar;import at.tugraz.sss.serv.util.*;
- import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,13 +49,14 @@ public class SSCircleEntitiesRemovePar extends SSServPar{
   public SSCircleEntitiesRemovePar(){}
   
   public SSCircleEntitiesRemovePar(
+    final SSServPar servPar,
     final SSUri          user,
     final SSUri          circle,
     final List<SSUri>    entities,
     final boolean        withUserRestriction,
     final boolean        shouldCommit) throws Exception{
     
-    super(SSVarNames.circleEntitiesRemove, null, user);
+    super(SSVarNames.circleEntitiesRemove, null, user, servPar.sqlCon);
     
     this.circle  = circle;
     

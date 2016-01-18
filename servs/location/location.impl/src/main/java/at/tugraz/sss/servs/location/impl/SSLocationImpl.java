@@ -38,6 +38,7 @@ import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.servs.location.datatype.SSLocation;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
@@ -66,6 +67,7 @@ implements
 
   @Override
   public SSEntity describeEntity(
+    final SSServPar            servPar,
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws SSErr{
     
@@ -76,6 +78,7 @@ implements
         entity.locations.addAll(
           locationsGet(
             new SSLocationsGetPar(
+              servPar,
               par.user,
               entity.id,
               par.withUserRestriction, //withUserRestriction
@@ -93,6 +96,7 @@ implements
           return SSLocation.get(
             locationGet(
               new SSLocationGetPar(
+                servPar,
                 par.user,
                 entity.id,
                 par.withUserRestriction,
@@ -117,7 +121,7 @@ implements
         throw SSErr.get(SSErrE.parameterMissing);
       }
       
-      return sql.getLocation(par.location);
+      return sql.getLocation(par, par.location);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -136,6 +140,7 @@ implements
       
       final SSEntity entity = 
         sql.getEntityTest(
+          par,
           par.user, 
           par.entity, 
           par.withUserRestriction);
@@ -144,10 +149,11 @@ implements
         return new ArrayList<>();
       }
       
-     final List<SSUri>      locationURIs    = sql.getLocationURIs(par.entity);
+     final List<SSUri>      locationURIs    = sql.getLocationURIs(par, par.entity);
      final List<SSEntity>   locations       = new ArrayList<>();
      final SSLocationGetPar locationsGetPar =
        new SSLocationGetPar(
+         par,
          par.user,
          null, //location,
          par.withUserRestriction,
@@ -179,11 +185,12 @@ implements
       final SSUri      locationURI;
       final SSLocation location;
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       entity =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par,
             par.user,
             par.entity, //entity,
             null, //type,
@@ -197,7 +204,7 @@ implements
             false)); //shouldCommit
       
       if(entity == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
         
@@ -211,6 +218,7 @@ implements
       locationURI =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par,
             par.user,
             location.id, //entity,
             SSEntityE.location, //type,
@@ -224,16 +232,17 @@ implements
             false)); //shouldCommit
       
       if(locationURI == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
       sql.addLocation(
+        par,
         location.id,
         par.entity,
         location);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return locationURI;
       
@@ -244,7 +253,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){

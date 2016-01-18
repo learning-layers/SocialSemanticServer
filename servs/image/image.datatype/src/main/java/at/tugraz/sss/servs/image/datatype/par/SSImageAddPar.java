@@ -25,6 +25,7 @@ import at.tugraz.sss.serv.datatype.enums.SSImageE;
 import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 
 public class SSImageAddPar extends SSServPar{
   
@@ -72,6 +73,7 @@ public class SSImageAddPar extends SSServPar{
   public SSImageAddPar(){}
   
   public SSImageAddPar(
+    final SSServPar servPar,
     final SSUri         user,
     final String        uuid,
     final SSUri         link,
@@ -84,7 +86,7 @@ public class SSImageAddPar extends SSServPar{
     final boolean       withUserRestriction,
     final boolean       shouldCommit){
     
-    super(SSVarNames.imageAdd, null, user);
+    super(SSVarNames.imageAdd, null, user, servPar.sqlCon);
     
     this.uuid                                 = uuid;
     this.link                                 = link;

@@ -32,8 +32,8 @@ import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,6 +49,7 @@ public class SSMessageSQLFct extends SSDBSQLFctA{
   }
 
   public void sendMessage(
+    final SSServPar servPar,
     final SSUri         message,
     final SSUri         user,
     final SSUri         forUser, 
@@ -62,7 +63,7 @@ public class SSMessageSQLFct extends SSDBSQLFctA{
       insert(inserts, SSSQLVarNames.forEntityId,    forUser);
       insert(inserts, SSSQLVarNames.messageContent, messageContent);
       
-      dbSQL.insert(SSSQLVarNames.messageTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.messageTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -70,6 +71,7 @@ public class SSMessageSQLFct extends SSDBSQLFctA{
   }
 
   public SSMessage getMessage(
+    final SSServPar servPar,
     final SSUri   messageURI) throws Exception{
     
     ResultSet resultSet = null;
@@ -90,7 +92,7 @@ public class SSMessageSQLFct extends SSDBSQLFctA{
 
       where(wheres, SSSQLVarNames.messageTable, SSSQLVarNames.messageId, messageURI);
       
-      resultSet = dbSQL.select(SSSQLVarNames.messageTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.messageTable, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -111,6 +113,7 @@ public class SSMessageSQLFct extends SSDBSQLFctA{
   }
   
   public List<SSUri> getMessageURIs(
+    final SSServPar servPar,
     final SSUri   targetUserURI,
     final Long    startTime) throws Exception{
     
@@ -157,6 +160,7 @@ public class SSMessageSQLFct extends SSDBSQLFctA{
       resultSet =
         dbSQL.select(
           new SSDBSQLSelectPar(
+            servPar, 
             tables,
             columns,
             wheres,

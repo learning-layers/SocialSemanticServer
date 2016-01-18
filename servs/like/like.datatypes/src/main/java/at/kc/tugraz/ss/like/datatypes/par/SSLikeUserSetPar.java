@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.like.datatypes.par;
 
-
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import java.sql.*;
 
 public class SSLikeUserSetPar extends SSServPar{
   
@@ -41,13 +41,14 @@ public class SSLikeUserSetPar extends SSServPar{
   public SSLikeUserSetPar(){}
     
   public SSLikeUserSetPar(
+    final SSServPar servPar,
     final SSUri      user,
     final SSUri      entity,
     final Integer    value,
     final boolean    withUserRestriction, 
     final boolean    shouldCommit){
     
-    super(SSVarNames.likeSet, null, user);
+    super(SSVarNames.likeSet, null, user, servPar.sqlCon);
     
     this.entity              = entity;
     this.value               = value;

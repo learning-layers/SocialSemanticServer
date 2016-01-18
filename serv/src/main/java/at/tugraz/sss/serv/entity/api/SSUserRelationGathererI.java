@@ -21,12 +21,14 @@
 package at.tugraz.sss.serv.entity.api;
 
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import java.util.List;
 import java.util.Map;
 
 public interface SSUserRelationGathererI{
   
   public void getUserRelations(
+    final SSServPar                servPar, 
     final List<String>             allUsers,
     final Map<String, List<SSUri>> userRelations) throws Exception;
 }

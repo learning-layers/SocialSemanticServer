@@ -20,9 +20,10 @@
 */
  package at.kc.tugraz.ss.service.user.datatypes.pars;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar;
+ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 
 public class SSUserURIGetPar extends SSServPar{
   
@@ -31,10 +32,11 @@ public class SSUserURIGetPar extends SSServPar{
   public SSUserURIGetPar(){}
     
   public SSUserURIGetPar(
+    final SSServPar servPar,
     final SSUri     user,
     final String    email){
    
-    super(SSVarNames.userURIGet, null, user);
+    super(SSVarNames.userURIGet, null, user, servPar.sqlCon);
 
     this.email = email;
   }

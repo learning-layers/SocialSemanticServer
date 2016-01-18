@@ -21,8 +21,12 @@
 package at.tugraz.sss.serv.entity.api;
 
 import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.par.SSEntityCopyPar;
+import at.tugraz.sss.serv.datatype.par.*;
 
 public interface SSCopyEntityI {
-  public void copyEntity(final SSEntity entity, final SSEntityCopyPar par) throws Exception;
+  
+  public void copyEntity(
+    final SSServPar       servPar, 
+    final SSEntity        entity,
+    final SSEntityCopyPar par) throws Exception;
 }

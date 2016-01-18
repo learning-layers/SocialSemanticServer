@@ -20,17 +20,19 @@
 */
 package at.kc.tugraz.ss.category.datatypes.par;
 
-
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 
 public class SSCategoriesPredefinedGetPar extends SSServPar{
   
   public SSCategoriesPredefinedGetPar(){}
   
   public SSCategoriesPredefinedGetPar(
+    final SSServPar servPar,
     final SSUri     user){
     
-    super(SSVarNames.categoriesPredefinedGet, null, user);
+    super(SSVarNames.categoriesPredefinedGet, null, user, servPar.sqlCon);
   }
 }

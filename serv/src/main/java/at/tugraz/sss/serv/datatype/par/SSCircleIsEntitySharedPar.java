@@ -20,14 +20,10 @@
 */
 package at.tugraz.sss.serv.datatype.par;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
-
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSCircleIsEntitySharedPar extends SSServPar{
 
@@ -53,11 +49,12 @@ public class SSCircleIsEntitySharedPar extends SSServPar{
   public SSCircleIsEntitySharedPar(){}
     
   public SSCircleIsEntitySharedPar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         forUser,
     final SSUri         entity){
     
-    super(SSVarNames.circleIsEntityShared, null, user);
+    super(SSVarNames.circleIsEntityShared, null, user, servPar.sqlCon);
     
     this.forUser             = forUser;
     this.entity              = entity;

@@ -46,15 +46,12 @@ import at.kc.tugraz.sss.app.impl.fct.sql.SSAppSQLFct;
 import at.kc.tugraz.sss.video.api.SSVideoServerI;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddPar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-
 import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import java.util.ArrayList;
 import java.util.List;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.datatype.enums.SSImageE;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
@@ -84,6 +81,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
+    final SSServPar servPar,
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws SSErr{
     
@@ -99,6 +97,7 @@ implements
           final SSApp app =
             appGet(
               new SSAppGetPar(
+                servPar,
                 par.user,
                 entity.id,
                 false));  //invokeEntityHandlers
@@ -136,6 +135,7 @@ implements
         
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityDownloadsAdd(
           new SSEntityDownloadsAddPar(
+            par,
             par.user,
             app,
             par.downloads,
@@ -147,6 +147,7 @@ implements
         
         imageServ.imageAdd(
           new SSImageAddPar(
+            par,
             par.user,
             null,  //uuid
             screenshot, //link
@@ -164,6 +165,7 @@ implements
         
         videoServ.videoAdd(
           new SSVideoUserAddPar(
+            par,
             par.user,
             null, //uuid
             video, //link
@@ -193,11 +195,12 @@ implements
       
       final SSEntityServerI  entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri app =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par,
             par.user,
             SSConf.vocURICreate(), //entity,
             SSEntityE.app, //type,
@@ -211,11 +214,12 @@ implements
             false)); //shouldCommit
       
       if(app == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
       sqlFct.createApp(
+        par,
         app,
         par.descriptionShort,
         par.descriptionFunctional,
@@ -225,7 +229,7 @@ implements
         par.downloadAndroid,
         par.fork);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return app;
       
@@ -236,7 +240,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -272,7 +276,7 @@ implements
         descPar = null;
       }
       
-      final SSApp app = sqlFct.getApp(par.app);
+      final SSApp app = sqlFct.getApp(par, par.app);
       
       if(app == null){
         return null;
@@ -282,6 +286,7 @@ implements
       final SSEntity        appEntity  =
         entityServ.entityGet(
           new SSEntityGetPar(
+            par,
             par.user,
             par.app,
             par.withUserRestriction, //withUserRestriction,
@@ -341,9 +346,10 @@ implements
     
     try{
       final List<SSEntity>       apps     = new ArrayList<>();
-      final List<SSUri>          appURIs  = sqlFct.getAppURIs();
+      final List<SSUri>          appURIs  = sqlFct.getAppURIs(par);
       final SSAppGetPar          appGetPar =
         new SSAppGetPar(
+          par,
           par.user,
           null, //app
           par.invokeEntityHandlers);
@@ -385,11 +391,11 @@ implements
     
     try{
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
-      sqlFct.removeApps(par.apps);
+      sqlFct.removeApps(par, par.apps);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return par.apps;
       
@@ -400,7 +406,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){

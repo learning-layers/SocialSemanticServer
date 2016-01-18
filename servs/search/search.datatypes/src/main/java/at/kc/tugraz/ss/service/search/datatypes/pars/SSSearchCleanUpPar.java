@@ -20,17 +20,18 @@
  */
 package at.kc.tugraz.ss.service.search.datatypes.pars;
 
-
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 
 public class SSSearchCleanUpPar extends SSServPar{
   
   public SSSearchCleanUpPar(){}
   
   public SSSearchCleanUpPar(
+    final SSServPar servPar,
     final SSUri                user) throws Exception{
     
-    super(SSVarNames.searchCleanUp, null, user);
+    super(SSVarNames.searchCleanUp, null, user, servPar.sqlCon);
   }
 }

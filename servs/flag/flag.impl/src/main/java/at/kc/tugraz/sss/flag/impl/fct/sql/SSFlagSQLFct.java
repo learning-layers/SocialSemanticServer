@@ -30,6 +30,7 @@ import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
 import at.tugraz.sss.serv.datatype.par.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public class SSFlagSQLFct extends SSCoreSQL{
   }
   
   public SSFlag getFlag(
+    final SSServPar servPar,
     final SSUri flag) throws Exception {
     
     ResultSet resultSet = null;
@@ -77,7 +79,7 @@ public class SSFlagSQLFct extends SSCoreSQL{
       
       tableCon (tableCons, SSSQLVarNames.flagTable,  SSSQLVarNames.flagId, SSSQLVarNames.flagsTable, SSSQLVarNames.flagId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null; 
@@ -108,6 +110,7 @@ public class SSFlagSQLFct extends SSCoreSQL{
   }
   
   public List<SSUri> getFlagURIs(
+    final SSServPar servPar,
     final List<SSUri>   users,
     final List<SSUri>   entities,
     final List<SSFlagE> types,
@@ -179,6 +182,7 @@ public class SSFlagSQLFct extends SSCoreSQL{
       resultSet =
         dbSQL.select(
           new SSDBSQLSelectPar(
+            servPar, 
             tables,
             columns,
             wheres,
@@ -216,6 +220,7 @@ public class SSFlagSQLFct extends SSCoreSQL{
   }
 
   public void createFlag(
+    final SSServPar servPar,
     final SSUri   flag,
     final SSFlagE type,
     final Long    endTime,
@@ -242,13 +247,14 @@ public class SSFlagSQLFct extends SSCoreSQL{
       
       uniqueKey (uniqueKeys, SSSQLVarNames.flagId,    flag);
       
-      dbSQL.insertIfNotExists(SSSQLVarNames.flagTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.flagTable, inserts, uniqueKeys);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
   public void addFlagAssIfNotExists(
+    final SSServPar servPar,
     final SSUri         user, 
     final SSUri         flag, 
     final SSUri         entity) throws Exception{
@@ -264,13 +270,14 @@ public class SSFlagSQLFct extends SSCoreSQL{
       uniqueKey (uniqueKeys, SSSQLVarNames.entityId,  entity);
       uniqueKey (uniqueKeys, SSSQLVarNames.flagId,    flag);
       
-      dbSQL.insertIfNotExists(SSSQLVarNames.flagsTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.flagsTable, inserts, uniqueKeys);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
   public void deleteFlagAss(
+    final SSServPar servPar,
     final SSUri   user,
     final SSUri   flagUri,
     final SSFlagE flag,
@@ -300,7 +307,7 @@ public class SSFlagSQLFct extends SSCoreSQL{
         return;
       }
       
-      dbSQL.deleteIgnore(SSSQLVarNames.flagsTable, wheres);
+      dbSQL.deleteIgnore(servPar, SSSQLVarNames.flagsTable, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

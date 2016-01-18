@@ -28,11 +28,14 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.SSMimeTypeE;
 import at.tugraz.sss.serv.util.*;
 import io.swagger.annotations.*;
 import java.io.*;
+import java.sql.*;
 import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -88,41 +91,62 @@ public class SSRESTFile{
     @ApiParam(
       value = "file data",
       required = true)
-    @FormDataParam("file") 
+    @FormDataParam("file")
     final InputStream fileHandle){ //@FormDataParam("my_file") FormDataBodyPart body Then you can use body.getMediaType()
     
     final SSFileUploadPar  par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSFileUploadPar(
-          null,
-          SSMimeTypeE.get(mimeType),  //mimeType
-          SSLabel.get    (label),  //label
-          SSUri.get(circle, SSConf.sssUri), //circle
-          null, //clientSocket
-          fileHandle, //fileInputStream
-          SSClientE.rest, //clientType
-          true); //shouldCommit
-
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSFileRepoClientI fileServ = (SSFileRepoClientI) SSServReg.getClientServ(SSFileRepoClientI.class);
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      return Response.status(200).entity(fileServ.fileUpload(SSClientE.rest, par)).build();
+      try{
+        
+        par =
+          new SSFileUploadPar(
+            new SSServPar(sqlCon),
+            null,
+            SSMimeTypeE.get(mimeType),  //mimeType
+            SSLabel.get    (label),  //label
+            SSUri.get(circle, SSConf.sssUri), //circle
+            null, //clientSocket
+            fileHandle, //fileInputStream
+            SSClientE.rest, //clientType
+            true); //shouldCommit
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
+      
+      try{
+        final SSFileRepoClientI fileServ = (SSFileRepoClientI) SSServReg.getClientServ(SSFileRepoClientI.class);
+        
+        return Response.status(200).entity(fileServ.fileUpload(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
   
@@ -145,35 +169,56 @@ public class SSRESTFile{
     
     final SSFileDownloadPar par;
     String                  fileName;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSFileDownloadPar(
-          null,
-          SSUri.get(file, SSConf.sssUri), //file
-          null, //clientSocket
-          false, //isPublicDownload
-          SSClientE.rest);  //clientTpype
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      fileName = SSStrU.removeTrailingSlash(par.file);
-      fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
+      try{
+        
+        par =
+          new SSFileDownloadPar(
+            new SSServPar(sqlCon),
+            null,
+            SSUri.get(file, SSConf.sssUri), //file
+            null, //clientSocket
+            false, //isPublicDownload
+            SSClientE.rest);  //clientTpype
+        
+        fileName = SSStrU.removeTrailingSlash(par.file);
+        fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-
-    try{
-      final SSFileRepoClientI fileServ    = (SSFileRepoClientI) SSServReg.getClientServ(SSFileRepoClientI.class);
-      final SSFileDownloadRet ret         = (SSFileDownloadRet) fileServ.fileDownload(SSClientE.rest, par);
+      try{
+        final SSFileRepoClientI fileServ    = (SSFileRepoClientI) SSServReg.getClientServ(SSFileRepoClientI.class);
+        final SSFileDownloadRet ret         = (SSFileDownloadRet) fileServ.fileDownload(SSClientE.rest, par);
+        
+        return Response.ok(ret.outputStream).
+          header("Content-Disposition", "inline; filename=\"" + fileName + "\"").
+          header("Content-Type", SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(fileName)).toString()).
+          build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
       
-      return Response.ok(ret.outputStream).
-        header("Content-Disposition", "inline; filename=\"" + fileName + "\"").
-        header("Content-Type", SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(fileName)).toString()).
-        build();
-      
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
   
@@ -193,7 +238,7 @@ public class SSRESTFile{
       required = true)
     @QueryParam("key")
     final String key,
-      
+    
     @ApiParam(
       value = "file to be downloaded",
       required = true)
@@ -202,37 +247,58 @@ public class SSRESTFile{
     
     final SSFileDownloadPar par;
     String                  fileName;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSFileDownloadPar(
-          null,
-          SSUri.get(file, SSConf.sssUri), //entity
-          null, //clientSocket
-          false, //isPublicDownload
-          SSClientE.rest);  //clientTpype
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      par.key  = key;
+      try{
+        
+        par =
+          new SSFileDownloadPar(
+            new SSServPar(sqlCon),
+            null,
+            SSUri.get(file, SSConf.sssUri), //entity
+            null, //clientSocket
+            false, //isPublicDownload
+            SSClientE.rest);  //clientTpype
+        
+        par.key  = key;
+        
+        fileName = SSStrU.removeTrailingSlash(par.file);
+        fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      fileName = SSStrU.removeTrailingSlash(par.file);
-      fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
+      try{
+        final SSFileRepoClientI fileServ    = (SSFileRepoClientI) SSServReg.getClientServ(SSFileRepoClientI.class);
+        final SSFileDownloadRet ret         = (SSFileDownloadRet) fileServ.fileDownload(SSClientE.rest, par);
+        
+        return Response.ok(ret.outputStream).
+          header("Content-Disposition", "inline; filename=\"" + fileName + "\"").
+          header("Content-Type", SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(fileName)).toString()).
+          build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-
-    try{
-      final SSFileRepoClientI fileServ    = (SSFileRepoClientI) SSServReg.getClientServ(SSFileRepoClientI.class);
-      final SSFileDownloadRet ret         = (SSFileDownloadRet) fileServ.fileDownload(SSClientE.rest, par);
-      
-      return Response.ok(ret.outputStream).
-        header("Content-Disposition", "inline; filename=\"" + fileName + "\"").
-        header("Content-Type", SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(fileName)).toString()).
-        build();
-      
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
   
@@ -252,52 +318,73 @@ public class SSRESTFile{
     
     final SSFileDownloadPar par;
     String                  fileName;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSFileDownloadPar(
-          null, //user
-          SSUri.get(file, SSConf.sssUri), //file
-          null, //clientSocket
-          true, //isPublicDownload
-          SSClientE.rest); 
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      fileName = SSStrU.removeTrailingSlash(par.file);
-      fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
+      try{
+        
+        par =
+          new SSFileDownloadPar(
+            new SSServPar(sqlCon),
+            null, //user
+            SSUri.get(file, SSConf.sssUri), //file
+            null, //clientSocket
+            true, //isPublicDownload
+            SSClientE.rest);
+        
+        fileName = SSStrU.removeTrailingSlash(par.file);
+        fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      final SSFileRepoClientI fileServ    = (SSFileRepoClientI) SSServReg.getClientServ(SSFileRepoClientI.class);
-      final SSFileDownloadRet ret         = (SSFileDownloadRet) fileServ.fileDownload(SSClientE.rest, par);
+      try{
+        final SSFileRepoClientI fileServ    = (SSFileRepoClientI) SSServReg.getClientServ(SSFileRepoClientI.class);
+        final SSFileDownloadRet ret         = (SSFileDownloadRet) fileServ.fileDownload(SSClientE.rest, par);
+        
+        return Response.ok(ret.outputStream).
+          header("Content-Disposition", "inline; filename=\"" + fileName + "\"").
+          header("Content-Type", SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(fileName)).toString()).
+          build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
       
-      return Response.ok(ret.outputStream).
-        header("Content-Disposition", "inline; filename=\"" + fileName + "\"").
-        header("Content-Type", SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(fileName)).toString()).
-        build();
-      
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
 }
-
+  
 //    if(SSFileExtU.imageFileExts.contains(SSFileExtU.ext(fileName))){
-//      
+//
 //      return Response.
 //        ok(stream).
 //        header("Content-Disposition", "inline; filename=\"" + fileName + "\"").
 //        header("Content-Type", SSMimeTypeU.mimeTypeForFileExt(SSFileExtU.ext(fileName))).
 //        build();
 //    }
-//    
+//
 //    if(SSFileExtU.imageFileExts.contains(SSFileExtU.ext(fileName))){
-//      
+//
 //    }
-    
+  
 //      "Content-Disposition", "attachment; filename=\"" + fileName + "\"").
 //
 //  @PUT
@@ -310,36 +397,36 @@ public class SSRESTFile{
 //  public Response fileReplace(
 //    @Context
 //    final HttpHeaders headers,
-//    
+//
 //    @ApiParam(
 //      value = "entity to be replaced",
 //      required = true)
 //    @PathParam(SSVarNames.file)
 //    final String file,
-//    
+//
 //    @ApiParam(
 //      value = "file data",
 //      required = true)
-//    @FormDataParam("file") 
+//    @FormDataParam("file")
 //    final InputStream fileHandle){
-//    
+//
 //    final SSFileReplacePar par;
 //    final SSRESTObject     restObj;
-//    
+//
 //    try{
-//      
+//
 //      par =
 //        new SSFileReplacePar(
 //          null,
 //          SSUri.get(file, SSConf.sssUri), //entity
 //          null, //sSCon
 //          true); //shouldCommit
-//      
+//
 //      restObj = new SSRESTObject(par);
-//        
+//
 //    }catch(Exception error){
 //      return Response.status(422).build();
 //    }
-//    
+//
 //    return SSRestMainV2.handleFileUploadRequest(headers, restObj, fileHandle).response;
 //  }

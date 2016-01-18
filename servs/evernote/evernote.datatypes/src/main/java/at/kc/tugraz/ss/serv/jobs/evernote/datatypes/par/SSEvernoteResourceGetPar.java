@@ -32,12 +32,13 @@ public class SSEvernoteResourceGetPar extends SSServPar{
   public boolean          includeContent = false;
   
   public SSEvernoteResourceGetPar(
+    final SSServPar servPar, 
     final SSUri user,
     final NoteStoreClient  noteStore,
     final String           resourceGUID,
     final boolean          includeContent){
     
-    super(SSVarNames.evernoteResourceGet, null, user);
+    super(SSVarNames.evernoteResourceGet, null, user, servPar.sqlCon);
     
     this.noteStore        = noteStore;
     this.resourceGUID     = resourceGUID;

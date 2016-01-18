@@ -23,6 +23,7 @@ package at.tugraz.sss.servs.kcprojwiki.datatype;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 
 public class SSKCProjWikiImportPar extends SSServPar{
 
@@ -32,8 +33,9 @@ public class SSKCProjWikiImportPar extends SSServPar{
   public SSKCProjWikiImportPar(){}
     
   public SSKCProjWikiImportPar(
+    final SSServPar servPar,
     final SSUri         user){
     
-    super(SSVarNames.kcprojwikiImport, null, user);
+    super(SSVarNames.kcprojwikiImport, null, user, servPar.sqlCon);
   }
 }

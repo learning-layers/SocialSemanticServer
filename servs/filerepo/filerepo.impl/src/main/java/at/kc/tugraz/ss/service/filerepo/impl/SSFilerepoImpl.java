@@ -97,6 +97,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
+    final SSServPar servPar,
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws SSErr{
     
@@ -107,6 +108,7 @@ implements
         final List<SSEntity> files =
           filesGet(
             new SSEntityFilesGetPar(
+              servPar,
               par.user, 
               entity.id, 
               par.withUserRestriction,
@@ -129,6 +131,7 @@ implements
           return SSFile.get(
             fileGet(
               new SSFileGetPar(
+                servPar, 
                 par.user,
                 entity.id,
                 par.withUserRestriction,
@@ -146,7 +149,7 @@ implements
   }
   
   @Override
-  public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws SSErr{
+  public List<SSEntity> addAffiliatedEntitiesToCircle(final SSServPar servPar, final SSAddAffiliatedEntitiesToCirclePar par) throws SSErr{
     
     try{
       final List<SSUri>     affiliatedURIs  = new ArrayList<>();
@@ -157,6 +160,7 @@ implements
         for(SSEntity file :
           filesGet(
             new SSEntityFilesGetPar(
+              servPar, 
               par.user,
               entityAdded.id,
               par.withUserRestriction,
@@ -178,6 +182,7 @@ implements
       
       circleServ.circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
+          servPar, 
           par.user,
           par.circle,
           affiliatedURIs,
@@ -210,6 +215,7 @@ implements
         
         ((SSEvalServerI) SSServReg.getServ(SSEvalServerI.class)).evalLog(
           new SSEvalLogPar(
+            par, 
             par.user,
             SSToolContextE.sss,
             SSEvalLogE.fileDowload,
@@ -238,6 +244,7 @@ implements
         
         final SSEntity file =
           sql.getEntityTest(
+            par, 
             par.user,
             par.file,
             par.withUserRestriction);
@@ -353,7 +360,7 @@ implements
       final SSFileUploadPar par = (SSFileUploadPar) parA.getFromClient(clientType, parA, SSFileUploadPar.class);
       final SSFileUploadRet ret = fileUpload(par);
       
-      evalLogFileUpload(par.user, ret.file, par.shouldCommit);
+      evalLogFileUpload(par, par.user, ret.file, par.shouldCommit);
       
       return ret;
       
@@ -397,16 +404,17 @@ implements
         }
       }
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       result.thumb =
         registerFileAndCreateThumb(
+          par, 
           par.user,
           fileUri,
           par.label,
           par.withUserRestriction);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       addFileContentsToNoSQLStore  (fileId);
 //      removeFileFromLocalWorkFolder();
@@ -510,6 +518,7 @@ implements
   }
   
   private SSUri registerFileAndCreateThumb(
+    final SSServPar servPar, 
     final SSUri   user,
     final SSUri   fileUri,
     final SSLabel label,
@@ -520,6 +529,7 @@ implements
       final SSFileAddRet      result   =
         fileAdd(
           new SSEntityFileAddPar(
+            servPar, 
             user,
             null,
             null, //fileLength
@@ -543,6 +553,7 @@ implements
   }
 
   private void evalLogFileUpload(
+    final SSServPar servPar, 
     final SSUri   user,
     final SSUri   fileUri,
     final boolean shouldCommit) {
@@ -552,6 +563,7 @@ implements
       
       evalServ.evalLog(
         new SSEvalLogPar(
+          servPar, 
           user,
           SSToolContextE.sss,
           SSEvalLogE.fileUpload,
@@ -581,7 +593,7 @@ implements
         par.type = SSEntityE.file;
       }
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       if(
         par.file       == null &&
@@ -609,12 +621,17 @@ implements
         for(SSEntity file :
           filesGet(
             new SSEntityFilesGetPar(
+              par,
               par.user,
               par.entity, //entity
               par.withUserRestriction, //withUserRestriction
               false))){  //invokeEntityHandlers
           
-          entityServ.entityRemove(new SSEntityRemovePar(par.user, file.id));
+          entityServ.entityRemove(
+            new SSEntityRemovePar(
+              par, 
+              par.user, 
+              file.id));
           
           try{
             SSFileU.delFile(conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(file.id));
@@ -627,6 +644,7 @@ implements
       par.file = 
         entityServ.entityUpdate(
         new SSEntityUpdatePar(
+          par, 
           par.user, 
           par.file,  //entity
           par.type,  //type
@@ -640,17 +658,18 @@ implements
           false)); //shouldCommit)
       
       if(par.file == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
-      sql.addFile(par.file);
+      sql.addFile(par, par.file);
       
       if(par.entity != null){
         
         par.entity = 
           entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par, 
             par.user,
             par.entity,
             null, //type,
@@ -664,11 +683,14 @@ implements
             false)); //shouldCommit)
         
         if(par.file == null){
-          dbSQL.rollBack(par.shouldCommit);
+          dbSQL.rollBack(par, par.shouldCommit);
           return null;
         }
         
-        sql.addFileToEntity(par.file, par.entity);
+        sql.addFileToEntity(
+          par, 
+          par.file, 
+          par.entity);
       }
       
       SSUri thumbURI = null;
@@ -692,6 +714,7 @@ implements
         thumbURI =
           imageServ.imageAdd(
             new SSImageAddPar(
+              par, 
               par.user,
               null, //uuid,
               null, //link,
@@ -705,7 +728,7 @@ implements
               false)).thumb; //shouldCommit
       }
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return new SSFileAddRet(par.file, thumbURI);
       
@@ -716,7 +739,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -750,7 +773,11 @@ implements
             SSFileU.correctDirPath(SSConf.restAPIResourceFile)           +
             SSFileU.correctDirPath(SSConf.fileIDFromSSSURI(par.file))    +
             SSConf.restAPIPathFileDownloadPublic);
-      final SSEntityE fileType = sql.getFileType(par.file);
+      
+      final SSEntityE fileType = 
+        sql.getFileType(
+          par, 
+          par.file);
       
       final SSFile file = 
         SSFile.get(
@@ -779,6 +806,7 @@ implements
       final SSEntity fileEntity =
         entityServ.entityGet(
           new SSEntityGetPar(
+            par, 
             par.user,
             par.file,
             par.withUserRestriction,
@@ -813,6 +841,7 @@ implements
         
         final SSEntity entity = 
           sql.getEntityTest(
+            par, 
             par.user, 
             par.entity, 
             par.withUserRestriction);
@@ -824,12 +853,13 @@ implements
       
       final SSFileGetPar fileGetPar =
         new SSFileGetPar(
+          par, 
           par.user,
           null, //file
           par.withUserRestriction,
           par.invokeEntityHandlers);
 
-      for(SSUri file : sql.getEntityFiles(par.entity)){
+      for(SSUri file : sql.getEntityFiles(par, par.entity)){
         
         fileGetPar.file = file;
         

@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.sss.app.datatypes.par;
 
-
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,12 +42,13 @@ public class SSAppsDeletePar extends SSServPar{
   public SSAppsDeletePar(){}
     
   public SSAppsDeletePar(
+    final SSServPar servPar,
     final SSUri       user, 
     final List<SSUri> apps, 
     final boolean     withUserRestriction, 
     final boolean     shouldCommit){
     
-    super(SSVarNames.appsDelete, null, user);
+    super(SSVarNames.appsDelete, null, user, servPar.sqlCon);
     
     SSUri.addDistinctWithoutNull(this.apps, apps);
     

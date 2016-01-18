@@ -27,6 +27,7 @@ public class SSOCDCreateGraphPar extends SSServPar {
   private String content = null;
 
   public SSOCDCreateGraphPar(
+    final SSServPar servPar,
     final SSUri user,
     final String graphName,
     final SSOCDCreationTypeE creationType,
@@ -35,7 +36,7 @@ public class SSOCDCreateGraphPar extends SSServPar {
     final String content,
     final boolean shouldCommit) {
 
-      super(SSVarNames.ocdCreateGraph, null, user);
+      super(SSVarNames.ocdCreateGraph, null, user, servPar.sqlCon);
 
   }
 

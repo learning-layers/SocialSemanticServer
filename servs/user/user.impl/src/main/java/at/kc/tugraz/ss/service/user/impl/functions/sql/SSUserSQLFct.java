@@ -24,8 +24,8 @@ import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.datatype.par.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -45,7 +45,9 @@ public class SSUserSQLFct extends SSCoreSQL{
     super(dbSQL, systemUserURI);
   }
   
-  public boolean existsUser(final String email) throws Exception{
+  public boolean existsUser(
+    final SSServPar servPar, 
+    final String email) throws Exception{
     
     ResultSet resultSet  = null;
     
@@ -65,7 +67,7 @@ public class SSUserSQLFct extends SSCoreSQL{
       
       tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.userTable, SSSQLVarNames.userId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
       return resultSet.first();
       
@@ -77,7 +79,9 @@ public class SSUserSQLFct extends SSCoreSQL{
     }
   }
   
-  public SSUri getUserURIForEmail(final String email) throws Exception{
+  public SSUri getUserURIForEmail(
+    final SSServPar servPar, 
+    final String email) throws Exception{
     
     ResultSet resultSet  = null;
     
@@ -97,7 +101,7 @@ public class SSUserSQLFct extends SSCoreSQL{
       
       tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.userTable, SSSQLVarNames.userId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -113,7 +117,9 @@ public class SSUserSQLFct extends SSCoreSQL{
     }
   }
   
-  public SSUser getUser(final SSUri user) throws Exception{
+  public SSUser getUser(
+    final SSServPar servPar, 
+    final SSUri user) throws Exception{
     
     ResultSet resultSet  = null;
     
@@ -133,7 +139,7 @@ public class SSUserSQLFct extends SSCoreSQL{
       
       tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.userTable, SSSQLVarNames.userId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -152,6 +158,7 @@ public class SSUserSQLFct extends SSCoreSQL{
   }
   
   public List<SSUri> getUserURIs(
+    final SSServPar servPar, 
     final List<SSUri> userURIs) throws Exception{
     
     ResultSet resultSet  = null;
@@ -185,6 +192,7 @@ public class SSUserSQLFct extends SSCoreSQL{
       resultSet =
         dbSQL.select(
           new SSDBSQLSelectPar(
+            servPar, 
             tables,
             columns,
             wheres,
@@ -203,6 +211,7 @@ public class SSUserSQLFct extends SSCoreSQL{
   }
   
   public void addUser(
+    final SSServPar servPar, 
     final SSUri  user,
     final String email) throws Exception{
     
@@ -215,7 +224,7 @@ public class SSUserSQLFct extends SSCoreSQL{
       
       uniqueKey(uniqueKeys, SSSQLVarNames.userId, user);
       
-      dbSQL.insertIfNotExists(SSSQLVarNames.userTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.userTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

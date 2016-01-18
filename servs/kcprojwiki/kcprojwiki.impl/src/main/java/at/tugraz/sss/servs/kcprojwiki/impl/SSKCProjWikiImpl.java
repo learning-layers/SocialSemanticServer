@@ -62,6 +62,7 @@ implements
       final Map<String, SSKCProjWikiVorgang>   vorgaenge      =
         dataImportServ.dataImportKCProjWikiVorgaenge(
           new SSDataImportKCProjWikiVorgaengePar(
+            par,
             par.user,
             projWikiConf.vorgaengeFilePath));
 

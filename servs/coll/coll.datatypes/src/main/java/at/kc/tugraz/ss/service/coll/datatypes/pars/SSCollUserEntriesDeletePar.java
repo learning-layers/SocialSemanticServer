@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,13 +50,14 @@ public class SSCollUserEntriesDeletePar extends SSServPar{
   public SSCollUserEntriesDeletePar(){}
   
   public SSCollUserEntriesDeletePar(
+    final SSServPar servPar, 
     final SSUri          user,
     final SSUri          coll,
     final List<SSUri>    entries,
     final boolean        withUserRestriction,
     final boolean        shouldCommit){
     
-    super(SSVarNames.collEntriesDelete, null, user);
+    super(SSVarNames.collEntriesDelete, null, user, servPar.sqlCon);
     
     this.coll     = coll;
     

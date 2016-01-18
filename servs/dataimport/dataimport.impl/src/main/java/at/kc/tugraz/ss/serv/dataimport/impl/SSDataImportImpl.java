@@ -217,11 +217,12 @@ implements
       
       try{
         
-        dbSQL.startTrans(par.shouldCommit);
+        dbSQL.startTrans(par, par.shouldCommit);
         
         userUri =
           authServ.authRegisterUser(
             new SSAuthRegisterUserPar(
+              par,
               par.authEmail, //email
               "1234", //password
               SSLabel.get(par.authEmail),//evernoteInfo.userName,
@@ -230,7 +231,7 @@ implements
               false, //withUserRestriction,
               false)); //shouldCommit
         
-        dbSQL.commit(par.shouldCommit);
+        dbSQL.commit(par, par.shouldCommit);
       }catch(SSErr error){
         
         worked = false;
@@ -240,7 +241,7 @@ implements
           case sqlDeadLock:{
             
             try{
-              dbSQL.rollBack(par.shouldCommit);
+              dbSQL.rollBack(par, par.shouldCommit);
               SSLogU.err(error);
             }catch(Exception error2){
               SSLogU.err(error2);
@@ -263,7 +264,7 @@ implements
         
         try{
           
-          dbSQL.startTrans(par.shouldCommit);
+          dbSQL.startTrans(par, par.shouldCommit);
           
           new SSDataImportBitsAndPiecesEvernoteImporter(
             dataImportConf,
@@ -274,9 +275,9 @@ implements
             ueServ,
             tagServ,
             evalServ,
-            userUri).handle();
+            userUri).handle(par);
           
-          dbSQL.commit(par.shouldCommit);
+          dbSQL.commit(par, par.shouldCommit);
         }catch(SSErr error){
           
           worked = false;
@@ -286,7 +287,7 @@ implements
             case sqlDeadLock:{
               
               try{
-                dbSQL.rollBack(par.shouldCommit);
+                dbSQL.rollBack(par, par.shouldCommit);
                 SSLogU.err(error);
               }catch(Exception error2){
                 SSLogU.err(error2);
@@ -312,7 +313,7 @@ implements
         
         try{
           
-          dbSQL.startTrans(par.shouldCommit);
+          dbSQL.startTrans(par, par.shouldCommit);
           
           new SSDataImportBitsAndPiecesMailImporter(
             dataImportConf,
@@ -322,9 +323,9 @@ implements
             evalServ,
             ueServ,
             evernoteServ,
-            userUri).handle();
+            userUri).handle(par);
           
-          dbSQL.commit(par.shouldCommit);
+          dbSQL.commit(par, par.shouldCommit);
           
         }catch(SSErr error){
           
@@ -335,7 +336,7 @@ implements
             case sqlDeadLock:{
               
               try{
-                dbSQL.rollBack(par.shouldCommit);
+                dbSQL.rollBack(par, par.shouldCommit);
                 SSLogU.err(error);
               }catch(Exception error2){
                 SSLogU.err(error2);
@@ -409,7 +410,7 @@ implements
       String password;
       String userName;
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       for(String[] line : lines){
         
@@ -427,10 +428,10 @@ implements
           continue;
         }
         
-        sqlFct.addUserWithGroup(userName, password);
+        sqlFct.addUserWithGroup(par, userName, password);
       }
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
     }catch(SSErr error){
       
@@ -439,7 +440,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
           }catch(Exception error2){
             SSServErrReg.regErrThrow(error2);
@@ -814,7 +815,7 @@ implements
 //      if(error.code == SSErrE.sqlDeadLock){
 //
 //        try{
-//          dbSQL.rollBack(par.shouldCommit);
+//          dbSQL.rollBack(par, par.shouldCommit);
 //          SSServErrReg.regErrThrow(error);
 //          return null;
 //        }catch(Exception error2){

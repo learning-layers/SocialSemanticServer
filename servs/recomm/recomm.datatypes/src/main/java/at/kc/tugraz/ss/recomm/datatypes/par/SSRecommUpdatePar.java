@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.recomm.datatypes.par;
 
-
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +44,7 @@ public class SSRecommUpdatePar extends SSServPar{
   }
   
   public SSRecommUpdatePar(
+    final SSServPar servPar,
     final SSUri               user,
     final String              realm,
     final SSUri               forUser, 
@@ -51,7 +52,7 @@ public class SSRecommUpdatePar extends SSServPar{
     final List<String>        tags,
     final List<String>        categories){
     
-    super(SSVarNames.recommUpdate, null, user);
+    super(SSVarNames.recommUpdate, null, user, servPar.sqlCon);
     
     this.realm   = realm;
     this.forUser = forUser;

@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.service.coll.datatypes.pars;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 
 public class SSCollGetPar extends SSServPar{
 
@@ -39,12 +40,13 @@ public class SSCollGetPar extends SSServPar{
   public SSCollGetPar(){}
     
   public SSCollGetPar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         coll, 
     final boolean       withUserRestriction, 
     final boolean       invokeEntityHandlers){
     
-    super(SSVarNames.collGet, null, user);
+    super(SSVarNames.collGet, null, user, servPar.sqlCon);
      
     this.coll                 = coll;
     this.withUserRestriction  = withUserRestriction;

@@ -26,31 +26,24 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.reg.*;
 import com.fasterxml.jackson.annotation.*;
-
-
 import java.net.Socket;
+import java.sql.*;
   
-
 public class SSServPar{
-
   
   public String               op                  = null;
-  
   public SSUri                user                = null;
-  
   
   public void setUser(final String user) throws Exception{
     this.user = SSUri.get(user);
   }
   
-  
-  public String               key                 = null;
-  
-  
-  public boolean              withUserRestriction = true;
-
-  
-  public boolean             invokeEntityHandlers = false;
+  public String               key                  = null;
+  public boolean              withUserRestriction  = true;
+  public boolean              invokeEntityHandlers = false;
+    
+  @JsonIgnore
+  public Connection           sqlCon              = null;
     
   @JsonIgnore
   public Socket               clientSocket        = null;
@@ -61,9 +54,6 @@ public class SSServPar{
   @JsonIgnore
   public String               clientJSONRequ      = null;
   
-//  @JsonIgnore
-//  public JsonNode             clientJSONObj       = null;
-  
   public String getUser(){
     return SSStrU.removeTrailingSlash(user);
   }
@@ -71,10 +61,18 @@ public class SSServPar{
   public SSServPar(){}
   
   public SSServPar(
+    final Connection sqlCon){
+
+    this.sqlCon = sqlCon;
+  }
+  
+  public SSServPar(
     final Socket       clientSocket,
+    final Connection   sqlCon,
     final String       clientJSONRequ) throws Exception{
     
     this.clientSocket      = clientSocket;
+    this.sqlCon            = sqlCon;
     this.clientJSONRequ    = clientJSONRequ;
     
     this.op  = SSJSONU.getValueFromJSON(clientJSONRequ, SSVarNames.op);
@@ -92,11 +90,13 @@ public class SSServPar{
   protected SSServPar(
     final String       op,
     final String       key,
-    final SSUri        user){
+    final SSUri        user,
+    final Connection   sqlCon){
     
-    this.op     = op;
-    this.key    = key;
-    this.user   = user;
+    this.op            = op;
+    this.key           = key;
+    this.user          = user;
+    this.sqlCon        = sqlCon;
   }
   
   public SSServPar getFromClient(
@@ -133,6 +133,7 @@ public class SSServPar{
       result.op                   = op;
       result.key                  = key;
       result.user                 = user;
+      result.sqlCon               = sqlCon;
       result.withUserRestriction  = withUserRestriction;
       result.invokeEntityHandlers = invokeEntityHandlers;
       

@@ -34,7 +34,6 @@ public class SSUEsGetRESTPar{
     value = "user to retrieve user events for")
   public SSUri           forUser        = null;
   
-  
   public void setForUser(final String forUser) throws SSErr{
     this.forUser = SSUri.get(forUser, SSConf.sssUri);
   }
@@ -43,7 +42,6 @@ public class SSUEsGetRESTPar{
     required = false,
     value = "entity to retrieve user events for")
   public SSUri           entity         = null;
-  
   
   public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity, SSConf.sssUri);
@@ -58,24 +56,20 @@ public class SSUEsGetRESTPar{
     this.types = SSUEE.get(types);
   }
   
-  
   @ApiModelProperty(
     required = false,
     value = "start timestamp for retrieving user events for")
   public Long            startTime      = null;
-  
   
   @ApiModelProperty(
     required = false,
     value = "end timestamp for retrieving user events for")
   public Long            endTime        = null;
   
-  
   @ApiModelProperty(
     required = false,
     value = "whether tags for entitis shall be set")
   public boolean            setTags  = false;
-  
   
   @ApiModelProperty(
     required = false,

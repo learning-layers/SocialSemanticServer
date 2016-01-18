@@ -28,6 +28,7 @@ import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +42,8 @@ public class SSMailSQLFct extends SSDBSQLFctA{
   }
   
   public boolean existsMail(
-    final SSUri  mail,
+    final SSServPar servPar,
+    final SSUri     mail,
     final String hash,
     final String receiverEmail) throws Exception{
     
@@ -74,6 +76,7 @@ public class SSMailSQLFct extends SSDBSQLFctA{
             
       resultSet = 
         dbSQL.select(
+          servPar,
           SSSQLVarNames.mailTable, 
           columns, 
           where, 
@@ -92,11 +95,12 @@ public class SSMailSQLFct extends SSDBSQLFctA{
   }
   
   public void addMailIfNotExists(
+    final SSServPar servPar,
     final SSUri         mail, 
     final String        receiverEmail,
     final String        hash) throws Exception{
     
-    if(!existsMail(mail, hash, receiverEmail)){
+    if(!existsMail(servPar, mail, hash, receiverEmail)){
       
       final Map<String, String> inserts = new HashMap<>();
       
@@ -114,7 +118,7 @@ public class SSMailSQLFct extends SSDBSQLFctA{
         insert(inserts, SSSQLVarNames.hash, hash);
       }
       
-      dbSQL.insert(SSSQLVarNames.mailTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.mailTable, inserts);
     }else{
       
       if(mail == null){
@@ -139,7 +143,7 @@ public class SSMailSQLFct extends SSDBSQLFctA{
           return;
         }
         
-        dbSQL.update(SSSQLVarNames.mailTable, wheres, updates);
+        dbSQL.update(servPar, SSSQLVarNames.mailTable, wheres, updates);
         
       }catch(Exception error){
         SSServErrReg.regErrThrow(error);

@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.service.user.datatypes.pars;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSUserAddPar extends SSServPar{
   
@@ -41,6 +42,7 @@ public class SSUserAddPar extends SSServPar{
   public SSUserAddPar(){}
   
   public SSUserAddPar(
+    final SSServPar servPar,
     final SSUri     user,
     final boolean   shouldCommit,
     final SSLabel   label,
@@ -48,7 +50,7 @@ public class SSUserAddPar extends SSServPar{
     final boolean   isSystemUser,
     final boolean   withUserRestriction){
     
-    super(SSVarNames.userAdd, null, user);
+    super(SSVarNames.userAdd, null, user, servPar.sqlCon);
     
     this.shouldCommit        = shouldCommit;
     this.label               = label;

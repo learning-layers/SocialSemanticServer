@@ -20,21 +20,20 @@
 */
 package at.tugraz.sss.serv.datatype.par;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-
+ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSCirclePubURIGetPar extends SSServPar{
   
   public SSCirclePubURIGetPar(){}
   
   public SSCirclePubURIGetPar(
+    final SSServPar servPar,
     final SSUri         user, 
     final boolean       shouldCommit) throws Exception{
       
-    super(SSVarNames.circlePubURIGet, null, user);
+    super(SSVarNames.circlePubURIGet, null, user, servPar.sqlCon);
     
     this.shouldCommit = shouldCommit;
   }

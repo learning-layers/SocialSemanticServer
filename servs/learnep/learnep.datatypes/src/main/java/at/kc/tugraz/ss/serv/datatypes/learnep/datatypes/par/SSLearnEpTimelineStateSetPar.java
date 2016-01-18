@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 
 public class SSLearnEpTimelineStateSetPar extends SSServPar{
   
@@ -32,13 +33,14 @@ public class SSLearnEpTimelineStateSetPar extends SSServPar{
   public SSLearnEpTimelineStateSetPar(){}
   
   public SSLearnEpTimelineStateSetPar(
+    final SSServPar servPar,
     final SSUri         user,
     final Long          startTime,
     final Long          endTime,
     final boolean       withUserRestriction,
     final boolean       shouldCommit){
     
-    super(SSVarNames.learnEpTimelineStateSet, null, user);
+    super(SSVarNames.learnEpTimelineStateSet, null, user, servPar.sqlCon);
     
     this.startTime           = startTime;
     this.endTime             = endTime;

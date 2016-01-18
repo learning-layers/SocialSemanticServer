@@ -1,23 +1,23 @@
- /**
-  * Code contributed to the Learning Layers project
-  * http://www.learning-layers.eu
-  * Development is partly funded by the FP7 Programme of the European Commission under
-  * Grant Agreement FP7-ICT-318209.
-  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-  *
-  * Licensed under the Apache License, Version 2.0 (the "License");
-  * you may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at
-  *
-  * http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS,
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
-  */
+/**
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.tugraz.sss.servs.common.impl.metadata;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategory;
@@ -36,6 +36,7 @@ import at.tugraz.sss.serv.datatype.enums.SSSearchOpE;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,19 +51,20 @@ public class SSTagAndCategoryCommonMisc {
   public SSTagAndCategoryCommonMisc(
     final SSDBSQLI         dbSQL,
     final SSEntityE        metadataType){
-
+    
     this.metadataType = metadataType;
     this.sql          = new SSTagAndCategoryCommonSQL(dbSQL, SSConf.systemUserUri, metadataType);
   }
   
   public List<SSEntity> getMetadata(
+    final SSServPar      servPar,
     final SSUri          user,
     final SSUri          forUser,
     final List<SSUri>    entities,
     final List<String>   labels,
     final SSSearchOpE    labelSearchOp,
-    final List<SSSpaceE> spaces, 
-    final List<SSUri>    circles, 
+    final List<SSSpaceE> spaces,
+    final List<SSUri>    circles,
     final Long           startTime) throws Exception{
     
     try{
@@ -78,6 +80,7 @@ public class SSTagAndCategoryCommonMisc {
         metadataEntities.addAll(
           entityServ.entityFromTypeAndLabelGet(
             new SSEntityFromTypeAndLabelGetPar(
+              servPar,
               user,
               SSLabel.get(label), //label,
               metadataType, //type,
@@ -88,7 +91,7 @@ public class SSTagAndCategoryCommonMisc {
           if(labelSearchOp != null){
             
             switch(labelSearchOp){
-            
+              
               case and:{
                 return metadata;
               }
@@ -102,18 +105,20 @@ public class SSTagAndCategoryCommonMisc {
       }
       
       if(spaces.isEmpty()){
-      
+        
         metadata.addAll(
           sql.getMetadataAsss(
+            servPar,
             SSUri.asListNotNull(user), //user
             entities, //entities
             SSSpaceE.asListWithoutNull(SSSpaceE.privateSpace), //spaces
             startTime, //startTime
             metadataURIs, //metadataUris
             circles)); //circles
-
+        
         metadata.addAll(
           sql.getMetadataAsss(
+            servPar,
             SSUri.asListNotNull(forUser), //user
             entities, //entities
             SSSpaceE.asListWithoutNull(SSSpaceE.sharedSpace, SSSpaceE.circleSpace), //spaces
@@ -124,13 +129,14 @@ public class SSTagAndCategoryCommonMisc {
       }else{
         
         for(SSSpaceE space : spaces){
-        
+          
           switch(space){
             
             case privateSpace:{
               
               metadata.addAll(
                 sql.getMetadataAsss(
+                  servPar,
                   SSUri.asListNotNull(user), //user
                   entities, //entities
                   SSSpaceE.asListWithoutNull(space), //spaces
@@ -145,6 +151,7 @@ public class SSTagAndCategoryCommonMisc {
               
               metadata.addAll(
                 sql.getMetadataAsss(
+                  servPar,
                   SSUri.asListNotNull(forUser), //user
                   entities, //entities
                   SSSpaceE.asListWithoutNull(space), //spaces
@@ -158,6 +165,7 @@ public class SSTagAndCategoryCommonMisc {
       }
       
       return filterMetadataRegardingLabelSearchOp(
+        servPar,
         metadata, //metadata
         metadataURIs.size(),  //differentTagCount
         labelSearchOp); //labelSearchOp
@@ -169,10 +177,11 @@ public class SSTagAndCategoryCommonMisc {
   }
   
   public List<SSUri> getEntitiesFromMetadataDistinctNotNull(
+    final SSServPar      servPar,
     final List<SSEntity> metadata) throws Exception{
     
     final List<SSUri> entities = new ArrayList<>();
-
+    
     for(SSEntity meta : metadata){
       
       if(meta == null){
@@ -195,8 +204,9 @@ public class SSTagAndCategoryCommonMisc {
     
     return entities;
   }
-    
+  
   public List<SSEntityA> getMetadataFrequsFromMetadata(
+    final SSServPar      servPar,
     final List<SSEntity> metadata) throws Exception{
     
     final Map<String, SSEntityA> metadataFrequs = new HashMap<>();
@@ -236,14 +246,15 @@ public class SSTagAndCategoryCommonMisc {
         default: throw new UnsupportedOperationException();
       }
     }
-      
+    
     return new ArrayList(metadataFrequs.values());
   }
-      
+  
   public List<SSEntity> filterMetadataByEntitiesUserCanAccess(
-    final List<SSEntity>   metadata, 
-    final boolean          withUserRestriction, 
-    final SSUri            user, 
+    final SSServPar      servPar,
+    final List<SSEntity>   metadata,
+    final boolean          withUserRestriction,
+    final SSUri            user,
     final SSUri            forUser) throws Exception{
     
     final List<SSEntity> filtered = new ArrayList<>();
@@ -266,6 +277,7 @@ public class SSTagAndCategoryCommonMisc {
             
             entity =
               sql.getEntityTest(
+                servPar,
                 user,
                 ((SSTag) meta).entity,
                 withUserRestriction);
@@ -278,6 +290,7 @@ public class SSTagAndCategoryCommonMisc {
               
               circle =
                 sql.getEntityTest(
+                  servPar,
                   user,
                   ((SSTag) meta).circle,
                   withUserRestriction);
@@ -286,7 +299,7 @@ public class SSTagAndCategoryCommonMisc {
                 continue;
               }
             }
-
+            
             filtered.add(meta);
             break;
           }
@@ -295,6 +308,7 @@ public class SSTagAndCategoryCommonMisc {
             
             entity =
               sql.getEntityTest(
+                servPar,
                 user,
                 ((SSCategory) meta).entity,
                 withUserRestriction);
@@ -304,7 +318,7 @@ public class SSTagAndCategoryCommonMisc {
             }
             
 //            if(((SSTag) meta).circle != null){
-//              
+//
 //              if(!SSServCallerU.canUserRead(user, ((SSCategory) meta).circle)){
 //                continue;
 //              }
@@ -327,12 +341,13 @@ public class SSTagAndCategoryCommonMisc {
   }
   
   private List<SSEntity> filterMetadataRegardingLabelSearchOp(
+    final SSServPar      servPar,
     final List<SSEntity> metadata,
     final Integer        differentTagCount,
     final SSSearchOpE    labelSearchOp) throws Exception{
     
     try{
-    
+      
       if(labelSearchOp == null){
         return metadata;
       }
@@ -415,23 +430,23 @@ public class SSTagAndCategoryCommonMisc {
 //    final SSTagSQLFct                               sqlFct,
 //    final SSTagEntitiesForTagsGetPar            par,
 //    final SSUri                                     userToUse) throws Exception{
-//    
+//
 //    final List<SSUri> entities = new ArrayList<>();
 //    SSEntity          tagEntity;
 //    SSLabel           slabel;
-//    
+//
 //    if(par.labels.isEmpty()){
-//      
+//
 //      entities.addAll(
 //        sqlFct.getEntities(
 //          userToUse,
 //          par.space,
 //          null));
 //    }
-//    
+//
 //    //dtheiler: handle loop in db
 //    for(SSTagLabel label : par.labels){
-//    
+//
 //      slabel    = SSLabel.get(SSStrU.toStr(label));
 //      tagEntity =
 //        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
@@ -442,46 +457,46 @@ public class SSTagAndCategoryCommonMisc {
 //            slabel, //label,
 //            SSEntityE.tag, //type,
 //            false)); //withUserRestriction
-//      
+//
 //      if(tagEntity == null){
 //        continue;
 //      }
-//      
+//
 //      entities.addAll(
 //        sqlFct.getEntities(
 //          userToUse,
 //          par.space,
 //          tagEntity.id));
 //    }
-//    
+//
 //    SSStrU.distinctWithoutEmptyAndNull2(entities);
-//    
+//
 //    return entities;
 //  }
-//  
+//
 //  public static List<SSTag> getTagsIfSpaceNotSet(
 //    final SSTagSQLFct        sqlFct,
 //    final SSTagsGetPar       par) throws Exception{
-//    
+//
 //    final List<SSTag> tags    = new ArrayList<>();
 //    SSLabel           slabel;
 //    SSEntity          tagEntity;
-//    
+//
 //    if(
 //      par.entities.isEmpty() &&
 //      par.labels.isEmpty() &&
 //      par.circles.isEmpty()){
-//      
+//
 //      tags.addAll (sqlFct.getTagAsss(par.forUser, null, SSSpaceE.sharedSpace,  par.startTime, null));
 //      tags.addAll (sqlFct.getTagAsss(par.forUser, null, SSSpaceE.circleSpace,  par.startTime, null));
 //      tags.addAll (sqlFct.getTagAsss(par.user,    null, SSSpaceE.privateSpace, par.startTime, null));
 //    }
-//    
+//
 //    if(
 //      par.entities.isEmpty() &&
 //      par.labels.isEmpty()   &&
 //      !par.circles.isEmpty()){
-//      
+//
 //      tags.addAll(
 //        sqlFct.getTagAsss(
 //          SSUri.asListWithoutNullAndEmpty(par.user),
@@ -490,7 +505,7 @@ public class SSTagAndCategoryCommonMisc {
 //          par.startTime,
 //          null,
 //          par.circles));
-//      
+//
 //      tags.addAll(
 //        sqlFct.getTagAsss(
 //          SSUri.asListWithoutNullAndEmpty(par.forUser),
@@ -499,7 +514,7 @@ public class SSTagAndCategoryCommonMisc {
 //          par.startTime,
 //          null,
 //          par.circles));
-//      
+//
 //      tags.addAll(
 //        sqlFct.getTagAsss(
 //          SSUri.asListWithoutNullAndEmpty(par.forUser),
@@ -509,15 +524,15 @@ public class SSTagAndCategoryCommonMisc {
 //          null,
 //          par.circles));
 //    }
-//    
+//
 //    if(
 //      par.entities.isEmpty() &&
 //      !par.labels.isEmpty()){
-//      
+//
 //      final List<SSUri> tagURIs    = new ArrayList<>();
-//      
+//
 //      for(SSTagLabel label : par.labels){
-//        
+//
 //        slabel    = SSLabel.get(SSStrU.toStr(label));
 //        tagEntity =
 //          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
@@ -528,14 +543,14 @@ public class SSTagAndCategoryCommonMisc {
 //            slabel, //label,
 //            SSEntityE.tag, //type,
 //            false)); //withUserRestriction
-//        
+//
 //        if(tagEntity == null){
 //          continue;
 //        }
-//        
+//
 //        tagURIs.add(tagEntity.id);
 //      }
-//      
+//
 //      tags.addAll (
 //        sqlFct.getTagAsss(
 //          SSUri.asListWithoutNullAndEmpty(par.user),
@@ -544,7 +559,7 @@ public class SSTagAndCategoryCommonMisc {
 //          par.startTime,
 //          tagURIs,
 //          par.circles));
-//      
+//
 //      tags.addAll (
 //        sqlFct.getTagAsss(
 //          SSUri.asListWithoutNullAndEmpty(par.forUser),
@@ -553,7 +568,7 @@ public class SSTagAndCategoryCommonMisc {
 //          par.startTime,
 //          tagURIs,
 //          par.circles));
-//      
+//
 //      tags.addAll (
 //        sqlFct.getTagAsss(
 //          SSUri.asListWithoutNullAndEmpty(par.forUser),
@@ -563,45 +578,45 @@ public class SSTagAndCategoryCommonMisc {
 //          tagURIs,
 //          par.circles));
 //    }
-//    
+//
 //    if(
 //      !par.entities.isEmpty() &&
 //      par.labels.isEmpty()){
-//      
+//
 //      tags.addAll (
 //        sqlFct.getTagAsss(
-//          SSUri.asListWithoutNullAndEmpty(par.forUser), 
-//          par.entities, 
-//          SSSpaceE.sharedSpace,  
-//          par.startTime, 
+//          SSUri.asListWithoutNullAndEmpty(par.forUser),
+//          par.entities,
+//          SSSpaceE.sharedSpace,
+//          par.startTime,
 //          null,
 //          par.circles));
-//      
+//
 //      tags.addAll (
 //        sqlFct.getTagAsss(
-//          SSUri.asListWithoutNullAndEmpty(par.forUser), 
-//          par.entities, 
-//          SSSpaceE.circleSpace,  
-//          par.startTime, 
+//          SSUri.asListWithoutNullAndEmpty(par.forUser),
+//          par.entities,
+//          SSSpaceE.circleSpace,
+//          par.startTime,
 //          null,
 //          par.circles));
-//      
+//
 //      tags.addAll(
 //        sqlFct.getTagAsss(
-//          SSUri.asListWithoutNullAndEmpty(par.user),    
-//          par.entities, 
-//          SSSpaceE.privateSpace, 
-//          par.startTime, 
+//          SSUri.asListWithoutNullAndEmpty(par.user),
+//          par.entities,
+//          SSSpaceE.privateSpace,
+//          par.startTime,
 //          null,
 //          par.circles));
 //    }
-//    
+//
 //    if(
 //      !par.entities.isEmpty() &&
 //      !par.labels.isEmpty()){
-//      
+//
 //      for(SSTagLabel label : par.labels){
-//        
+//
 //        slabel    = SSLabel.get(SSStrU.toStr(label));
 //        tagEntity =
 //          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
@@ -612,83 +627,83 @@ public class SSTagAndCategoryCommonMisc {
 //              slabel, //label,
 //              SSEntityE.tag, //type,
 //              false)); //withUserRestriction
-//        
+//
 //        if(tagEntity == null){
 //          continue;
 //        }
-//        
+//
 //        tags.addAll (
 //          sqlFct.getTagAsss(
-//            SSUri.asListWithoutNullAndEmpty(par.forUser),     
-//            par.entities, 
-//            SSSpaceE.sharedSpace,  
-//            par.startTime, 
+//            SSUri.asListWithoutNullAndEmpty(par.forUser),
+//            par.entities,
+//            SSSpaceE.sharedSpace,
+//            par.startTime,
 //            SSUri.asListWithoutNullAndEmpty(tagEntity.id),
 //            par.circles));
-//        
+//
 //        tags.addAll (
 //          sqlFct.getTagAsss(
-//            SSUri.asListWithoutNullAndEmpty(par.forUser),     
-//            par.entities, 
-//            SSSpaceE.circleSpace,  
-//            par.startTime, 
-//            SSUri.asListWithoutNullAndEmpty(tagEntity.id), 
+//            SSUri.asListWithoutNullAndEmpty(par.forUser),
+//            par.entities,
+//            SSSpaceE.circleSpace,
+//            par.startTime,
+//            SSUri.asListWithoutNullAndEmpty(tagEntity.id),
 //            par.circles));
-//        
+//
 //        tags.addAll (
 //          sqlFct.getTagAsss(
 //            SSUri.asListWithoutNullAndEmpty(par.user),
-//            par.entities, 
-//            SSSpaceE.privateSpace, 
-//            par.startTime, 
-//            SSUri.asListWithoutNullAndEmpty(tagEntity.id), 
+//            par.entities,
+//            SSSpaceE.privateSpace,
+//            par.startTime,
+//            SSUri.asListWithoutNullAndEmpty(tagEntity.id),
 //            par.circles));
 //      }
 //    }
-//    
+//
 //    return tags;
 //  }
-//  
+//
 //  public static List<SSTag> getTagsIfSpaceSet(
-//    final SSTagSQLFct        sqlFct, 
+//    final SSTagSQLFct        sqlFct,
 //    final SSTagsGetPar       par,
 //    final SSUri              userToUse) throws Exception{
-//    
+//
 //    final List<SSTag>      tags   = new ArrayList<>();
 //    SSLabel                slabel;
 //    SSEntity               tagEntity;
-//    
+//
 //    if(
 //      par.entities.isEmpty() &&
 //      par.labels.isEmpty()   &&
 //      par.circles.isEmpty()){
-//      
+//
 //      tags.addAll (sqlFct.getTagAsss(userToUse, null, par.space, par.startTime, null));
 //    }
-//    
+//
 //    if(
 //      par.entities.isEmpty() &&
 //      par.labels.isEmpty()   &&
 //      !par.circles.isEmpty()){
-//      
+//
 //      tags.addAll(
 //        sqlFct.getTagAsss(
-//          SSUri.asListWithoutNullAndEmpty(userToUse), 
-//          null, 
-//          par.space, 
+//          SSUri.asListWithoutNullAndEmpty(userToUse),
+//          null,
+//          par.space,
 //          par.startTime,
 //          null,
 //          par.circles));
 //    }
-//      
+//
 //    if(
 //      par.entities.isEmpty() &&
 //      !par.labels.isEmpty()){
-//      
+//
 //      final List<SSUri> tagURIs    = new ArrayList<>();
-//        
+//
 //      for(SSTagLabel label : par.labels){
-//        
+//
 //        slabel    = SSLabel.get(SSStrU.toStr(label));
 //        tagEntity =
 //          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
@@ -699,44 +714,44 @@ public class SSTagAndCategoryCommonMisc {
 //            slabel, //label,
 //            SSEntityE.tag, //type,
 //            false)); //withUserRestriction
-//        
+//
 //        if(tagEntity == null){
 //          continue;
 //        }
-//        
+//
 //        tagURIs.add(tagEntity.id);
 //      }
-//      
+//
 //      tags.addAll(
 //        sqlFct.getTagAsss(
-//          SSUri.asListWithoutNullAndEmpty(userToUse), 
-//          null, 
-//          par.space, 
+//          SSUri.asListWithoutNullAndEmpty(userToUse),
+//          null,
+//          par.space,
 //          par.startTime,
 //          tagURIs,
 //          par.circles));
 //    }
-//    
+//
 //    if(
 //      !par.entities.isEmpty() &&
 //      par.labels.isEmpty()){
-//      
+//
 //      tags.addAll(
 //        sqlFct.getTagAsss(
-//          SSUri.asListWithoutNullAndEmpty(userToUse), 
-//          par.entities, 
-//          par.space, 
-//          par.startTime, 
+//          SSUri.asListWithoutNullAndEmpty(userToUse),
+//          par.entities,
+//          par.space,
+//          par.startTime,
 //          null,
 //          par.circles));
 //    }
-//    
+//
 //    if(
 //      !par.entities.isEmpty() &&
 //      !par.labels.isEmpty()){
-//    
+//
 //      for(SSTagLabel label : par.labels){
-//        
+//
 //        slabel    = SSLabel.get(SSStrU.toStr(label));
 //        tagEntity =
 //          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
@@ -747,51 +762,51 @@ public class SSTagAndCategoryCommonMisc {
 //              slabel, //label,
 //              SSEntityE.tag, //type,
 //              false)); //withUserRestriction
-//        
+//
 //        if(tagEntity == null){
 //          continue;
 //        }
-//        
+//
 //        tags.addAll (
 //          sqlFct.getTagAsss(
-//            SSUri.asListWithoutNullAndEmpty(userToUse), 
-//            par.entities, 
-//            par.space, 
-//            par.startTime, 
+//            SSUri.asListWithoutNullAndEmpty(userToUse),
+//            par.entities,
+//            par.space,
+//            par.startTime,
 //            SSUri.asListWithoutNullAndEmpty(tagEntity.id),
 //            par.circles));
 //      }
 //    }
-//    
+//
 //    return tags;
 //  }
-//  
+//
 //  public static List<SSUri> getEntitiesForTagsIfSpaceNotSet(
 //    final SSTagSQLFct                    sqlFct,
 //    final SSTagEntitiesForTagsGetPar     par) throws Exception{
-//    
+//
 //    final List<SSUri> entities = new ArrayList<>();
 //    SSLabel           slabel;
 //    SSEntity          tagEntity;
-//    
+//
 //    if(par.labels.isEmpty()){
-//      
+//
 //      entities.addAll(
 //        sqlFct.getEntities(
 //          par.user,
-//          SSSpaceE.privateSpace, 
+//          SSSpaceE.privateSpace,
 //          null));
-//      
+//
 //      entities.addAll(
 //        sqlFct.getEntities(
 //          par.forUser,
 //          SSSpaceE.sharedSpace,
 //          null));
 //    }
-//    
+//
 //    //dtheiler: handle loop in db
 //    for(SSTagLabel label : par.labels){
-//      
+//
 //      slabel    = SSLabel.get(SSStrU.toStr(label));
 //      tagEntity =
 //        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
@@ -802,85 +817,85 @@ public class SSTagAndCategoryCommonMisc {
 //            slabel, //label,
 //            SSEntityE.tag, //type,
 //            false)); //withUserRestriction
-//      
+//
 //      if(tagEntity == null){
 //        continue;
 //      }
-//      
+//
 //      entities.addAll(
 //        sqlFct.getEntities(
 //          par.user,
 //          SSSpaceE.privateSpace,
 //          tagEntity.id));
-//      
+//
 //      entities.addAll(
 //        sqlFct.getEntities(
 //          par.forUser,
 //          SSSpaceE.sharedSpace,
 //          tagEntity.id));
 //    }
-//    
+//
 //    SSStrU.distinctWithoutEmptyAndNull2(entities);
-//    
+//
 //    return entities;
 //  }
 
 //    final List<SSTagFrequ> outList = new ArrayList<>(counterPerTags.size());
-//    
+//
 //    for(Map.Entry<String, Integer> entry : counterPerTags.entrySet()){
-//      
+//
 //      outList.add(
 //        SSTagFrequ.get(
 //          SSTagLabel.get(entry.getKey()),
 //          space,
 //          counterPerTags.get(entry.getKey())));
 //    }
-//  
+//
 
 //  private void saveUETagAdd(SSServPar parA) throws Exception {
-//    
+//
 //    Map<String, Object> opPars = new HashMap<>();
 //    SSTagAddPar par = new SSTagAddPar(parA);
-//    
+//
 //    opPars.put(SSVarU.shouldCommit, true);
 //    opPars.put(SSVarU.user,         par.user);
 //    opPars.put(SSVarU.resource,     par.resource);
 //    opPars.put(SSVarU.eventType,    SSUEEnum.useTag);
 //    opPars.put(SSVarU.content,      SSStrU.toStr(par.tagString));
-//    
+//
 //    SSServReg.callServServer(new SSServPar(SSVarNames.uEAdd, opPars));
-//    
+//
 //    opPars = new HashMap<>();
 //    opPars.put(SSVarU.shouldCommit, true);
 //    opPars.put(SSVarU.user,         par.user);
 //    opPars.put(SSVarU.resource,     par.resource);
 //    opPars.put(SSVarU.content,      SSStrU.toStr(par.tagString));
-//    
+//
 //    if(SSSpaceEnum.isShared(par.space)) {
 //      opPars.put(SSVarU.eventType,    SSUEEnum.addSharedTag);
 //    } else {
 //      opPars.put(SSVarU.eventType,    SSUEEnum.addPrivateTag);
 //    }
-//    
+//
 //    SSServReg.callServServer(new SSServPar(SSVarNames.uEAdd, opPars));
 //  }
-  
+
 //  private void saveUETagDelete(SSServPar parA) throws Exception{
-//    
+//
 //    Map<String, Object> opPars = new HashMap<>();
 //    SSTagAssRemovePar par = new SSTagAssRemovePar(parA);
-//    
+//
 //    opPars.put(SSVarU.shouldCommit, true);
 //    opPars.put(SSVarU.user,         par.user);
 //    opPars.put(SSVarU.resource,     par.resource);
 //    opPars.put(SSVarU.content,      SSStrU.toStr(par.tagString));
-//    
+//
 //    if (SSSpaceEnum.isShared(par.space)) {
 //      opPars.put(SSVarU.eventType,    SSUEEnum.removeSharedTag);
 //    } else {
 //      opPars.put(SSVarU.eventType,    SSUEEnum.removePrivateTag);
 //    }
-//    
+//
 //    SSServReg.callServServer(new SSServPar(SSVarNames.uEAdd, opPars));
 //  }
 //  public static String[] getStringArrayFromList(
@@ -893,9 +908,9 @@ public class SSTagAndCategoryCommonMisc {
 //    Iterator iterator  = list.iterator();
 //    String   tagString = null;
 //    while(iterator.hasNext()) {
-//      
+//
 //      tagString = (String) iterator.next();
-//      
+//
 //      if (deleteNamespace) {
 ////        tagString = tagString.replaceAll("http://tug.mature-ip.eu/", strU.strEmpty);
 //        tagString = tagString.replaceAll(namespace, strU.strEmpty);
@@ -912,13 +927,13 @@ public class SSTagAndCategoryCommonMisc {
 //  }
 
 //  public static Map<String, Long> getCreationTimePerTagFromTags(final List<SSTag> tags) throws Exception{
-//    
+//
 //    final Map<String, Long> creationTimesPerTag = new HashMap<>();
-//    
+//
 //    for(SSTag tag : tags){
 //      creationTimesPerTag.put(tag.label.toString(), entityCreationTimeGet(tag.uri));
 //    }
-//    
+//
 //    return creationTimesPerTag;
 //  }
 
@@ -927,22 +942,22 @@ public class SSTagAndCategoryCommonMisc {
 //    final List<String> labels,
 //    final SSSpaceE     space,
 //    final SSUri        userToUse) throws Exception{
-//    
+//
 //    final List<SSUri> entities = new ArrayList<>();
 //    SSEntity          metadataEntity;
-//    
+//
 //    if(labels.isEmpty()){
-//      
+//
 //      entities.addAll(
 //        sqlFct.getEntities(
 //          userToUse,
 //          space,
 //          null));
 //    }
-//    
+//
 //    //dtheiler: handle loop in db
 //    for(String label : labels){
-//    
+//
 //      metadataEntity =
 //        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
 //          new SSEntityFromTypeAndLabelGetPar(
@@ -950,49 +965,49 @@ public class SSTagAndCategoryCommonMisc {
 //            SSLabel.get(label), //label,
 //            metadataType, //type,
 //            false)); //withUserRestriction
-//      
+//
 //      if(metadataEntity == null){
 //        continue;
 //      }
-//      
+//
 //      entities.addAll(
 //        sqlFct.getEntities(
 //          userToUse,
 //          space,
 //          metadataEntity.id));
 //    }
-//    
+//
 //    SSStrU.distinctWithoutEmptyAndNull2(entities);
-//    
+//
 //    return entities;
 //  }
-//  
+//
 //  public List<SSUri> getEntitiesForMetadataIfSpaceNotSet(
 //    final SSUri        user,
 //    final SSUri        forUser,
 //    final List<String> labels)throws Exception{
-//    
+//
 //    final List<SSUri> entities = new ArrayList<>();
 //    SSEntity          metadataEntity;
-//    
+//
 //    if(labels.isEmpty()){
-//      
+//
 //      entities.addAll(
 //        sqlFct.getEntities(
 //          user,
-//          SSSpaceE.privateSpace, 
+//          SSSpaceE.privateSpace,
 //          null));
-//      
+//
 //      entities.addAll(
 //        sqlFct.getEntities(
 //          forUser,
 //          SSSpaceE.sharedSpace,
 //          null));
 //    }
-//    
+//
 //    //dtheiler: handle loop in db
 //    for(String label : labels){
-//      
+//
 //      metadataEntity =
 //        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
 //          new SSEntityFromTypeAndLabelGetPar(
@@ -1000,54 +1015,54 @@ public class SSTagAndCategoryCommonMisc {
 //            SSLabel.get(label), //label,
 //            metadataType, //type,
 //            false)); //withUserRestriction
-//      
+//
 //      if(metadataEntity == null){
 //        continue;
 //      }
-//      
+//
 //      entities.addAll(
 //        sqlFct.getEntities(
 //          user,
 //          SSSpaceE.privateSpace,
 //          metadataEntity.id));
-//      
+//
 //      entities.addAll(
 //        sqlFct.getEntities(
 //          forUser,
 //          SSSpaceE.sharedSpace,
 //          metadataEntity.id));
 //    }
-//    
+//
 //    SSStrU.distinctWithoutEmptyAndNull2(entities);
-//    
+//
 //    return entities;
 //  }
 
 //public List<SSUri> filterEntitiesUserCanAccess(
-//    final List<SSUri> entityURIs, 
-//    final boolean     withUserRestriction, 
-//    final SSUri       user, 
+//    final List<SSUri> entityURIs,
+//    final boolean     withUserRestriction,
+//    final SSUri       user,
 //    final SSUri       forUser) throws Exception{
-//    
+//
 //    final List<SSUri> filtered = new ArrayList<>();
-//    
+//
 //    //because its supposed that a user can read all entities he attached tags to,
 //    //but not that he necessarly can read the entities another user tagged
 //    if(
 //      withUserRestriction &&
 //      !SSStrU.equals(user,  forUser)){
-//      
+//
 //      for(SSUri entityURI : entityURIs){
-//        
+//
 //        if(!SSServCallerU.canUserRead(user, entityURI)){
 //          continue;
 //        }
-//        
+//
 //        filtered.add(entityURI);
 //      }
-//      
+//
 //      return filtered;
 //    }
-//    
+//
 //    return entityURIs;
 //  }

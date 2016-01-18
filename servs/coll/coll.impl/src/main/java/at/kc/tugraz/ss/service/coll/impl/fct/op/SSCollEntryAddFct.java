@@ -42,7 +42,7 @@ public class SSCollEntryAddFct{
     
     final boolean isParentCollSharedOrPublic;
     
-    if(circleServ.circleIsEntityPrivate(new SSCircleIsEntityPrivatePar(par.user, par.coll))){
+    if(circleServ.circleIsEntityPrivate(new SSCircleIsEntityPrivatePar(par, par.user, par.coll))){
       isParentCollSharedOrPublic = false;
     }else{
       isParentCollSharedOrPublic = true;
@@ -51,8 +51,9 @@ public class SSCollEntryAddFct{
     final SSUri newColl = 
       entityServ.entityUpdate(
       new SSEntityUpdatePar(
+        par,
         par.user,
-          SSConf.vocURICreate(),
+        SSConf.vocURICreate(),
         SSEntityE.coll, //type,
         par.label, //label
         null, //description,
@@ -67,9 +68,10 @@ public class SSCollEntryAddFct{
       return null;
     }
     
-    sqlFct.addColl(newColl);
+    sqlFct.addColl(par, newColl);
     
     sqlFct.addCollToColl(
+      par, 
       par.user,
       par.coll,
       newColl,
@@ -78,6 +80,7 @@ public class SSCollEntryAddFct{
     
     circleServ.circleAddEntitiesToCirclesOfEntity(
       new SSCircleAddEntitiesToCircleOfEntityPar(
+        par, 
         par.user,
         par.coll,
         SSUri.asListNotNull(newColl), //entities
@@ -95,6 +98,7 @@ public class SSCollEntryAddFct{
     
     if(!circleServ.circleIsEntityPublic(
       new SSCircleIsEntityPublicPar(
+        par, 
         par.user, 
         par.entry))){
       throw new Exception("coll to add is not public");
@@ -102,21 +106,23 @@ public class SSCollEntryAddFct{
     
     if(!circleServ.circleIsEntityPrivate(
       new SSCircleIsEntityPrivatePar(
+        par, 
         par.user, 
         par.entry))){
       
       throw new Exception("cannot add shared or public coll to shared / public parent coll");
     }
     
-    if(sqlFct.ownsUserColl(par.user, par.entry)){
+    if(sqlFct.ownsUserColl(par, par.user, par.entry)){
       throw new Exception("coll is already followed by user");
     }
     
-    if(SSCollMiscFct.ownsUserASubColl(sqlFct, par.user, par.entry)){
+    if(SSCollMiscFct.ownsUserASubColl(par, sqlFct, par.user, par.entry)){
       throw new Exception("a sub coll is already followed");
     }
     
     sqlFct.addCollToColl(
+      par, 
       par.user, 
       par.coll, 
       par.entry, 
@@ -135,6 +141,7 @@ public class SSCollEntryAddFct{
     final SSUri entry =
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
+          par, 
           par.user,
           par.entry, //entity
           null, //type,
@@ -151,10 +158,11 @@ public class SSCollEntryAddFct{
       return null;
     }
     
-    sqlFct.addCollEntry(par.coll, entry);
+    sqlFct.addCollEntry(par, par.coll, entry);
     
     circleServ.circleAddEntitiesToCirclesOfEntity(
       new SSCircleAddEntitiesToCircleOfEntityPar(
+        par, 
         par.user,
         par.coll,
         SSUri.asListNotNull(entry), //entities

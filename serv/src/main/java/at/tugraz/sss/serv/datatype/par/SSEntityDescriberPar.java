@@ -24,13 +24,13 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSEntityDescriberPar{
   
-  public SSUri recursiveEntity           = null;     
-  
+  public SSUri       recursiveEntity     = null;     
   public SSUri       user                = null;
   public SSSpaceE    space               = null;
   public SSUri       circle              = null;
@@ -84,7 +84,9 @@ public class SSEntityDescriberPar{
   
   public SSEntityDescriberPar(){}
   
-  public SSEntityDescriberPar(final SSUri recursiveEntity){
+  public SSEntityDescriberPar(
+    final SSUri         recursiveEntity){
+    
     this.recursiveEntity = recursiveEntity;
   }
 }

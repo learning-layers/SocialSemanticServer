@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import java.sql.*;
 
 public class SSDiscEntryAcceptPar extends SSServPar{
   
@@ -40,12 +40,13 @@ public class SSDiscEntryAcceptPar extends SSServPar{
   public SSDiscEntryAcceptPar(){}
   
   public SSDiscEntryAcceptPar(
+    final SSServPar servPar,
     final SSUri     user,
     final SSUri     entry,
     final boolean   withUserRestriction,
     final boolean   shouldCommit){
     
-    super(SSVarNames.discEntryAccept, null, user);
+    super(SSVarNames.discEntryAccept, null, user, servPar.sqlCon);
     
     this.entry                 = entry;
     this.withUserRestriction   = withUserRestriction;

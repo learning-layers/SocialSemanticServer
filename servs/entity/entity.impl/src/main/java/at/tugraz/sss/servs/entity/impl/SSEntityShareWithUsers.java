@@ -31,10 +31,10 @@ import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSEntityCircle;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import java.util.List;
 
@@ -49,6 +49,7 @@ public class SSEntityShareWithUsers {
   }
   
   public void handle(
+    final SSServPar servPar,
     final SSUri       user,
     final SSCircleE   circleType,
     final SSEntity    entity,
@@ -63,13 +64,14 @@ public class SSEntityShareWithUsers {
       
       if(
         SSStrU.isEmpty(users) ||
-        !userCommons.areUsersUsers(users)){
+        !userCommons.areUsersUsers(servPar, users)){
         return;
       }
       
       final SSUri circleUri =
         entityServ.circleCreate(
           new SSCircleCreatePar(
+            servPar,
             user, //user
             circleType,
             null, //label
@@ -80,6 +82,7 @@ public class SSEntityShareWithUsers {
       
       entityServ.circleUsersAdd(
         new SSCircleUsersAddPar(
+          servPar,
           user,
           circleUri, //circle
           users, //users
@@ -88,6 +91,7 @@ public class SSEntityShareWithUsers {
       
       entityServ.circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
+          servPar,
           user,
           circleUri, //circle
           SSUri.asListNotNull(entity.id),  //entities
@@ -97,6 +101,7 @@ public class SSEntityShareWithUsers {
       final SSEntityCircle circle =
         entityServ.circleGet(
           new SSCircleGetPar(
+            servPar,
             user,
             circleUri,
             null, //entityTypesToIncludeOnly,
@@ -108,12 +113,14 @@ public class SSEntityShareWithUsers {
             false)); //invokeEntityHandlers));
       
       SSServReg.inst.circleEntitiesAdded(
+        servPar,
         user,
         circle,
         circle.entities,
         withUserRestriction);
       
       SSServReg.inst.entitiesSharedWithUsers(
+        servPar,
         new SSEntitiesSharedWithUsersPar(
           user,
           circle,

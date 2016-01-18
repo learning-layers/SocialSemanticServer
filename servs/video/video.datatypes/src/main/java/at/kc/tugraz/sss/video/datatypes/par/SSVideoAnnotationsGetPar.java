@@ -20,10 +20,9 @@
 */
 package at.kc.tugraz.sss.video.datatypes.par;
 
-
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 
 public class SSVideoAnnotationsGetPar extends SSServPar{
   
@@ -40,11 +39,12 @@ public class SSVideoAnnotationsGetPar extends SSServPar{
   public SSVideoAnnotationsGetPar(){}
   
   public SSVideoAnnotationsGetPar(
+    final SSServPar servPar,
     final SSUri     user, 
     final SSUri     video,
     final boolean   withUserRestriction){
     
-    super(SSVarNames.videoAnnotationsGet, null, user);
+    super(SSVarNames.videoAnnotationsGet, null, user, servPar.sqlCon);
     
     this.video                = video;
     this.withUserRestriction  = withUserRestriction;

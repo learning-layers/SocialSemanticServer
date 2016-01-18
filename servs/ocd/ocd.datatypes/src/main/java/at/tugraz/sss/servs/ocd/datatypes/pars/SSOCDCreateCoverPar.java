@@ -31,6 +31,7 @@ public class SSOCDCreateCoverPar extends SSServPar {
   public SSOCDCreateCoverPar() {}
   
   public SSOCDCreateCoverPar ( 
+    final SSServPar servPar,
     final SSUri                       user,
     final String                      graphID,
     final SSOCDCreationTypeE          creationType,
@@ -39,7 +40,7 @@ public class SSOCDCreateCoverPar extends SSServPar {
     final byte[]                      content,
     final boolean                     shouldCommit) {
     
-    super(SSVarNames.ocdCreateCover, null, user);
+    super(SSVarNames.ocdCreateCover, null, user, servPar.sqlCon);
     
   }
 }

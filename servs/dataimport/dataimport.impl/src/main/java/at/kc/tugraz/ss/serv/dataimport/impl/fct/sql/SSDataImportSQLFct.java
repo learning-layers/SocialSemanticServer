@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.impl.fct.sql;
 
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLFctA;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -38,6 +38,7 @@ public class SSDataImportSQLFct extends SSDBSQLFctA{
   }
   
   public void addUserWithGroup(
+    final SSServPar servPar, 
     final String userName,
     final String password) throws Exception{
     
@@ -47,7 +48,7 @@ public class SSDataImportSQLFct extends SSDBSQLFctA{
     try{
       final List<String>                 columns = new ArrayList<>();
       final Map<String, String>          wheres  = new HashMap<>();
-      final Statement                    statement               = dbSQL.getConnection().createStatement();
+      final Statement                    statement               = servPar.sqlCon.createStatement();
       
       statement.execute("INSERT INTO user (user_name,user_options,user_password,user_email,user_newpassword) values ('" + userName + "','','','','');");
       
@@ -55,7 +56,7 @@ public class SSDataImportSQLFct extends SSDBSQLFctA{
       
       where(wheres, "user_name", userName);
       
-      resultSet = dbSQL.select("user", columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, "user", columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return;

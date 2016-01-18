@@ -45,20 +45,16 @@ import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutUpdateRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutsGetRet;
 import at.kc.tugraz.sss.appstacklayout.impl.fct.sql.SSAppStackLayoutSQLFct;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-
 import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import java.util.ArrayList;
 import java.util.List;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.*;
 
 public class SSAppStackLayoutImpl
@@ -81,6 +77,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
+    final SSServPar servPar,
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws SSErr{
     
@@ -95,6 +92,7 @@ implements
         return SSAppStackLayout.get(
           appStackLayoutGet(
             new SSAppStackLayoutGetPar(
+              servPar,
               par.user,
               entity.id,
               par.withUserRestriction, 
@@ -137,11 +135,12 @@ implements
       
       final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri appStackLayout =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par,
             par.user,
             appStackLayoutUri,
             SSEntityE.appStackLayout, //type,
@@ -155,15 +154,16 @@ implements
             false)); //shouldCommit)
       
       if(appStackLayout == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
       sql.createAppStackLayout(
+        par,
         appStackLayout,
         par.app);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return appStackLayout;
       
@@ -174,7 +174,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -218,11 +218,12 @@ implements
       
       final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri appStackLayout =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par,
             par.user,
             par.stack,
             null, //type
@@ -236,18 +237,19 @@ implements
             false));
       
       if(appStackLayout == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
       if(par.app != null){
         
         sql.updateAppStackLayout(
+          par,
           appStackLayout,
           par.app);
       }
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return appStackLayout;
       
@@ -258,7 +260,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -284,7 +286,7 @@ implements
     
     try{
       
-      final SSAppStackLayout appStackLayout = sql.getAppStackLayout(par.stack);
+      final SSAppStackLayout appStackLayout = sql.getAppStackLayout(par, par.stack);
       
       if(appStackLayout == null){
         return null;
@@ -294,6 +296,7 @@ implements
       final SSEntity         appStackLayoutEntity =
         entityServ.entityGet(
           new SSEntityGetPar(
+            par,
             par.user,
             par.stack,
             par.withUserRestriction, //withUserRestriction,
@@ -335,12 +338,13 @@ implements
     try{
       
       if(par.stacks.isEmpty()){
-        par.stacks.addAll(sql.getStackURIs());
+        par.stacks.addAll(sql.getStackURIs(par));
       }
       
       final List<SSEntity>         stacks = new ArrayList<>();
       final SSAppStackLayoutGetPar appStackLayoutGetPar =
         new SSAppStackLayoutGetPar(
+          par,
           par.user,
           null, //stack
           par.withUserRestriction,
@@ -387,6 +391,7 @@ implements
 
       final SSEntity appStackLayout = 
         sql.getEntityTest(
+          par,
           par.user, 
           par.stack, 
           par.withUserRestriction);
@@ -395,11 +400,11 @@ implements
         return false;
       }
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
-      sql.deleteStack(par.stack);
+      sql.deleteStack(par, par.stack);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return true;
       
@@ -410,7 +415,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return false;
           }catch(Exception error2){

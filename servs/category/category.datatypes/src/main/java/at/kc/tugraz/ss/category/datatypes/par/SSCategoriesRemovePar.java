@@ -26,6 +26,7 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSCategoriesRemovePar extends SSServPar{
   
@@ -78,6 +79,7 @@ public class SSCategoriesRemovePar extends SSServPar{
   public SSCategoriesRemovePar(){}
   
   public SSCategoriesRemovePar(
+    final SSServPar servPar,
     final SSUri           user,
     final SSUri           forUser,
     final SSUri           entity,
@@ -87,7 +89,7 @@ public class SSCategoriesRemovePar extends SSServPar{
     final boolean         withUserRestriction,
     final boolean         shouldCommit){
     
-    super(SSVarNames.categoriesRemove, null, user);
+    super(SSVarNames.categoriesRemove, null, user, servPar.sqlCon);
     
     this.forUser             = forUser;
     this.entity              = entity;

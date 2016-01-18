@@ -51,6 +51,7 @@ import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEsGetPar;
 import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.util.SSFileExtE;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.SSMimeTypeE;
@@ -113,21 +114,21 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         userUri);
   }
   
-  public void handle() throws Exception{
+  public void handle(final SSServPar servPar) throws Exception{
     
     try{
   
       SSLogU.info("start B&P evernote import for " +  par.authEmail);
       
-      setBasicEvernoteInfo  ();
+      setBasicEvernoteInfo  (servPar);
       
-      handleLinkedNotebooks ();
-      setSharedNotebooks    ();
-      handleNotebooks       ();
-      handleNotes           ();
-      handleResources       ();
+      handleLinkedNotebooks (servPar);
+      setSharedNotebooks    (servPar);
+      handleNotebooks       (servPar);
+      handleNotes           (servPar);
+      handleResources       (servPar);
       
-      setUSN();
+      setUSN(servPar);
       
       SSLogU.info("end B&P evernote import for evernote account " + par.authEmail);
       
@@ -137,13 +138,14 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     }
   }
   
-  private void setBasicEvernoteInfo() throws Exception{
+  private void setBasicEvernoteInfo(final SSServPar servPar) throws Exception{
     
     try{
       
       evernoteInfo =
         evernoteServ.evernoteNoteStoreGet(
           new SSEvernoteNoteStoreGetPar(
+            servPar,
             par.user,
             par.authToken,
             par.authEmail));
@@ -152,6 +154,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       
       evernoteServ.evernoteUserAdd(
         new SSEvernoteUserAddPar(
+          servPar,
           this.userUri,
           par.authToken,
           false));
@@ -161,7 +164,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     }
   }
   
-  private void setUSN() throws Exception{
+  private void setUSN(final SSServPar servPar) throws Exception{
     
     final Integer usn;
     
@@ -178,17 +181,19 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     
     evernoteServ.evernoteUSNSet(
       new SSEvernoteUSNSetPar(
+        servPar,
         this.userUri,
         evernoteInfo.authToken,
         usn,
         false));
   }
   
-  private void setSharedNotebooks() throws Exception{
+  private void setSharedNotebooks(final SSServPar servPar) throws Exception{
     
     sharedNotebooks     = 
       evernoteServ.evernoteNotebooksSharedGet (
         new SSEvernoteNotebooksSharedGetPar(
+          servPar,
           userUri, 
           evernoteInfo.noteStore));
     
@@ -203,7 +208,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     });
   }
   
-  private void handleNotebooks() throws Exception{
+  private void handleNotebooks(final SSServPar servPar) throws Exception{
     
     final List<Notebook> notebooks      = evernoteInfo.noteStoreSyncChunk.getNotebooks();
     SSUri                notebookUri;
@@ -219,23 +224,27 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       notebookLabel    = getNormalOrSharedNotebookLabel       (notebook);
       
       miscFct.addNotebook(
+         servPar,
         notebookUri,
         notebookLabel,
         notebook.getServiceCreated());
       
       addNotebookUEs(
+        servPar,
         notebookUri,
         notebook);
     }
   }
   
   private void addNotebookUEs(
+    final SSServPar servPar,
     final SSUri    notebookUri,
     final Notebook notebook) throws Exception{
     
     final List<SSEntity> existingCreationUEs =
       ueServ.userEventsGet(
         new SSUEsGetPar(
+          servPar,
           userUri, //user 
           null, //userEvents
           userUri, //forUser
@@ -250,6 +259,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       
       ueServ.userEventAdd(
         new SSUEAddPar(
+          servPar,
           userUri,
           notebookUri,
           SSUEE.evernoteNotebookCreate,
@@ -262,6 +272,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     final List<SSEntity> existingUpdatingUEs =
       ueServ.userEventsGet(
         new SSUEsGetPar(
+          servPar,
           userUri, //user
           null, //userEvents
           userUri, //forUser
@@ -276,6 +287,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       
       ueServ.userEventAdd(
         new SSUEAddPar(
+          servPar,
           userUri,
           notebookUri,
           SSUEE.evernoteNotebookUpdate,
@@ -286,7 +298,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     }
   }
   
-  private void handleLinkedNotebooks() throws Exception{
+  private void handleLinkedNotebooks(final SSServPar servPar) throws Exception{
     
     try{
       final List<LinkedNotebook> linkedNotebooks = evernoteInfo.noteStoreSyncChunk.getLinkedNotebooks();
@@ -305,12 +317,14 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         timeCounter++;
         
         miscFct.addNotebook(
+         servPar,
           notebookUri,
           getLinkedNotebookLabel(
             linkedNotebook),
           creationTimeForLinkedNotebook);
         
         addLinkedNotebookUEs(
+          servPar,
           notebookUri,
           creationTimeForLinkedNotebook);
       }
@@ -320,12 +334,14 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
   }
   
   private void addLinkedNotebookUEs(
+    final SSServPar servPar,
     final SSUri notebookUri,
     final Long  creationTimeForLinkedNotebook) throws Exception {
     
     final List<SSEntity> existingUEs =
       ueServ.userEventsGet(
         new SSUEsGetPar(
+          servPar,
           userUri, //user
           null, //userEvents
           userUri, //forUser
@@ -342,6 +358,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     
     ueServ.userEventAdd(
       new SSUEAddPar(
+        servPar,
         userUri,
         notebookUri,
         SSUEE.evernoteNotebookFollow,
@@ -351,7 +368,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         false)); //shouldCommit
   }
   
-  private void handleNotes() throws Exception{
+  private void handleNotes(final SSServPar servPar) throws Exception{
     
     final List<Note>     notes = evernoteInfo.noteStoreSyncChunk.getNotes();
     Note                 noteWithContent;
@@ -370,6 +387,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       notebook         =
         evernoteServ.evernoteNotebookGet(
           new SSEvernoteNotebookGetPar(
+            servPar,
             userUri,
             evernoteInfo.noteStore,
             note.getNotebookGuid()));
@@ -377,6 +395,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       noteWithContent  = 
         evernoteServ.evernoteNoteGet(
           new SSEvernoteNoteGetPar(
+            servPar,
             userUri, 
             evernoteInfo.noteStore, 
             note.getGuid(), 
@@ -389,6 +408,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
           sharedNotebookGuids);
       
       miscFct.addNote(
+         servPar,
         noteUri,
         getNoteLabel(note),
         notebookUri,
@@ -397,12 +417,14 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       noteTagNames = 
         evernoteServ.evernoteNoteTagNamesGet(
           new SSEvernoteNoteTagNamesGetPar(
+            servPar,
             userUri, 
             evernoteInfo.noteStore, 
             note.getGuid()));
       
       tagServ.tagsAdd(
         new SSTagsAddPar(
+          servPar,
           userUri,
           SSTagLabel.get(noteTagNames), //labels
           SSUri.asListNotNull(noteUri), //entities
@@ -416,6 +438,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         
         evalServ.evalLog(
           new SSEvalLogPar(
+            servPar,
             userUri, //user
             SSToolContextE.evernoteImport, //toolContext
             SSEvalLogE.addTag, //type
@@ -427,6 +450,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       }
       
       miscFct.addNoteUEs(
+         servPar,
         note,
         noteUri, 
         note.getCreated(), 
@@ -439,11 +463,11 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         userUri,
         noteWithContent,
         noteUri,
-        evernoteInfo.noteStore).handleNoteContent();
+        evernoteInfo.noteStore).handleNoteContent(servPar);
     }
   }
   
-  private void handleResources() throws Exception{
+  private void handleResources(final SSServPar servPar) throws Exception{
     
     final List<Resource> resources = evernoteInfo.noteStoreSyncChunk.getResources();
     Resource             resourceWithContent;
@@ -461,6 +485,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       resourceWithContent = 
         evernoteServ.evernoteResourceGet(
           new SSEvernoteResourceGetPar(
+            servPar,
             userUri, 
             evernoteInfo.noteStore, 
             resource.getGuid(), 
@@ -504,6 +529,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       resourceWithContent = 
         evernoteServ.evernoteResourceGet(
           new SSEvernoteResourceGetPar(
+            servPar,
             userUri, 
             evernoteInfo.noteStore, 
             resource.getGuid(), 
@@ -513,6 +539,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       note                = 
         evernoteServ.evernoteNoteGet(
           new SSEvernoteNoteGetPar(
+            servPar,
             userUri, 
             evernoteInfo.noteStore, 
             resource.getNoteGuid(), 
@@ -521,6 +548,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       noteUri             = getNormalOrSharedNoteUri (evernoteInfo, note);
       
       miscFct.addResource(
+         servPar,
         resourceUri,
         getResourceLabel(resource, note),
         note.getUpdated(),
@@ -528,6 +556,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       
       fileServ.fileAdd(
         new SSEntityFileAddPar(
+          servPar,
           userUri,
           resourceWithContent.getData().getBody(), //fileBytes, 
           resourceWithContent.getData().getSize(), //fileLength
@@ -543,6 +572,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
           false));//shouldCommit
       
       miscFct.addResourceUEs(
+         servPar,
         resourceUri,
         note.getUpdated());
     }

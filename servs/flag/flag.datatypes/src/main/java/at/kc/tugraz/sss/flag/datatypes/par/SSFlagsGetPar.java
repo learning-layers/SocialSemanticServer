@@ -24,6 +24,7 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +54,7 @@ public class SSFlagsGetPar extends SSServPar{
   public SSFlagsGetPar(){}
     
   public SSFlagsGetPar(
+    final SSServPar servPar,
     final SSUri         user,
     final List<SSUri>   entities,
     final List<SSFlagE> types,
@@ -61,7 +63,7 @@ public class SSFlagsGetPar extends SSServPar{
     final boolean       withUserRestriction, 
     final boolean       invokeEntityHandlers){
     
-    super(SSVarNames.flagsGet, null, user);
+    super(SSVarNames.flagsGet, null, user, servPar.sqlCon);
      
     SSUri.addDistinctWithoutNull   (this.entities, entities);
     SSFlagE.addDistinctWithoutNull (this.types,    types);

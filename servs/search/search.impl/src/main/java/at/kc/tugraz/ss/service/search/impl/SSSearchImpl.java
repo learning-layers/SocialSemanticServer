@@ -115,6 +115,7 @@ implements
       final List<SSUri>        uris                   = new ArrayList<>();
       final SSEntityURIsGetPar entityURIsGetPar       =
         new SSEntityURIsGetPar(
+          par,
           par.user,
           null, //entities
           true, //getAccessible
@@ -219,6 +220,7 @@ implements
           
           final List<List<SSUri>> newPages =
             orderPagesByLabel(
+              par,
               entityServ,
               par.pageSize,
               par.user,
@@ -233,6 +235,7 @@ implements
             
             final List<List<SSUri>> newPages =
               orderPagesByCreationTime(
+                par,
                 entityServ,
                 par.pageSize,
                 par.user,
@@ -458,6 +461,7 @@ implements
       
       return tagServ.tagEntitiesForTagsGet(
         new SSTagEntitiesForTagsGetPar(
+          par,
           par.user, //user
           null, //forUser
           filteredResults, //entities
@@ -515,6 +519,7 @@ implements
           
           orResults.addAll(
             sql.getEntitiesForDescriptionsWithMatch(
+              par,
               filteredResults,
               new ArrayList<>(), //requireds
               new ArrayList<>(), //absents
@@ -524,12 +529,13 @@ implements
             return orResults;
           }
           
-          return sql.getEntitiesForDescriptionsWithLike(SSStrU.toStr(par.descriptionsToSearchFor));
+          return sql.getEntitiesForDescriptionsWithLike(par, SSStrU.toStr(par.descriptionsToSearchFor));
         }
         
         case and:{
           
           return sql.getEntitiesForDescriptionsWithMatch(
+            par,
             filteredResults,
             SSStrU.toStr(par.descriptionsToSearchFor), //requireds
             new ArrayList<>(), //absents
@@ -570,6 +576,7 @@ implements
           
           orResults.addAll(
             sql.getEntitiesForLabelsWithMatch(
+              par,
               filteredResults,
               new ArrayList<>(), //requireds
               new ArrayList<>(), //absents
@@ -579,12 +586,13 @@ implements
             return orResults;
           }
           
-          return sql.getEntitiesForLabelsWithLike(SSStrU.toStr(par.labelsToSearchFor));
+          return sql.getEntitiesForLabelsWithLike(par,SSStrU.toStr(par.labelsToSearchFor));
         }
         
         case and:{
           
           return sql.getEntitiesForLabelsWithMatch(
+            par,
             filteredResults,
             SSStrU.toStr(par.labelsToSearchFor), //requireds
             new ArrayList<>(), //absents
@@ -614,6 +622,7 @@ implements
       final List<SSResourceLikelihood> recommendedResources =
         recommServ.recommResources(
           new SSRecommResourcesPar(
+            par,
             par.user,
             null, //realm
             par.user, //forUser
@@ -696,6 +705,7 @@ implements
       
       return ratingServ.ratingEntityURIsGet(
         new SSRatingEntityURIsGetPar(
+          par,
           par.user,
           searchResults,
           par.minRating,
@@ -733,6 +743,7 @@ implements
       
       return entityServ.entitiesGet(
         new SSEntitiesGetPar(
+          par,
           par.user,
           results, //entities
           null, //descPar,
@@ -745,6 +756,7 @@ implements
   }
   
   private List<List<SSUri>> orderPagesByLabel(
+    final SSSearchPar       par,
     final SSEntityServerI   entityServ,
     final Integer           pageSize,
     final SSUri             user,
@@ -757,6 +769,7 @@ implements
       final List<String>                labels            = new ArrayList<>();
       final SSEntitiesGetPar            entitiesGetPar    =
         new SSEntitiesGetPar(
+          par,
           user,
           null, //entities
           null, //descPar,
@@ -804,6 +817,7 @@ implements
   }
   
   private List<List<SSUri>> orderPagesByCreationTime(
+    final SSSearchPar       par,
     final SSEntityServerI   entityServ,
     final Integer           pageSize,
     final SSUri             user,
@@ -816,6 +830,7 @@ implements
       final List<Long>                    times             = new ArrayList<>();
       final SSEntitiesGetPar              entitiesGetPar    =
         new SSEntitiesGetPar(
+          par,
           user,
           null, //entities
           null, //descPar,

@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.service.user.datatypes.pars;
 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import java.sql.*;
 
 public class SSUserEntityUsersGetPar extends SSServPar{
   
@@ -40,12 +40,13 @@ public class SSUserEntityUsersGetPar extends SSServPar{
   public SSUserEntityUsersGetPar(){}
   
   public SSUserEntityUsersGetPar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         entity,
     final boolean       invokeEntityHandlers, 
     final boolean       withUserRestriction){
     
-    super(SSVarNames.userEntityUsersGet, null, user);
+    super(SSVarNames.userEntityUsersGet, null, user, servPar.sqlCon);
   
     this.entity               = entity;
     this.invokeEntityHandlers = invokeEntityHandlers;

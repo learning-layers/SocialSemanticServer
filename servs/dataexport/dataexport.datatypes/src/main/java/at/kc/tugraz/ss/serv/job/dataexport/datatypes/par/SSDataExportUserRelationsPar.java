@@ -27,8 +27,9 @@ import at.tugraz.sss.serv.util.*;
 public class SSDataExportUserRelationsPar extends SSServPar{
   
   public SSDataExportUserRelationsPar(
+    final SSServPar servPar,
     final SSUri user){
     
-    super(SSVarNames.dataExportUserRelations, null, user);
+    super(SSVarNames.dataExportUserRelations, null, user, servPar.sqlCon);
   }
 }

@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.message.datatypes.par;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 
 public class SSMessagesGetPar extends SSServPar{
   
@@ -41,6 +42,7 @@ public class SSMessagesGetPar extends SSServPar{
   public SSMessagesGetPar(){}
   
   public SSMessagesGetPar(
+    final SSServPar servPar,
     final SSUri     user, 
     final SSUri     forUser, 
     final boolean   includeRead, 
@@ -48,7 +50,7 @@ public class SSMessagesGetPar extends SSServPar{
     final boolean   withUserRestriction, 
     final boolean   invokeEntityHandlers){
     
-    super(SSVarNames.messagesGet, null, user);
+    super(SSVarNames.messagesGet, null, user, servPar.sqlCon);
     
     this.forUser              = forUser;
     this.includeRead          = includeRead;

@@ -38,8 +38,11 @@ import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsAddRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsRemoveRet;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.*;
 import io.swagger.annotations.*;
+import java.sql.*;
 import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -75,40 +78,61 @@ public class SSRESTTag{
     @Context HttpHeaders headers){
     
     final SSTagsGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSTagsGetPar(
-          null, //user
-          null, //forUser
-          null, //entities
-          null, //labels
-          null, //spaces
-          null, //labelSearchOp
-          null, //circles
-          null, //startTime
-          true); //withUserRestriction
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+      try{
+        
+        par =
+          new SSTagsGetPar(
+            new SSServPar
+      (((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection()),
+            null, //user
+            null, //forUser
+            null, //entities
+            null, //labels
+            null, //spaces
+            null, //labelSearchOp
+            null, //circles
+            null, //startTime
+            true); //withUserRestriction
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(tagServ.tagsGet(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+        
+        return Response.status(200).entity(tagServ.tagsGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @POST
@@ -125,39 +149,60 @@ public class SSRESTTag{
     final SSTagsGetRESTPar input){
     
     final SSTagsGetPar par;
+    Connection               sqlCon = null;
     
     try{
-      par =
-        new SSTagsGetPar(
-          null,
-          input.forUser, //forUser
-          input.entities, //entities
-          input.labels, //labels
-          SSSearchOpE.or, //labelSearchOp
-          SSSpaceE.asListWithoutNull(input.space), //spaces
-          input.circles, //circles
-          input.startTime, //startTime,
-          true); //withUserRestriction
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      return Response.status(200).entity(tagServ.tagsGet(SSClientE.rest, par)).build();
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        par =
+          new SSTagsGetPar(
+            new SSServPar(sqlCon),
+            null,
+            input.forUser, //forUser
+            input.entities, //entities
+            input.labels, //labels
+            SSSearchOpE.or, //labelSearchOp
+            SSSpaceE.asListWithoutNull(input.space), //spaces
+            input.circles, //circles
+            input.startTime, //startTime,
+            true); //withUserRestriction
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
+      
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
+      
+      try{
+        final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+        
+        return Response.status(200).entity(tagServ.tagsGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @GET
@@ -172,38 +217,59 @@ public class SSRESTTag{
     final HttpHeaders headers){
     
     final SSTagFrequsGetPar par;
+    Connection               sqlCon = null;
     
     try{
-      par =
-        new SSTagFrequsGetPar(
-          null,
-          null, //forUser
-          null, //entities
-          null, //labels
-          null, //space
-          null, //circles
-          null, //startTime
-          false, //useUsersEntities
-          true); //withUserRestriction
       
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+      try{
+        par =
+          new SSTagFrequsGetPar(
+            new SSServPar(sqlCon),
+            null,
+            null, //forUser
+            null, //entities
+            null, //labels
+            null, //space
+            null, //circles
+            null, //startTime
+            false, //useUsersEntities
+            true); //withUserRestriction
+        
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(tagServ.tagFrequsGet(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+        
+        return Response.status(200).entity(tagServ.tagFrequsGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
   
@@ -221,37 +287,58 @@ public class SSRESTTag{
     final SSTagFrequsGetRESTPar input){
     
     final SSTagFrequsGetPar par;
+    Connection               sqlCon = null;
     
     try{
-      par =
-        new SSTagFrequsGetPar(
-          null,
-          input.forUser, //forUser
-          input.entities, //entities
-          input.labels, //labels
-          SSSpaceE.asListWithoutNull(input.space), //spaces
-          input.circles, //circles
-          input.startTime, //startTime
-          input.useUsersEntities, //useUsersEntities
-          true); //withUserRestriction
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      return Response.status(200).entity(tagServ.tagFrequsGet(SSClientE.rest, par)).build();
+      try{
+        par =
+          new SSTagFrequsGetPar(
+            new SSServPar(sqlCon),
+            null,
+            input.forUser, //forUser
+            input.entities, //entities
+            input.labels, //labels
+            SSSpaceE.asListWithoutNull(input.space), //spaces
+            input.circles, //circles
+            input.startTime, //startTime
+            input.useUsersEntities, //useUsersEntities
+            true); //withUserRestriction
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
+      
+      try{
+        final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+        
+        return Response.status(200).entity(tagServ.tagFrequsGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
   
@@ -269,37 +356,58 @@ public class SSRESTTag{
     final SSTagEntitiesForTagsGetRESTPar input){
     
     final SSTagEntitiesForTagsGetPar par;
+    Connection               sqlCon = null;
     
     try{
-      par =
-        new SSTagEntitiesForTagsGetPar(
-          null, //user
-          input.forUser, //forUser
-          null, //entities
-          input.labels, //labels
-          SSSearchOpE.or, //labelSearchOp
-          SSSpaceE.asListWithoutNull(input.space), //spaces
-          null, //circles
-          input.startTime, //startTime,
-          true); //withUserRestriction
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      return Response.status(200).entity(tagServ.tagEntitiesForTagsGet(SSClientE.rest, par)).build();
+      try{
+        par =
+          new SSTagEntitiesForTagsGetPar(
+            new SSServPar(sqlCon),
+            null, //user
+            input.forUser, //forUser
+            null, //entities
+            input.labels, //labels
+            SSSearchOpE.or, //labelSearchOp
+            SSSpaceE.asListWithoutNull(input.space), //spaces
+            null, //circles
+            input.startTime, //startTime,
+            true); //withUserRestriction
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
+      
+      try{
+        final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+        
+        return Response.status(200).entity(tagServ.tagEntitiesForTagsGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
   
@@ -320,38 +428,58 @@ public class SSRESTTag{
     final SSTagsAddRESTPar     input){
     
     final SSTagsAddPar par;
+    Connection               sqlCon = null;
     
     try{
-      par =
-        new SSTagsAddPar(
-          null,
-          input.labels, //labels
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSConf.sssUri), //entities
-          input.space, //space
-          input.circle, //circle
-          input.creationTime,
-          true, //withUserRestriction
-          true); //commit
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      return Response.status(200).entity(tagServ.tagsAdd(SSClientE.rest, par)).build();
+      try{
+        par =
+          new SSTagsAddPar(
+            new SSServPar(sqlCon),
+            null,
+            input.labels, //labels
+            SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSConf.sssUri), //entities
+            input.space, //space
+            input.circle, //circle
+            input.creationTime,
+            true, //withUserRestriction
+            true); //commit
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
+      
+      try{
+        final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+        
+        return Response.status(200).entity(tagServ.tagsAdd(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @DELETE
@@ -371,38 +499,58 @@ public class SSRESTTag{
     final SSTagsRemoveRESTPar     input){
     
     final SSTagsRemovePar par;
+    Connection               sqlCon = null;
     
     try{
-      par =
-        new SSTagsRemovePar(
-          null,
-          null,
-          SSUri.get(entity, SSConf.sssUri), //entity
-          input.label, //label
-          input.space, //space
-          input.circle, //circle
-          true,
-          true);
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      return Response.status(200).entity(tagServ.tagsRemove(SSClientE.rest, par)).build();
+      try{
+        par =
+          new SSTagsRemovePar(
+            new SSServPar(sqlCon),
+            null,
+            null,
+            SSUri.get(entity, SSConf.sssUri), //entity
+            input.label, //label
+            input.space, //space
+            input.circle, //circle
+            true,
+            true);
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
+      
+      try{
+        final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+        
+        return Response.status(200).entity(tagServ.tagsRemove(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @POST
@@ -418,36 +566,57 @@ public class SSRESTTag{
     final SSTagAddRESTPar input){
     
     final SSTagAddPar par;
+    Connection               sqlCon = null;
     
     try{
-      par =
-        new SSTagAddPar(
-          null,
-          input.entity, //entity
-          input.label, //label
-          input.space, //space
-          input.circle, //circle
-          input.creationTime,  //creationTime
-          true, //withUserRestriction
-          true); //shouldCommit
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      return Response.status(200).entity(tagServ.tagAdd(SSClientE.rest, par)).build();
+      try{
+        par =
+          new SSTagAddPar(
+            new SSServPar(sqlCon),
+            null,
+            input.entity, //entity
+            input.label, //label
+            input.space, //space
+            input.circle, //circle
+            input.creationTime,  //creationTime
+            true, //withUserRestriction
+            true); //shouldCommit
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
+      
+      try{
+        final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+        
+        return Response.status(200).entity(tagServ.tagAdd(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
 }

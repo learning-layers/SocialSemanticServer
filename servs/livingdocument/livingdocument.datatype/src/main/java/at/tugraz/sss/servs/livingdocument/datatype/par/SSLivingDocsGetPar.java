@@ -23,6 +23,7 @@ package at.tugraz.sss.servs.livingdocument.datatype.par;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 
 public class SSLivingDocsGetPar extends SSServPar{
   
@@ -41,12 +42,13 @@ public class SSLivingDocsGetPar extends SSServPar{
   public SSLivingDocsGetPar(){}
     
   public SSLivingDocsGetPar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         forUser,
     final boolean       withUserRestriction,
     final boolean       invokeEntityHandlers){
     
-    super(SSVarNames.livingDocsGet, null, user);
+    super(SSVarNames.livingDocsGet, null, user, servPar.sqlCon);
     
     this.forUser              = forUser;
     this.withUserRestriction  = withUserRestriction;

@@ -32,11 +32,12 @@ public class SSEvernoteNoteStoreGetPar extends SSServPar{
   public SSEvernoteNoteStoreGetPar(){}
     
   public SSEvernoteNoteStoreGetPar(
+    final SSServPar servPar, 
     final SSUri  user, 
     final String authToken, 
     final String authEmail){
     
-    super(SSVarNames.evernoteNoteStoreGet, null, user);
+    super(SSVarNames.evernoteNoteStoreGet, null, user,servPar.sqlCon);
     
     this.authToken     = authToken;
     this.authEmail     = authEmail;

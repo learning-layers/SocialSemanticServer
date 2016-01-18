@@ -31,8 +31,12 @@ import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.entity.impl.SSEntityImpl;
+import java.sql.*;
 import java.util.List;
 
 public class SSEntityServ extends SSServContainerI{
@@ -87,14 +91,37 @@ public class SSEntityServ extends SSServContainerI{
   @Override
   public void initServ() throws Exception{
     
-     if(!conf.use){
+    if(!conf.use){
       return;
     }
     
-    ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circlePubURIGet(
-      new SSCirclePubURIGetPar(
-        SSConf.systemUserUri, 
-        true));
+    Connection sqlCon = null;
+    
+    try{
+      
+      final SSServPar servPar = new SSServPar(null);
+      
+      sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      
+      servPar.sqlCon = sqlCon;
+      
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circlePubURIGet(
+        new SSCirclePubURIGetPar(
+          servPar,
+          SSConf.systemUserUri,
+          true));
+      
+    }finally{
+      
+      if(sqlCon != null){
+        
+        try{
+          sqlCon.close();
+        }catch (SQLException error) {
+          SSLogU.err(error);
+        }
+      }
+    }
   }
   
   @Override

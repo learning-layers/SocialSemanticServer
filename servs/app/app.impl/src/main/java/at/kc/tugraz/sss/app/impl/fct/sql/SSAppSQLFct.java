@@ -29,6 +29,7 @@ import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.sss.app.datatypes.SSApp;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class SSAppSQLFct extends SSDBSQLFctA{
   }
   
   public SSApp getApp(
+    final SSServPar servPar,
     final SSUri app) throws Exception{
     
     ResultSet resultSet = null;
@@ -67,7 +69,7 @@ public class SSAppSQLFct extends SSDBSQLFctA{
       
       where(wheres, SSSQLVarNames.appId, app);
       
-      resultSet = dbSQL.select(SSSQLVarNames.appTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.appTable, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -91,7 +93,8 @@ public class SSAppSQLFct extends SSDBSQLFctA{
     }
   }
   
-  public List<SSUri> getAppURIs() throws Exception{
+  public List<SSUri> getAppURIs(
+    final SSServPar servPar) throws Exception{
     
     ResultSet resultSet = null;
       
@@ -101,7 +104,7 @@ public class SSAppSQLFct extends SSDBSQLFctA{
       
       column(columns, SSSQLVarNames.appId);
       
-      resultSet = dbSQL.select(SSSQLVarNames.appTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.appTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.appId);
       
@@ -114,6 +117,7 @@ public class SSAppSQLFct extends SSDBSQLFctA{
   }
 
   public void createApp(
+    final SSServPar servPar,
     final SSUri         app, 
     final SSTextComment descriptionShort, 
     final SSTextComment descriptionFunctional, 
@@ -173,13 +177,15 @@ public class SSAppSQLFct extends SSDBSQLFctA{
       
       uniqueKey (uniqueKeys, SSSQLVarNames.appId,    app);
       
-      dbSQL.insertIfNotExists(SSSQLVarNames.appTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.appTable, inserts, uniqueKeys);
      }catch(Exception error){
        SSServErrReg.regErrThrow(error);
      }
   }
 
-  public void removeApps(final List<SSUri> apps) throws Exception {
+  public void removeApps(
+    final SSServPar servPar,
+    final List<SSUri> apps) throws Exception {
     
     try{
       final Map<String, String> wheres = new HashMap<>();
@@ -190,7 +196,7 @@ public class SSAppSQLFct extends SSDBSQLFctA{
         
         where(wheres, SSSQLVarNames.appId, app);
       
-        dbSQL.deleteIgnore(SSSQLVarNames.appTable, wheres);
+        dbSQL.deleteIgnore(servPar, SSSQLVarNames.appTable, wheres);
       }
       
      }catch(Exception error){

@@ -23,6 +23,7 @@ package at.tugraz.sss.serv.datatype.par;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSEntityGetPar extends SSServPar{
   
@@ -40,12 +41,13 @@ public class SSEntityGetPar extends SSServPar{
   public SSEntityGetPar(){}
   
   public SSEntityGetPar(
+    final SSServPar servPar,
     final SSUri                user,
     final SSUri                entity, 
     final boolean              withUserRestriction,
     final SSEntityDescriberPar descPar){
     
-    super(SSVarNames.entityGet, null, user);
+    super(SSVarNames.entityGet, null, user, servPar.sqlCon);
     
     this.entity               = entity;
     this.withUserRestriction  = withUserRestriction;

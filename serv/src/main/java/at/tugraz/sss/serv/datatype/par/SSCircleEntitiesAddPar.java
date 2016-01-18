@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,13 +57,14 @@ public class SSCircleEntitiesAddPar extends SSServPar{
   public SSCircleEntitiesAddPar(){}
   
   public SSCircleEntitiesAddPar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         circle,
     final List<SSUri>   entities,
     final boolean       withUserRestriction,
     final boolean       shouldCommit){
     
-    super(SSVarNames.circleEntitiesAdd, null, user);
+    super(SSVarNames.circleEntitiesAdd, null, user, servPar.sqlCon);
     
     this.circle                 = circle;
     

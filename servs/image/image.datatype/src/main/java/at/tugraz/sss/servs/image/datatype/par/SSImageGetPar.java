@@ -20,10 +20,10 @@
 */
 package at.tugraz.sss.servs.image.datatype.par;
 
-
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 
 public class SSImageGetPar extends SSServPar{
   
@@ -40,11 +40,12 @@ public class SSImageGetPar extends SSServPar{
   public SSImageGetPar(){}
   
   public SSImageGetPar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         image,
     final boolean       withUserRestriction){
     
-    super(SSVarNames.imageGet, null, user);
+    super(SSVarNames.imageGet, null, user, servPar.sqlCon);
     
     this.image               = image;
     this.withUserRestriction = withUserRestriction;

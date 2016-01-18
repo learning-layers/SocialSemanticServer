@@ -29,6 +29,7 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +58,7 @@ public class SSCircleCreateFromClientPar extends SSCircleCreatePar{
   public SSCircleCreateFromClientPar(){}
   
   public SSCircleCreateFromClientPar(
+    final SSServPar servPar,
     final SSUri           user,
     final SSCircleE       circleType,
     final SSLabel         label,
@@ -66,6 +68,7 @@ public class SSCircleCreateFromClientPar extends SSCircleCreatePar{
     final List<SSUri>     entities){
     
     super(
+      servPar,
       user,
       circleType, 
       label,

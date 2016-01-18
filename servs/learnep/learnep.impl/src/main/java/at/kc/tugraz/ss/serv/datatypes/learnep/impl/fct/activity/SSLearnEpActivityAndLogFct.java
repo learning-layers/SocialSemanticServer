@@ -1,23 +1,23 @@
- /**
-  * Code contributed to the Learning Layers project
-  * http://www.learning-layers.eu
-  * Development is partly funded by the FP7 Programme of the European Commission under
-  * Grant Agreement FP7-ICT-318209.
-  * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
-  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-  *
-  * Licensed under the Apache License, Version 2.0 (the "License");
-  * you may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at
-  *
-  * http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS,
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
-  */
+/**
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.activity;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
@@ -31,11 +31,11 @@ import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import java.util.List;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
+import at.tugraz.sss.serv.datatype.par.*;
 import java.util.ArrayList;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
@@ -55,6 +55,7 @@ public class SSLearnEpActivityAndLogFct{
   }
   
   public void addCircleToLearnEpVersion(
+    final SSServPar servPar,
     final SSUri                        user,
     final SSUri                        learnEpVersion,
     final SSUri                        circle,
@@ -65,6 +66,7 @@ public class SSLearnEpActivityAndLogFct{
       
       activityServ.activityAdd(
         new SSActivityAddPar(
+          servPar,
           user,
           SSActivityE.addCircleToLearnEpVersion,
           learnEpVersion,
@@ -89,12 +91,13 @@ public class SSLearnEpActivityAndLogFct{
       
       evalServ.evalLog(
         new SSEvalLogPar(
+          servPar,
           user,
           SSToolContextE.organizeArea,
           SSEvalLogE.addCircleToLearnEpVersion,
           circle,
           null, //content
-SSUri.asListNotNull(learnEp), //entities
+          SSUri.asListNotNull(learnEp), //entities
           null, //users
           shouldCommit));
       
@@ -111,6 +114,7 @@ SSUri.asListNotNull(learnEp), //entities
   }
   
   public void addEntityToLearnEpVersion(
+    final SSServPar servPar,
     final SSUri                        user,
     final SSUri                        learnEpVersion,
     final SSUri                        entity,
@@ -122,6 +126,7 @@ SSUri.asListNotNull(learnEp), //entities
       
       activityServ.activityAdd(
         new SSActivityAddPar(
+          servPar,
           user,
           SSActivityE.addEntityToLearnEpVersion,
           learnEpVersion,
@@ -142,16 +147,17 @@ SSUri.asListNotNull(learnEp), //entities
       SSServErrReg.regErrThrow(error);
     }
     
-     try{
+    try{
       
       evalServ.evalLog(
         new SSEvalLogPar(
+          servPar,
           user,
           SSToolContextE.organizeArea,
           SSEvalLogE.addEntityToLearnEpVersion,
           entity,
           null, //content
-SSUri.asListNotNull(learnEp), //entities
+          SSUri.asListNotNull(learnEp), //entities
           null, //users
           shouldCommit));
       
@@ -168,6 +174,7 @@ SSUri.asListNotNull(learnEp), //entities
   }
   
   public void removeLearnEpVersionCircle(
+    final SSServPar servPar,
     final SSUri                           user,
     final SSUri                           learnEpVersion,
     final SSUri                           learnEp,
@@ -178,6 +185,7 @@ SSUri.asListNotNull(learnEp), //entities
       
       activityServ.activityAdd(
         new SSActivityAddPar(
+          servPar,
           user,
           SSActivityE.removeLearnEpVersionCircle,
           learnEpVersion,
@@ -202,12 +210,13 @@ SSUri.asListNotNull(learnEp), //entities
       
       evalServ.evalLog(
         new SSEvalLogPar(
+          servPar,
           user,
           SSToolContextE.organizeArea,
           SSEvalLogE.removeLearnEpVersionCircle,
           learnEpCircle,
           null, //content
-SSUri.asListNotNull(learnEp), //entities
+          SSUri.asListNotNull(learnEp), //entities
           null, //users
           shouldCommit));
       
@@ -224,6 +233,7 @@ SSUri.asListNotNull(learnEp), //entities
   }
   
   public void handleRemoveLearnEpVersionCircleWithEntities(
+    final SSServPar servPar,
     final SSUri                           user,
     final SSUri                           learnEpVersion,
     final SSUri                           learnEp,
@@ -235,19 +245,21 @@ SSUri.asListNotNull(learnEp), //entities
       if(learnEpCircle.entries.isEmpty()){
         
         removeLearnEpVersionCircle(
-          user, 
-          learnEpVersion, 
-          learnEp, 
-          learnEpCircle.id, 
+          servPar,
+          user,
+          learnEpVersion,
+          learnEp,
+          learnEpCircle.id,
           shouldCommit);
         
       }else{
         
         removeLearnEpVersionCircleWithEntities(
-          user, 
-          learnEpVersion, 
-          learnEp, 
-          learnEpCircle, 
+          servPar,
+          user,
+          learnEpVersion,
+          learnEp,
+          learnEpCircle,
           shouldCommit);
       }
       
@@ -264,6 +276,7 @@ SSUri.asListNotNull(learnEp), //entities
   }
   
   public void removeLearnEpVersionCircleWithEntities(
+    final SSServPar servPar,
     final SSUri                           user,
     final SSUri                           learnEpVersion,
     final SSUri                           learnEp,
@@ -282,14 +295,15 @@ SSUri.asListNotNull(learnEp), //entities
       }
       
       SSUri.addDistinctWithoutNull(
-        uris, 
+        uris,
         ((SSLearnEpEntity) learnEpEntity).entity.id);
     }
-      
+    
     try{
       
       activityServ.activityAdd(
         new SSActivityAddPar(
+          servPar,
           user,
           SSActivityE.removeLearnEpVersionCircleWithEntitites,
           learnEpVersion, //entitiy
@@ -314,6 +328,7 @@ SSUri.asListNotNull(learnEp), //entities
       
       evalServ.evalLog(
         new SSEvalLogPar(
+          servPar,
           user,
           SSToolContextE.organizeArea,
           SSEvalLogE.removeLearnEpVersionCircleWithEntitites,
@@ -336,6 +351,7 @@ SSUri.asListNotNull(learnEp), //entities
   }
   
   public void removeLearnEpVersionEntity(
+    final SSServPar servPar,
     final SSUri                           user,
     final SSUri                           learnEpVersion,
     final SSUri                           learnEpEntity,
@@ -347,6 +363,7 @@ SSUri.asListNotNull(learnEp), //entities
       
       activityServ.activityAdd(
         new SSActivityAddPar(
+          servPar,
           user,
           SSActivityE.removeLearnEpVersionEntity,
           learnEpVersion,
@@ -371,12 +388,13 @@ SSUri.asListNotNull(learnEp), //entities
       
       evalServ.evalLog(
         new SSEvalLogPar(
+          servPar,
           user,
           SSToolContextE.organizeArea,
           SSEvalLogE.removeLearnEpVersionEntity,
           entity,
           null, //content
-SSUri.asListNotNull(learnEp), //entities
+          SSUri.asListNotNull(learnEp), //entities
           null, //users
           shouldCommit));
       
@@ -393,6 +411,7 @@ SSUri.asListNotNull(learnEp), //entities
   }
   
   public void shareLearnEp(
+    final SSServPar servPar,
     final SSUri       user,
     final SSUri       learnEp,
     final List<SSUri> usersToShareWith,
@@ -402,6 +421,7 @@ SSUri.asListNotNull(learnEp), //entities
       
       activityServ.activityAdd(
         new SSActivityAddPar(
+          servPar,
           user,
           SSActivityE.shareLearnEpWithUser,
           learnEp,
@@ -426,6 +446,7 @@ SSUri.asListNotNull(learnEp), //entities
       
       evalServ.evalLog(
         new SSEvalLogPar(
+          servPar,
           user,
           SSToolContextE.episodeTab,
           SSEvalLogE.shareLearnEpWithUser,
@@ -448,6 +469,7 @@ SSUri.asListNotNull(learnEp), //entities
   }
   
   public void copyLearnEp(
+    final SSServPar servPar,
     final SSUri       user,
     final SSUri       learnEp,
     final List<SSUri> usersToCopyFor,
@@ -458,6 +480,7 @@ SSUri.asListNotNull(learnEp), //entities
       
       activityServ.activityAdd(
         new SSActivityAddPar(
+          servPar,
           user,
           SSActivityE.copyLearnEpForUsers,
           learnEp,
@@ -482,13 +505,14 @@ SSUri.asListNotNull(learnEp), //entities
       
       evalServ.evalLog(
         new SSEvalLogPar(
-          user, 
-          SSToolContextE.episodeTab, 
-          SSEvalLogE.copyLearnEpForUser, 
-          learnEp, 
-          null, //content 
+          servPar,
+          user,
+          SSToolContextE.episodeTab,
+          SSEvalLogE.copyLearnEpForUser,
+          learnEp,
+          null, //content
           includedEntities, //entities
-SSUri.asListNotNull(usersToCopyFor), 
+          SSUri.asListNotNull(usersToCopyFor),
           shouldCommit));
       
     }catch(SSErr error){
@@ -504,6 +528,7 @@ SSUri.asListNotNull(usersToCopyFor),
   }
   
   public void changeLearnEpVersionCircleLabelAndDescription(
+    final SSServPar servPar,
     final SSUri                           user,
     final SSEntity                        circleEntity,
     final SSLabel                         label,
@@ -521,6 +546,7 @@ SSUri.asListNotNull(usersToCopyFor),
         
         activityServ.activityAdd(
           new SSActivityAddPar(
+            servPar,
             user,
             SSActivityE.changeLearnEpVersionCircleLabel,
             learnEpVersion,
@@ -550,6 +576,7 @@ SSUri.asListNotNull(usersToCopyFor),
         
         activityServ.activityAdd(
           new SSActivityAddPar(
+            servPar,
             user,
             SSActivityE.changeLearnEpVersionCircleDescription,
             learnEpVersion,
@@ -559,7 +586,7 @@ SSUri.asListNotNull(usersToCopyFor),
             null,
             shouldCommit));
       }
-
+      
     }catch(SSErr error){
       
       switch(error.code){
@@ -573,6 +600,7 @@ SSUri.asListNotNull(usersToCopyFor),
   }
   
   public void removeEntityFromLearnEpCircle(
+    final SSServPar servPar,
     final SSUri   user,
     final SSUri   learnEp,
     final SSUri   learnEpVersion,
@@ -585,6 +613,7 @@ SSUri.asListNotNull(usersToCopyFor),
       
       activityServ.activityAdd(
         new SSActivityAddPar(
+          servPar,
           user,
           SSActivityE.removeEntityFromLearnEpCircle, //type
           learnEpVersion,
@@ -609,12 +638,13 @@ SSUri.asListNotNull(usersToCopyFor),
       
       evalServ.evalLog(
         new SSEvalLogPar(
+          servPar,
           user,
           SSToolContextE.organizeArea,
           SSEvalLogE.removeEntityFromLearnEpCircle,
           entity,
           null, //content
-SSUri.asListNotNull(learnEp, circle), //entities
+          SSUri.asListNotNull(learnEp, circle), //entities
           null, //users
           shouldCommit));
       
@@ -631,6 +661,7 @@ SSUri.asListNotNull(learnEp, circle), //entities
   }
   
   public void addEntityToLearnEpCircle(
+    final SSServPar servPar,
     final SSUri   user,
     final SSUri   learnEp,
     final SSUri   learnEpVersion,
@@ -643,11 +674,12 @@ SSUri.asListNotNull(learnEp, circle), //entities
       
       activityServ.activityAdd(
         new SSActivityAddPar(
+          servPar,
           user,
           SSActivityE.addEntityToLearnEpCircle, //type
           learnEpVersion, //entity
           null, //users
-SSUri.asListNotNull(circle, entity, learnEp), //entities
+          SSUri.asListNotNull(circle, entity, learnEp), //entities
           null, //comments
           null, //creationTime
           shouldCommit));
@@ -667,12 +699,13 @@ SSUri.asListNotNull(circle, entity, learnEp), //entities
       
       evalServ.evalLog(
         new SSEvalLogPar(
+          servPar,
           user,
           SSToolContextE.organizeArea,
           SSEvalLogE.addEntityToLearnEpCircle,
           entity,
           null, //content
-SSUri.asListNotNull(learnEp, circle), //entities
+          SSUri.asListNotNull(learnEp, circle), //entities
           null, //users
           shouldCommit));
       
@@ -689,6 +722,7 @@ SSUri.asListNotNull(learnEp, circle), //entities
   }
   
   public void handleEntityAddToOrRemoveFromLearnEpCircle(
+    final SSServPar servPar,
     final SSLearnEpImpl  learnEpServ,
     final SSUri          user,
     final SSUri          learnEp,
@@ -696,8 +730,8 @@ SSUri.asListNotNull(learnEp, circle), //entities
     final SSUri          learnEpEntity,
     final SSUri          entity,
     final List<SSEntity> versionCirclesBefore,
-    final boolean        calledFromRemove, 
-    final boolean        calledFromAdd, 
+    final boolean        calledFromRemove,
+    final boolean        calledFromAdd,
     final boolean        shouldCommit) throws Exception{
     
     try{
@@ -709,6 +743,7 @@ SSUri.asListNotNull(learnEp, circle), //entities
       versionCirclesAfter.addAll(
         learnEpServ.learnEpVersionCirclesWithEntriesGet(
           new SSLearnEpVersionCirclesWithEntriesGetPar(
+            servPar,
             user,
             learnEpVersion,
             false, //withUserRestriction
@@ -735,6 +770,7 @@ SSUri.asListNotNull(learnEp, circle), //entities
         if(!SSStrU.contains(entityCircleUrisAfter, circle)){
           
           removeEntityFromLearnEpCircle(
+            servPar,
             user,
             learnEp,
             learnEpVersion,
@@ -750,8 +786,9 @@ SSUri.asListNotNull(learnEp, circle), //entities
       if(
         !entityRemovedFromCircle &&
         calledFromRemove){
-            
+        
         removeLearnEpVersionEntity(
+          servPar,
           user,
           learnEpVersion,
           learnEpEntity,
@@ -767,6 +804,7 @@ SSUri.asListNotNull(learnEp, circle), //entities
         if(!SSStrU.contains(entityCircleUrisBefore, circle)){
           
           addEntityToLearnEpCircle(
+            servPar,
             user,
             learnEp,
             learnEpVersion,
@@ -784,13 +822,14 @@ SSUri.asListNotNull(learnEp, circle), //entities
         calledFromAdd){
         
         addEntityToLearnEpVersion(
+          servPar,
           user,
           learnEpVersion,
           entity,
           learnEpEntity,
           learnEp,
           shouldCommit);
-      }      
+      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

@@ -23,6 +23,7 @@ package at.tugraz.sss.servs.location.datatype.par;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSLocationGetPar extends SSServPar{
 
@@ -39,12 +40,13 @@ public class SSLocationGetPar extends SSServPar{
   public SSLocationGetPar(){}
   
   public SSLocationGetPar(
+    final SSServPar servPar,
     final SSUri         user, 
     final SSUri         location, 
     final boolean       withUserRestriction, 
     final boolean       invokeEntityHandlers){
       
-    super(SSVarNames.locationGet, null, user);
+    super(SSVarNames.locationGet, null, user, servPar.sqlCon);
     
     this.location             = location;
     this.withUserRestriction  = withUserRestriction;

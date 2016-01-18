@@ -23,7 +23,7 @@ package at.kc.tugraz.sss.video.datatypes.par;
 import at.kc.tugraz.sss.video.datatypes.SSVideoE;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
 
 public class SSVideoUserAddFromClientPar extends SSVideoUserAddPar{
   
@@ -34,6 +34,7 @@ public class SSVideoUserAddFromClientPar extends SSVideoUserAddPar{
   public SSVideoUserAddFromClientPar(){}
   
   public SSVideoUserAddFromClientPar(
+    final SSServPar servPar,
     final String         uuid,
     final SSUri          link,
     final SSVideoE       type, 
@@ -47,6 +48,7 @@ public class SSVideoUserAddFromClientPar extends SSVideoUserAddPar{
     final Float          accuracy){
     
     super(
+      servPar,
       null,
       uuid,
       link,

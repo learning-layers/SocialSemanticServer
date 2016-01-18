@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 
 public class SSLearnEpVersionCircleRemovePar extends SSServPar{
   
@@ -40,12 +40,13 @@ public class SSLearnEpVersionCircleRemovePar extends SSServPar{
   public SSLearnEpVersionCircleRemovePar(){}
   
   public SSLearnEpVersionCircleRemovePar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         learnEpCircle,
     final boolean       withUserRestriction,
     final boolean       shouldCommit){
     
-    super(SSVarNames.learnEpVersionCircleRemove, null, user);
+    super(SSVarNames.learnEpVersionCircleRemove, null, user, servPar.sqlCon);
     
     this.learnEpCircle       = learnEpCircle;
     this.withUserRestriction = withUserRestriction;

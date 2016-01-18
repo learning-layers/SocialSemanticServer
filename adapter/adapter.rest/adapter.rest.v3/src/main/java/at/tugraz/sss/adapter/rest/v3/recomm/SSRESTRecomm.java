@@ -37,9 +37,12 @@ import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUsersRet;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.*;
 import io.swagger.annotations.*;
 import java.io.InputStream;
+import java.sql.*;
 import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -80,37 +83,57 @@ public class SSRESTRecomm{
     final SSRecommUpdateRESTPar input){
     
     final SSRecommUpdatePar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSRecommUpdatePar(
-          null,
-          input.realm,       //realm
-          input.forUser,     //forUser
-          input.entity,      //entity
-          input.tags,        //tags
-          input.categories); //categories
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      try{
+        
+        par =
+          new SSRecommUpdatePar(
+            new SSServPar(sqlCon),
+            null,
+            input.realm,       //realm
+            input.forUser,     //forUser
+            input.entity,      //entity
+            input.tags,        //tags
+            input.categories); //categories
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(recommServ.recommUpdate(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
+        return Response.status(200).entity(recommServ.recommUpdate(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @POST
@@ -137,34 +160,55 @@ public class SSRESTRecomm{
     final InputStream file){
     
     final SSRecommUpdateBulkPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSRecommUpdateBulkPar(
-          null, //user
-          realm, //realm
-          null, //clientSocket
-          file, //fileInputStream
-          SSClientE.rest); //clientType
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      try{
+        
+        par =
+          new SSRecommUpdateBulkPar(
+            new SSServPar(sqlCon),
+            null, //user
+            realm, //realm
+            null, //clientSocket
+            file, //fileInputStream
+            SSClientE.rest); //clientType
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(recommServ.recommUpdateBulk(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
+        return Response.status(200).entity(recommServ.recommUpdateBulk(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
   
@@ -182,37 +226,57 @@ public class SSRESTRecomm{
     final SSRecommUpdateBulkEntitiesRESTPar input){
     
     final SSRecommUpdateBulkEntitiesPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSRecommUpdateBulkEntitiesPar(
-          null,
-          input.realm,         //realm
-          input.forUser,       //forUser
-          input.entities,      //entity
-          input.tags,          //tags
-          input.categories);   //categories
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      try{
+        
+        par =
+          new SSRecommUpdateBulkEntitiesPar(
+            new SSServPar(sqlCon),
+            null,
+            input.realm,         //realm
+            input.forUser,       //forUser
+            input.entities,      //entity
+            input.tags,          //tags
+            input.categories);   //categories
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(recommServ.recommUpdateBulkEntities(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
+        return Response.status(200).entity(recommServ.recommUpdateBulkEntities(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @GET
@@ -227,40 +291,60 @@ public class SSRESTRecomm{
     final HttpHeaders headers){
     
     final SSRecommUsersPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSRecommUsersPar(
-          null,
-          null, //realm
-          null,  //forUser
-          null,  //entity
-          null,  //categories
-          10, //maxUsers
-          false, //ignoreAccessRights
-          true, //withUserRestriction
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      try{
+        
+        par =
+          new SSRecommUsersPar(
+            new SSServPar(sqlCon),
+            null,
+            null, //realm
+            null,  //forUser
+            null,  //entity
+            null,  //categories
+            10, //maxUsers
+            false, //ignoreAccessRights
+            true, //withUserRestriction
+            true); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
+        return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @GET
@@ -281,40 +365,60 @@ public class SSRESTRecomm{
     final String realm){
     
     final SSRecommUsersPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSRecommUsersPar(
-          null,
-          realm, //realm
-          null,  //forUser
-          null,  //entity
-          null,  //categories
-          10, //maxUsers
-          false, //ignoreAccessRights
-          true, //withUserRestriction
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      try{
+        
+        par =
+          new SSRecommUsersPar(
+            new SSServPar(sqlCon),
+            null,
+            realm, //realm
+            null,  //forUser
+            null,  //entity
+            null,  //categories
+            10, //maxUsers
+            false, //ignoreAccessRights
+            true, //withUserRestriction
+            true); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
+        return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @GET
@@ -335,38 +439,59 @@ public class SSRESTRecomm{
     final String realm){
     
     final SSRecommUsersPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSRecommUsersPar(
-          null,
-          realm, //realm
-          null,  //forUser
-          null,  //entity
-          null,  //categories
-          10, //maxUsers
-          true, //ignoreAccessRights
-          true, //withUserRestriction
-          false); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      try{
+        
+        par =
+          new SSRecommUsersPar(
+            new SSServPar(sqlCon),
+            null,
+            realm, //realm
+            null,  //forUser
+            null,  //entity
+            null,  //categories
+            10, //maxUsers
+            true, //ignoreAccessRights
+            true, //withUserRestriction
+            false); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
+        return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
   
@@ -394,40 +519,60 @@ public class SSRESTRecomm{
       String entity){
     
     final SSRecommUsersPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSRecommUsersPar(
-          null,
-          null,                                //realm
-          SSUri.get(forUser, SSConf.sssUri), //forUser
-          SSUri.get(entity,  SSConf.sssUri), //entity
-          null, //categories
-          10, //maxUsers
-          false, //ignoreAccessRights
-          true, // withUserRestriction
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      try{
+        
+        par =
+          new SSRecommUsersPar(
+            new SSServPar(sqlCon),
+            null,
+            null,                                //realm
+            SSUri.get(forUser, SSConf.sssUri), //forUser
+            SSUri.get(entity,  SSConf.sssUri), //entity
+            null, //categories
+            10, //maxUsers
+            false, //ignoreAccessRights
+            true, // withUserRestriction
+            true); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
+        return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @GET
@@ -460,40 +605,60 @@ public class SSRESTRecomm{
       String entity){
     
     final SSRecommUsersPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSRecommUsersPar(
-          null,
-          realm,                                //realm
-          SSUri.get(forUser, SSConf.sssUri), //forUser
-          SSUri.get(entity,  SSConf.sssUri), //entity
-          null, //categories
-          10, //maxUsers
-          false, //ignoreAccessRights
-          true, // withUserRestriction
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      try{
+        
+        par =
+          new SSRecommUsersPar(
+            new SSServPar(sqlCon),
+            null,
+            realm,                                //realm
+            SSUri.get(forUser, SSConf.sssUri), //forUser
+            SSUri.get(entity,  SSConf.sssUri), //entity
+            null, //categories
+            10, //maxUsers
+            false, //ignoreAccessRights
+            true, // withUserRestriction
+            true); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
+        return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @GET
@@ -526,40 +691,60 @@ public class SSRESTRecomm{
       String entity){
     
     final SSRecommUsersPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSRecommUsersPar(
-          null,
-          realm,                                //realm
-          SSUri.get(forUser, SSConf.sssUri), //forUser
-          SSUri.get(entity,  SSConf.sssUri), //entity
-          null, //categories
-          10, //maxUsers
-          true, //ignoreAccessRights
-          true, // withUserRestriction
-          false); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      try{
+        
+        par =
+          new SSRecommUsersPar(
+            new SSServPar(sqlCon),
+            null,
+            realm,                                //realm
+            SSUri.get(forUser, SSConf.sssUri), //forUser
+            SSUri.get(entity,  SSConf.sssUri), //entity
+            null, //categories
+            10, //maxUsers
+            true, //ignoreAccessRights
+            true, // withUserRestriction
+            false); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
+        return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @GET
@@ -580,40 +765,60 @@ public class SSRESTRecomm{
     final String forUser){
     
     final SSRecommUsersPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSRecommUsersPar(
-          null,
-          null,                                //realm
-          SSUri.get(forUser, SSConf.sssUri), //forUser
-          null, //entity
-          null, //categories
-          10,  //maxUsers
-          false, //ignoreAccessRights
-          true, //withUserRestriction
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      try{
+        
+        par =
+          new SSRecommUsersPar(
+            new SSServPar(sqlCon),
+            null,
+            null,                                //realm
+            SSUri.get(forUser, SSConf.sssUri), //forUser
+            null, //entity
+            null, //categories
+            10,  //maxUsers
+            false, //ignoreAccessRights
+            true, //withUserRestriction
+            true); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
+        return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @GET
@@ -640,41 +845,61 @@ public class SSRESTRecomm{
     final String forUser){
     
     final SSRecommUsersPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSRecommUsersPar(
-          null,
-          realm,                                //realm
-          SSUri.get(forUser, SSConf.sssUri), //forUser
-          null, //entity
-          null, //categories
-          10, //maxUsers,
-          false, //ignoreAccessRights
-          true, // withUserRestriction
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
+      try{
+        
+        par =
+          new SSRecommUsersPar(
+            new SSServPar(sqlCon),
+            null,
+            realm,                                //realm
+            SSUri.get(forUser, SSConf.sssUri), //forUser
+            null, //entity
+            null, //categories
+            10, //maxUsers,
+            false, //ignoreAccessRights
+            true, // withUserRestriction
+            true); //invokeEntityHandlers
+        
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
+      
+      try{
+        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
+        return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
-      
-      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
-      
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
-    }
-    
   }
   
   @GET
@@ -701,40 +926,60 @@ public class SSRESTRecomm{
     final String forUser){
     
     final SSRecommUsersPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSRecommUsersPar(
-          null,
-          realm,                                //realm
-          SSUri.get(forUser, SSConf.sssUri), //forUser
-          null, //entity
-          null, //categories
-          10, //maxUsers,
-          true, //ignoreAccessRights
-          true, // withUserRestriction
-          false); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      try{
+        
+        par =
+          new SSRecommUsersPar(
+            new SSServPar(sqlCon),
+            null,
+            realm,                                //realm
+            SSUri.get(forUser, SSConf.sssUri), //forUser
+            null, //entity
+            null, //categories
+            10, //maxUsers,
+            true, //ignoreAccessRights
+            true, // withUserRestriction
+            false); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
+        return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @GET
@@ -755,40 +1000,60 @@ public class SSRESTRecomm{
     final String entity){
     
     final SSRecommUsersPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSRecommUsersPar(
-          null,
-          null, //realm
-          null, //forUser
-          SSUri.get(entity, SSConf.sssUri), //entity
-          null, //categories
-          10, //maxUsers
-          false, //ignoreAccessRights
-          true,  //withUserRestriction
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      try{
+        
+        par =
+          new SSRecommUsersPar(
+            new SSServPar(sqlCon),
+            null,
+            null, //realm
+            null, //forUser
+            SSUri.get(entity, SSConf.sssUri), //entity
+            null, //categories
+            10, //maxUsers
+            false, //ignoreAccessRights
+            true,  //withUserRestriction
+            true); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
+        return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @GET
@@ -815,39 +1080,61 @@ public class SSRESTRecomm{
     final String entity){
     
     final SSRecommUsersPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSRecommUsersPar(
-          null,
-          realm, //realm
-          null, //forUser
-          SSUri.get(entity, SSConf.sssUri), //entity
-          null, //categories
-          10, //maxUsers
-          false,  //ignoreAccessRights
-          true,  //withUserRestriction
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
+      try{
+        
+        par =
+          new SSRecommUsersPar(
+            new SSServPar(sqlCon),
+            null,
+            realm, //realm
+            null, //forUser
+            SSUri.get(entity, SSConf.sssUri), //entity
+            null, //categories
+            10, //maxUsers
+            false,  //ignoreAccessRights
+            true,  //withUserRestriction
+            true); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
+      
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
+      
+      try{
+        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
+        return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
     
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
-      
-      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
-      
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
-    }
   }
   
   @GET
@@ -874,38 +1161,60 @@ public class SSRESTRecomm{
     final String entity){
     
     final SSRecommUsersPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSRecommUsersPar(
-          null,
-          realm, //realm
-          null, //forUser
-          SSUri.get(entity, SSConf.sssUri), //entity
-          null, //categories
-          10, //maxUsers
-          true,  //ignoreAccessRights
-          true,  //withUserRestriction
-          false); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      try{
+        
+        par =
+          new SSRecommUsersPar(
+            new SSServPar(sqlCon),
+            null,
+            realm, //realm
+            null, //forUser
+            SSUri.get(entity, SSConf.sssUri), //entity
+            null, //categories
+            10, //maxUsers
+            true,  //ignoreAccessRights
+            true,  //withUserRestriction
+            false); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
+        return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+      
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
   
@@ -923,41 +1232,62 @@ public class SSRESTRecomm{
     final SSRecommResourcesRESTPar input){
     
     final SSRecommResourcesPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSRecommResourcesPar(
-          null,
-          input.realm,  //realm
-          input.forUser,  //forUser
-          input.entity,  //entity
-          input.categories,  //categories
-          input.maxResources,    //maxResources
-          input.typesToRecommOnly,  //typesToRecommendOnly
-          input.setCircleTypes,  //setCircleTypes
-          input.includeOwn, //includeOwn
-          false, //ignoreAccessRights
-          true, //withUserRestriction
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      try{
+        
+        par =
+          new SSRecommResourcesPar(
+            new SSServPar(sqlCon),
+            null,
+            input.realm,  //realm
+            input.forUser,  //forUser
+            input.entity,  //entity
+            input.categories,  //categories
+            input.maxResources,    //maxResources
+            input.typesToRecommOnly,  //typesToRecommendOnly
+            input.setCircleTypes,  //setCircleTypes
+            input.includeOwn, //includeOwn
+            false, //ignoreAccessRights
+            true, //withUserRestriction
+            true); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(recommServ.recommResources(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
+        return Response.status(200).entity(recommServ.recommResources(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
   
@@ -975,39 +1305,59 @@ public class SSRESTRecomm{
     final SSRecommTagsRESTPar input){
     
     final SSRecommTagsPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSRecommTagsPar(
-          null,
-          input.realm,  //realm
-          input.forUser,  //forUser
-          input.entity,  //entity
-          input.categories,  //categories
-          input.maxTags,    //maxTags
-          input.includeOwn, //includeOwn
-          input.ignoreAccessRights, //ignoreAccessRights
-          true); //withUserRestriction
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      try{
+        
+        par =
+          new SSRecommTagsPar(
+            new SSServPar(sqlCon),
+            null,
+            input.realm,  //realm
+            input.forUser,  //forUser
+            input.entity,  //entity
+            input.categories,  //categories
+            input.maxTags,    //maxTags
+            input.includeOwn, //includeOwn
+            input.ignoreAccessRights, //ignoreAccessRights
+            true); //withUserRestriction
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(recommServ.recommTags(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
+        return Response.status(200).entity(recommServ.recommTags(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
 }

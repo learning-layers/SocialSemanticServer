@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.rating.datatypes.pars;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,13 +43,14 @@ public class SSRatingEntityURIsGetPar extends SSServPar{
   public SSRatingEntityURIsGetPar(){}
   
   public SSRatingEntityURIsGetPar(
+    final SSServPar   servPar,
     final SSUri       user,
     final List<SSUri> entities,
     final Integer     minOverallRating,
     final Integer     maxOverallRating,
     final boolean     withUserRestriction){
     
-    super(SSVarNames.ratingEntityURIsGet, null, user);
+    super(SSVarNames.ratingEntityURIsGet, null, user, servPar.sqlCon);
     
     SSUri.addDistinctWithoutNull(this.entities, entities);
     

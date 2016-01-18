@@ -30,11 +30,12 @@ public class SSCollsGetPar extends SSServPar{
   public SSCollsGetPar(){}
     
   public SSCollsGetPar(
+    final SSServPar servPar,
     final SSUri         user,
     final boolean       withUserRestriction, 
     final boolean       invokeEntityHandlers){
     
-    super(SSVarNames.collsGet, null, user);
+    super(SSVarNames.collsGet, null, user, servPar.sqlCon);
      
     this.withUserRestriction  = withUserRestriction;
     this.invokeEntityHandlers = invokeEntityHandlers;

@@ -22,9 +22,9 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 
 public class SSLearnEpCreatePar extends SSServPar{
   
@@ -50,13 +50,14 @@ public class SSLearnEpCreatePar extends SSServPar{
   public SSLearnEpCreatePar(){}
   
   public SSLearnEpCreatePar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSLabel       label, 
     final SSTextComment description,
     final boolean       withUserRestriction,
     final boolean       shouldCommit){
   
-    super(SSVarNames.learnEpCreate, null, user);
+    super(SSVarNames.learnEpCreate, null, user, servPar.sqlCon);
     
     this.label               = label;
     this.description         = description;

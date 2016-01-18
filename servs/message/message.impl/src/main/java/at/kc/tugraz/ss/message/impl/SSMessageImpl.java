@@ -80,6 +80,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
+    final SSServPar servPar,
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws SSErr{
     
@@ -93,6 +94,7 @@ implements
           new SSQueryResultPage(
             messagesGet(
               new SSMessagesGetPar(
+                servPar, 
                 par.user,
                 par.user, //forUser
                 true, //includeRead,
@@ -112,6 +114,7 @@ implements
           return SSMessage.get(
             messageGet(
               new SSMessageGetPar(
+                servPar, 
                 par.user,
                 entity.id,
                 par.withUserRestriction,
@@ -132,7 +135,7 @@ implements
     
     try{
       
-      SSMessage message = sqlFct.getMessage(par.message);
+      SSMessage message = sqlFct.getMessage(par, par.message);
       
       if(message == null){
         return null;
@@ -150,6 +153,7 @@ implements
       final SSEntity messageEntity =
         entityServ.entityGet(
           new SSEntityGetPar(
+            par,
             par.user,
             par.message,
             par.withUserRestriction,
@@ -169,6 +173,7 @@ implements
       message.user =
         entityServ.entityGet(
           new SSEntityGetPar(
+            par,
             par.user,
             message.user.id,
             par.withUserRestriction,
@@ -177,6 +182,7 @@ implements
       message.forUser =
         entityServ.entityGet(
           new SSEntityGetPar(
+            par,
             par.user,
             message.forUser.id,
             par.withUserRestriction,
@@ -227,9 +233,10 @@ implements
       final List<SSEntity>   result      = new ArrayList<>();
       final List<SSEntity>   messages    = new ArrayList<>();
       
-      final List<SSUri>     messageURIs   = sqlFct.getMessageURIs(par.forUser, par.startTime);
+      final List<SSUri>     messageURIs   = sqlFct.getMessageURIs(par, par.forUser, par.startTime);
       final SSMessageGetPar messageGetPar =
         new SSMessageGetPar(
+          par,
           par.user,
           null, //message
           par.withUserRestriction,
@@ -275,6 +282,7 @@ implements
       final SSMessageSendRet ret = SSMessageSendRet.get(messageURI);
       
       SSMessageActivityFct.messageSend(
+        par,
         par.user,
         par.forUser,
         messageURI,
@@ -293,11 +301,12 @@ implements
     
     try{
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri message =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par,
             par.user,
             SSConf.vocURICreate(),
             SSEntityE.message, //type,
@@ -311,11 +320,12 @@ implements
             false)); //shouldCommit)
       
       if(message == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
       sqlFct.sendMessage(
+        par, 
         message,
         par.user,
         par.forUser,
@@ -323,6 +333,7 @@ implements
       
       entityServ.entityShare(
         new SSEntitySharePar(
+          par,
           par.user,
           message,
           SSUri.asListNotNull(par.forUser),  //users
@@ -332,7 +343,7 @@ implements
           par.withUserRestriction, //withUserRestriction,
           false)); //shouldCommit));
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return message;
       

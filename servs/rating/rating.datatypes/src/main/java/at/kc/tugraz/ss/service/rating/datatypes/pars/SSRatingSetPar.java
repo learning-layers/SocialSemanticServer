@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.service.rating.datatypes.pars;
 
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSRatingSetPar extends SSServPar{
 
@@ -42,6 +42,7 @@ public class SSRatingSetPar extends SSServPar{
   public SSRatingSetPar(){}
   
   public SSRatingSetPar(
+    final SSServPar servPar,
     final SSUri     user, 
     final SSUri     entity, 
     final Integer   value, 
@@ -49,7 +50,7 @@ public class SSRatingSetPar extends SSServPar{
     final boolean   withUserRestriction, 
     final boolean   shouldCommit){
     
-    super(SSVarNames.ratingSet, null, user);
+    super(SSVarNames.ratingSet, null, user, servPar.sqlCon);
     
     this.entity              = entity;
     this.value               = value;

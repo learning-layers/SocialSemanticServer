@@ -31,11 +31,12 @@ public class SSEvernoteNoteTagNamesGetPar extends SSServPar{
   public String           noteGUID       = null;
   
   public SSEvernoteNoteTagNamesGetPar(
+    final SSServPar servPar, 
     final SSUri user,
     final NoteStoreClient  noteStore,
     final String           noteGUID){
     
-    super(SSVarNames.evernoteNoteTagNamesGet, null, user);
+    super(SSVarNames.evernoteNoteTagNamesGet, null, user, servPar.sqlCon);
     
     this.noteStore        = noteStore;
     this.noteGUID         = noteGUID;

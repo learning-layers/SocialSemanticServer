@@ -21,18 +21,19 @@
 package at.kc.tugraz.sss.comment.datatypes.par;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 
 public class SSCommentEntitiesGetPar extends SSServPar{
   
   public SSCommentEntitiesGetPar(){}
     
   public SSCommentEntitiesGetPar(
+    final SSServPar servPar,
     final SSUri                user,
     final boolean              withUserRestriction){
     
-    super(SSVarNames.commentEntitiesGet, null, user);
+    super(SSVarNames.commentEntitiesGet, null, user, servPar.sqlCon);
     
     this.withUserRestriction = withUserRestriction;
   }

@@ -85,12 +85,14 @@ implements
   
   @Override
   public void getUsersResources(
+    final SSServPar servPar,
     final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
     
     try{
       
       final SSActivitiesGetPar activitiesGetPar =
         new SSActivitiesGetPar(
+          servPar,
           null, //user
           null, //activities,
           null, //types,
@@ -140,6 +142,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
+    final SSServPar servPar,
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws SSErr{
     
@@ -155,6 +158,7 @@ implements
               new SSQueryResultPage(
                 activitiesGet(
                   new SSActivitiesGetPar(
+                    servPar,
                     par.user,
                     null, //activities
                     null, //types
@@ -176,6 +180,7 @@ implements
               new SSQueryResultPage(
                 activitiesGet(
                   new SSActivitiesGetPar(
+                    servPar,
                     par.user,
                     null, //activities
                     null, //types
@@ -196,6 +201,7 @@ implements
               new SSQueryResultPage(
                 activitiesGet(
                   new SSActivitiesGetPar(
+                    servPar,
                     par.user,
                     null, //activities
                     null, //types
@@ -224,6 +230,7 @@ implements
           final List<SSEntity> activities =
             activitiesGet(
               new SSActivitiesGetPar(
+                servPar,
                 par.user,
                 SSUri.asListNotNull(entity.id), //activities
                 null, //types
@@ -321,7 +328,7 @@ implements
       
       for(SSUri activityURI : activityURIsToQuery){
         
-        activity = sql.getActivity(activityURI);
+        activity = sql.getActivity(par, activityURI);
         
         if(activity == null){
           continue;
@@ -353,7 +360,7 @@ implements
           par,
           descPar);
         
-        activity.contents.addAll(sql.getActivityContents(activity.id));
+        activity.contents.addAll(sql.getActivityContents(par, activity.id));
         
         activities.add(activity);
         
@@ -398,18 +405,19 @@ implements
 //        par.entity = SSUri.get(SSConf.sssUri);
       }
       
-      if(!userCommons.areUsersUsers(par.users)){
+      if(!userCommons.areUsersUsers(par, par.users)){
         throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       SSUri                 entityEntity;
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri activity   =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par, 
             par.user,
             SSConf.vocURICreate(),
             SSEntityE.activity,
@@ -423,13 +431,14 @@ implements
             false)); //shouldCommit))
       
       if(activity == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
       entityEntity =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par, 
             par.user,
             par.entity,
             null, //type
@@ -443,7 +452,7 @@ implements
             false)); //shouldCommit))
       
       if(entityEntity == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
@@ -452,6 +461,7 @@ implements
         entityEntity =
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
+              par, 
               par.user,
               entity,
               null, //type
@@ -465,12 +475,13 @@ implements
               false)); //shouldCommit))
         
         if(entityEntity == null){
-          dbSQL.rollBack(par.shouldCommit);
+          dbSQL.rollBack(par, par.shouldCommit);
           return null;
         }
       }
       
       sql.addActivity(
+        par, 
         par.user,
         activity,
         par.type,
@@ -479,7 +490,7 @@ implements
         par.entities,
         par.comments);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return activity;
     }catch(SSErr error){
@@ -489,7 +500,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -517,6 +528,7 @@ implements
       
       final SSEntity activity =
         sql.getEntityTest(
+          par, 
           par.user,
           par.activity,
           false); //withUserRestriction
@@ -526,6 +538,7 @@ implements
       }
       
       sql.addActivityContent(
+        par, 
         activity.id,
         par.contentType,
         par.content);
@@ -538,7 +551,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -566,6 +579,7 @@ implements
       
       final SSActivityContentAddPar activityContentAddPar =
         new SSActivityContentAddPar(
+          par, 
           par.user,
           par.activity,
           par.contentType,
@@ -586,7 +600,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
           }catch(Exception error2){
             SSServErrReg.regErrThrow(error2);

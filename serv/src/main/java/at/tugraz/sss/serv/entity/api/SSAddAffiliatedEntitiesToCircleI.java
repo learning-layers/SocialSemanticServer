@@ -21,9 +21,12 @@
 package at.tugraz.sss.serv.entity.api;
 
 import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.par.SSAddAffiliatedEntitiesToCirclePar;
+import at.tugraz.sss.serv.datatype.par.*;
 import java.util.List;
 
 public interface SSAddAffiliatedEntitiesToCircleI {
-  public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws Exception;
+  
+  public List<SSEntity> addAffiliatedEntitiesToCircle(
+    final SSServPar                          servPar, 
+    final SSAddAffiliatedEntitiesToCirclePar par) throws Exception;
 }

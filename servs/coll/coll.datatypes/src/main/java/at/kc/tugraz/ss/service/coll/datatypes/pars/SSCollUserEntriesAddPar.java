@@ -21,9 +21,9 @@
  package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+ import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +60,7 @@ public class SSCollUserEntriesAddPar extends SSServPar{
   public SSCollUserEntriesAddPar(){}
   
   public SSCollUserEntriesAddPar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         coll, 
     final List<SSUri>   entries, 
@@ -67,7 +68,7 @@ public class SSCollUserEntriesAddPar extends SSServPar{
     final boolean       withUserRestriction,
     final boolean       shouldCommit){
     
-    super(SSVarNames.collEntriesAdd, null, user);
+    super(SSVarNames.collEntriesAdd, null, user, servPar.sqlCon);
     
     this.coll = coll;
     

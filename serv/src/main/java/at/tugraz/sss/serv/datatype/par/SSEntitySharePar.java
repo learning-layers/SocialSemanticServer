@@ -28,6 +28,7 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.*;
  import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +76,7 @@ public class SSEntitySharePar extends SSServPar{
   public SSEntitySharePar(){}
     
   public SSEntitySharePar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         entity,
     final List<SSUri>   users,
@@ -84,7 +86,7 @@ public class SSEntitySharePar extends SSServPar{
     final boolean       withUserRestriction, 
     final boolean       shouldCommit){
     
-    super(SSVarNames.entityShare, null, user);
+    super(SSVarNames.entityShare, null, user, servPar.sqlCon);
     
     this.entity       = entity;
     

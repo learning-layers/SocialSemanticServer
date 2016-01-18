@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSEntityAttachEntitiesPar extends SSServPar{
 
@@ -51,13 +52,14 @@ public class SSEntityAttachEntitiesPar extends SSServPar{
   public SSEntityAttachEntitiesPar(){}
   
   public SSEntityAttachEntitiesPar(
+    final SSServPar servPar,
     final SSUri               user,
     final SSUri               entity,
     final List<SSUri>         entities,
     final boolean             withUserRestriction, 
     final boolean             shouldCommit){
 
-    super(SSVarNames.entityEntitiesAttach, null, user);
+    super(SSVarNames.entityEntitiesAttach, null, user, servPar.sqlCon);
   
     this.entity         = entity;
     

@@ -9,12 +9,15 @@ import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.adapter.rest.v3.SSRestMain;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.image.api.*;
 import at.tugraz.sss.servs.image.datatype.par.SSImageProfilePictureSetPar;
 import at.tugraz.sss.servs.image.datatype.ret.SSImageProfilePictureSetRet;
 import io.swagger.annotations.*;
+import java.sql.*;
 import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
@@ -56,35 +59,55 @@ public class SSRESTImage{
     final String file){
     
     final SSImageProfilePictureSetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSImageProfilePictureSetPar(
-          null,
-          SSUri.get(entity,  SSConf.sssUri),
-          SSUri.get(file,    SSConf.sssUri),
-          true,
-          true);
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSImageClientI imageServ = (SSImageClientI) SSServReg.getClientServ(SSImageClientI.class);
+      try{
+        
+        par =
+          new SSImageProfilePictureSetPar(
+            new SSServPar(sqlCon),
+            null,
+            SSUri.get(entity,  SSConf.sssUri),
+            SSUri.get(file,    SSConf.sssUri),
+            true,
+            true);
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(imageServ.imageProfilePictureSet(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSImageClientI imageServ = (SSImageClientI) SSServReg.getClientServ(SSImageClientI.class);
+        
+        return Response.status(200).entity(imageServ.imageProfilePictureSet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
 }

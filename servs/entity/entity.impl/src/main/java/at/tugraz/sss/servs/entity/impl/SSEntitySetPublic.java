@@ -26,9 +26,9 @@ import at.tugraz.sss.serv.datatype.par.SSCircleGetPar;
 import at.tugraz.sss.serv.datatype.par.SSCirclePubURIGetPar;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSEntityCircle;
-import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +42,7 @@ public class SSEntitySetPublic {
   }
   
   public void handle(
+    final SSServPar servPar,
     final SSUri       user,
     final SSEntity    entity,
     final boolean     withUserRestriction) throws Exception{
@@ -55,11 +56,13 @@ public class SSEntitySetPublic {
       final SSUri pubCircleURI =
         circleServ.circlePubURIGet(
           new SSCirclePubURIGetPar(
+            servPar,
             user,
             false));
       
       circleServ.circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
+          servPar,
           user,
           pubCircleURI,  //circle
           SSUri.asListNotNull(entity.id),  //entities
@@ -69,6 +72,7 @@ public class SSEntitySetPublic {
       final SSEntityCircle circle =
         circleServ.circleGet(
           new SSCircleGetPar(
+            servPar,
             user,
             pubCircleURI,
             null, //entityTypesToIncludeOnly,
@@ -80,6 +84,7 @@ public class SSEntitySetPublic {
             false)); //invokeEntityHandlers));
       
       SSServReg.inst.circleEntitiesAdded(
+        servPar,
         user,
         circle,
         entities,

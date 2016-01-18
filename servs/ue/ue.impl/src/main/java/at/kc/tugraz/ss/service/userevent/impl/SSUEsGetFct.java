@@ -29,7 +29,7 @@ import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.misc.SSEntityFiller;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
+import at.tugraz.sss.serv.datatype.par.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,6 +74,7 @@ public class SSUEsGetFct {
         
         final SSEntityGetPar entityGetPar =
           new SSEntityGetPar(
+            par,
             par.user,
             ue.entity.id, //entity,
             par.withUserRestriction, //withUserRestriction,
@@ -109,6 +110,7 @@ public class SSUEsGetFct {
         
         final SSEntityGetPar entityGetPar =
           new SSEntityGetPar(
+            par,
             par.user,
             ue.user.id, //entity,
             par.withUserRestriction, //withUserRestriction,
@@ -141,6 +143,7 @@ public class SSUEsGetFct {
           
           final SSEntity entity =
             sqlFct.getEntityTest(
+              par,
               par.user,
               par.entity,
               par.withUserRestriction);
@@ -152,6 +155,7 @@ public class SSUEsGetFct {
       }
       
       return sqlFct.getUEURIs(
+        par,
         par.forUser,
         par.entity,
         par.types,

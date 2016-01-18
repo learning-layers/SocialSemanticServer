@@ -25,6 +25,7 @@ import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSUEAddPar extends SSServPar{
   
@@ -52,6 +53,7 @@ public class SSUEAddPar extends SSServPar{
   public SSUEAddPar(){}
     
   public SSUEAddPar(
+    final SSServPar servPar,
     final SSUri       user,
     final SSUri       entity,
     final SSUEE       type,
@@ -60,7 +62,7 @@ public class SSUEAddPar extends SSServPar{
     final boolean     withUserRestriction, 
     final boolean     shouldCommit){
     
-    super(SSVarNames.userEventAdd, null, user);
+    super(SSVarNames.userEventAdd, null, user, servPar.sqlCon);
     
     this.entity              = entity;
     this.type                = type;

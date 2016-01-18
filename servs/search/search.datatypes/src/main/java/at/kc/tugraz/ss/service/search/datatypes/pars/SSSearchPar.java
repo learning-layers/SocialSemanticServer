@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchLabel;
 import at.tugraz.sss.serv.datatype.enums.SSSearchOpE;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,6 +104,7 @@ public class SSSearchPar extends SSServPar{
   public SSSearchPar(){}
   
   public SSSearchPar(
+    final SSServPar servPar,
     final SSUri               user,
     final List<String>        documentContentsToSearchFor,
     final List<String>        tagsToSearchFor            ,
@@ -126,7 +128,7 @@ public class SSSearchPar extends SSServPar{
     final boolean             withUserRestriction, 
     final boolean             invokeEntityHandlers){
     
-    super(SSVarNames.search, null, user);
+    super(SSVarNames.search, null, user, servPar.sqlCon);
     
     if(documentContentsToSearchFor != null){
       this.documentContentsToSearchFor.addAll(documentContentsToSearchFor);

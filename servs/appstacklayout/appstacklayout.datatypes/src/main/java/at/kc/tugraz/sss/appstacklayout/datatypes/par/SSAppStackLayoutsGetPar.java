@@ -23,6 +23,7 @@ package at.kc.tugraz.sss.appstacklayout.datatypes.par;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,12 +34,13 @@ public class SSAppStackLayoutsGetPar extends SSServPar{
   public SSAppStackLayoutsGetPar(){}
   
   public SSAppStackLayoutsGetPar(
+    final SSServPar servPar,
     final SSUri       user, 
     final List<SSUri> stacks,
     final boolean     withUserRestriction,
     final boolean     invokeEntityHandlers){
     
-    super(SSVarNames.appStackLayoutsGet, null, user);
+    super(SSVarNames.appStackLayoutsGet, null, user, servPar.sqlCon);
    
     SSUri.addDistinctWithoutNull(this.stacks, stacks);
     

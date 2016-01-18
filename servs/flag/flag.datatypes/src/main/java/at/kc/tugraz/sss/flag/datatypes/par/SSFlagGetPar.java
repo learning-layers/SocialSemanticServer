@@ -39,12 +39,13 @@ public class SSFlagGetPar extends SSServPar{
   public SSFlagGetPar(){}
     
   public SSFlagGetPar(
+    final SSServPar servPar, 
     final SSUri         user,
     final SSUri         flag,
     final boolean       withUserRestriction,
     final boolean       invokeEntityHandlers){
     
-    super(SSVarNames.flagGet, null, user);
+    super(SSVarNames.flagGet, null, user, servPar.sqlCon);
      
     this.flag                = flag;
     this.withUserRestriction = withUserRestriction;

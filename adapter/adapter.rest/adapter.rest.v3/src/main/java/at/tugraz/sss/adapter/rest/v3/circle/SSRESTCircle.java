@@ -1,23 +1,23 @@
- /**
-  * Code contributed to the Learning Layers project
-  * http://www.learning-layers.eu
-  * Development is partly funded by the FP7 Programme of the European Commission under
-  * Grant Agreement FP7-ICT-318209.
-  * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
-  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-  *
-  * Licensed under the Apache License, Version 2.0 (the "License");
-  * you may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at
-  *
-  * http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS,
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
-  */
+/**
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.tugraz.sss.adapter.rest.v3.circle;
 
 import at.tugraz.sss.serv.util.*;
@@ -36,36 +36,20 @@ import at.kc.tugraz.ss.serv.datatypes.entity.api.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.par.SSCircleCreateFromClientPar;
-import at.tugraz.sss.serv.datatype.par.SSCircleCreatePar;
-import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
-import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesRemoveFromClientPar;
-import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesRemovePar;
-import at.tugraz.sss.serv.datatype.par.SSCircleGetPar;
-import at.tugraz.sss.serv.datatype.par.SSCircleRemovePar;
-import at.tugraz.sss.serv.datatype.par.SSCircleTypeChangePar;
-import at.tugraz.sss.serv.datatype.par.SSCircleUsersAddPar;
-import at.tugraz.sss.serv.datatype.par.SSCircleUsersInvitePar;
-import at.tugraz.sss.serv.datatype.par.SSCircleUsersRemovePar;
-import at.tugraz.sss.serv.datatype.par.SSCirclesGetPar;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.*;
 import io.swagger.annotations.*;
+import java.sql.*;
 import javax.annotation.*;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/circles")
-@Api( value = "circles") 
+@Api( value = "circles")
 public class SSRESTCircle{
   
   @PostConstruct
@@ -87,43 +71,63 @@ public class SSRESTCircle{
     final HttpHeaders headers){
     
     final SSCirclesGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSCirclesGetPar(
-          null, //user,
-          null, //forUser,
-          null, //entity
-          null, //entityTypesToIncludeOnly
-          true, //setEntities,
-          true, //setUsers
-          true,  //withUserRestriction
-          false, //withSystemCircles
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      par.setThumb          = false;
-      par.setProfilePicture = false;
+      try{
+        
+        par =
+          new SSCirclesGetPar(
+            new SSServPar(sqlCon),
+            null, //user,
+            null, //forUser,
+            null, //entity
+            null, //entityTypesToIncludeOnly
+            true, //setEntities,
+            true, //setUsers
+            true,  //withUserRestriction
+            false, //withSystemCircles
+            true); //invokeEntityHandlers
+        
+        par.setThumb          = false;
+        par.setProfilePicture = false;
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
+      
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.circlesGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
-      
-      return Response.status(200).entity(entityServ.circlesGet(SSClientE.rest, par)).build();
-      
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
-    }
-    
   }
   
   @GET
@@ -141,40 +145,60 @@ public class SSRESTCircle{
     final String forUser){
     
     final SSCirclesGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSCirclesGetPar(
-          null, //user,
-          SSUri.get(forUser, SSConf.sssUri), //forUser,
-          null, //entity
-          null, //entityTypesToIncludeOnly
-          true, //setEntities,
-          true, //setUsers
-          true,  //withUserRestriction
-          false, //withSystemCircles
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      try{
+        
+        par =
+          new SSCirclesGetPar(
+            new SSServPar(sqlCon),
+            null, //user,
+            SSUri.get(forUser, SSConf.sssUri), //forUser,
+            null, //entity
+            null, //entityTypesToIncludeOnly
+            true, //setEntities,
+            true, //setUsers
+            true,  //withUserRestriction
+            false, //withSystemCircles
+            true); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(entityServ.circlesGet(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.circlesGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @POST
@@ -191,44 +215,64 @@ public class SSRESTCircle{
     final SSCirclesGetRESTPar input){
     
     final SSCirclesGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSCirclesGetPar(
-          null, //user,
-          input.forUser, //forUser,
-          null, //entity
-          input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
-          true, //setEntities,
-          true, //setUsers
-          true,  //withUserRestriction
-          false, //withSystemCircles
-          input.invokeEntityHandlers); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      par.setThumb          = input.setThumb;
-      par.setProfilePicture = input.setProfilePicture;
-      par.setTags           = input.setTags;
+      try{
+        
+        par =
+          new SSCirclesGetPar(
+            new SSServPar(sqlCon),
+            null, //user,
+            input.forUser, //forUser,
+            null, //entity
+            input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
+            true, //setEntities,
+            true, //setUsers
+            true,  //withUserRestriction
+            false, //withSystemCircles
+            input.invokeEntityHandlers); //invokeEntityHandlers
+        
+        par.setThumb          = input.setThumb;
+        par.setProfilePicture = input.setProfilePicture;
+        par.setTags           = input.setTags;
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
+      
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.circlesGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
-      
-      return Response.status(200).entity(entityServ.circlesGet(SSClientE.rest, par)).build();
-      
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
-    }
-    
   }
   
   @POST
@@ -248,44 +292,64 @@ public class SSRESTCircle{
     final SSCirclesFilteredForUserGetRESTPar input){
     
     final SSCirclesGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSCirclesGetPar(
-          null, //user,
-          SSUri.get(forUser, SSConf.sssUri), //forUser,
-          null, //entity
-          input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
-          true, //setEntities,
-          true, //setUsers
-          true,  //withUserRestriction
-          false, //withSystemCircles
-          input.invokeEntityHandlers); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      par.setThumb          = input.setThumb;
-      par.setProfilePicture = input.setProfilePicture;
-      par.setTags           = input.setTags;
+      try{
+        
+        par =
+          new SSCirclesGetPar(
+            new SSServPar(sqlCon),
+            null, //user,
+            SSUri.get(forUser, SSConf.sssUri), //forUser,
+            null, //entity
+            input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
+            true, //setEntities,
+            true, //setUsers
+            true,  //withUserRestriction
+            false, //withSystemCircles
+            input.invokeEntityHandlers); //invokeEntityHandlers
+        
+        par.setThumb          = input.setThumb;
+        par.setProfilePicture = input.setProfilePicture;
+        par.setTags           = input.setTags;
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
+      
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.circlesGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
-      
-      return Response.status(200).entity(entityServ.circlesGet(SSClientE.rest, par)).build();
-      
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
-    }
-    
   }
   
   @GET
@@ -303,40 +367,60 @@ public class SSRESTCircle{
     final String circle){
     
     final SSCircleGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSCircleGetPar(
-          null, //user
-          SSUri.get(circle, SSConf.sssUri), //circle
-          null, //entityTypesToIncludeOnly
-          false, //setTags
-          null, //circle
-          true, //setEntities,
-          true, //setUsers
-          true,  //withUserRestriction
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      try{
+        
+        par =
+          new SSCircleGetPar(
+            new SSServPar(sqlCon),
+            null, //user
+            SSUri.get(circle, SSConf.sssUri), //circle
+            null, //entityTypesToIncludeOnly
+            false, //setTags
+            null, //circle
+            true, //setEntities,
+            true, //setUsers
+            true,  //withUserRestriction
+            true); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(entityServ.circleGet(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.circleGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @POST
@@ -356,43 +440,63 @@ public class SSRESTCircle{
     final SSCircleGetRESTPar input){
     
     final SSCircleGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSCircleGetPar(
-          null, //user
-          SSUri.get(circle, SSConf.sssUri), //circle
-          input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
-          input.setTags,
-          input.tagSpace,
-          true, //setEntities,
-          true, //setUsers
-          true,  //withUserRestriction
-          input.invokeEntityHandlers); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      par.setProfilePicture = input.setProfilePicture;
-      par.setThumb          = input.setThumb;
+      try{
+        
+        par =
+          new SSCircleGetPar(
+            new SSServPar(sqlCon),
+            null, //user
+            SSUri.get(circle, SSConf.sssUri), //circle
+            input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
+            input.setTags,
+            input.tagSpace,
+            true, //setEntities,
+            true, //setUsers
+            true,  //withUserRestriction
+            input.invokeEntityHandlers); //invokeEntityHandlers
+        
+        par.setProfilePicture = input.setProfilePicture;
+        par.setThumb          = input.setThumb;
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
+      
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.circleGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
-      
-      return Response.status(200).entity(entityServ.circleGet(SSClientE.rest, par)).build();
-      
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
-    }
-    
   }
   
   @POST
@@ -413,35 +517,55 @@ public class SSRESTCircle{
     final String users){
     
     final SSCircleUsersAddPar par;
+    Connection               sqlCon = null;
     
     try{
-      par =
-        new SSCircleUsersAddPar(
-          null,
-          SSUri.get(circle, SSConf.sssUri), //circle
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma), SSConf.sssUri),  //users
-          true, //withUserRestriction
-          true); //shouldCommit
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      return Response.status(200).entity(entityServ.circleUsersAdd(SSClientE.rest, par)).build();
+      try{
+        par =
+          new SSCircleUsersAddPar(
+            new SSServPar(sqlCon),
+            null,
+            SSUri.get(circle, SSConf.sssUri), //circle
+            SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma), SSConf.sssUri),  //users
+            true, //withUserRestriction
+            true); //shouldCommit
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
+      
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.circleUsersAdd(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @POST
@@ -464,44 +588,64 @@ public class SSRESTCircle{
     final SSCircleEntitiesAddRESTPar input){
     
     final SSCircleEntitiesAddPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSCircleEntitiesAddPar(
-          null,
-          SSUri.get(circle, SSConf.sssUri), //circle
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSConf.sssUri),  //entities
-          true,  //withUserRestriction
-          true); //shouldCommit
-      
-      if(input.tags != null){
-        par.tags.addAll(input.tags);
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
       }
       
-      if(input.categories != null){
-        par.categories.addAll(input.categories);
+      try{
+        
+        par =
+          new SSCircleEntitiesAddPar(
+            new SSServPar(sqlCon),
+            null,
+            SSUri.get(circle, SSConf.sssUri), //circle
+            SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSConf.sssUri),  //entities
+            true,  //withUserRestriction
+            true); //shouldCommit
+        
+        if(input.tags != null){
+          par.tags.addAll(input.tags);
+        }
+        
+        if(input.categories != null){
+          par.categories.addAll(input.categories);
+        }
+        
+      }catch(Exception error){
+        return Response.status(422).build();
       }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-      return Response.status(200).entity(entityServ.circleEntitiesAdd(SSClientE.rest, par)).build();
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.circleEntitiesAdd(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @DELETE
@@ -524,34 +668,54 @@ public class SSRESTCircle{
     final SSCircleEntitiesRemoveRESTPar input){
     
     final SSCircleEntitiesRemovePar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSCircleEntitiesRemoveFromClientPar(
-          SSUri.get(circle, SSConf.sssUri), //circle
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSConf.sssUri),  //entities
-          input.removeCircleSpecificMetadata); //removeCircleSpecificMetadata
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      try{
+        
+        par =
+          new SSCircleEntitiesRemoveFromClientPar(
+            new SSServPar(sqlCon),
+            SSUri.get(circle, SSConf.sssUri), //circle
+            SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSConf.sssUri),  //entities
+            input.removeCircleSpecificMetadata); //removeCircleSpecificMetadata
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(entityServ.circleEntitiesRemove(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.circleEntitiesRemove(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @POST
@@ -567,40 +731,62 @@ public class SSRESTCircle{
     final SSCircleCreateRESTPar input){
     
     final SSCircleCreatePar par;
+    Connection               sqlCon = null;
     
     try{
       
-      if(input.type == null){
-        input.type = SSCircleE.group;
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
       }
       
-      par =
-        new SSCircleCreateFromClientPar(
-          null,
-          input.type,
-          input.label, //label
-          input.description, //description
-          input.users, //users
-          input.invitees, //invitees
-          input.entities);//entities
+      try{
+        
+        if(input.type == null){
+          input.type = SSCircleE.group;
+        }
+        
+        par =
+          new SSCircleCreateFromClientPar(
+            new SSServPar(sqlCon),
+            null,
+            input.type,
+            input.label, //label
+            input.description, //description
+            input.users, //users
+            input.invitees, //invitees
+            input.entities);//entities
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-      return Response.status(200).entity(entityServ.circleCreate(SSClientE.rest, par)).build();
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.circleCreate(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
   
@@ -622,36 +808,56 @@ public class SSRESTCircle{
     final String users){
     
     final SSCircleUsersRemovePar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSCircleUsersRemovePar(
-          null,
-          SSUri.get(circle, SSConf.sssUri), //circle
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma), SSConf.sssUri), //users
-          true, //withUserRestriction
-          true); //shouldCommit
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      try{
+        
+        par =
+          new SSCircleUsersRemovePar(
+            new SSServPar(sqlCon),
+            null,
+            SSUri.get(circle, SSConf.sssUri), //circle
+            SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma), SSConf.sssUri), //users
+            true, //withUserRestriction
+            true); //shouldCommit
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(entityServ.circleUsersRemove(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.circleUsersRemove(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @DELETE
@@ -669,35 +875,55 @@ public class SSRESTCircle{
     final String circle){
     
     final SSCircleRemovePar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSCircleRemovePar(
-          null,
-          SSUri.get(circle, SSConf.sssUri), //circle
-          true, //withUserRestriction
-          true); //shouldCommit
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      try{
+        
+        par =
+          new SSCircleRemovePar(
+            new SSServPar(sqlCon),
+            null,
+            SSUri.get(circle, SSConf.sssUri), //circle
+            true, //withUserRestriction
+            true); //shouldCommit
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(entityServ.circleRemove(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.circleRemove(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @POST
@@ -718,36 +944,56 @@ public class SSRESTCircle{
     final String emails){
     
     final SSCircleUsersInvitePar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSCircleUsersInvitePar(
-          null,
-          SSUri.get(circle, SSConf.sssUri),
-          SSStrU.splitDistinctWithoutEmptyAndNull(emails, SSStrU.comma),
-          true,
-          true);
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      try{
+        
+        par =
+          new SSCircleUsersInvitePar(
+            new SSServPar(sqlCon),
+            null,
+            SSUri.get(circle, SSConf.sssUri),
+            SSStrU.splitDistinctWithoutEmptyAndNull(emails, SSStrU.comma),
+            true,
+            true);
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(entityServ.circleUsersInvite(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.circleUsersInvite(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @PUT
@@ -768,34 +1014,56 @@ public class SSRESTCircle{
     final String type){
     
     final SSCircleTypeChangePar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSCircleTypeChangePar(
-          null,
-          SSUri.get(circle, SSConf.sssUri),
-          SSCircleE.get(type),
-          true, //withUserRestriction
-          true); //shouldCommit
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      try{
+        
+        par =
+          new SSCircleTypeChangePar(
+            new SSServPar(sqlCon),
+            null,
+            SSUri.get(circle, SSConf.sssUri),
+            SSCircleE.get(type),
+            true, //withUserRestriction
+            true); //shouldCommit
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(entityServ.circleTypeChange(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.circleTypeChange(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+      
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
 }

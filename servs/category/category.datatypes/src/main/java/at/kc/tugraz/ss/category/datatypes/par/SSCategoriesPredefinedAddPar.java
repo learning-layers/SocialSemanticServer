@@ -22,9 +22,9 @@ package at.kc.tugraz.ss.category.datatypes.par;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,11 +43,12 @@ public class SSCategoriesPredefinedAddPar extends SSServPar{
   public SSCategoriesPredefinedAddPar(){}
   
   public SSCategoriesPredefinedAddPar(
+    final SSServPar servPar,
     final SSUri                  user,
     final List<SSCategoryLabel>  labels,
     final boolean                shouldCommit) throws Exception{
     
-    super(SSVarNames.categoriesPredefinedAdd, null, user);
+    super(SSVarNames.categoriesPredefinedAdd, null, user, servPar.sqlCon);
     
     SSCategoryLabel.addDistinctNotEmpty(this.labels, labels);
     

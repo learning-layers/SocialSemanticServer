@@ -32,8 +32,8 @@ import at.tugraz.sss.serv.util.SSMimeTypeE;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import com.evernote.clients.NoteStoreClient;
 import com.evernote.edam.type.Note;
@@ -71,7 +71,8 @@ public class SSDataImportEvernoteNoteContentHandler{
     this.noteStore     = noteStore;
   }
   
-  public void handleNoteContent() throws Exception{
+  public void handleNoteContent(
+    final SSServPar servPar) throws Exception{
     
     String                    xhtmlFilePath;
     SSUri                     fileUri;
@@ -88,7 +89,7 @@ public class SSDataImportEvernoteNoteContentHandler{
       try{
         
         SSFileU.writeStr(
-          downnloadNoteResourcesAndFillXHTMLWithLocalImageLinks(xhtmlFilePath),
+          downnloadNoteResourcesAndFillXHTMLWithLocalImageLinks(servPar, xhtmlFilePath),
           xhtmlFilePath);
         
         SSFileU.writePDFFromXHTML(
@@ -113,7 +114,7 @@ public class SSDataImportEvernoteNoteContentHandler{
           
           try{
             SSFileU.writeStr(
-              downnloadNoteResourcesAndFillXHTMLWithLocalImageLinks(xhtmlFilePath),
+              downnloadNoteResourcesAndFillXHTMLWithLocalImageLinks(servPar, xhtmlFilePath),
               xhtmlFilePath);
             
           }catch(Exception error1){
@@ -144,6 +145,7 @@ public class SSDataImportEvernoteNoteContentHandler{
       
       fileServ.fileAdd(
         new SSEntityFileAddPar(
+          servPar, 
           user, 
           null, //fileBytes
           null, //fileLength
@@ -289,6 +291,7 @@ public class SSDataImportEvernoteNoteContentHandler{
   }
   
   private String downnloadNoteResourcesAndFillXHTMLWithLocalImageLinks(
+    final SSServPar servPar,
     final String path) throws Exception{
     
     BufferedReader lineReader      = null;
@@ -532,6 +535,7 @@ public class SSDataImportEvernoteNoteContentHandler{
             resource =
               evernoteServ.evernoteResourceByHashGet(
                 new SSEvernoteResourceByHashGetPar(
+                  servPar, 
                   user,
                   noteStore,
                   note.getGuid(),

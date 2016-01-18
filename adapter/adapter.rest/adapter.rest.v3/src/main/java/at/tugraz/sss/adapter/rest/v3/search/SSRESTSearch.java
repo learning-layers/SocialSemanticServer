@@ -25,8 +25,12 @@ import at.tugraz.sss.adapter.rest.v3.SSRestMain;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.util.*;
 import io.swagger.annotations.*;
+import java.sql.*;
 import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -63,51 +67,73 @@ public class SSRESTSearch{
     final SSSearchRESTPar input){
     
     final SSSearchPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSSearchPar(
-          null,
-          input.documentContentsToSearchFor,
-          input.tagsToSearchFor,
-          input.authorsToSearchFor,
-          input.labelsToSearchFor,
-          input.descriptionsToSearchFor,
-          input.applyGlobalSearchOpBetweenLabelAndDescription,
-          input.typesToSearchOnlyFor,
-          input.includeRecommendedResults,
-          input.pageSize,
-          input.pagesID,
-          input.pageNumber,
-          input.minRating,
-          input.maxRating,
-          input.startTime,
-          input.endTime,
-          input.localSearchOp,
-          input.globalSearchOp,
-          input.orderByLabel,
-          input.orderByCreationTime,
-          true,  //withUserRestriction
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSSearchClientI searchServ = (SSSearchClientI) SSServReg.getClientServ(SSSearchClientI.class);
+      try{
+        
+        par =
+          new SSSearchPar(
+            new SSServPar
+        (((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection()),
+            null,
+            input.documentContentsToSearchFor,
+            input.tagsToSearchFor,
+            input.authorsToSearchFor,
+            input.labelsToSearchFor,
+            input.descriptionsToSearchFor,
+            input.applyGlobalSearchOpBetweenLabelAndDescription,
+            input.typesToSearchOnlyFor,
+            input.includeRecommendedResults,
+            input.pageSize,
+            input.pagesID,
+            input.pageNumber,
+            input.minRating,
+            input.maxRating,
+            input.startTime,
+            input.endTime,
+            input.localSearchOp,
+            input.globalSearchOp,
+            input.orderByLabel,
+            input.orderByCreationTime,
+            true,  //withUserRestriction
+            true); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(searchServ.search(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSSearchClientI searchServ = (SSSearchClientI) SSServReg.getClientServ(SSSearchClientI.class);
+        
+        return Response.status(200).entity(searchServ.search(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
 }

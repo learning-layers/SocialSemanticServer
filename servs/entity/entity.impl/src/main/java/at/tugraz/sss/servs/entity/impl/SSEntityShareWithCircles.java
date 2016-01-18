@@ -28,6 +28,7 @@ import at.tugraz.sss.serv.datatype.SSEntityCircle;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class SSEntityShareWithCircles {
   }
   
   public void handle(
+    final SSServPar   servPar, 
     final SSUri       user,
     final SSEntity    entity,
     final List<SSUri> circles,
@@ -58,6 +60,7 @@ public class SSEntityShareWithCircles {
         
         circleServ.circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
+            servPar,
             user,
             circleURI,  //circle
             SSUri.asListNotNull(entity.id),  //entities
@@ -67,6 +70,7 @@ public class SSEntityShareWithCircles {
         circle =
           circleServ.circleGet(
             new SSCircleGetPar(
+              servPar,
               user,
               circleURI, //circle
               null, //entityTypesToIncludeOnly
@@ -78,6 +82,7 @@ public class SSEntityShareWithCircles {
               false)); //invokeEntityHandlers
         
         SSServReg.inst.circleEntitiesAdded(
+          servPar,
           user,
           circle,
           entities,

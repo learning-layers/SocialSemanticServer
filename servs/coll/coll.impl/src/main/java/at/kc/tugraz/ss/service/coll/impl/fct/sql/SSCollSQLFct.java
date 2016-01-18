@@ -28,6 +28,7 @@ import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
 import at.kc.tugraz.ss.service.coll.datatypes.SSCollEntry;
 import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   }
   
   public SSUri addColl(
+    final SSServPar servPar,
     final SSUri collUri) throws Exception{
     
     try{
@@ -53,7 +55,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       
       insert(inserts, SSSQLVarNames.collId, collUri);
       
-      dbSQL.insert(SSSQLVarNames.collTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.collTable, inserts);
       
       return collUri;
     }catch(Exception error){
@@ -63,6 +65,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   }
   
   public void addCollRoot(
+    final SSServPar servPar,
     final SSUri   collUri, 
     final SSUri   userUri) throws Exception{
     
@@ -74,14 +77,14 @@ public class SSCollSQLFct extends SSCoreSQL{
       insert (inserts, SSSQLVarNames.userId, userUri);
       insert (inserts, SSSQLVarNames.collId, collUri);
       
-      dbSQL.insert(SSSQLVarNames.collRootTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.collRootTable, inserts);
       
       //add coll to user coll table
       inserts.clear();
       insert(inserts, SSSQLVarNames.userId, userUri);
       insert(inserts, SSSQLVarNames.collId, collUri);
       
-      dbSQL.insert(SSSQLVarNames.collUserTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.collUserTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -89,6 +92,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   }
   
   public boolean isCollRoot(
+    final SSServPar servPar,
     final SSUri collUri) throws Exception{
     
     ResultSet  resultSet = null;
@@ -101,7 +105,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.collId, collUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.collRootTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.collRootTable, columns, wheres, null, null, null);
       
       return resultSet.first();
       
@@ -115,6 +119,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   
   //TODO dtheiler: special coll could be merged with root coll table
   public void addCollSpecial(
+    final SSServPar servPar,
     final SSUri   collUri, 
     final SSUri   userUri) throws Exception{
     
@@ -126,7 +131,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       insert(inserts, SSSQLVarNames.userId, userUri);
       insert(inserts, SSSQLVarNames.collId, collUri);
       
-      dbSQL.insert(SSSQLVarNames.collSpecialTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.collSpecialTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -134,6 +139,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   }
   
   public boolean isCollSpecial(
+    final SSServPar servPar,
     final SSUri collUri) throws Exception{
     
     ResultSet  resultSet               = null;
@@ -146,7 +152,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.collId, collUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.collSpecialTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.collSpecialTable, columns, wheres, null, null, null);
       
       return resultSet.first();
       
@@ -159,6 +165,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   }
   
    public SSUri getSpecialCollURI(
+     final SSServPar servPar,
      final SSUri userUri) throws Exception{
     
      ResultSet  resultSet = null;
@@ -172,7 +179,7 @@ public class SSCollSQLFct extends SSCoreSQL{
        
        where(wheres, SSSQLVarNames.userId, userUri);
        
-       resultSet = dbSQL.select(SSSQLVarNames.collSpecialTable, columns, wheres, null, null, null);
+       resultSet = dbSQL.select(servPar, SSSQLVarNames.collSpecialTable, columns, wheres, null, null, null);
        
        if(!existsFirstResult(resultSet)){
         return null;
@@ -189,6 +196,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   }
 
   public boolean isColl(
+    final SSServPar servPar,
     final SSUri entityUri) throws Exception{
     
     ResultSet resultSet = null;
@@ -201,7 +209,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.collId, entityUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.collTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.collTable, columns, wheres, null, null, null);
       
       return resultSet.first();
     }catch(Exception error){
@@ -213,6 +221,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   }
   
   public void addCollEntry(
+    final SSServPar servPar,
     final SSUri      collParent,
     final SSUri      collEntry) throws Exception{
     
@@ -220,7 +229,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       final Map<String, String> inserts = new HashMap<>();
       
       //add coll entry to coll entry pos table
-      Integer collEntryCount = getCollEntryCount(collParent);
+      Integer collEntryCount = getCollEntryCount(servPar, collParent);
       
       collEntryCount++;
       
@@ -228,13 +237,14 @@ public class SSCollSQLFct extends SSCoreSQL{
       insert(inserts, SSSQLVarNames.entryId, collEntry);
       insert(inserts, SSSQLVarNames.pos,     collEntryCount);
       
-      dbSQL.insert(SSSQLVarNames.collEntryPosTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.collEntryPosTable, inserts);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
 
   public Integer getCollEntryCount(
+    final SSServPar servPar,
     final SSUri collUri) throws Exception{
     
     ResultSet resultSet = null;
@@ -247,7 +257,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.collId, collUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.collEntryPosTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.collEntryPosTable, columns, wheres, null, null, null);
       
       resultSet.last();
       
@@ -260,7 +270,8 @@ public class SSCollSQLFct extends SSCoreSQL{
     }
   }
   
-  public List<SSUri> getPublicCollURIs() throws Exception{
+  public List<SSUri> getPublicCollURIs(
+    final SSServPar servPar) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -289,7 +300,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       tableCon(tableCons, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.circleId, SSSQLVarNames.circleTable, SSSQLVarNames.circleId);
       tableCon(tableCons, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.entityId, SSSQLVarNames.collTable,   SSSQLVarNames.collId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.id);
       
@@ -302,6 +313,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   } 
   
   public List<SSUri> getUserCollURIs(
+    final SSServPar servPar,
     final SSUri userUri) throws Exception{
      
     ResultSet resultSet = null;
@@ -315,7 +327,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.userId, userUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.collUserTable, columns, wheres, null, null, null);      
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.collUserTable, columns, wheres, null, null, null);      
       
       return getURIsFromResult(resultSet, SSSQLVarNames.collId);
     }catch(Exception error){
@@ -327,6 +339,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   }  
   
   public boolean ownsUserColl(
+    final SSServPar servPar,
     final SSUri userUri, 
     final SSUri collUri) throws Exception {
     
@@ -342,7 +355,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       where(wheres, SSSQLVarNames.userId, userUri);
       where(wheres, SSSQLVarNames.collId, collUri);
     
-      resultSet = dbSQL.select(SSSQLVarNames.collUserTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.collUserTable, columns, wheres, null, null, null);
 
       return resultSet.first();
     }catch(Exception error){
@@ -354,6 +367,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   }  
   
   public void addCollToColl(
+    final SSServPar   servPar,
     final SSUri       user,
     final SSUri       collParent,
     final SSUri       collChild,
@@ -373,24 +387,24 @@ public class SSCollSQLFct extends SSCoreSQL{
       insert(inserts, SSSQLVarNames.collParentId, collParent);
       insert(inserts, SSSQLVarNames.collChildId,  collChild);
       
-      dbSQL.insert(SSSQLVarNames.collHierarchyTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.collHierarchyTable, inserts);
       
       //add coll child to coll parent in coll entry pos table
-      final Integer collEntryCount = getCollEntryCount(collParent) + 1;
+      final Integer collEntryCount = getCollEntryCount(servPar, collParent) + 1;
       
       inserts.clear();
       insert(inserts, SSSQLVarNames.collId,   collParent);
       insert(inserts, SSSQLVarNames.entryId,  collChild);
       insert(inserts, SSSQLVarNames.pos,      collEntryCount);
       
-      dbSQL.insert(SSSQLVarNames.collEntryPosTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.collEntryPosTable, inserts);
       
       //add child coll to user coll table
       inserts.clear();
       insert(inserts, SSSQLVarNames.userId,    user);
       insert(inserts, SSSQLVarNames.collId,    collChild);
       
-      dbSQL.insert(SSSQLVarNames.collUserTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.collUserTable, inserts);
       
       //add currently added coll to other users as well
       if(createdCollIsInSharedOrPublicCircle){
@@ -398,7 +412,7 @@ public class SSCollSQLFct extends SSCoreSQL{
         inserts.clear();
         insert(inserts, SSSQLVarNames.collId, collChild);
         
-        for(SSUri coUserUri : getCollUserURIs(collParent)){
+        for(SSUri coUserUri : getCollUserURIs(servPar, collParent)){
           
           if(SSStrU.equals(coUserUri, user)){
             continue;
@@ -406,7 +420,7 @@ public class SSCollSQLFct extends SSCoreSQL{
           
           insert(inserts, SSSQLVarNames.userId, coUserUri);
           
-          dbSQL.insert(SSSQLVarNames.collUserTable, inserts);
+          dbSQL.insert(servPar, SSSQLVarNames.collUserTable, inserts);
         }
       }
       
@@ -415,7 +429,7 @@ public class SSCollSQLFct extends SSCoreSQL{
         
         final List<SSUri> subCollUris = new ArrayList<>();
         
-        SSCollMiscFct.getAllChildCollURIs(this, collChild, collChild, subCollUris);
+        SSCollMiscFct.getAllChildCollURIs(servPar, this, collChild, collChild, subCollUris);
         
         inserts.clear();
         insert(inserts, SSSQLVarNames.userId, user);
@@ -424,7 +438,7 @@ public class SSCollSQLFct extends SSCoreSQL{
           
           insert(inserts, SSSQLVarNames.collId, subCollUri);
           
-          dbSQL.insert(SSSQLVarNames.collUserTable, inserts);
+          dbSQL.insert(servPar, SSSQLVarNames.collUserTable, inserts);
         }
       }
       
@@ -434,6 +448,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   }
 
   public void unlinkCollAndSubColls(
+    final SSServPar servPar,
     final SSUri userUri,
     final SSUri parentCollUri,
     final SSUri collUri) throws Exception{
@@ -443,7 +458,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       final List<SSUri>         subCollUris = new ArrayList<>();
       
       //remove sub colls of followed coll from user coll table as well
-      SSCollMiscFct.getAllChildCollURIs(this, collUri, collUri, subCollUris);
+      SSCollMiscFct.getAllChildCollURIs(servPar, this, collUri, collUri, subCollUris);
       
       wheres.clear();
       where(wheres, SSSQLVarNames.userId, userUri);
@@ -452,7 +467,7 @@ public class SSCollSQLFct extends SSCoreSQL{
         
         where(wheres, SSSQLVarNames.collId, subCollUri);
         
-        dbSQL.delete(SSSQLVarNames.collUserTable, wheres);
+        dbSQL.delete(servPar, SSSQLVarNames.collUserTable, wheres);
       }
       
       //remove coll from user coll table
@@ -460,27 +475,28 @@ public class SSCollSQLFct extends SSCoreSQL{
       where(wheres, SSSQLVarNames.userId,     userUri);
       where(wheres, SSSQLVarNames.collId,     collUri);
       
-      dbSQL.delete(SSSQLVarNames.collUserTable, wheres);
+      dbSQL.delete(servPar, SSSQLVarNames.collUserTable, wheres);
       
       //remove coll from coll hierarchy table
       wheres.clear();
       where(wheres, SSSQLVarNames.collParentId, parentCollUri);
       where(wheres, SSSQLVarNames.collChildId,  collUri);
       
-      dbSQL.delete(SSSQLVarNames.collHierarchyTable, wheres);
+      dbSQL.delete(servPar, SSSQLVarNames.collHierarchyTable, wheres);
       
       //remove coll from coll entries pos table
       wheres.clear();
       where(wheres, SSSQLVarNames.collId,   parentCollUri.toString());
       where(wheres, SSSQLVarNames.entryId,  collUri.toString());
       
-      dbSQL.delete(SSSQLVarNames.collEntryPosTable, wheres);
+      dbSQL.delete(servPar, SSSQLVarNames.collEntryPosTable, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
   public List<SSUri> getDirectChildCollURIs(
+    final SSServPar servPar,
     final SSUri collUri) throws Exception{
     
     ResultSet resultSet = null;
@@ -493,7 +509,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.collParentId, collUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.collHierarchyTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.collHierarchyTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.collChildId);
       
@@ -506,6 +522,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   }
   
   public List<SSUri> getDirectParentCollURIs(
+    final SSServPar servPar,
     final SSUri collUri) throws Exception{
 
     ResultSet resultSet = null;
@@ -519,7 +536,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.collChildId, collUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.collHierarchyTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.collHierarchyTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.collParentId);
       
@@ -532,23 +549,24 @@ public class SSCollSQLFct extends SSCoreSQL{
   }
 
   public void removeCollAndUnlinkSubColls(
+    final SSServPar servPar,
     final SSUri userUri,
     final SSUri collUri) throws Exception{
     
     try{
       
       final Map<String, String> wheres             = new HashMap<>();
-      final List<SSUri>         directChildCollURIs = getDirectChildCollURIs(collUri);
+      final List<SSUri>         directChildCollURIs = getDirectChildCollURIs(servPar, collUri);
       
       //unlink all direct sub colls (and hence their sub colls as well)
       for(SSUri subCollUri : directChildCollURIs){
-        unlinkCollAndSubColls(userUri, collUri, subCollUri);
+        unlinkCollAndSubColls(servPar, userUri, collUri, subCollUri);
       }
       
       wheres.clear();
       where(wheres, SSSQLVarNames.id, collUri);
       
-      dbSQL.delete(SSSQLVarNames.entityTable, wheres);
+      dbSQL.delete(servPar, SSSQLVarNames.entityTable, wheres);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -556,6 +574,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   }
   
   public void removeCollEntry(
+    final SSServPar servPar,
     final SSUri collUri,
     final SSUri collEntryUri) throws Exception{
     
@@ -565,13 +584,14 @@ public class SSCollSQLFct extends SSCoreSQL{
       where(wheres, SSSQLVarNames.collId,  collUri);
       where(wheres, SSSQLVarNames.entryId, collEntryUri);
       
-      dbSQL.delete(SSSQLVarNames.collEntryPosTable, wheres);
+      dbSQL.delete(servPar, SSSQLVarNames.collEntryPosTable, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
 
   public void updateCollEntriesPos(
+    final SSServPar servPar,
     final SSUri         collUri, 
     final List<SSUri>   collEntries,
     final List<Integer> order) throws Exception{
@@ -590,7 +610,7 @@ public class SSCollSQLFct extends SSCoreSQL{
         
         counter++;
         
-        dbSQL.update(SSSQLVarNames.collEntryPosTable, wheres, updates);
+        dbSQL.update(servPar, SSSQLVarNames.collEntryPosTable, wheres, updates);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -598,6 +618,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   }
   
   private SSColl getColl(
+    final SSServPar servPar,
     final SSUri           collUri) throws Exception{
     
     ResultSet resultSet = null;
@@ -613,7 +634,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       
       table    (tables,    SSSQLVarNames.collTable);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -630,6 +651,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   }
   
   public SSColl getCollWithEntries(
+    final SSServPar servPar,
     final SSUri  collUri) throws Exception{
 
     ResultSet  resultSet = null;
@@ -640,7 +662,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       final List<String>        columns   = new ArrayList<>();
       final List<String>        tableCons = new ArrayList<>();
       final Map<String, String> wheres    = new HashMap<>();
-      final SSColl              coll      = getColl(collUri);
+      final SSColl              coll      = getColl(servPar, collUri);
       
       column   (columns,   SSSQLVarNames.entryId);
       column   (columns,   SSSQLVarNames.pos);
@@ -653,7 +675,7 @@ public class SSCollSQLFct extends SSCoreSQL{
         
       tableCon (tableCons, SSSQLVarNames.collEntryPosTable, SSSQLVarNames.entryId, SSSQLVarNames.entityTable,       SSSQLVarNames.id);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, SSSQLVarNames.pos, "ASC", null);
+      resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, SSSQLVarNames.pos, "ASC", null);
       
       while(resultSet.next()){
         
@@ -674,6 +696,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   }
 
   public SSUri getRootCollURI(
+    final SSServPar servPar,
     final SSUri userUri) throws Exception{
     
     ResultSet resultSet = null;
@@ -686,7 +709,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.userId, userUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.collRootTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.collRootTable, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -702,6 +725,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   }
 
   public boolean containsCollEntry(
+    final SSServPar servPar,
     final SSUri collUri, 
     final SSUri collEntryUri) throws Exception{
     
@@ -716,7 +740,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       where(wheres, SSSQLVarNames.collId,  collUri);
       where(wheres, SSSQLVarNames.entryId, collEntryUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.collEntryPosTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.collEntryPosTable, columns, wheres, null, null, null);
       
       return resultSet.first();
     }catch(Exception error){
@@ -728,6 +752,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   }
 
   public boolean existsCollRootForUser(
+    final SSServPar servPar,
     final SSUri userUri) throws Exception{
     
     ResultSet resultSet = null;
@@ -741,7 +766,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.userId, userUri);
       
-      resultSet  = dbSQL.select(SSSQLVarNames.collRootTable, columns, wheres, null, null, null);
+      resultSet  = dbSQL.select(servPar, SSSQLVarNames.collRootTable, columns, wheres, null, null, null);
       
       return resultSet.first();
     }catch(Exception error){
@@ -753,6 +778,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   }
   
   public List<SSUri> getCollUserURIs(
+    final SSServPar servPar,
     final SSUri collUri) throws Exception{
 
     ResultSet resultSet   = null;
@@ -766,7 +792,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.collId, collUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.collUserTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.collUserTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.userId);
     }catch(Exception error){
@@ -778,6 +804,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   }
   
   public List<SSUri> getCollURIsContainingEntity(
+    final SSServPar servPar,
     final SSUri entityUri) throws Exception{
     
     ResultSet resultSet = null;
@@ -791,7 +818,7 @@ public class SSCollSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.entryId, entityUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.collEntryPosTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.collEntryPosTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.collId);
       

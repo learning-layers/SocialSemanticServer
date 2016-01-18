@@ -120,6 +120,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
+    final SSServPar servPar,
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws SSErr{
     
@@ -136,6 +137,7 @@ implements
             final SSColl rootColl =
               collRootGet(
                 new SSCollUserRootGetPar(
+                  servPar, 
                   entity.id,
                   par.withUserRestriction,
                   false));
@@ -146,6 +148,7 @@ implements
               
               collEntity =
                 sql.getEntityTest(
+                  servPar, 
                   par.user,
                   coll.id,
                   par.withUserRestriction);
@@ -173,6 +176,7 @@ implements
           return SSColl.get(
             collGet(
               new SSCollGetPar(
+                servPar, 
                 par.user,
                 entity.id,
                 par.withUserRestriction,
@@ -190,12 +194,14 @@ implements
   
   @Override
   public void getUsersResources(
+    final SSServPar servPar,
     final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
     
     try{
       
       final SSCollsGetPar collsGetPar =
         new SSCollsGetPar(
+          servPar, 
           null, //user
           false, //withUserRestriction,
           false); //invokeEntityHandlers)
@@ -236,6 +242,7 @@ implements
   
   @Override
   public void getUserRelations(
+    final SSServPar servPar, 
     final List<String>             allUsers,
     final Map<String, List<SSUri>> userRelations) throws SSErr{
     
@@ -252,6 +259,7 @@ implements
         allColls =
           collsGet(
             new SSCollsGetPar(
+              servPar, 
               userUri,
               false, //withUserRestriction
               false)); //invokeEntityHandlers
@@ -261,6 +269,7 @@ implements
           collUserCircles =
             circleServ.circlesGet(
               new SSCirclesGetPar(
+                servPar, 
                 userUri,
                 userUri,
                 coll.id,
@@ -287,6 +296,7 @@ implements
             collEntryUserCircles =
               circleServ.circlesGet(
                 new SSCirclesGetPar(
+                  servPar, 
                   userUri,
                   userUri,
                   collEntry.id,
@@ -320,6 +330,7 @@ implements
   
   @Override
   public List<SSUri> getParentEntities(
+    final SSServPar servPar, 
     final SSUri         user,
     final SSUri         entity,
     final SSEntityE     type) throws SSErr{
@@ -328,6 +339,7 @@ implements
       return SSUri.getDistinctNotNullFromEntities(
         collsEntityIsInGet(
           new SSCollsUserEntityIsInGetPar(
+            servPar, 
             user,
             entity,
             false, //withUserRestriction,
@@ -341,6 +353,7 @@ implements
   
   @Override
   public List<SSUri> getSubEntities(
+    final SSServPar servPar, 
     final SSUri         user,
     final SSUri         entity,
     final SSEntityE     type) throws SSErr{
@@ -351,8 +364,10 @@ implements
         case coll:{
           
           return SSCollMiscFct.getCollSubCollAndEntryURIs(
+            servPar, 
             sql,
             sql.getCollWithEntries(
+              servPar, 
               entity));
         }
         
@@ -366,7 +381,7 @@ implements
   }
   
   @Override
-  public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws SSErr{
+  public List<SSEntity> addAffiliatedEntitiesToCircle(final SSServPar servPar, final SSAddAffiliatedEntitiesToCirclePar par) throws SSErr{
     
     try{
       
@@ -385,13 +400,14 @@ implements
               SSUri.addDistinctWithoutNull(par.recursiveEntities, entityAdded.id);
             }
             
-            if(sql.isCollSpecial(entityAdded.id)){
+            if(sql.isCollSpecial(servPar, entityAdded.id)){
               
               if(
                 SSStrU.equals(
                   par.circle,
                   circleServ.circlePubURIGet(
                     new SSCirclePubURIGetPar(
+                      servPar, 
                       par.user,
                       false)))){
                 
@@ -401,7 +417,7 @@ implements
               throw SSErr.get(SSErrE.cannotShareSpecialCollection);
             }
             
-            for(SSUri collContentURI : SSCollMiscFct.getCollSubCollAndEntryURIs(sql, sql.getCollWithEntries(entityAdded.id))){
+            for(SSUri collContentURI : SSCollMiscFct.getCollSubCollAndEntryURIs(servPar, sql, sql.getCollWithEntries(servPar, entityAdded.id))){
               
               if(SSStrU.contains(par.recursiveEntities, collContentURI)){
                 continue;
@@ -421,6 +437,7 @@ implements
       
       circleServ.circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
+          servPar, 
           par.user,
           par.circle, //circle
           affiliatedURIs, //entities
@@ -431,6 +448,7 @@ implements
         affiliatedEntities,
         entityServ.entitiesGet(
           new SSEntitiesGetPar(
+            servPar, 
             par.user,
             affiliatedURIs, //entities
             null, //descPar
@@ -439,6 +457,7 @@ implements
       SSEntity.addEntitiesDistinctWithoutNull(
         affiliatedEntities,
         SSServReg.inst.addAffiliatedEntitiesToCircle(
+          servPar, 
           par.user,
           par.circle,
           affiliatedEntities, //entities
@@ -454,6 +473,7 @@ implements
   
   @Override
   public void pushEntitiesToUsers(
+    final SSServPar servPar, 
     final SSPushEntitiesToUsersPar par) throws SSErr {
     
     try{
@@ -471,23 +491,25 @@ implements
               rootColl =
                 collRootGet(
                   new SSCollUserRootGetPar(
+                    servPar, 
                     userToPushTo,
                     false, //withUserRestriction,
                     false)); //invokeEntityHandlers));
               
               if(
-                sql.containsCollEntry (rootColl.id,        entityToPush.id) ||
-                sql.ownsUserColl      (userToPushTo, entityToPush.id)){
+                sql.containsCollEntry (servPar, rootColl.id,        entityToPush.id) ||
+                sql.ownsUserColl      (servPar, userToPushTo, entityToPush.id)){
                 SSLogU.warn(SSWarnE.collAlreadySharedWithUser);
                 continue;
               }
               
-              if(SSCollMiscFct.ownsUserASubColl(sql, userToPushTo, entityToPush.id)){
+              if(SSCollMiscFct.ownsUserASubColl(servPar, sql, userToPushTo, entityToPush.id)){
                 SSLogU.warn(SSWarnE.subCollAlreadySharedWithUser);
                 continue;
               }
               
               sql.addCollToColl(
+                servPar, 
                 userToPushTo,
                 rootColl.id,
                 entityToPush.id,
@@ -505,13 +527,13 @@ implements
             
             for(SSUri userToPushTo : par.users){
               
-              sharedWithMeFilesCollUri = sql.getSpecialCollURI(userToPushTo);
+              sharedWithMeFilesCollUri = sql.getSpecialCollURI(servPar, userToPushTo);
               
-              if(sql.containsCollEntry (sharedWithMeFilesCollUri, entityToPush.id)){
+              if(sql.containsCollEntry (servPar, sharedWithMeFilesCollUri, entityToPush.id)){
                 continue;
               }
               
-              sql.addCollEntry(sharedWithMeFilesCollUri, entityToPush.id);
+              sql.addCollEntry(servPar, sharedWithMeFilesCollUri, entityToPush.id);
               
               break;
             }
@@ -568,7 +590,7 @@ implements
         throw SSErr.get(SSErrE.parameterMissing);
       }
       
-      SSColl coll = sql.getCollWithEntries(par.coll);
+      SSColl coll = sql.getCollWithEntries(par, par.coll);
       
       if(coll == null){
         return null;
@@ -587,6 +609,7 @@ implements
       final SSEntity collEntity =
         entityServ.entityGet(
           new SSEntityGetPar(
+            par, 
             par.user,
             par.coll, //entity,
             par.withUserRestriction,
@@ -605,6 +628,7 @@ implements
       final List<SSEntity> collEntries =
         entityServ.entitiesGet(
           new SSEntitiesGetPar(
+            par, 
             par.user,
             SSUri.getDistinctNotNullFromEntities(coll.entries),  //entities
             descPar, //descPar,
@@ -629,14 +653,20 @@ implements
         throw SSErr.get(SSErrE.parameterMissing);
       }
       
-      if(!sql.ownsUserColl(par.user, par.coll)){
+      if(!sql.ownsUserColl(
+        par,
+        par.user,
+        par.coll)){
+        
         throw SSErr.get(SSErrE.userDoesntOwnColl);
       }
       
       return collGet(
         new SSCollGetPar(
+          par, 
           par.user,
           SSCollMiscFct.getDirectParentCollURIForUser(
+            par, 
             sql,
             par.user,
             par.coll),
@@ -676,8 +706,11 @@ implements
       
       return collGet(
         new SSCollGetPar(
+          par,
           par.user,
-          sql.getRootCollURI(par.user),
+          sql.getRootCollURI(
+            par,
+            par.user),
           par.withUserRestriction,
           par.invokeEntityHandlers));
       
@@ -699,12 +732,13 @@ implements
       final List<SSEntity> colls      = new ArrayList<>();
       final SSCollGetPar   collGetPar =
         new SSCollGetPar(
+            par, 
           par.user,
           null, //coll
           par.withUserRestriction,
           par.invokeEntityHandlers);
       
-      for(SSUri collURI : sql.getUserCollURIs(par.user)){
+      for(SSUri collURI : sql.getUserCollURIs(par, par.user)){
         
         collGetPar.coll = collURI;
         
@@ -752,6 +786,7 @@ implements
         
         final SSEntity coll =
           sql.getEntityTest(
+            par, 
             par.user,
             par.coll,
             par.withUserRestriction);
@@ -765,9 +800,14 @@ implements
       final SSUri        rootCollUri;
       SSUri              directPartentCollUri;
       
-      rootCollUri          = sql.getRootCollURI(par.user);
+      rootCollUri          = 
+        sql.getRootCollURI(
+          par, 
+          par.user);
+      
       directPartentCollUri =
         SSCollMiscFct.getDirectParentCollURIForUser(
+            par, 
           sql,
           par.user,
           par.coll);
@@ -778,6 +818,7 @@ implements
         
         directPartentCollUri =
           SSCollMiscFct.getDirectParentCollURIForUser(
+            par, 
             sql,
             par.user,
             directPartentCollUri);
@@ -787,6 +828,7 @@ implements
       
       final SSCollGetPar collGetPar =
         new SSCollGetPar(
+            par, 
           par.user,
           null, //collURI,
           par.withUserRestriction,
@@ -837,6 +879,7 @@ implements
         
         final SSEntity entity =
           sql.getEntityTest(
+            par, 
             par.user,
             par.entity,
             par.withUserRestriction);
@@ -846,11 +889,12 @@ implements
         }
       }
       
-      final List<SSUri>   userCollUris   = sql.getUserCollURIs(par.user);
-      final List<SSUri>   entityCollUris = sql.getCollURIsContainingEntity(par.entity);
+      final List<SSUri>   userCollUris   = sql.getUserCollURIs(par, par.user);
+      final List<SSUri>   entityCollUris = sql.getCollURIsContainingEntity(par, par.entity);
       final List<String>  commonCollUris = SSStrU.retainAll(SSStrU.toStr(entityCollUris), SSStrU.toStr(userCollUris));
       final SSCollGetPar  collGetPar =
         new SSCollGetPar(
+            par, 
           par.user,
           null, //coll,
           par.withUserRestriction,
@@ -881,15 +925,16 @@ implements
         throw SSErr.get(SSErrE.parameterMissing);
       }
       
-      if(sql.existsCollRootForUser(par.forUser)){
+      if(sql.existsCollRootForUser(par, par.forUser)){
         return true;
       }
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri rootColl =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par, 
             par.forUser,
             SSConf.vocURICreate(), //entity
             SSEntityE.coll, //type,
@@ -903,19 +948,23 @@ implements
             false)); //shouldCommit)
       
       if(rootColl == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return false;
       }
       
-      sql.addColl(rootColl);
+      sql.addColl(
+            par, 
+        rootColl);
       
       sql.addCollRoot(
+            par, 
         rootColl,
         par.forUser);
       
       final SSUri sharedWithMeFilesCollUri =
         collEntryAdd(
           new SSCollUserEntryAddPar(
+            par, 
             par.forUser,
             rootColl, //coll
             null, //entry
@@ -925,15 +974,16 @@ implements
             false)); //shouldCommit
       
       if(sharedWithMeFilesCollUri == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return false;
       }
       
       sql.addCollSpecial(
+            par, 
         sharedWithMeFilesCollUri,
         par.forUser);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return true;
     }catch(SSErr error){
@@ -943,7 +993,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return false;
           }catch(Exception error2){
@@ -996,6 +1046,7 @@ implements
         
         final SSEntity coll =
           sql.getEntityTest(
+            par, 
             par.user,
             par.coll,
             par.withUserRestriction);
@@ -1006,6 +1057,7 @@ implements
         
         final SSEntity entry =
           sql.getEntityTest(
+            par, 
             par.user,
             par.coll,
             par.withUserRestriction);
@@ -1021,7 +1073,7 @@ implements
           throw SSErr.get(SSErrE.parameterMissing);
         }
         
-        dbSQL.startTrans(par.shouldCommit);
+        dbSQL.startTrans(par, par.shouldCommit);
         
         final SSUri newColl =
           SSCollEntryAddFct.addNewColl(
@@ -1031,34 +1083,34 @@ implements
             par);
         
         if(newColl == null){
-          dbSQL.rollBack(par.shouldCommit);
+          dbSQL.rollBack(par, par.shouldCommit);
           return null;
         }
         
-        dbSQL.commit(par.shouldCommit);
+        dbSQL.commit(par, par.shouldCommit);
         
         return newColl;
       }
       
-      if(sql.containsCollEntry(par.coll, par.entry)){
+      if(sql.containsCollEntry(par, par.coll, par.entry)){
         return par.entry;
       }
       
-      if(sql.isColl(par.entry)){
+      if(sql.isColl(par, par.entry)){
         
-        dbSQL.startTrans(par.shouldCommit);
+        dbSQL.startTrans(par, par.shouldCommit);
         
         SSCollEntryAddFct.addPublicColl(
           sql,
           circleServ,
           par);
         
-        dbSQL.commit(par.shouldCommit);
+        dbSQL.commit(par, par.shouldCommit);
         
         return par.entry;
       }
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri entry =
         SSCollEntryAddFct.addCollEntry(
@@ -1068,11 +1120,11 @@ implements
           par);
       
       if(entry == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return par.entry;
       
@@ -1083,7 +1135,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -1130,10 +1182,11 @@ implements
       
       final List<SSUri> addedEntries = new ArrayList<>();
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       final SSCollUserEntryAddPar collEntryAddPar =
         new SSCollUserEntryAddPar(
+            par, 
           par.user,
           par.coll, //coll
           null, //entry
@@ -1152,7 +1205,7 @@ implements
           collEntryAdd(collEntryAddPar));
       }
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return addedEntries;
     }catch(SSErr error){
@@ -1162,7 +1215,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -1196,6 +1249,7 @@ implements
         
         final SSEntity coll =
           sql.getEntityTest(
+            par, 
             par.user,
             par.coll,
             par.withUserRestriction);
@@ -1205,9 +1259,9 @@ implements
         }
       }
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
-      if(sql.isColl(par.entry)){
+      if(sql.isColl(par, par.entry)){
         
         SSCollEntryDeleteFct.removeColl(
           sql,
@@ -1218,7 +1272,7 @@ implements
         SSCollEntryDeleteFct.removeCollEntry(sql, par);
       }
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return par.entry;
     }catch(SSErr error){
@@ -1228,7 +1282,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -1274,10 +1328,11 @@ implements
       
       final List<SSUri> deletedEntries = new ArrayList<>();
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       final SSCollUserEntryDeletePar collEntryDeletePar =
         new SSCollUserEntryDeletePar(
+            par, 
           par.user,
           par.coll,
           null,  //entry
@@ -1293,7 +1348,7 @@ implements
           collEntryDelete(collEntryDeletePar));
       }
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return deletedEntries;
       
@@ -1304,7 +1359,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -1355,6 +1410,7 @@ implements
         
         final SSEntity coll =
           sql.getEntityTest(
+            par, 
             par.user,
             par.coll,
             par.withUserRestriction);
@@ -1366,13 +1422,15 @@ implements
       
       final List<SSUri> entityURIs =
         SSCollMiscFct.getCollSubCollAndEntryURIs(
+          par, 
           sql,
-          sql.getCollWithEntries(par.coll));
+          sql.getCollWithEntries(par, par.coll));
       
       final SSTagServerI tagServ = (SSTagServerI) SSServReg.getServ(SSTagServerI.class);
       
       return tagServ.tagFrequsGet(
         new SSTagFrequsGetPar(
+            par, 
           par.user,
           null, //forUser,
           entityURIs,
@@ -1430,11 +1488,11 @@ implements
 //        order.add(Integer.valueOf(par.order.get(counter++)));
 //      }
 //
-//      dbSQL.startTrans(par.shouldCommit);
+//      dbSQL.startTrans(par, par.shouldCommit);
 //
 //      sqlFct.updateCollEntriesPos(par.coll, collEntries, order);
 //
-//      dbSQL.commit(par.shouldCommit);
+//      dbSQL.commit(par, par.shouldCommit);
 //
 //      return true;
 ////    }catch(SSErr error){
@@ -1442,7 +1500,7 @@ implements
 //      if(error.code == SSErrE.sqlDeadLock){
 //
 //        try{
-//          dbSQL.rollBack(par.shouldCommit);
+//          dbSQL.rollBack(par, par.shouldCommit);
 //          SSServErrReg.regErrThrow(error);
 //          return null;
 //        }catch(Exception error2){

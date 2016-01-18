@@ -20,19 +20,21 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 
 public class SSDataImportSSSUsersFromCSVFilePar extends SSServPar{
 
   public String filePath = null;
   
   public SSDataImportSSSUsersFromCSVFilePar(
+    final SSServPar servPar,
     final SSUri  user, 
     final String filePath) throws Exception{
     
-    super(SSVarNames.dataImportSSSUsersFromCSVFile, null, user);
+    super(SSVarNames.dataImportSSSUsersFromCSVFile, null, user, servPar.sqlCon);
     
     this.filePath = filePath;
   }

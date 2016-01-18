@@ -18,7 +18,6 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
 package at.tugraz.sss.servs.ocd.datatypes.pars;
 
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
@@ -35,13 +34,14 @@ public class SSOCDGetGraphsPar extends SSServPar{
   public SSOCDGetGraphsPar(){}
   
   public SSOCDGetGraphsPar (
+    final SSServPar servPar,
     final SSUri user,
     final String firstIndex,
     final String length,
     final boolean includeMeta,
     final String executionStatuses) {
     
-       super(SSVarNames.ocdGetGraphs, null, user);
+       super(SSVarNames.ocdGetGraphs, null, user, servPar.sqlCon);
   }
   public String getFirstIndex() {
     return firstIndex;

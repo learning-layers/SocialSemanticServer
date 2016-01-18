@@ -23,18 +23,18 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-
-import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSLearnEpTimelineStateGetPar extends SSServPar{
   
   public SSLearnEpTimelineStateGetPar(){}
   
   public SSLearnEpTimelineStateGetPar(
+    final SSServPar servPar,
     final SSUri         user,
     final boolean       withUserRestriction){
     
-    super(SSVarNames.learnEpTimelineStateGet, null, user);
+    super(SSVarNames.learnEpTimelineStateGet, null, user, servPar.sqlCon);
     
     this.withUserRestriction = withUserRestriction;
   }

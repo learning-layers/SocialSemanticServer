@@ -40,18 +40,20 @@ public class SSAuthCheckCredPar extends SSServPar{
   public SSAuthCheckCredPar(){}
     
   public SSAuthCheckCredPar(
+    final SSServPar servPar,
     final SSLabel   label, 
     final String    password){
     
-    super(SSVarNames.authCheckCred, null, null);
+    super(SSVarNames.authCheckCred, null, null, servPar.sqlCon);
     
     this.label    = label;
     this.password = password;
   }
   
   public SSAuthCheckCredPar(
+    final SSServPar servPar,
     final String   key){
     
-    super(SSVarNames.authCheckCred, key, null);
+    super(SSVarNames.authCheckCred, key, null, servPar.sqlCon);
   }
 }

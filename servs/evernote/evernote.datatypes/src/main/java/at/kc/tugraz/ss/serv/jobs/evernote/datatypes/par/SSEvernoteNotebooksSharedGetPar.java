@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import com.evernote.clients.NoteStoreClient;
 
@@ -30,10 +30,11 @@ public class SSEvernoteNotebooksSharedGetPar extends SSServPar{
   public NoteStoreClient noteStore = null;
   
   public SSEvernoteNotebooksSharedGetPar(
+    final SSServPar servPar, 
     final SSUri           user, 
     final NoteStoreClient noteStore){
     
-    super(SSVarNames.evernoteNotebooksSharedGet, null, user);
+    super(SSVarNames.evernoteNotebooksSharedGet, null, user, servPar.sqlCon);
     
     this.noteStore     = noteStore;
   }

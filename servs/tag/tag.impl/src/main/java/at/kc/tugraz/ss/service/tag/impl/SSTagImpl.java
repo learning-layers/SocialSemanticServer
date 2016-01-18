@@ -111,6 +111,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
+    final SSServPar servPar,
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws SSErr{
     
@@ -121,6 +122,7 @@ implements
         entity.tags.addAll(
           tagsGet(
             new SSTagsGetPar(
+              servPar,
               par.user,
               null, //forUser
               SSUri.asListNotNull(entity.id), //entities
@@ -142,6 +144,7 @@ implements
   
   @Override
   public void getUserRelations(
+    final SSServPar servPar,
     final List<String>             allUsers,
     final Map<String, List<SSUri>> userRelations) throws SSErr{
     
@@ -158,6 +161,7 @@ implements
         for(SSEntity tagEntity :
           tagsGet(
             new SSTagsGetPar(
+              servPar,
               userUri,
               userUri, //forUser
               null, //entities
@@ -187,12 +191,14 @@ implements
   
   @Override
   public void getUsersResources(
+    final SSServPar servPar,
     final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
     
     try{
       
       final SSTagsGetPar tagsGetPar =
         new SSTagsGetPar(
+              servPar,
           null, //user
           null, //forUser
           null, //entities
@@ -230,6 +236,7 @@ implements
   
   @Override
   public void circleContentRemoved(
+    final SSServPar servPar,
     final SSCircleContentRemovedPar par) throws SSErr {
     
     if(!par.removeCircleSpecificMetadata){
@@ -240,6 +247,7 @@ implements
       
       tagsRemove(
         new SSTagsRemovePar(
+              servPar,
           par.user,
           null, //forUser
           entity,
@@ -252,7 +260,9 @@ implements
   }
   
   @Override
-  public void entityCopied(final SSEntityCopiedPar par) throws SSErr{
+  public void entityCopied(
+    final SSServPar servPar, 
+    final SSEntityCopiedPar par) throws SSErr{
     
     try{
       
@@ -267,6 +277,7 @@ implements
           for(SSEntity tag :
             tagsGet(
               new SSTagsGetPar(
+                servPar,
                 par.user,
                 null, //forUser
                 SSUri.getDistinctNotNullFromEntities(par.entities), //entities
@@ -281,6 +292,7 @@ implements
               
               tagAdd(
                 new SSTagAddPar(
+                servPar,
                   par.targetUser,  //user
                   ((SSTag)tag).entity, //entity
                   ((SSTag)tag).tagLabel, //label
@@ -293,6 +305,7 @@ implements
               
               tagAdd(
                 new SSTagAddPar(
+                servPar,
                   ((SSTag)tag).user, //user
                   ((SSTag)tag).entity, //entity
                   ((SSTag)tag).tagLabel, //label
@@ -322,6 +335,7 @@ implements
       final SSTagsAddRet ret     = SSTagsAddRet.get(tagURIs);
       
       actAndLogFct.tagsAdd(
+        par,
         par.user,
         par.entities,
         tagURIs,
@@ -350,6 +364,7 @@ implements
             tags,
             tagAdd(
               new SSTagAddPar(
+                par,
                 par.user,
                 entity,
                 tagLabel,
@@ -371,7 +386,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -405,6 +420,7 @@ implements
       if(tagURI != null){
         
         actAndLogFct.tagsAdd(
+          par,
           par.user,
           SSUri.asListNotNull(par.entity),
           SSUri.asListNotNull(tagURI),
@@ -428,6 +444,7 @@ implements
       final List<SSEntity>    tagEntities =
         entityServ.entityFromTypeAndLabelGet(
           new SSEntityFromTypeAndLabelGetPar(
+                par,
             par.user,
             SSLabel.get(SSStrU.toStr(par.label)), //label,
             SSEntityE.tag, //type,
@@ -438,6 +455,7 @@ implements
         par.circle =
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circlePubURIGet(
             new SSCirclePubURIGetPar(
+                par,
               null,
               false));
       }else{
@@ -454,6 +472,7 @@ implements
           
           final SSEntity circle =
             sql.getEntityTest(
+                par,
               par.user,
               par.circle,
               par.withUserRestriction);
@@ -466,11 +485,12 @@ implements
         }
       }
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       par.entity =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+                par,
             par.user,
             par.entity,
             null, //type,
@@ -484,7 +504,7 @@ implements
             false)); //shouldCommit)
       
       if(par.entity == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
@@ -493,6 +513,7 @@ implements
         tagUri =
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
+                par,
               par.user,
               SSConf.vocURICreate(),
               SSEntityE.tag, //type,
@@ -506,7 +527,7 @@ implements
               false)); //shouldCommit)
         
         if(tagUri == null){
-          dbSQL.rollBack(par.shouldCommit);
+          dbSQL.rollBack(par, par.shouldCommit);
           return null;
         }
       }else{
@@ -514,6 +535,7 @@ implements
       }
       
       sql.addMetadataAssIfNotExists1(
+                par,
         tagUri,
         par.user,
         par.entity,
@@ -521,7 +543,7 @@ implements
         par.circle,
         par.creationTime);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return tagUri;
       
@@ -532,7 +554,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -566,6 +588,7 @@ implements
       if(worked){
         
         actAndLogFct.tagsRemove(
+          par,
           par.user,
           par.entity,
           par.label,
@@ -593,6 +616,7 @@ implements
         
         final SSEntity entity =
           sql.getEntityTest(
+                par,
             par.user,
             par.entity,
             par.withUserRestriction);
@@ -612,6 +636,7 @@ implements
           
           final SSEntity circle =
             sql.getEntityTest(
+                par,
               par.user,
               par.circle,
               par.withUserRestriction);
@@ -633,6 +658,7 @@ implements
         final List<SSEntity> tagEntities =
           entityServ.entityFromTypeAndLabelGet(
             new SSEntityFromTypeAndLabelGetPar(
+                par,
               par.user,
               SSLabel.get(SSStrU.toStr(par.label)), //label,
               SSEntityE.tag, //type,
@@ -647,16 +673,17 @@ implements
       
       if(!par.withUserRestriction){
         
-        dbSQL.startTrans(par.shouldCommit);
+        dbSQL.startTrans(par, par.shouldCommit);
         
         sql.removeMetadataAsss(
+                par,
           par.forUser,
           par.entity,
           tagUri,
           par.space,
           par.circle);
         
-        dbSQL.commit(par.shouldCommit);
+        dbSQL.commit(par, par.shouldCommit);
         
         return true;
       }
@@ -665,13 +692,13 @@ implements
         par.space  == null &&
         par.entity == null){
         
-        dbSQL.startTrans(par.shouldCommit);
+        dbSQL.startTrans(par, par.shouldCommit);
         
-        sql.removeMetadataAsss(par.user, null, tagUri, SSSpaceE.privateSpace, par.circle);
-        sql.removeMetadataAsss(par.user, null, tagUri, SSSpaceE.sharedSpace,  par.circle);
-        sql.removeMetadataAsss(par.user, null, tagUri, SSSpaceE.circleSpace,  par.circle);
+        sql.removeMetadataAsss(par, par.user, null, tagUri, SSSpaceE.privateSpace, par.circle);
+        sql.removeMetadataAsss(par, par.user, null, tagUri, SSSpaceE.sharedSpace,  par.circle);
+        sql.removeMetadataAsss(par, par.user, null, tagUri, SSSpaceE.circleSpace,  par.circle);
         
-        dbSQL.commit(par.shouldCommit);
+        dbSQL.commit(par, par.shouldCommit);
         return true;
       }
       
@@ -679,11 +706,11 @@ implements
         par.space  != null &&
         par.entity == null){
         
-        dbSQL.startTrans(par.shouldCommit);
+        dbSQL.startTrans(par, par.shouldCommit);
         
-        sql.removeMetadataAsss(par.user, null, tagUri, par.space, par.circle);
+        sql.removeMetadataAsss(par, par.user, null, tagUri, par.space, par.circle);
         
-        dbSQL.commit(par.shouldCommit);
+        dbSQL.commit(par, par.shouldCommit);
         return true;
       }
       
@@ -691,13 +718,13 @@ implements
         par.space  == null &&
         par.entity != null){
         
-        dbSQL.startTrans(par.shouldCommit);
+        dbSQL.startTrans(par, par.shouldCommit);
         
-        sql.removeMetadataAsss (par.user, par.entity, tagUri, SSSpaceE.privateSpace, par.circle);
-        sql.removeMetadataAsss (null,     par.entity, tagUri, SSSpaceE.sharedSpace,  par.circle);
-        sql.removeMetadataAsss (null,     par.entity, tagUri, SSSpaceE.circleSpace,  par.circle);
+        sql.removeMetadataAsss (par, par.user, par.entity, tagUri, SSSpaceE.privateSpace, par.circle);
+        sql.removeMetadataAsss (par, null,     par.entity, tagUri, SSSpaceE.sharedSpace,  par.circle);
+        sql.removeMetadataAsss (par, null,     par.entity, tagUri, SSSpaceE.circleSpace,  par.circle);
         
-        dbSQL.commit(par.shouldCommit);
+        dbSQL.commit(par, par.shouldCommit);
         return true;
       }
       
@@ -705,11 +732,11 @@ implements
         par.space  != null &&
         par.entity != null){
         
-        dbSQL.startTrans(par.shouldCommit);
+        dbSQL.startTrans(par, par.shouldCommit);
         
-        sql.removeMetadataAsss(null, par.entity, tagUri, par.space, par.circle);
+        sql.removeMetadataAsss(par, null, par.entity, tagUri, par.space, par.circle);
         
-        dbSQL.commit(par.shouldCommit);
+        dbSQL.commit(par, par.shouldCommit);
         return true;
       }
       
@@ -722,7 +749,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return false;
           }catch(Exception error2){
@@ -767,6 +794,7 @@ implements
       final List<SSEntity> tagAsss =
         tagsGet(
           new SSTagsGetPar(
+            par, 
             par.user,
             par.forUser,
             par.entities,
@@ -777,7 +805,7 @@ implements
             par.startTime,
             par.withUserRestriction));
       
-      return commonMiscFct.getEntitiesFromMetadataDistinctNotNull(tagAsss);
+      return commonMiscFct.getEntitiesFromMetadataDistinctNotNull(par, tagAsss);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -821,6 +849,7 @@ implements
       
       final List<SSEntity> tags =
         commonMiscFct.getMetadata(
+          par, 
           par.user,
           par.forUser,
           par.entities,
@@ -831,6 +860,7 @@ implements
           par.startTime);
       
       return commonMiscFct.filterMetadataByEntitiesUserCanAccess(
+        par, 
         tags,
         par.withUserRestriction,
         par.user,
@@ -883,6 +913,7 @@ implements
         
         final SSEntitiesGetPar entitiesGetPar =
           new SSEntitiesGetPar(
+            par, 
             par.user,
             null, //entities
             null, //descPar
@@ -899,8 +930,10 @@ implements
       
       for(SSEntityA tagFrequ :
         commonMiscFct.getMetadataFrequsFromMetadata(
+          par,
           tagsGet(
             new SSTagsGetPar(
+              par, 
               par.user,
               par.forUser,
               par.entities,
@@ -1017,7 +1050,7 @@ implements
 //        }
 //      }
 //
-//      dbSQL.rollBack(par.shouldCommit);
+//      dbSQL.rollBack(par, par.shouldCommit);
 //      SSServErrReg.regErrThrow(error);
 //      return null;
 //    }

@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.db.api.SSDBSQLFctA;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class SSFriendSQLFct extends SSDBSQLFctA{
   }
 
   public void addFriend(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         friend) throws Exception{
     
@@ -54,7 +56,7 @@ public class SSFriendSQLFct extends SSDBSQLFctA{
       uniqueKey(uniqueKeys, SSSQLVarNames.userId,   user);
       uniqueKey(uniqueKeys, SSSQLVarNames.friendId, friend);
       
-      dbSQL.insertIfNotExists(SSSQLVarNames.friendsTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.friendsTable, inserts, uniqueKeys);
       
       inserts.clear();
       uniqueKeys.clear();
@@ -65,7 +67,7 @@ public class SSFriendSQLFct extends SSDBSQLFctA{
       uniqueKey(uniqueKeys, SSSQLVarNames.userId,   friend);
       uniqueKey(uniqueKeys, SSSQLVarNames.friendId, user);
       
-      dbSQL.insertIfNotExists(SSSQLVarNames.friendsTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.friendsTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -73,6 +75,7 @@ public class SSFriendSQLFct extends SSDBSQLFctA{
   }
 
   public SSFriend getFriend(
+    final SSServPar servPar,
     final SSUri   friend) throws Exception{
     
     ResultSet resultSet = null;
@@ -90,7 +93,7 @@ public class SSFriendSQLFct extends SSDBSQLFctA{
 
       where     (wheres,    SSSQLVarNames.id, friend);
       
-      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.entityTable, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -108,6 +111,7 @@ public class SSFriendSQLFct extends SSDBSQLFctA{
   }
   
   public List<SSUri> getFriends(
+    final SSServPar servPar,
     final SSUri   user) throws Exception{
     
     ResultSet resultSet = null;
@@ -126,7 +130,7 @@ public class SSFriendSQLFct extends SSDBSQLFctA{
       
       where     (wheres,    SSSQLVarNames.userId, user);
       
-      resultSet = dbSQL.select(SSSQLVarNames.friendsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.friendsTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.friendId);
         

@@ -26,6 +26,7 @@ import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.util.*;
 import java.io.*;
 import java.net.Socket;
+import java.sql.*;
 
 public class SSRecommUpdateBulkPar extends SSServPar{
   
@@ -34,13 +35,14 @@ public class SSRecommUpdateBulkPar extends SSServPar{
   public SSClientE    clientType     = SSClientE.socket;
   
   public SSRecommUpdateBulkPar(
+    final SSServPar servPar,
     final SSUri               user,
     final String              realm,
     final Socket              clientSocket,
     final InputStream         fileInputStream,
     final SSClientE           clientType){
     
-    super(SSVarNames.recommUpdateBulk, null, user);
+    super(SSVarNames.recommUpdateBulk, null, user, servPar.sqlCon);
     
     this.realm           = realm;
     this.clientSocket    = clientSocket;

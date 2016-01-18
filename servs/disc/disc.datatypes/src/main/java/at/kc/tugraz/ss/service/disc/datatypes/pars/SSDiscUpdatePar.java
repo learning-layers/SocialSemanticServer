@@ -24,6 +24,7 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,6 +81,7 @@ public class SSDiscUpdatePar extends SSServPar{
   public SSDiscUpdatePar(){}
   
   public SSDiscUpdatePar(
+    final SSServPar servPar,
     final SSUri               user,
     final SSUri               disc,
     final SSLabel             label,
@@ -91,7 +93,7 @@ public class SSDiscUpdatePar extends SSServPar{
     final boolean             withUserRestriction,
     final boolean             shouldCommit){
     
-    super(SSVarNames.discUpdate, null, user);
+    super(SSVarNames.discUpdate, null, user, servPar.sqlCon);
     
     this.disc           = disc;
     this.label          = label;

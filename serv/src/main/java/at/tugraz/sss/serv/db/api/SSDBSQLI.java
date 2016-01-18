@@ -21,9 +21,8 @@
 package at.tugraz.sss.serv.db.api;
 
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.par.SSDBSQLSelectPar;
-import java.sql.Connection;
-import java.sql.ResultSet;
+import at.tugraz.sss.serv.datatype.par.*;
+import java.sql.*;
 import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedMap;
@@ -31,22 +30,25 @@ import javax.ws.rs.core.MultivaluedMap;
 public interface SSDBSQLI{
 
   public static final Integer entityLabelLength        = 255;
-  
+
+  public Connection createConnection() throws SSErr;
   public Integer    getMaxActive();
   public Integer    getActive();
-  public Connection getConnection();
-  public void       closeCon  ()   throws SSErr;
+  public void       closeCon  (final SSServPar servPar)   throws SSErr;
   
   public boolean rollBack(
-    final boolean shouldCommit) throws SSErr;
+    final SSServPar servPar,
+    final boolean    shouldCommit) throws SSErr;
 
   public ResultSet select(
+    final SSServPar servPar,
     final String query) throws SSErr;
   
   public ResultSet select(
     final SSDBSQLSelectPar par) throws SSErr;
   
   public ResultSet select(
+    final SSServPar servPar,
     final List<String>        tables, 
     final List<String>        columns, 
     final Map<String, String> wheres,
@@ -56,6 +58,7 @@ public interface SSDBSQLI{
     final Integer             limit) throws SSErr;
   
   public ResultSet select(
+    final SSServPar servPar,
     final String              table, 
     final List<String>        columns, 
     final Map<String, String> wheres,
@@ -64,6 +67,7 @@ public interface SSDBSQLI{
     final Integer             limit) throws SSErr;
   
   public ResultSet selectLike(
+    final SSServPar servPar,
     final List<String>                         tables,
     final List<String>                         columns,
     final List<MultivaluedMap<String, String>> likes,
@@ -73,35 +77,43 @@ public interface SSDBSQLI{
     final Integer                              limit) throws SSErr;
   
   public void insert(
+    final SSServPar servPar,
     final String              table, 
     final Map<String, String> inserts) throws SSErr;
   
   public void insertIfNotExists(
+    final SSServPar servPar,
     final String              table, 
     final Map<String, String> inserts,
     final Map<String, String> uniqueKeys) throws SSErr;
   
   public void delete(
+    final SSServPar servPar,
     final String table) throws Exception;
   
   public void delete(
+    final SSServPar servPar,
     final String              table, 
     final Map<String, String> wheres) throws SSErr;
   
   public void deleteIgnore(
+    final SSServPar servPar,
     final String              table, 
     final Map<String, String> wheres) throws SSErr;
 
   public void deleteIgnore(
+    final SSServPar servPar,
     final String                               table, 
     final List<MultivaluedMap<String, String>> wheres) throws SSErr;
   
   public void update(
+    final SSServPar servPar,
     final String              table, 
     final Map<String, String> wheres, 
     final Map<String, String> updates) throws SSErr;
   
   public void updateIgnore(
+    final SSServPar servPar,
     final String              table, 
     final Map<String, String> wheres, 
     final Map<String, String> updates) throws SSErr;
@@ -110,10 +122,12 @@ public interface SSDBSQLI{
     final ResultSet resultSet) throws SSErr;
  
   public void startTrans(
-    final boolean shouldCommit) throws SSErr;
+    final SSServPar  servPar,
+    final boolean    shouldCommit) throws SSErr;
   
   public void commit(
-    final boolean shouldCommit) throws SSErr;
+    final SSServPar  servPar,
+    final boolean    shouldCommit) throws SSErr;
 }
 
 //  public void       insert         (String tableName, Map<String, String> parNamesWithValues)  throws Exception;

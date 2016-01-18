@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,6 +92,7 @@ public class SSCategoriesGetPar extends SSServPar{
   public SSCategoriesGetPar(){}
   
   public SSCategoriesGetPar(
+    final SSServPar servPar,
     final SSUri                   user,
     final SSUri                   forUser,
     final List<SSUri>             entities,
@@ -101,7 +103,7 @@ public class SSCategoriesGetPar extends SSServPar{
     final Long                    startTime,
     final boolean                 withUserRestriction){
     
-    super(SSVarNames.categoriesGet, null, user);
+    super(SSVarNames.categoriesGet, null, user, servPar.sqlCon);
     
     this.forUser    = forUser;
     

@@ -26,6 +26,7 @@ import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +44,7 @@ public class SSLocationSQLFct extends SSCoreSQL{
   }
   
   public void addLocation(
+    final SSServPar  servPar,
     final SSUri      locationURI,
     final SSUri      entity, 
     final SSLocation location) throws Exception{
@@ -61,14 +63,14 @@ public class SSLocationSQLFct extends SSCoreSQL{
         insert(inserts, SSSQLVarNames.accuracy,         location.accuracy);
       }
       
-      dbSQL.insert(SSSQLVarNames.locationTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.locationTable, inserts);
       
       inserts.clear();
       
       insert(inserts, SSSQLVarNames.entityId,           entity);
       insert(inserts, SSSQLVarNames.locationId,         locationURI);
       
-      dbSQL.insert(SSSQLVarNames.entityLocationsTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.entityLocationsTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -76,6 +78,7 @@ public class SSLocationSQLFct extends SSCoreSQL{
   }
 
    public SSLocation getLocation(
+    final SSServPar  servPar,
      final SSUri location) throws Exception{
    
     ResultSet resultSet = null;
@@ -89,7 +92,7 @@ public class SSLocationSQLFct extends SSCoreSQL{
       column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.longitude);
       column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.accuracy);
       
-      resultSet = dbSQL.select(SSSQLVarNames.locationTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.locationTable, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -110,6 +113,7 @@ public class SSLocationSQLFct extends SSCoreSQL{
   }
    
   public List<SSUri> getLocationURIs(
+    final SSServPar  servPar,
     final SSUri forEntity) throws Exception{
    
     ResultSet resultSet = null;
@@ -132,9 +136,9 @@ public class SSLocationSQLFct extends SSCoreSQL{
         
         tableCon(tableCons, SSSQLVarNames.locationTable, SSSQLVarNames.locationId, SSSQLVarNames.entityLocationsTable, SSSQLVarNames.locationId);
         
-        resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+        resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       }else{
-        resultSet = dbSQL.select(SSSQLVarNames.locationTable, columns, wheres, null, null, null);
+        resultSet = dbSQL.select(servPar, SSSQLVarNames.locationTable, columns, wheres, null, null, null);
       }
       
       return getURIsFromResult(resultSet, SSSQLVarNames.locationId);

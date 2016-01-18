@@ -58,6 +58,7 @@ import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.db.serv.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.image.serv.*;
@@ -70,6 +71,7 @@ import at.tugraz.sss.servs.ocd.service.*;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.*;
+import java.sql.*;
 import sss.serv.eval.serv.*;
 
 public class SSSocketMain extends SSServImplStartA{
@@ -233,11 +235,19 @@ public class SSSocketMain extends SSServImplStartA{
     @Override
     public void run(){
       
+      Connection sqlCon = null;
+      
       try{
         
-        final String clientMsg = SSSocketU.readFullString(inputStreamReader);
+        final String     clientMsg = SSSocketU.readFullString(inputStreamReader);
         
-        par = new SSServPar(clientSocket, clientMsg);
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        
+        par = 
+          new SSServPar(
+            clientSocket, 
+            sqlCon,
+            clientMsg);
         
         SSLogU.info(par.op + " start with " + par.clientJSONRequ);
         
@@ -264,6 +274,15 @@ public class SSSocketMain extends SSServImplStartA{
           SSLogU.err(error1);
         }
       }finally{
+        
+        try{
+          if(sqlCon != null){
+            sqlCon.close();
+          }
+          
+        }catch(Exception error){
+          SSLogU.err(error);
+        }
         
         try {
           SSServReg.inst.unregClientRequest(par.op, par.user, servImpl);

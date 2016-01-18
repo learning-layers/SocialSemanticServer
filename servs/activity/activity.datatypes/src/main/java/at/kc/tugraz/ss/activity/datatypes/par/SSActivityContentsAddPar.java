@@ -26,6 +26,7 @@ import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util
 import at.tugraz.sss.serv.datatype.*;
 
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,13 +61,14 @@ public class SSActivityContentsAddPar extends SSServPar{
   }
   
   public SSActivityContentsAddPar(
+    final SSServPar servPar,
     final SSUri                   user,
     final SSUri                   activity,
     final SSActivityContentE      contentType,
     final List<SSActivityContent> contents,
     final boolean                 shouldCommit){
     
-    super(SSVarNames.activityContentsAdd, null, user);
+    super(SSVarNames.activityContentsAdd, null, user, servPar.sqlCon);
     
     this.activity      = activity;
     this.contentType   = contentType;

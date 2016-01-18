@@ -20,13 +20,13 @@
 */
 package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
-
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,6 +83,7 @@ public class SSTagFrequsGetPar extends SSServPar{
   public SSTagFrequsGetPar(){}
    
   public SSTagFrequsGetPar(
+    final SSServPar servPar,
     final SSUri              user, 
     final SSUri              forUser, 
     final List<SSUri>        entities, 
@@ -93,7 +94,7 @@ public class SSTagFrequsGetPar extends SSServPar{
     final boolean            useUsersEntities,
     final boolean            withUserRestriction){
     
-    super(SSVarNames.tagFrequsGet, null, user);
+    super(SSVarNames.tagFrequsGet, null, user, servPar.sqlCon);
     
     this.forUser = forUser;
     

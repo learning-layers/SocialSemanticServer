@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
 import java.io.*;
 import java.net.Socket;
+import java.sql.*;
 
 public class SSFileUploadPar extends SSServPar{
   
@@ -64,6 +65,7 @@ public class SSFileUploadPar extends SSServPar{
   public SSFileUploadPar(){}
   
   public SSFileUploadPar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSMimeTypeE   mimeType,
     final SSLabel       label,
@@ -73,7 +75,7 @@ public class SSFileUploadPar extends SSServPar{
     final SSClientE     clientType,
     final boolean       shouldCommit){
     
-    super (SSVarNames.fileUpload, null, user);
+    super (SSVarNames.fileUpload, null, user, servPar.sqlCon);
     
     this.mimeType        = mimeType;
     this.label           = label;

@@ -22,9 +22,8 @@ package at.tugraz.sss.serv.datatype.par;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar;
-import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +66,7 @@ public class SSCirclesGetPar extends SSServPar{
   public SSCirclesGetPar(){}
   
   public SSCirclesGetPar(
+    final SSServPar servPar,
     final SSUri           user,
     final SSUri           forUser,
     final SSUri           entity,
@@ -77,7 +77,7 @@ public class SSCirclesGetPar extends SSServPar{
     final boolean         withSystemCircles,
     final boolean         invokeEntityHandlers) {
     
-    super(SSVarNames.circlesGet, null, user);
+    super(SSVarNames.circlesGet, null, user, servPar.sqlCon);
     
     this.forUser              = forUser;
     this.entity               = entity;

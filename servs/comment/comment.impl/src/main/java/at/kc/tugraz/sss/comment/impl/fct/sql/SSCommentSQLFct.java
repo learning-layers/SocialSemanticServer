@@ -26,6 +26,7 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class SSCommentSQLFct extends SSCoreSQL{
   }
   
   public List<SSUri> getEntityURIsCommented(
+    final SSServPar servPar,
     final SSUri forUser) throws Exception{
     
     ResultSet resultSet = null;
@@ -68,7 +70,7 @@ public class SSCommentSQLFct extends SSCoreSQL{
       
       tableCon(tableCons, SSSQLVarNames.entityTable,  SSSQLVarNames.id, SSSQLVarNames.commentsTable,  SSSQLVarNames.commentId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
       
@@ -81,6 +83,7 @@ public class SSCommentSQLFct extends SSCoreSQL{
   }
   
   public List<SSTextComment> getComments(
+    final SSServPar servPar,
     final SSUri entity,
     final SSUri forUser) throws Exception{
     
@@ -111,7 +114,7 @@ public class SSCommentSQLFct extends SSCoreSQL{
       
       tableCon(tableCons, SSSQLVarNames.commentTable, SSSQLVarNames.commentId, SSSQLVarNames.commentsTable, SSSQLVarNames.commentId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
       return getTextCommentsFromResult(resultSet, SSSQLVarNames.commentContent);
       
@@ -124,6 +127,7 @@ public class SSCommentSQLFct extends SSCoreSQL{
   }
   
   public void addComment(
+    final SSServPar servPar,
     final SSUri         entity,
     final SSUri         commentUri) throws Exception{
     
@@ -133,7 +137,7 @@ public class SSCommentSQLFct extends SSCoreSQL{
       insert(inserts, SSSQLVarNames.entityId,  entity);
       insert(inserts, SSSQLVarNames.commentId, commentUri);
       
-      dbSQL.insert(SSSQLVarNames.commentsTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.commentsTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -141,6 +145,7 @@ public class SSCommentSQLFct extends SSCoreSQL{
   }
   
   public void createComment(
+    final SSServPar servPar,
     final SSUri         commentUri,
     final SSTextComment content) throws Exception{
     
@@ -150,7 +155,7 @@ public class SSCommentSQLFct extends SSCoreSQL{
       insert(inserts, SSSQLVarNames.commentId,      commentUri);
       insert(inserts, SSSQLVarNames.commentContent, content);
       
-      dbSQL.insert(SSSQLVarNames.commentTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.commentTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -24,7 +24,6 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
-import at.tugraz.sss.serv.reg.*;
 
 public abstract class SSServImplDBA extends SSServImplA{
   

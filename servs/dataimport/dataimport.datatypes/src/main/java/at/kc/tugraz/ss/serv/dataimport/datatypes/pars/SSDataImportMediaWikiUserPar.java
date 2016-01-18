@@ -23,12 +23,14 @@ package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSDataImportMediaWikiUserPar extends SSServPar{
   
   public SSDataImportMediaWikiUserPar(
-    final SSUri user) {
+    final SSServPar servPar,
+    final SSUri      user) {
     
-    super(SSVarNames.dataImportMediaWikiUser, null, user);
+    super(SSVarNames.dataImportMediaWikiUser, null, user, servPar.sqlCon);
   }
 }

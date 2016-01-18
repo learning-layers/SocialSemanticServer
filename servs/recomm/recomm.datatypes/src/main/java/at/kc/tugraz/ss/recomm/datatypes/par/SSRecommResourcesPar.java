@@ -24,6 +24,7 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +67,7 @@ public class SSRecommResourcesPar extends SSServPar{
   public SSRecommResourcesPar(){}
   
   public SSRecommResourcesPar(
+    final SSServPar servPar,
     final SSUri           user,
     final String          realm, 
     final SSUri           forUser, 
@@ -79,7 +81,7 @@ public class SSRecommResourcesPar extends SSServPar{
     final boolean         withUserRestriction, 
     final boolean         invokeEntityHandlers){
     
-    super(SSVarNames.recommResources, null, user);
+    super(SSVarNames.recommResources, null, user, servPar.sqlCon);
     
     this.realm = realm;
     this.forUser = forUser;

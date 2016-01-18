@@ -26,6 +26,7 @@ import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import java.util.List;
@@ -34,6 +35,7 @@ import java.util.Map;
 public class SSEntityUserRelationsGatherFct{
   
   public static void getUserRelations(
+    final SSServPar servPar, 
     final List<String>             allUsers, 
     final Map<String, List<SSUri>> userRelations) throws SSErr{
     
@@ -44,6 +46,7 @@ public class SSEntityUserRelationsGatherFct{
         final SSUri userUri = SSUri.get(user);
 
         SSEntityUserRelationsGatherFct.addRelationsForUserCircles(
+          servPar,
           userRelations,
           userUri);
       }
@@ -58,6 +61,7 @@ public class SSEntityUserRelationsGatherFct{
   }
   
   private static void addRelationsForUserCircles(
+    final SSServPar servPar, 
     final Map<String, List<SSUri>>  userRelations,
     final SSUri                     userUri) throws Exception{
     
@@ -66,6 +70,7 @@ public class SSEntityUserRelationsGatherFct{
     for(SSEntity circle : 
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circlesGet(
           new SSCirclesGetPar(
+            servPar,
             userUri,
             userUri,
             null,

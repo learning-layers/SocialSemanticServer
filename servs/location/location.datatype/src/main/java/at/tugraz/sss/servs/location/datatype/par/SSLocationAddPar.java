@@ -24,6 +24,7 @@ import at.tugraz.sss.servs.location.datatype.SSLocation;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class SSLocationAddPar extends SSServPar{
   public SSLocationAddPar(){}
     
   public SSLocationAddPar(
+    final SSServPar servPar,
     final SSUri             user,
     final SSUri             entity,
     final Double            latitude,
@@ -53,7 +55,7 @@ public class SSLocationAddPar extends SSServPar{
     final boolean           withUserRestriction,
     final boolean           shouldCommit){
     
-    super(SSVarNames.locationAdd, null, user);
+    super(SSVarNames.locationAdd, null, user, servPar.sqlCon);
     
     this.entity              = entity;
     this.latitude            = latitude;

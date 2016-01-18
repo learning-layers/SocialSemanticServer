@@ -18,42 +18,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.kc.tugraz.ss.serv.dataimport.serv;
+package at.tugraz.sss.servs.kcprojwiki.serv;
 
-import at.kc.tugraz.ss.serv.dataimport.api.*;
-import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.*;
+import at.tugraz.sss.conf.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.kcprojwiki.api.*;
+import at.tugraz.sss.servs.kcprojwiki.datatype.*;
 import java.sql.*;
-import java.util.logging.*;
 
-public class SSDataImportBitsAndPiecesTask implements Runnable{
+public class SSKCProjWikiImportTask {
   
-  private final SSDataImportBitsAndPiecesPar par;
-  
-  public SSDataImportBitsAndPiecesTask(
-    final SSDataImportBitsAndPiecesPar par) throws Exception{
-    
-    this.par = par;
-  }
-  
-  @Override
-  public void run() {
-    handle();
-  }
-  
-  public void handle(){
+  public void handle() {
     
     Connection sqlCon = null;
     
     try{
       
+      final SSServPar servPar = new SSServPar();
+      
       sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       
-      par.sqlCon = sqlCon;
+      servPar.sqlCon = sqlCon;
       
-      ((SSDataImportServerI) SSServReg.getServ(SSDataImportServerI.class)).dataImportBitsAndPieces(par);
+      ((SSKCProjWikiServerI) SSServReg.getServ(SSKCProjWikiServerI.class)).kcprojwikiImport(
+        new SSKCProjWikiImportPar(
+          servPar,
+          SSConf.systemUserUri));
       
     }catch(Exception error){
       SSLogU.err(error);

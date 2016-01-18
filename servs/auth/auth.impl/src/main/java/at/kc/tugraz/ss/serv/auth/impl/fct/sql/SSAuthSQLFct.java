@@ -22,15 +22,14 @@ package at.kc.tugraz.ss.serv.auth.impl.fct.sql;
 
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLFctA;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
-
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 
 public class SSAuthSQLFct extends SSDBSQLFctA{
@@ -40,6 +39,7 @@ public class SSAuthSQLFct extends SSDBSQLFctA{
   }
 
   public boolean hasKey(
+    final SSServPar servPar,
     final SSUri userUri) throws Exception{
     
     ResultSet resultSet = null;
@@ -52,7 +52,7 @@ public class SSAuthSQLFct extends SSDBSQLFctA{
       
       where(wheres, SSSQLVarNames.userId, userUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.authTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.authTable, columns, wheres, null, null, null);
       
       return existsFirstResult(resultSet);
       
@@ -65,6 +65,7 @@ public class SSAuthSQLFct extends SSDBSQLFctA{
   }
   
   public String getKey(
+    final SSServPar servPar,
     final SSUri userUri) throws Exception{
     
     ResultSet resultSet = null;
@@ -77,7 +78,7 @@ public class SSAuthSQLFct extends SSDBSQLFctA{
       
       where(wheres, SSSQLVarNames.userId, userUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.authTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.authTable, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -94,6 +95,7 @@ public class SSAuthSQLFct extends SSDBSQLFctA{
   }
   
   public SSUri getUserForKey(
+    final SSServPar servPar,
     final String key) throws Exception{
    
     ResultSet resultSet = null;
@@ -106,7 +108,7 @@ public class SSAuthSQLFct extends SSDBSQLFctA{
       
       where(wheres, SSSQLVarNames.authKey, key);
       
-      resultSet = dbSQL.select(SSSQLVarNames.authTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.authTable, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -123,6 +125,7 @@ public class SSAuthSQLFct extends SSDBSQLFctA{
   }
 
   public String addKey(
+    final SSServPar servPar,
     final SSUri  userUri, 
     final String authKey) throws Exception{
     
@@ -132,7 +135,7 @@ public class SSAuthSQLFct extends SSDBSQLFctA{
       insert(inserts, SSSQLVarNames.userId,  userUri);
       insert(inserts, SSSQLVarNames.authKey, authKey);
       
-      dbSQL.insert(SSSQLVarNames.authTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.authTable, inserts);
       
       return authKey;
     }catch(Exception error){
@@ -141,7 +144,8 @@ public class SSAuthSQLFct extends SSDBSQLFctA{
     }
   }
 
-  public List<String> getKeys() throws Exception{
+  public List<String> getKeys(
+    final SSServPar servPar) throws Exception{
     
     final List<String>        columns   = new ArrayList<>();
     final Map<String, String> wheres    = new HashMap<>();
@@ -149,7 +153,7 @@ public class SSAuthSQLFct extends SSDBSQLFctA{
     
     try{
       
-      resultSet = dbSQL.select(SSSQLVarNames.authTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.authTable, columns, wheres, null, null, null);
       
       return getStringsFromResult(resultSet, SSSQLVarNames.authKey);
       
@@ -161,14 +165,16 @@ public class SSAuthSQLFct extends SSDBSQLFctA{
     }
   }
 
-  public void removeKey(final SSUri user) throws Exception{
+  public void removeKey(
+    final SSServPar servPar,
+    final SSUri user) throws Exception{
     
     try{
       final Map<String, String> wheres = new HashMap<>();
       
       where(wheres, SSSQLVarNames.userId, user);
       
-      dbSQL.deleteIgnore(SSSQLVarNames.authTable, wheres);
+      dbSQL.deleteIgnore(servPar, SSSQLVarNames.authTable, wheres);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

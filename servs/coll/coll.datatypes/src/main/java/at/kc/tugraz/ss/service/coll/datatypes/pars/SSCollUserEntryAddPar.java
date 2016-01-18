@@ -23,6 +23,7 @@
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
  import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSCollUserEntryAddPar extends SSServPar{
   
@@ -58,6 +59,7 @@ public class SSCollUserEntryAddPar extends SSServPar{
   public SSCollUserEntryAddPar(){}
   
   public SSCollUserEntryAddPar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         coll,
     final SSUri         entry,
@@ -66,7 +68,7 @@ public class SSCollUserEntryAddPar extends SSServPar{
     final boolean       withUserRestriction, 
     final boolean       shouldCommit){
   
-    super(SSVarNames.collEntryAdd, null, user);
+    super(SSVarNames.collEntryAdd, null, user, servPar.sqlCon);
     
     this.coll                = coll;
     this.entry               = entry;

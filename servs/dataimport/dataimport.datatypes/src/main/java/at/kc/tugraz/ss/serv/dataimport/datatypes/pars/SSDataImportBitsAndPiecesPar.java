@@ -20,8 +20,8 @@
  */
 package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 
 public class SSDataImportBitsAndPiecesPar extends SSServPar{
@@ -37,6 +37,7 @@ public class SSDataImportBitsAndPiecesPar extends SSServPar{
   public SSDataImportBitsAndPiecesPar(){}
   
   public SSDataImportBitsAndPiecesPar(
+    final SSServPar servPar,
     final SSUri   user,
     final String  authToken,
     final String  authEmail,
@@ -48,7 +49,7 @@ public class SSDataImportBitsAndPiecesPar extends SSServPar{
     final boolean withUserRestriction,
     final boolean shouldCommit){
     
-    super(SSVarNames.dataImportBitsAndPieces, null, user);
+    super(SSVarNames.dataImportBitsAndPieces, null, user, servPar.sqlCon);
     
     this.authToken           = authToken;
     this.authEmail           = authEmail;

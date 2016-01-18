@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
-
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import java.sql.*;
 
 public class SSCollCumulatedTagsGetPar extends SSServPar{
   
@@ -40,11 +40,12 @@ public class SSCollCumulatedTagsGetPar extends SSServPar{
   public SSCollCumulatedTagsGetPar(){}
     
   public SSCollCumulatedTagsGetPar(
+    final SSServPar servPar,
     final SSUri              user,
     final SSUri              coll, 
     final boolean            withUserRestriction){
     
-    super(SSVarNames.collCumulatedTagsGet, null, user);
+    super(SSVarNames.collCumulatedTagsGet, null, user, servPar.sqlCon);
     
     this.coll                = coll;
     this.withUserRestriction = withUserRestriction;

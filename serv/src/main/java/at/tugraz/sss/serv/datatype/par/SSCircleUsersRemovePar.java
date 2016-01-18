@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,13 +55,14 @@ public class SSCircleUsersRemovePar extends SSServPar{
   public SSCircleUsersRemovePar(){}
   
   public SSCircleUsersRemovePar(
+    final SSServPar servPar,
     final SSUri          user,
     final SSUri          circle,
     final List<SSUri>    users,
     final boolean        withUserRestriction,
     final boolean        shouldCommit) throws Exception{
     
-    super(SSVarNames.circleUsersRemove, null, user);
+    super(SSVarNames.circleUsersRemove, null, user, servPar.sqlCon);
     
     this.circle  = circle;
     

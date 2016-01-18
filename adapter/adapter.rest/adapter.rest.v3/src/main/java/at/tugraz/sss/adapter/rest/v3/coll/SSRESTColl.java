@@ -43,7 +43,10 @@ import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import io.swagger.annotations.*;
+import java.sql.*;
 import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -84,35 +87,56 @@ public class SSRESTColl{
     final String coll){
     
     final SSCollGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSCollGetPar(
-          null,  //user
-          SSUri.get(coll, SSConf.sssUri), //entity
-          true, //withUserRestriction
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+      try{
+        
+        par =
+          new SSCollGetPar(
+            new SSServPar
+      (((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection()),
+            null,  //user
+            SSUri.get(coll, SSConf.sssUri), //entity
+            true, //withUserRestriction
+            true); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(collServ.collGet(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+        
+        return Response.status(200).entity(collServ.collGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @GET
@@ -127,34 +151,54 @@ public class SSRESTColl{
     final HttpHeaders headers){
     
     final SSCollUserRootGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSCollUserRootGetPar(
-          null,  //user
-          true, //withUserRestriction
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+      try{
+        
+        par =
+          new SSCollUserRootGetPar(
+            new SSServPar(sqlCon),
+            null,  //user
+            true, //withUserRestriction
+            true); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(collServ.collRootGet(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+        
+        return Response.status(200).entity(collServ.collRootGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @GET
@@ -172,35 +216,55 @@ public class SSRESTColl{
     final String coll){
     
     final SSCollUserHierarchyGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSCollUserHierarchyGetPar(
-          null,  //user,
-          SSUri.get(coll, SSConf.sssUri),
-          true, //withUserRestriction
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+      try{
+        
+        par =
+          new SSCollUserHierarchyGetPar(
+            new SSServPar(sqlCon),
+            null,  //user,
+            SSUri.get(coll, SSConf.sssUri),
+            true, //withUserRestriction
+            true); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(collServ.collHierarchyGet(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+        
+        return Response.status(200).entity(collServ.collHierarchyGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @POST
@@ -220,38 +284,58 @@ public class SSRESTColl{
     final SSCollEntryAddRESTPar input){
     
     final SSCollUserEntryAddPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSCollUserEntryAddPar(
-          null,  //user,
-          SSUri.get(coll, SSConf.sssUri),
-          input.entry,
-          input.label,
-          input.addNewColl,
-          true, //withUserRestriction
-          true); //shouldCommit
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+      try{
+        
+        par =
+          new SSCollUserEntryAddPar(
+            new SSServPar(sqlCon),
+            null,  //user,
+            SSUri.get(coll, SSConf.sssUri),
+            input.entry,
+            input.label,
+            input.addNewColl,
+            true, //withUserRestriction
+            true); //shouldCommit
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(collServ.collEntryAdd(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+        
+        return Response.status(200).entity(collServ.collEntryAdd(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @POST
@@ -271,37 +355,57 @@ public class SSRESTColl{
     final SSCollEntriesAddRESTPar input){
     
     final SSCollUserEntriesAddPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSCollUserEntriesAddPar(
-          null,  //user,
-          SSUri.get(coll, SSConf.sssUri),
-          input.entries,
-          input.labels,
-          true, //withUserRestriction
-          true); //shouldCommit
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+      try{
+        
+        par =
+          new SSCollUserEntriesAddPar(
+            new SSServPar(sqlCon),
+            null,  //user,
+            SSUri.get(coll, SSConf.sssUri),
+            input.entries,
+            input.labels,
+            true, //withUserRestriction
+            true); //shouldCommit
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(collServ.collEntriesAdd(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+        
+        return Response.status(200).entity(collServ.collEntriesAdd(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @GET
@@ -319,35 +423,55 @@ public class SSRESTColl{
     final String entity){
     
     final SSCollsUserEntityIsInGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSCollsUserEntityIsInGetPar(
-          null,  //user,
-          SSUri.get(entity, SSConf.sssUri),
-          true, //withUserRestriction
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+      try{
+        
+        par =
+          new SSCollsUserEntityIsInGetPar(
+            new SSServPar(sqlCon),
+            null,  //user,
+            SSUri.get(entity, SSConf.sssUri),
+            true, //withUserRestriction
+            true); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(collServ.collsEntityIsInGet(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+        
+        return Response.status(200).entity(collServ.collsEntityIsInGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @GET
@@ -365,34 +489,54 @@ public class SSRESTColl{
     final String coll){
     
     final SSCollCumulatedTagsGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSCollCumulatedTagsGetPar(
-          null,  //user,
-          SSUri.get(coll, SSConf.sssUri),
-          true); //withUserRestriction
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+      try{
+        
+        par =
+          new SSCollCumulatedTagsGetPar(
+            new SSServPar(sqlCon),
+            null,  //user,
+            SSUri.get(coll, SSConf.sssUri),
+            true); //withUserRestriction
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(collServ.collCumulatedTagsGet(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+        
+        return Response.status(200).entity(collServ.collCumulatedTagsGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @DELETE
@@ -413,34 +557,55 @@ public class SSRESTColl{
     final String entries){
     
     final SSCollUserEntriesDeletePar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSCollUserEntriesDeletePar(
-          null,  //user,
-          SSUri.get(coll, SSConf.sssUri),
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entries, SSStrU.comma), SSConf.sssUri),
-          true, //withUserRestriction
-          true); // shouldCommit
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+      try{
+        
+        par =
+          new SSCollUserEntriesDeletePar(
+            new SSServPar(sqlCon),
+            null,  //user,
+            SSUri.get(coll, SSConf.sssUri),
+            SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entries, SSStrU.comma), SSConf.sssUri),
+            true, //withUserRestriction
+            true); // shouldCommit
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(collServ.collEntriesDelete(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+        
+        return Response.status(200).entity(collServ.collEntriesDelete(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
 }

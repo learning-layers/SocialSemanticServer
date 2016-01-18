@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,13 +47,14 @@ public class SSCircleUsersInvitePar extends SSServPar{
   public SSCircleUsersInvitePar(){}
   
   public SSCircleUsersInvitePar(
+    final SSServPar servPar,
     final SSUri          user,
     final SSUri          circle,
     final List<String>   emails,
     final boolean        withUserRestriction,
     final boolean        shouldCommit) throws Exception{
     
-    super(SSVarNames.circleUsersInvite, null, user);
+    super(SSVarNames.circleUsersInvite, null, user, servPar.sqlCon);
     
     this.circle  = circle;
     

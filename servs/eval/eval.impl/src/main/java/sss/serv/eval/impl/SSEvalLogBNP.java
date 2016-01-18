@@ -112,6 +112,7 @@ public class SSEvalLogBNP {
             
             episodeSpaces.addAll(((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circleTypesGet(
               new SSCircleTypesGetPar(
+                par, 
                 originUser.id, 
                 targetEntity.id, 
                 true)));
@@ -135,6 +136,7 @@ public class SSEvalLogBNP {
               activities.addAll(
                 ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activitiesGet(
                   new SSActivitiesGetPar(
+                    par, 
                     par.user, 
                     SSUri.asListNotNull(targetEntity.id),
                     null, //types, 
@@ -253,6 +255,7 @@ public class SSEvalLogBNP {
             episodeSpaces.addAll(
               ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circleTypesGet(
                 new SSCircleTypesGetPar(
+                  par, 
                   originUser.id,
                   targetEntity.id,
                   true)));
@@ -302,6 +305,7 @@ public class SSEvalLogBNP {
             final SSLearnEpVersion learnEpVersion =
               ((SSLearnEpServerI)SSServReg.getServ(SSLearnEpServerI.class)).learnEpVersionCurrentGet(
                 new SSLearnEpVersionCurrentGetPar(
+                  par, 
                   originUser.id, 
                   false, 
                   false));

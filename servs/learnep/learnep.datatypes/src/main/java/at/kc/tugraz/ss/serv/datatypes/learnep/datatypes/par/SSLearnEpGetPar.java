@@ -25,6 +25,7 @@ import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 
 public class SSLearnEpGetPar extends SSServPar{
   
@@ -43,12 +44,13 @@ public class SSLearnEpGetPar extends SSServPar{
   public SSLearnEpGetPar(){}
     
   public SSLearnEpGetPar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         learnEp, 
     final boolean       withUserRestriction,
     final boolean       invokeEntityHandlers){
     
-    super(SSVarNames.learnEpGet, null, user);
+    super(SSVarNames.learnEpGet, null, user, servPar.sqlCon);
     
     this.learnEp              = learnEp;
     this.withUserRestriction  = withUserRestriction;

@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSCategoriesAddPar extends SSServPar{
   
@@ -72,6 +73,7 @@ public class SSCategoriesAddPar extends SSServPar{
   public SSCategoriesAddPar(){}
   
   public SSCategoriesAddPar(
+    final SSServPar servPar,
     final SSUri                 user,
     final List<SSCategoryLabel> labels,
     final SSUri                 entity,
@@ -81,7 +83,7 @@ public class SSCategoriesAddPar extends SSServPar{
     final boolean               withUserRestriction,
     final boolean               shouldCommit){
     
-    super(SSVarNames.categoriesAdd, null, user);
+    super(SSVarNames.categoriesAdd, null, user, servPar.sqlCon);
     
     SSCategoryLabel.addDistinctNotEmpty(this.labels, labels);
     

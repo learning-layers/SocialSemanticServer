@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.sss.comment.datatypes.par;
 
-
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,13 +52,14 @@ public class SSCommentsAddPar extends SSServPar{
   public SSCommentsAddPar(){}
   
   public SSCommentsAddPar(
+    final SSServPar servPar,
     final SSUri                user,
     final SSUri                entity,
     final List<SSTextComment>  comments,
     final boolean              withUserRestriction,
     final boolean              shouldCommit){
     
-    super(SSVarNames.commentsAdd, null, user);
+    super(SSVarNames.commentsAdd, null, user, servPar.sqlCon);
     
     this.entity = entity;
     

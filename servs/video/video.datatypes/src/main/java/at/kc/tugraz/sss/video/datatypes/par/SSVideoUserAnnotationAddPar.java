@@ -20,14 +20,12 @@
 */
 package at.kc.tugraz.sss.video.datatypes.par;
 
-
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.reg.SSServErrReg;
+import java.sql.*;
 
 public class SSVideoUserAnnotationAddPar extends SSServPar{
   
@@ -65,6 +63,7 @@ public class SSVideoUserAnnotationAddPar extends SSServPar{
   public SSVideoUserAnnotationAddPar(){}
     
   public SSVideoUserAnnotationAddPar(
+    final SSServPar servPar,
     final SSUri                user,
     final SSUri                video,
     final Long                 timePoint,
@@ -75,7 +74,7 @@ public class SSVideoUserAnnotationAddPar extends SSServPar{
     final boolean              withUserRestriction, 
     final boolean              shouldCommit){
     
-    super(SSVarNames.videoAnnotationAdd, null, user);
+    super(SSVarNames.videoAnnotationAdd, null, user, servPar.sqlCon);
     
     this.video               = video;
     this.timePoint           = timePoint;

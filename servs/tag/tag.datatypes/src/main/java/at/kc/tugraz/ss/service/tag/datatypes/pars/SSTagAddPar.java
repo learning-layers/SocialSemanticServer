@@ -20,13 +20,12 @@
 */
 package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
-
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
-import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSTagAddPar extends SSServPar{
   
@@ -71,6 +70,7 @@ public class SSTagAddPar extends SSServPar{
   public SSTagAddPar(){}
   
   public SSTagAddPar(
+    final SSServPar servPar,
     final SSUri          user,
     final SSUri          entity,
     final SSTagLabel     label,
@@ -80,7 +80,7 @@ public class SSTagAddPar extends SSServPar{
     final boolean        withUserRestriction,
     final boolean        shouldCommit) {
   
-    super(SSVarNames.tagAdd, null, user);
+    super(SSVarNames.tagAdd, null, user, servPar.sqlCon);
     
     this.entity              = entity;
     this.label               = label;

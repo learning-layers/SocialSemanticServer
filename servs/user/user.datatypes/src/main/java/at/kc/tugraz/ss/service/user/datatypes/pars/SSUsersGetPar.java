@@ -23,6 +23,7 @@
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
  import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,11 +51,12 @@ public class SSUsersGetPar extends SSServPar{
   public SSUsersGetPar(){}
   
   public SSUsersGetPar(
+    final SSServPar servPar,
     final SSUri       user,
     final List<SSUri> users, 
     final boolean     invokeEntityHandlers){
    
-    super(SSVarNames.usersGet, null, user);
+    super(SSVarNames.usersGet, null, user, servPar.sqlCon);
     
     SSUri.addDistinctWithoutNull(this.users, users);
     

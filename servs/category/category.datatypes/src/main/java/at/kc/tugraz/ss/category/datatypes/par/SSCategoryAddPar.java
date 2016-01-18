@@ -25,7 +25,8 @@ import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import java.sql.*;
 
 public class SSCategoryAddPar extends SSServPar{
   
@@ -70,6 +71,7 @@ public class SSCategoryAddPar extends SSServPar{
   public SSCategoryAddPar(){}
   
   public SSCategoryAddPar(
+    final SSServPar servPar,
     final SSUri           user,
     final SSUri           entity,
     final SSCategoryLabel label,
@@ -79,7 +81,7 @@ public class SSCategoryAddPar extends SSServPar{
     final boolean         withUserRestriction,
     final boolean         shouldCommit) {
   
-    super(SSVarNames.categoryAdd, null, user);
+    super(SSVarNames.categoryAdd, null, user, servPar.sqlCon);
     
     this.entity              = entity;
     this.label               = label;

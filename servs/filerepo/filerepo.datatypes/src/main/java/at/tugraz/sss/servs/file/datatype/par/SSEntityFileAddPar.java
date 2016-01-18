@@ -23,9 +23,9 @@ package at.tugraz.sss.servs.file.datatype.par;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.util.SSFileExtE;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSEntityFileAddPar extends SSServPar{
   
@@ -91,6 +91,7 @@ public class SSEntityFileAddPar extends SSServPar{
   public SSEntityFileAddPar(){} 
   
   public SSEntityFileAddPar(
+    final SSServPar servPar,
     final SSUri      user,
     final byte[]     fileBytes, 
     final Integer    fileLength,
@@ -105,7 +106,7 @@ public class SSEntityFileAddPar extends SSServPar{
     final boolean    withUserRestriction, 
     final boolean    shouldCommit) {
     
-    super(SSVarNames.fileAdd, null, user);
+    super(SSVarNames.fileAdd, null, user, servPar.sqlCon);
     
     this.fileBytes                    = fileBytes;
     this.fileLength                   = fileLength;

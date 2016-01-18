@@ -35,6 +35,9 @@ import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
+import java.sql.*;
 
 import java.util.List;
 
@@ -84,25 +87,44 @@ public class SSAuthServ extends SSServContainerI{
       return;
     }
     
-    final SSAuthImpl authServ = (SSAuthImpl) inst.getServImpl();
+    Connection sqlCon = null;
     
-    authServ.authRegisterUser(
-      new SSAuthRegisterUserPar(
-        SSConf.systemUserEmail,
-        ((SSAuthConf)conf).systemUserPassword,
-        SSLabel.get(SSConf.systemUserLabel),
-        true,
-        true,
-        false,
-        true));
+    try{
     
-    if(((SSAuthConf)conf).initAtStartUp){
+      final SSAuthImpl authServ = (SSAuthImpl) inst.getServImpl();
+      final SSServPar  servPar  = new SSServPar(null);
       
-      switch(((SSAuthConf)conf).authType){
-        case csvFileAuth:{
-          authServ.authUsersFromCSVFileAdd(new SSAuthUsersFromCSVFileAddPar(SSConf.systemUserUri));
-          break;
-        } 
+      sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      
+      servPar.sqlCon = sqlCon;
+
+      authServ.authRegisterUser(
+        new SSAuthRegisterUserPar(
+          servPar,
+          SSConf.systemUserEmail,
+          ((SSAuthConf)conf).systemUserPassword,
+          SSLabel.get(SSConf.systemUserLabel),
+          true,
+          true,
+          false,
+          true));
+
+      if(((SSAuthConf)conf).initAtStartUp){
+
+        switch(((SSAuthConf)conf).authType){
+          case csvFileAuth:{
+            authServ.authUsersFromCSVFileAdd(
+              new SSAuthUsersFromCSVFileAddPar(
+                servPar, 
+                SSConf.systemUserUri));
+            break;
+          } 
+        }
+      }
+    }finally{
+      
+      if(sqlCon != null){
+        sqlCon.close();
       }
     }
   }

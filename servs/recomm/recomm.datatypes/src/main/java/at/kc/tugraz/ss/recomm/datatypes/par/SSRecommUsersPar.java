@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.recomm.datatypes.par;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +55,7 @@ public class SSRecommUsersPar extends SSServPar{
   public SSRecommUsersPar(){}
     
   public SSRecommUsersPar(
+    final SSServPar servPar,
     final SSUri        user,
     final String       realm,
     final SSUri        forUser,
@@ -64,7 +66,7 @@ public class SSRecommUsersPar extends SSServPar{
     final boolean      withUserRestriction, 
     final boolean      invokeEntityHandlers){
   
-    super(SSVarNames.recommUsers, null, user);
+    super(SSVarNames.recommUsers, null, user, servPar.sqlCon);
     
     this.realm   = realm;
     this.forUser = forUser;

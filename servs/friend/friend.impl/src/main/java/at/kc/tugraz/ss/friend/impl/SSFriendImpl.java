@@ -35,13 +35,9 @@ import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.conf.api.SSConfA;
-
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-
-
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
@@ -50,7 +46,6 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +72,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
+    final SSServPar servPar,
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws SSErr{
     
@@ -95,6 +91,7 @@ implements
           userEntity.friends.addAll(
             friendsGet(
               new SSFriendsGetPar(
+                servPar,
                 par.user)));
           
           return userEntity;
@@ -119,9 +116,10 @@ implements
       }
       
       return SSFriend.get(
-        sqlFct.getFriend(par.friend),
+        sqlFct.getFriend(par, par.friend),
         entityServ.entityGet(
           new SSEntityGetPar(
+            par, 
             par.user, 
             par.friend, 
             par.withUserRestriction, //withUserRestriction, 
@@ -157,12 +155,13 @@ implements
       
       final List<SSEntity> result = new ArrayList<>();
       
-      for(SSUri friend : sqlFct.getFriends(par.user)){
+      for(SSUri friend : sqlFct.getFriends(par, par.user)){
         
         SSEntity.addEntitiesDistinctWithoutNull(
           result,
           friendGet(
             new SSFriendGetPar(
+              par, 
               par.user, 
               friend)));
       }
@@ -197,11 +196,11 @@ implements
     
     try{
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
             
-      sqlFct.addFriend(par.user, par.friend);
+      sqlFct.addFriend(par, par.user, par.friend);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return par.friend;
       
@@ -212,7 +211,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){

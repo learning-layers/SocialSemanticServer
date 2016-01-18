@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.like.impl.fct.sql;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.like.datatypes.SSLikes;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
@@ -42,6 +43,7 @@ public class SSLikeSQLFct extends SSCoreSQL{
   }
   
   public SSLikes getLikes(
+    final SSServPar servPar,
     final SSUri user,
     final SSUri forUser, 
     final SSUri entity) throws Exception{
@@ -65,7 +67,7 @@ public class SSLikeSQLFct extends SSCoreSQL{
       
       where (wheres,    SSSQLVarNames.entityId, entity);
       
-      resultSet = dbSQL.select(SSSQLVarNames.likesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.likesTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         
@@ -81,7 +83,7 @@ public class SSLikeSQLFct extends SSCoreSQL{
       }
       
       if(user != null){
-        likes.like = getLike(user, entity);
+        likes.like = getLike(servPar, user, entity);
       }
       
       return likes;
@@ -95,6 +97,7 @@ public class SSLikeSQLFct extends SSCoreSQL{
   }
   
   public void like(
+    final SSServPar servPar,
     final SSUri   user,
     final SSUri   entity,
     final Integer value) throws Exception{
@@ -108,7 +111,7 @@ public class SSLikeSQLFct extends SSCoreSQL{
         throw new Exception("like value incorrect");
       }
       
-      final Integer orignalValue = getLike(user, entity);
+      final Integer orignalValue = getLike(servPar, user, entity);
       
       if(orignalValue == null){
         
@@ -118,7 +121,7 @@ public class SSLikeSQLFct extends SSCoreSQL{
         insert(inserts, SSSQLVarNames.entityId,    entity);
         insert(inserts, SSSQLVarNames.value,       value);
         
-        dbSQL.insert(SSSQLVarNames.likesTable, inserts);
+        dbSQL.insert(servPar, SSSQLVarNames.likesTable, inserts);
       }else{
         
         final Map<String, String> updates     = new HashMap<>();
@@ -129,7 +132,7 @@ public class SSLikeSQLFct extends SSCoreSQL{
         where(wheres, SSSQLVarNames.userId,   user);
         where(wheres, SSSQLVarNames.entityId, entity);
         
-        dbSQL.update(SSSQLVarNames.likesTable, wheres, updates);
+        dbSQL.update(servPar, SSSQLVarNames.likesTable, wheres, updates);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -137,6 +140,7 @@ public class SSLikeSQLFct extends SSCoreSQL{
   }
   
   public Integer getLike(
+    final SSServPar servPar,
     final SSUri   user,
     final SSUri   entity) throws Exception{
     
@@ -153,7 +157,7 @@ public class SSLikeSQLFct extends SSCoreSQL{
       where     (wheres,    SSSQLVarNames.entityId, entity);
       where     (wheres,    SSSQLVarNames.userId,   user);
       
-      resultSet = dbSQL.select(SSSQLVarNames.likesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.likesTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         return bindingStrToInteger(resultSet, SSSQLVarNames.value);

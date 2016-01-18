@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 
@@ -143,6 +144,7 @@ public class SSLearnEpAccessController{
   }
   
   public static void checkHasLock(
+    final SSServPar     servPar,
     final SSLearnEpConf learnEpConf,
     final SSUri         user,
     final SSUri         learnEp) throws Exception{
@@ -152,6 +154,7 @@ public class SSLearnEpAccessController{
       final SSEntityServerI           circleServ        = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSCircleIsEntitySharedPar isEntitySharedPar =
         new SSCircleIsEntitySharedPar(
+          servPar,
           user,
           null, //forUser
           learnEp); //entity

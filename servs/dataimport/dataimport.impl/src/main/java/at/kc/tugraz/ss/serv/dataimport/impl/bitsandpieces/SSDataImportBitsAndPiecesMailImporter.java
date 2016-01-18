@@ -34,11 +34,11 @@ import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.util.SSFileExtE;
 import at.tugraz.sss.serv.util.SSFileU;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.mail.SSMailServerI;
 import at.tugraz.sss.servs.mail.datatype.SSMail;
@@ -83,7 +83,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
         userUri);
   }
   
-  public void handle() throws Exception{
+  public void handle(final SSServPar servPar) throws Exception{
 
     try{
      
@@ -97,13 +97,14 @@ public class SSDataImportBitsAndPiecesMailImporter {
       SSLogU.info("start B&P mail import for " +  par.authEmail);
       
       final SSMailServerI mailServ     = (SSMailServerI) SSServReg.getServ(SSMailServerI.class);
-      final SSUri         notebookUri  = handleEmailNotebook();
+      final SSUri         notebookUri  = handleEmailNotebook(servPar);
       SSMail              mail;
       SSUri               noteUri;
       
       for(SSEntity mailEntity : 
         mailServ.mailsReceive(
           new SSMailsReceivePar(
+            servPar,
             SSConf.systemUserUri,
             par.emailInUser,
             par.emailInPassword,
@@ -114,9 +115,9 @@ public class SSDataImportBitsAndPiecesMailImporter {
         mail    = (SSMail) mailEntity;
         noteUri = SSConf.vocURICreate();
         
-        handleMailContent          (mail, notebookUri, noteUri);
-        handleMailContentMultimedia(mail, noteUri);
-        handleMailAttachments      (mail, noteUri);
+        handleMailContent          (servPar, mail, notebookUri, noteUri);
+        handleMailContentMultimedia(servPar, mail, noteUri);
+        handleMailAttachments      (servPar, mail, noteUri);
       }
       
       SSLogU.info("end B&P mail import for " +  par.authEmail);
@@ -127,7 +128,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
     }
   }
   
-  private SSUri handleEmailNotebook() throws Exception{
+  private SSUri handleEmailNotebook(final SSServPar servPar) throws Exception{
     
     try{
       
@@ -136,6 +137,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
       final SSEntity notebook =
         entityServ.entityGet(
           new SSEntityGetPar(
+            servPar, 
             par.user,
             notebookUri,
             false,
@@ -144,6 +146,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
       if(notebook == null){
         
         miscFct.addNotebook(
+          servPar,
           notebookUri,
           SSLabel.get(par.emailInEmail + " inbox"),
           SSDateU.dateAsLong());
@@ -158,6 +161,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
   }
 
   private void handleMailContent(
+    final SSServPar servPar,
     final SSMail mail,
     final SSUri  notebookUri,
     final SSUri  noteUri) throws Exception{
@@ -194,12 +198,14 @@ public class SSDataImportBitsAndPiecesMailImporter {
       }
       
       miscFct.addNote(
+        servPar,
         noteUri, //noteUri
         SSLabel.get(mail.subject), //noteLabel
         notebookUri, //notebookUri, 
         mail.creationTime);
       
        miscFct.addNoteUEs(
+         servPar,
          null, //note, 
          noteUri, //noteUri,
          mail.creationTime, //creationTime, 
@@ -207,6 +213,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
       
       fileServ.fileAdd(
         new SSEntityFileAddPar(
+          servPar, 
           userUri,
           null, //fileBytes
           null, //fileLength
@@ -227,6 +234,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
   }
   
   private void handleMailContentMultimedia(
+    final SSServPar servPar,
     final SSMail mail,
     final SSUri  noteUri) throws Exception{
     
@@ -243,17 +251,20 @@ public class SSDataImportBitsAndPiecesMailImporter {
         resourceUri = SSConf.vocURICreate();
           
         miscFct.addResource(
+         servPar,
           resourceUri, 
           attachment.label, 
           mail.creationTime, 
           noteUri); //noteUri
         
         miscFct.addResourceUEs(
+         servPar,
           resourceUri, 
           mail.creationTime);
         
         fileServ.fileAdd(
           new SSEntityFileAddPar(
+            servPar, 
             userUri,
             null, //fileBytes
             null, //fileLength
@@ -275,6 +286,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
   }
 
   private void handleMailAttachments(
+    final SSServPar servPar,
     final SSMail mail, 
     final SSUri  noteUri) throws Exception{
     
@@ -291,17 +303,20 @@ public class SSDataImportBitsAndPiecesMailImporter {
         resourceUri = SSConf.vocURICreate();
           
         miscFct.addResource(
+         servPar,
           resourceUri, 
           attachment.label, 
           mail.creationTime, 
           noteUri); //noteUri
         
         miscFct.addResourceUEs(
+         servPar,
           resourceUri, 
           mail.creationTime);
         
         fileServ.fileAdd(
           new SSEntityFileAddPar(
+            servPar, 
             userUri,
             null, //fileBytes
             null, //fileLength

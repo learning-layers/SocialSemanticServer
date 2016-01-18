@@ -22,6 +22,7 @@ package at.tugraz.sss.serv.datatype.par;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 
 public class SSEntityUpdatePar extends SSServPar{
 
@@ -71,6 +72,7 @@ public class SSEntityUpdatePar extends SSServPar{
   public SSEntityUpdatePar(){}
   
   public SSEntityUpdatePar(
+    final SSServPar           servPar,
     final SSUri               user,
     final SSUri               entity,
     final SSEntityE           type, 
@@ -83,7 +85,7 @@ public class SSEntityUpdatePar extends SSServPar{
     final boolean             withUserRestriction, 
     final boolean             shouldCommit){
 
-    super(SSVarNames.entityUpdate, null, user);
+    super(SSVarNames.entityUpdate, null, user, servPar.sqlCon);
   
     this.entity              = entity;
     this.type                = type;

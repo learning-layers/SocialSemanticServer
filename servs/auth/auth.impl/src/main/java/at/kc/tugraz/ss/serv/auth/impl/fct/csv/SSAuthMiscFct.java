@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.serv.auth.impl.fct.sql.SSAuthSQLFct;
 import java.security.MessageDigest;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 
 public class SSAuthMiscFct{
@@ -63,6 +64,7 @@ public class SSAuthMiscFct{
   }
   
   public static String checkAndGetKey(
+    final SSServPar servPar, 
     final SSAuthSQLFct sqlFct,
     final SSUri        userUri,
     final String       email,
@@ -70,11 +72,11 @@ public class SSAuthMiscFct{
     
     try{
       
-      if(!sqlFct.hasKey(userUri)){
+      if(!sqlFct.hasKey(servPar, userUri)){
         throw SSErr.get(SSErrE.userNotRegistered);
       }
        
-      final String key = sqlFct.getKey(userUri);
+      final String key = sqlFct.getKey(servPar, userUri);
       
       if(!key.equals(genKey(email, pass))){
         throw SSErr.get(SSErrE.userKeyWrong);

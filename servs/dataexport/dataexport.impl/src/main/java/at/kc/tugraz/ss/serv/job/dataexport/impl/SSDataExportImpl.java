@@ -95,6 +95,7 @@ implements
       final SSEntityCircle circle =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circleGet(
           new SSCircleGetPar(
+            par,
             par.user,
             par.circle,
             null, //entityTypesToIncludeOnly
@@ -110,6 +111,7 @@ implements
       
       tagsPerEntities.putAll(
         SSDataExportFct.getTagsOfUserPerEntities(
+          par,
           par.user,
           null,
           null,
@@ -117,6 +119,7 @@ implements
       
       categoriesPerEntities.putAll(
         SSDataExportFct.getCategoriesPerEntities(
+          par,
           par.user, //forUser
           null, //forUser
           null,
@@ -210,6 +213,7 @@ implements
             SSStrU.toStr(
               ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).usersGet(
                 new SSUsersGetPar(
+                  par,
                   par.user, //user
                   null, //users
                   false))); //invokeEntityHandlers
@@ -229,7 +233,7 @@ implements
         usersEntities.put(userStr, new ArrayList<>());
       }
       
-      SSServReg.inst.getUsersResources(usersEntities);
+      SSServReg.inst.getUsersResources(par, usersEntities);
       
       for(Map.Entry<String, List<SSEntityContext>> resourcesForUser : usersEntities.entrySet()){
         
@@ -386,6 +390,7 @@ implements
           SSStrU.toStr(
             ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).usersGet(
               new SSUsersGetPar(
+                par,
                 null, //user
                 null, //users
                 false))); //invokeEntityHandlers
@@ -398,7 +403,7 @@ implements
         }
       }
       
-      SSServReg.inst.getUserRelations(allUsers, userRelations);
+      SSServReg.inst.getUserRelations(par, allUsers, userRelations);
       
       out =
         SSFileU.openOrCreateFileWithPathForWrite (

@@ -24,6 +24,7 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,12 +62,13 @@ public class SSEntitiesGetPar extends SSServPar{
   public SSEntitiesGetPar(){}
   
   public SSEntitiesGetPar(
+    final SSServPar servPar,
     final SSUri                user,
     final List<SSUri>          entities,
     final SSEntityDescriberPar descPar,
     final boolean              withUserRestriction){
     
-    super(SSVarNames.entitiesGet, null, user);
+    super(SSVarNames.entitiesGet, null, user, servPar.sqlCon);
     
     SSUri.addDistinctWithoutNull     (this.entities, entities);
     

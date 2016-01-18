@@ -20,14 +20,12 @@
 */
 package at.tugraz.sss.serv.datatype.par;
 
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import java.util.ArrayList;
 import java.util.List;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSEntityDownloadsAddPar extends SSServPar{
 
@@ -53,13 +51,14 @@ public class SSEntityDownloadsAddPar extends SSServPar{
   public SSEntityDownloadsAddPar(){}
   
   public SSEntityDownloadsAddPar(
+    final SSServPar servPar,
     final SSUri               user,
     final SSUri               entity,
     final List<SSUri>         downloads,
     final boolean             withUserRestriction, 
     final boolean             shouldCommit){
 
-    super(SSVarNames.entityDownloadsAdd, null, user);
+    super(SSVarNames.entityDownloadsAdd, null, user, servPar.sqlCon);
   
     this.entity         = entity;
     

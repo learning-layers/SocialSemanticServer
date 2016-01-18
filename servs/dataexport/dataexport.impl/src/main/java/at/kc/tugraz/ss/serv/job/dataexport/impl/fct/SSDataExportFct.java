@@ -29,12 +29,14 @@ import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
+import at.tugraz.sss.serv.datatype.par.*;
 import java.util.List;
 import java.util.Map;
 
 public class SSDataExportFct{
   
   public static Map<String, List<String>> getTagsOfUserPerEntities(
+    final SSServPar      servPar,
     final SSUri          userUri,
     final SSUri          forUser,
     final List<SSUri>    entities,
@@ -43,6 +45,7 @@ public class SSDataExportFct{
     return SSTag.getTagLabelsPerEntities(
       ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsGet(
         new SSTagsGetPar(
+          servPar,
           userUri,
           forUser, //forUser
           entities, //entities
@@ -55,6 +58,7 @@ public class SSDataExportFct{
   }
   
   public static Map<String, List<String>> getCategoriesPerEntities(
+    final SSServPar      servPar,
     final SSUri          userUri,
     final SSUri          forUser,
     final List<SSUri>    entities,
@@ -63,6 +67,7 @@ public class SSDataExportFct{
     return SSCategory.getCategoryLabelsPerEntities(
       ((SSCategoryServerI) SSServReg.getServ(SSCategoryServerI.class)).categoriesGet(
         new SSCategoriesGetPar(
+          servPar,
           userUri,
           forUser, //forUser
           entities, //entities

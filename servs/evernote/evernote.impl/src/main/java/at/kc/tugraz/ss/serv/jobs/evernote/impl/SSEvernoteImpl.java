@@ -67,6 +67,7 @@ import java.util.List;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.enums.SSWarnE;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 
 public class SSEvernoteImpl
@@ -87,6 +88,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
+    final SSServPar servPar,
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws SSErr{
     
@@ -103,12 +105,13 @@ implements
           //TODO use (implement) evernoteEvernoteNoteGet instead
           final SSEvernoteNote evernoteNote =
             SSEvernoteNote.get(
-              sqlFct.getNote(entity.id),
+              sqlFct.getNote(servPar, entity.id),
               entity);
           
           for(SSEntity file :
             ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
               new SSEntityFilesGetPar(
+                servPar,
                 par.user,
                 evernoteNote.id,
                 par.withUserRestriction,
@@ -130,12 +133,13 @@ implements
           //TODO use (implement) evernoteEvernoteResourceGet instead
           final SSEvernoteResource evernoteResource =
             SSEvernoteResource.get(
-              sqlFct.getResource(entity.id),
+              sqlFct.getResource(servPar, entity.id),
               entity);
           
           for(SSEntity file :
             ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
               new SSEntityFilesGetPar(
+                servPar,
                 par.user,
                 evernoteResource.id,
                 par.withUserRestriction,
@@ -185,7 +189,7 @@ implements
       
       noteStoreSyncChunk =
         noteStore.getFilteredSyncChunk(
-          sqlFct.getUSN(par.authToken),
+          sqlFct.getUSN(par, par.authToken),
           1000000,
           filter);
       
@@ -198,7 +202,7 @@ implements
       if(
         !noteStoreSyncChunk.isSetUpdateCount()  ||
         !noteStoreSyncChunk.isSetChunkHighUSN() ||
-        (lastUSN >= noteStoreSyncChunk.getUpdateCount()) && lastUSN >= sqlFct.getUSN(par.authToken)){
+        (lastUSN >= noteStoreSyncChunk.getUpdateCount()) && lastUSN >= sqlFct.getUSN(par, par.authToken)){
         
         SSLogU.debug(par.authEmail + " received full evernote content");
       }else{
@@ -438,11 +442,11 @@ implements
   public boolean evernoteUserAdd(final SSEvernoteUserAddPar par) throws SSErr{
     
     try{
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
-      sqlFct.addUserIfNotExists(par.user, par.authToken);
+      sqlFct.addUserIfNotExists(par, par.user, par.authToken);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return true;
       
@@ -453,7 +457,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return false;
           }catch(Exception error2){
@@ -478,11 +482,11 @@ implements
   public boolean evernoteNoteAdd(final SSEvernoteNoteAddPar par) throws SSErr{
     
     try{
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
-      sqlFct.addNoteIfNotExists(par.notebook, par.note);
+      sqlFct.addNoteIfNotExists(par, par.notebook, par.note);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return true;
       
@@ -493,7 +497,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return false;
           }catch(Exception error2){
@@ -518,11 +522,11 @@ implements
   public boolean evernoteResourceAdd(final SSEvernoteResourceAddPar par) throws SSErr{
     
     try{
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
-      sqlFct.addResourceIfNotExists(par.note, par.resource);
+      sqlFct.addResourceIfNotExists(par, par.note, par.resource);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return true;
       
@@ -533,7 +537,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return false;
           }catch(Exception error2){
@@ -558,11 +562,11 @@ implements
   public boolean evernoteUSNSet(final SSEvernoteUSNSetPar par) throws SSErr{
     
     try{
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
-      sqlFct.setUSN(par.authToken, par.usn);
+      sqlFct.setUSN(par, par.authToken, par.usn);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return true;
       
@@ -573,7 +577,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return false;
           }catch(Exception error2){

@@ -28,6 +28,7 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,6 +46,7 @@ public class SSFileSQLFct extends SSCoreSQL{
   }
   
   public void addFile(
+    final SSServPar servPar, 
     final SSUri file) throws Exception{
     
     try{
@@ -59,7 +61,7 @@ public class SSFileSQLFct extends SSCoreSQL{
       insert    (inserts,    SSSQLVarNames.fileId,   file);
       uniqueKey (uniqueKeys, SSSQLVarNames.fileId,   file);
       
-      dbSQL.insertIfNotExists(SSSQLVarNames.fileTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.fileTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -67,6 +69,7 @@ public class SSFileSQLFct extends SSCoreSQL{
   }
   
   public List<SSUri> getEntityFiles(
+    final SSServPar servPar, 
     final SSUri entity) throws Exception{
     
     ResultSet resultSet = null;
@@ -80,7 +83,7 @@ public class SSFileSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.entityId, entity);
       
-      resultSet = dbSQL.select(SSSQLVarNames.entityFilesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.entityFilesTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.fileId);
       
@@ -93,6 +96,7 @@ public class SSFileSQLFct extends SSCoreSQL{
   }
 
   public void addFileToEntity(
+    final SSServPar servPar, 
     final SSUri file, 
     final SSUri entity) throws Exception {
     
@@ -107,13 +111,15 @@ public class SSFileSQLFct extends SSCoreSQL{
       uniqueKey(uniqueKeys, SSSQLVarNames.entityId, entity);
       uniqueKey(uniqueKeys, SSSQLVarNames.fileId,   file);
       
-      dbSQL.insertIfNotExists(SSSQLVarNames.entityFilesTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.entityFilesTable, inserts, uniqueKeys);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  public SSEntityE getFileType(final SSUri file) throws  Exception{
+  public SSEntityE getFileType(
+    final SSServPar servPar, 
+    final SSUri file) throws  Exception{
     
     ResultSet resultSet = null;
     
@@ -126,7 +132,7 @@ public class SSFileSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.id, file);
       
-      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.entityTable, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;

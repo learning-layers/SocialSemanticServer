@@ -22,9 +22,6 @@ package at.tugraz.sss.serv.datatype.par;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,6 +90,7 @@ public class SSEntityCopyPar extends SSServPar{
   public SSEntityCopyPar(){}
     
   public SSEntityCopyPar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         entity, 
     final SSUri         targetEntity,
@@ -107,7 +105,7 @@ public class SSEntityCopyPar extends SSServPar{
     final boolean       withUserRestriction,
     final boolean       shouldCommit){
     
-    super(SSVarNames.entityCopy, null, user);
+    super(SSVarNames.entityCopy, null, user, servPar.sqlCon);
     
     this.entity       = entity;
     this.targetEntity = targetEntity;

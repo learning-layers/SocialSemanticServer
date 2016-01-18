@@ -24,6 +24,7 @@ import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +41,8 @@ public class SSRecommSQLFct extends SSCoreSQL{
     super(dbSQL, systemUserURI);
   }
   
-  public Map<String, List<String>> getUserRealms() throws Exception{
+  public Map<String, List<String>> getUserRealms(
+    final SSServPar servPar) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -52,7 +54,7 @@ public class SSRecommSQLFct extends SSCoreSQL{
       column(columns, SSSQLVarNames.userId);
       column(columns, SSSQLVarNames.realm);
       
-      resultSet = dbSQL.select(SSSQLVarNames.recommUserRealmsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.recommUserRealmsTable, columns, wheres, null, null, null);
 
       while(resultSet.next()){
         
@@ -79,6 +81,7 @@ public class SSRecommSQLFct extends SSCoreSQL{
   }
 
   public void addUserRealm(
+    final SSServPar servPar,
     final SSUri  user, 
     final String realm) throws Exception{
     
@@ -88,7 +91,7 @@ public class SSRecommSQLFct extends SSCoreSQL{
       insert(inserts, SSSQLVarNames.userId,   user);
       insert(inserts, SSSQLVarNames.realm,    realm);
       
-      dbSQL.insert(SSSQLVarNames.recommUserRealmsTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.recommUserRealmsTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -26,6 +26,7 @@ import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.sss.appstacklayout.datatypes.SSAppStackLayout;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import java.sql.ResultSet;
@@ -45,6 +46,7 @@ public class SSAppStackLayoutSQLFct extends SSCoreSQL{
   }
   
   public SSAppStackLayout getAppStackLayout(
+    final SSServPar servPar,
     final SSUri stack) throws Exception{
     
     ResultSet resultSet = null;
@@ -63,7 +65,7 @@ public class SSAppStackLayoutSQLFct extends SSCoreSQL{
         
       where(wheres, SSSQLVarNames.stackId, stack);
       
-      resultSet = dbSQL.select(SSSQLVarNames.appStackLayoutTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.appStackLayoutTable, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -81,7 +83,8 @@ public class SSAppStackLayoutSQLFct extends SSCoreSQL{
     }
   }
   
-  public List<SSUri> getStackURIs() throws Exception{
+  public List<SSUri> getStackURIs(
+    final SSServPar servPar) throws Exception{
     
     ResultSet resultSet = null;
       
@@ -91,7 +94,7 @@ public class SSAppStackLayoutSQLFct extends SSCoreSQL{
       
       column(columns, SSSQLVarNames.stackId);
         
-      resultSet = dbSQL.select(SSSQLVarNames.appStackLayoutTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.appStackLayoutTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.stackId);
       
@@ -104,6 +107,7 @@ public class SSAppStackLayoutSQLFct extends SSCoreSQL{
   }
 
   public void createAppStackLayout(
+    final SSServPar servPar,
     final SSUri         stack,
     final SSUri         app) throws Exception{
     
@@ -118,13 +122,14 @@ public class SSAppStackLayoutSQLFct extends SSCoreSQL{
       
       insert    (inserts,    SSSQLVarNames.stackId,     stack);
       
-      dbSQL.insert(SSSQLVarNames.appStackLayoutTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.appStackLayoutTable, inserts);
      }catch(Exception error){
        SSServErrReg.regErrThrow(error);
      }
   }
 
   public void deleteStack(
+    final SSServPar servPar,
     final SSUri stack) throws Exception{
     
     try{
@@ -132,7 +137,7 @@ public class SSAppStackLayoutSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.stackId, stack);
       
-      dbSQL.delete(SSSQLVarNames.appStackLayoutTable, wheres);
+      dbSQL.delete(servPar, SSSQLVarNames.appStackLayoutTable, wheres);
       
      }catch(Exception error){
        SSServErrReg.regErrThrow(error);
@@ -140,6 +145,7 @@ public class SSAppStackLayoutSQLFct extends SSCoreSQL{
   }
 
   public void updateAppStackLayout(
+    final SSServPar servPar,
     final SSUri stack, 
     final SSUri app) throws Exception{
     
@@ -153,7 +159,7 @@ public class SSAppStackLayoutSQLFct extends SSCoreSQL{
         update(updates,    SSSQLVarNames.app,     app);
       }
       
-      dbSQL.updateIgnore(SSSQLVarNames.appStackLayoutTable, wheres, updates);
+      dbSQL.updateIgnore(servPar, SSSQLVarNames.appStackLayoutTable, wheres, updates);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

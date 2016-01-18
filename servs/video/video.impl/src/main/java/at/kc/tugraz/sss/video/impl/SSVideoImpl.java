@@ -1,23 +1,23 @@
- /**
-  * Code contributed to the Learning Layers project
-  * http://www.learning-layers.eu
-  * Development is partly funded by the FP7 Programme of the European Commission under
-  * Grant Agreement FP7-ICT-318209.
-  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-  *
-  * Licensed under the Apache License, Version 2.0 (the "License");
-  * you may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at
-  *
-  * http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS,
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
-  */
+/**
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.kc.tugraz.sss.video.impl;
 
 import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
@@ -65,7 +65,7 @@ import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.entity.api.SSPushEntitiesToUsersI;
 import at.tugraz.sss.serv.datatype.par.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
@@ -105,12 +105,14 @@ implements
   
   @Override
   public void getUsersResources(
+    final SSServPar servPar,
     final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
     
     try{
       
       final SSVideosUserGetPar videosGetPar =
         new SSVideosUserGetPar(
+          servPar,
           null, //user
           null, //forEntity,
           true, //withUserRestriction
@@ -141,7 +143,9 @@ implements
   }
   
   @Override
-  public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws SSErr{
+  public List<SSEntity> addAffiliatedEntitiesToCircle(
+    final SSServPar servPar,
+    final SSAddAffiliatedEntitiesToCirclePar par) throws SSErr{
     
     try{
       
@@ -162,6 +166,7 @@ implements
             for(SSEntity videoContentEntity :
               videoAnnotationsGet(
                 new SSVideoAnnotationsGetPar(
+                  servPar, 
                   par.user,
                   entityAdded.id,
                   par.withUserRestriction))){
@@ -180,6 +185,7 @@ implements
         for(SSEntity video :
           videosGet(
             new SSVideosUserGetPar(
+              servPar,
               par.user,
               entityAdded.id,
               par.withUserRestriction,
@@ -201,6 +207,7 @@ implements
       
       circleServ.circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
+          servPar,
           par.user,
           par.circle, //circle
           SSUri.getDistinctNotNullFromEntities(affiliatedEntities), //entities
@@ -210,6 +217,7 @@ implements
       SSEntity.addEntitiesDistinctWithoutNull(
         affiliatedEntities,
         SSServReg.inst.addAffiliatedEntitiesToCircle(
+          servPar,
           par.user,
           par.circle,
           affiliatedEntities, //entities
@@ -226,6 +234,7 @@ implements
   
   @Override
   public void pushEntitiesToUsers(
+    final SSServPar servPar,
     final SSPushEntitiesToUsersPar par) throws SSErr {
     
     try{
@@ -235,7 +244,7 @@ implements
           case video: {
             
             for(SSUri userToPushTo : par.users){
-              sql.addVideoToUser(userToPushTo, entityToPush.id);
+              sql.addVideoToUser(servPar, userToPushTo, entityToPush.id);
             }
             
             break;
@@ -249,6 +258,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
+    final SSServPar servPar,
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws SSErr{
     
@@ -264,6 +274,7 @@ implements
           return SSVideo.get(
             videoGet(
               new SSVideoUserGetPar(
+                servPar,
                 par.user,
                 entity.id,
                 par.withUserRestriction,
@@ -296,6 +307,7 @@ implements
         
         locationServ.locationAdd(
           new SSLocationAddPar(
+            par,
             par.user,
             videoURI,
             par.latitude,
@@ -332,11 +344,12 @@ implements
       
       final SSFileRepoServerI fileServ = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri video =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par,
             par.user,
             videoUri,
             SSEntityE.video, //type,
@@ -350,11 +363,12 @@ implements
             false)); //shouldCommit)
       
       if(video == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
       sql.addVideo(
+        par,
         video,
         par.genre,
         par.link,
@@ -365,6 +379,7 @@ implements
         final SSUri forEntity =
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
+              par,
               par.user,
               par.forEntity,
               null, //type,
@@ -378,11 +393,11 @@ implements
               false)); //shouldCommit)
         
         if(forEntity == null){
-          dbSQL.rollBack(par.shouldCommit);
+          dbSQL.rollBack(par, par.shouldCommit);
           return null;
         }
         
-        sql.addVideoToEntity(videoUri, par.forEntity);
+        sql.addVideoToEntity(par, videoUri, par.forEntity);
       }
       
       if(par.file != null){
@@ -390,6 +405,7 @@ implements
         final SSFileAddRet fileAddRet =
           fileServ.fileAdd(
             new SSEntityFileAddPar(
+              par,
               par.user,
               null,  //fileBytes
               null,  //fileLength
@@ -407,27 +423,28 @@ implements
         if(
           fileAddRet      == null ||
           fileAddRet.file == null){
-          dbSQL.rollBack(par.shouldCommit);
+          dbSQL.rollBack(par, par.shouldCommit);
           return null;
         }
       }
       
       sql.addVideoToUser(
+        par,
         par.user,
         video);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return video;
       
     }catch(SSErr error){
       
       switch(error.code){
-
+        
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -472,11 +489,12 @@ implements
       
       final List<SSUri> annotations = new ArrayList<>();
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri video =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par,
             par.user,
             par.video,
             null, //type,
@@ -490,7 +508,7 @@ implements
             false)); //shouldCommit)
       
       if(video == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
@@ -498,13 +516,13 @@ implements
         par.removeExisting &&
         par.withUserRestriction){
         
-        for(SSUri annotation : sql.getAnnotations(par.video)){
+        for(SSUri annotation : sql.getAnnotations(par, par.video)){
           
-          if(!sql.isUserAuthor(par.user, annotation, par.withUserRestriction)){
+          if(!sql.isUserAuthor(par, par.user, annotation, par.withUserRestriction)){
             continue;
           }
           
-          sql.removeAnnotation(annotation);
+          sql.removeAnnotation(par, annotation);
         }
       }
       
@@ -514,6 +532,7 @@ implements
           annotations,
           videoAnnotationAdd(
             new SSVideoUserAnnotationAddPar(
+              par,
               par.user,
               par.video,
               par.timePoints.get(counter),
@@ -525,18 +544,18 @@ implements
               false))); //shouldCommit)
       }
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return annotations;
       
     }catch(SSErr error){
       
       switch(error.code){
-
+        
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -579,11 +598,12 @@ implements
     
     try{
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri video =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par,
             par.user,
             par.video,
             null, //type,
@@ -597,13 +617,14 @@ implements
             false)); //shouldCommit)
       
       if(video == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
       final SSUri annotation =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par,
             par.user,
             SSConf.vocURICreate(), //entity
             SSEntityE.videoAnnotation, //type,
@@ -617,29 +638,30 @@ implements
             false)); //shouldCommit)
       
       if(annotation == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
       sql.createAnnotation(
+        par,
         par.video,
         annotation,
         par.x,
         par.y,
         par.timePoint);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return annotation;
       
     }catch(SSErr error){
       
       switch(error.code){
-
+        
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -665,7 +687,10 @@ implements
     
     try{
       
-      SSVideo video = sql.getVideo(par.video);
+      SSVideo video =
+        sql.getVideo(
+          par,
+          par.video);
       
       if(video == null){
         return null;
@@ -685,6 +710,7 @@ implements
       final SSEntity videoEntity =
         entityServ.entityGet(
           new SSEntityGetPar(
+            par,
             par.user,
             par.video,
             par.withUserRestriction,
@@ -703,6 +729,7 @@ implements
         video.annotations,
         videoAnnotationsGet(
           new SSVideoAnnotationsGetPar(
+            par,
             par.user,
             video.id,
             par.withUserRestriction)));
@@ -710,6 +737,7 @@ implements
       for(SSEntity file :
         fileServ.filesGet(
           new SSEntityFilesGetPar(
+            par,
             par.user,
             par.video,
             par.withUserRestriction,
@@ -734,6 +762,7 @@ implements
       
       final SSEntity annotationEntity =
         sql.getEntityTest(
+          par,
           par.user,
           par.annotation,
           par.withUserRestriction);
@@ -742,7 +771,7 @@ implements
         return null;
       }
       
-      final SSVideoAnnotation annotation = sql.getAnnotation(par.annotation);
+      final SSVideoAnnotation annotation = sql.getAnnotation(par, par.annotation);
       
       if(annotation == null){
         return null;
@@ -763,6 +792,7 @@ implements
       
       final SSEntity video =
         sql.getEntityTest(
+          par,
           par.user,
           par.video,
           par.withUserRestriction);
@@ -772,9 +802,10 @@ implements
       }
       
       final List<SSEntity>          annotations           = new ArrayList<>();
-      final List<SSUri>             annotationURIs        = sql.getAnnotations(par.video);
+      final List<SSUri>             annotationURIs        = sql.getAnnotations(par, par.video);
       final SSVideoAnnotationGetPar videoAnnotationGetPar =
         new SSVideoAnnotationGetPar(
+          par,
           par.user,
           null, //annotation
           par.withUserRestriction);
@@ -824,6 +855,7 @@ implements
           
           final SSEntity forEntity =
             sql.getEntityTest(
+              par,
               par.user,
               par.forEntity,
               par.withUserRestriction);
@@ -835,9 +867,10 @@ implements
       }
       
       final List<SSEntity>    videos      = new ArrayList<>();
-      final List<SSUri>       videoURIs   = sql.getVideoURIs(par.user, par.forEntity);
+      final List<SSUri>       videoURIs   = sql.getVideoURIs(par, par.user, par.forEntity);
       final SSVideoUserGetPar videoGetPar =
         new SSVideoUserGetPar(
+          par,
           par.user,
           null, //video
           par.withUserRestriction,

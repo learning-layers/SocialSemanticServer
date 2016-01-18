@@ -23,17 +23,19 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 
 public class SSLearnEpVersionCurrentGetPar extends SSServPar{
   
   public SSLearnEpVersionCurrentGetPar(){}
     
   public SSLearnEpVersionCurrentGetPar(
+    final SSServPar servPar,
     final SSUri         user,
     final boolean       withUserRestriction, 
     final boolean       invokeEntityHandlers){
     
-    super(SSVarNames.learnEpVersionCurrentGet, null, user);
+    super(SSVarNames.learnEpVersionCurrentGet, null, user, servPar.sqlCon);
     
     this.withUserRestriction  = withUserRestriction;
     this.invokeEntityHandlers = invokeEntityHandlers;

@@ -22,14 +22,16 @@ package at.tugraz.sss.serv.datatype.par;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSEntityTypesGetPar extends SSServPar{
   
   public SSEntityTypesGetPar(){}
   
   public SSEntityTypesGetPar(
+    final SSServPar servPar,
     final SSUri                 user){
     
-    super(SSVarNames.entityTypesGet, null, user);
+    super(SSVarNames.entityTypesGet, null, user, servPar.sqlCon);
   }
 }

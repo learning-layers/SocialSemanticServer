@@ -29,7 +29,6 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
@@ -82,6 +81,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
+    final SSServPar servPar,
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws SSErr{
     
@@ -94,6 +94,7 @@ implements
           final List<SSEntity> authors =
             usersGet(
               new SSUsersGetPar(
+                servPar,
                 par.user,
                 SSUri.asListNotNull(entity.author.id),
                 false)); //invokeEntityHandlers))
@@ -115,6 +116,7 @@ implements
           final List<SSEntity> users =
             usersGet(
               new SSUsersGetPar(
+                servPar,
                 par.user,
                 SSUri.asListNotNull(entity.id),
                 false)); //invokeEntityHandlers))
@@ -142,7 +144,7 @@ implements
   public boolean userExists(final SSUserExistsPar par) throws SSErr{
     
     try{
-      return sql.existsUser(par.email);
+      return sql.existsUser(par, par.email);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
@@ -153,7 +155,7 @@ implements
   public SSUri userURIGet(final SSUserURIGetPar par) throws SSErr{
     
     try{
-      return sql.getUserURIForEmail(par.email);
+      return sql.getUserURIForEmail(par, par.email);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -169,7 +171,7 @@ implements
       final List<SSUri> uris = new ArrayList<>();
       
       for(String email : par.emails){
-        uris.add(sql.getUserURIForEmail(email));
+        uris.add(sql.getUserURIForEmail(par, email));
       }
       
       return uris;
@@ -205,7 +207,7 @@ implements
     
     try{
       
-      final List<SSUri>    userURIs   = sql.getUserURIs(par.users);
+      final List<SSUri>    userURIs   = sql.getUserURIs(par, par.users);
       final List<SSEntity> users      = new ArrayList<>();
       SSUser               userToGet;
       SSEntity             userEntityToGet;
@@ -213,7 +215,7 @@ implements
       
       for(SSUri userURI : userURIs){
         
-        userToGet = sql.getUser(userURI);
+        userToGet = sql.getUser(par, userURI);
         
         if(userToGet == null){
           continue;
@@ -239,6 +241,7 @@ implements
         userEntityToGet =
           entityServ.entityGet(
             new SSEntityGetPar(
+              par,
               par.user,
               userToGet.id,
               par.withUserRestriction,
@@ -294,11 +297,12 @@ implements
         tmpEmail = par.email;
       }
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       userUri =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par,
             SSConf.systemUserUri,
             userUri,
             SSEntityE.user, //type,
@@ -312,19 +316,21 @@ implements
             false)); //shouldCommit)
       
       if(userUri == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
       publicCircleURI =
         circleServ.circlePubURIGet(
           new SSCirclePubURIGetPar(
+            par,
             par.user,
             false));
       
       publicCircleURI =
         circleServ.circleUsersAdd(
           new SSCircleUsersAddPar(
+            par,
             SSConf.systemUserUri,
             publicCircleURI, //circle
             SSUri.asListNotNull(userUri), //users
@@ -332,13 +338,13 @@ implements
             false)); //shouldCommit
       
       if(publicCircleURI == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
-      sql.addUser(userUri, tmpEmail);
+      sql.addUser(par, userUri, tmpEmail);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return userUri;
       
@@ -349,7 +355,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -394,7 +400,7 @@ implements
       
       final List<SSEntity> users = new ArrayList<>();
       
-      if(!sql.existsEntity(par.entity)){
+      if(!sql.existsEntity(par, par.entity)){
         return users;
       }
       
@@ -404,6 +410,7 @@ implements
         
         entity =
           sql.getEntityTest(
+            par,
             par.user,
             par.entity,
             par.withUserRestriction);
@@ -416,12 +423,14 @@ implements
       for(SSEntity user :
         usersGet(
           new SSUsersGetPar(
+            par,
             par.user,
             null, //users
             false))){ //invokeEntityHandlers
         
         entity =
           sql.getEntityTest(
+            par,
             user.id,
             par.entity,
             par.withUserRestriction);

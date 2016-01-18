@@ -20,15 +20,17 @@
   */
 package at.kc.tugraz.ss.serv.ss.auth.datatypes.pars;
 
-
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 
 public class SSAuthUsersFromCSVFileAddPar extends SSServPar{
   
   public SSAuthUsersFromCSVFileAddPar(
+    final SSServPar servPar,
     final SSUri user){
     
-    super(SSVarNames.authUsersFromCSVFileAdd, null, user);
+    super(SSVarNames.authUsersFromCSVFileAdd, null, user, servPar.sqlCon);
   }
 }

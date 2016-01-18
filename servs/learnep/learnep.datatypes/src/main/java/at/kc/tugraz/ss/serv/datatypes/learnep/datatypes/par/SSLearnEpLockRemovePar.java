@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSLearnEpLockRemovePar extends SSServPar{
   
@@ -49,13 +49,14 @@ public class SSLearnEpLockRemovePar extends SSServPar{
   public SSLearnEpLockRemovePar(){}
     
   public SSLearnEpLockRemovePar(
+    final SSServPar servPar,
     final SSUri      user,
     final SSUri      forUser, 
     final SSUri      learnEp,
     final boolean    withUserRestriction,
     final boolean    shouldCommit){
     
-    super(SSVarNames.learnEpLockRemove, null, user);
+    super(SSVarNames.learnEpLockRemove, null, user, servPar.sqlCon);
    
     this.forUser             = forUser;
     this.learnEp             = learnEp;

@@ -56,9 +56,9 @@ import at.tugraz.sss.serv.datatype.SSErr;
 import java.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.reg.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 
 public class SSUEImpl 
 extends SSServImplWithDBA 
@@ -83,6 +83,7 @@ implements
   
   @Override
   public void getUsersResources(
+    final SSServPar servPar,
     final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
     
     try{
@@ -101,6 +102,7 @@ implements
       
       final SSUEsGetPar uesGetPar =
         new SSUEsGetPar(
+          servPar,
           null, //user
           null, //userEvents,
           null, //forUser
@@ -137,6 +139,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
+    final SSServPar servPar,
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws SSErr{
     
@@ -147,6 +150,7 @@ implements
         entity.userEvents.addAll(
           userEventsGet(
             new SSUEsGetPar(
+              servPar,
               par.user,
               null, //userEvents
               null, //forUser,
@@ -169,6 +173,7 @@ implements
           final SSUE ue =
             userEventGet(
               new SSUEGetPar(
+                servPar,
                 par.user,
                 entity.id,
                 par.withUserRestriction,
@@ -215,6 +220,7 @@ implements
       
       final SSUEsGetPar uesGetPar =
         new SSUEsGetPar(
+          par,
           par.user,
           SSUri.asListNotNull(par.userEvent),  //userEvents
           null, //forUser,
@@ -269,7 +275,7 @@ implements
       
       for(SSUri ueURI : fct.getUEsToFill(par)){
         
-        ue = sql.getUE(ueURI);
+        ue = sql.getUE(par, ueURI);
         
         if(ue == null){
           continue;
@@ -326,6 +332,7 @@ implements
         
         SSEntity entity =
           sql.getEntityTest(
+            par,
             par.user,
             par.entity,
             par.withUserRestriction);
@@ -336,6 +343,7 @@ implements
       }
       
       return sql.getUEURIs(
+        par, 
         par.forUser,
         par.entity,
         SSUEE.asListWithoutEmptyAndNull(par.type),
@@ -372,11 +380,12 @@ implements
         par.entity = SSUri.get(SSConf.sssUri);
       }
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri entity =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par,
             par.user,
             par.entity,
             null, //type,
@@ -390,13 +399,14 @@ implements
             false)); //shouldCommit)
       
       if(entity == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
       final SSUri ueUri =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par,
             par.user,
             SSConf.vocURICreate(),
             SSEntityE.userEvent, //type,
@@ -410,18 +420,19 @@ implements
             false)); //shouldCommit)
       
       if(ueUri == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
       sql.addUE(
+        par, 
         ueUri,
         par.user,
         par.entity,
         par.type, 
         par.content);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return ueUri;
     }catch(SSErr error){
@@ -431,7 +442,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){

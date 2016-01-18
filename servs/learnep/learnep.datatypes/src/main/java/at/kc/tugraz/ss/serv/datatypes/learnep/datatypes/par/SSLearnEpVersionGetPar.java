@@ -23,8 +23,7 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-
-import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSLearnEpVersionGetPar extends SSServPar{
   
@@ -41,12 +40,13 @@ public class SSLearnEpVersionGetPar extends SSServPar{
   public SSLearnEpVersionGetPar(){}
   
   public SSLearnEpVersionGetPar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         learnEpVersion, 
     final boolean       withUserRestriction, 
     final boolean       invokeEntityHandlers){
       
-    super(SSVarNames.learnEpVersionGet, null, user);
+    super(SSVarNames.learnEpVersionGet, null, user, servPar.sqlCon);
 
     this.learnEpVersion       = learnEpVersion;
     this.withUserRestriction  = withUserRestriction;

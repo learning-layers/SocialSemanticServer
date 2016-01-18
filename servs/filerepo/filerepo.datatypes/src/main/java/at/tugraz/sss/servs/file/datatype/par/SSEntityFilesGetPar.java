@@ -23,6 +23,7 @@ package at.tugraz.sss.servs.file.datatype.par;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSEntityFilesGetPar extends SSServPar{
   
@@ -39,12 +40,13 @@ public class SSEntityFilesGetPar extends SSServPar{
   public SSEntityFilesGetPar(){}
     
   public SSEntityFilesGetPar(
+    final SSServPar servPar,
     final SSUri         user,
     final SSUri         entity, 
     final boolean       withUserRestriction,
     final boolean       invokeEntityHandlers){
       
-    super(SSVarNames.filesGet, null, user);
+    super(SSVarNames.filesGet, null, user, servPar.sqlCon);
     
     this.entity                 = entity;
     this.withUserRestriction    = withUserRestriction;

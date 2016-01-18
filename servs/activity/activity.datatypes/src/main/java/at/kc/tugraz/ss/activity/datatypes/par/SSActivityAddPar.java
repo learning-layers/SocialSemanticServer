@@ -23,8 +23,9 @@ package at.kc.tugraz.ss.activity.datatypes.par;
 import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.tugraz.sss.serv.datatype.SSTextComment;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,6 +82,7 @@ public class SSActivityAddPar extends SSServPar{
   public SSActivityAddPar(){}
     
   public SSActivityAddPar(
+    final SSServPar servPar,
     final SSUri                 user, 
     final SSActivityE           type, 
     final SSUri                 entity, 
@@ -90,7 +92,7 @@ public class SSActivityAddPar extends SSServPar{
     final Long                  creationTime, 
     final boolean               shouldCommit){
     
-    super(SSVarNames.activityAdd, null, user);
+    super(SSVarNames.activityAdd, null, user, servPar.sqlCon);
     
     this.type          = type;
     this.entity        = entity;

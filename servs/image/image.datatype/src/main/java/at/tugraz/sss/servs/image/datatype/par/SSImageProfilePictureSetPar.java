@@ -24,6 +24,7 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.reg.*;
  import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSImageProfilePictureSetPar extends SSServPar{
 
@@ -49,13 +50,14 @@ public class SSImageProfilePictureSetPar extends SSServPar{
   public SSImageProfilePictureSetPar(){}
   
   public SSImageProfilePictureSetPar(
+    final SSServPar servPar,
     final SSUri        user,
     final SSUri        entity,
     final SSUri        file,
     final boolean      withUserRestriction, 
     final boolean      shouldCommit){
    
-    super(SSVarNames.imageProfilePictureSet, null, user);
+    super(SSVarNames.imageProfilePictureSet, null, user, servPar.sqlCon);
     
     this.entity              = entity;
     this.file                = file;

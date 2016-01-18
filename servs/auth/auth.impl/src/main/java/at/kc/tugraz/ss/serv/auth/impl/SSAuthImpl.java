@@ -96,6 +96,7 @@ implements
         passwordsForUsersFromCSVFile.putAll(
           dataImportServ.dataImportSSSUsersFromCSVFile(
             new SSDataImportSSSUsersFromCSVFilePar(
+              par,
               par.user,
               conf.getSssWorkDir() + SSFileU.fileNameUsersCsv)));
         
@@ -107,7 +108,7 @@ implements
         }
       }      
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       String email;
       
@@ -121,6 +122,7 @@ implements
         
         authRegisterUser(
           new SSAuthRegisterUserPar(
+            par,
             email, 
             passwordForUser.getValue(), 
             SSLabel.get(passwordForUser.getKey()), 
@@ -130,7 +132,7 @@ implements
             false)); //shouldCommit)
       }
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -166,16 +168,18 @@ implements
       userExists = 
         userServ.userExists(
           new SSUserExistsPar(
+            par,
             SSConf.systemUserUri,
             par.email));
         
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       if(!userExists){
         
         userUri = 
           userServ.userAdd(
             new SSUserAddPar(
+              par,
               SSConf.systemUserUri,
               false,
               par.label,
@@ -183,9 +187,10 @@ implements
               par.isSystemUser, 
               false));
         
-        sqlFct.removeKey(userUri);
+        sqlFct.removeKey(par, userUri);
         
         sqlFct.addKey(
+          par,
           userUri,
           SSAuthMiscFct.genKey(par.email, par.password));
         
@@ -194,14 +199,16 @@ implements
         userUri =
           userServ.userURIGet(
             new SSUserURIGetPar(
+              par,
               SSConf.systemUserUri,
               par.email));
         
         if(par.updatePassword){
           
-          sqlFct.removeKey(userUri);
+          sqlFct.removeKey(par, userUri);
           
           sqlFct.addKey(
+            par,
             userUri,
             SSAuthMiscFct.genKey(par.email, par.password));
         }
@@ -211,6 +218,7 @@ implements
         
         collServ.collRootAdd(
           new SSCollUserRootAddPar(
+            par,
             SSConf.systemUserUri,
             userUri, 
             false));
@@ -223,7 +231,7 @@ implements
         }
       }
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return userUri;
       
@@ -317,7 +325,7 @@ implements
           
           if(par.key != null){
             
-            userUri = sqlFct.getUserForKey(par.key);
+            userUri = sqlFct.getUserForKey(par, par.key);
             
             return SSAuthCheckCredRet.get(
               par.key,
@@ -334,6 +342,7 @@ implements
 
             if(!userServ.userExists(
               new SSUserExistsPar(
+                par,
                 SSConf.systemUserUri,
                 email))){
               
@@ -343,11 +352,13 @@ implements
             userUri = 
              userServ.userURIGet(
                new SSUserURIGetPar(
+                 par,
                  SSConf.systemUserUri, 
                  email));
             
             return SSAuthCheckCredRet.get(
               SSAuthMiscFct.checkAndGetKey(
+                par,
                 sqlFct,
                 userUri,
                 email,
@@ -369,6 +380,7 @@ implements
           
             if(!userServ.userExists(
               new SSUserExistsPar(
+                par,
                 SSConf.systemUserUri,
                 email))){
 
@@ -376,6 +388,7 @@ implements
               userUri = 
                 userServ.userAdd(
                   new SSUserAddPar(
+                    par,
                     SSConf.systemUserUri, 
                     true, 
                     SSLabel.get(email), 
@@ -386,6 +399,7 @@ implements
               try{
                 collServ.collRootAdd(
                   new SSCollUserRootAddPar(
+                    par,
                     SSConf.systemUserUri,
                     userUri,
                     true));
@@ -401,6 +415,7 @@ implements
               userUri = 
                userServ.userURIGet(
                  new SSUserURIGetPar(
+                   par,
                    SSConf.systemUserUri, 
                    email));
             }
@@ -466,18 +481,18 @@ implements
         case csvFileAuth:{
           
           if(csvFileAuthKeys != null){
-            csvFileAuthKeys.addAll(sqlFct.getKeys());
+            csvFileAuthKeys.addAll(sqlFct.getKeys(par));
           }
           
           if(!csvFileAuthKeys.contains(par.key)){
             throw SSErr.get(SSErrE.userKeyWrong);
           }
           
-          return authCheckCred(new SSAuthCheckCredPar(par.key)).user;
+          return authCheckCred(new SSAuthCheckCredPar(par, par.key)).user;
         }
         
         case oidc:{
-          return authCheckCred(new SSAuthCheckCredPar(par.key)).user;
+          return authCheckCred(new SSAuthCheckCredPar(par, par.key)).user;
         }
         
         default: throw SSErr.get(SSErrE.authNoUserForKey);

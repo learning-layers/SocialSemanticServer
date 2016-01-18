@@ -20,9 +20,10 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
-
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 
 public class SSDataImportKCProjWikiVorgaengePar extends SSServPar{
 
@@ -31,10 +32,11 @@ public class SSDataImportKCProjWikiVorgaengePar extends SSServPar{
   public SSDataImportKCProjWikiVorgaengePar(){}
   
   public SSDataImportKCProjWikiVorgaengePar(
+    final SSServPar servPar,
     final SSUri   user,
     final String  filePath){
     
-    super(SSVarNames.dataImportKCProjWikiVorgaenge, null, user);
+    super(SSVarNames.dataImportKCProjWikiVorgaenge, null, user, servPar.sqlCon);
     
     this.filePath = filePath;
   }

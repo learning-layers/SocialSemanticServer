@@ -20,9 +20,10 @@
  */
 package at.tugraz.sss.servs.mail.datatype.par;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSMailSendPar extends SSServPar{
   
@@ -34,6 +35,7 @@ public class SSMailSendPar extends SSServPar{
   public SSMailSendPar(){}
   
   public SSMailSendPar(
+    final SSServPar servPar,
     final SSUri     user,
     final String    fromEmail,
     final String    toEmail,
@@ -42,7 +44,7 @@ public class SSMailSendPar extends SSServPar{
     final boolean   withUserRestriction,
     final boolean   shouldCommit){
     
-    super(SSVarNames.mailSend, null, user);
+    super(SSVarNames.mailSend, null, user, servPar.sqlCon);
     
     this.fromEmail            = fromEmail;
     this.toEmail              = toEmail;

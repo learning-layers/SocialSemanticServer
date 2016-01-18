@@ -120,6 +120,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
+    final SSServPar servPar,
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws SSErr{
     
@@ -130,6 +131,7 @@ implements
         entity.categories.addAll(
           categoriesGet(
             new SSCategoriesGetPar(
+              servPar,
               par.user,
               null, //forUser,
               SSUri.asListNotNull(entity.id),
@@ -150,6 +152,7 @@ implements
   
   @Override
   public void getUserRelations(
+    final SSServPar servPar,
     final List<String>             allUsers,
     final Map<String, List<SSUri>> userRelations) throws SSErr{
     
@@ -164,6 +167,7 @@ implements
         for(SSEntity category :
           categoriesGet(
             new SSCategoriesGetPar(
+              servPar,
               userUri,
               userUri, //forUser
               null,  //entities
@@ -192,12 +196,14 @@ implements
   
   @Override
   public void getUsersResources(
+    final SSServPar servPar,
     final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
     
     try{
       
       final SSCategoriesGetPar categoriesGetPar =
         new SSCategoriesGetPar(
+          servPar, 
           null, //user
           null, //forUser
           null, //entities
@@ -235,6 +241,7 @@ implements
   
   @Override
   public void circleContentRemoved(
+    final SSServPar servPar,
     final SSCircleContentRemovedPar par) throws SSErr {
     
     if(!par.removeCircleSpecificMetadata){
@@ -245,6 +252,7 @@ implements
       
       categoriesRemove(
         new SSCategoriesRemovePar(
+          servPar,
           par.user,
           null, //forUser
           entity,
@@ -258,7 +266,9 @@ implements
   }
   
   @Override
-  public void entityCopied(final SSEntityCopiedPar par) throws SSErr{
+  public void entityCopied(
+    final SSServPar servPar,
+    final SSEntityCopiedPar par) throws SSErr{
     
     try{
       if(!par.includeMetadataSpecificToEntityAndItsEntities){
@@ -272,6 +282,7 @@ implements
           for(SSEntity category :
             categoriesGet(
               new SSCategoriesGetPar(
+                servPar, 
                 par.user,
                 null, //forUser
                 SSUri.getDistinctNotNullFromEntities(par.entities), //entities
@@ -286,6 +297,7 @@ implements
               
               categoryAdd(
                 new SSCategoryAddPar(
+                  servPar, 
                   par.targetUser,  //user
                   ((SSCategory)category).entity, //entity
                   ((SSCategory)category).categoryLabel, //label
@@ -299,6 +311,7 @@ implements
               
               categoryAdd(
                 new SSCategoryAddPar(
+                  servPar,
                   ((SSCategory)category).user,  //user
                   ((SSCategory)category).entity, //entity
                   ((SSCategory)category).categoryLabel, //label
@@ -327,6 +340,7 @@ implements
       final List<SSUri>      categories     = new ArrayList<>();
       final SSCategoryAddPar categoryAddPar =
         new SSCategoryAddPar(
+          par, 
           par.user,
           par.entity,
           null, //label
@@ -351,7 +365,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -385,6 +399,7 @@ implements
       
       activityServ.activityAdd(
         new SSActivityAddPar(
+          par, 
           par.user,
           SSActivityE.addCategory,
           par.entity,
@@ -396,6 +411,7 @@ implements
       
       evalServ.evalLog(
         new SSEvalLogPar(
+          par, 
           par.user,
           SSToolContextE.sss,
           SSEvalLogE.categoryAdd,
@@ -420,6 +436,7 @@ implements
       final List<SSEntity>   categoryEntities =
         entityServ.entityFromTypeAndLabelGet(
           new SSEntityFromTypeAndLabelGetPar(
+            par, 
             par.user,
             SSLabel.get(SSStrU.toStr(par.label)), //label,
             SSEntityE.category, //type,
@@ -429,6 +446,7 @@ implements
         par.circle =
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circlePubURIGet(
             new SSCirclePubURIGetPar(
+              par, 
               null,
               false));
       }else{
@@ -445,6 +463,7 @@ implements
           
           final SSEntity circle =
             sql.getEntityTest(
+              par, 
               par.user,
               par.circle,
               par.withUserRestriction);
@@ -457,11 +476,12 @@ implements
         }
       }
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       par.entity =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            par, 
             par.user,
             par.entity, //entity
             null, //type,
@@ -475,7 +495,7 @@ implements
             false)); //shouldCommit
       
       if(par.entity == null){
-        dbSQL.rollBack(par.shouldCommit);
+        dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
       
@@ -484,6 +504,7 @@ implements
         categoryUri =
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
+              par, 
               par.user,
               SSConf.vocURICreate(),
               SSEntityE.category, //type,
@@ -497,11 +518,12 @@ implements
               false)); //shouldCommit)
         
         if(categoryUri == null){
-          dbSQL.rollBack(par.shouldCommit);
+          dbSQL.rollBack(par, par.shouldCommit);
           return null;
         }
         
         sql.addMetadataIfNotExists(
+          par, 
           categoryUri, //metadataURI
           false); //isPredefined
         
@@ -510,6 +532,7 @@ implements
       }
       
       sql.addMetadataAssIfNotExists1(
+        par, 
         categoryUri,
         par.user,
         par.entity,
@@ -517,7 +540,7 @@ implements
         par.circle,
         par.creationTime);
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return categoryUri;
       
@@ -528,7 +551,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){
@@ -560,6 +583,7 @@ implements
       
       activityServ.activityAdd(
         new SSActivityAddPar(
+          par, 
           par.user,
           SSActivityE.removeCategories,
           par.entity,
@@ -571,6 +595,7 @@ implements
       
       evalServ.evalLog(
         new SSEvalLogPar(
+          par, 
           par.user,
           SSToolContextE.sss,
           SSEvalLogE.categoriesRemove,
@@ -600,6 +625,7 @@ implements
         
         final SSEntity entity =
           sql.getEntityTest(
+            par, 
             par.user,
             par.entity,
             par.withUserRestriction);
@@ -619,6 +645,7 @@ implements
           
           final SSEntity circle =
             sql.getEntityTest(
+              par, 
               par.user,
               par.circle,
               par.withUserRestriction);
@@ -640,6 +667,7 @@ implements
         final List<SSEntity> categoryEntities =
           entityServ.entityFromTypeAndLabelGet(
             new SSEntityFromTypeAndLabelGetPar(
+              par, 
               par.user,
               SSLabel.get(SSStrU.toStr(par.label)), //label,
               SSEntityE.category, //type,
@@ -654,16 +682,17 @@ implements
       
       if(!par.withUserRestriction){
         
-        dbSQL.startTrans(par.shouldCommit);
+        dbSQL.startTrans(par, par.shouldCommit);
         
         sql.removeMetadataAsss(
+          par, 
           par.forUser,
           par.entity,
           categoryUri,
           par.space,
           par.circle);
         
-        dbSQL.commit(par.shouldCommit);
+        dbSQL.commit(par, par.shouldCommit);
         return true;
       }
       
@@ -671,13 +700,13 @@ implements
         par.space  == null &&
         par.entity == null){
         
-        dbSQL.startTrans(par.shouldCommit);
+        dbSQL.startTrans(par, par.shouldCommit);
         
-        sql.removeMetadataAsss(par.user, null, categoryUri, SSSpaceE.privateSpace, par.circle);
-        sql.removeMetadataAsss(par.user, null, categoryUri, SSSpaceE.sharedSpace,  par.circle);
-        sql.removeMetadataAsss(par.user, null, categoryUri, SSSpaceE.circleSpace,  par.circle);
+        sql.removeMetadataAsss(par, par.user, null, categoryUri, SSSpaceE.privateSpace, par.circle);
+        sql.removeMetadataAsss(par, par.user, null, categoryUri, SSSpaceE.sharedSpace,  par.circle);
+        sql.removeMetadataAsss(par, par.user, null, categoryUri, SSSpaceE.circleSpace,  par.circle);
         
-        dbSQL.commit(par.shouldCommit);
+        dbSQL.commit(par, par.shouldCommit);
         return true;
       }
       
@@ -685,11 +714,11 @@ implements
         par.space  != null &&
         par.entity == null){
         
-        dbSQL.startTrans(par.shouldCommit);
+        dbSQL.startTrans(par, par.shouldCommit);
         
-        sql.removeMetadataAsss(par.user, null, categoryUri, par.space, par.circle);
+        sql.removeMetadataAsss(par, par.user, null, categoryUri, par.space, par.circle);
         
-        dbSQL.commit(par.shouldCommit);
+        dbSQL.commit(par, par.shouldCommit);
         return true;
       }
       
@@ -697,13 +726,13 @@ implements
         par.space    == null &&
         par.entity != null){
         
-        dbSQL.startTrans(par.shouldCommit);
+        dbSQL.startTrans(par, par.shouldCommit);
         
-        sql.removeMetadataAsss (par.user, par.entity, categoryUri, SSSpaceE.privateSpace, par.circle);
-        sql.removeMetadataAsss (null,     par.entity, categoryUri, SSSpaceE.sharedSpace,  par.circle);
-        sql.removeMetadataAsss (null,     par.entity, categoryUri, SSSpaceE.circleSpace,  par.circle);
+        sql.removeMetadataAsss (par, par.user, par.entity, categoryUri, SSSpaceE.privateSpace, par.circle);
+        sql.removeMetadataAsss (par, null,     par.entity, categoryUri, SSSpaceE.sharedSpace,  par.circle);
+        sql.removeMetadataAsss (par, null,     par.entity, categoryUri, SSSpaceE.circleSpace,  par.circle);
         
-        dbSQL.commit(par.shouldCommit);
+        dbSQL.commit(par, par.shouldCommit);
         return true;
       }
       
@@ -711,11 +740,11 @@ implements
         par.space    != null &&
         par.entity   != null){
         
-        dbSQL.startTrans(par.shouldCommit);
+        dbSQL.startTrans(par, par.shouldCommit);
         
-        sql.removeMetadataAsss(null, par.entity, categoryUri, par.space, par.circle);
+        sql.removeMetadataAsss(par, null, par.entity, categoryUri, par.space, par.circle);
         
-        dbSQL.commit(par.shouldCommit);
+        dbSQL.commit(par, par.shouldCommit);
         return true;
       }
       
@@ -728,7 +757,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return false;
           }catch(Exception error2){
@@ -768,7 +797,7 @@ implements
   public List<String> categoriesPredefinedGet(final SSCategoriesPredefinedGetPar par) throws SSErr {
     
     try{
-      return sql.getMetadata(true);
+      return sql.getMetadata(par, true);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -783,7 +812,7 @@ implements
       final List<SSEntity> categoryEntities = new ArrayList<>();
       SSUri                categoryUri;
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       for(SSCategoryLabel label : par.labels){
         
@@ -792,6 +821,7 @@ implements
         categoryEntities.addAll(
           entityServ.entityFromTypeAndLabelGet(
             new SSEntityFromTypeAndLabelGetPar(
+              par, 
               par.user,
               SSLabel.get(SSStrU.toStr(label)), //label,
               SSEntityE.category, //type,
@@ -804,6 +834,7 @@ implements
         categoryUri =
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
+              par, 
               par.user,
               SSConf.vocURICreate(),
               SSEntityE.category, //type,
@@ -817,16 +848,17 @@ implements
               false)); //shouldCommit)
         
         if(categoryUri == null){
-          dbSQL.rollBack(par.shouldCommit);
+          dbSQL.rollBack(par, par.shouldCommit);
           return false;
         }
         
         sql.addMetadataIfNotExists(
+          par, 
           categoryUri, //metadataURI
           true); //isPredefined
       }
       
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       return true;
       
     }catch(SSErr error){
@@ -836,7 +868,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return false;
           }catch(Exception error2){
@@ -880,6 +912,7 @@ implements
       final List<SSEntity> categoryAsss =
         categoriesGet(
           new SSCategoriesGetPar(
+            par, 
             par.user,
             par.forUser,
             par.entities,
@@ -890,7 +923,7 @@ implements
             par.startTime,
             par.withUserRestriction));
       
-      return commonMiscFct.getEntitiesFromMetadataDistinctNotNull(categoryAsss);
+      return commonMiscFct.getEntitiesFromMetadataDistinctNotNull(par, categoryAsss);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -933,6 +966,7 @@ implements
       
       final List<SSEntity> categories =
         commonMiscFct.getMetadata(
+          par, 
           par.user,
           par.forUser,
           par.entities,
@@ -943,6 +977,7 @@ implements
           par.startTime);
       
       return commonMiscFct.filterMetadataByEntitiesUserCanAccess(
+        par, 
         categories,
         par.withUserRestriction,
         par.user,
@@ -978,8 +1013,10 @@ implements
       
       for(SSEntityA categoryFrequ :
         commonMiscFct.getMetadataFrequsFromMetadata(
+          par, 
           categoriesGet(
             new SSCategoriesGetPar(
+              par, 
               par.user,
               par.forUser,
               par.entities,

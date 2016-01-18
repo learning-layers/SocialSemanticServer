@@ -30,6 +30,7 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import java.util.List;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
@@ -49,6 +50,7 @@ public class SSTagActAndLogFct {
   }
   
   public void tagsAdd(
+    final SSServPar servPar,
     final SSUri            user,
     final List<SSUri>      entities,
     final List<SSUri>      tagURIs,
@@ -65,6 +67,7 @@ public class SSTagActAndLogFct {
         
         activityServ.activityAdd(
           new SSActivityAddPar(
+            servPar,
             user,
             SSActivityE.tagEntity,
             entity,
@@ -98,6 +101,7 @@ public class SSTagActAndLogFct {
           
           evalServ.evalLog(
             new SSEvalLogPar(
+              servPar,
               user,
               SSToolContextE.sss,
               SSEvalLogE.tagAdd,
@@ -122,6 +126,7 @@ public class SSTagActAndLogFct {
   }
   
   public void tagsRemove(
+    final SSServPar servPar,
     final SSUri            user,
     final SSUri            entity,
     final SSTagLabel       label,
@@ -131,6 +136,7 @@ public class SSTagActAndLogFct {
       
       activityServ.activityAdd(
         new SSActivityAddPar(
+          servPar,
           user,
           SSActivityE.removeTags,
           entity,
@@ -154,6 +160,7 @@ public class SSTagActAndLogFct {
     try{
       evalServ.evalLog(
         new SSEvalLogPar(
+          servPar,
           user,
           SSToolContextE.sss,
           SSEvalLogE.tagsRemove,

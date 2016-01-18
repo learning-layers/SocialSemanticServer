@@ -21,8 +21,8 @@
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.util.*;
 
 public class SSEvernoteResourceAddPar extends SSServPar{
   
@@ -30,12 +30,13 @@ public class SSEvernoteResourceAddPar extends SSServPar{
   public SSUri  resource = null;
   
   public SSEvernoteResourceAddPar(
+    final SSServPar servPar, 
     final SSUri   user,
     final SSUri   note,
     final SSUri   resource,
     final boolean shouldCommit){
     
-    super(SSVarNames.evernoteResourceAdd, null, user);
+    super(SSVarNames.evernoteResourceAdd, null, user, servPar.sqlCon);
     
     this.note         = note;
     this.resource     = resource;

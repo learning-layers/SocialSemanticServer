@@ -34,6 +34,7 @@ import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,7 +85,8 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
   }
   
   public List<String> getMetadata(
-    final boolean isPredefined) throws Exception{
+    final SSServPar servPar,
+    final boolean   isPredefined) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -104,7 +106,7 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
       
       tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, metadataSQLTableName, metadataIdSQLName);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
       return getStringsFromResult(resultSet, SSSQLVarNames.label);
     }catch(Exception error){
@@ -116,6 +118,7 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
   }
   
   public List<SSEntity> getMetadataAsss(
+    final SSServPar       servPar,
     final List<SSUri>     users,
     final List<SSUri>     entities,
     final List<SSSpaceE>  spaces,
@@ -214,6 +217,7 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
       resultSet =
         dbSQL.select(
           new SSDBSQLSelectPar(
+            servPar,
             tables,
             columns,
             orWheres,
@@ -275,6 +279,7 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
   }
   
   public void addMetadataIfNotExists(
+    final SSServPar       servPar,
     final SSUri           metadataURI, 
     final boolean         isPredefined) throws Exception{
     
@@ -287,7 +292,7 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
       
       uniqueKey (uniqueKeys, metadataIdSQLName,  metadataURI);
       
-      dbSQL.insertIfNotExists(metadataSQLTableName, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, metadataSQLTableName, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -295,6 +300,7 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
   }
   
   public void addMetadataAssIfNotExists1(
+    final SSServPar       servPar,
     final SSUri       metadataUri, 
     final SSUri       userUri,
     final SSUri       entityUri,
@@ -326,13 +332,14 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
       uniqueKey (uniqueKeys, metadataSpaceSQLName,       space);
       uniqueKey (uniqueKeys, SSSQLVarNames.circleId,     circleUri);
       
-      dbSQL.insertIfNotExists(metadataAssSQLTableName, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, metadataAssSQLTableName, inserts, uniqueKeys);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
   public void removeMetadataAsss(
+    final SSServPar       servPar,
     final SSUri       userUri,
     final SSUri       entityUri, 
     final SSUri       metadataURI, 
@@ -364,9 +371,9 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
       }
       
       if(wheres.size() > 0){
-        dbSQL.delete(metadataAssSQLTableName, wheres);
+        dbSQL.delete(servPar, metadataAssSQLTableName, wheres);
       }else{
-        dbSQL.delete(metadataAssSQLTableName);
+        dbSQL.delete(servPar, metadataAssSQLTableName);
       }
       
     }catch(Exception error){

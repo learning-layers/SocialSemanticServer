@@ -1,23 +1,23 @@
- /**
-  * Code contributed to the Learning Layers project
-  * http://www.learning-layers.eu
-  * Development is partly funded by the FP7 Programme of the European Commission under
-  * Grant Agreement FP7-ICT-318209.
-  * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
-  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-  *
-  * Licensed under the Apache License, Version 2.0 (the "License");
-  * you may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at
-  *
-  * http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS,
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
-  */
+/**
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.kc.tugraz.ss.serv.dataimport.impl.bitsandpieces;
 
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
@@ -35,8 +35,7 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
-import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
+import at.tugraz.sss.serv.datatype.par.*;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.NoteAttributes;
 import java.util.List;
@@ -70,6 +69,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
   }
   
   public void addNotebook(
+    final SSServPar servPar,
     final SSUri    notebookUri,
     final SSLabel  notebookLabel,
     final Long     notebookCreationTime) throws Exception{
@@ -77,6 +77,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
     try{
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
+          servPar,
           userUri,
           notebookUri,
           SSEntityE.evernoteNotebook, //type,
@@ -91,6 +92,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
       
       evalServ.evalLog(
         new SSEvalLogPar(
+          servPar,
           userUri,
           SSToolContextE.evernoteImport,
           SSEvalLogE.addNotebook,
@@ -106,6 +108,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
   }
   
   public void addNote(
+    final SSServPar servPar,
     final SSUri   noteUri,
     final SSLabel noteLabel,
     final SSUri   notebookUri,
@@ -115,6 +118,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
+          servPar,
           userUri,
           noteUri,
           SSEntityE.evernoteNote, //type,
@@ -132,6 +136,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
         final SSEntity nootebookEntity =
           entityServ.entityGet(
             new SSEntityGetPar(
+              servPar,
               userUri,
               notebookUri, //entity
               true, //withUserRestriction
@@ -140,6 +145,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
         if(nootebookEntity == null){
           
           addNotebook(
+            servPar,
             notebookUri,
             null,
             null);
@@ -148,13 +154,15 @@ public class SSDataImportBitsAndPiecesMiscFct {
       
       evernoteServ.evernoteNoteAdd(
         new SSEvernoteNoteAddPar(
+          servPar,
           this.userUri,
           notebookUri,
-          noteUri, 
+          noteUri,
           false)); //shouldCommit
       
       evalServ.evalLog(
         new SSEvalLogPar(
+          servPar,
           userUri,
           SSToolContextE.evernoteImport,
           SSEvalLogE.addNote,
@@ -170,6 +178,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
   }
   
   public void addNoteUEs(
+    final SSServPar servPar,
     final Note         note,
     final SSUri        noteUri,
     final Long         creationTime,
@@ -180,6 +189,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
       final List<SSEntity> existingCreationUEs =
         ueServ.userEventsGet(
           new SSUEsGetPar(
+            servPar,
             userUri, //user
             null, //userEvents
             userUri, //forUser
@@ -194,6 +204,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
         
         ueServ.userEventAdd(
           new SSUEAddPar(
+            servPar,
             userUri,
             noteUri,
             SSUEE.evernoteNoteCreate,
@@ -206,6 +217,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
       final List<SSEntity> existingUpdateUEs =
         ueServ.userEventsGet(
           new SSUEsGetPar(
+            servPar,
             userUri, //user
             null, //userEvents
             userUri, //forUser
@@ -220,6 +232,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
         
         ueServ.userEventAdd(
           new SSUEAddPar(
+            servPar,
             userUri,
             noteUri,
             SSUEE.evernoteNoteUpdate,
@@ -236,6 +249,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
           final List<SSEntity> existingDeleteUEs =
             ueServ.userEventsGet(
               new SSUEsGetPar(
+                servPar,
                 userUri, //user
                 null, //userEvents
                 userUri, //forUser
@@ -250,6 +264,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
             
             ueServ.userEventAdd(
               new SSUEAddPar(
+                servPar,
                 userUri,
                 noteUri,
                 SSUEE.evernoteNoteDelete,
@@ -271,6 +286,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
           final List<SSEntity> existingShareUEs =
             ueServ.userEventsGet(
               new SSUEsGetPar(
+                servPar,
                 userUri, //user
                 null, //userEvents
                 userUri, //forUser
@@ -285,6 +301,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
             
             ueServ.userEventAdd(
               new SSUEAddPar(
+                servPar,
                 userUri,
                 noteUri,
                 SSUEE.evernoteNoteShare,
@@ -300,6 +317,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
           final List<SSEntity> existingReminderUEs =
             ueServ.userEventsGet(
               new SSUEsGetPar(
+                servPar,
                 userUri, //user
                 null, //userEvents
                 userUri, //forUser
@@ -314,6 +332,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
             
             ueServ.userEventAdd(
               new SSUEAddPar(
+                servPar,
                 userUri,
                 noteUri,
                 SSUEE.evernoteReminderDone,
@@ -329,6 +348,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
           final List<SSEntity> existingReminder2UEs =
             ueServ.userEventsGet(
               new SSUEsGetPar(
+                servPar,
                 userUri, //user
                 null, //userEvents
                 userUri, //forUser
@@ -343,6 +363,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
             
             ueServ.userEventAdd(
               new SSUEAddPar(
+                servPar,
                 userUri,
                 noteUri,
                 SSUEE.evernoteReminderCreate,
@@ -359,6 +380,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
   }
   
   public void addResourceUEs(
+    final SSServPar servPar,
     final SSUri resourceUri,
     final Long  resourceAddTime) throws Exception{
     
@@ -367,6 +389,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
       final List<SSEntity> existingUEs =
         ueServ.userEventsGet(
           new SSUEsGetPar(
+            servPar,
             userUri, //user
             null, //userEvents
             userUri, //forUser
@@ -381,6 +404,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
         
         ueServ.userEventAdd(
           new SSUEAddPar(
+            servPar,
             userUri,
             resourceUri,
             SSUEE.evernoteResourceAdd,
@@ -395,6 +419,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
   }
   
   public void addResource(
+    final SSServPar servPar,
     final SSUri   resourceUri,
     final SSLabel resourceLabel,
     final Long    resourceAddTime,
@@ -403,6 +428,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
     try{
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
+          servPar,
           userUri,
           resourceUri,
           SSEntityE.evernoteResource, //type,
@@ -420,6 +446,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
         
         evernoteServ.evernoteResourceAdd(
           new SSEvernoteResourceAddPar(
+            servPar,
             this.userUri,
             noteUri,
             resourceUri,
@@ -429,6 +456,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
         
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
+            servPar,
             userUri,
             noteUri,
             SSEntityE.evernoteNote, //type,
@@ -443,6 +471,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
         
         evernoteServ.evernoteResourceAdd(
           new SSEvernoteResourceAddPar(
+            servPar,
             this.userUri,
             noteUri,
             resourceUri,
@@ -451,6 +480,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
       
       evalServ.evalLog(
         new SSEvalLogPar(
+          servPar,
           userUri,
           SSToolContextE.evernoteImport,
           SSEvalLogE.addResource,

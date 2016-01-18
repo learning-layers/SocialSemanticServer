@@ -25,6 +25,10 @@ import at.tugraz.sss.serv.util.SSLogU;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkUserRealmsFromConfPar;
 import at.kc.tugraz.ss.recomm.serv.SSRecommServ;
 import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
+import at.tugraz.sss.serv.reg.*;
+import java.sql.*;
 
 public class SSRecommUpdateBulkUserRealmsFromConfTask implements Runnable{
   
@@ -35,14 +39,33 @@ public class SSRecommUpdateBulkUserRealmsFromConfTask implements Runnable{
   
   public void handle(){
     
+    Connection sqlCon = null;
+    
     try{
+      
+      final SSServPar servPar = new SSServPar(null);
+      
+      sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      
+      servPar.sqlCon = sqlCon;
       
       ((SSRecommServerI) SSRecommServ.inst.getServImpl()).recommUpdateBulkUserRealmsFromConf(
         new SSRecommUpdateBulkUserRealmsFromConfPar(
+          servPar,
           SSConf.systemUserUri));
       
     }catch(Exception error){
       SSLogU.err(error);
+    }finally{
+      
+      if(sqlCon != null){
+        
+        try{
+          sqlCon.close();
+        }catch (SQLException error) {
+          SSLogU.err(error);
+        }
+      }
     }
   }
 }

@@ -1,23 +1,23 @@
- /**
-  * Code contributed to the Learning Layers project
-  * http://www.learning-layers.eu
-  * Development is partly funded by the FP7 Programme of the European Commission under
-  * Grant Agreement FP7-ICT-318209.
-  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-  *
-  * Licensed under the Apache License, Version 2.0 (the "License");
-  * you may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at
-  *
-  * http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS,
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
-  */
+/**
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.tugraz.sss.adapter.rest.v3.entity;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.*;
@@ -32,13 +32,8 @@ import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserEntityUsersGetRet;
 import at.kc.tugraz.sss.comment.api.*;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsAddPar;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.par.SSEntitiesAccessibleGetPar;
-import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
-import at.tugraz.sss.serv.datatype.par.SSEntitySharePar;
-import at.tugraz.sss.serv.datatype.par.SSEntityTypesGetPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityUnpublicizePar;
-import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntitiesGetRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityCopyRet;
@@ -47,6 +42,7 @@ import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityTypesGetRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUnpublicizeRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUpdateRet;
 import io.swagger.annotations.*;
+import java.sql.*;
 import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -84,36 +80,56 @@ public class SSRESTEntity{
     final HttpHeaders headers){
     
     final SSEntitiesAccessibleGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSEntitiesAccessibleGetPar(
-          null, //user
-          null, //types
-          null, //authors
-          null, //startTime
-          null, //endTime
-          new SSEntityDescriberPar(null), //descPar
-          true); //withUserRestriction
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+      try{
+        
+        par =
+          new SSEntitiesAccessibleGetPar(
+            new SSServPar(sqlCon),
+            null, //user
+            null, //types
+            null, //authors
+            null, //startTime
+            null, //endTime
+            new SSEntityDescriberPar(null), //descPar
+            true); //withUserRestriction
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-      return Response.status(200).entity(entityServ.entitiesAccessibleGet(SSClientE.rest, par)).build();
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.entitiesAccessibleGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
   
@@ -131,43 +147,67 @@ public class SSRESTEntity{
     final SSEntitiesAccessibleGetRESTPar input){
     
     final SSEntitiesAccessibleGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      final SSEntityDescriberPar descPar = new SSEntityDescriberPar(null);
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      par =
-        new SSEntitiesAccessibleGetPar(
-          null, //user
-          input.types, //types
-          input.authors, //authors
-          input.startTime, //startTime
-          input.endTime, //endTime
-          descPar, //descPar
-          true); //withUserRestriction
+      try{
+        
+        final SSEntityDescriberPar descPar = new SSEntityDescriberPar(null);
+        
+        descPar.setFlags = input.setFlags;
+        descPar.setTags  = input.setTags;
+        
+        par =
+          new SSEntitiesAccessibleGetPar(
+            new SSServPar(sqlCon),
+            null, //user
+            input.types, //types
+            input.authors, //authors
+            input.startTime, //startTime
+            input.endTime, //endTime
+            descPar, //descPar
+            true); //withUserRestriction
+        
+        par.pageSize   = input.pageSize;
+        par.pagesID    = input.pagesID;
+        par.pageNumber = input.pageNumber;
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      par.pagesID    = input.pagesID;
-      par.pageNumber = input.pageNumber;
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.entitiesAccessibleGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
-      
-      return Response.status(200).entity(entityServ.entitiesAccessibleGet(SSClientE.rest, par)).build();
-      
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
-    }
-    
   }
   
   @GET
@@ -182,30 +222,52 @@ public class SSRESTEntity{
     final HttpHeaders headers){
     
     final SSEntityTypesGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par = new SSEntityTypesGetPar(null);
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      try{
+        
+        par =
+          new SSEntityTypesGetPar(
+            new SSServPar(sqlCon),
+            null);
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(entityServ.entityTypesGet(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.entityTypesGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @POST
@@ -226,46 +288,66 @@ public class SSRESTEntity{
     
     final SSEntityDescriberPar   descPar = new SSEntityDescriberPar(null);
     final SSEntitiesGetPar       par;
+    Connection               sqlCon = null;
     
     try{
       
-      descPar.circle            = input.circle;
-      descPar.space             = input.tagSpace;
-      descPar.setTags           = input.setTags;
-      descPar.setOverallRating  = input.setOverallRating;
-      descPar.setDiscs          = input.setDiscs;
-      descPar.setUEs            = input.setUEs;
-      descPar.setThumb          = input.setThumb;
-      descPar.setFlags          = input.setFlags;
-      descPar.setCircles        = input.setCircles;
-      descPar.setProfilePicture = input.setProfilePicture;
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      par =
-        new SSEntitiesGetPar(
-          null,
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSConf.sssUri), //entities
-          descPar, //descPar
-          true); //withUserRestriction
+      try{
+        
+        descPar.circle            = input.circle;
+        descPar.space             = input.tagSpace;
+        descPar.setTags           = input.setTags;
+        descPar.setOverallRating  = input.setOverallRating;
+        descPar.setDiscs          = input.setDiscs;
+        descPar.setUEs            = input.setUEs;
+        descPar.setThumb          = input.setThumb;
+        descPar.setFlags          = input.setFlags;
+        descPar.setCircles        = input.setCircles;
+        descPar.setProfilePicture = input.setProfilePicture;
+        
+        par =
+          new SSEntitiesGetPar(
+            new SSServPar(sqlCon),
+            null,
+            SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSConf.sssUri), //entities
+            descPar, //descPar
+            true); //withUserRestriction
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
+      
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.entitiesGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
-      
-      return Response.status(200).entity(entityServ.entitiesGet(SSClientE.rest, par)).build();
-      
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
-    }
-    
   }
   
   //TODO replace this call by a service to be created for placeholder functionality (i.e., b&p placeholders)
@@ -283,39 +365,60 @@ public class SSRESTEntity{
     final SSEntityUpdateRESTPar input){
     
     final SSEntityUpdatePar par;
+    Connection               sqlCon = null;
     
     try{
-      par =
-        new SSEntityUpdatePar(
-          null, //user
-          null, //entity
-          input.type, //type
-          input.label,       //label
-          input.description, //description
-          input.creationTime, //creationTime
-          input.read,  //read
-          false, //setPublic
-          true, //createIfNotExists
-          true, //withUserRestriction,
-          true); //shouldCommit
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      return Response.status(200).entity(entityServ.entityUpdate(SSClientE.rest, par)).build();
+      try{
+        par =
+          new SSEntityUpdatePar(
+            new SSServPar(sqlCon),
+            null, //user
+            null, //entity
+            input.type, //type
+            input.label,       //label
+            input.description, //description
+            input.creationTime, //creationTime
+            input.read,  //read
+            false, //setPublic
+            true, //createIfNotExists
+            true, //withUserRestriction,
+            true); //shouldCommit
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
+      
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.entityUpdate(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
   
@@ -336,39 +439,60 @@ public class SSRESTEntity{
     final SSEntityUpdateRESTPar input){
     
     final SSEntityUpdatePar par;
+    Connection               sqlCon = null;
     
     try{
-      par =
-        new SSEntityUpdatePar(
-          null, //user
-          SSUri.get(entity, SSConf.sssUri), //entity
-          input.type, //type
-          input.label,       //label
-          input.description, //description
-          input.creationTime, //creationTime
-          input.read,  //read
-          false, //setPublic
-          true,  //createIfNotExists
-          true, //withUserRestriction,
-          true); //shouldCommit
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      return Response.status(200).entity(entityServ.entityUpdate(SSClientE.rest, par)).build();
+      try{
+        par =
+          new SSEntityUpdatePar(
+            new SSServPar(sqlCon),
+            null, //user
+            SSUri.get(entity, SSConf.sssUri), //entity
+            input.type, //type
+            input.label,       //label
+            input.description, //description
+            input.creationTime, //creationTime
+            input.read,  //read
+            false, //setPublic
+            true,  //createIfNotExists
+            true, //withUserRestriction,
+            true); //shouldCommit
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
+      
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.entityUpdate(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
     
   }
@@ -390,38 +514,58 @@ public class SSRESTEntity{
     final SSEntityShareRESTPar input){
     
     final SSEntitySharePar par;
+    Connection               sqlCon = null;
     
     try{
-      par =
-        new SSEntitySharePar(
-          null, //user
-          SSUri.get(entity, SSConf.sssUri), //entity
-          input.users,
-          input.circles,
-          input.setPublic, //setPublic,
-          input.comment, //comment
-          true, //withUserRestriction,
-          true); //shouldCommit
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      return Response.status(200).entity(entityServ.entityShare(SSClientE.rest, par)).build();
+      try{
+        par =
+          new SSEntitySharePar(
+            new SSServPar(sqlCon),
+            null, //user
+            SSUri.get(entity, SSConf.sssUri), //entity
+            input.users,
+            input.circles,
+            input.setPublic, //setPublic,
+            input.comment, //comment
+            true, //withUserRestriction,
+            true); //shouldCommit
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
+      
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.entityShare(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @PUT
@@ -439,34 +583,54 @@ public class SSRESTEntity{
     final String entity){
     
     final SSEntityUnpublicizePar par;
+    Connection               sqlCon = null;
     
     try{
-      par =
-        new SSEntityUnpublicizePar(
-          null, //user
-          SSUri.get(entity, SSConf.sssUri), //entity
-          true, //withUserRestriction,
-          true); //shouldCommit
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-      return Response.status(200).entity(entityServ.entityUnpublicize(SSClientE.rest, par)).build();
+      try{
+        par =
+          new SSEntityUnpublicizePar(
+            new SSServPar(sqlCon),
+            null, //user
+            SSUri.get(entity, SSConf.sssUri), //entity
+            true, //withUserRestriction,
+            true); //shouldCommit
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
+      
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.entityUnpublicize(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @PUT
@@ -486,43 +650,64 @@ public class SSRESTEntity{
     final SSEntityCopyRESTPar input){
     
     final SSEntityCopyPar par;
+    Connection               sqlCon = null;
     
     try{
-      par =
-        new SSEntityCopyPar(
-          null, //user
-          SSUri.get(entity, SSConf.sssUri), //entity
-          input.targetEntity, //targetEntity
-          input.forUsers,
-          input.label,
-          input.includeUsers,
-          input.includeEntities,
-          input.includeMetaSpecificToEntityAndItsEntities,
-          input.includeOriginUser,
-          input.entitiesToExclude,
-          input.comment,
-          true, //withUserRestriction,
-          true); //shouldCommit
       
-      par.appendUserNameToLabel = input.appendUserNameToLabel;
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      try{
+        par =
+          new SSEntityCopyPar(
+            new SSServPar(sqlCon),
+            null, //user
+            SSUri.get(entity, SSConf.sssUri), //entity
+            input.targetEntity, //targetEntity
+            input.forUsers,
+            input.label,
+            input.includeUsers,
+            input.includeEntities,
+            input.includeMetaSpecificToEntityAndItsEntities,
+            input.includeOriginUser,
+            input.entitiesToExclude,
+            input.comment,
+            true, //withUserRestriction,
+            true); //shouldCommit
+        
+        par.appendUserNameToLabel = input.appendUserNameToLabel;
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(entityServ.entityCopy(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.entityCopy(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
   
@@ -541,33 +726,54 @@ public class SSRESTEntity{
     final String entity){
     
     final SSUserEntityUsersGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSUserEntityUsersGetPar(
-          null,  //user
-          SSUri.get(entity, SSConf.sssUri),  //entity
-          false, //invokeEntityHandlers
-          true); //withUserRestriction
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSUserClientI userServ = (SSUserClientI) SSServReg.getClientServ(SSUserClientI.class);
+      try{
+        
+        par =
+          new SSUserEntityUsersGetPar(
+            new SSServPar(sqlCon),
+            null,  //user
+            SSUri.get(entity, SSConf.sssUri),  //entity
+            false, //invokeEntityHandlers
+            true); //withUserRestriction
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(userServ.userEntityUsersGet(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSUserClientI userServ = (SSUserClientI) SSServReg.getClientServ(SSUserClientI.class);
+        
+        return Response.status(200).entity(userServ.userEntityUsersGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
   
@@ -588,34 +794,55 @@ public class SSRESTEntity{
     final SSCommentsAddRESTPar input){
     
     final SSCommentsAddPar       par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSCommentsAddPar(
-          null,
-          SSUri.get(entity, SSConf.sssUri), //entity
-          input.comments, //comments
-          true, //withUserRestriction
-          true);  //shouldCommit
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSCommentClientI commentServ = (SSCommentClientI) SSServReg.getClientServ(SSCommentClientI.class);
+      try{
+        
+        par =
+          new SSCommentsAddPar(
+            new SSServPar(sqlCon),
+            null,
+            SSUri.get(entity, SSConf.sssUri), //entity
+            input.comments, //comments
+            true, //withUserRestriction
+            true);  //shouldCommit
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(commentServ.commentsAdd(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSCommentClientI commentServ = (SSCommentClientI) SSServReg.getClientServ(SSCommentClientI.class);
+        
+        return Response.status(200).entity(commentServ.commentsAdd(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
 }

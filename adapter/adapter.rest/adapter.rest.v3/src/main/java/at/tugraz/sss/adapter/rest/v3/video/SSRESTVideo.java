@@ -34,11 +34,12 @@ import at.kc.tugraz.sss.video.datatypes.ret.SSVideoAnnotationsSetRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAnnotationAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideosUserGetRet;
-import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.impl.api.*;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.*;
 import io.swagger.annotations.*;
+import java.sql.*;
 import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -74,35 +75,55 @@ public class SSRESTVideo{
     @Context HttpHeaders headers){
     
     final SSVideosUserGetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSVideosUserGetPar(
-          null,
-          null, //forEntity
-          true, //withUserRestriction
-          true); //invokeEntityHandlers
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSVideoClientI videoServ = (SSVideoClientI) SSServReg.getClientServ(SSVideoClientI.class);
+      try{
+        
+        par =
+          new SSVideosUserGetPar(
+            new SSServPar(sqlCon),
+            null,
+            null, //forEntity
+            true, //withUserRestriction
+            true); //invokeEntityHandlers
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(videoServ.videosGet(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSVideoClientI videoServ = (SSVideoClientI) SSServReg.getClientServ(SSVideoClientI.class);
+        
+        return Response.status(200).entity(videoServ.videosGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @POST
@@ -116,42 +137,62 @@ public class SSRESTVideo{
     final SSVideoAddRESTPar input){
     
     final SSVideoUserAddPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSVideoUserAddFromClientPar(
-          input.uuid,
-          input.link,
-          input.type,
-          input.forEntity,
-          input.genre,
-          input.label,
-          input.description,
-          input.creationTime,
-          input.latitude,
-          input.longitude,
-          input.accuracy);
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSVideoClientI videoServ = (SSVideoClientI) SSServReg.getClientServ(SSVideoClientI.class);
+      try{
+        
+        par =
+          new SSVideoUserAddFromClientPar(
+            new SSServPar(sqlCon),
+            input.uuid,
+            input.link,
+            input.type,
+            input.forEntity,
+            input.genre,
+            input.label,
+            input.description,
+            input.creationTime,
+            input.latitude,
+            input.longitude,
+            input.accuracy);
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(videoServ.videoAdd(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSVideoClientI videoServ = (SSVideoClientI) SSServReg.getClientServ(SSVideoClientI.class);
+        
+        return Response.status(200).entity(videoServ.videoAdd(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @PUT
@@ -171,41 +212,62 @@ public class SSRESTVideo{
     final SSVideoAnnotationsSetRESTPar input){
     
     final SSVideoAnnotationsSetPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSVideoAnnotationsSetPar(
-          null,
-          SSUri.get(video, SSConf.sssUri),
-          input.timePoints,
-          input.x,
-          input.y,
-          input.labels,
-          input.descriptions,
-          input.removeExisting,
-          true, //withUserRestriction,
-          true); //shouldCommit);
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSVideoClientI videoServ = (SSVideoClientI) SSServReg.getClientServ(SSVideoClientI.class);
+      try{
+        
+        par =
+          new SSVideoAnnotationsSetPar(
+            new SSServPar(sqlCon),
+            null,
+            SSUri.get(video, SSConf.sssUri),
+            input.timePoints,
+            input.x,
+            input.y,
+            input.labels,
+            input.descriptions,
+            input.removeExisting,
+            true, //withUserRestriction,
+            true); //shouldCommit);
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(videoServ.videoAnnotationsSet(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSVideoClientI videoServ = (SSVideoClientI) SSServReg.getClientServ(SSVideoClientI.class);
+        
+        return Response.status(200).entity(videoServ.videoAnnotationsSet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+      
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
   
   @POST
@@ -225,39 +287,59 @@ public class SSRESTVideo{
     final SSVideoAnnotationAddRESTPar input){
     
     final SSVideoUserAnnotationAddPar par;
+    Connection               sqlCon = null;
     
     try{
       
-      par =
-        new SSVideoUserAnnotationAddPar(
-          null,
-          SSUri.get(video, SSConf.sssUri),
-          input.timePoint,
-          input.x,
-          input.y,
-          input.label,
-          input.description,
-          true, //withUserRestriction,
-          true); //shouldCommit);
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    try{
-      par.key = SSRestMain.getBearer(headers);
-    }catch(Exception error){
-      return Response.status(401).build();
-    }
-    
-    try{
-      final SSVideoClientI videoServ = (SSVideoClientI) SSServReg.getClientServ(SSVideoClientI.class);
+      try{
+        
+        par =
+          new SSVideoUserAnnotationAddPar(
+            new SSServPar(sqlCon),
+            null,
+            SSUri.get(video, SSConf.sssUri),
+            input.timePoint,
+            input.x,
+            input.y,
+            input.label,
+            input.description,
+            true, //withUserRestriction,
+            true); //shouldCommit);
+        
+      }catch(Exception error){
+        return Response.status(422).build();
+      }
       
-      return Response.status(200).entity(videoServ.videoAnnotationAdd(SSClientE.rest, par)).build();
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).build();
+      }
       
-    }catch(Exception error){
-      return SSRestMain.prepareErrors(error);
+      try{
+        final SSVideoClientI videoServ = (SSVideoClientI) SSServReg.getClientServ(SSVideoClientI.class);
+        
+        return Response.status(200).entity(videoServ.videoAnnotationAdd(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrors(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
-    
   }
 }

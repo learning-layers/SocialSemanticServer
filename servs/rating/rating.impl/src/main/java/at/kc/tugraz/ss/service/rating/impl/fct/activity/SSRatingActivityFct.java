@@ -40,6 +40,7 @@ public class SSRatingActivityFct{
       
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
         new SSActivityAddPar(
+          par,
           par.user,
           SSActivityE.rateEntity,
           par.entity,

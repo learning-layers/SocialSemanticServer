@@ -28,6 +28,7 @@ import at.tugraz.sss.serv.datatype.par.SSServPar;import at.tugraz.sss.serv.util.
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSCircleTypeChangePar extends SSServPar{
   
@@ -53,13 +54,14 @@ public class SSCircleTypeChangePar extends SSServPar{
   public SSCircleTypeChangePar(){}
   
   public SSCircleTypeChangePar(
+    final SSServPar servPar,
     final SSUri          user,
     final SSUri          circle,
     final SSCircleE      type,
     final boolean        withUserRestriction,
     final boolean        shouldCommit) throws Exception{
     
-    super(SSVarNames.circleTypeChange, null, user);
+    super(SSVarNames.circleTypeChange, null, user, servPar.sqlCon);
     
     this.circle                 = circle;
     this.type                   = type;

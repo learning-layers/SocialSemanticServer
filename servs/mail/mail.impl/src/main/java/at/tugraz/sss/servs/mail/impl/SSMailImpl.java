@@ -26,11 +26,9 @@ import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.reg.*;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.mail.SSMailClientI;
 import at.tugraz.sss.servs.mail.SSMailServerI;
 import at.tugraz.sss.servs.mail.conf.SSMailConf;
@@ -88,7 +86,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return false;
           }catch(Exception error2){
@@ -116,7 +114,7 @@ implements
       
       final List<SSEntity> mails = new ArrayList<>();
       
-      dbSQL.startTrans(par.shouldCommit);
+      dbSQL.startTrans(par, par.shouldCommit);
       
       switch(mailConf.receiveProvider){
         
@@ -145,7 +143,7 @@ implements
         }
       }
     
-      dbSQL.commit(par.shouldCommit);
+      dbSQL.commit(par, par.shouldCommit);
       
       return mails;
       
@@ -156,7 +154,7 @@ implements
         case sqlDeadLock:{
           
           try{
-            dbSQL.rollBack(par.shouldCommit);
+            dbSQL.rollBack(par, par.shouldCommit);
             SSServErrReg.regErrThrow(error);
             return null;
           }catch(Exception error2){

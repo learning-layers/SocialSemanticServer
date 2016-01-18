@@ -20,14 +20,13 @@
 */
 package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
-
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.datatype.enums.SSSearchOpE;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,6 +91,7 @@ public class SSTagEntitiesForTagsGetPar extends SSServPar{
   public SSTagEntitiesForTagsGetPar(){}
     
   public SSTagEntitiesForTagsGetPar(
+    final SSServPar servPar,
     final SSUri            user,
     final SSUri            forUser,
     final List<SSUri>      entities,
@@ -102,7 +102,7 @@ public class SSTagEntitiesForTagsGetPar extends SSServPar{
     final Long             startTime,
     final boolean          withUserRestriction){
     
-    super(SSVarNames.tagEntitiesForTagsGet, null, user);
+    super(SSVarNames.tagEntitiesForTagsGet, null, user, servPar.sqlCon);
     
     this.forUser = forUser;
     

@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.rating.datatypes.pars;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 
 public class SSRatingsRemovePar extends SSServPar{
@@ -39,12 +39,13 @@ public class SSRatingsRemovePar extends SSServPar{
   public SSRatingsRemovePar(){}
   
   public SSRatingsRemovePar(
+    final SSServPar servPar,
     final SSUri     user,
     final SSUri     entity,
     final boolean   withUserRestriction, 
     final boolean   shouldCommit){
     
-    super(SSVarNames.ratingsRemove, null, user);
+    super(SSVarNames.ratingsRemove, null, user, servPar.sqlCon);
     
     this.entity              = entity;
     this.withUserRestriction = withUserRestriction;

@@ -21,20 +21,21 @@
 package at.tugraz.sss.serv.datatype.par;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar;import at.tugraz.sss.serv.datatype.*;
- import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.util.*;
+import java.sql.*;
 
 public class SSEntityDownloadURIsGetPar extends SSServPar{
   
   public SSUri entity   = null;
     
   public SSEntityDownloadURIsGetPar(
+    final SSServPar servPar,
     final SSUri   user, 
     final SSUri   entity, 
     final boolean withUserRestriction){
       
-    super(SSVarNames.entityDownloadsGet, null, user);
+    super(SSVarNames.entityDownloadsGet, null, user, servPar.sqlCon);
     
     this.entity              = entity;
     this.withUserRestriction = withUserRestriction;

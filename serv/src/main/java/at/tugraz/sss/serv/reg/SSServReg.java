@@ -136,8 +136,6 @@ public class SSServReg{
       return null;
     }
   }
-
-  
   
   public SSServContainerI getClientServContainer(
     final String op) throws SSErr{
@@ -628,6 +626,7 @@ public class SSServReg{
   }
   
   public List<SSEntity> addAffiliatedEntitiesToCircle(
+    final SSServPar         servPar,
     final SSUri             user,
     final SSUri             circle,
     final List<SSEntity>    entities,
@@ -655,7 +654,7 @@ public class SSServReg{
         
         SSEntity.addEntitiesDistinctWithoutNull(
           addedAffiliatedEntities,
-          ((SSAddAffiliatedEntitiesToCircleI) serv.getServImpl()).addAffiliatedEntitiesToCircle(par));
+          ((SSAddAffiliatedEntitiesToCircleI) serv.getServImpl()).addAffiliatedEntitiesToCircle(servPar, par));
       }
       
       return addedAffiliatedEntities;
@@ -667,6 +666,7 @@ public class SSServReg{
   }
   
   public void circleUsersAdded(
+    final SSServPar      servPar,
     final SSUri          user, 
     final SSEntityCircle circle,
     final List<SSUri>    users, 
@@ -683,11 +683,12 @@ public class SSServReg{
       final List<SSEntity>  entitiesToPushToUsers   = new ArrayList<>();
       final List<SSEntity>  addedAffiliatedEntities =
         addAffiliatedEntitiesToCircle(
-            user,
-            circle.id,
-            circle.entities,
-            new ArrayList<>(),
-            withUserRestriction);
+          servPar,
+          user,
+          circle.id,
+          circle.entities,
+          new ArrayList<>(),
+          withUserRestriction);
       
       SSEntity.addEntitiesDistinctWithoutNull(
         entitiesToPushToUsers,
@@ -698,6 +699,7 @@ public class SSServReg{
         addedAffiliatedEntities);
       
       pushEntitiesToUsers(
+        servPar,
         new SSPushEntitiesToUsersPar(
           user,
           entitiesToPushToUsers,
@@ -709,12 +711,14 @@ public class SSServReg{
     }
   }
   
-  public void pushEntitiesToUsers(final SSPushEntitiesToUsersPar par) throws SSErr{
+  public void pushEntitiesToUsers(
+    final SSServPar                servPar,
+    final SSPushEntitiesToUsersPar par) throws SSErr{
     
     try{
       
       for(SSServContainerI serv : servsHandlingPushEntitiesToUsers){
-        ((SSPushEntitiesToUsersI) serv.getServImpl()).pushEntitiesToUsers(par);
+        ((SSPushEntitiesToUsersI) serv.getServImpl()).pushEntitiesToUsers(servPar, par);
       }
       
     }catch(Exception error){
@@ -722,12 +726,14 @@ public class SSServReg{
     }
   }
   
-  public void entitiesSharedWithUsers(final SSEntitiesSharedWithUsersPar par) throws SSErr{  
+  public void entitiesSharedWithUsers(
+    final SSServPar                    servPar,
+    final SSEntitiesSharedWithUsersPar par) throws SSErr{  
         
     try{
       
       for(SSServContainerI serv : servsHandlingEntitiesSharedWithUsers){
-        ((SSEntitiesSharedWithUsersI) serv.getServImpl()).entitiesSharedWithUsers(par);
+        ((SSEntitiesSharedWithUsersI) serv.getServImpl()).entitiesSharedWithUsers(servPar, par);
       }      
       
     }catch(Exception error){
@@ -736,12 +742,13 @@ public class SSServReg{
   }
   
   public void entityCopied(
+    final SSServPar         servPar,
     final SSEntityCopiedPar entityCopiedPar) throws SSErr{
     
     try{
       
       for(SSServContainerI entityHandler : servsHandlingEntityCopied){
-        ((SSEntityCopiedI) entityHandler.getServImpl()).entityCopied(entityCopiedPar);
+        ((SSEntityCopiedI) entityHandler.getServImpl()).entityCopied(servPar, entityCopiedPar);
       }
       
     }catch(Exception error){
@@ -749,12 +756,14 @@ public class SSServReg{
     }
   }
   
-  public void getUsersResources(final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
+  public void getUsersResources(
+    final SSServPar                          servPar,
+    final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
     
     try{
       
       for(SSServContainerI serv : servsForGatheringUsersResources){
-        ((SSUsersResourcesGathererI) serv.getServImpl()).getUsersResources(usersEntities);
+        ((SSUsersResourcesGathererI) serv.getServImpl()).getUsersResources(servPar, usersEntities);
       }
       
     }catch(Exception error){
@@ -763,12 +772,13 @@ public class SSServReg{
   }
   
   public void getUserRelations(
+    final SSServPar                    servPar,
     final List<String>                 allUsers,
     final Map<String, List<SSUri>>     userRelations) throws SSErr{
     
     try{
       for(SSServContainerI serv : servsForGatheringUserRelations){
-        ((SSUserRelationGathererI) serv.getServImpl()).getUserRelations(allUsers, userRelations);
+        ((SSUserRelationGathererI) serv.getServImpl()).getUserRelations(servPar, allUsers, userRelations);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -776,12 +786,13 @@ public class SSServReg{
   }
   
   public void circleContentRemoved(
+    final SSServPar                 servPar,
     final SSCircleContentRemovedPar circleContentRemovedPar) throws SSErr{
     
     try{
       
       for(SSServContainerI serv : servsHandlingCircleContentRemoved){
-        ((SSCircleContentRemovedI) serv.getServImpl()).circleContentRemoved(circleContentRemovedPar);
+        ((SSCircleContentRemovedI) serv.getServImpl()).circleContentRemoved(servPar, circleContentRemovedPar);
       }
       
     }catch(Exception error){
@@ -790,13 +801,13 @@ public class SSServReg{
   }
   
   public void copyEntity(
-    final SSEntity        entity,
-    final SSEntityCopyPar entityCopyPar) throws SSErr{
+    final SSEntityCopyPar entityCopyPar,
+    final SSEntity        entity) throws SSErr{
     
     try{
       
       for(SSServContainerI serv : servsHandlingCopyEntity){
-        ((SSCopyEntityI) serv.getServImpl()).copyEntity(entity, entityCopyPar);
+        ((SSCopyEntityI) serv.getServImpl()).copyEntity(entityCopyPar, entity, entityCopyPar);
       }
       
     }catch(Exception error){
@@ -805,6 +816,7 @@ public class SSServReg{
   }
   
   public void circleEntitiesAdded(
+    final SSServPar      servPar,
     final SSUri          user, 
     final SSEntityCircle circle,
     final List<SSEntity> entities,
@@ -821,6 +833,7 @@ public class SSServReg{
       final List<SSEntity>  entitiesToPushToUsers   = new ArrayList<>();
       final List<SSEntity>  addedAffiliatedEntities =
         addAffiliatedEntitiesToCircle(
+          servPar,
           user,
           circle.id,
           entities,
@@ -836,6 +849,7 @@ public class SSServReg{
         addedAffiliatedEntities);
       
       pushEntitiesToUsers(
+        servPar,
         new SSPushEntitiesToUsersPar(
           user,
           entitiesToPushToUsers,
@@ -848,6 +862,7 @@ public class SSServReg{
   }
    
   public SSEntity describeEntity(
+    final SSServPar            servPar,
     final SSUri                user,
     final SSEntity             entity,
     final SSEntityDescriberPar descPar,
@@ -869,7 +884,7 @@ public class SSServReg{
       SSEntity describedEntity = entity;
       
       for(SSServContainerI serv : servsHandlingDescribeEntity){
-        describedEntity = ((SSDescribeEntityI) serv.getServImpl()).describeEntity(describedEntity, descPar);
+        describedEntity = ((SSDescribeEntityI) serv.getServImpl()).describeEntity(servPar, describedEntity, descPar);
       }
 
       return describedEntity;

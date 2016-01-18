@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.friend.datatypes.par;
 
-
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import java.sql.*;
 
 public class SSFriendGetPar extends SSServPar{
   
@@ -40,10 +40,11 @@ public class SSFriendGetPar extends SSServPar{
   public SSFriendGetPar(){}
     
   public SSFriendGetPar(
+    final SSServPar servPar,
     final SSUri      user, 
     final SSUri      friend){
     
-    super(SSVarNames.friendGet, null, user);
+    super(SSVarNames.friendGet, null, user, servPar.sqlCon);
     
     this.friend = friend;
   }

@@ -30,6 +30,7 @@ import at.tugraz.sss.serv.datatype.par.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
   }
   
   public boolean hasUserRatedEntity(
+    final SSServPar servPar,
     final SSUri   userUri, 
     final SSUri   entityUri) throws Exception{
     
@@ -71,6 +73,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
       
       resultSet = 
         dbSQL.select(
+          servPar, 
           SSSQLVarNames.ratingsTable, 
           columns, 
           wheres, 
@@ -88,6 +91,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
   }
   
   public List<SSUri> getEntitiesRatedByUser(
+    final SSServPar servPar,
     final SSUri user) throws Exception{
     
     ResultSet resultSet = null;
@@ -105,7 +109,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.userId, user);
       
-      resultSet = dbSQL.select(SSSQLVarNames.ratingsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.ratingsTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
       
@@ -118,6 +122,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
   }
   
   public void deleteRatingAss(
+    final SSServPar servPar,
     final SSUri user,
     final SSUri entityUri) throws Exception{
     
@@ -133,9 +138,9 @@ public class SSRatingSQLFct extends SSCoreSQL{
       }
 
       if(wheres.isEmpty()){
-        dbSQL.delete(SSSQLVarNames.ratingsTable);
+        dbSQL.delete(servPar, SSSQLVarNames.ratingsTable);
       }else{
-        dbSQL.delete(SSSQLVarNames.ratingsTable, wheres);
+        dbSQL.delete(servPar, SSSQLVarNames.ratingsTable, wheres);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -143,6 +148,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
   }
 
   public void rateEntityByUser(
+    final SSServPar servPar,
     final SSUri   ratingUri, 
     final SSUri   userUri, 
     final SSUri   entityUri, 
@@ -159,7 +165,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
       
       update(updates, SSSQLVarNames.ratingValue, ratingValue);
       
-      dbSQL.update(SSSQLVarNames.ratingsTable, wheres, updates);
+      dbSQL.update(servPar, SSSQLVarNames.ratingsTable, wheres, updates);
     }else{
     
       final Map<String, String> inserts= new HashMap<>();
@@ -169,11 +175,12 @@ public class SSRatingSQLFct extends SSCoreSQL{
       insert(inserts, SSSQLVarNames.entityId,     entityUri);
       insert(inserts, SSSQLVarNames.ratingValue,  ratingValue);
 
-      dbSQL.insert(SSSQLVarNames.ratingsTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.ratingsTable, inserts);
     }
   }
   
   public Integer getUserRating(
+    final SSServPar servPar,
     final SSUri userUri, 
     final SSUri entityUri) throws Exception{
     
@@ -196,7 +203,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
     where   (wheres, SSSQLVarNames.entityId, entityUri);
     
     try{
-      resultSet = dbSQL.select(SSSQLVarNames.ratingsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.ratingsTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         ratingValue += bindingStrToInteger(resultSet, SSSQLVarNames.ratingValue);
@@ -216,7 +223,9 @@ public class SSRatingSQLFct extends SSCoreSQL{
     }    
   }
 
-  public SSRatingOverall getOverallRating(final SSUri entityUri) throws Exception{
+  public SSRatingOverall getOverallRating(
+    final SSServPar servPar,
+    final SSUri entityUri) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -237,7 +246,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.entityId, entityUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.ratingsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSSQLVarNames.ratingsTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         ratingValue += bindingStrToInteger(resultSet, SSSQLVarNames.ratingValue);
@@ -258,6 +267,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
   }
 
   public List<SSEntity> getRatingAsss(
+    final SSServPar servPar,
     final List<SSUri>     users,
     final List<SSUri>     entities) throws Exception{
     
@@ -314,6 +324,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
       resultSet =
         dbSQL.select(
           new SSDBSQLSelectPar(
+            servPar, 
             tables,
             columns,
             orWheres,

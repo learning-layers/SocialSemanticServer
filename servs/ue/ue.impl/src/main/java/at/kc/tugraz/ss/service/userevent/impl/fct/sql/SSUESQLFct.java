@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.par.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -48,6 +49,7 @@ public class SSUESQLFct extends SSCoreSQL{
   }
 
   public SSUE getUE(
+    final SSServPar servPar,
     final SSUri ue) throws Exception{
     
     ResultSet            resultSet  = null;
@@ -74,6 +76,7 @@ public class SSUESQLFct extends SSCoreSQL{
       
       resultSet = 
         dbSQL.select(
+          servPar,
           tables, 
           columns, 
           wheres, 
@@ -98,7 +101,7 @@ public class SSUESQLFct extends SSCoreSQL{
         bindingStrToLabel            (resultSet, SSSQLVarNames.label),
         bindingStrToTextComment      (resultSet, SSSQLVarNames.description),
         bindingStrToLong             (resultSet, SSSQLVarNames.creationTime),
-        getEntityTest                (null, bindingStrToUri(resultSet, SSSQLVarNames.author), false),
+        getEntityTest                (servPar, null, bindingStrToUri(resultSet, SSSQLVarNames.author), false),
         bindingStrToEntity           (resultSet, SSSQLVarNames.userId,   SSEntityE.user), 
         SSUEE.get(bindingStr         (resultSet, SSSQLVarNames.eventType)),
         bindingStrToEntity           (resultSet, SSSQLVarNames.entityId, SSEntityE.entity), 
@@ -113,6 +116,7 @@ public class SSUESQLFct extends SSCoreSQL{
   }
   
   public List<SSUri> getUEURIs(
+    final SSServPar servPar,
     final SSUri       forUser,
     final SSUri       entity,
     final List<SSUEE> eventTypes,
@@ -198,6 +202,7 @@ public class SSUESQLFct extends SSCoreSQL{
       resultSet =
         dbSQL.select(
           new SSDBSQLSelectPar(
+            servPar,
             tables,
             columns,
             wheres,
@@ -228,6 +233,7 @@ public class SSUESQLFct extends SSCoreSQL{
   }
 
   public void addUE(
+    final SSServPar servPar,
     final SSUri    ue, 
     final SSUri    user, 
     final SSUri    entity, 
@@ -248,7 +254,7 @@ public class SSUESQLFct extends SSCoreSQL{
         insert(inserts, SSSQLVarNames.content,       SSStrU.empty);
       }
 
-      dbSQL.insert(SSSQLVarNames.uesTable, inserts);
+      dbSQL.insert(servPar, SSSQLVarNames.uesTable, inserts);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

@@ -39,11 +39,12 @@ public class SSAppGetPar extends SSServPar{
   public SSAppGetPar(){}
     
   public SSAppGetPar(
+    final SSServPar servPar,
     final SSUri     user, 
     final SSUri     app, 
     final boolean   invokeEntityHandlers){
     
-    super(SSVarNames.appGet, null, user);
+    super(SSVarNames.appGet, null, user, servPar.sqlCon);
     
     this.app                  = app;
     this.invokeEntityHandlers = invokeEntityHandlers;

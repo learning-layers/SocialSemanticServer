@@ -22,9 +22,9 @@ package at.kc.tugraz.sss.flag.datatypes.par;
 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
-
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +54,7 @@ public class SSFlagsSetPar extends SSServPar{
   public SSFlagsSetPar(){}
   
   public SSFlagsSetPar(
+    final SSServPar servPar,
     final SSUri          user, 
     final List<SSUri>    entities, 
     final List<SSFlagE>  types, 
@@ -62,7 +63,7 @@ public class SSFlagsSetPar extends SSServPar{
     final boolean        withUserRestriction,
     final boolean        shouldCommit){
     
-    super(SSVarNames.flagsSet, null, user);
+    super(SSVarNames.flagsSet, null, user, servPar.sqlCon);
     
     SSUri.addDistinctWithoutNull    (this.entities, entities);
     SSFlagE.addDistinctWithoutNull  (this.types,    types);

@@ -20,23 +20,19 @@
  */
 package at.tugraz.sss.serv.datatype.par;
 
-import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import java.util.ArrayList;
 import java.util.List;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.util.*;
 
 public class SSEntitiesAccessibleGetPar extends SSServPar{
   
   public List<SSEntityE>      types                 = new ArrayList<>();
   public List<SSUri>          authors               = new ArrayList<>();
+  public int                  pageSize              = 10;
   public String               pagesID               = null;
-  public Integer              pageNumber            = null;
+  public int                  pageNumber            = 10;
   public Long                 startTime             = null;
   public Long                 endTime               = null;
   public SSEntityDescriberPar descPar               = null;
@@ -60,6 +56,7 @@ public class SSEntitiesAccessibleGetPar extends SSServPar{
   public SSEntitiesAccessibleGetPar(){}
   
   public SSEntitiesAccessibleGetPar(
+    final SSServPar servPar,
     final SSUri                user, 
     final List<SSEntityE>      types,
     final List<SSUri>          authors,
@@ -68,7 +65,7 @@ public class SSEntitiesAccessibleGetPar extends SSServPar{
     final SSEntityDescriberPar descPar,
     final boolean              withUserRestriction) throws Exception{
     
-    super(SSVarNames.entitiesAccessibleGet, null, user);
+    super(SSVarNames.entitiesAccessibleGet, null, user, servPar.sqlCon);
 
     SSEntityE.addDistinctWithoutNull(this.types,   types);
     SSUri.addDistinctWithoutNull    (this.authors, authors);

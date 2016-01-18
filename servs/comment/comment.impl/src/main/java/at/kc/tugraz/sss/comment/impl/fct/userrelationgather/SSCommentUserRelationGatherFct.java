@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.datatype.par.SSCirclesGetPar;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.util.*;
@@ -36,6 +37,7 @@ import at.tugraz.sss.serv.reg.*;
 public class SSCommentUserRelationGatherFct{
   
   public static void getUserRelations(
+    final SSServPar servPar,
     final List<String>              allUsers,
     final Map<String, List<SSUri>>  userRelations) throws SSErr{
     
@@ -46,6 +48,7 @@ public class SSCommentUserRelationGatherFct{
         final SSUri userUri = SSUri.get(user);
         
         addRelationsForCommentedEntities(
+          servPar,
           userRelations,
           userUri);
       }
@@ -60,6 +63,7 @@ public class SSCommentUserRelationGatherFct{
   }
   
   private static void addRelationsForCommentedEntities(
+    final SSServPar servPar,
     final Map<String, List<SSUri>>  userRelations,
     final SSUri                     userUri) throws SSErr{
     
@@ -69,12 +73,14 @@ public class SSCommentUserRelationGatherFct{
       for(SSUri entity :
         ((SSCommentServerI) SSServReg.getServ(SSCommentServerI.class)).commentEntitiesGet(
           new SSCommentEntitiesGetPar(
+            servPar,
             userUri,
             false))){ //withUserRestriction
         
         for(SSEntity entityCircle :
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circlesGet(
             new SSCirclesGetPar(
+              servPar,
               userUri,
               userUri,
               entity,

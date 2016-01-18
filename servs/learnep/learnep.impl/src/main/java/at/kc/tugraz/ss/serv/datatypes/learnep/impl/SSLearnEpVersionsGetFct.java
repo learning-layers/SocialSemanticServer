@@ -30,7 +30,7 @@ import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.misc.SSEntityFiller;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
+import at.tugraz.sss.serv.datatype.par.*;
 import java.util.List;
 
 public class SSLearnEpVersionsGetFct {
@@ -48,10 +48,11 @@ public class SSLearnEpVersionsGetFct {
   }
   
   public void setLearnEpVersionCircles(
+    final SSServPar servPar, 
     final SSLearnEpVersion        learnEpVersion) throws Exception{
     
     try{
-      learnEpVersion.learnEpCircles.addAll(sqlFct.getLearnEpVersionCircles(learnEpVersion.id));
+      learnEpVersion.learnEpCircles.addAll(sqlFct.getLearnEpVersionCircles(servPar, learnEpVersion.id));
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -76,6 +77,7 @@ public class SSLearnEpVersionsGetFct {
       
       final SSEntityGetPar entityGetPar =
         new SSEntityGetPar(
+          par,
           par.user,
           null, //entity
           par.withUserRestriction, //withUserRestriction
@@ -84,7 +86,7 @@ public class SSLearnEpVersionsGetFct {
       SSLearnEpEntity learnEpEntity;
       SSEntity        filledEntity;
       
-      for(SSEntity entity : sqlFct.getLearnEpVersionEntities(learnEpVersion.id)){
+      for(SSEntity entity : sqlFct.getLearnEpVersionEntities(par, learnEpVersion.id)){
         
         learnEpEntity = (SSLearnEpEntity) entity;
         
@@ -121,7 +123,7 @@ public class SSLearnEpVersionsGetFct {
     try{
       
       if(par.learnEp != null){
-        return sqlFct.getLearnEpVersionURIs(par.learnEp);
+        return sqlFct.getLearnEpVersionURIs(par, par.learnEp);
       }
       
       return par.learnEpVersions;

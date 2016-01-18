@@ -25,6 +25,7 @@ import sss.serv.eval.datatypes.SSEvalLogE;
 import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
+import java.sql.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +82,7 @@ public class SSEvalLogPar extends SSServPar{
   public SSEvalLogPar(){}
   
   public SSEvalLogPar(
+    final SSServPar servPar,
     final SSUri          user,
     final SSToolContextE toolContext,
     final SSEvalLogE     type, 
@@ -90,7 +92,7 @@ public class SSEvalLogPar extends SSServPar{
     final List<SSUri>    users, 
     final boolean        shouldCommit){
     
-    super(SSVarNames.evalLog, null, user);
+    super(SSVarNames.evalLog, null, user, servPar.sqlCon);
     
     this.toolContext  = toolContext;
     this.type         = type;

@@ -34,6 +34,9 @@ import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
+import java.sql.*;
 import java.util.List;
 
 public class SSCategoryServ extends SSServContainerI{
@@ -93,13 +96,31 @@ public class SSCategoryServ extends SSServContainerI{
       return;
     }
     
-    if(((SSCategoryConf)conf).initAtStartUp){
+    Connection sqlCon = null;
+    
+    try{
       
-      ((SSCategoryServerI) this.getServImpl()).categoriesPredefinedAdd(
-        new SSCategoriesPredefinedAddPar(
-          SSConf.systemUserUri, 
-          SSCategoryLabel.asListNotEmpty(SSCategoryLabel.get(((SSCategoryConf) conf).predefinedCategories)), 
-          true));
+      if(((SSCategoryConf)conf).initAtStartUp){
+        
+        final SSServPar servPar = new SSServPar(null);
+        
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        
+        servPar.sqlCon = sqlCon;
+        
+        ((SSCategoryServerI) this.getServImpl()).categoriesPredefinedAdd(
+          new SSCategoriesPredefinedAddPar(
+            servPar,
+            SSConf.systemUserUri,
+            SSCategoryLabel.asListNotEmpty(SSCategoryLabel.get(((SSCategoryConf) conf).predefinedCategories)),
+            true));
+      }
+      
+    }finally{
+      
+      if(sqlCon != null){
+        sqlCon.close();
+      }
     }
   }
   
