@@ -21,9 +21,10 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.activity;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
+import at.kc.tugraz.ss.activity.datatypes.*;
+import at.kc.tugraz.ss.activity.datatypes.enums.*;
 import at.tugraz.sss.serv.util.SSLogU;
-import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
+import at.kc.tugraz.ss.activity.datatypes.par.*;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCirclesWithEntriesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.SSLearnEpImpl;
@@ -544,16 +545,30 @@ public class SSLearnEpActivityAndLogFct{
         label != null &&
         !SSStrU.equals(circleEntity.label, label)){
         
-        activityServ.activityAdd(
-          new SSActivityAddPar(
-            servPar,
-            user,
-            SSActivityE.changeLearnEpVersionCircleLabel,
-            learnEpVersion,
-            null,
-            SSUri.asListNotNull(learnEpCircle, learnEp),
-            null,
-            null,
+        final SSUri activity =
+          activityServ.activityAdd(
+            new SSActivityAddPar(
+              servPar,
+              user,
+              SSActivityE.changeLearnEpVersionCircleLabel,
+              learnEpVersion,
+              null,
+              SSUri.asListNotNull(learnEpCircle, learnEp),
+              null,
+              null,
+              shouldCommit));
+        
+        final List<SSActivityContent> contents = new ArrayList<>();
+        
+        contents.add(SSActivityContent.get(circleEntity.label));
+        contents.add(SSActivityContent.get(label));
+        
+        activityServ.activityContentsAdd(
+          new SSActivityContentsAddPar(
+            servPar, 
+            user, 
+            activity, SSActivityContentE.text, 
+            contents, 
             shouldCommit));
       }
       
