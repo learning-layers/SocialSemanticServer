@@ -13,8 +13,8 @@
       "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host" : "test-ll.know-center.tugraz.at",
-  "basePath" : "/bp.preparation/rest",
+  "host" : "localhost:8080",
+  "basePath" : "/sss.adapter.rest.v3/rest",
   "tags" : [ {
     "name" : "activities"
   }, {
@@ -3324,7 +3324,7 @@
     },
     "SSAuthCheckCredRet" : {
       "type" : "object",
-      "required" : [ "op" ],
+      "required" : [ "key", "op", "user" ],
       "properties" : {
         "op" : {
           "type" : "string"

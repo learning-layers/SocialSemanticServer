@@ -25,12 +25,14 @@ import io.swagger.annotations.*;
 import java.util.Map;
 
 @ApiModel
-public abstract class SSServRetI implements SSServRetJSONLDI{
+public class SSServRetI implements SSServRetJSONLDI{
   
   @ApiModelProperty(
     required = true)
-  public final String op;
+  public String op;
 
+  public SSServRetI(){}
+  
   public SSServRetI(final String op){
     this.op = op;
   }

@@ -21,10 +21,9 @@
 package at.tugraz.sss.adapter.rest.v3.file;
 
 import at.kc.tugraz.ss.service.filerepo.api.*;
+import at.kc.tugraz.ss.service.filerepo.datatypes.pars.*;
 import at.tugraz.sss.adapter.rest.v3.SSRestMain;
 import at.tugraz.sss.conf.SSConf;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
@@ -37,15 +36,9 @@ import io.swagger.annotations.*;
 import java.io.*;
 import java.sql.*;
 import javax.annotation.*;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.*;
-import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.glassfish.jersey.media.multipart.*;
 
 @Path("/files")
 @Api( value = "files")

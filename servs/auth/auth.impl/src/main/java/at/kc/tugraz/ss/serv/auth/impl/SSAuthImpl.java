@@ -327,10 +327,9 @@ implements
             
             userUri = sqlFct.getUserForKey(par, par.key);
             
-            return SSAuthCheckCredRet.get(
+            return new SSAuthCheckCredRet(
               par.key,
-              userUri,
-              SSVarNames.authCheckCred);
+              userUri);
             
           }else{
 
@@ -356,15 +355,14 @@ implements
                  SSConf.systemUserUri, 
                  email));
             
-            return SSAuthCheckCredRet.get(
+            return new SSAuthCheckCredRet(
               SSAuthMiscFct.checkAndGetKey(
                 par,
                 sqlFct,
                 userUri,
                 email,
                 par.password),
-              userUri,
-              SSVarNames.authCheckCred);
+              userUri);
           }
         }
         
@@ -436,10 +434,9 @@ implements
             oidcAuthTokens.put(par.key, userStr);
           }
 
-          return SSAuthCheckCredRet.get(
+          return new SSAuthCheckCredRet(
             par.key,
-            userUri,
-            SSVarNames.authCheckCred);
+            userUri);
         }
 
         default: 

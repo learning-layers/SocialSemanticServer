@@ -21,27 +21,18 @@
 package at.tugraz.sss.adapter.rest.v3.recomm;
 
 import at.kc.tugraz.ss.recomm.api.*;
+import at.kc.tugraz.ss.recomm.datatypes.par.*;
+import at.kc.tugraz.ss.recomm.datatypes.ret.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.adapter.rest.v3.SSRestMain;
-import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
-import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommTagsPar;
 import at.tugraz.sss.serv.datatype.*;
-import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkEntitiesPar;
-import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkPar;
-import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdatePar;
-import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUsersPar;
-import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommResourcesRet;
-import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommTagsRet;
-import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateBulkRet;
-import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateRet;
-import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUsersRet;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.*;
 import io.swagger.annotations.*;
-import java.io.InputStream;
+import java.io.*;
 import java.sql.*;
 import javax.annotation.*;
 import javax.ws.rs.Consumes;
@@ -55,7 +46,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.glassfish.jersey.media.multipart.*;
 
 @Path("/recomm")
 @Api( value = "recomm")

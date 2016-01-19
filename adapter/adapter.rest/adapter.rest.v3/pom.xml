@@ -94,9 +94,10 @@
             <apiSource>
               
               <locations>at.tugraz.sss.adapter.rest.v3</locations>
-              <host>test-ll.know-center.tugraz.at</host>
-<!--              <host>localhost:8080</host>-->
-              <basePath>/bp.preparation/rest</basePath>
+              <!--<host>test-ll.know-center.tugraz.at</host>-->
+              <host>localhost:8080</host>
+              <!--<basePath>/bp.preparation/rest</basePath>-->
+              <basePath>/sss.adapter.rest.v3/rest</basePath>
               <info>
                 <version>v3</version>
                 <title>Social Semantic Server REST API</title>
@@ -111,7 +112,7 @@
                 </license>
               </info>
                 
-              <swaggerUIDocBasePath>http://localhost:8080/sss.adapter.rest.v3/api-docs</swaggerUIDocBasePath> 
+              <!--<swaggerUIDocBasePath>http://localhost:8080/sss.adapter.rest.v3/api-docs</swaggerUIDocBasePath>--> 
               <!-- 
                 localhost:8080/sss.adapter.rest.v2/api-docs 
                 test-ll.know-center.tugraz.at/layers.test/api-docs  
@@ -433,6 +434,22 @@
     </dependency>
     
     <!-- jersey end -->
+    
+    <!-- jersey client start -->
+    
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-client</artifactId>
+      <version>2.21</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.glassfish.jersey.connectors</groupId>
+      <artifactId>jersey-apache-connector</artifactId>
+      <version>2.21</version>
+    </dependency>
+    
+    <!-- jersey client end -->
     
     <!-- jackson start -->
     

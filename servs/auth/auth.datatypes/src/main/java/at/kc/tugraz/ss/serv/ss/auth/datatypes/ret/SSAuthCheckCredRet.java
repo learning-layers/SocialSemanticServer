@@ -23,32 +23,36 @@ package at.kc.tugraz.ss.serv.ss.auth.datatypes.ret;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import java.util.Map;
+import io.swagger.annotations.*;
 
+@ApiModel
 public class SSAuthCheckCredRet extends SSServRetI{
-
+  
+  @ApiModelProperty(
+    required = true)
   public SSUri  user = null;
+  
+  @ApiModelProperty(
+    required = true)
   public String key  = null;
   
   public String getUser() {
     return SSStrU.removeTrailingSlash(user);
-  } 
-  
-  public static SSAuthCheckCredRet get(
-    final String  key, 
-    final SSUri   uri,
-    final String  op){
-    return new SSAuthCheckCredRet(key, uri, op);
   }
-
-  private SSAuthCheckCredRet(
+  
+  public void setUser(final String user) throws SSErr {
+    this.user = SSUri.get(user);
+  }
+  
+  public SSAuthCheckCredRet(){}
+  
+  public SSAuthCheckCredRet(
     final String  key,
-    final SSUri   uri,
-    final String  op){
+    final SSUri   uri){
     
-    super(op);
+    super(SSVarNames.authCheckCred);
     
-    this.key = key;
+    this.key  = key;
     this.user = uri;
   }
 }
