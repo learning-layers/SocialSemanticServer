@@ -25,73 +25,106 @@ import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApiModel
 public class SSApp extends SSEntity{
-  
+
+  @ApiModelProperty
   public SSTextComment   descriptionShort      = null;
-  public SSTextComment   descriptionFunctional = null;
-  public SSTextComment   descriptionTechnical  = null;
-  public SSTextComment   descriptionInstall    = null;
-  public List<SSUri>     downloads             = new ArrayList<>();
-  public SSUri           downloadIOS           = null;
-  public SSUri           downloadAndroid       = null;
-  public SSUri           fork                  = null;
+  
+  public void setDescriptionShort(final String descriptionShort) throws SSErr{
+    this.descriptionShort = SSTextComment.get(descriptionShort);
+  }
   
   public String getDescriptionShort(){
     return SSStrU.toStr(descriptionShort);
   }
-
+  
+  @ApiModelProperty
+  public SSTextComment   descriptionFunctional = null;
+  
+  public void setDescriptionFunctional(final String descriptionFunctional) throws SSErr{
+    this.descriptionFunctional = SSTextComment.get(descriptionFunctional);
+  }
+  
   public String getDescriptionFunctional(){
     return SSStrU.toStr(descriptionFunctional);
   }
-
+   
+  @ApiModelProperty
+  public SSTextComment   descriptionTechnical  = null;
+  
+  public void setDescriptionTechnical(final String descriptionTechnical) throws SSErr{
+    this.descriptionTechnical = SSTextComment.get(descriptionTechnical);
+  }
+  
   public String getDescriptionTechnical(){
     return SSStrU.toStr(descriptionTechnical);
   }
-
+  
+  @ApiModelProperty
+  public SSTextComment   descriptionInstall    = null;
+  
+  public void setDescriptionInstall(final String descriptionInstall) throws SSErr{
+    this.descriptionInstall = SSTextComment.get(descriptionInstall);
+  }
+  
   public String getDescriptionInstall(){
     return SSStrU.toStr(descriptionInstall);
   }
-
-  public List<String> getDownloads() throws Exception{
+  
+  @ApiModelProperty
+  public List<SSUri>     downloads             = new ArrayList<>();
+  
+  public void setDownloads(final List<String> downloads) throws SSErr{
+    this.downloads = SSUri.get(downloads);
+  }
+    
+  public List<String> getDownloads(){
     return SSStrU.removeTrailingSlash(downloads);
   }
-
-  public String getDownloadIOS() throws Exception{
-    return SSStrU.removeTrailingSlash(downloadIOS);
-  }
-
-  public String getDownloadAndroid() throws Exception{
-    return  SSStrU.removeTrailingSlash(downloadAndroid);
-  }
-
-  public String getFork() throws Exception{
-    return  SSStrU.removeTrailingSlash(fork);
+  
+  @ApiModelProperty
+  public SSUri           downloadIOS           = null;
+  
+  public void setDownloadIOS(final String downloadIOS) throws SSErr{
+    this.downloadIOS = SSUri.get(downloadIOS);
   }
   
+  public String getDownloadIOS(){
+    return SSStrU.removeTrailingSlash(downloadIOS);
+  }
+  
+  @ApiModelProperty
+  public SSUri           downloadAndroid       = null;
+  
+  public void setDownloadAndroid(final String downloadAndroid) throws SSErr{
+    this.downloadAndroid = SSUri.get(downloadAndroid);
+  }
+  
+  public String getDownloadAndroid(){
+    return SSStrU.removeTrailingSlash(downloadAndroid);
+  }
+  
+  @ApiModelProperty
+  public SSUri           fork                  = null;
+  
+  public void setFork(final String fork) throws SSErr{
+    this.fork = SSUri.get(fork);
+  }
+
+  public String getFork(){
+    return  SSStrU.removeTrailingSlash(fork);
+  }
+
   public static SSApp get(
     final SSApp     app,
     final SSEntity  entity) throws Exception{
     
     return new SSApp(app, entity);
-  }
-  
-  protected SSApp(
-    final SSApp     app,
-    final SSEntity  entity) throws Exception{
-    
-    super(app, entity);
-    
-    this.descriptionShort               = app.descriptionShort;
-    this.descriptionFunctional          = app.descriptionFunctional;
-    this.descriptionTechnical           = app.descriptionTechnical;
-    this.descriptionInstall             = app.descriptionInstall;
-    this.downloadIOS                    = app.downloadIOS;
-    this.downloadAndroid                = app.downloadAndroid;
-    this.fork                           = app.fork;
-    this.downloads                      = app.downloads;
   }
   
   public static SSApp get(
@@ -113,6 +146,24 @@ public class SSApp extends SSEntity{
       downloadIOS,
       downloadAndroid,
       fork);
+  }
+  
+  public SSApp(){}
+  
+  protected SSApp(
+    final SSApp     app,
+    final SSEntity  entity) throws Exception{
+    
+    super(app, entity);
+    
+    this.descriptionShort               = app.descriptionShort;
+    this.descriptionFunctional          = app.descriptionFunctional;
+    this.descriptionTechnical           = app.descriptionTechnical;
+    this.descriptionInstall             = app.descriptionInstall;
+    this.downloadIOS                    = app.downloadIOS;
+    this.downloadAndroid                = app.downloadAndroid;
+    this.fork                           = app.fork;
+    this.downloads                      = app.downloads;
   }
   
   protected SSApp(

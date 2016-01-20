@@ -22,9 +22,11 @@ package at.tugraz.sss.serv.datatype;
 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.api.SSEntityA;
+import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApiModel
 public class SSSolrKeywordLabel extends SSEntityA{
 
   public static SSSolrKeywordLabel get(final String string) throws Exception{
@@ -62,6 +64,8 @@ public class SSSolrKeywordLabel extends SSEntityA{
     
     return true;
   }
+  
+  public SSSolrKeywordLabel(){}
   
   private SSSolrKeywordLabel(final String label) throws Exception{
     

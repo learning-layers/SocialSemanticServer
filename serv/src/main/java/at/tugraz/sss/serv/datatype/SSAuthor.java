@@ -21,7 +21,9 @@
 package at.tugraz.sss.serv.datatype;
 
 import at.tugraz.sss.serv.datatype.enums.*;
+import io.swagger.annotations.*;
 
+@ApiModel
 public class SSAuthor extends SSEntity{
 
   public static SSAuthor get(
@@ -50,6 +52,8 @@ public class SSAuthor extends SSEntity{
     
     return new SSAuthor(id);
   }
+  
+  public SSAuthor(){}
   
   protected SSAuthor(
     final SSUri   id,

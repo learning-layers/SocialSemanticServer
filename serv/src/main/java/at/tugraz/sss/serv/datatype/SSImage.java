@@ -21,30 +21,34 @@
 package at.tugraz.sss.serv.datatype;
 
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.enums.SSImageE;
+import io.swagger.annotations.*;
 import java.util.List;
 
+@ApiModel
 public class SSImage extends SSEntity{
   
+  @ApiModelProperty
   public SSImageE imageType     = null;
-  public SSUri    link          = null;
 
-  public String getImageType(){
+  public String getImageType() {
     return SSStrU.toStr(imageType);
   }
 
-  public void setImageType(final String imageType) throws Exception{
+  public void setImageType(final String imageType) throws SSErr {
     this.imageType = SSImageE.get(imageType);
   }
 
-  public String getLink(){
-    return SSStrU.toStr(link);
-  }
+  @ApiModelProperty
+  public SSUri    link          = null;
 
-  public void setLink(final String link) throws Exception{
+  public void setLink(final String link) throws SSErr {
     this.link = SSUri.get(link);
+  }
+  
+  public String getLink() {
+    return SSStrU.removeTrailingSlash(link);
   }
   
   public static SSImage get(
@@ -53,6 +57,8 @@ public class SSImage extends SSEntity{
     
     return new SSImage(image, entity);
   }
+  
+  public SSImage(){}
   
   protected SSImage(
     final SSImage         image,

@@ -93,6 +93,8 @@ public class SSTextComment extends SSEntityA {
     }
   }
   
+  public SSTextComment(){}
+  
   protected SSTextComment(final String value) throws SSErr {
     super(SSStrU.replaceAllLineFeedsWithTextualRepr(value));
   }

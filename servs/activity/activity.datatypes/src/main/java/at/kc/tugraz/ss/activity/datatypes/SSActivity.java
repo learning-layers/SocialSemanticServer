@@ -25,21 +25,35 @@ import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
+import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApiModel
 public class SSActivity extends SSEntity{
-  
+
+  @ApiModelProperty
   public SSActivityE              activityType = null;
-  public SSEntity                 entity       = null;
-  public List<SSActivityContent>  contents     = new ArrayList<>();
+  
+  public void setActivityType(final String activityType) throws SSErr{
+    this.activityType = SSActivityE.get(activityType);
+  }
   
   public String getActivityType() throws Exception{
     return SSStrU.toStr(activityType);
   }
   
+  @ApiModelProperty
+  public SSEntity                 entity       = null;
+  
+  @ApiModelProperty
+  public List<SSActivityContent>  contents     = new ArrayList<>();
+  
+  public void setContents(final List<String> contents) throws SSErr{
+    this.contents = SSActivityContent.get(contents);
+  }
+    
   public List<String> getContents() throws Exception {
     return SSStrU.toStr(contents);
   }
@@ -49,20 +63,6 @@ public class SSActivity extends SSEntity{
     final SSEntity                entity) throws Exception{
     
     return new SSActivity(activity, entity);
-  }
-  
-  protected SSActivity(
-    final SSActivity           activity,
-    final SSEntity             entity) throws Exception{
-    
-    super(activity, entity);
-    
-    this.activityType = activity.activityType;
-    this.entity       = activity.entity;
-    
-    if(activity.contents != null){
-      this.contents.addAll(activity.contents);
-    }
   }
   
   public static SSActivity get(
@@ -84,6 +84,22 @@ public class SSActivity extends SSEntity{
       activityType,
       entity,
       contents);
+  }
+  
+  public SSActivity(){}
+  
+  protected SSActivity(
+    final SSActivity           activity,
+    final SSEntity             entity) throws Exception{
+    
+    super(activity, entity);
+    
+    this.activityType = activity.activityType;
+    this.entity       = activity.entity;
+    
+    if(activity.contents != null){
+      this.contents.addAll(activity.contents);
+    }
   }
   
   protected SSActivity(

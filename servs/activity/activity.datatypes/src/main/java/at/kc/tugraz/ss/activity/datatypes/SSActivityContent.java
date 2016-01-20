@@ -20,23 +20,24 @@
 */
 package at.kc.tugraz.ss.activity.datatypes;
 
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.api.SSEntityA;
+import at.tugraz.sss.serv.datatype.enums.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSActivityContent extends SSEntityA{
   
-  public static SSActivityContent get(final String str) throws Exception{
+  public static SSActivityContent get(final String str) throws SSErr{
     return new SSActivityContent(SSStrU.trim(str, 199));
   }
   
-  public static SSActivityContent get(final SSEntityA entity) throws Exception{
+  public static SSActivityContent get(final SSEntityA entity) throws SSErr{
     return get(SSStrU.toStr(entity));
   }
   
-  public static List<SSActivityContent> get(final List<String> strings) throws Exception{
+  public static List<SSActivityContent> get(final List<String> strings) throws SSErr{
     
     final List<SSActivityContent> result = new ArrayList<>();
     
@@ -47,7 +48,7 @@ public class SSActivityContent extends SSEntityA{
     return result;
   }
   
-  public static boolean isActivityContent(final String string) throws Exception{
+  public static boolean isActivityContent(final String string){
     
     if(string == null){
       return false;
@@ -56,12 +57,12 @@ public class SSActivityContent extends SSEntityA{
     return true;
   }
    
-  protected SSActivityContent(final String string) throws Exception{
+  protected SSActivityContent(final String string) throws SSErr{
     
     super(string);
     
     if(!isActivityContent(string)){
-      throw new Exception("invalid activity content " + string);
+      throw new SSErr(SSErrE.activityContentInvalid);
     }
   }
 }

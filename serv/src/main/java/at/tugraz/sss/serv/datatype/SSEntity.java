@@ -27,7 +27,6 @@ import at.tugraz.sss.serv.datatype.api.SSEntityA;
 import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.*;
 
 @ApiModel
 public class SSEntity extends SSEntityA{
@@ -36,9 +35,25 @@ public class SSEntity extends SSEntityA{
     required = false)
   public SSUri               id               = null; //entity
   
+  public void setId(final String id) throws SSErr{
+    this.id = SSUri.get(id);
+  }
+  
+  public String getId() {
+    return SSStrU.removeTrailingSlash(id);
+  }
+  
   @ApiModelProperty(
     required = false)
   public SSLabel             label            = null;
+  
+  public void setLabel(final String label) throws SSErr{
+    this.label = SSLabel.get(label);
+  }
+  
+  public String getLabel(){
+    return SSStrU.toStr(label);
+  }
   
   @ApiModelProperty(
     required = false)
@@ -48,6 +63,14 @@ public class SSEntity extends SSEntityA{
     required = false)
   public SSEntityE           type             = null;
   
+  public void setType(final String type) throws SSErr{
+    this.type = SSEntityE.get(type);
+  }
+  
+  public String getType(){
+    return SSStrU.toStr(type);
+  }
+  
   @ApiModelProperty(
     required = false)
   public SSEntity               author           = null;
@@ -55,10 +78,26 @@ public class SSEntity extends SSEntityA{
   @ApiModelProperty(
     required = false)
   public SSTextComment       description      = null;
+
+  public void setDescription(final String description) throws SSErr{
+    this.description = SSTextComment.get(description);
+  }
+  
+  public String getDescription() {
+    return SSStrU.toStr(description);
+  }
   
   @ApiModelProperty(
     required = false)
   public List<SSCircleE>     circleTypes      = new ArrayList<>();
+  
+  public void setCircleTypes(final List<String> circleTypes) throws SSErr{
+    this.circleTypes = SSCircleE.get(circleTypes);
+  }
+  
+  public List<String> getCircleTypes(){
+    return SSStrU.toStr(circleTypes);
+  }
   
   @ApiModelProperty(
     required = false)
@@ -71,6 +110,14 @@ public class SSEntity extends SSEntityA{
   @ApiModelProperty(
     required = false)
   public List<SSTextComment> comments         = new ArrayList<>();
+  
+  public void setComments(final List<String> comments) throws SSErr{
+    this.comments = SSTextComment.get(comments);
+  }
+  
+  public List<String> getComments() {
+    return SSStrU.toStr(comments);
+  }
   
   @ApiModelProperty(
     required = false)
@@ -144,30 +191,6 @@ public class SSEntity extends SSEntityA{
     required = false)
   public SSQueryResultPage collsPage = null;
   
-  public String getId() {
-    return SSStrU.removeTrailingSlash(id);
-  }
-  
-  public String getLabel(){
-    return SSStrU.toStr(label);
-  }
-
-  public String getType(){
-    return SSStrU.toStr(type);
-  }
-  
-  public String getDescription() {
-    return SSStrU.toStr(description);
-  }
-  
-  public List<String> getCircleTypes(){
-    return SSStrU.toStr(circleTypes);
-  }
-  
-  public List<String> getComments() {
-    return SSStrU.toStr(comments);
-  }
-  
   public static SSEntity get(
     final SSUri     id,
     final SSEntityE type) throws SSErr {
@@ -206,6 +229,8 @@ public class SSEntity extends SSEntityA{
     
     return new SSEntity(id, type, label, description, creationTime, author);
   }
+  
+  public SSEntity(){}
   
   protected SSEntity(
     final SSUri         id,

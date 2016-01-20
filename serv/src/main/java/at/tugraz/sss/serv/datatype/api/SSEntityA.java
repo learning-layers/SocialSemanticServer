@@ -26,7 +26,7 @@ import at.tugraz.sss.serv.jsonld.*;
 import io.swagger.annotations.*;
 
 @ApiModel
-public abstract class SSEntityA implements SSJSONLDPropI{
+public class SSEntityA implements SSJSONLDPropI{
 
   @ApiModelProperty
   protected String val = null;
@@ -40,6 +40,8 @@ public abstract class SSEntityA implements SSJSONLDPropI{
   public String toString(){
     return val;
   }
+  
+  public SSEntityA(){}
   
   protected SSEntityA(final Object value) throws SSErr{
     

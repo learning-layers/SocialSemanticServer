@@ -59,6 +59,7 @@ public enum SSErrE{
   
   //activity
   activityContentTypeInvalid,
+  activityContentInvalid,
   
   //collection
   cannotSetSpecialCollectionPublic,

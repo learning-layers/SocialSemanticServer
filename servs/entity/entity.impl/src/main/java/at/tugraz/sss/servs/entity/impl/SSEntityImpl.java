@@ -648,6 +648,10 @@ implements
         page.add(entityURI);
       }
       
+      if(par.pageSize == 0){
+        pages.add(page);
+      }
+      
       accessibleEntitiesPagesCache.put(
         pagesID,
         SSEntityResultPages.get(

@@ -25,22 +25,17 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.*;
 
-
 @ApiModel
 public class SSQueryResultPage {
 
+  @ApiModelProperty
+  public String     pagesID     = null;
   
   @ApiModelProperty
-  public String         pagesID     = null;
-  
-  
-  @ApiModelProperty
-  public Integer        pageNumber  = null;
-  
+  public int        pageNumber  = 0;
   
   @ApiModelProperty
-  public Integer        pagesCount  = null;
-  
+  public int        pagesCount  = 0;
   
   @ApiModelProperty
   public List<SSEntity> entities    = new ArrayList<>();
@@ -55,10 +50,12 @@ public class SSQueryResultPage {
     SSEntity.addEntitiesDistinctWithoutNull(this.entities, entities);
   }
    
+  public SSQueryResultPage(){}
+   
   public SSQueryResultPage(
     final String         pagesID,
-    final Integer        pageNumber,
-    final Integer        pagesCount,
+    final int            pageNumber,
+    final int            pagesCount,
     final List<SSEntity> entities){
     
     this.pagesID     = pagesID;

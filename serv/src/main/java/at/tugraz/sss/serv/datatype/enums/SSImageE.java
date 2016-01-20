@@ -20,7 +20,8 @@
 */
 package at.tugraz.sss.serv.datatype.enums;
 
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public enum SSImageE{
   thumb,
   screenShot;
 
-  public static List<SSImageE> get(final List<String> values) throws Exception{
+  public static List<SSImageE> get(final List<String> values) throws SSErr{
   
     final List<SSImageE> result = new ArrayList<>();
     
@@ -46,7 +47,7 @@ public enum SSImageE{
     return result;
   }
   
-  public static SSImageE get(final String value) throws Exception{
+  public static SSImageE get(final String value) throws SSErr{
     
     try{
     
@@ -56,7 +57,8 @@ public enum SSImageE{
       
       return SSImageE.valueOf(value);
     }catch(Exception error){
-      throw new Exception("image type not available: " + value);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

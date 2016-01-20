@@ -22,30 +22,41 @@ package at.tugraz.sss.serv.datatype.ret;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
+import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApiModel
 public class SSEntitiesAccessibleGetRet extends SSServRetI{
 
+  @ApiModelProperty
   public String         pagesID     = null;
-  public Integer        pageNumber  = null;
-  public Integer        pageNumbers = null;
+  
+  @ApiModelProperty
+  public int        pageNumber  = 1;
+  
+  @ApiModelProperty
+  public int        pageNumbers = 0;
+  
+  @ApiModelProperty
   public List<SSEntity> entities    = new ArrayList<>();
 
-   public static SSEntitiesAccessibleGetRet get(
+  public static SSEntitiesAccessibleGetRet get(
     final List<SSEntity> entities,
     final String         pagesID,
-    final Integer        pageNumber,
-    final Integer        pageNumbers){
+    final int            pageNumber,
+    final int            pageNumbers){
     
     return new SSEntitiesAccessibleGetRet(entities, pagesID, pageNumber, pageNumbers);
   }
   
+  public SSEntitiesAccessibleGetRet(){}
+    
   private SSEntitiesAccessibleGetRet(
     final List<SSEntity> entities,
     final String         pagesID,
-    final Integer        pageNumber,
-    final Integer        pageNumbers){
+    final int            pageNumber,
+    final int            pageNumbers){
     
     super(SSVarNames.entitiesAccessibleGet);
     

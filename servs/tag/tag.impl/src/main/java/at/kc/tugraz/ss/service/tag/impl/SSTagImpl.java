@@ -905,7 +905,7 @@ implements
         final List<SSEntityE> types =
           SSEntityE.asListNotNull(
             SSEntityE.entity,
-            SSEntityE.file,
+            SSEntityE.uploadedFile,
             SSEntityE.evernoteResource,
             SSEntityE.evernoteNote,
             SSEntityE.evernoteNotebook,

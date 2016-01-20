@@ -62,6 +62,8 @@ public class SSLabel extends SSEntityA{
     return result;
   }
   
+  public SSLabel(){}
+  
   protected SSLabel(final String string) throws SSErr {
     super(string);
   }

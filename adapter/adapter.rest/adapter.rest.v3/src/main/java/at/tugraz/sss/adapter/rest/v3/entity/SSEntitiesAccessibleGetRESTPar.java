@@ -20,9 +20,9 @@
 */
 package at.tugraz.sss.adapter.rest.v3.entity;
 
-import at.tugraz.sss.conf.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.util.*;
 import io.swagger.annotations.*;
 import java.util.List;
 
@@ -44,6 +44,10 @@ public class SSEntitiesAccessibleGetRESTPar{
   public void setAuthors(final List<String> authors) throws SSErr{
      this.authors = SSUri.get(authors); 
   }
+  
+  public List<String> getAuthors(){
+     return SSStrU.removeTrailingSlash(authors);
+  }
 
   @ApiModelProperty(
     required = false)
@@ -57,7 +61,7 @@ public class SSEntitiesAccessibleGetRESTPar{
   @ApiModelProperty(
     required = false,
     value = "number of the page to be requested from a previous query")
-  public Integer             pageNumber             = null;
+  public int             pageNumber             = 1;
   
   @ApiModelProperty(
     required = false,
@@ -71,18 +75,8 @@ public class SSEntitiesAccessibleGetRESTPar{
  
   @ApiModelProperty(
     required = false,
-    value = "entity to retrieve user events for")
-  public SSUri           entity         = null;
-  
-  public void setEntity(final String entity) throws SSErr{
-    this.entity = SSUri.get(entity, SSConf.sssUri);
-  }
-  
-  @ApiModelProperty(
-    required = false,
     value = "whether tags for entitis shall be set")
   public boolean            setTags  = false;
-  
   
   @ApiModelProperty(
     required = false,

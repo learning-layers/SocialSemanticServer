@@ -21,14 +21,42 @@
 package at.tugraz.sss.serv.datatype;
 
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.util.*;
+import io.swagger.annotations.*;
 
+@ApiModel
 public class SSEntityContext {
   
+  @ApiModelProperty
   public SSUri     id        = null;
+  
+  public void setId(final String id) throws SSErr{
+    this.id = SSUri.get(id);
+  }
+  
+  public String getId(){
+    return SSStrU.removeTrailingSlash(id);
+  }
+  
+  @ApiModelProperty
   public SSEntityE context   = null; //e.g. "tag", "category"
+  
+  public void setContext(final String context) throws SSErr{
+    this.context = SSEntityE.get(context);
+  }
+  
+  public String getContext(){
+    return SSStrU.toStr(context);
+  }
+  
+  @ApiModelProperty
   public String    content   = null;
+  
+  @ApiModelProperty
   public Long      timestamp = null;
   
+  public SSEntityContext(){}
+    
   public SSEntityContext(
     final SSUri     id,
     final SSEntityE context,

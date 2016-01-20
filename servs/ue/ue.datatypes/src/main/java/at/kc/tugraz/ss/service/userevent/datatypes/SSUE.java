@@ -24,45 +24,43 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
+import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@ApiModel
 public class SSUE extends SSEntity {
 
+  @ApiModelProperty
   public         SSEntity         user           = null;
+  
+  @ApiModelProperty
   public         SSEntity         entity         = null;
+  
+  @ApiModelProperty
   public         SSUEE            userEventType  = null;
-  public         String           content        = null;
-
-  public void setUserEventType(final String userEventType) throws Exception{
+  
+  public void setUserEventType(final String userEventType) throws SSErr{
     this.userEventType = SSUEE.get(userEventType);
   }
   
   public String getUserEventType(){
     return SSStrU.toStr(userEventType);
   }
+  
+  @ApiModelProperty
+  public         String           content        = null;
 
   public static SSUE get(
     final SSUE           userEvent, 
-    final SSEntity       entity) throws Exception{
+    final SSEntity       entity) throws SSErr{
     
     return new SSUE(userEvent, entity);
   }
   
-  protected SSUE(
-    final SSUE           userEvent, 
-    final SSEntity       entity) throws Exception{
-     
-    super(userEvent, entity);
-    
-    this.user          = userEvent.user;
-    this.entity        = userEvent.entity;
-    this.userEventType = userEvent.userEventType;
-    this.content       = userEvent.content;    
-   }
+  public SSUE(){}
   
   public static SSUE get(
     final SSUri           id,
@@ -73,7 +71,7 @@ public class SSUE extends SSEntity {
     final SSEntity        user,
     final SSUEE           userEventType,
     final SSEntity        entity,
-    final String          content) throws Exception{
+    final String          content) throws SSErr{
     
     return new SSUE(
       id,
@@ -88,15 +86,27 @@ public class SSUE extends SSEntity {
   }
   
   protected SSUE(
+    final SSUE           userEvent,
+    final SSEntity       entity) throws SSErr{
+    
+    super(userEvent, entity);
+    
+    this.user          = userEvent.user;
+    this.entity        = userEvent.entity;
+    this.userEventType = userEvent.userEventType;
+    this.content       = userEvent.content;
+  }
+  
+  protected SSUE(
     final SSUri           id,
     final SSLabel         label,
     final SSTextComment   description,
     final Long            creationTime,
-    final SSEntity        author, 
+    final SSEntity        author,
     final SSEntity        user,
     final SSUEE           userEventType,
     final SSEntity        entity,
-    final String          content) throws Exception{
+    final String          content) throws SSErr{
 
     super(
       id,

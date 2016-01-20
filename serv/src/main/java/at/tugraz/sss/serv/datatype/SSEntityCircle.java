@@ -24,22 +24,37 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.enums.SSCircleE;
 import at.tugraz.sss.serv.datatype.enums.SSCircleRightE;
+import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApiModel
 public class SSEntityCircle extends SSEntity{
  
+  @ApiModelProperty
   public SSCircleE                      circleType     = null;
-  public List<SSCircleRightE>           accessRights   = new ArrayList<>();
-  public boolean                        isSystemCircle = false;
   
-   public String getCircleType(){
+  public void setCircleTpye(final String circleType) throws SSErr{
+    this.circleType = SSCircleE.get(circleType);
+  }
+  
+  public String getCircleType(){
     return SSStrU.toStr(circleType);
   }
-
-  public List<String> getAccessRights() throws Exception{
+  
+  @ApiModelProperty
+  public List<SSCircleRightE>           accessRights   = new ArrayList<>();
+  
+  public void setAccessRights(final List<String> accessRights) throws SSErr{
+    this.accessRights.addAll(SSCircleRightE.get(accessRights));
+  }
+  
+  public List<String> getAccessRights(){
     return SSStrU.toStr(accessRights);
   }
+
+  @ApiModelProperty
+  public boolean                        isSystemCircle = false;
   
   public static SSEntityCircle get(
     final SSEntityCircle      circle,
@@ -56,6 +71,8 @@ public class SSEntityCircle extends SSEntity{
     return new SSEntityCircle(id, circleType, isSystemCircle);
   }
   
+  public SSEntityCircle(){}
+    
   protected SSEntityCircle(
     final SSEntityCircle     circle,
     final SSEntity           entity) throws SSErr{

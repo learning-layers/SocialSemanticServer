@@ -21,8 +21,7 @@
 package at.tugraz.sss.serv.datatype.enums;
 
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
-import java.util.List;
+import java.util.*;
 
 public enum SSCircleRightE{
 
@@ -30,7 +29,18 @@ public enum SSCircleRightE{
   read,
   edit;
   
-  public static SSCircleRightE get(final String value) throws Exception{
+  public static List<SSCircleRightE> get(final List<String> values){
+    
+    final List<SSCircleRightE> result = new ArrayList<>();
+    
+    for(String value : values){
+      result.add(get(value));
+    }
+    
+    return result;
+  }
+  
+  public static SSCircleRightE get(final String value){
     return SSCircleRightE.valueOf(value);
   }
   
