@@ -23,14 +23,23 @@ package at.tugraz.sss.servs.mail.datatype;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
+import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApiModel
 public class SSMail extends SSEntity{
-  
+
+  @ApiModelProperty
   public String         subject           = null;
+  
+  @ApiModelProperty
   public String         content           = null;
+  
+  @ApiModelProperty
   public List<SSEntity> contentMultimedia = new ArrayList<>();
+  
+  @ApiModelProperty
   public List<SSEntity> attachments       = new ArrayList<>();
 
   public static SSMail get(
@@ -47,6 +56,8 @@ public class SSMail extends SSEntity{
     
     return new SSMail(id, subject, creationTime);
   }
+  
+  public SSMail(){}
   
   protected SSMail(
     final SSMail   mail,

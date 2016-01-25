@@ -23,10 +23,13 @@ package at.kc.tugraz.ss.service.disc.datatypes;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
+import io.swagger.annotations.*;
 import java.util.*;
 
+@ApiModel
 public class SSDisc extends SSEntity {
-  
+
+  @ApiModelProperty
   public List<SSEntity> targets = new ArrayList<>();
   
   public static SSDisc get(
@@ -40,15 +43,17 @@ public class SSDisc extends SSEntity {
       targets);
   }
   
-   public static SSDisc get(
+  public static SSDisc get(
     final SSDisc              disc,
     final SSEntity            entity) throws Exception{
     
     return new SSDisc(
-      disc, 
+      disc,
       entity);
   }
 
+  public SSDisc(){}
+     
   protected SSDisc(
     final SSDisc              disc,
     final SSEntity            entity) throws Exception{
@@ -65,7 +70,7 @@ public class SSDisc extends SSEntity {
   protected SSDisc(
     final SSUri                  id,
     final SSEntityE              type,
-    final List<SSEntity>            targets) throws Exception{
+    final List<SSEntity>         targets) throws Exception{
     
     super(id, type);
     

@@ -24,12 +24,13 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import io.swagger.annotations.*;
 
+@ApiModel
 public class SSLearnEpTimelineState extends SSEntity {
 
+  @ApiModelProperty
   public SSUri user                    = null;
-  public Long  startTime               = null;
-  public Long  endTime                 = null;
   
   public void setUser(final String user) throws SSErr {
     this.user = SSUri.get(user);
@@ -39,20 +40,28 @@ public class SSLearnEpTimelineState extends SSEntity {
     return SSStrU.removeTrailingSlash(user);
   }
   
+  @ApiModelProperty
+  public Long  startTime               = null;
+  
+  @ApiModelProperty
+  public Long  endTime                 = null;
+  
   public static SSLearnEpTimelineState get(
     final SSUri id, 
     final SSUri user, 
     final Long  startTime, 
-    final Long  endTime) throws Exception{
+    final Long  endTime) throws SSErr{
     
     return new SSLearnEpTimelineState(id, user, startTime, endTime);
   }
+
+  public SSLearnEpTimelineState(){}
   
   protected SSLearnEpTimelineState(
     final SSUri id,
     final SSUri user,
     final Long  startTime,
-    final Long  endTime)throws Exception{
+    final Long  endTime) throws SSErr{
     
     super(id, SSEntityE.learnEpTimelineState);
     

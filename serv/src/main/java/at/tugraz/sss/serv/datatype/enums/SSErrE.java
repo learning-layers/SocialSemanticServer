@@ -22,6 +22,13 @@ package at.tugraz.sss.serv.datatype.enums;
 
 public enum SSErrE{
 
+  //file
+  fileExtNotAvailable,
+  fileExtNotAvailableForMimeType,
+  
+  mimeTypeNotAvailable,
+  mimeTypeNotAvailableForFileExt,
+  
   //misc
   unknownError,
   

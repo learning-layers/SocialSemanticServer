@@ -23,11 +23,18 @@ package at.kc.tugraz.sss.video.datatypes;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import io.swagger.annotations.*;
 
+@ApiModel
 public class SSVideoAnnotation extends SSEntity{
-  
+
+  @ApiModelProperty
   public Long  timePoint = null;
+  
+  @ApiModelProperty
   public Float x         = null;
+  
+  @ApiModelProperty
   public Float y         = null;
   
   public static SSVideoAnnotation get(
@@ -35,17 +42,6 @@ public class SSVideoAnnotation extends SSEntity{
     final SSEntity              entity) throws Exception{
     
     return new SSVideoAnnotation(annotation, entity);
-  }
-  
-  protected SSVideoAnnotation(
-    final SSVideoAnnotation   annotation,
-    final SSEntity            entity) throws Exception{
-    
-    super(annotation, entity);
-    
-    this.timePoint       = annotation.timePoint;
-    this.x               = annotation.x;
-    this.y               = annotation.y;
   }
   
   public static SSVideoAnnotation get(
@@ -59,6 +55,19 @@ public class SSVideoAnnotation extends SSEntity{
       timePoint,
       x,
       y);
+  }
+  
+  public SSVideoAnnotation(){}
+  
+  protected SSVideoAnnotation(
+    final SSVideoAnnotation   annotation,
+    final SSEntity            entity) throws Exception{
+    
+    super(annotation, entity);
+    
+    this.timePoint       = annotation.timePoint;
+    this.x               = annotation.x;
+    this.y               = annotation.y;
   }
   
   protected SSVideoAnnotation(

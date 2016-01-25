@@ -25,19 +25,30 @@ import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
+import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApiModel
 public class SSLearnEpVersion extends SSEntity{
 
+  @ApiModelProperty
   public SSUri                  learnEp              = null;
-  public List<SSEntity>         learnEpEntities      = new ArrayList<>();
-  public List<SSEntity>         learnEpCircles       = new ArrayList<>();
-
-  public String getLearnEp() throws Exception {
+  
+  public void setLearnEp(final String learnEp) throws SSErr{
+    this.learnEp = SSUri.get(learnEp);
+  }
+  
+  public String getLearnEp(){
     return SSStrU.removeTrailingSlash(learnEp);
   }
   
+  @ApiModelProperty
+  public List<SSEntity>         learnEpEntities      = new ArrayList<>();
+  
+  @ApiModelProperty
+  public List<SSEntity>         learnEpCircles       = new ArrayList<>();
+
   public static SSLearnEpVersion get(
     final SSLearnEpVersion learnEpVersion,
     final SSEntity         entity) throws Exception{
@@ -65,6 +76,8 @@ public class SSLearnEpVersion extends SSEntity{
       learnEpEntities, 
       learnEpCircles);
   }
+
+  public SSLearnEpVersion(){}
   
   protected SSLearnEpVersion(
     final SSLearnEpVersion learnEpVersion,

@@ -20,17 +20,21 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import java.util.Map;
+import io.swagger.annotations.*;
 
+@ApiModel
 public class SSLearnEpEntity extends SSEntity {
   
+  @ApiModelProperty
   public SSEntity  entity   = null;
+  
+  @ApiModelProperty
   public Float     x        = null;
+  
+  @ApiModelProperty
   public Float     y        = null;
   
   public static SSLearnEpEntity get(
@@ -48,6 +52,8 @@ public class SSLearnEpEntity extends SSEntity {
     
     return new SSLearnEpEntity(id, entity, x, y);
   }
+  
+  public SSLearnEpEntity(){}
   
   protected SSLearnEpEntity(
     final SSLearnEpEntity learnEpEntity,

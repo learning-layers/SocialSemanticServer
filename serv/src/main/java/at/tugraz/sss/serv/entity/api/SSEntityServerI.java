@@ -21,7 +21,7 @@
 package at.tugraz.sss.serv.entity.api;
 
 import at.tugraz.sss.serv.impl.api.SSServServerI;
-import at.tugraz.sss.serv.datatype.SSEntityCircle;
+import at.tugraz.sss.serv.datatype.SSCircle;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSErr;
@@ -87,7 +87,7 @@ public interface SSEntityServerI extends SSServServerI{
   public SSUri                           circleUsersAdd                           (final SSCircleUsersAddPar                    par) throws SSErr;
   public SSUri                           circleEntitiesAdd                        (final SSCircleEntitiesAddPar                 par) throws SSErr;
   public List<SSCircleE>                 circleTypesGet                           (final SSCircleTypesGetPar                    par) throws SSErr;
-  public SSEntityCircle                  circleGet                                (final SSCircleGetPar                         par) throws SSErr;
+  public SSCircle                  circleGet                                (final SSCircleGetPar                         par) throws SSErr;
   public List<SSEntity>                  circlesGet                               (final SSCirclesGetPar                        par) throws SSErr;
   public SSUri                           circlePrivURIGet                         (final SSCirclePrivURIGetPar                  par) throws SSErr;
   public SSUri                           circlePubURIGet                          (final SSCirclePubURIGetPar                   par) throws SSErr;

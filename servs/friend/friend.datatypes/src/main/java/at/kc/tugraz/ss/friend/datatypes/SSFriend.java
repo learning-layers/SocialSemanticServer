@@ -23,7 +23,9 @@
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import io.swagger.annotations.*;
 
+@ApiModel
 public class SSFriend extends SSEntity{
   
   public static SSFriend get(
@@ -33,18 +35,20 @@ public class SSFriend extends SSEntity{
     return new SSFriend(friend, entity);
   }
   
+  public static SSFriend get(
+    final SSUri         id) throws Exception{
+    
+    return new SSFriend(id);
+  }  
+  
+  public SSFriend(){}
+  
   protected SSFriend(
     final SSFriend friend,
     final SSEntity entity) throws Exception{
     
     super(friend, entity);
   }
-  
-  public static SSFriend get(
-    final SSUri         id) throws Exception{
-    
-    return new SSFriend(id);
-  }  
 	
   protected SSFriend(    
     final SSUri         id) throws Exception{

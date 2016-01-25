@@ -21,44 +21,73 @@
 package at.kc.tugraz.ss.service.tag.datatypes;
 
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
-import at.tugraz.sss.serv.datatype.*;
+import io.swagger.annotations.*;
 import java.util.*;
 
+@ApiModel
 public class SSTag extends SSEntity{
 
+  @ApiModelProperty
   public  SSTagLabel          tagLabel     = null;
+  
+  public void setTagLabel(final String tagLabel) throws SSErr{
+    this.tagLabel = SSTagLabel.get(tagLabel);
+  }
+  
+  public String getTagLabel(){
+    return SSStrU.toStr(tagLabel);
+  }
+  
+  @ApiModelProperty
   public  SSUri               entity       = null;
-  public  SSUri               user         = null;
-  public  SSSpaceE            space        = null;
-  public  SSUri               circle       = null;
-
-  public String getEntity() throws Exception{
+  
+  public void setEntity(final String entity) throws SSErr{
+    this.entity = SSUri.get(entity);
+  }
+  
+  public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
   }
-
-  public String getUser() throws Exception{
+  
+  @ApiModelProperty
+  public  SSUri               user         = null;
+  
+  public void setUser(final String user) throws SSErr{
+    this.user = SSUri.get(user);
+  }
+  
+  public String getUser(){
     return SSStrU.removeTrailingSlash(user);
   }
-
+  
+  @ApiModelProperty
+  public  SSSpaceE            space        = null;
+  
+  public void setSpace(final String space) throws SSErr{
+    this.space = SSSpaceE.get(space);
+  }
+  
   public String getSpace(){
     return SSStrU.toStr(space);
   }
+   
+  @ApiModelProperty
+  public  SSUri               circle       = null;
+
+  public void setCircle(final String circle) throws SSErr{
+    this.circle = SSUri.get(circle);
+  }
   
-  public String getCircle() throws Exception{
+  public String getCircle(){
     return SSStrU.removeTrailingSlash(circle);
   }
 
   @Override
   public String getLabel(){
-    return SSStrU.toStr(tagLabel);
-  }
-  
-  public String getTagLabel(){
     return SSStrU.toStr(tagLabel);
   }
   
@@ -73,6 +102,8 @@ public class SSTag extends SSEntity{
     
     return new SSTag(id, entity, user, space, tagLabel, circle, creationTime);
   }
+  
+  public SSTag(){}
   
   protected SSTag(
     final SSUri       id,

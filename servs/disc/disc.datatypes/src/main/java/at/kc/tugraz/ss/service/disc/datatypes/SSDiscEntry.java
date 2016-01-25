@@ -25,16 +25,27 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
+import io.swagger.annotations.*;
 
+@ApiModel
 public class SSDiscEntry extends SSEntity{
+
+  @ApiModelProperty
+  public  int             pos = -1;
   
-  public  Integer             pos;
-  public  SSTextComment       content;
-  public  boolean             accepted = false;
+  @ApiModelProperty
+  public  SSTextComment       content = null;
+  
+  public void setContent(final String content) throws SSErr{
+    this.content = SSTextComment.get(content);
+  }
   
   public String getContent(){
     return SSStrU.toStr(content);
   }
+  
+  @ApiModelProperty
+  public  boolean             accepted = false;
   
   public static SSDiscEntry get(
     final SSUri                  id,
@@ -66,7 +77,7 @@ public class SSDiscEntry extends SSEntity{
     
     super(discEntry, entity);
     
-    if(discEntry.pos != null){
+    if(discEntry.pos != -1){
       this.pos = discEntry.pos;
     }else{
      

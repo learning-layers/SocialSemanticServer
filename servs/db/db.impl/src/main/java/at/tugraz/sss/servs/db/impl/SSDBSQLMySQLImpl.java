@@ -178,7 +178,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
         try{
           connection = connectionPool.getConnection();
           
-          SSLogU.info(connection.toString());
+//          SSLogU.info(connection.toString());
           
           if(connection == null){
             throw new Exception("connector null");

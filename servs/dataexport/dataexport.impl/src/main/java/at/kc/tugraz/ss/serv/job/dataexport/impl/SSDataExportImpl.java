@@ -43,7 +43,7 @@ import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.SSEntityCircle;
+import at.tugraz.sss.serv.datatype.SSCircle;
 import at.tugraz.sss.serv.datatype.SSEntityContext;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.reg.*;
@@ -92,7 +92,7 @@ implements
       writer     = new OutputStreamWriter                   (out,    Charset.forName(SSEncodingU.utf8.toString()));
       fileWriter = new CSVWriter                            (writer, SSStrU.semiColon.charAt(0));
       
-      final SSEntityCircle circle =
+      final SSCircle circle =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circleGet(
           new SSCircleGetPar(
             par,

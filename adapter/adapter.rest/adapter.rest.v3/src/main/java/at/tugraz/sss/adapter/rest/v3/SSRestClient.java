@@ -21,9 +21,10 @@
 package at.tugraz.sss.adapter.rest.v3;
 
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.*;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.*;
+import at.tugraz.sss.adapter.rest.v3.disc.*;
 import at.tugraz.sss.adapter.rest.v3.entity.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.ret.*;
 import at.tugraz.sss.serv.util.*;
 import java.util.*;
 import javax.ws.rs.client.*;
@@ -36,6 +37,8 @@ public class SSRestClient {
   
   private final Client client;
   
+  private String key;
+  
   public SSRestClient(final Client client){
     this.client = client;
   }
@@ -46,16 +49,57 @@ public class SSRestClient {
       
       final Client       client = ClientBuilder.newClient();
       final SSRestClient caller = new SSRestClient(client);
-      final String       key    = caller.auth();
       
-      caller.getEntitiesFilteredAccessible(key);
+      caller.auth();
+      
+//      caller.getEntitiesFilteredAccessible();
+      caller.discCreate();
       
     }catch (Exception error) {
       SSLogU.err(error);
     }
   }
   
-  public void getEntitiesFilteredAccessible(final String key){
+  public void discCreate(){
+    
+    try{
+      final WebTarget          target = client.target(host + restPath + "discs/");
+      final Invocation.Builder builder = target.request(MediaType.APPLICATION_JSON_TYPE);
+      
+      builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + key);
+      
+      final SSDiscEntryAddRESTPar par      = new SSDiscEntryAddRESTPar();
+      final List<String>          entities = new ArrayList<>();
+      final List<String>          targets  = new ArrayList<>();
+      
+      par.setLabel      ("Initial discussion for shared episode");
+      par.setDescription("<p>Hey go. Let's go.</p>");
+      
+      entities.add("http://sss.eu/710668960821648561");
+      
+      par.setEntities(entities);
+      
+      targets.add("http://sss.eu/667159587087257512");
+      
+      par.setTargets(targets);
+      
+      par.setType("qa");
+      
+      par.addNewDisc = true;
+
+//      {"label":"Initial discussion for shared episode","description":"<p>Hey go. Let's go.</p>","entities":["http://sss.eu/710668960821648561"],"targets":["http://sss.eu/667159587087257512"],"type":"qa","addNewDisc":true}
+
+      final Entity<String> formattedInput = Entity.entity(SSJSONU.jsonStr(par), MediaType.APPLICATION_JSON_TYPE);
+      final String         response       = builder.post(formattedInput, String.class);
+      
+      System.out.println(response);
+      
+    }catch(Exception error){
+      SSLogU.err(error);
+    }
+  }
+  
+  public void getEntitiesFilteredAccessible(){
     
     try{
       final WebTarget target = client.target(host + restPath + "entities/filtered/accessible/");
@@ -64,8 +108,8 @@ public class SSRestClient {
       builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + key);
         
       final SSEntitiesAccessibleGetRESTPar par = new SSEntitiesAccessibleGetRESTPar();
-      final List<String> types   = new ArrayList<>();
-      final List<String> authors = new ArrayList<>();
+      final List<String>                   types   = new ArrayList<>();
+      final List<String>                   authors = new ArrayList<>();
       
 //      {"startTime":1442072006290,"endTime":1453293235346,"authors":["http://sss.eu/1690149260961113"],"types":["entity","file","evernoteResource","evernoteNote","evernoteNotebook","placeholder"],"setTags":true,"setFlags":true,"pageSize":0}
       
@@ -88,13 +132,9 @@ public class SSRestClient {
       par.setTags        = true;
       par.setFlags       = true;
       
-      final Entity<String>             formattedInput = Entity.entity(SSJSONU.jsonStr(par), MediaType.APPLICATION_JSON_TYPE);
-      final SSEntitiesAccessibleGetRet ret            = builder.post(formattedInput, SSEntitiesAccessibleGetRet.class);
-      
-      for(SSEntity entity : ret.entities){
-        System.out.println(entity);
-      }
-      
+      final Entity<String> formattedInput = Entity.entity(SSJSONU.jsonStr(par), MediaType.APPLICATION_JSON_TYPE);
+      final String         response       = builder.post(formattedInput, String.class);
+
     }catch (Exception error) {
       SSLogU.err(error);
     }
@@ -151,7 +191,7 @@ public class SSRestClient {
 //    }
 //  }
   
-  public String auth(){
+  public void auth(){
     
     try{
       final WebTarget target = client.target(host + restPath + "auth/");
@@ -160,10 +200,9 @@ public class SSRestClient {
       final SSAuthCheckCredRet ret =
         target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(input, MediaType.APPLICATION_JSON_TYPE), SSAuthCheckCredRet.class);
       
-      return ret.key;
+      key = ret.key;
     }catch (Exception error) {
       SSLogU.err(error);
-      return null;
     }
   }
 }

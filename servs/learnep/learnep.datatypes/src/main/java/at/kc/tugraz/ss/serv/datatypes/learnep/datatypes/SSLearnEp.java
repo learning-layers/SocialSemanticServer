@@ -24,14 +24,22 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
+import io.swagger.annotations.*;
 import java.util.List;
 
+@ApiModel
 public class SSLearnEp extends SSEntity {
 
+  @ApiModelProperty
   public boolean    locked       = false;
+  
+  @ApiModelProperty
   public boolean    lockedByUser = false;
+  
+  public void setVersions(final List<SSEntity> versions){
+    this.entries = versions;
+  }
   
   public List<SSEntity> getVersions(){
     return entries;
@@ -57,6 +65,23 @@ public class SSLearnEp extends SSEntity {
     return new SSLearnEp(id, versions);
   }
   
+  public static SSLearnEp get(
+    final SSUri         id,
+    final SSLabel       label,
+    final SSTextComment description,
+    final Long          creationTime,
+    final SSEntity      author) throws SSErr{
+    
+    return new SSLearnEp(
+      id,
+      label,
+      description,
+      creationTime,
+      author);
+  }
+  
+  public SSLearnEp(){}
+  
   protected SSLearnEp(
     final SSUri                  id,
     final List<SSEntity>         versions) throws SSErr {
@@ -77,21 +102,6 @@ public class SSLearnEp extends SSEntity {
     final SSUri id) throws SSErr{
     
     super(id, SSEntityE.learnEp);
-  }
-  
-  public static SSLearnEp get(
-    final SSUri         id,
-    final SSLabel       label,
-    final SSTextComment description,
-    final Long          creationTime,
-    final SSEntity      author) throws SSErr{
-    
-    return new SSLearnEp(
-      id,
-      label,
-      description,
-      creationTime,
-      author);
   }
   
   protected SSLearnEp(

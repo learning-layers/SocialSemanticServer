@@ -32,14 +32,7 @@ public class SSAuthor extends SSEntity{
     
     return new SSAuthor(author, entity);
   }
-  
-  protected SSAuthor(
-    final SSAuthor         author,
-    final SSEntity         entity) throws SSErr {
-    
-    super(author, entity);
-  }
-  
+
   public static SSAuthor get(
     final SSUri    id,
     final SSLabel  label) throws SSErr {
@@ -54,6 +47,13 @@ public class SSAuthor extends SSEntity{
   }
   
   public SSAuthor(){}
+  
+  protected SSAuthor(
+    final SSAuthor         author,
+    final SSEntity         entity) throws SSErr {
+    
+    super(author, entity);
+  }
   
   protected SSAuthor(
     final SSUri   id,

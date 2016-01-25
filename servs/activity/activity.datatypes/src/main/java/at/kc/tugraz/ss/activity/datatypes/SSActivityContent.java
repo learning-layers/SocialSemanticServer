@@ -62,7 +62,7 @@ public class SSActivityContent extends SSEntityA{
     super(string);
     
     if(!isActivityContent(string)){
-      throw new SSErr(SSErrE.activityContentInvalid);
+      throw SSErr.get(SSErrE.activityContentInvalid);
     }
   }
 }

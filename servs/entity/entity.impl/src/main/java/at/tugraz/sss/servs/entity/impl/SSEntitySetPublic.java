@@ -25,7 +25,6 @@ import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.serv.datatype.par.SSCircleGetPar;
 import at.tugraz.sss.serv.datatype.par.SSCirclePubURIGetPar;
 import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.SSEntityCircle;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
@@ -69,7 +68,7 @@ public class SSEntitySetPublic {
           false, //withUserRestriction
           false)); //shouldCommit
       
-      final SSEntityCircle circle =
+      final SSCircle circle =
         circleServ.circleGet(
           new SSCircleGetPar(
             servPar,

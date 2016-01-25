@@ -21,23 +21,36 @@
 package at.kc.tugraz.sss.flag.datatypes;
 
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import java.util.Map;
+import io.swagger.annotations.*;
 
+@ApiModel
 public class SSFlag extends SSEntity{
-  
+
+  @ApiModelProperty
   public SSEntity   user          = null;
+  
+  @ApiModelProperty
   public SSEntity   entity        = null;
+  
+  @ApiModelProperty
   public SSFlagE    flagType      = null;
-  public Long       endTime       = null;
-  public Integer    value         = null;
+  
+  public void setFlagType(final String flagType) throws SSErr{
+    this.flagType = SSFlagE.get(flagType);
+  }
   
   public String getFlagType() throws Exception{
     return SSStrU.toStr(flagType);
   }
+  
+  @ApiModelProperty
+  public Long       endTime       = null;
+  
+  @ApiModelProperty
+  public Integer    value         = null;
   
   public static SSFlag get(
     final SSFlag     flag,
@@ -46,7 +59,20 @@ public class SSFlag extends SSEntity{
     return new SSFlag(flag, entity);
   }
   
-  public SSFlag(
+  public static SSFlag get(
+    final SSUri      id,
+    final SSEntity   user,
+    final SSEntity   entity,
+    final SSFlagE    flagType,
+    final Long       endTime,
+    final Integer    value) throws Exception{
+    
+    return new SSFlag(id, user, entity, flagType, endTime, value);
+  }
+  
+  public SSFlag(){}
+  
+  protected SSFlag(
     final SSFlag     flag,
     final SSEntity   entity) throws Exception{
    
@@ -98,17 +124,6 @@ public class SSFlag extends SSEntity{
     }
   }
     
-  public static SSFlag get(
-    final SSUri      id,
-    final SSEntity   user,
-    final SSEntity   entity,
-    final SSFlagE    flagType,
-    final Long       endTime,
-    final Integer    value) throws Exception{
-    
-    return new SSFlag(id, user, entity, flagType, endTime, value);
-  }
-  
   protected SSFlag(
     final SSUri   id,
     final SSEntity   user,

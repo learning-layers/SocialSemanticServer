@@ -20,6 +20,9 @@
  */
 package at.tugraz.sss.serv.util;
 
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +35,7 @@ public enum SSMimeTypeE {
   applicationOpenOfficeDoc                                   ("application/vnd.oasis.opendocument.text"),
   applicationPdf                                             ("application/pdf"),
   applicationMsword                                          ("application/msword"),
-  applicationMsword2                                         ("application/vnd.ms-word"), 
+  applicationMsword2                                         ("application/vnd.ms-word"),
   applicationMsaccess                                        ("application/msaccess"),
   applicationMsexcel                                         ("application/vnd.ms-excel"),
   applicationMspowerpoint                                    ("application/vnd.ms-powerpoint"),
@@ -83,16 +86,22 @@ public enum SSMimeTypeE {
     return value;
   }
   
-  public static SSMimeTypeE get(final String value) throws Exception{
+  public static SSMimeTypeE get(final String value) throws SSErr{
     
-    if(!mimeTypes.containsKey(value)){
-      throw new Exception("mime type not found for value");
+    try{
+      
+      if(!mimeTypes.containsKey(value)){
+        throw SSErr.get(SSErrE.mimeTypeNotAvailable);
+      }
+      
+      return mimeTypes.get(value);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return mimeTypes.get(value);
   }
   
-  public static synchronized void init() throws Exception{
+  public static synchronized void init() throws SSErr{
     
     mimeTypes.put(applicationZipCompressed.toString(),         applicationZipCompressed);
     mimeTypes.put(applicationZip.toString(),                   applicationZip);
@@ -221,38 +230,53 @@ public enum SSMimeTypeE {
     mimeTypePerFileExt.put(SSFileExtE.ogg,   applicationOgg);
   }
   
-  public static SSFileExtE fileExtForMimeType(final SSMimeTypeE mimeType) throws Exception{
-    
-    if(fileExtPerMimeType.containsKey(mimeType)){
-      return fileExtPerMimeType.get(mimeType);
-    }
-    
-    throw new Exception("file ext not found for mime type: " + mimeType);
-  }
-  
-  public static SSFileExtE fileExtForMimeType1(final String mimeType) throws Exception{
-    
-    SSMimeTypeE mime;
+  public static SSFileExtE fileExtForMimeType(final SSMimeTypeE mimeType) throws SSErr{
     
     try{
-      mime = get(mimeType);
+      
+      if(fileExtPerMimeType.containsKey(mimeType)){
+        return fileExtPerMimeType.get(mimeType);
+      }
+      
+      throw SSErr.get(SSErrE.fileExtNotAvailableForMimeType);
+      
     }catch(Exception error){
-      throw new Exception("mime type not found for mime: " + mimeType);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    if(fileExtPerMimeType.containsKey(mime)){
-      return fileExtPerMimeType.get(mime);
-    }
-    
-    throw new Exception("file ext not found for mime type: " + mimeType);
   }
   
-  public static SSMimeTypeE mimeTypeForFileExt(final SSFileExtE ext) throws Exception{
+  public static SSFileExtE fileExtForMimeType1(final String mimeType) throws SSErr{
     
-    if(mimeTypePerFileExt.containsKey(ext)){
-      return mimeTypePerFileExt.get(ext);
+    try{
+      
+      final SSMimeTypeE mime = get(mimeType);
+      
+      if(fileExtPerMimeType.containsKey(mime)){
+        return fileExtPerMimeType.get(mime);
+      }
+      
+      throw SSErr.get(SSErrE.fileExtNotAvailableForMimeType);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
+  }
+  
+  public static SSMimeTypeE mimeTypeForFileExt(final SSFileExtE ext) throws SSErr{
     
-    throw new Exception("mime type not found for file ext");
+    try{
+      
+      if(mimeTypePerFileExt.containsKey(ext)){
+        return mimeTypePerFileExt.get(ext);
+      }
+      
+      throw SSErr.get(SSErrE.mimeTypeNotAvailableForFileExt);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 }

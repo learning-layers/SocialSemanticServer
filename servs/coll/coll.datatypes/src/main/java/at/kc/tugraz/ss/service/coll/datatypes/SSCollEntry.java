@@ -23,15 +23,18 @@
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
+import io.swagger.annotations.*;
 
+@ApiModel
 public class SSCollEntry extends SSEntity {
 
-  public  Integer   pos = -1;
+  @ApiModelProperty
+  public  int   pos = -1;
   
   public static SSCollEntry get(
     final SSUri           id,
     final SSEntityE       type,
-    final Integer         pos) throws Exception{
+    final int             pos) throws Exception{
     
     return new SSCollEntry(id, type, pos);
   }
@@ -39,7 +42,7 @@ public class SSCollEntry extends SSEntity {
   protected SSCollEntry(
     final SSUri           id,
     final SSEntityE       type,
-    final Integer         pos) throws Exception{
+    final int             pos) throws Exception{
 
     super(id, type);
     

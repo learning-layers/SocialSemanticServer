@@ -20,6 +20,9 @@
  */
 package at.tugraz.sss.serv.util;
 
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -149,17 +152,18 @@ public enum SSFileExtE{
     }
   }
 
-  public static SSFileExtE get(final String value) throws Exception {
+  public static SSFileExtE get(final String value) throws SSErr {
     
     try{
       
       return valueOf(value);
     }catch(Exception error){
-      throw new Exception("file ext not available for: " + value);
+      SSServErrReg.regErrThrow(SSErrE.fileExtNotAvailable, error);
+      return null;
     }
   }
 
-  public static SSFileExtE getFromStrToFormat(final String string) throws Exception {
+  public static SSFileExtE getFromStrToFormat(final String string) throws SSErr {
     
     try{
       
@@ -179,7 +183,8 @@ public enum SSFileExtE{
       return SSFileExtE.get(myStr.substring(dotIndex + 1, myStr.length()));
       
     }catch(Exception error){
-      throw new Exception("couldnt get file ext for : " + string);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 }

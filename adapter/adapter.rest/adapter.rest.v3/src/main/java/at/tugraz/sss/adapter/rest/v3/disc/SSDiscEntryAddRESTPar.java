@@ -24,6 +24,7 @@ import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
+import at.tugraz.sss.serv.util.*;
 import io.swagger.annotations.*;
 
 import java.util.List;
@@ -36,19 +37,25 @@ public class SSDiscEntryAddRESTPar{
     value = "discussion name (optional in case of an existing discussion)")
   public SSLabel                label          = null;
   
-  
   public void setLabel(final String label) throws SSErr{
     this.label = SSLabel.get(label); 
+  }
+  
+  public String getLabel(){
+    return SSStrU.toStr(label);
   }
   
   @ApiModelProperty(
     required = false,
     value = "describes the discussion in more detail (optional, except in case of a new discussion of type qa)")
   public SSTextComment          description    = null;
-
   
   public void setDescription(final String description) throws SSErr{
     this.description = SSTextComment.get(description);
+  }
+
+  public String getDescription(){
+    return SSStrU.toStr(description);
   }
   
   @ApiModelProperty(
@@ -56,9 +63,12 @@ public class SSDiscEntryAddRESTPar{
     value = "entities to be attached either to corresponding discussion if new discussion to be added or to respective entry in the other case")
   public List<SSUri>            entities       = null;
   
-  
   public void setEntities(final List<String> entities) throws SSErr{
     this.entities = SSUri.get(entities, SSConf.sssUri);
+  }
+  
+  public List<String> getEntities(){
+    return SSStrU.removeTrailingSlash(entities);
   }
   
   @ApiModelProperty(
@@ -66,19 +76,25 @@ public class SSDiscEntryAddRESTPar{
     value = "labels for the entities to be attached")
   public List<SSLabel>            entityLabels       = null;
   
-  
   public void setEntityLabels(final List<String> entityLabels) throws SSErr{
    this.entityLabels = SSLabel.get(entityLabels);
   }
 
+  public List<String> getEntityLabels(){
+    return SSStrU.toStr(entityLabels);
+  }
+  
   @ApiModelProperty(
     required = false,
     value = "users to share this discussion with upon creation of a new discussion (optional, though works only for a new discussion)")
   public List<SSUri>            users          = null;
   
-  
   public void setUsers(final List<String> users) throws SSErr{
     this.users = SSUri.get(users, SSConf.sssUri);
+  }
+  
+  public List<String> getUsers(){
+    return SSStrU.removeTrailingSlash(users);
   }
  
   @ApiModelProperty(
@@ -86,9 +102,12 @@ public class SSDiscEntryAddRESTPar{
     value = "circles to share this discussion with upon creation of a new discussion (optional, though works only for a new discussion)")
   public List<SSUri>            circles          = null;
   
-  
   public void setCircles(final List<String> circles) throws SSErr{
     this.circles = SSUri.get(circles, SSConf.sssUri);
+  }
+  
+  public List<String> getCircles(){
+    return SSStrU.removeTrailingSlash(circles);
   }
   
   @ApiModelProperty(
@@ -96,9 +115,12 @@ public class SSDiscEntryAddRESTPar{
     value = "text for the comment / answer / opinion (optional in case of a new discussion)")
   public SSTextComment          entry    = null;
 
-  
   public void setEntry(final String entry) throws SSErr{
     this.entry = SSTextComment.get(entry);
+  }
+  
+  public String getEntry(){
+    return SSStrU.removeTrailingSlash(entry);
   }
       
   @ApiModelProperty(
@@ -106,9 +128,12 @@ public class SSDiscEntryAddRESTPar{
     value = "discussion to add an entry for (optional in case of a new discussion)")
   public SSUri                disc          = null;
   
-  
   public void setDisc(final String disc) throws SSErr{
     this.disc = SSUri.get(disc, SSConf.sssUri);
+  }
+  
+  public String getDisc(){
+    return SSStrU.removeTrailingSlash(disc);
   }
   
   @ApiModelProperty(
@@ -116,21 +141,27 @@ public class SSDiscEntryAddRESTPar{
     value = "entities to start a discussion for (optional)")
   public List<SSUri>                targets          = null;
   
-  
   public void setTargets(final List<String> targets) throws SSErr{
     this.targets = SSUri.get(targets, SSConf.sssUri);
   }
   
+  public List<String> getTargets(){
+    return SSStrU.removeTrailingSlash(targets);
+  }
+    
   @ApiModelProperty(
     required = false,
     value = "discussion type: disc, qa or chat (optional in case of an existing discussion)")
   public SSEntityE                type          = null;
   
-  
   public void setType(final String type) throws SSErr{
     this.type = SSEntityE.get(type);
   }
   
+  public String getType(){
+    return SSStrU.removeTrailingSlash(type);
+  }
+    
   @ApiModelProperty(
     required = false,
     value = "whether a new disc should be created")

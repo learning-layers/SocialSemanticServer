@@ -25,27 +25,61 @@ import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
-import at.tugraz.sss.serv.datatype.*;
+import io.swagger.annotations.*;
 import java.util.*;
 
+@ApiModel
 public class SSCategory extends SSEntity{
 
+  @ApiModelProperty
   public  SSCategoryLabel     categoryLabel  = null;
+  
+  public void setCategoryLabel(final String categoryLabel) throws SSErr{
+    this.categoryLabel = SSCategoryLabel.get(categoryLabel);
+  }
+  
+  public String getCategoryLabel(){
+    return SSStrU.toStr(categoryLabel);
+  }
+   
+  @ApiModelProperty
   public  SSUri               entity         = null;
-  public  SSUri               user           = null;
-  public  SSSpaceE            space          = null;
-  public  SSUri               circle         = null;
-
+  
+  public void setEntity(final String entity) throws SSErr {
+    this.entity = SSUri.get(entity);
+  }
+  
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
   }
-
+  
+  @ApiModelProperty
+  public  SSUri               user           = null;
+  
+  public void setUser(final String user) throws SSErr {
+    this.user = SSUri.get(user);
+  }
+  
   public String getUser() {
     return SSStrU.removeTrailingSlash(user);
   }
-
+  
+  @ApiModelProperty
+  public  SSSpaceE            space          = null;
+  
+  public void setSpace(final String space) throws SSErr{
+    this.space = SSSpaceE.get(space);
+  }
+  
   public String getSpace(){
     return SSStrU.toStr(space);
+  }
+  
+  @ApiModelProperty
+  public  SSUri               circle         = null;
+  
+  public void setCircle(final String circle) throws SSErr{
+    this.circle = SSUri.get(circle);
   }
   
   public String getCircle() throws Exception{
@@ -57,29 +91,13 @@ public class SSCategory extends SSEntity{
     return SSStrU.toStr(categoryLabel);
   }
   
-  public String getCategoryLabel(){
-    return SSStrU.toStr(categoryLabel);
-  }
-  
-   public static SSCategory get(
+  public static SSCategory get(
     final SSCategory            category,
     final SSEntity              entity) throws Exception{
     
     return new SSCategory(category, entity);
   }
    
-   protected SSCategory(
-    final SSCategory            category,
-    final SSEntity              entity) throws Exception{
-    
-    super(category, entity);
-    
-    this.entity        = category.entity;
-    this.user          = category.user;
-    this.space         = category.space;
-    this.categoryLabel = category.categoryLabel;
-  }
-     
   public static SSCategory get(
     final SSUri            id       ,
     final SSUri            entity   ,
@@ -92,6 +110,8 @@ public class SSCategory extends SSEntity{
     return new SSCategory(id, entity, user, space, categoryLabel, circle, creationTime);
   }
   
+  public SSCategory(){}
+    
   protected SSCategory(
     final SSUri             id,
     final SSUri             entity,
@@ -109,6 +129,18 @@ public class SSCategory extends SSEntity{
     this.categoryLabel = categoryLabel;
     this.circle        = circle;
     this.creationTime  = creationTime;
+  }
+  
+   protected SSCategory(
+    final SSCategory            category,
+    final SSEntity              entity) throws Exception{
+    
+    super(category, entity);
+    
+    this.entity        = category.entity;
+    this.user          = category.user;
+    this.space         = category.space;
+    this.categoryLabel = category.categoryLabel;
   }
   
   public static Map<String, List<String>> getCategoryLabelsPerEntities(final List<SSEntity> categories) throws Exception{

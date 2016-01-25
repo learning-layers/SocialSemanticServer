@@ -668,7 +668,7 @@ public class SSServReg{
   public void circleUsersAdded(
     final SSServPar      servPar,
     final SSUri          user, 
-    final SSEntityCircle circle,
+    final SSCircle circle,
     final List<SSUri>    users, 
     final boolean        withUserRestriction) throws Exception {
     
@@ -818,7 +818,7 @@ public class SSServReg{
   public void circleEntitiesAdded(
     final SSServPar      servPar,
     final SSUri          user, 
-    final SSEntityCircle circle,
+    final SSCircle circle,
     final List<SSEntity> entities,
     final boolean        withUserRestriction) throws Exception{
     

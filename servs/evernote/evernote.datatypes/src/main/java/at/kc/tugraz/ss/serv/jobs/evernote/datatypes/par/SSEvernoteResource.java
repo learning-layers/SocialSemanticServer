@@ -24,10 +24,17 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import io.swagger.annotations.*;
 
+@ApiModel
 public class SSEvernoteResource extends SSEntity{
-  
+
+  @ApiModelProperty
   public SSUri  note     = null;
+  
+  public void setNote(final String note) throws SSErr{
+    this.note = SSUri.get(note);
+  }
   
   public String getNote(){
     return SSStrU.removeTrailingSlash(note);
@@ -46,6 +53,8 @@ public class SSEvernoteResource extends SSEntity{
     
     return new SSEvernoteResource(id, note);
   }
+  
+  public SSEvernoteResource(){}
   
   protected SSEvernoteResource(
     final SSEvernoteResource      resource,

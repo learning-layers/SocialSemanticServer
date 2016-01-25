@@ -25,29 +25,20 @@ import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.SSErr;
+import io.swagger.annotations.*;
 
+@ApiModel
 public class SSAppStackLayout extends SSEntity{
   
+  @ApiModelProperty
   public SSUri            app         = null;
+  
+  public void setApp(final String app) throws SSErr{
+    this.app = SSUri.get(app);
+  }
   
   public String getApp(){
     return SSStrU.removeTrailingSlash(app);
-  }
-  
-  public static SSAppStackLayout get(
-    final SSAppStackLayout     appStackLayout,
-    final SSEntity             entity) throws SSErr {
-    
-    return new SSAppStackLayout(appStackLayout, entity);
-  }
-  
-  protected SSAppStackLayout(
-    final SSAppStackLayout     appStackLayout,
-    final SSEntity             entity) throws SSErr{
-    
-    super(appStackLayout, entity);
-    
-    this.app               = appStackLayout.app;
   }
   
   public static SSAppStackLayout get(
@@ -57,6 +48,24 @@ public class SSAppStackLayout extends SSEntity{
     return new SSAppStackLayout(
       id,
       app);
+  }
+  
+  public static SSAppStackLayout get(
+    final SSAppStackLayout     appStackLayout,
+    final SSEntity             entity) throws SSErr {
+    
+    return new SSAppStackLayout(appStackLayout, entity);
+  }
+  
+  public SSAppStackLayout(){}
+  
+  protected SSAppStackLayout(
+    final SSAppStackLayout     appStackLayout,
+    final SSEntity             entity) throws SSErr{
+    
+    super(appStackLayout, entity);
+    
+    this.app               = appStackLayout.app;
   }
   
   protected SSAppStackLayout(

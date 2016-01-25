@@ -103,13 +103,11 @@ import at.tugraz.sss.serv.datatype.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleCreateRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesAddRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesRemoveRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleTypeChangeRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersInviteRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersRemoveRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSCirclesGetRet;
 import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
@@ -124,7 +122,7 @@ import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.db.api.SSCoreSQL;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.datatype.par.SSEntityAttachEntitiesPar;
-import at.tugraz.sss.serv.datatype.SSEntityCircle;
+import at.tugraz.sss.serv.datatype.SSCircle;
 import at.tugraz.sss.serv.datatype.SSEntityContext;
 import at.tugraz.sss.serv.datatype.par.SSEntityCopiedPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityDownloadURIsGetPar;
@@ -132,6 +130,7 @@ import at.tugraz.sss.serv.datatype.par.SSEntityTypesGetPar;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
+import at.tugraz.sss.servs.entity.datatype.*;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
@@ -198,7 +197,7 @@ implements
         }
       }
       
-      final SSEntityCircle circle =
+      final SSCircle circle =
         circleGet(
           new SSCircleGetPar(
             servPar,
@@ -374,7 +373,7 @@ implements
           return entity;
         }
         
-        final SSEntityCircle circle =
+        final SSCircle circle =
           circleGet(
             new SSCircleGetPar(
               servPar,
@@ -388,7 +387,7 @@ implements
               par.withUserRestriction,  //withUserRestriction
               false));                   //invokeEntityHandlers
         
-        return SSEntityCircle.get(circle, entity);
+        return SSCircle.get(circle, entity);
       }
     }
     
@@ -1840,7 +1839,7 @@ implements
             par.shouldCommit));
       }
       
-      final SSEntityCircle circle =
+      final SSCircle circle =
         circleGet(
           new SSCircleGetPar(
             par,
@@ -2086,7 +2085,7 @@ implements
         circleURI = circleUsersAdd(par);
       }
       
-      final SSEntityCircle circle    =
+      final SSCircle circle    =
         circleGet(
           new SSCircleGetPar(
             par,
@@ -2243,7 +2242,7 @@ implements
         cicleURI = circleEntitiesAdd(par);
       }
       
-      final SSEntityCircle circle =
+      final SSCircle circle =
         circleGet(
           new SSCircleGetPar(
             par,
@@ -2555,7 +2554,7 @@ implements
   }
   
   @Override
-  public SSEntityCircle circleGet(final SSCircleGetPar par) throws SSErr{
+  public SSCircle circleGet(final SSCircleGetPar par) throws SSErr{
     
     try{
       
@@ -2570,7 +2569,7 @@ implements
         }
       }
       
-      SSEntityCircle       circle;
+      SSCircle       circle;
       SSEntityDescriberPar descPar;
       
       circle =
@@ -2610,7 +2609,7 @@ implements
       }
       
       circle =
-        SSEntityCircle.get(
+        SSCircle.get(
           circle,
           circleEntity);
       
@@ -3146,7 +3145,7 @@ implements
           SSServReg.inst.circleEntitiesAdded(
             par,
             par.user,
-            (SSEntityCircle) circle,
+            (SSCircle) circle,
             entities,
             par.withUserRestriction);
         }
@@ -3219,13 +3218,13 @@ implements
   
   public void copyCircleToNewCircle(
     final SSEntityCopyPar par,
-    final SSEntityCircle  circle) throws Exception{
+    final SSCircle  circle) throws Exception{
     
     try{
       
       SSLabel              label;
       SSUri                copyCircleURI;
-      SSEntityCircle       newCircle;
+      SSCircle       newCircle;
       String               labelStr;
       SSEntityCopiedPar    entityCopiedPar;
       
@@ -3380,7 +3379,7 @@ implements
     try{
       
       SSEntityCopiedPar    entityCopiedPar;
-      SSEntityCircle       targetCircle =
+      SSCircle       targetCircle =
         circleGet(
           new SSCircleGetPar(
             par,

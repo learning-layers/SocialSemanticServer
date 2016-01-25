@@ -25,12 +25,24 @@ import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import io.swagger.annotations.*;
 
+@ApiModel
 public class SSMessage extends SSEntity{
+
+  @ApiModelProperty
   
   public SSEntity       user     = null;
+
+  @ApiModelProperty
   public SSEntity       forUser  = null;
+  
+  @ApiModelProperty
   public SSTextComment  content  = null;
+  
+  public void setContent(final String content) throws SSErr{
+    this.content = SSTextComment.get(content);
+  }
   
   public String getContent(){
     return SSStrU.toStr(content);
@@ -43,6 +55,17 @@ public class SSMessage extends SSEntity{
     return new SSMessage(message, entity);
   } 
   
+  public static SSMessage get(
+    final SSUri         message,
+    final SSEntity      user,
+    final SSEntity      forUser,
+    final SSTextComment content) throws Exception{
+    
+    return new SSMessage(message, user, forUser, content);
+  }  
+  
+  public SSMessage(){}
+  
   protected SSMessage(    
     final SSMessage        message,
     final SSEntity         entity) throws Exception{
@@ -54,15 +77,6 @@ public class SSMessage extends SSEntity{
     this.content      = message.content;
 	}
   
-  public static SSMessage get(
-    final SSUri         message,
-    final SSEntity      user,
-    final SSEntity      forUser,
-    final SSTextComment content) throws Exception{
-    
-    return new SSMessage(message, user, forUser, content);
-  }  
-	
   protected SSMessage(    
     final SSUri         message,
     final SSEntity      user, 

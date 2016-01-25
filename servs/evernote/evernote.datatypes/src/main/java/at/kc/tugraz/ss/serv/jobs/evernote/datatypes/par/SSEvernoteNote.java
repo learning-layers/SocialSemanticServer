@@ -21,15 +21,24 @@
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import java.util.Map;
+import io.swagger.annotations.*;
 
+@ApiModel
 public class SSEvernoteNote extends SSEntity{
-  
+
+  @ApiModelProperty
   public SSUri notebook = null;
+  
+  public void setNotebook(final String notebook) throws SSErr{
+    this.notebook = SSUri.get(notebook);
+  }
+  
+  public String getNotebook(){
+    return SSStrU.removeTrailingSlash(notebook);
+  }
   
   public static SSEvernoteNote get(
     final SSEvernoteNote note,
@@ -44,6 +53,8 @@ public class SSEvernoteNote extends SSEntity{
     
     return new SSEvernoteNote(id, notebook);
   }
+  
+  public SSEvernoteNote(){}
   
   protected SSEvernoteNote(
     final SSEvernoteNote note,
@@ -68,9 +79,5 @@ public class SSEvernoteNote extends SSEntity{
     super(id, SSEntityE.evernoteNote);
     
     this.notebook = notebook;
-  }
-
-  public String getNotebook(){
-    return SSStrU.removeTrailingSlash(notebook);
   }
 }

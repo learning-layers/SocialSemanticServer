@@ -20,22 +20,31 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
-import java.util.Map;
+import io.swagger.annotations.*;
 
+@ApiModel
 public class SSLearnEpCircle extends SSEntity{
-  
+
+  @ApiModelProperty
   public Float         xLabel           = null;
+  
+  @ApiModelProperty
   public Float         yLabel           = null;
+  
+  @ApiModelProperty
   public Float         xR               = null;
+  
+  @ApiModelProperty
   public Float         yR               = null;
+  
+  @ApiModelProperty
   public Float         xC               = null;
+  
+  @ApiModelProperty
   public Float         yC               = null;
   
   public static SSLearnEpCircle get(
@@ -44,6 +53,35 @@ public class SSLearnEpCircle extends SSEntity{
     
     return new SSLearnEpCircle(learnEpCircle, entity);
   }
+  
+  public static SSLearnEpCircle get(
+    final SSUri                  id, 
+    final SSLabel                label, 
+    final SSTextComment          description, 
+    final Long                   creationTime, 
+    final SSEntity               author,
+    final Float                  xLabel, 
+    final Float                  yLabel, 
+    final Float                  xR, 
+    final Float                  yR, 
+    final Float                  xC, 
+    final Float                  yC) throws Exception{
+    
+    return new SSLearnEpCircle(
+      id,
+      label,
+      description,
+      creationTime,
+      author,
+      xLabel, 
+      yLabel, 
+      xR, 
+      yR, 
+      xC, 
+      yC);
+  }
+  
+  public SSLearnEpCircle(){}
   
   protected SSLearnEpCircle(
     final SSLearnEpCircle learnEpCircle,
@@ -104,33 +142,6 @@ public class SSLearnEpCircle extends SSEntity{
         this.yC = ((SSLearnEpCircle) entity).yC;
       }
     }
-  }
-  
-  public static SSLearnEpCircle get(
-    final SSUri                  id, 
-    final SSLabel                label, 
-    final SSTextComment          description, 
-    final Long                   creationTime, 
-    final SSEntity               author,
-    final Float                  xLabel, 
-    final Float                  yLabel, 
-    final Float                  xR, 
-    final Float                  yR, 
-    final Float                  xC, 
-    final Float                  yC) throws Exception{
-    
-    return new SSLearnEpCircle(
-      id,
-      label,
-      description,
-      creationTime,
-      author,
-      xLabel, 
-      yLabel, 
-      xR, 
-      yR, 
-      xC, 
-      yC);
   }
   
   protected SSLearnEpCircle(

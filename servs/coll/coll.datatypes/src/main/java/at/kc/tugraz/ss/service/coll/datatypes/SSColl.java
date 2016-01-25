@@ -23,7 +23,9 @@ package at.kc.tugraz.ss.service.coll.datatypes;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
+import io.swagger.annotations.*;
 
+@ApiModel
 public class SSColl extends SSEntity{
 
   public static SSColl get(
@@ -38,6 +40,8 @@ public class SSColl extends SSEntity{
     
     return new SSColl(id);
   }
+
+  public SSColl(){}
   
   protected SSColl(
     final SSColl   coll, 

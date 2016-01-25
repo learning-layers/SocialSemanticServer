@@ -23,11 +23,18 @@ package at.tugraz.sss.servs.location.datatype;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
+import io.swagger.annotations.*;
 
+@ApiModel
 public class SSLocation extends SSEntity{
-  
+
+  @ApiModelProperty
   public Double latitude    = null;
+  
+  @ApiModelProperty
   public Double longitude   = null;
+  
+  @ApiModelProperty
   public Float  accuracy    = null;
   
   public static SSLocation get(
@@ -36,6 +43,17 @@ public class SSLocation extends SSEntity{
     
     return new SSLocation(location, entity);
   }
+  
+  public static SSLocation get(
+    final SSUri  id, 
+    final Double latitude,
+    final Double longitude,
+    final Float  accuracy) throws Exception{
+    
+    return new SSLocation(id, latitude, longitude, accuracy);
+  }
+  
+  public SSLocation(){}
   
   protected SSLocation(
     final SSLocation  location,
@@ -46,15 +64,6 @@ public class SSLocation extends SSEntity{
     this.latitude  = location.latitude;
     this.longitude = location.longitude;
     this.accuracy  = location.accuracy;
-  }
-  
-  public static SSLocation get(
-    final SSUri  id, 
-    final Double latitude,
-    final Double longitude,
-    final Float  accuracy) throws Exception{
-    
-    return new SSLocation(id, latitude, longitude, accuracy);
   }
   
   protected SSLocation(

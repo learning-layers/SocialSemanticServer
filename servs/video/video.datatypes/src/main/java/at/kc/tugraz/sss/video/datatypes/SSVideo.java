@@ -24,30 +24,64 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApiModel
 public class SSVideo extends SSEntity{
-  
+
+  @ApiModelProperty
   public String                   genre         = null;
+  
+  @ApiModelProperty
   public List<SSEntity>           annotations   = new ArrayList<>();
+  
+  @ApiModelProperty
   public SSUri                    link          = null;
-  public SSVideoE                 videoType     = null;
- 
+  
+  public void setLink(final String link) throws SSErr{
+    this.link = SSUri.get(link);
+  }
+  
   public String getLink(){
     return SSStrU.removeTrailingSlash(link);
   }
   
-   public String getVideoType(){
+  @ApiModelProperty
+  public SSVideoE                 videoType     = null;
+ 
+  public void setVideoType(final String videoType) throws SSErr{
+    this.videoType = SSVideoE.get(videoType);
+  }
+  
+  public String getVideoType(){
     return SSStrU.toStr(videoType);
   }
-     
+  
   public static SSVideo get(
     final SSVideo      video,
     final SSEntity     entity) throws Exception{
     
     return new SSVideo(video, entity);
   }
+
+  public static SSVideo get(
+    final SSUri                   id,
+    final String                  genre, 
+    final List<SSVideoAnnotation> annotations,
+    final SSUri                   link, 
+    final SSVideoE                videoType) throws Exception{
+    
+    return new SSVideo(
+      id,
+      genre,
+      annotations,
+      link, 
+      videoType);
+  }
+  
+  public SSVideo(){}
   
   protected SSVideo(
     final SSVideo     video,
@@ -87,21 +121,6 @@ public class SSVideo extends SSEntity{
     if(entity instanceof SSVideo){
       SSEntity.addEntitiesDistinctWithoutNull(this.annotations, ((SSVideo) entity).annotations);
     }
-  }
-  
-  public static SSVideo get(
-    final SSUri                   id,
-    final String                  genre, 
-    final List<SSVideoAnnotation> annotations,
-    final SSUri                   link, 
-    final SSVideoE                videoType) throws Exception{
-    
-    return new SSVideo(
-      id,
-      genre,
-      annotations,
-      link, 
-      videoType);
   }
   
   protected SSVideo(

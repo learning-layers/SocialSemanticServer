@@ -24,7 +24,7 @@ import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.serv.datatype.par.SSCircleGetPar;
 import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.SSEntityCircle;
+import at.tugraz.sss.serv.datatype.SSCircle;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.*;
@@ -52,7 +52,7 @@ public class SSEntityShareWithCircles {
     try{
       
       final List<SSEntity> entities                = new ArrayList<>();
-      SSEntityCircle       circle;
+      SSCircle       circle;
       
       entities.add(entity);
       

@@ -24,34 +24,41 @@ import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import io.swagger.annotations.*;
 
+@ApiModel
 public class SSRating extends SSEntity{
 
+  @ApiModelProperty
   public SSUri      user     = null;
-  public SSUri      entity   = null;
-  public Integer    value    = null;
-
+  
+  public void setUser(final String user) throws SSErr{
+    this.user = SSUri.get(user);
+  }
+  
   public String getUser() {
     return SSStrU.removeTrailingSlash(user);
   }
-
-  public void setUser(final String user) throws Exception {
-    this.user = SSUri.get(user);
+  
+  @ApiModelProperty
+  public SSUri      entity   = null;
+  
+  public void setEntity(final String entity) throws SSErr {
+    this.entity = SSUri.get(entity);
   }
-
+  
   public String getEntity() {
     return SSStrU.removeTrailingSlash(entity);
   }
-
-  public void setEntity(final String entity) throws Exception {
-    this.entity = SSUri.get(entity);
-  }
+  
+  @ApiModelProperty
+  public int    value    = -1;
   
   public static SSRating get(
     final SSUri   id,
     final SSUri   user,
     final SSUri   entity,
-    final Integer value) throws Exception{
+    final int     value) throws Exception{
     
     return new SSRating(id, user, entity, value);
   }
@@ -60,7 +67,7 @@ public class SSRating extends SSEntity{
     final SSUri   id,
     final SSUri   user,
     final SSUri   entity,
-    final Integer value) throws Exception{
+    final int     value) throws Exception{
     
     super(id, SSEntityE.rating);
     

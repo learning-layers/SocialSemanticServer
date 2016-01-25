@@ -26,27 +26,62 @@ import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import io.swagger.annotations.*;
 
+@ApiModel
 public class SSFile extends SSEntity{
   
+  @ApiModelProperty
   public SSFileExtE  fileExt      = null;
+  
+  public void setFileExt(final String fileExt) throws SSErr{
+    this.fileExt = SSFileExtE.get(fileExt);
+  }
+  
+  public String getFileExt(){
+    return SSStrU.toStr(fileExt);
+  }
+
+  @ApiModelProperty
   public SSMimeTypeE mimeType     = null;
-  public SSUri       downloadLink = null;
+  
+  public void setMimeType(final String mimeType) throws SSErr{
+    this.mimeType = SSMimeTypeE.get(mimeType);
+  }
   
   public String getMimeType(){
     return SSStrU.toStr(mimeType);
   }
   
+  @ApiModelProperty
+  public SSUri       downloadLink = null;
+  
+   public void setDownloadLink(final String downloadLink) throws SSErr{
+    this.downloadLink = SSUri.get(downloadLink);
+  }
+   
   public String getDownloadLink(){
     return SSStrU.removeTrailingSlash(downloadLink);
   }
   
+   public static SSFile get(
+    final SSUri        id, 
+    final SSEntityE    type,
+    final SSFileExtE   fileExt,
+    final SSMimeTypeE  mimeType, 
+    final SSUri        downloadLink) throws Exception{
+    
+    return new SSFile(id, type, fileExt, mimeType, downloadLink);
+  }
+   
   public static SSFile get(
     final SSFile           file,
     final SSEntity         entity) throws Exception{
     
     return new SSFile(file, entity);
   }
+  
+  public SSFile(){}
   
   protected SSFile(
     final SSFile           file,
@@ -82,17 +117,7 @@ public class SSFile extends SSEntity{
     }
   }
   
-  public static SSFile get(
-    final SSUri        id, 
-    final SSEntityE    type,
-    final SSFileExtE   fileExt,
-    final SSMimeTypeE  mimeType, 
-    final SSUri        downloadLink) throws Exception{
-    
-    return new SSFile(id, type, fileExt, mimeType, downloadLink);
-  }
-  
-  public SSFile(
+  private SSFile(
     final SSUri        id,
     final SSEntityE    type,
     final SSFileExtE   fileExt,

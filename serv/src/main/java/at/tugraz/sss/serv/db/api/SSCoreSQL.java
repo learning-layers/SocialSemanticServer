@@ -25,7 +25,7 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.SSTextComment;
-import at.tugraz.sss.serv.datatype.SSEntityCircle;
+import at.tugraz.sss.serv.datatype.SSCircle;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSErr;
@@ -1698,7 +1698,7 @@ public List<SSUri> getCircleURIs(
     }
   }
   
-  public SSEntityCircle getCircle(
+  public SSCircle getCircle(
     final SSServPar       servPar,
     final SSUri                circleUri,
     final boolean              withUsers,
@@ -1714,7 +1714,7 @@ public List<SSUri> getCircleURIs(
       final List<String>        columns           = new ArrayList<>();
       final List<String>        tableCons         = new ArrayList<>();
       final Map<String, String> wheres            = new HashMap<>();
-      final SSEntityCircle      circleObj;
+      final SSCircle      circleObj;
       
       column   (columns,   SSSQLVarNames.circleId);
       column   (columns,   SSSQLVarNames.circleType);
@@ -1734,7 +1734,7 @@ public List<SSUri> getCircleURIs(
       }
       
       circleObj =
-        SSEntityCircle.get(
+        SSCircle.get(
           circleUri,
           SSCircleE.get           (bindingStr(resultSet, SSSQLVarNames.circleType)),
           bindingStrToBoolean     (resultSet,SSSQLVarNames.isSystemCircle));
@@ -2356,7 +2356,7 @@ public List<SSUri> getCircleURIs(
 //      while(resultSet.next()){
 //
 //        result.add(
-//          SSEntityCircle.get(
+//          SSCircle.get(
 //            bindingStrToUri(resultSet, SSSQLVarNames.circleId),
 //            SSCircleE.get(bindingStr(resultSet, SSSQLVarNames.circleType)),
 //            bindingStrToBoolean(resultSet, SSSQLVarNames.isSystemCircle)));

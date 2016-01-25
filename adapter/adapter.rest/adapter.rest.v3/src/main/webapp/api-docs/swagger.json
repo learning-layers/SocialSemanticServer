@@ -3394,6 +3394,149 @@
         }
       }
     },
+    "SSCircle" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "label" : {
+          "type" : "string"
+        },
+        "creationTime" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "author" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "circleTypes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "entries" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "attachedEntities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "comments" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "overallRating" : {
+          "$ref" : "#/definitions/SSEntityA"
+        },
+        "tags" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "categories" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "discs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "userEvents" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "thumb" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "file" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "flags" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntityA"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "entities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "circles" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "locations" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
+        "read" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "likes" : {
+          "$ref" : "#/definitions/SSEntityA"
+        },
+        "profilePicture" : {
+          "$ref" : "#/definitions/SSEntity"
+        },
+        "activityPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "messagesPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "collsPage" : {
+          "$ref" : "#/definitions/SSQueryResultPage"
+        },
+        "circleType" : {
+          "type" : "string"
+        },
+        "accessRights" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "isSystemCircle" : {
+          "type" : "boolean",
+          "default" : false
+        }
+      }
+    },
     "SSCircleCreateRet" : {
       "type" : "object",
       "required" : [ "op" ],
@@ -3441,7 +3584,7 @@
           "type" : "string"
         },
         "circle" : {
-          "$ref" : "#/definitions/SSEntityCircle"
+          "$ref" : "#/definitions/SSCircle"
         }
       }
     },
@@ -4171,149 +4314,6 @@
     },
     "SSEntityA" : {
       "type" : "object"
-    },
-    "SSEntityCircle" : {
-      "type" : "object",
-      "properties" : {
-        "id" : {
-          "type" : "string"
-        },
-        "label" : {
-          "type" : "string"
-        },
-        "creationTime" : {
-          "type" : "integer",
-          "format" : "int64"
-        },
-        "type" : {
-          "type" : "string"
-        },
-        "author" : {
-          "$ref" : "#/definitions/SSEntity"
-        },
-        "description" : {
-          "type" : "string"
-        },
-        "circleTypes" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "entries" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/SSEntity"
-          }
-        },
-        "attachedEntities" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/SSEntity"
-          }
-        },
-        "comments" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "overallRating" : {
-          "$ref" : "#/definitions/SSEntityA"
-        },
-        "tags" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/SSEntity"
-          }
-        },
-        "categories" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/SSEntity"
-          }
-        },
-        "discs" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/SSEntity"
-          }
-        },
-        "userEvents" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/SSEntity"
-          }
-        },
-        "thumb" : {
-          "$ref" : "#/definitions/SSEntity"
-        },
-        "file" : {
-          "$ref" : "#/definitions/SSEntity"
-        },
-        "flags" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/SSEntityA"
-          }
-        },
-        "users" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/SSEntity"
-          }
-        },
-        "entities" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/SSEntity"
-          }
-        },
-        "circles" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/SSEntity"
-          }
-        },
-        "locations" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/SSEntity"
-          }
-        },
-        "read" : {
-          "type" : "boolean",
-          "default" : false
-        },
-        "likes" : {
-          "$ref" : "#/definitions/SSEntityA"
-        },
-        "profilePicture" : {
-          "$ref" : "#/definitions/SSEntity"
-        },
-        "activityPage" : {
-          "$ref" : "#/definitions/SSQueryResultPage"
-        },
-        "messagesPage" : {
-          "$ref" : "#/definitions/SSQueryResultPage"
-        },
-        "collsPage" : {
-          "$ref" : "#/definitions/SSQueryResultPage"
-        },
-        "circleType" : {
-          "type" : "string"
-        },
-        "accessRights" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "isSystemCircle" : {
-          "type" : "boolean",
-          "default" : false
-        }
-      }
     },
     "SSEntityCopyRet" : {
       "type" : "object",

@@ -23,7 +23,9 @@ package at.tugraz.sss.servs.livingdocument.datatype;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
+import io.swagger.annotations.*;
 
+@ApiModel
 public class SSLivingDocument extends SSEntity{
 
   public static SSLivingDocument get(
@@ -38,6 +40,8 @@ public class SSLivingDocument extends SSEntity{
     
     return new SSLivingDocument(id);
   }
+  
+  public SSLivingDocument(){}
   
   protected SSLivingDocument(
     final SSUri id) throws Exception{

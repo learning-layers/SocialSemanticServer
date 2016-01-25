@@ -23,13 +23,20 @@ package at.kc.tugraz.ss.service.user.datatypes;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.enums.*;
+import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApiModel
 public class SSUser extends SSEntity{
 
+  @ApiModelProperty
   public List<SSEntity> friends        = new ArrayList<>();
+  
+  @ApiModelProperty
   public boolean        friend         = false;
+  
+  @ApiModelProperty
   public String         email          = null;
   
   public static SSUser get(
@@ -44,6 +51,15 @@ public class SSUser extends SSEntity{
     
     return new SSUser(user, entity);
   }
+  
+  public static SSUser get(
+    final SSUri    id,
+    final String   email) throws Exception{
+    
+    return new SSUser(id, email);
+  }
+  
+  public SSUser(){}
   
   protected SSUser(
     final SSEntity       entity) throws Exception{
@@ -88,13 +104,6 @@ public class SSUser extends SSEntity{
     if(entity instanceof SSUser){
       SSEntity.addEntitiesDistinctWithoutNull(this.friends, ((SSUser) entity).friends);
     }
-  }
-  
-  public static SSUser get(
-    final SSUri    id,
-    final String   email) throws Exception{
-    
-    return new SSUser(id, email);
   }
   
   protected SSUser(

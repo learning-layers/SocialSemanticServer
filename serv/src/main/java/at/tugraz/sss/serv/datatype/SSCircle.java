@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ApiModel
-public class SSEntityCircle extends SSEntity{
+public class SSCircle extends SSEntity{
  
   @ApiModelProperty
   public SSCircleE                      circleType     = null;
@@ -56,25 +56,25 @@ public class SSEntityCircle extends SSEntity{
   @ApiModelProperty
   public boolean                        isSystemCircle = false;
   
-  public static SSEntityCircle get(
-    final SSEntityCircle      circle,
+  public static SSCircle get(
+    final SSCircle      circle,
     final SSEntity            entity) throws SSErr {
     
-    return new SSEntityCircle(circle, entity);
+    return new SSCircle(circle, entity);
   }
   
-  public static SSEntityCircle get(
+  public static SSCircle get(
     final SSUri                          id,
     final SSCircleE                      circleType,
     final boolean                        isSystemCircle) throws Exception{
     
-    return new SSEntityCircle(id, circleType, isSystemCircle);
+    return new SSCircle(id, circleType, isSystemCircle);
   }
   
-  public SSEntityCircle(){}
+  public SSCircle(){}
     
-  protected SSEntityCircle(
-    final SSEntityCircle     circle,
+  protected SSCircle(
+    final SSCircle     circle,
     final SSEntity           entity) throws SSErr{
     
     super(circle, entity);
@@ -88,7 +88,7 @@ public class SSEntityCircle extends SSEntity{
     this.isSystemCircle = circle.isSystemCircle;
   }
 
-  protected SSEntityCircle(
+  protected SSCircle(
     final SSUri                           id,
     final SSCircleE                       circleType, 
     final boolean                         isSystemCircle) throws Exception{
@@ -100,8 +100,8 @@ public class SSEntityCircle extends SSEntity{
   }
 
   public static void addDistinctWithoutNull(
-    final List<SSEntityCircle>     entities,
-    final SSEntityCircle           entity){
+    final List<SSCircle>     entities,
+    final SSCircle           entity){
     
     if(
       SSObjU.isNull  (entities, entity) ||
@@ -113,14 +113,14 @@ public class SSEntityCircle extends SSEntity{
   }
   
   public static void addDistinctWithoutNull(
-    final List<SSEntityCircle>  entities,
-    final List<SSEntityCircle>  toAddEntities){
+    final List<SSCircle>  entities,
+    final List<SSCircle>  toAddEntities){
     
     if(SSObjU.isNull(entities, toAddEntities)){
       return;
     }
     
-    for(SSEntityCircle entity : toAddEntities){
+    for(SSCircle entity : toAddEntities){
       
       if(entity == null){
         continue;

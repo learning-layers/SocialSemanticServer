@@ -18,32 +18,28 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.circle.datatypes.ret;
+package at.tugraz.sss.servs.entity.datatype;
 
-
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.SSEntityCircle;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SSCircleGetRet extends SSServRetI{
 
-  public SSEntityCircle circle = null;
+  public SSCircle circle = null;
 
-  public SSEntityCircle getCircle() {
+  public SSCircle getCircle() {
     return circle;
   }
   
   public static SSCircleGetRet get(
-    final SSEntityCircle circle){
+    final SSCircle circle){
     
     return new SSCircleGetRet(circle);
   }
   
   private SSCircleGetRet(
-    final SSEntityCircle circle){
+    final SSCircle circle){
 
     super(SSVarNames.circleGet);
     

@@ -32,12 +32,12 @@ public class SSImage extends SSEntity{
   @ApiModelProperty
   public SSImageE imageType     = null;
 
-  public String getImageType() {
-    return SSStrU.toStr(imageType);
-  }
-
   public void setImageType(final String imageType) throws SSErr {
     this.imageType = SSImageE.get(imageType);
+  }
+  
+  public String getImageType() {
+    return SSStrU.toStr(imageType);
   }
 
   @ApiModelProperty

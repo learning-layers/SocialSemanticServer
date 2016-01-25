@@ -28,7 +28,6 @@ import at.tugraz.sss.serv.datatype.par.SSCircleUsersAddPar;
 import at.tugraz.sss.serv.datatype.enums.SSCircleE;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesSharedWithUsersPar;
 import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.SSEntityCircle;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.reg.*;
@@ -98,7 +97,7 @@ public class SSEntityShareWithUsers {
           false, //withUserRestriction
           false)); //shouldCommit
       
-      final SSEntityCircle circle =
+      final SSCircle circle =
         entityServ.circleGet(
           new SSCircleGetPar(
             servPar,
