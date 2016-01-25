@@ -20,11 +20,10 @@
   */
 package at.tugraz.sss.adapter.rest.v3;
 
+import at.kc.tugraz.ss.serv.ss.auth.datatypes.enums.*;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.*;
-import at.kc.tugraz.ss.service.disc.datatypes.pars.*;
 import at.tugraz.sss.adapter.rest.v3.disc.*;
 import at.tugraz.sss.adapter.rest.v3.entity.*;
-import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
 import java.util.*;
 import javax.ws.rs.client.*;
@@ -32,12 +31,17 @@ import javax.ws.rs.core.*;
 
 public class SSRestClient {
   
-  public static final  String host      = "http://localhost:8080/";
-  public static final  String restPath  = "sss.adapter.rest.v3/rest/";
+//  public static final  String host      = "http://localhost:8080/";
+//  public static final  String restPath  = "sss.adapter.rest.v3/rest/";
+  public static final  String host      = "http://test-ll.know-center.tugraz.at/";
+  public static final  String restPath  = "bp.preparation/rest/";
+  
+//  public static final SSAuthEnum  authMethod = SSAuthEnum.oidc;
+  public static final SSAuthEnum  authMethod = SSAuthEnum.csvFileAuth;
   
   private final Client client;
   
-  private String key;
+  private String key = null;
   
   public SSRestClient(final Client client){
     this.client = client;
@@ -140,67 +144,40 @@ public class SSRestClient {
     }
   }
   
-//  public void getEntitiesFilteredAccessible(final String key){
-//    
-//    try{
-//      final WebTarget target = client.target(host + restPath + "entities/filtered/accessible/");
-//      final String    input  = "{\"startTime\":1442072006290,\"endTime\":1453206465227,\"authors\":[\"http://sss.eu/1690149260961113\"],\"types\":[\"entity\",\"file\",\"evernoteResource\",\"evernoteNote\",\"evernoteNotebook\",\"placeholder\"],\"setTags\":true,\"setFlags\":true,\"pageSize\":0}";
-//      final SSEntitiesAccessibleGetRESTPar par = new SSEntitiesAccessibleGetRESTPar();
-//      final List<String> types   = new ArrayList<>();
-//      final List<String> authors = new ArrayList<>();
-//      
-//      types.add("entity");
-//      types.add("file");
-//      types.add("evernoteResource");
-//      types.add("evernoteNote");
-//      types.add("evernoteNotebook");
-//      types.add("placeholder");
-//      
-//      par.setTypes(types);
-//      
-//      authors.add("http://sss.eu/1690149260961113");
-//      
-//      par.setAuthors(authors);
-//      
-//      par.startTime      = 1442072006290L;
-//      par.endTime        = 1453206465227L;
-//      par.pageSize       = 0;
-//      par.setTags        = true;
-//      par.setFlags       = true;
-////      par.pagesID             = null;
-////      par.pageNumber             = 1;
-////      entity(par, MediaType.APPLICATION_JSON_TYPE)
-//      Entity<String> entity = Entity.entity(SSJSONU.jsonStr(par), MediaType.APPLICATION_JSON);
-//      
-//      final Invocation.Builder builder = target.request(MediaType.APPLICATION_JSON_TYPE);
-//      
-//      builder.accept (MediaType.APPLICATION_JSON);
-//      builder.header (HttpHeaders.AUTHORIZATION, "Bearer " + key);
-//      
-//      Response post = builder.post   (entity);
-//      
-////      final SSEntitiesAccessibleGetRet ret = builder.p(SSEntitiesAccessibleGetRet.class);
-//      
-////      for(SSEntity entity : ret.entities){
-////        System.out.println(entity);
-////      }
-//      
-//      System.out.println(post);
-//    }catch (Exception error) {
-//      SSLogU.err(error);
-//    }
-//  }
-  
   public void auth(){
     
     try{
-      final WebTarget target = client.target(host + restPath + "auth/");
-      final String    input  = "{\"label\":\"bn-testuser8@know-center.at\",\"password\":\"1234\"}";
       
-      final SSAuthCheckCredRet ret =
-        target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(input, MediaType.APPLICATION_JSON_TYPE), SSAuthCheckCredRet.class);
+      final WebTarget          target  = client.target(host + restPath + "auth/");
+      final Invocation.Builder builder = target.request(MediaType.APPLICATION_JSON_TYPE);
+      SSAuthCheckCredRet       ret     = null;
       
-      key = ret.key;
+      switch(authMethod){
+        
+        case csvFileAuth:{
+          
+          final String input  = "{\"label\":\"bn-testuser8@know-center.at\",\"password\":\"1234\"}";
+          final Entity<String> formattedInput = Entity.entity(input, MediaType.APPLICATION_JSON_TYPE);
+          
+          ret = builder.post(formattedInput, SSAuthCheckCredRet.class);
+          
+          break;
+        }
+        
+        case oidc:{
+      
+          builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + key);
+          
+          ret = builder.get(SSAuthCheckCredRet.class);
+          
+          break;
+        }
+      }
+      
+      if(ret != null){
+        key = ret.key;
+      }
+      
     }catch (Exception error) {
       SSLogU.err(error);
     }
