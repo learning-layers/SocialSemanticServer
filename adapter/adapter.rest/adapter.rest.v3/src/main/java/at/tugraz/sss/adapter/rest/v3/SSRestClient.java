@@ -22,6 +22,7 @@ package at.tugraz.sss.adapter.rest.v3;
 
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.enums.*;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.*;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.*;
 import at.tugraz.sss.adapter.rest.v3.disc.*;
 import at.tugraz.sss.adapter.rest.v3.entity.*;
 import at.tugraz.sss.serv.util.*;
@@ -31,17 +32,19 @@ import javax.ws.rs.core.*;
 
 public class SSRestClient {
   
-//  public static final  String host      = "http://localhost:8080/";
-//  public static final  String restPath  = "sss.adapter.rest.v3/rest/";
-  public static final  String host      = "http://test-ll.know-center.tugraz.at/";
-  public static final  String restPath  = "bp.preparation/rest/";
+  public static final  String host      = "http://localhost:8080/";
+  public static final  String restPath  = "sss.adapter.rest.v3/rest/";
+//  public static final  String host      = "http://test-ll.know-center.tugraz.at/";
+//  public static final  String restPath  = "bp.preparation/rest/";
   
 //  public static final SSAuthEnum  authMethod = SSAuthEnum.oidc;
   public static final SSAuthEnum  authMethod = SSAuthEnum.csvFileAuth;
   
+  private final String oidcToken = "eyJhbGciOiJSUzI1NiJ9.eyJleHAiOjE0NTM4MzI3OTUsImF1ZCI6WyIwM2Q3ZGQwOS1lOTllLTQzZWEtYmQ5My1kMDY2NjE0MjZjOTUiXSwiaXNzIjoiaHR0cHM6XC9cL2FwaS5sZWFybmluZy1sYXllcnMuZXVcL29cL29hdXRoMlwvIiwianRpIjoiYmUyOWI2MTktYzliYy00ZjdhLWI5NzQtODhkNTJiZGI4M2RiIiwiaWF0IjoxNDUzODE0Nzk1fQ.eN853nlyfqyN7bhJ1bDlydFSONcK29EBsehCk4sxhrOA4cbmN6UJyJrxWkl50-n4hdnoJFL-371tn-arCcmfqoZD8SqKexlmlZSbFSwyaYGgnNGK3V1Su889n9kLA5BiU33smdTIrC_6sVysnUoS3o8h1hvyeAIyqn-QFvHxVh8";
   private final Client client;
   
   private String key = null;
+  
   
   public SSRestClient(final Client client){
     this.client = client;
@@ -57,8 +60,28 @@ public class SSRestClient {
       caller.auth();
       
 //      caller.getEntitiesFilteredAccessible();
-      caller.discCreate();
+//      caller.discCreate();
+      caller.discsGetFiltered();
       
+    }catch (Exception error) {
+      SSLogU.err(error);
+    }
+  }
+  
+  public void discsGetFiltered(){
+    
+    try{
+      final WebTarget          target = client.target(host + restPath + "discs/filtered/http%253A%252F%252Fsss.eu%252F77962444117334693");
+      final Invocation.Builder builder = target.request(MediaType.APPLICATION_JSON_TYPE);
+      
+      builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + key);
+          
+      final String         json           = "{\"setLikes\":true,\"setEntries\":false}";
+      final Entity<String> formattedInput = Entity.entity(json /*SSJSONU.jsonStr(par)*/, MediaType.APPLICATION_JSON_TYPE);
+      final String         response       = builder.post(formattedInput, String.class);
+
+      System.out.println(response);
+    
     }catch (Exception error) {
       SSLogU.err(error);
     }
@@ -91,9 +114,9 @@ public class SSRestClient {
       
       par.addNewDisc = true;
 
-//      {"label":"Initial discussion for shared episode","description":"<p>Hey go. Let's go.</p>","entities":["http://sss.eu/710668960821648561"],"targets":["http://sss.eu/667159587087257512"],"type":"qa","addNewDisc":true}
+      final String json = "{\"label\":\"Initial discussion for shared episode\",\"description\":\"<p>Hey go. Let's go.</p>\",\"entities\":[\"http://sss.eu/710668960821648561\"],\"targets\":[\"http://sss.eu/667159587087257512\"],\"type\":\"qa\",\"addNewDisc\":true}";
 
-      final Entity<String> formattedInput = Entity.entity(SSJSONU.jsonStr(par), MediaType.APPLICATION_JSON_TYPE);
+      final Entity<String> formattedInput = Entity.entity(json /*SSJSONU.jsonStr(par)*/, MediaType.APPLICATION_JSON_TYPE);
       final String         response       = builder.post(formattedInput, String.class);
       
       System.out.println(response);
@@ -166,17 +189,17 @@ public class SSRestClient {
         
         case oidc:{
       
-          builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + key);
+          builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + oidcToken);
           
           ret = builder.get(SSAuthCheckCredRet.class);
           
           break;
         }
+        
+        default: throw new UnsupportedOperationException();
       }
       
-      if(ret != null){
-        key = ret.key;
-      }
+      key = ret.key;
       
     }catch (Exception error) {
       SSLogU.err(error);

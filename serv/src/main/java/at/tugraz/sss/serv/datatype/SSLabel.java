@@ -72,6 +72,10 @@ public class SSLabel extends SSEntityA{
     final List<SSLabel>  labels,
     final List<SSLabel>  toAddLabels){
 
+    if(SSObjU.isNull(labels, toAddLabels)){
+      return;
+    }
+    
     addDistinctNotNull(labels, toAddLabels.toArray(new SSLabel[toAddLabels.size()]));
   }
   

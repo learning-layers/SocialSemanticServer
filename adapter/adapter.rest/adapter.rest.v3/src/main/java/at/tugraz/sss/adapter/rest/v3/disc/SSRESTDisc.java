@@ -416,7 +416,7 @@ public class SSRESTDisc{
       try{
         final SSDiscClientI discServ = (SSDiscClientI) SSServReg.getClientServ(SSDiscClientI.class);
         
-        return Response.status(200).entity(discServ.discsGet(SSClientE.rest, par)).build();
+        return Response.status(200).entity(discServ.discGet(SSClientE.rest, par)).build();
         
       }catch(Exception error){
         return SSRestMain.prepareErrors(error);
