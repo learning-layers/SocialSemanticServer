@@ -111,7 +111,7 @@ public class SSKCProjWikiServ extends SSServContainerI{
       projWikiConf.scheduleIntervals.isEmpty()                                  ||
       projWikiConf.scheduleOps.size() != projWikiConf.scheduleIntervals.size()){
       
-      SSLogU.warn("attempt to schedule with ops/intervals wrong");
+      SSLogU.warn(SSWarnE.scheduleConfigInvalid);
       return;
     }
     
@@ -120,12 +120,8 @@ public class SSKCProjWikiServ extends SSServContainerI{
       for(String scheduleOp : projWikiConf.scheduleOps){
         
         if(SSStrU.equals(scheduleOp, SSVarNames.kcprojwikiImport)){
-          
           new SSKCProjWikiImportTask().handle();
-          continue;
         }
-        
-        SSLogU.warn("attempt to schedule op at startup with no schedule task defined");
       }
     }
   }

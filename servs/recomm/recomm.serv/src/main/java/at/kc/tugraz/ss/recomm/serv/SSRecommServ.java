@@ -141,7 +141,7 @@ public class SSRecommServ extends SSServContainerI{
       recommConf.scheduleIntervals.isEmpty()                              ||
       recommConf.scheduleOps.size() != recommConf.scheduleIntervals.size()){
       
-      SSLogU.warn("attempt to schedule with ops/intervals wrong");
+      SSLogU.warn(SSWarnE.scheduleConfigInvalid);
       return;
     }
     
@@ -153,10 +153,7 @@ public class SSRecommServ extends SSServContainerI{
           new SSRecommUpdateBulkTask                     (recommConf).handle();
           new SSRecommUpdateBulkUserRealmsFromConfTask   ().handle();
           new SSRecommUpdateBulkUserRealmsFromCirclesTask().handle();
-          continue;
         }
-        
-        SSLogU.warn("attempt to schedule op at startup with no schedule task defined");
       }
     }
     
@@ -181,10 +178,7 @@ public class SSRecommServ extends SSServContainerI{
             new SSRecommUpdateBulkUserRealmsFromCirclesTask(),
             SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
             recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds));
-        continue;
       }
-      
-      SSLogU.warn("attempt to schedule op with no schedule task defined");
     }
   }
   

@@ -129,7 +129,7 @@ public class SSEvalServ extends SSServContainerI{
       evalConf.scheduleIntervals.isEmpty()                                  ||
       evalConf.scheduleOps.size() != evalConf.scheduleIntervals.size()){
       
-      SSLogU.warn("attempt to schedule with ops/intervals wrong");
+      SSLogU.warn(SSWarnE.scheduleConfigInvalid);
       return;
     }
     
@@ -139,10 +139,7 @@ public class SSEvalServ extends SSServContainerI{
         
         if(SSStrU.equals(scheduleOp, SSVarNames.evalAnalyze)){
           new SSEvalAnalyzeTask().handle();
-          continue;
         }
-        
-        SSLogU.warn("attempt to schedule op at startup with no schedule task defined");
       }
     }
   }

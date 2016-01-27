@@ -118,7 +118,7 @@ public class SSDataImportServ extends SSServContainerI{
       dataImportConf.scheduleIntervals.isEmpty()                                  ||
       dataImportConf.scheduleOps.size() != dataImportConf.scheduleIntervals.size()){
       
-      SSLogU.warn("attempt to schedule with ops/intervals wrong");
+      SSLogU.warn(SSWarnE.scheduleConfigInvalid);
       return;
     }
     
@@ -129,20 +129,17 @@ public class SSDataImportServ extends SSServContainerI{
         if(SSStrU.equals(scheduleOp, SSVarNames.dataImportBitsAndPieces)){
           scheduleNowDataImportBitsAndPieces();
         }
-        
-        SSLogU.warn("attempt to schedule op at startup with no schedule task defined");
       }
     }
     
     for(int counter = 0; counter < dataImportConf.scheduleOps.size(); counter++){
       
       if(SSStrU.equals(dataImportConf.scheduleOps.get(counter), SSVarNames.dataImportBitsAndPieces)){
+        
         scheduleAtFixedRateDataImportBitsAndPieces(
           SSDateU.getDatePlusMinutes(conf.scheduleIntervals.get(counter)),
           conf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
       }
-      
-      SSLogU.warn("attempt to schedule op with no schedule task defined");
     }
   }
   

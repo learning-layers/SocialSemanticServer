@@ -22,7 +22,6 @@ package at.tugraz.sss.adapter.rest.v3;
 
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.enums.*;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.*;
-import at.kc.tugraz.ss.service.disc.datatypes.ret.*;
 import at.tugraz.sss.adapter.rest.v3.disc.*;
 import at.tugraz.sss.adapter.rest.v3.entity.*;
 import at.tugraz.sss.serv.util.*;
@@ -32,10 +31,14 @@ import javax.ws.rs.core.*;
 
 public class SSRestClient {
   
-  public static final  String host      = "http://localhost:8080/";
-  public static final  String restPath  = "sss.adapter.rest.v3/rest/";
+//  public static final  String host      = "http://localhost:8080/";
+//  public static final  String restPath  = "sss.adapter.rest.v3/rest/";
+  
 //  public static final  String host      = "http://test-ll.know-center.tugraz.at/";
 //  public static final  String restPath  = "bp.preparation/rest/";
+  
+  public static final  String host      = "http://test-ll.know-center.tugraz.at/";
+  public static final  String restPath  = "eval/rest/";
   
 //  public static final SSAuthEnum  authMethod = SSAuthEnum.oidc;
   public static final SSAuthEnum  authMethod = SSAuthEnum.csvFileAuth;

@@ -49,6 +49,7 @@ import at.kc.tugraz.sss.appstacklayout.conf.SSAppStackLayoutConf;
 import at.kc.tugraz.sss.comment.conf.SSCommentConf;
 import at.kc.tugraz.sss.flag.conf.SSFlagConf;
 import at.kc.tugraz.sss.video.conf.SSVideoConf;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.db.conf.SSDBNoSQLConf;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.servs.location.conf.SSLocationConf;
@@ -101,16 +102,22 @@ public class SSCoreConf extends SSCoreConfA {
   private SSLivingDocConf  livingDocument = null;
   private SSMailConf  mail = null;
   private SSKCProjWikiConf kcprojwiki = null;
-
-  public static synchronized SSCoreConf instSet(final String pathToFile) throws Exception {
+  
+  public static synchronized SSCoreConf instSet(final String pathToFile) throws SSErr {
     
-    if(inst != null){
+    try{
+      
+      if(inst != null){
+        return inst;
+      }
+      
+      inst = (SSCoreConf) SSCoreConfA.instSet(pathToFile, SSCoreConf.class);
+      
       return inst;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    inst = (SSCoreConf) SSCoreConfA.instSet(pathToFile, SSCoreConf.class);
-    
-    return inst;
   }
   
   public static SSCoreConf instGet() throws Exception {

@@ -327,6 +327,13 @@ implements
             par.user,
             false));
       
+      if(publicCircleURI == null){
+        dbSQL.rollBack(par, par.shouldCommit);
+        return null;
+      }
+      
+      sql.addUser(par, userUri, tmpEmail);
+      
       publicCircleURI =
         circleServ.circleUsersAdd(
           new SSCircleUsersAddPar(
@@ -341,8 +348,6 @@ implements
         dbSQL.rollBack(par, par.shouldCommit);
         return null;
       }
-      
-      sql.addUser(par, userUri, tmpEmail);
       
       dbSQL.commit(par, par.shouldCommit);
       

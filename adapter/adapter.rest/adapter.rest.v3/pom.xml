@@ -97,8 +97,12 @@
               
               <!--<host>localhost:8080</host>-->
               <!--<basePath>/sss.adapter.rest.v3/rest</basePath>-->
+              
+              <!--<host>test-ll.know-center.tugraz.at</host>-->
+              <!--<basePath>/bp.preparation/rest</basePath>-->
+              
               <host>test-ll.know-center.tugraz.at</host>
-              <basePath>/bp.preparation/rest</basePath>
+              <basePath>/eval/rest</basePath>
               
               <info>
                 <version>v3</version>

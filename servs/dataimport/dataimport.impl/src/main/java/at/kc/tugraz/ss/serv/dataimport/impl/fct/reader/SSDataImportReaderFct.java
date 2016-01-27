@@ -27,7 +27,6 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import au.com.bytecode.opencsv.CSVReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.List;
@@ -45,7 +44,7 @@ public class SSDataImportReaderFct {
       
       try{
         in = SSFileU.openFileForRead (filePath);
-      }catch(FileNotFoundException error){
+      }catch(Exception error){
         throw new Exception("csv file to read users from not found at: " + filePath);
       }
       

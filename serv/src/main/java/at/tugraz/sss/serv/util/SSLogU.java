@@ -20,6 +20,7 @@
   */
 package at.tugraz.sss.serv.util;
 
+import at.tugraz.sss.serv.datatype.enums.*;
 import java.io.*;
 import java.util.*;
 import org.apache.log4j.*;
@@ -68,9 +69,9 @@ public class SSLogU{
     
     return
       "thread: "   + Thread.currentThread().getId()                            +
-      " class: "   + Thread.currentThread().getStackTrace()[3].getClassName()  +
-      " method: "  + Thread.currentThread().getStackTrace()[3].getMethodName() +
-      " line: "    + Thread.currentThread().getStackTrace()[3].getLineNumber() + SSStrU.backslashRBackslashN +
+      " class: "   + Thread.currentThread().getStackTrace()[4].getClassName()  +
+      " method: "  + Thread.currentThread().getStackTrace()[4].getMethodName() +
+      " line: "    + Thread.currentThread().getStackTrace()[4].getLineNumber() + SSStrU.backslashRBackslashN +
       logText;
   }
   
@@ -78,9 +79,9 @@ public class SSLogU{
     
     return
       "thread: "   + Thread.currentThread().getId()                            +
-      " class: "   + Thread.currentThread().getStackTrace()[3].getClassName()  +
-      " method: "  + Thread.currentThread().getStackTrace()[3].getMethodName() +
-      " line: "    + Thread.currentThread().getStackTrace()[3].getLineNumber() + SSStrU.backslashRBackslashN +
+      " class: "   + Thread.currentThread().getStackTrace()[4].getClassName()  +
+      " method: "  + Thread.currentThread().getStackTrace()[4].getMethodName() +
+      " line: "    + Thread.currentThread().getStackTrace()[4].getLineNumber() + SSStrU.backslashRBackslashN +
       error;
   }
   
@@ -88,9 +89,9 @@ public class SSLogU{
     
     return
       "thread: "   + Thread.currentThread().getId()                            +
-      " class: "   + Thread.currentThread().getStackTrace()[3].getClassName()  +
-      " method: "  + Thread.currentThread().getStackTrace()[3].getMethodName() +
-      " line: "    + Thread.currentThread().getStackTrace()[3].getLineNumber() + SSStrU.backslashRBackslashN +
+      " class: "   + Thread.currentThread().getStackTrace()[4].getClassName()  +
+      " method: "  + Thread.currentThread().getStackTrace()[4].getMethodName() +
+      " line: "    + Thread.currentThread().getStackTrace()[4].getLineNumber() + SSStrU.backslashRBackslashN +
       logText                                                                  + SSStrU.backslashRBackslashN +
       error;
   }
@@ -122,25 +123,44 @@ public class SSLogU{
   }
   
   public static void warn(
-    final Object    logText){
+    final Object    warning,
+    final Exception error){
     
-    log.warn(getMsg(logText.toString()));
+    log.warn(getMsg(SSStrU.toStr(warning) + SSStrU.blank + SSStrU.toStr(error)));
   }
   
   public static void warn(
-    final Object    logText,
-    final Exception error){
+    final SSWarnE warning){
     
-    log.warn(getMsg(logText.toString()));
+    log.warn(getMsg(SSStrU.toStr(warning)));
   }
   
-  public static void err(final Exception error, final String logText){
+  public static void warn(
+    final Object    logText){
+    
+    log.warn(getMsg(SSStrU.toStr(logText)));
+  }
+  
+  public static void err(
+    final Exception error, 
+    final String    logText){
     
     if(error == null){
       return;
     }
     
     log.error(getMsg(error, logText));
+    
+//    error.printStackTrace();
+  }
+  
+  public static void err(final SSErrE code){
+    
+    if(code == null){
+      return;
+    }
+    
+    log.error(getMsg(code.toString()));
     
 //    error.printStackTrace();
   }
@@ -162,7 +182,7 @@ public class SSLogU{
       return;
     }
     
-    log.error(errorMsg);
+    log.error(getMsg(errorMsg));
   }
   
   public static void errThrow(final Exception error) throws Exception{

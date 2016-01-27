@@ -20,6 +20,8 @@
 */
 package at.tugraz.sss.serv.conf.api;
 
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.SSFileU;
 import at.tugraz.sss.serv.util.SSLogU;
 import java.io.FileWriter;
@@ -33,20 +35,33 @@ import org.yaml.snakeyaml.representer.Representer;
 public abstract class SSCoreConfA {
   
   protected static SSCoreConfA instSet(
-    final String pathToFile, 
-    final Class  confClass) throws Exception{
-
-    return (SSCoreConfA) getYaml().loadAs(SSFileU.openFileForRead(pathToFile), confClass);
+    final String pathToFile,
+    final Class  confClass) throws SSErr{
+    
+    try{
+      
+      return (SSCoreConfA) getYaml().loadAs(SSFileU.openFileForRead(pathToFile), confClass);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
-  private static Yaml getYaml(){
-  
-    DumperOptions options = new DumperOptions();
+  private static Yaml getYaml() throws SSErr{
     
-    options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-    options.setAllowUnicode(true);
-    
-    return new Yaml(new SSCoreConfARepresenter(), options);
+    try{
+      DumperOptions options = new DumperOptions();
+      
+      options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+      options.setAllowUnicode(true);
+      
+      return new Yaml(new SSCoreConfARepresenter(), options);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
   private static class SSCoreConfARepresenter extends Representer {

@@ -20,6 +20,8 @@
   */
 package at.tugraz.sss.serv.util;
 
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.reg.*;
 import com.lowagie.text.Document;
 import com.lowagie.text.Paragraph;
 import java.io.*;
@@ -161,9 +163,14 @@ public class SSFileU{
   }
   
   public static FileInputStream openFileForRead(
-    final String filePath) throws Exception{
+    final String filePath) throws SSErr{
     
-    return new FileInputStream(new File(filePath));
+    try{
+      return new FileInputStream(new File(filePath));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
   public static boolean existsFile(final String filePath) throws Exception{

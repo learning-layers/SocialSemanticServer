@@ -155,7 +155,7 @@ public class SSServErrReg {
     
     try{
       
-      SSLogU.err(code.toString());
+      SSLogU.err(code);
       
       if(originalError == null){
         errorToThrow = SSErr.get(code);

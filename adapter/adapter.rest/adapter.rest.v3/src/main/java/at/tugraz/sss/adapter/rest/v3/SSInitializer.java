@@ -48,6 +48,8 @@ import at.kc.tugraz.sss.flag.serv.*;
 import at.kc.tugraz.sss.video.serv.*;
 import at.tugraz.sss.conf.*;
 import at.tugraz.sss.serv.conf.api.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.db.serv.*;
 import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
@@ -93,12 +95,24 @@ public class SSInitializer extends SSServImplStartA implements ServletContextLis
     
     try{
       
-//      SSCoreConf.instSet("C:\\workspace_git\\tomcat\\SocialSemanticServer\\sssWorkDir\\" + SSFileU.fileNameSSSConf);
-      SSCoreConf.instSet("/home/dtheiler/bp.preparation/" + SSFileU.fileNameSSSConf);
+      try{
+//              SSCoreConf.instSet("C:\\workspace_git\\tomcat\\SocialSemanticServer\\sssWorkDir\\" + SSFileU.fileNameSSSConf);
+//      SSCoreConf.instSet("/home/dtheiler/bp.preparation/" + SSFileU.fileNameSSSConf);
+        
+        SSCoreConf.instSet("/home/dtheiler/eval/" + SSFileU.fileNameSSSConf);
+      }catch(Exception error){
+        System.err.println("conf couldnt be set");
+        SSServErrReg.regErrThrow(error);
+      }
       
       try{
         SSLogU.init(SSCoreConf.instGet().getSss().getSssWorkDir());
-        
+      }catch(Exception error){
+        System.err.println("logUtil couldnt be set");
+        SSServErrReg.regErrThrow(error);
+      }
+      
+      try{
         SSFileExtE.init    ();
         SSMimeTypeE.init   ();
         SSJSONLDU.init(SSCoreConf.instGet().getJsonLD().uri);
@@ -106,10 +120,10 @@ public class SSInitializer extends SSServImplStartA implements ServletContextLis
       }catch(Exception error){
         SSServErrReg.regErrThrow(error);
       }
-      
-//      CLASS.FORNAME("ASDF").NEWINSTANCE()
-//      SSServContainerI.class.getMethod("regServ").invoke(SSDBSQL.inst);
-      
+//      
+////      CLASS.FORNAME("ASDF").NEWINSTANCE()
+////      SSServContainerI.class.getMethod("regServ").invoke(SSDBSQL.inst);
+//      
       try{
         SSDBSQL.inst.regServ               ();
         SSDBNoSQL.inst.regServ             ();
