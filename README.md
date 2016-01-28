@@ -15,7 +15,6 @@ The source-code can be directly checked-out through this repository. It contains
 
 ## Documentation
 * for REST API description please have a look at Swagger's JSON-based REST API documentation in releases (i.e. `sss.package/api-docs`)
-* for Swagger UI styled documention from Swagger's JSON files please deploy and access SSS's REST API (see below)
 	
 ## SSS deployment from release packages
 * follow instructions for Java 8, Apache Tomcat 7, [Apache Solr 4.9] and MySQL 5.6 in chapters below
