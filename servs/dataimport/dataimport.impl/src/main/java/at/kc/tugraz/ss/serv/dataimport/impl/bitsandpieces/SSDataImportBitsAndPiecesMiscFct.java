@@ -69,10 +69,11 @@ public class SSDataImportBitsAndPiecesMiscFct {
   }
   
   public void addNotebook(
-    final SSServPar servPar,
-    final SSUri    notebookUri,
-    final SSLabel  notebookLabel,
-    final Long     notebookCreationTime) throws Exception{
+    final SSServPar      servPar,
+    final SSToolContextE toolContext,
+    final SSUri          notebookUri,
+    final SSLabel        notebookLabel,
+    final Long           notebookCreationTime) throws Exception{
     
     try{
       entityServ.entityUpdate(
@@ -94,7 +95,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
         new SSEvalLogPar(
           servPar,
           userUri,
-          SSToolContextE.evernoteImport,
+          toolContext,
           SSEvalLogE.addNotebook,
           notebookUri,
           null,  //content
@@ -108,11 +109,12 @@ public class SSDataImportBitsAndPiecesMiscFct {
   }
   
   public void addNote(
-    final SSServPar servPar,
-    final SSUri   noteUri,
-    final SSLabel noteLabel,
-    final SSUri   notebookUri,
-    final Long    creationTime) throws Exception{
+    final SSServPar      servPar,
+    final SSToolContextE toolContext,
+    final SSUri          noteUri,
+    final SSLabel        noteLabel,
+    final SSUri          notebookUri,
+    final Long           creationTime) throws Exception{
     
     try{
       
@@ -146,6 +148,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
           
           addNotebook(
             servPar,
+            toolContext,
             notebookUri,
             null,
             null);
@@ -164,7 +167,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
         new SSEvalLogPar(
           servPar,
           userUri,
-          SSToolContextE.evernoteImport,
+          toolContext,
           SSEvalLogE.addNote,
           noteUri,
           null, //content
@@ -419,11 +422,12 @@ public class SSDataImportBitsAndPiecesMiscFct {
   }
   
   public void addResource(
-    final SSServPar servPar,
-    final SSUri   resourceUri,
-    final SSLabel resourceLabel,
-    final Long    resourceAddTime,
-    final SSUri   noteUri) throws Exception{
+    final SSServPar      servPar,
+    final SSToolContextE toolContext,
+    final SSUri          resourceUri,
+    final SSLabel        resourceLabel,
+    final Long           resourceAddTime,
+    final SSUri          noteUri) throws Exception{
     
     try{
       entityServ.entityUpdate(
@@ -482,7 +486,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
         new SSEvalLogPar(
           servPar,
           userUri,
-          SSToolContextE.evernoteImport,
+          toolContext,
           SSEvalLogE.addResource,
           resourceUri,
           null, //content

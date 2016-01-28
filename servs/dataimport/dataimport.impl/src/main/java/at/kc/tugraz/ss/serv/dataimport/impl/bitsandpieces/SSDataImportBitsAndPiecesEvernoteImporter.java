@@ -224,7 +224,8 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       notebookLabel    = getNormalOrSharedNotebookLabel       (notebook);
       
       miscFct.addNotebook(
-         servPar,
+        servPar,
+        SSToolContextE.evernoteImport,
         notebookUri,
         notebookLabel,
         notebook.getServiceCreated());
@@ -317,10 +318,10 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         timeCounter++;
         
         miscFct.addNotebook(
-         servPar,
+          servPar,
+          SSToolContextE.evernoteImport,
           notebookUri,
-          getLinkedNotebookLabel(
-            linkedNotebook),
+          getLinkedNotebookLabel(linkedNotebook),
           creationTimeForLinkedNotebook);
         
         addLinkedNotebookUEs(
@@ -398,28 +399,29 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
             servPar,
             userUri, 
             evernoteInfo.noteStore, 
-            note.getGuid(), 
+            note.getGuid(),
             true));
-        
-      notebookUri      = 
+      
+      notebookUri      =
         getNormalOrSharedNotebookUri(
-          evernoteInfo.userName,  
-          notebook, 
+          evernoteInfo.userName,
+          notebook,
           sharedNotebookGuids);
       
       miscFct.addNote(
-         servPar,
+        servPar,
+        SSToolContextE.evernoteImport,
         noteUri,
         getNoteLabel(note),
         notebookUri,
         note.getCreated());
       
-      noteTagNames = 
+      noteTagNames =
         evernoteServ.evernoteNoteTagNamesGet(
           new SSEvernoteNoteTagNamesGetPar(
             servPar,
-            userUri, 
-            evernoteInfo.noteStore, 
+            userUri,
+            evernoteInfo.noteStore,
             note.getGuid()));
       
       tagServ.tagsAdd(
@@ -530,25 +532,26 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         evernoteServ.evernoteResourceGet(
           new SSEvernoteResourceGetPar(
             servPar,
-            userUri, 
-            evernoteInfo.noteStore, 
-            resource.getGuid(), 
+            userUri,
+            evernoteInfo.noteStore,
+            resource.getGuid(),
             true));
-        
+      
       resourceUri         = getResourceUri           (evernoteInfo, resource);
-      note                = 
+      note                =
         evernoteServ.evernoteNoteGet(
           new SSEvernoteNoteGetPar(
             servPar,
-            userUri, 
-            evernoteInfo.noteStore, 
-            resource.getNoteGuid(), 
+            userUri,
+            evernoteInfo.noteStore,
+            resource.getNoteGuid(),
             false));
       
       noteUri             = getNormalOrSharedNoteUri (evernoteInfo, note);
       
       miscFct.addResource(
-         servPar,
+        servPar,
+        SSToolContextE.evernoteImport,
         resourceUri,
         getResourceLabel(resource, note),
         note.getUpdated(),
@@ -558,7 +561,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         new SSEntityFileAddPar(
           servPar,
           userUri,
-          resourceWithContent.getData().getBody(), //fileBytes, 
+          resourceWithContent.getData().getBody(), //fileBytes,
           resourceWithContent.getData().getSize(), //fileLength
           fileExt, //fileExt
           null, //file

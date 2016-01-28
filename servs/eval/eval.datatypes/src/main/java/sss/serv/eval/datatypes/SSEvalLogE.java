@@ -59,9 +59,13 @@ public enum SSEvalLogE{
   addEntityToLearnEpCircle, //server
   removeEntityFromLearnEpCircle, //server
   removeLearnEpVersionCircleWithEntitites, //server
+  changeDiscEntryContent, //server
+  addDiscEntry, //server
+  discussEntity, //server
+  attachEntities, //server
+  removeEntities, //server
   changeLabel,  //client | server
   changeDescription, //client | server
-  addTag, //client | server
   clickBit,  //client
   clickTag,  //client
   clickLabelRecommendation,   //client
@@ -80,13 +84,8 @@ public enum SSEvalLogE{
   requestEditButton,  //client
   releaseEditButton, //client
   
-  addDiscEntry, //server
-  discussEntity, //server
-  attachEntities, //server
-  removeEntities, //server
-  
   //knowbrain && bits and pieces
-  tagAdd //server
+  addTag //client | server //TODO refactor to have it at one place only
   ;
   
   public static SSEvalLogE get(final String space) throws SSErr{

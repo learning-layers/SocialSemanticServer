@@ -237,57 +237,57 @@ public class SSDiscActAndLogFct{
     }
   }
   
-  public void discUpdate(
-    final SSServPar     servPar,
-    final SSUri         user,
-    final SSUri         disc,
-    final SSLabel       label,
-    final SSTextComment content,
-    final boolean       shouldCommit) throws Exception {
-    
-    try{
-      
-      if(label != null){
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            servPar,
-            user,
-            SSToolContextE.sss,
-            SSEvalLogE.changeLabel,
-            disc,
-            SSStrU.toStr(label), //content
-            null, //entities
-            null, //users
-            shouldCommit));
-      }
-      
-      if(content != null){
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            servPar,
-            user,
-            SSToolContextE.sss,
-            SSEvalLogE.changeDescription,
-            disc,
-            SSStrU.toStr(content), //content
-            null, //entities
-            null, //users
-            shouldCommit));
-      }
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
+//  public void discUpdate(
+//    final SSServPar     servPar,
+//    final SSUri         user,
+//    final SSUri         disc,
+//    final SSLabel       label,
+//    final SSTextComment content,
+//    final boolean       shouldCommit) throws Exception {
+//    
+//    try{
+//      
+//      if(label != null){
+//        
+//        evalServ.evalLog(
+//          new SSEvalLogPar(
+//            servPar,
+//            user,
+//            SSToolContextE.sss,
+//            SSEvalLogE.changeLabel,
+//            disc,
+//            SSStrU.toStr(label), //content
+//            null, //entities
+//            null, //users
+//            shouldCommit));
+//      }
+//      
+//      if(content != null){
+//        
+//        evalServ.evalLog(
+//          new SSEvalLogPar(
+//            servPar,
+//            user,
+//            SSToolContextE.sss,
+//            SSEvalLogE.changeDescription,
+//            disc,
+//            SSStrU.toStr(content), //content
+//            null, //entities
+//            null, //users
+//            shouldCommit));
+//      }
+//      
+//    }catch(SSErr error){
+//      
+//      switch(error.code){
+//        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+//        default: SSServErrReg.regErrThrow(error);
+//      }
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }
+//  }
   
   public void discEntryUpdate(
     final SSServPar     servPar,
@@ -305,7 +305,7 @@ public class SSDiscActAndLogFct{
             servPar,
             user,
             SSToolContextE.sss,
-            SSEvalLogE.changeDescription,
+            SSEvalLogE.changeDiscEntryContent,
             entry,
             SSStrU.toStr(content), //content
             null, //entities

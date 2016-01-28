@@ -104,7 +104,7 @@ public class SSTagActAndLogFct {
               servPar,
               user,
               SSToolContextE.sss,
-              SSEvalLogE.tagAdd,
+              SSEvalLogE.addTag,
               entity,  //entity
               SSStrU.toStr(label), //content,
               null, //entities

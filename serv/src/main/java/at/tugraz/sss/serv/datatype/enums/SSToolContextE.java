@@ -34,6 +34,7 @@ public enum SSToolContextE{
   episodeTab,
   bitTab,
   notificationTab,
+  emailImport,
   evernoteImport,
   sss;
   

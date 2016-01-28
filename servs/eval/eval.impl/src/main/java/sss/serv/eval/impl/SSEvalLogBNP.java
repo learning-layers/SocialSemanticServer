@@ -32,7 +32,6 @@ import at.tugraz.sss.serv.datatype.enums.SSCircleE;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
@@ -65,6 +64,11 @@ public class SSEvalLogBNP {
         case addEntityToLearnEpCircle: //server
         case removeEntityFromLearnEpCircle: //server
         case removeLearnEpVersionCircleWithEntitites: //server
+        case changeDiscEntryContent: //server
+        case addDiscEntry: //server
+        case discussEntity: //server
+        case attachEntities: //server
+        case removeEntities: //server
         case changeLabel:  //client | server
         case changeDescription: //client | server
         case addTag: //client | server
@@ -85,11 +89,6 @@ public class SSEvalLogBNP {
         case executeJumpToDateButton: //client
         case requestEditButton:  //client
         case releaseEditButton: //client
-        case addDiscEntry: //server
-        case discussEntity: //server
-        case attachEntities: //server
-        case tagAdd: //server
-        case removeEntities: //server
         { 
           
           break;

@@ -147,6 +147,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
         
         miscFct.addNotebook(
           servPar,
+          SSToolContextE.emailImport,
           notebookUri,
           SSLabel.get(par.emailInEmail + " inbox"),
           SSDateU.dateAsLong());
@@ -199,6 +200,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
       
       miscFct.addNote(
         servPar,
+        SSToolContextE.emailImport,
         noteUri, //noteUri
         SSLabel.get(mail.subject), //noteLabel
         notebookUri, //notebookUri, 
@@ -247,19 +249,20 @@ public class SSDataImportBitsAndPiecesMailImporter {
         if(!areResourceDimensionsOk(attachment.id)){
           continue;
         }
-          
+        
         resourceUri = SSConf.vocURICreate();
-          
+        
         miscFct.addResource(
-         servPar,
-          resourceUri, 
-          attachment.label, 
-          mail.creationTime, 
+          servPar,
+          SSToolContextE.emailImport,
+          resourceUri,
+          attachment.label,
+          mail.creationTime,
           noteUri); //noteUri
         
         miscFct.addResourceUEs(
-         servPar,
-          resourceUri, 
+          servPar,
+          resourceUri,
           mail.creationTime);
         
         fileServ.fileAdd(
@@ -301,12 +304,13 @@ public class SSDataImportBitsAndPiecesMailImporter {
         }
         
         resourceUri = SSConf.vocURICreate();
-          
+        
         miscFct.addResource(
-         servPar,
-          resourceUri, 
-          attachment.label, 
-          mail.creationTime, 
+          servPar,
+          SSToolContextE.emailImport,
+          resourceUri,
+          attachment.label,
+          mail.creationTime,
           noteUri); //noteUri
         
         miscFct.addResourceUEs(

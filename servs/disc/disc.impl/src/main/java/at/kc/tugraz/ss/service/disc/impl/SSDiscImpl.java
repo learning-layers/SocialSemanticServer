@@ -699,18 +699,22 @@ implements
       userCommons.checkKeyAndSetUser(parA);
       
       final SSDiscUpdatePar par = (SSDiscUpdatePar) parA.getFromClient(clientType, parA, SSDiscUpdatePar.class);
+      
+      par.storeLogs       = true;
+      par.storeActivities = true;
+      
       final SSDiscUpdateRet ret = discUpdate(par);
       
-      if(ret.disc != null){
-        
-        actAndLogFct.discUpdate(
-          par, 
-          par.user,
-          par.disc,
-          par.label,
-          par.content,
-          par.shouldCommit);
-      }
+//      if(ret.disc != null){
+//        
+//        actAndLogFct.discUpdate(
+//          par, 
+//          par.user,
+//          par.disc,
+//          par.label,
+//          par.content,
+//          par.shouldCommit);
+//      }
       
       return ret;
     }catch(Exception error){
@@ -724,7 +728,8 @@ implements
     
     try{
       
-      boolean isAuthor = true;
+      boolean           isAuthor = true;
+      SSEntityUpdatePar entityUpdatePar;
       
       if(par.withUserRestriction){
         
@@ -738,21 +743,25 @@ implements
       
       dbSQL.startTrans(par, par.shouldCommit);
       
-      par.disc =
-        entityServ.entityUpdate(
-          new SSEntityUpdatePar(
-            par, 
-            par.user,
-            par.disc,
-            null, //type
-            par.label,
-            par.content,
-            null, //creationTime
-            par.read, //read
-            false, //setPublic
-            false, //createIfNotExists
-            true, //withUserRestriction
-            false)); //shouldCommit
+      entityUpdatePar =
+        new SSEntityUpdatePar(
+          par,
+          par.user,
+          par.disc,
+          null, //type
+          par.label,
+          par.content, //description
+          null, //creationTime
+          null, //read
+          false, //setPublic
+          false, //createIfNotExists
+          true, //withUserRestriction
+          false); //shouldCommit
+      
+      entityUpdatePar.storeLogs       = par.storeLogs;
+      entityUpdatePar.storeActivities = par.storeActivities;
+      
+      par.disc = entityServ.entityUpdate(entityUpdatePar);
       
       if(par.disc == null){
         dbSQL.rollBack(par, par.shouldCommit);
@@ -763,7 +772,7 @@ implements
         par.read != null &&
         par.read){
         
-        final SSEntityUpdatePar entityUpdatePar =
+        entityUpdatePar =
           new SSEntityUpdatePar(
             par, 
             par.user,
@@ -855,6 +864,7 @@ implements
       userCommons.checkKeyAndSetUser(parA);
       
       final SSDiscEntryUpdatePar par = (SSDiscEntryUpdatePar) parA.getFromClient(clientType, parA, SSDiscEntryUpdatePar.class);
+      
       final SSDiscEntryUpdateRet ret = discEntryUpdate(par);
       
       if(ret.entry != null){
