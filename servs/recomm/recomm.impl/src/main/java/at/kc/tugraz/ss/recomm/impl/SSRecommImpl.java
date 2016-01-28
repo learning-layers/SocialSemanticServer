@@ -313,7 +313,7 @@ implements
         
       }catch(Exception error){
         
-        SSLogU.trace("realm " + par.realm + " invalid; set to default", false);
+        SSLogU.warn("realm " + par.realm + " invalid; set to default");
         
         realmToUse = null;
       }

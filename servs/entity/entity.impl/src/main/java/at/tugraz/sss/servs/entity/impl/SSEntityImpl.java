@@ -915,7 +915,7 @@ implements
     
     try{
       
-      if(par.entity == null){
+        if(par.entity == null){
         throw SSErr.get(SSErrE.parameterMissing);
       }
       
