@@ -22,6 +22,7 @@ package at.tugraz.sss.adapter.rest.v3;
 
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.enums.*;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.*;
+import at.tugraz.sss.adapter.rest.v3.app.*;
 import at.tugraz.sss.adapter.rest.v3.disc.*;
 import at.tugraz.sss.adapter.rest.v3.entity.*;
 import at.tugraz.sss.serv.util.*;
@@ -61,11 +62,62 @@ public class SSRestClient {
       final SSRestClient caller = new SSRestClient(client);
       
       caller.auth();
+//      caller.appsGet();
+//      caller.appAdd();
       
 //      caller.getEntitiesFilteredAccessible();
 //      caller.discCreate();
-      caller.discsGetFiltered();
+//      caller.discsGetFiltered();
       
+    }catch (Exception error) {
+      SSLogU.err(error);
+    }
+  }
+  
+  public void appAdd(){
+    
+    try{
+      final WebTarget          target = client.target(host + restPath + "apps/");
+      final Invocation.Builder builder = target.request(MediaType.APPLICATION_JSON_TYPE);
+      
+      builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + key);
+          
+      final SSAppAddRESTPar par = new SSAppAddRESTPar();
+      
+      par.setLabel                 ("The learning toolbox app containing all the stacks");
+      par.setDescriptionShort      ("LearningToolboxApp");
+      par.setDescriptionFunctional ("We add stacks containing tiles and they can be played here");
+      par.setDescriptionTechnical  ("AwSome comment");
+//      par.setDownloadIOS           ("SSUri");
+//      par.setDownloadAndroid       ("SSUri");
+//      par.setFork                  ("SSUri");
+      
+      final Entity<String> formattedInput = Entity.entity(SSJSONU.jsonStr(par), MediaType.APPLICATION_JSON_TYPE);
+      final String         response       = builder.post(formattedInput, String.class);
+
+      System.out.println("appAdd");
+      System.out.println("------");
+      System.out.println(response);
+    
+    }catch (Exception error) {
+      SSLogU.err(error);
+    }
+  }
+     
+  public void appsGet(){
+    
+    try{
+      final WebTarget          target = client.target(host + restPath + "apps/");
+      final Invocation.Builder builder = target.request(MediaType.APPLICATION_JSON_TYPE);
+      
+      builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + key);
+          
+      final String         response       = builder.get(String.class);
+
+      System.out.println("appsGet");
+      System.out.println("-------");
+      System.out.println(response);
+    
     }catch (Exception error) {
       SSLogU.err(error);
     }
