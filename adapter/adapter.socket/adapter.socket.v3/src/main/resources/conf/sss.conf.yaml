@@ -39,11 +39,6 @@ eval:
     - evalAnalyze
   scheduleIntervals:
     - 0
-integrationTest: 
-  use: true
-  tests:
-    #- something
-
 #services
 like:
   use: true

@@ -31,7 +31,6 @@ import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
-import at.tugraz.sss.servs.integrationtest.*;
 import java.util.List;
 
 public class SSJSONLD extends SSServContainerI{

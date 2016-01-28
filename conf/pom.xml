@@ -25,12 +25,6 @@
 
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>integrationtest.conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>sss.servs</groupId>
       <artifactId>location.conf</artifactId>
       <version>${project.version}</version>
     </dependency>

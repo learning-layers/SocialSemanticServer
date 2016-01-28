@@ -55,7 +55,6 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.servs.location.conf.SSLocationConf;
 import at.tugraz.sss.servs.ocd.conf.SSOCDConf;
 import at.tugraz.sss.servs.image.conf.SSImageConf;
-import at.tugraz.sss.servs.integrationtest.SSIntegrationTestConf;
 import at.tugraz.sss.servs.kcprojwiki.conf.SSKCProjWikiConf;
 import at.tugraz.sss.servs.livingdocument.conf.SSLivingDocConf;
 import at.tugraz.sss.servs.mail.conf.SSMailConf;
@@ -98,7 +97,6 @@ public class SSCoreConf extends SSCoreConfA {
   private SSOCDConf ocd = null;
   private SSImageConf image = null;
   private SSLocationConf location = null;
-  private SSIntegrationTestConf integrationTest = null;
   private SSLivingDocConf  livingDocument = null;
   private SSMailConf  mail = null;
   private SSKCProjWikiConf kcprojwiki = null;
@@ -177,7 +175,6 @@ public class SSCoreConf extends SSCoreConfA {
       copy.ocd = SSOCDConf.copy(inst.ocd);
       copy.image = SSImageConf.copy(inst.image);
       copy.location = SSLocationConf.copy(inst.location);
-      copy.integrationTest = SSIntegrationTestConf.copy(inst.integrationTest);
       copy.livingDocument = SSLivingDocConf.copy(inst.livingDocument);
       copy.mail = SSMailConf.copy(inst.mail);
       copy.kcprojwiki = SSKCProjWikiConf.copy(inst.kcprojwiki);
@@ -451,14 +448,6 @@ public class SSCoreConf extends SSCoreConfA {
   
   public void setLocation(SSLocationConf location) {
     this.location = location;
-  }
-  
-  public SSIntegrationTestConf getIntegrationTest() {
-    return integrationTest;
-  }
-  
-  public void setIntegrationTest(SSIntegrationTestConf integrationTest) {
-    this.integrationTest = integrationTest;
   }
   
   public SSLivingDocConf getLivingDocument() {

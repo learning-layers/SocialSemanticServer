@@ -47,6 +47,44 @@ public class SSDBNoSQLSolrImpl
 extends SSServImplDBA
 implements SSDBNoSQLI{
 
+//  @Override
+//  public boolean integrationTestSolrForSearch() throws Exception {
+//    
+//    try{
+//      
+//      SSLogU.info("start intgration test solr for search");
+//      
+//      dbNoSQL.addDoc(new SSDBNoSQLAddDocPar("muell.pdf"));
+//      
+//      final Map<SSSolrSearchFieldE, List<SSSolrKeywordLabel>> wheres   = new HashMap<>();
+//      final List<String>                                      keywords = new ArrayList<>();
+//      
+//      keywords.add("Halbjahr 1");
+//      keywords.add("Muell");
+//      
+//      wheres.put(SSSolrSearchFieldE.docText, SSSolrKeywordLabel.get(keywords));
+//        
+//      final List<String> result =
+//        dbNoSQL.search(
+//          new SSDBNoSQLSearchPar(
+//            SSSearchOpE.and.toString(),
+//            SSSearchOpE.or.toString(),
+//            wheres,
+//            100));
+//      
+//      System.out.println(result);
+//      
+//      dbNoSQL.removeDoc(new SSDBNoSQLRemoveDocPar("muell.pdf"));
+//      
+//      SSLogU.info("end intgration test solr for search");
+//      
+//      return true;
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return false;
+//    }
+//  }
+  
 //  private static DataSource   connectionPool           = null;
 //  public         Connection   connector                = null;
 //  private        boolean      gotCon                   = false;
