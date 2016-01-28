@@ -29,9 +29,14 @@ import java.sql.*;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.par.SSEvalAnalyzePar;
 
-public class SSEvalAnalyzeTask{
+public class SSEvalAnalyzeTask implements Runnable{
   
-  public void handle() {
+  @Override
+  public void run(){
+    handle();
+  }
+  
+  private void handle() {
     
     Connection sqlCon = null;
     

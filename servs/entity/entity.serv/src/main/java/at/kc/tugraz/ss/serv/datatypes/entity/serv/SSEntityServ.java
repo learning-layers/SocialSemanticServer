@@ -132,7 +132,7 @@ public class SSEntityServ extends SSServContainerI{
     }
     
     SSServReg.regScheduler(
-      SSDateU.scheduleAtFixedRate(
+      SSDateU.scheduleWithFixedDelay(
         new SSEntitiesAccessibleGetCleanUpTask(),
         SSDateU.getDatePlusMinutes(5),
         5 * SSDateU.minuteInMilliSeconds));

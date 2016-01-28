@@ -37,9 +37,7 @@ import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
-import java.sql.*;
 import java.util.*;
 import java.util.Date;
 
@@ -136,7 +134,7 @@ public class SSDataImportServ extends SSServContainerI{
       
       if(SSStrU.equals(dataImportConf.scheduleOps.get(counter), SSVarNames.dataImportBitsAndPieces)){
         
-        scheduleAtFixedRateDataImportBitsAndPieces(
+        scheduleWithFixedDelayDataImportBitsAndPieces(
           SSDateU.getDatePlusMinutes(conf.scheduleIntervals.get(counter)),
           conf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
       }
@@ -161,19 +159,21 @@ public class SSDataImportServ extends SSServContainerI{
         
         try{
           
-          new SSDataImportBitsAndPiecesTask(
-            new SSDataImportBitsAndPiecesPar(
-              servPar,
-              SSConf.systemUserUri,
-              evernoteConf.getAuthTokens().get(counter),
-              evernoteConf.getAuthEmails().get(counter),
-              null,
-              null,
-              null,
-              true, //importEvernote,
-              false, //importEmail,
-              true, //withUserRestriction,
-              true)).handle(); //shouldCommit
+          SSServReg.regScheduler(
+            SSDateU.scheduleNow(
+              new SSDataImportBitsAndPiecesTask(
+                new SSDataImportBitsAndPiecesPar(
+                  servPar,
+                  SSConf.systemUserUri,
+                  evernoteConf.getAuthTokens().get(counter),
+                  evernoteConf.getAuthEmails().get(counter),
+                  null,
+                  null,
+                  null,
+                  true, //importEvernote,
+                  false, //importEmail,
+                  true, //withUserRestriction,
+                  true)))); //shouldCommit
           
         }catch(Exception error){
           SSLogU.err(error);
@@ -184,19 +184,21 @@ public class SSDataImportServ extends SSServContainerI{
         
         try{
           
-          new SSDataImportBitsAndPiecesTask(
-            new SSDataImportBitsAndPiecesPar(
-              servPar,
-              SSConf.systemUserUri,
-              evernoteConf.getAuthTokens().get(counter),
-              evernoteConf.getAuthEmails().get(counter),
-              evernoteConf.getEmailInUsers().get(counter),
-              evernoteConf.getEmailInPasswords().get(counter),
-              evernoteConf.getEmailInEmails().get(counter),
-              false, //importEvernote,
-              true, //importEmail,
-              true, //withUserRestriction,
-              true)).handle(); //shouldCommit
+          SSServReg.regScheduler(
+            SSDateU.scheduleNow(
+              new SSDataImportBitsAndPiecesTask(
+                new SSDataImportBitsAndPiecesPar(
+                  servPar,
+                  SSConf.systemUserUri,
+                  evernoteConf.getAuthTokens().get(counter),
+                  evernoteConf.getAuthEmails().get(counter),
+                  evernoteConf.getEmailInUsers().get(counter),
+                  evernoteConf.getEmailInPasswords().get(counter),
+                  evernoteConf.getEmailInEmails().get(counter),
+                  false, //importEvernote,
+                  true, //importEmail,
+                  true, //withUserRestriction,
+                  true)))); //shouldCommit
           
         }catch(Exception error){
           SSLogU.err(error);
@@ -208,7 +210,7 @@ public class SSDataImportServ extends SSServContainerI{
     }
   }
   
-  private void scheduleAtFixedRateDataImportBitsAndPieces(final Date startDate, final long timeBetween){
+  private void scheduleWithFixedDelayDataImportBitsAndPieces(final Date startDate, final long timeBetween){
     
     try{
       
@@ -220,7 +222,7 @@ public class SSDataImportServ extends SSServContainerI{
         try{
           
           SSServReg.regScheduler(
-            SSDateU.scheduleAtFixedRate(
+            SSDateU.scheduleWithFixedDelay(
               new SSDataImportBitsAndPiecesTask(
                 new SSDataImportBitsAndPiecesPar(
                   servPar,
@@ -247,7 +249,7 @@ public class SSDataImportServ extends SSServContainerI{
         try{
           
           SSServReg.regScheduler(
-            SSDateU.scheduleAtFixedRate(
+            SSDateU.scheduleWithFixedDelay(
               new SSDataImportBitsAndPiecesTask(
                 new SSDataImportBitsAndPiecesPar(
                   servPar,

@@ -120,7 +120,10 @@ public class SSKCProjWikiServ extends SSServContainerI{
       for(String scheduleOp : projWikiConf.scheduleOps){
         
         if(SSStrU.equals(scheduleOp, SSVarNames.kcprojwikiImport)){
-          new SSKCProjWikiImportTask().handle();
+          
+          SSServReg.regScheduler(
+            SSDateU.scheduleNow(
+              new SSKCProjWikiImportTask()));
         }
       }
     }

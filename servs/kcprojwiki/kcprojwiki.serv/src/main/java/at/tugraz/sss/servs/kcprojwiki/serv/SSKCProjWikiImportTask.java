@@ -29,9 +29,14 @@ import at.tugraz.sss.servs.kcprojwiki.api.*;
 import at.tugraz.sss.servs.kcprojwiki.datatype.*;
 import java.sql.*;
 
-public class SSKCProjWikiImportTask {
+public class SSKCProjWikiImportTask implements Runnable{
   
-  public void handle() {
+  @Override
+  public void run(){
+    handle();
+  }
+  
+  private void handle() {
     
     Connection sqlCon = null;
     

@@ -138,7 +138,10 @@ public class SSEvalServ extends SSServContainerI{
       for(String scheduleOp : evalConf.scheduleOps){
         
         if(SSStrU.equals(scheduleOp, SSVarNames.evalAnalyze)){
-          new SSEvalAnalyzeTask().handle();
+          
+          SSServReg.regScheduler(
+            SSDateU.scheduleNow(
+              new SSEvalAnalyzeTask()));
         }
       }
     }

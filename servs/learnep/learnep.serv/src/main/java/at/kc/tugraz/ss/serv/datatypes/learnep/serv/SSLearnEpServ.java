@@ -117,7 +117,7 @@ public class SSLearnEpServ extends SSServContainerI{
       if(((SSLearnEpConf)conf).useEpisodeLocking){
         
         SSServReg.regScheduler(
-          SSDateU.scheduleAtFixedRate(
+          SSDateU.scheduleWithFixedDelay(
             new SSLearnEpRemainingTimeTask(),
             SSDateU.getDateForNextHalfMinute(),
             SSDateU.minuteInMilliSeconds / 2));

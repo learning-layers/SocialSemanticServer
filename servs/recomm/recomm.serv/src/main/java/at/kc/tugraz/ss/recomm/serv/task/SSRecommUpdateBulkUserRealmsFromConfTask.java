@@ -37,7 +37,7 @@ public class SSRecommUpdateBulkUserRealmsFromConfTask implements Runnable{
     handle();
   }
   
-  public void handle(){
+  private void handle(){
     
     Connection sqlCon = null;
     

@@ -206,7 +206,7 @@ implements
         
         SSLogU.debug(par.authEmail + " received full evernote content");
       }else{
-        SSLogU.warn(par.authEmail + " needs further syncing to retrieve full evernote content");
+        SSLogU.info(par.authEmail + " needs further syncing to retrieve full evernote content");
       }
       
 //      if(lastUSN != noteStoreSyncChunk.getUpdateCount()){

@@ -150,9 +150,18 @@ public class SSRecommServ extends SSServContainerI{
       for(String scheduleOp : recommConf.scheduleOps){
         
         if(SSStrU.equals(scheduleOp, SSVarNames.recommUpdate)){
-          new SSRecommUpdateBulkTask                     (recommConf).handle();
-          new SSRecommUpdateBulkUserRealmsFromConfTask   ().handle();
-          new SSRecommUpdateBulkUserRealmsFromCirclesTask().handle();
+          
+          SSServReg.regScheduler(
+            SSDateU.scheduleNow(
+              new SSRecommUpdateBulkTask (recommConf)));
+          
+          SSServReg.regScheduler(
+            SSDateU.scheduleNow(
+              new SSRecommUpdateBulkUserRealmsFromConfTask()));
+          
+          SSServReg.regScheduler(
+            SSDateU.scheduleNow(
+              new SSRecommUpdateBulkUserRealmsFromCirclesTask()));
         }
       }
     }
@@ -162,19 +171,19 @@ public class SSRecommServ extends SSServContainerI{
       if(SSStrU.equals(recommConf.scheduleOps.get(counter), SSVarNames.recommUpdate)){
         
         SSServReg.regScheduler(
-          SSDateU.scheduleAtFixedRate(
+          SSDateU.scheduleWithFixedDelay(
             new SSRecommUpdateBulkTask(recommConf),
             SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
             recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds));
         
         SSServReg.regScheduler(
-          SSDateU.scheduleAtFixedRate(
+          SSDateU.scheduleWithFixedDelay(
             new SSRecommUpdateBulkUserRealmsFromConfTask(),
             SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
             recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds));
         
         SSServReg.regScheduler(
-          SSDateU.scheduleAtFixedRate(
+          SSDateU.scheduleWithFixedDelay(
             new SSRecommUpdateBulkUserRealmsFromCirclesTask(),
             SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
             recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds));

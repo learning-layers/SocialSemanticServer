@@ -26,7 +26,6 @@ import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import java.sql.*;
-import java.util.logging.*;
 
 public class SSDataImportBitsAndPiecesTask implements Runnable{
   
@@ -43,7 +42,7 @@ public class SSDataImportBitsAndPiecesTask implements Runnable{
     handle();
   }
   
-  public void handle(){
+  private void handle(){
     
     Connection sqlCon = null;
     

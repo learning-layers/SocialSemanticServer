@@ -43,11 +43,20 @@ public class SSDateU{
 		return System.nanoTime();
 	}
   
-  public static ScheduledExecutorService scheduleAtFixedRate(final Runnable task, final Date startDate, final long timeBetween){
+  public static ScheduledExecutorService scheduleNow(final Runnable task){
     
     final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     
-    scheduler.scheduleAtFixedRate(task, startDate.getTime() - new Date().getTime(), timeBetween, TimeUnit.MILLISECONDS);
+    scheduler.schedule(task, 0, TimeUnit.MILLISECONDS);
+    
+    return scheduler;
+  }
+  
+  public static ScheduledExecutorService scheduleWithFixedDelay(final Runnable task, final Date startDate, final long timeBetween){
+    
+    final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+    
+    scheduler.scheduleWithFixedDelay(task, startDate.getTime() - new Date().getTime(), timeBetween, TimeUnit.MILLISECONDS);
     
     return scheduler;
   }
