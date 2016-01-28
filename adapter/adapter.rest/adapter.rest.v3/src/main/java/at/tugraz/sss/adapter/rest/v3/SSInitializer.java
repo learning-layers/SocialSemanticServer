@@ -48,8 +48,6 @@ import at.kc.tugraz.sss.flag.serv.*;
 import at.kc.tugraz.sss.video.serv.*;
 import at.tugraz.sss.conf.*;
 import at.tugraz.sss.serv.conf.api.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.db.serv.*;
 import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
@@ -95,10 +93,10 @@ public class SSInitializer extends SSServImplStartA implements ServletContextLis
     try{
       
       try{
+        SSCoreConf.instSet("/sssWorkDir/" + SSFileU.fileNameSSSConf);
 //              SSCoreConf.instSet("C:\\workspace_git\\tomcat\\SocialSemanticServer\\sssWorkDir\\" + SSFileU.fileNameSSSConf);
 //      SSCoreConf.instSet("/home/dtheiler/bp.preparation/" + SSFileU.fileNameSSSConf);
-        
-        SSCoreConf.instSet("/home/dtheiler/eval/" + SSFileU.fileNameSSSConf);
+//        SSCoreConf.instSet("/home/dtheiler/eval/" + SSFileU.fileNameSSSConf);
       }catch(Exception error){
         System.err.println("conf couldnt be set");
         SSServErrReg.regErrThrow(error);

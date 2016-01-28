@@ -8,6 +8,8 @@
   <packaging>pom</packaging>
   <!-- <url>http://maven.apache.org</url> -->
   
+  <description>service framework to support informal learning (tools)</description>
+  
   <build>
     
     <plugins>
@@ -150,5 +152,5 @@
     <module>serv</module>
     <module>conf</module>
   </modules>
-    <description>service framework to support informal learning (tools)</description>
+    
 </project>

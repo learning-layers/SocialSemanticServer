@@ -41,7 +41,7 @@
         
         <executions>
         
-          <execution>
+<!--          <execution>
             <id>copy-docker-conf</id>
             <phase>prepare-package</phase>
             <goals>
@@ -55,7 +55,7 @@
                 </resource>
               </resources>
             </configuration>
-          </execution>
+          </execution>-->
           
 <!--          <execution>
             <id>copy-conf</id>
@@ -95,14 +95,14 @@
               
               <locations>at.tugraz.sss.adapter.rest.v3</locations>
               
-              <!--<host>localhost:8080</host>-->
-              <!--<basePath>/sss.adapter.rest.v3/rest</basePath>-->
+              <host>localhost:8080</host>
+              <basePath>/sss.adapter.rest.v3/rest</basePath>
               
               <!--<host>test-ll.know-center.tugraz.at</host>-->
               <!--<basePath>/bp.preparation/rest</basePath>-->
               
-              <host>test-ll.know-center.tugraz.at</host>
-              <basePath>/eval/rest</basePath>
+              <!--<host>test-ll.know-center.tugraz.at</host>-->
+              <!--<basePath>/eval/rest</basePath>-->
               
               <info>
                 <version>v3</version>

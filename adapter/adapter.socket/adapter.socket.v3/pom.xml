@@ -54,7 +54,7 @@
             <manifest>
               <addClasspath>true</addClasspath>
               <classpathPrefix>lib/</classpathPrefix>
-              <mainClass>at.tugraz.sss.adapter.socket.SSSocketMainV2</mainClass>
+              <mainClass>at.tugraz.sss.adapter.socket.v3.SSSocketMain</mainClass>
             </manifest>
           </archive>
         </configuration>
@@ -80,7 +80,7 @@
               <outputDirectory>${project.build.directory}/sss.app/</outputDirectory>
               <resources>
                 <resource>
-                  <directory>${basedir}/src/main/resources/conf</directory>
+                  <directory>${basedir}/../../../resources/conf</directory>
                 </resource>
               </resources>
             </configuration>

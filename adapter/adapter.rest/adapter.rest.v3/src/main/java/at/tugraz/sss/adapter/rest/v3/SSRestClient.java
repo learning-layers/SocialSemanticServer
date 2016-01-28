@@ -31,19 +31,19 @@ import javax.ws.rs.core.*;
 
 public class SSRestClient {
   
-//  public static final  String host      = "http://localhost:8080/";
-//  public static final  String restPath  = "sss.adapter.rest.v3/rest/";
+  public static final  String host      = "http://localhost:8080/";
+  public static final  String restPath  = "sss.adapter.rest.v3/rest/";
   
 //  public static final  String host      = "http://test-ll.know-center.tugraz.at/";
 //  public static final  String restPath  = "bp.preparation/rest/";
   
-  public static final  String host      = "http://test-ll.know-center.tugraz.at/";
-  public static final  String restPath  = "eval/rest/";
+//  public static final  String host      = "http://test-ll.know-center.tugraz.at/";
+//  public static final  String restPath  = "eval/rest/";
   
 //  public static final SSAuthEnum  authMethod = SSAuthEnum.oidc;
   public static final SSAuthEnum  authMethod = SSAuthEnum.csvFileAuth;
   
-  private final String oidcToken = "eyJhbGciOiJSUzI1NiJ9.eyJleHAiOjE0NTM4MzI3OTUsImF1ZCI6WyIwM2Q3ZGQwOS1lOTllLTQzZWEtYmQ5My1kMDY2NjE0MjZjOTUiXSwiaXNzIjoiaHR0cHM6XC9cL2FwaS5sZWFybmluZy1sYXllcnMuZXVcL29cL29hdXRoMlwvIiwianRpIjoiYmUyOWI2MTktYzliYy00ZjdhLWI5NzQtODhkNTJiZGI4M2RiIiwiaWF0IjoxNDUzODE0Nzk1fQ.eN853nlyfqyN7bhJ1bDlydFSONcK29EBsehCk4sxhrOA4cbmN6UJyJrxWkl50-n4hdnoJFL-371tn-arCcmfqoZD8SqKexlmlZSbFSwyaYGgnNGK3V1Su889n9kLA5BiU33smdTIrC_6sVysnUoS3o8h1hvyeAIyqn-QFvHxVh8";
+  private final String oidcToken = "";
   private final Client client;
   
   private String key = null;

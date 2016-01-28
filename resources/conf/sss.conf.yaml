@@ -8,7 +8,7 @@ sss:
   host: SSS_HOST
   port: SSS_PORT
   restAPIPath: SSS_REST_API_PATH
-  sssWorkDir: SSS_LOCAL_WORK_PATH #leave empty for workingDir/tmp
+  sssWorkDir: SSS_LOCAL_WORK_PATH
 dbSQL:
   host: SSS_MYSQL_HOST
   port: SSS_MYSQL_PORT
