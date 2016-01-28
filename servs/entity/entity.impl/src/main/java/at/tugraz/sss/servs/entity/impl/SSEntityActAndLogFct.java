@@ -51,16 +51,16 @@ public class SSEntityActAndLogFct {
   }
   
   public void entityUpdate(
-    final SSServPar servPar,
+    final SSServPar     servPar,
     final SSUri         user,
-    final boolean       fromClient,
+    final boolean       storeLogs,
     final SSEntity      entity,
     final SSLabel       label,
     final SSTextComment description,
     final boolean       shouldCommit) throws Exception{
     
     if(
-      !fromClient ||
+      !storeLogs ||
       entity == null){
       return;
     }
@@ -81,19 +81,6 @@ public class SSEntityActAndLogFct {
             null, //users
             shouldCommit));
       }
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-    
-    try{
       
       if(!SSStrU.equals(entity.description, description)){
         

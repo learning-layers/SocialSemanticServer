@@ -22,7 +22,6 @@ package at.tugraz.sss.serv.datatype.par;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import java.sql.*;
 
 public class SSEntityUpdatePar extends SSServPar{
 
@@ -35,8 +34,6 @@ public class SSEntityUpdatePar extends SSServPar{
   public boolean             setPublic         = false;
   public boolean             createIfNotExists = false;
 
-  public boolean             fromClient       = false;
-  
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
   }

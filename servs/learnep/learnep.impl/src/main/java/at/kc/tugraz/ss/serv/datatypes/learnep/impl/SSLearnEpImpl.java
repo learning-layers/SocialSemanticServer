@@ -1423,6 +1423,9 @@ implements
         learnEpConf,
         par.user,
         learnEp);
+
+      par.storeActivities = true;
+      par.storeLogs       = true;
       
       final boolean                         worked;
       
@@ -1459,21 +1462,25 @@ implements
       
       dbSQL.startTrans(par, par.shouldCommit);
       
-      final SSUri circle =
-        entityServ.entityUpdate(
-          new SSEntityUpdatePar(
-            par, 
-            par.user,
-            par.learnEpCircle,
-            SSEntityE.learnEpCircle, //type,
-            par.label, //label
-            par.description,//description,
-            null, //creationTime,
-            null, //read,
-            false, //setPublic
-            false, //createIfNotExists
-            par.withUserRestriction, //withUserRestriction
-            false)); //shouldCommit)
+      final SSEntityUpdatePar entityUpdatePar =
+        new SSEntityUpdatePar(
+          par,
+          par.user,
+          par.learnEpCircle,
+          SSEntityE.learnEpCircle, //type,
+          par.label, //label
+          par.description,//description,
+          null, //creationTime,
+          null, //read,
+          false, //setPublic
+          false, //createIfNotExists
+          par.withUserRestriction, //withUserRestriction
+          false); //shouldCommit)
+      
+      entityUpdatePar.storeLogs       = par.storeLogs;
+      entityUpdatePar.storeActivities = par.storeActivities;
+      
+      final SSUri circle = entityServ.entityUpdate(entityUpdatePar);
       
       if(circle == null){
         dbSQL.rollBack(par, par.shouldCommit);

@@ -529,7 +529,7 @@ public class SSLearnEpActivityAndLogFct{
   }
   
   public void changeLearnEpVersionCircleLabelAndDescription(
-    final SSServPar servPar,
+    final SSServPar                       servPar,
     final SSUri                           user,
     final SSEntity                        circleEntity,
     final SSLabel                         label,

@@ -41,7 +41,9 @@ public class SSServPar{
   public String               key                  = null;
   public boolean              withUserRestriction  = true;
   public boolean              invokeEntityHandlers = false;
-    
+  public boolean              storeLogs            = false;
+  public boolean              storeActivities      = false;
+  
   @JsonIgnore
   public Connection           sqlCon              = null;
     

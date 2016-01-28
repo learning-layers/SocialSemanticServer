@@ -77,7 +77,7 @@ public class SSInitializer extends SSServImplStartA implements ServletContextLis
   @Override
   public void contextDestroyed(ServletContextEvent sce) {
     
-    try {
+    try{
       
       destroy();
       

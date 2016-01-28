@@ -13,8 +13,8 @@
       "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host" : "localhost:8080",
-  "basePath" : "/sss.adapter.rest.v3/rest",
+  "host" : "test-ll.know-center.tugraz.at",
+  "basePath" : "/eval/rest",
   "tags" : [ {
     "name" : "activities"
   }, {
@@ -3924,6 +3924,14 @@
           "default" : false
         },
         "invokeEntityHandlers" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "storeLogs" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "storeActivities" : {
           "type" : "boolean",
           "default" : false
         },

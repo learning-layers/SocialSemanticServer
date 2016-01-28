@@ -861,7 +861,8 @@ implements
       final SSUri             entityURI;
       boolean                 isPlaceholderAdd = false;
       
-      par.fromClient = true;
+      par.storeLogs       = true;
+      par.storeActivities = true;
       
       if(
         par.entity == null &&
@@ -1016,7 +1017,7 @@ implements
       actAndLogFct.entityUpdate(
         par,
         par.user,
-        par.fromClient,
+        par.storeLogs,
         entity,
         par.label,
         par.description,
