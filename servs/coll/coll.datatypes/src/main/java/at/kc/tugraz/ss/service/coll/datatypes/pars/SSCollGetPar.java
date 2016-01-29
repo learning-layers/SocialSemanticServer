@@ -37,7 +37,7 @@ public class SSCollGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(coll);
   }
   
-  public SSCollGetPar(){}
+  public SSCollGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSCollGetPar(
     final SSServPar servPar,

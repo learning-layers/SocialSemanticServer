@@ -71,7 +71,7 @@ public class SSCircle extends SSEntity{
     return new SSCircle(id, circleType, isSystemCircle);
   }
   
-  public SSCircle(){}
+  public SSCircle(){/* Do nothing because of only JSON Jackson needs this */ }
     
   protected SSCircle(
     final SSCircle     circle,

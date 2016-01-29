@@ -50,7 +50,7 @@ public class SSQueryResultPage {
     SSEntity.addEntitiesDistinctWithoutNull(this.entities, entities);
   }
    
-  public SSQueryResultPage(){}
+  public SSQueryResultPage(){/* Do nothing because of only JSON Jackson needs this */ }
    
   public SSQueryResultPage(
     final String         pagesID,

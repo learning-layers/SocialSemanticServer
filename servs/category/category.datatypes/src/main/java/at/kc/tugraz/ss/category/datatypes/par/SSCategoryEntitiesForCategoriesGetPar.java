@@ -89,7 +89,7 @@ public class SSCategoryEntitiesForCategoriesGetPar extends SSServPar{
     this.circles = SSUri.get(circles);
   }
   
-  public SSCategoryEntitiesForCategoriesGetPar(){}
+  public SSCategoryEntitiesForCategoriesGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSCategoryEntitiesForCategoriesGetPar(
     final SSServPar servPar,

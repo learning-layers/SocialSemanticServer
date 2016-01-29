@@ -26,7 +26,7 @@ import java.sql.*;
 
 public class SSEntityTypesGetPar extends SSServPar{
   
-  public SSEntityTypesGetPar(){}
+  public SSEntityTypesGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSEntityTypesGetPar(
     final SSServPar servPar,

@@ -36,7 +36,7 @@ public class SSCircleTypesGetPar extends SSServPar{
     this.entity = SSUri.get(entity);
   }
   
-  public SSCircleTypesGetPar(){}
+  public SSCircleTypesGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSCircleTypesGetPar(
     final SSServPar servPar,

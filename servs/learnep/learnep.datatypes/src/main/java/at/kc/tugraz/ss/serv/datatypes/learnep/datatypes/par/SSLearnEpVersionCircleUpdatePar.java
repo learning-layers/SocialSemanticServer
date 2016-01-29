@@ -62,7 +62,7 @@ public class SSLearnEpVersionCircleUpdatePar extends SSServPar{
     this.description = SSTextComment.get(description);
   }
   
-  public SSLearnEpVersionCircleUpdatePar(){}
+  public SSLearnEpVersionCircleUpdatePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSLearnEpVersionCircleUpdatePar(
     final SSServPar servPar,

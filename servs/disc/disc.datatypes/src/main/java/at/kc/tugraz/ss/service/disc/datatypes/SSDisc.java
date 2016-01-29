@@ -52,7 +52,7 @@ public class SSDisc extends SSEntity {
       entity);
   }
 
-  public SSDisc(){}
+  public SSDisc(){/* Do nothing because of only JSON Jackson needs this */ }
      
   protected SSDisc(
     final SSDisc              disc,

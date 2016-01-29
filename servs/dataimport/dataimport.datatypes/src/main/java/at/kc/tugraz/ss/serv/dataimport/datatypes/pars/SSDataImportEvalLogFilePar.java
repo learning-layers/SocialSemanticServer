@@ -30,7 +30,7 @@ public class SSDataImportEvalLogFilePar extends SSServPar{
   public String filePath  = null;
   public Long   startTime = null;
   
-  public SSDataImportEvalLogFilePar(){}
+  public SSDataImportEvalLogFilePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSDataImportEvalLogFilePar(
     final SSServPar servPar,

@@ -65,5 +65,5 @@ public class SSCategoryAddRESTPar{
     required = false)
   public Long         creationTime = null;
   
-  public SSCategoryAddRESTPar(){}
+  public SSCategoryAddRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

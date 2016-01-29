@@ -49,7 +49,7 @@ public class SSDiscEntryAddFromClientPar extends SSDiscEntryAddPar{
     return SSStrU.removeTrailingSlash(circles);
   }
   
-  public SSDiscEntryAddFromClientPar(){}
+  public SSDiscEntryAddFromClientPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSDiscEntryAddFromClientPar(
     final SSServPar servPar,

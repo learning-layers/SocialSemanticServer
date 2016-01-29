@@ -44,7 +44,7 @@ public class SSAuthCheckCredRet extends SSServRetI{
     this.user = SSUri.get(user);
   }
   
-  public SSAuthCheckCredRet(){}
+  public SSAuthCheckCredRet(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSAuthCheckCredRet(
     final String  key,

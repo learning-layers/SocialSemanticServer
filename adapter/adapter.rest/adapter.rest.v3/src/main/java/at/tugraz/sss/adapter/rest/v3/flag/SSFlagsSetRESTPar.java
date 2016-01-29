@@ -61,5 +61,5 @@ public class SSFlagsSetRESTPar{
     value = "" )
   public Long          endTime        = null;
   
-  public SSFlagsSetRESTPar(){}
+  public SSFlagsSetRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

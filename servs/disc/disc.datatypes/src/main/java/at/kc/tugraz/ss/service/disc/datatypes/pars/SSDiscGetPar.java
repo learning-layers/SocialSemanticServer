@@ -44,7 +44,7 @@ public class SSDiscGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(disc);
   }
   
-  public SSDiscGetPar(){}
+  public SSDiscGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSDiscGetPar(
     final SSServPar servPar,

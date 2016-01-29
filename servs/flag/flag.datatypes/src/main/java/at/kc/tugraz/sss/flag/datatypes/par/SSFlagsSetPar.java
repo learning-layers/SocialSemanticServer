@@ -51,7 +51,7 @@ public class SSFlagsSetPar extends SSServPar{
     return SSStrU.toStr(types);
   }
   
-  public SSFlagsSetPar(){}
+  public SSFlagsSetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSFlagsSetPar(
     final SSServPar servPar,

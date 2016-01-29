@@ -37,7 +37,7 @@ public class SSUserEntityUsersGetPar extends SSServPar{
     this.entity = SSUri.get(entity);
   }
   
-  public SSUserEntityUsersGetPar(){}
+  public SSUserEntityUsersGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSUserEntityUsersGetPar(
     final SSServPar servPar,

@@ -50,7 +50,7 @@ public class SSUEAddPar extends SSServPar{
     this.type = SSUEE.get(type);
   }
   
-  public SSUEAddPar(){}
+  public SSUEAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSUEAddPar(
     final SSServPar servPar,

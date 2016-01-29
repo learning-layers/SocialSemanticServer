@@ -68,5 +68,5 @@ public class SSLivingDocAddRESTPar{
     this.discussion = SSUri.get(discussion, SSConf.sssUri);
   }
   
-  public SSLivingDocAddRESTPar(){}
+  public SSLivingDocAddRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

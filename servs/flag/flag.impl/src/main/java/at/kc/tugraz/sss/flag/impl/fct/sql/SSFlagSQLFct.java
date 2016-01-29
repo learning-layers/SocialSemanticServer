@@ -87,11 +87,11 @@ public class SSFlagSQLFct extends SSCoreSQL{
       
       try{
         endTimeForFlag = bindingStrToLong(resultSet, SSSQLVarNames.endTime);
-      }catch(Exception error){}
+      }catch(Exception error){/* Do nothing because of only JSON Jackson needs this */ }
       
       try{
         value = bindingStrToInteger(resultSet, SSSQLVarNames.value);
-      }catch(Exception error){}
+      }catch(Exception error){/* Do nothing because of only JSON Jackson needs this */ }
       
       return SSFlag.get(
         bindingStrToUri     (resultSet, SSSQLVarNames.flagId),

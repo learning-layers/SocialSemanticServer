@@ -40,7 +40,7 @@ public class SSAuthRegisterUserPar extends SSServPar{
     this.label = SSLabel.get(label);
   }
   
-  public SSAuthRegisterUserPar(){}
+  public SSAuthRegisterUserPar(){/* Do nothing because of only JSON Jackson needs this */ }
      
   public SSAuthRegisterUserPar(
     final SSServPar servPar,

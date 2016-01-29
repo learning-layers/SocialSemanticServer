@@ -66,7 +66,7 @@ public class SSEntityUpdatePar extends SSServPar{
     this.description = SSTextComment.get(description);
   }
 
-  public SSEntityUpdatePar(){}
+  public SSEntityUpdatePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSEntityUpdatePar(
     final SSServPar           servPar,

@@ -162,5 +162,5 @@ public class SSAppAddRESTPar{
     return SSStrU.removeTrailingSlash(videos);
   }
    
-  public SSAppAddRESTPar(){}
+  public SSAppAddRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

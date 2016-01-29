@@ -79,7 +79,7 @@ public class SSActivityAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(comments);
   }
   
-  public SSActivityAddPar(){}
+  public SSActivityAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSActivityAddPar(
     final SSServPar servPar,

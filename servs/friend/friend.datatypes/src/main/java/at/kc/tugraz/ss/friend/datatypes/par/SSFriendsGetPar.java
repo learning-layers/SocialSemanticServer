@@ -27,7 +27,7 @@ import java.sql.*;
 
 public class SSFriendsGetPar extends SSServPar{
   
-  public SSFriendsGetPar(){}
+  public SSFriendsGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSFriendsGetPar(
     final SSServPar servPar,

@@ -37,7 +37,7 @@ public class SSFriendGetPar extends SSServPar{
     this.friend = SSUri.get(friend);
   }
   
-  public SSFriendGetPar(){}
+  public SSFriendGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSFriendGetPar(
     final SSServPar servPar,

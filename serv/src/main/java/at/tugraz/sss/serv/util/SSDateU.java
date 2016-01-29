@@ -33,7 +33,7 @@ public class SSDateU{
   public static final int    fTIME                                    = 4;
   public static final int    fZERO_MINUTES                            = 0;
   
-  private SSDateU(){}
+  private SSDateU(){/* Do nothing because of only JSON Jackson needs this */ }
   
 	public static Long dateAsLong(){
 		return new Date().getTime();

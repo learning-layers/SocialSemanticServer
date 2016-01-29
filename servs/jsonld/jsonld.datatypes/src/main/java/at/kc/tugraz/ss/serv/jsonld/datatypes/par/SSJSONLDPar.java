@@ -29,7 +29,7 @@ public class SSJSONLDPar extends SSServPar{
   
   public String       type         = null;
   
-  public SSJSONLDPar(){}
+  public SSJSONLDPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSJSONLDPar(
     final SSServPar     servPar,

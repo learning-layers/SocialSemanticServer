@@ -27,7 +27,7 @@ import java.sql.*;
 
 public class SSLearnEpTimelineStateGetPar extends SSServPar{
   
-  public SSLearnEpTimelineStateGetPar(){}
+  public SSLearnEpTimelineStateGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSLearnEpTimelineStateGetPar(
     final SSServPar servPar,

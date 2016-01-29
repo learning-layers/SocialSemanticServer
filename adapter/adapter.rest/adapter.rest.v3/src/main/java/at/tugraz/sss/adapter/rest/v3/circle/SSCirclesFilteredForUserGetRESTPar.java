@@ -53,5 +53,5 @@ public class SSCirclesFilteredForUserGetRESTPar{
     required = false)
   public boolean invokeEntityHandlers = true;
     
-  public SSCirclesFilteredForUserGetRESTPar(){}
+  public SSCirclesFilteredForUserGetRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

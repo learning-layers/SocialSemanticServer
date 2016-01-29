@@ -36,7 +36,7 @@ public class SSVideoUserGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(video);
   }
   
-  public SSVideoUserGetPar(){}
+  public SSVideoUserGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSVideoUserGetPar(
     final SSServPar servPar,

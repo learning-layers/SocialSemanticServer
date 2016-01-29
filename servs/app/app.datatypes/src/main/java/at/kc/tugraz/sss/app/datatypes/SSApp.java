@@ -148,7 +148,7 @@ public class SSApp extends SSEntity{
       fork);
   }
   
-  public SSApp(){}
+  public SSApp(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSApp(
     final SSApp     app,

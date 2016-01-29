@@ -37,5 +37,5 @@ public class SSCommentsAddRESTPar{
     this.comments = SSTextComment.get(comments);
   }
   
-  public SSCommentsAddRESTPar(){}
+  public SSCommentsAddRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

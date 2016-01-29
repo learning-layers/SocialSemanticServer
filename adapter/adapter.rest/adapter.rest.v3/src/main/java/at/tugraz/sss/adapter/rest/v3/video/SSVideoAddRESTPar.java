@@ -104,5 +104,5 @@ public class SSVideoAddRESTPar{
     value = "accuracy")
   public Float               accuracy = null;
   
-  public SSVideoAddRESTPar(){}
+  public SSVideoAddRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

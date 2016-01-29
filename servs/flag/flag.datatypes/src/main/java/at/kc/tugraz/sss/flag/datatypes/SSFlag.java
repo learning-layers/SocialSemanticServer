@@ -70,7 +70,7 @@ public class SSFlag extends SSEntity{
     return new SSFlag(id, user, entity, flagType, endTime, value);
   }
   
-  public SSFlag(){}
+  public SSFlag(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSFlag(
     final SSFlag     flag,

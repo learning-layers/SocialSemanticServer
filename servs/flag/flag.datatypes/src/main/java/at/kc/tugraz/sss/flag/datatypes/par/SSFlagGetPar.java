@@ -36,7 +36,7 @@ public class SSFlagGetPar extends SSServPar{
     this.flag = SSUri.get(flag);
   }
   
-  public SSFlagGetPar(){}
+  public SSFlagGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSFlagGetPar(
     final SSServPar servPar, 

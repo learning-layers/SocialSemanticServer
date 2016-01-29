@@ -29,7 +29,7 @@ public class SSUserURIGetPar extends SSServPar{
   
   public String email = null;
   
-  public SSUserURIGetPar(){}
+  public SSUserURIGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSUserURIGetPar(
     final SSServPar servPar,

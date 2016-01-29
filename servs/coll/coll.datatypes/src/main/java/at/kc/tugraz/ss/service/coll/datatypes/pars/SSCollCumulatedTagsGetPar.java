@@ -37,7 +37,7 @@ public class SSCollCumulatedTagsGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(coll);
   }
   
-  public SSCollCumulatedTagsGetPar(){}
+  public SSCollCumulatedTagsGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSCollCumulatedTagsGetPar(
     final SSServPar servPar,

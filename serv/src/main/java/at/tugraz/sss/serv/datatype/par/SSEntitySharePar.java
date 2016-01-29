@@ -73,7 +73,7 @@ public class SSEntitySharePar extends SSServPar{
     return SSStrU.toStr(comment);
   }
 
-  public SSEntitySharePar(){}
+  public SSEntitySharePar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSEntitySharePar(
     final SSServPar servPar,

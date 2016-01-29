@@ -37,7 +37,7 @@ public class SSVideosUserGetPar extends SSServPar{
     this.forEntity = SSUri.get(forEntity);
   }
 
-  public SSVideosUserGetPar(){}
+  public SSVideosUserGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSVideosUserGetPar(
     final SSServPar servPar,

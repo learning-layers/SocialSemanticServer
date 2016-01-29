@@ -48,7 +48,7 @@ public class SSUsersGetPar extends SSServPar{
     this.users = SSUri.get(users);
   }
   
-  public SSUsersGetPar(){}
+  public SSUsersGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSUsersGetPar(
     final SSServPar servPar,

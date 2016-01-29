@@ -38,5 +38,5 @@ public class SSAuthCheckCredRESTPar{
     required = true)
   public String  password = null;
   
-  public SSAuthCheckCredRESTPar(){}
+  public SSAuthCheckCredRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

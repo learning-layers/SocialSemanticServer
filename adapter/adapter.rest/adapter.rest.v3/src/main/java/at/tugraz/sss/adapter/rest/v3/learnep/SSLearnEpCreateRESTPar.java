@@ -47,5 +47,5 @@ public class SSLearnEpCreateRESTPar{
     this.description = SSTextComment.get(description);
   }
   
-  public SSLearnEpCreateRESTPar(){}
+  public SSLearnEpCreateRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

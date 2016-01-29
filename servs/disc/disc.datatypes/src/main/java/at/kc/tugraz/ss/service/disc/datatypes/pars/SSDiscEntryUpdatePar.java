@@ -68,7 +68,7 @@ public class SSDiscEntryUpdatePar extends SSServPar{
     this.entitiesToAttach = SSUri.get(entitiesToAttach);
   }
   
-  public SSDiscEntryUpdatePar(){}
+  public SSDiscEntryUpdatePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSDiscEntryUpdatePar(
     final SSServPar servPar,

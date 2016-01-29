@@ -86,7 +86,7 @@ public class SSActivity extends SSEntity{
       contents);
   }
   
-  public SSActivity(){}
+  public SSActivity(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSActivity(
     final SSActivity           activity,

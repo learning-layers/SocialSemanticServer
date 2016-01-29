@@ -81,7 +81,7 @@ public class SSVideo extends SSEntity{
       videoType);
   }
   
-  public SSVideo(){}
+  public SSVideo(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSVideo(
     final SSVideo     video,

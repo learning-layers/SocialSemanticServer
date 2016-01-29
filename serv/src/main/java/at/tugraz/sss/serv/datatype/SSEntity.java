@@ -230,7 +230,7 @@ public class SSEntity extends SSEntityA{
     return new SSEntity(id, type, label, description, creationTime, author);
   }
   
-  public SSEntity(){}
+  public SSEntity(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSEntity(
     final SSUri         id,

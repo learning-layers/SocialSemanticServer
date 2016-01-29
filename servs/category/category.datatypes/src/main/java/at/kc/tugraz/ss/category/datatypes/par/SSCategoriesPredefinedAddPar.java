@@ -40,7 +40,7 @@ public class SSCategoriesPredefinedAddPar extends SSServPar{
     this.labels = SSCategoryLabel.get(labels);
   }
   
-  public SSCategoriesPredefinedAddPar(){}
+  public SSCategoriesPredefinedAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSCategoriesPredefinedAddPar(
     final SSServPar servPar,

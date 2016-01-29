@@ -54,7 +54,7 @@ public class SSEvernoteNote extends SSEntity{
     return new SSEvernoteNote(id, notebook);
   }
   
-  public SSEvernoteNote(){}
+  public SSEvernoteNote(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSEvernoteNote(
     final SSEvernoteNote note,

@@ -37,7 +37,7 @@ public class SSAuthCheckCredPar extends SSServPar{
     return SSStrU.toStr(label);
   }
 
-  public SSAuthCheckCredPar(){}
+  public SSAuthCheckCredPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSAuthCheckCredPar(
     final SSServPar servPar,

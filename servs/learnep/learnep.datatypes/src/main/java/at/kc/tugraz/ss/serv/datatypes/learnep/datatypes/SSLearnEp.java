@@ -80,7 +80,7 @@ public class SSLearnEp extends SSEntity {
       author);
   }
   
-  public SSLearnEp(){}
+  public SSLearnEp(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSLearnEp(
     final SSUri                  id,

@@ -36,7 +36,7 @@ public class SSCollUserRootAddPar extends SSServPar{
     this.forUser = SSUri.get(forUser);
   }
 
-  public SSCollUserRootAddPar(){}
+  public SSCollUserRootAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSCollUserRootAddPar(
     final SSServPar servPar,

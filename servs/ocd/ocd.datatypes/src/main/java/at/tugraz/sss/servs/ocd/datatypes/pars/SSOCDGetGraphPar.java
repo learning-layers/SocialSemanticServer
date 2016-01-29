@@ -27,7 +27,7 @@ import at.tugraz.sss.servs.ocd.datatypes.SSOCDGraphOutputE;
 
 public class SSOCDGetGraphPar extends SSServPar{
   
-  public SSOCDGetGraphPar(){}
+  public SSOCDGetGraphPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   private String graphId = null;
   private SSOCDGraphOutputE graphOutput = null;

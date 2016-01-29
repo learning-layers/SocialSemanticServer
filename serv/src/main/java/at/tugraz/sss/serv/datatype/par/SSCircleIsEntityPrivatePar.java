@@ -35,7 +35,7 @@ public class SSCircleIsEntityPrivatePar extends SSServPar{
     this.entity = SSUri.get(entity);
   }
   
-  public SSCircleIsEntityPrivatePar(){}
+  public SSCircleIsEntityPrivatePar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSCircleIsEntityPrivatePar(
     final SSServPar servPar,

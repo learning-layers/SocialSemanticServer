@@ -37,7 +37,7 @@ public class SSLocationsGetPar extends SSServPar{
     this.entity = SSUri.get(entity);
   }
   
-  public SSLocationsGetPar(){}
+  public SSLocationsGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSLocationsGetPar(
     final SSServPar servPar,

@@ -59,5 +59,5 @@ public class SSTagsRemoveRESTPar{
     this.circle = SSUri.get(circle, SSConf.sssUri);
   }
   
-  public SSTagsRemoveRESTPar(){}
+  public SSTagsRemoveRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

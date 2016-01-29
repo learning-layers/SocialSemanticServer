@@ -89,5 +89,5 @@ public class SSTagFrequsGetRESTPar{
     value = "whether all user's entities in the system shall be considered to retrieve tag frequencies")
   public boolean               useUsersEntities  = false;
   
-  public SSTagFrequsGetRESTPar(){}
+  public SSTagFrequsGetRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

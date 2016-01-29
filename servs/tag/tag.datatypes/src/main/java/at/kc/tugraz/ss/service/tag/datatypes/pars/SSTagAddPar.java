@@ -67,7 +67,7 @@ public class SSTagAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(circle);
   } 
   
-  public SSTagAddPar(){}
+  public SSTagAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSTagAddPar(
     final SSServPar servPar,

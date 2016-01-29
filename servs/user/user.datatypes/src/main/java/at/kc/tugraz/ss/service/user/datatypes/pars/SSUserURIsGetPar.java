@@ -31,7 +31,7 @@ public class SSUserURIsGetPar extends SSServPar{
   
   public List<String> emails = new ArrayList<>();
   
-  public SSUserURIsGetPar(){}
+  public SSUserURIsGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSUserURIsGetPar(
     final SSServPar servPar,

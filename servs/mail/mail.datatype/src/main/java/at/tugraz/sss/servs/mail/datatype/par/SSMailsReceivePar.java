@@ -31,7 +31,7 @@ public class SSMailsReceivePar extends SSServPar{
   public String fromPassword  = null;
   public String receiverEmail = null;
   
-  public SSMailsReceivePar(){}
+  public SSMailsReceivePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSMailsReceivePar(
     final SSServPar servPar,

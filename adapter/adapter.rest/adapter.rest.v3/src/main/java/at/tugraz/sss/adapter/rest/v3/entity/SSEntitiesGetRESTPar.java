@@ -96,5 +96,5 @@ public class SSEntitiesGetRESTPar{
     value = "")
   public boolean     setProfilePicture   = false;
   
-  public SSEntitiesGetRESTPar(){}
+  public SSEntitiesGetRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

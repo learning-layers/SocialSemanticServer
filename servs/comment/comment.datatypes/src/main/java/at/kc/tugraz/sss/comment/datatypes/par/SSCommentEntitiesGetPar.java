@@ -26,7 +26,7 @@ import at.tugraz.sss.serv.util.*;
 
 public class SSCommentEntitiesGetPar extends SSServPar{
   
-  public SSCommentEntitiesGetPar(){}
+  public SSCommentEntitiesGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSCommentEntitiesGetPar(
     final SSServPar servPar,

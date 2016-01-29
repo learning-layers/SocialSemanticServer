@@ -59,7 +59,7 @@ public class SSCircleCreatePar extends SSServPar{
     this.circleType = SSCircleE.get(circleType);
   }
   
-  public SSCircleCreatePar(){}
+  public SSCircleCreatePar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSCircleCreatePar(
     final SSServPar servPar,

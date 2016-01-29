@@ -79,7 +79,7 @@ public class SSCategoryFrequsGetPar extends SSServPar{
     this.circles = SSUri.get(circles);
   }
   
-  public SSCategoryFrequsGetPar(){}
+  public SSCategoryFrequsGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
    
   public SSCategoryFrequsGetPar(
     final SSServPar servPar,

@@ -83,5 +83,5 @@ public class SSEntitiesAccessibleGetRESTPar{
     value = "whether flags for entitis shall be set")
   public boolean            setFlags  = false;
   
-  public SSEntitiesAccessibleGetRESTPar(){}
+  public SSEntitiesAccessibleGetRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

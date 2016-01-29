@@ -31,7 +31,7 @@ public class SSOCDGetGraphsPar extends SSServPar{
   private boolean includeMeta = false;
   private String executionStatuses = null;
   
-  public SSOCDGetGraphsPar(){}
+  public SSOCDGetGraphsPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSOCDGetGraphsPar (
     final SSServPar servPar,

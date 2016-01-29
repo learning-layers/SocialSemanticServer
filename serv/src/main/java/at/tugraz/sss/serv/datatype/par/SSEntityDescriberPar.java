@@ -82,7 +82,7 @@ public class SSEntityDescriberPar{
     this.entityTypesToIncludeOnly = SSEntityE.get(entityTypesToIncludeOnly);
   }
   
-  public SSEntityDescriberPar(){}
+  public SSEntityDescriberPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSEntityDescriberPar(
     final SSUri         recursiveEntity){

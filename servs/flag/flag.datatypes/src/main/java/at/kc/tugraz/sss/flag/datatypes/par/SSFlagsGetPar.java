@@ -51,7 +51,7 @@ public class SSFlagsGetPar extends SSServPar{
     this.types = SSFlagE.get(types);
   }
   
-  public SSFlagsGetPar(){}
+  public SSFlagsGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSFlagsGetPar(
     final SSServPar servPar,

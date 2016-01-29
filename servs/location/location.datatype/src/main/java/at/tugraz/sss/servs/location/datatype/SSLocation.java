@@ -53,7 +53,7 @@ public class SSLocation extends SSEntity{
     return new SSLocation(id, latitude, longitude, accuracy);
   }
   
-  public SSLocation(){}
+  public SSLocation(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSLocation(
     final SSLocation  location,

@@ -60,7 +60,7 @@ public class SSUE extends SSEntity {
     return new SSUE(userEvent, entity);
   }
   
-  public SSUE(){}
+  public SSUE(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public static SSUE get(
     final SSUri           id,

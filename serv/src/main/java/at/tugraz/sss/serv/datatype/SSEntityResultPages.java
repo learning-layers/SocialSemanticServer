@@ -63,7 +63,7 @@ public class SSEntityResultPages{
     return new SSEntityResultPages(pages, creationTime, pagesID);
   }
   
-  public SSEntityResultPages(){}
+  public SSEntityResultPages(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSEntityResultPages(
     final List<List<SSUri>>    pages,

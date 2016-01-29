@@ -37,7 +37,7 @@ public class SSLivingDocRemovePar extends SSServPar{
     return SSStrU.removeTrailingSlash(livingDoc);
   }
   
-  public SSLivingDocRemovePar(){}
+  public SSLivingDocRemovePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSLivingDocRemovePar(
     final SSServPar servPar,

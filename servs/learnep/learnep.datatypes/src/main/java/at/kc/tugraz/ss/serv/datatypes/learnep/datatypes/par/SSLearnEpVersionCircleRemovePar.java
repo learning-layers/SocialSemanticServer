@@ -37,7 +37,7 @@ public class SSLearnEpVersionCircleRemovePar extends SSServPar{
     this.learnEpCircle = SSUri.get(learnEpCircle);
   }
   
-  public SSLearnEpVersionCircleRemovePar(){}
+  public SSLearnEpVersionCircleRemovePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSLearnEpVersionCircleRemovePar(
     final SSServPar servPar,

@@ -41,7 +41,7 @@ public class SSEntityA implements SSJSONLDPropI{
     return val;
   }
   
-  public SSEntityA(){}
+  public SSEntityA(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSEntityA(final Object value) throws SSErr{
     

@@ -57,7 +57,7 @@ public class SSMail extends SSEntity{
     return new SSMail(id, subject, creationTime);
   }
   
-  public SSMail(){}
+  public SSMail(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSMail(
     final SSMail   mail,

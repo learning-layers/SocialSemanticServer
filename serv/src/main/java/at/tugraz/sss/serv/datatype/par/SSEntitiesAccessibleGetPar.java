@@ -53,7 +53,7 @@ public class SSEntitiesAccessibleGetPar extends SSServPar{
     this.authors = SSUri.get(authors);
   }
   
-  public SSEntitiesAccessibleGetPar(){}
+  public SSEntitiesAccessibleGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSEntitiesAccessibleGetPar(
     final SSServPar servPar,

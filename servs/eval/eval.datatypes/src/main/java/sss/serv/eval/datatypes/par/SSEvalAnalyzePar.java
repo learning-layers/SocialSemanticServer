@@ -26,7 +26,7 @@ import at.tugraz.sss.serv.datatype.*;
 
 public class SSEvalAnalyzePar extends SSServPar{
   
-  public SSEvalAnalyzePar(){}
+  public SSEvalAnalyzePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSEvalAnalyzePar(
     final SSServPar servPar,

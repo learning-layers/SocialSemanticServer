@@ -33,5 +33,5 @@ public class SSLearnEpTimelineStateSetRESTPar{
     required = true)
   public Long    endTime              = null;
   
-  public SSLearnEpTimelineStateSetRESTPar(){}
+  public SSLearnEpTimelineStateSetRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

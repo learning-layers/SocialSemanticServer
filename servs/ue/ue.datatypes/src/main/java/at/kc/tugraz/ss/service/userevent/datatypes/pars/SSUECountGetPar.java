@@ -59,7 +59,7 @@ public class SSUECountGetPar extends SSServPar{
     return SSStrU.toStr(type);
   }
   
-  public SSUECountGetPar(){}
+  public SSUECountGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSUECountGetPar(
     final SSServPar servPar,

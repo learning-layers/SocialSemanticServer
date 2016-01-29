@@ -28,7 +28,7 @@ import at.tugraz.sss.servs.ocd.datatypes.SSOCDCreationTypeE;
 
 public class SSOCDCreateCoverPar extends SSServPar {
   
-  public SSOCDCreateCoverPar() {}
+  public SSOCDCreateCoverPar() {/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSOCDCreateCoverPar ( 
     final SSServPar servPar,

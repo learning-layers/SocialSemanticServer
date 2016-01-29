@@ -159,5 +159,5 @@ public class SSSearchRESTPar{
     required = false)
   public boolean             orderByCreationTime  = false;
   
-  public SSSearchRESTPar(){}
+  public SSSearchRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

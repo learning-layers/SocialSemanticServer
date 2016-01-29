@@ -41,7 +41,7 @@ public class SSFileDownloadPar extends SSServPar{
     this.file = SSUri.get(file);
   }
   
-  public SSFileDownloadPar(){}
+  public SSFileDownloadPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSFileDownloadPar(
     final SSServPar servPar,

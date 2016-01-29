@@ -27,7 +27,7 @@ public class SSCircleEntitiesRemoveFromClientPar extends SSCircleEntitiesRemoveP
   
   public boolean removeCircleSpecificMetadata = false;
 
-  public SSCircleEntitiesRemoveFromClientPar(){}
+  public SSCircleEntitiesRemoveFromClientPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSCircleEntitiesRemoveFromClientPar(
     final SSServPar servPar,

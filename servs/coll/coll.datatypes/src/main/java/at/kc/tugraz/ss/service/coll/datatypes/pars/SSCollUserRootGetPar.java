@@ -27,7 +27,7 @@ import java.sql.*;
 
 public class SSCollUserRootGetPar extends SSServPar{
 
-  public SSCollUserRootGetPar(){}
+  public SSCollUserRootGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSCollUserRootGetPar(
     final SSServPar servPar,

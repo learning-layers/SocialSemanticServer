@@ -63,7 +63,7 @@ public class SSCircleGetPar extends SSServPar{
     return SSStrU.toStr(tagSpace);
   }
   
-  public SSCircleGetPar(){}
+  public SSCircleGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSCircleGetPar(
     final SSServPar servPar,

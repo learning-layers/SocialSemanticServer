@@ -52,7 +52,7 @@ public class SSLearnEpVersionCircleAddPar extends SSServPar{
     this.label = SSLabel.get(label);
   }
   
-  public SSLearnEpVersionCircleAddPar(){}
+  public SSLearnEpVersionCircleAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSLearnEpVersionCircleAddPar(
     final SSServPar servPar,

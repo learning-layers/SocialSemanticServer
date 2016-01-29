@@ -62,7 +62,7 @@ public class SSVideoAnnotationsSetPar extends SSServPar{
     return SSStrU.toStr(descriptions);
   }
   
-  public SSVideoAnnotationsSetPar(){}
+  public SSVideoAnnotationsSetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSVideoAnnotationsSetPar(
     final SSServPar servPar,

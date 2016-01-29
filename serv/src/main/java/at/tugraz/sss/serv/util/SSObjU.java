@@ -22,7 +22,7 @@ package at.tugraz.sss.serv.util;
 
 public class SSObjU {
   
-  private SSObjU(){}
+  private SSObjU(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public static boolean isNull(final Object... objects) {
     

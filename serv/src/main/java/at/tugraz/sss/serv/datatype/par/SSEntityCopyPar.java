@@ -87,7 +87,7 @@ public class SSEntityCopyPar extends SSServPar{
     return SSStrU.toStr(comment);
   }
   
-  public SSEntityCopyPar(){}
+  public SSEntityCopyPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSEntityCopyPar(
     final SSServPar servPar,

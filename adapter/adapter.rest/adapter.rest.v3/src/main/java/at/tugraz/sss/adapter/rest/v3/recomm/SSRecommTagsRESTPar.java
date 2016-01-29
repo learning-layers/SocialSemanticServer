@@ -78,5 +78,5 @@ public class SSRecommTagsRESTPar{
     value = "whether access rights shall be ignored, as data from external tool is used")
   public boolean ignoreAccessRights = false;
   
-  public SSRecommTagsRESTPar(){}
+  public SSRecommTagsRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

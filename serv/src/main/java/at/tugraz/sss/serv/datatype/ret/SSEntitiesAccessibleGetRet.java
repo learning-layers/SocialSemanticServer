@@ -50,7 +50,7 @@ public class SSEntitiesAccessibleGetRet extends SSServRetI{
     return new SSEntitiesAccessibleGetRet(entities, pagesID, pageNumber, pageNumbers);
   }
   
-  public SSEntitiesAccessibleGetRet(){}
+  public SSEntitiesAccessibleGetRet(){/* Do nothing because of only JSON Jackson needs this */ }
     
   private SSEntitiesAccessibleGetRet(
     final List<SSEntity> entities,

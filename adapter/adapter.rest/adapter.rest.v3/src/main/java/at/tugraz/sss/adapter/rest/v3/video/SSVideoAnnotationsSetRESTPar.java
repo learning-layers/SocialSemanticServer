@@ -71,5 +71,5 @@ public class SSVideoAnnotationsSetRESTPar {
     value = "")
   public boolean               removeExisting        = false;
     
-  public SSVideoAnnotationsSetRESTPar(){}
+  public SSVideoAnnotationsSetRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

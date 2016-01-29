@@ -81,7 +81,7 @@ public class SSFile extends SSEntity{
     return new SSFile(file, entity);
   }
   
-  public SSFile(){}
+  public SSFile(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSFile(
     final SSFile           file,

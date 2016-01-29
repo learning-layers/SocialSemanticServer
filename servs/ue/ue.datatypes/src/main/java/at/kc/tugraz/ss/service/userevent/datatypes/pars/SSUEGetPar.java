@@ -39,7 +39,7 @@ public class SSUEGetPar extends SSServPar{
     this.userEvent = SSUri.get(userEvent);
   }
   
-  public SSUEGetPar(){}
+  public SSUEGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSUEGetPar(
     final SSServPar servPar,

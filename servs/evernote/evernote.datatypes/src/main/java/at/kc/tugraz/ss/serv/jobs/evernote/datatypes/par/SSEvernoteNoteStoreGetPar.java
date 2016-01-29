@@ -29,7 +29,7 @@ public class SSEvernoteNoteStoreGetPar extends SSServPar{
   public String     authToken       = null;
   public String     authEmail       = null;
 
-  public SSEvernoteNoteStoreGetPar(){}
+  public SSEvernoteNoteStoreGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSEvernoteNoteStoreGetPar(
     final SSServPar servPar, 

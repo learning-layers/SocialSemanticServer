@@ -59,7 +59,7 @@ public class SSUser extends SSEntity{
     return new SSUser(id, email);
   }
   
-  public SSUser(){}
+  public SSUser(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSUser(
     final SSEntity       entity) throws SSErr{

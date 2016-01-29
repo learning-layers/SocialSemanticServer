@@ -37,7 +37,7 @@ public class SSRatingOverallGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
   
-  public SSRatingOverallGetPar(){}
+  public SSRatingOverallGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSRatingOverallGetPar(
     final SSServPar servPar,

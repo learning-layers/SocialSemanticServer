@@ -70,5 +70,5 @@ public class SSUECountGetRESTPar{
     value = "end for user event inclusion")
   public Long             endTime    = null;
   
-  public SSUECountGetRESTPar(){}
+  public SSUECountGetRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

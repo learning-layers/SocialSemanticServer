@@ -37,7 +37,7 @@ public class SSLearnEpVersionCreatePar extends SSServPar{
     this.learnEp = SSUri.get(learnEp);
   }
   
-  public SSLearnEpVersionCreatePar(){}
+  public SSLearnEpVersionCreatePar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSLearnEpVersionCreatePar(
     final SSServPar servPar,

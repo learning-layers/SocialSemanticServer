@@ -48,7 +48,7 @@ public class SSEntityDownloadsAddPar extends SSServPar{
     this.downloads = SSUri.get(downloads);
   }
   
-  public SSEntityDownloadsAddPar(){}
+  public SSEntityDownloadsAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSEntityDownloadsAddPar(
     final SSServPar servPar,

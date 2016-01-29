@@ -34,7 +34,7 @@ public class SSDataImportBitsAndPiecesPar extends SSServPar{
   public boolean importEvernote   = false;
   public boolean importEmails     = false;
   
-  public SSDataImportBitsAndPiecesPar(){}
+  public SSDataImportBitsAndPiecesPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSDataImportBitsAndPiecesPar(
     final SSServPar servPar,

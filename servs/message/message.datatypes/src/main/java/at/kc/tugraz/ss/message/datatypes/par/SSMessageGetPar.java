@@ -37,7 +37,7 @@ public class SSMessageGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(message);
   }
   
-  public SSMessageGetPar(){}
+  public SSMessageGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSMessageGetPar(
     final SSServPar servPar,

@@ -27,7 +27,7 @@ import java.sql.*;
 
 public class SSCategoriesPredefinedGetPar extends SSServPar{
   
-  public SSCategoriesPredefinedGetPar(){}
+  public SSCategoriesPredefinedGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSCategoriesPredefinedGetPar(
     final SSServPar servPar,

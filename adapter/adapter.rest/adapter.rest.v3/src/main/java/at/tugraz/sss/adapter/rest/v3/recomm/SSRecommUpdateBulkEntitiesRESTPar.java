@@ -66,5 +66,5 @@ public class SSRecommUpdateBulkEntitiesRESTPar{
     value = "categories")
   public List<List<String>>       categories     = null;
   
-  public SSRecommUpdateBulkEntitiesRESTPar(){}
+  public SSRecommUpdateBulkEntitiesRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

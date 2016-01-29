@@ -37,7 +37,7 @@ public class SSCollUserHierarchyGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(coll);
   }
   
-  public SSCollUserHierarchyGetPar(){}
+  public SSCollUserHierarchyGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSCollUserHierarchyGetPar(
     final SSServPar servPar,

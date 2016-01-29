@@ -46,7 +46,7 @@ public class SSLearnEpLockRemovePar extends SSServPar{
     this.forUser = SSUri.get(forUser);
   }
   
-  public SSLearnEpLockRemovePar(){}
+  public SSLearnEpLockRemovePar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSLearnEpLockRemovePar(
     final SSServPar servPar,

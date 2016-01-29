@@ -89,7 +89,7 @@ public class SSVideoUserAddPar extends SSServPar{
     return SSStrU.toStr(file);
   }
   
-  public SSVideoUserAddPar(){}
+  public SSVideoUserAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSVideoUserAddPar(
     final SSServPar servPar,

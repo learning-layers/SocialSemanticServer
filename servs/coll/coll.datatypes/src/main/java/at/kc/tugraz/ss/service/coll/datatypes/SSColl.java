@@ -41,7 +41,7 @@ public class SSColl extends SSEntity{
     return new SSColl(id);
   }
 
-  public SSColl(){}
+  public SSColl(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSColl(
     final SSColl   coll, 

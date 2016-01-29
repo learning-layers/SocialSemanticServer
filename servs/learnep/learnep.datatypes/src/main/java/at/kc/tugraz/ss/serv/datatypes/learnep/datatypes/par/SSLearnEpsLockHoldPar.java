@@ -41,7 +41,7 @@ public class SSLearnEpsLockHoldPar extends SSServPar{
     this.learnEps = SSUri.get(learnEps);
   }
 
-  public SSLearnEpsLockHoldPar(){}
+  public SSLearnEpsLockHoldPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSLearnEpsLockHoldPar(
     final SSServPar servPar,

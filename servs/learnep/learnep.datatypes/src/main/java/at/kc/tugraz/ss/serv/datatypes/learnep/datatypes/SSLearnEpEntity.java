@@ -53,7 +53,7 @@ public class SSLearnEpEntity extends SSEntity {
     return new SSLearnEpEntity(id, entity, x, y);
   }
   
-  public SSLearnEpEntity(){}
+  public SSLearnEpEntity(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSLearnEpEntity(
     final SSLearnEpEntity learnEpEntity,

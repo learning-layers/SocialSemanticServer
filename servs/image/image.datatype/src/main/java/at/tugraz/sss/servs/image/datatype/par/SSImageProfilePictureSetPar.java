@@ -47,7 +47,7 @@ public class SSImageProfilePictureSetPar extends SSServPar{
     this.file = SSUri.get(file);
   }
   
-  public SSImageProfilePictureSetPar(){}
+  public SSImageProfilePictureSetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSImageProfilePictureSetPar(
     final SSServPar servPar,

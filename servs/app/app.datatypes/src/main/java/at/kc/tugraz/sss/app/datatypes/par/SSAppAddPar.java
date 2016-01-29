@@ -131,7 +131,7 @@ public class SSAppAddPar extends SSServPar{
     return SSStrU.toStr(videos);
   }
   
-  public SSAppAddPar(){}
+  public SSAppAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSAppAddPar(
     final SSServPar servPar,

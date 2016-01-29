@@ -55,7 +55,7 @@ public class SSLearnEpTimelineState extends SSEntity {
     return new SSLearnEpTimelineState(id, user, startTime, endTime);
   }
 
-  public SSLearnEpTimelineState(){}
+  public SSLearnEpTimelineState(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSLearnEpTimelineState(
     final SSUri id,

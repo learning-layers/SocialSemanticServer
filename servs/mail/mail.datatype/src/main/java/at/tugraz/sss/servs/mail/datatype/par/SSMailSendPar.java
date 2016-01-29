@@ -32,7 +32,7 @@ public class SSMailSendPar extends SSServPar{
   public String subject   = null;
   public String content   = null;
   
-  public SSMailSendPar(){}
+  public SSMailSendPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSMailSendPar(
     final SSServPar servPar,

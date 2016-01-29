@@ -64,5 +64,5 @@ public class SSVideoAnnotationAddRESTPar{
     this.description = SSTextComment.get(description);
   }
   
-  public SSVideoAnnotationAddRESTPar(){}
+  public SSVideoAnnotationAddRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

@@ -71,7 +71,7 @@ public class SSUEsGetPar extends SSServPar{
     return SSStrU.toStr(types);
   }
   
-  public SSUEsGetPar(){}
+  public SSUEsGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSUEsGetPar(
     final SSServPar servPar,

@@ -54,7 +54,7 @@ public class SSCircleEntitiesAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entities);
   }
   
-  public SSCircleEntitiesAddPar(){}
+  public SSCircleEntitiesAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSCircleEntitiesAddPar(
     final SSServPar servPar,

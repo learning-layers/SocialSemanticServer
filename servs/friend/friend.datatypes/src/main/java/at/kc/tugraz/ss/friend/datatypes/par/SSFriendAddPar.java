@@ -37,7 +37,7 @@ public class SSFriendAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(friend);
   }
   
-  public SSFriendAddPar(){}
+  public SSFriendAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSFriendAddPar(
     final SSServPar servPar,

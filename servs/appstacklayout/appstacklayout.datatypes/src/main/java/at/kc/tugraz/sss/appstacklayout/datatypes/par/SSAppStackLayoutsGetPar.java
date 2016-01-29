@@ -31,7 +31,7 @@ public class SSAppStackLayoutsGetPar extends SSServPar{
   
   public List<SSUri> stacks               = new ArrayList<>();
   
-  public SSAppStackLayoutsGetPar(){}
+  public SSAppStackLayoutsGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSAppStackLayoutsGetPar(
     final SSServPar servPar,

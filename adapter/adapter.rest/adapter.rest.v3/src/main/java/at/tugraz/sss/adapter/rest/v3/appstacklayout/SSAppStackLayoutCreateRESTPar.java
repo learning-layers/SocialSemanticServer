@@ -61,5 +61,5 @@ public class SSAppStackLayoutCreateRESTPar{
     this.description = SSTextComment.get(description);
   }
   
-  public SSAppStackLayoutCreateRESTPar(){}
+  public SSAppStackLayoutCreateRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

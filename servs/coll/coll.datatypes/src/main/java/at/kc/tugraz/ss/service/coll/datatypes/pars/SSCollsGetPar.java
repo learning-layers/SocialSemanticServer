@@ -27,7 +27,7 @@ import at.tugraz.sss.serv.datatype.*;
 public class SSCollsGetPar extends SSServPar{
 
   
-  public SSCollsGetPar(){}
+  public SSCollsGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSCollsGetPar(
     final SSServPar servPar,

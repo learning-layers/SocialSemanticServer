@@ -105,7 +105,7 @@ public class SSDiscEntryAddPar extends SSServPar{
     return SSStrU.toStr(entityLabels);
   }
   
-  public SSDiscEntryAddPar(){}
+  public SSDiscEntryAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSDiscEntryAddPar(
     final SSServPar servPar,

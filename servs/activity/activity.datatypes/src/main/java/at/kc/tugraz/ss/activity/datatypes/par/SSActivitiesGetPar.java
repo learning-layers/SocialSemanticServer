@@ -80,7 +80,7 @@ public class SSActivitiesGetPar extends SSServPar{
     return SSStrU.toStr(types);
   }
   
-  public SSActivitiesGetPar(){}
+  public SSActivitiesGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSActivitiesGetPar(
     final SSServPar servPar,

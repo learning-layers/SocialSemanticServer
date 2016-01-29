@@ -69,5 +69,5 @@ public class SSEntityUpdateRESTPar{
     value = "whether the user read the entity")
   public Boolean read = null;
   
-  public SSEntityUpdateRESTPar(){}
+  public SSEntityUpdateRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

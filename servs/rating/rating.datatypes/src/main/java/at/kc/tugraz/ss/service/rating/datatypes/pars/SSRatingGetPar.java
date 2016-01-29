@@ -36,7 +36,7 @@ public class SSRatingGetPar extends SSServPar{
     this.entity = SSUri.get(entity);
   }
   
-  public SSRatingGetPar(){}
+  public SSRatingGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSRatingGetPar(
     final SSServPar servPar,

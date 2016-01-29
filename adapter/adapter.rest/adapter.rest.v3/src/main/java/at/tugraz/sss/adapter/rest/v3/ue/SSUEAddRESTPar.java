@@ -54,5 +54,5 @@ public class SSUEAddRESTPar{
     value = "possible additional textual information of the trace")
   public String           content    = null;
   
-  public SSUEAddRESTPar(){}
+  public SSUEAddRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

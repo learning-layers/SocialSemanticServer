@@ -39,7 +39,7 @@ public class SSRatingSetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
    
-  public SSRatingSetPar(){}
+  public SSRatingSetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSRatingSetPar(
     final SSServPar servPar,

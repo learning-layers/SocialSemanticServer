@@ -80,5 +80,5 @@ public class SSActivitiesGetRESTPar{
     required = false)
   public boolean                includeOnlyLastActivities = false;
   
-  public SSActivitiesGetRESTPar(){}
+  public SSActivitiesGetRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

@@ -82,5 +82,5 @@ public class SSCircleCreateRESTPar{
     this.description = SSTextComment.get(description);
   }
   
-  public SSCircleCreateRESTPar(){}
+  public SSCircleCreateRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

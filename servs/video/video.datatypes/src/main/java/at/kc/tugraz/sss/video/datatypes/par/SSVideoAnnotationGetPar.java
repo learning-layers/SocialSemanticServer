@@ -36,7 +36,7 @@ public class SSVideoAnnotationGetPar extends SSServPar{
     this.annotation = SSUri.get(annotation);
   }
 
-  public SSVideoAnnotationGetPar(){}
+  public SSVideoAnnotationGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSVideoAnnotationGetPar(
     final SSServPar servPar,

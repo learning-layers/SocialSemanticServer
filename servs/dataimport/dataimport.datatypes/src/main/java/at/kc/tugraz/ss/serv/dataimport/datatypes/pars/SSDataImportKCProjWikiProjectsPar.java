@@ -29,7 +29,7 @@ public class SSDataImportKCProjWikiProjectsPar extends SSServPar{
 
   public String fileName = null;
   
-  public SSDataImportKCProjWikiProjectsPar(){}
+  public SSDataImportKCProjWikiProjectsPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSDataImportKCProjWikiProjectsPar(
     final SSServPar servPar,

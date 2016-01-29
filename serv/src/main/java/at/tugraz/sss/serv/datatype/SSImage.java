@@ -58,7 +58,7 @@ public class SSImage extends SSEntity{
     return new SSImage(image, entity);
   }
   
-  public SSImage(){}
+  public SSImage(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSImage(
     final SSImage         image,

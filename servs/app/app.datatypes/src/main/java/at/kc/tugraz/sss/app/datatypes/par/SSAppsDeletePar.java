@@ -39,7 +39,7 @@ public class SSAppsDeletePar extends SSServPar{
     this.apps = SSUri.get(apps);
   }
   
-  public SSAppsDeletePar(){}
+  public SSAppsDeletePar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSAppsDeletePar(
     final SSServPar servPar,

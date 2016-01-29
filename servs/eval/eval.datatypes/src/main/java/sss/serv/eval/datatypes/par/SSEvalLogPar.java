@@ -79,7 +79,7 @@ public class SSEvalLogPar extends SSServPar{
     return SSStrU.removeTrailingSlash(users);
   }
   
-  public SSEvalLogPar(){}
+  public SSEvalLogPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSEvalLogPar(
     final SSServPar servPar,

@@ -29,7 +29,7 @@ public class SSUserExistsPar extends SSServPar{
   
   public String email = null;
   
-  public SSUserExistsPar(){}
+  public SSUserExistsPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSUserExistsPar(
     final SSServPar servPar,

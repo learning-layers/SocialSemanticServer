@@ -57,7 +57,7 @@ public class SSStrU{
     strings.add(toAdd.toString());
   }
   
-  private SSStrU(){}
+  private SSStrU(){/* Do nothing because of only JSON Jackson needs this */ }
 
 //  public static final String apiCircle                = "circles/circles";
 //  

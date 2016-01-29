@@ -42,7 +42,7 @@ public class SSCircleRemovePar extends SSServPar{
     this.circle = SSUri.get(circle);
   }
 
-  public SSCircleRemovePar(){}
+  public SSCircleRemovePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSCircleRemovePar(
     final SSServPar servPar,

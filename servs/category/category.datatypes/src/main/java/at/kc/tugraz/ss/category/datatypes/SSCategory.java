@@ -110,7 +110,7 @@ public class SSCategory extends SSEntity{
     return new SSCategory(id, entity, user, space, categoryLabel, circle, creationTime);
   }
   
-  public SSCategory(){}
+  public SSCategory(){/* Do nothing because of only JSON Jackson needs this */ }
     
   protected SSCategory(
     final SSUri             id,

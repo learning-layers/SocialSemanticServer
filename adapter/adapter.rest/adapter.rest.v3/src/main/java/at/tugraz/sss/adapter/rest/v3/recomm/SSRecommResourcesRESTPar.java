@@ -87,5 +87,5 @@ public class SSRecommResourcesRESTPar{
     value = "whether own entities should be included in the result")
   public boolean includeOwn = true;
     
-  public SSRecommResourcesRESTPar(){}
+  public SSRecommResourcesRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

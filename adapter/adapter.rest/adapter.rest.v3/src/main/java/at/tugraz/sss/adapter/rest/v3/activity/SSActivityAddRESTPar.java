@@ -80,5 +80,5 @@ public class SSActivityAddRESTPar{
     required = false)
   public Long                   creationTime     = null;
   
-  public SSActivityAddRESTPar(){}
+  public SSActivityAddRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

@@ -22,7 +22,7 @@ package at.tugraz.sss.serv.util;
 
 public class SSVarNames{
   
-  private SSVarNames(){}
+  private SSVarNames(){/* Do nothing because of only JSON Jackson needs this */ }
 
   public static final String circleAddEntitiesToCircleOfEntity           = "circleAddEntitiesToCircleOfEntity";
   public static final String kcprojwikiImport                            = "kcprojwikiImport";

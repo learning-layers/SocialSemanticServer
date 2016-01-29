@@ -39,7 +39,7 @@ public class SSLivingDocsGetPar extends SSServPar{
     this.forUser = SSUri.get(forUser);
   }
   
-  public SSLivingDocsGetPar(){}
+  public SSLivingDocsGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSLivingDocsGetPar(
     final SSServPar servPar,

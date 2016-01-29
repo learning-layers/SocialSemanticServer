@@ -62,7 +62,7 @@ public class SSLabel extends SSEntityA{
     return result;
   }
   
-  public SSLabel(){}
+  public SSLabel(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSLabel(final String string) throws SSErr {
     super(string);

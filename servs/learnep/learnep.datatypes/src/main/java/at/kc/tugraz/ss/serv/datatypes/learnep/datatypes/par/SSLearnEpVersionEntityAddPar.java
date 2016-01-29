@@ -48,7 +48,7 @@ public class SSLearnEpVersionEntityAddPar extends SSServPar{
     this.entity = SSUri.get(entity);
   }
   
-  public SSLearnEpVersionEntityAddPar(){}
+  public SSLearnEpVersionEntityAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSLearnEpVersionEntityAddPar(
     final SSServPar servPar,

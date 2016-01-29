@@ -103,7 +103,7 @@ public class SSTag extends SSEntity{
     return new SSTag(id, entity, user, space, tagLabel, circle, creationTime);
   }
   
-  public SSTag(){}
+  public SSTag(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSTag(
     final SSUri       id,

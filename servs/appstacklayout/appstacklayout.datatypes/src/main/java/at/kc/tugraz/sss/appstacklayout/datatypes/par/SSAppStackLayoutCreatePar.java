@@ -57,7 +57,7 @@ public class SSAppStackLayoutCreatePar extends SSServPar{
     return SSStrU.toStr(description);
   }
   
-  public SSAppStackLayoutCreatePar(){}
+  public SSAppStackLayoutCreatePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSAppStackLayoutCreatePar(
     final SSServPar servPar,

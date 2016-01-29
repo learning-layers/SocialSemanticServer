@@ -46,7 +46,7 @@ public class SSCollUserEntryDeletePar extends SSServPar{
     return SSStrU.removeTrailingSlash(entry);
   }
   
-  public SSCollUserEntryDeletePar(){}
+  public SSCollUserEntryDeletePar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSCollUserEntryDeletePar(
     final SSServPar servPar,

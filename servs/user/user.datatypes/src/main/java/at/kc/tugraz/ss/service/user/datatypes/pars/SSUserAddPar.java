@@ -38,7 +38,7 @@ public class SSUserAddPar extends SSServPar{
     this.label = SSLabel.get(label);
   }
   
-  public SSUserAddPar(){}
+  public SSUserAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSUserAddPar(
     final SSServPar servPar,

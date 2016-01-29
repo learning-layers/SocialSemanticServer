@@ -101,7 +101,7 @@ public class SSSearchPar extends SSServPar{
     return SSStrU.toStr(globalSearchOp);
   }
   
-  public SSSearchPar(){}
+  public SSSearchPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSSearchPar(
     final SSServPar servPar,

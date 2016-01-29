@@ -57,7 +57,7 @@ public class SSAppStackLayout extends SSEntity{
     return new SSAppStackLayout(appStackLayout, entity);
   }
   
-  public SSAppStackLayout(){}
+  public SSAppStackLayout(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSAppStackLayout(
     final SSAppStackLayout     appStackLayout,

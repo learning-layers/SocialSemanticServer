@@ -77,5 +77,5 @@ public enum SSCircleRightE{
     return false;
   }
   
-  private SSCircleRightE(){}
+  private SSCircleRightE(){/* Do nothing because of only JSON Jackson needs this */ }
 }

@@ -31,7 +31,7 @@ public class SSServRetI implements SSServRetJSONLDI{
     required = true)
   public String op;
 
-  public SSServRetI(){}
+  public SSServRetI(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSServRetI(final String op){
     this.op = op;

@@ -27,7 +27,7 @@ import java.sql.*;
 
 public class SSCirclePrivURIGetPar extends SSServPar{
   
-  public SSCirclePrivURIGetPar(){}
+  public SSCirclePrivURIGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSCirclePrivURIGetPar(
     final SSServPar servPar,

@@ -57,7 +57,7 @@ public class SSVideoAnnotation extends SSEntity{
       y);
   }
   
-  public SSVideoAnnotation(){}
+  public SSVideoAnnotation(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSVideoAnnotation(
     final SSVideoAnnotation   annotation,

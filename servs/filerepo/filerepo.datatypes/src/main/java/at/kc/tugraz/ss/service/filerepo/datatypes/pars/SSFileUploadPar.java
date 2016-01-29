@@ -62,7 +62,7 @@ public class SSFileUploadPar extends SSServPar{
     this.circle = SSUri.get(circle);
   }
   
-  public SSFileUploadPar(){}
+  public SSFileUploadPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSFileUploadPar(
     final SSServPar servPar,

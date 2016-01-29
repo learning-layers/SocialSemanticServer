@@ -49,7 +49,7 @@ public class SSEntityAttachEntitiesPar extends SSServPar{
     this.entities = SSUri.get(entities);
   }
   
-  public SSEntityAttachEntitiesPar(){}
+  public SSEntityAttachEntitiesPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSEntityAttachEntitiesPar(
     final SSServPar servPar,

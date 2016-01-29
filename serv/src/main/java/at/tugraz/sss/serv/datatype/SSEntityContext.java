@@ -55,7 +55,7 @@ public class SSEntityContext {
   @ApiModelProperty
   public Long      timestamp = null;
   
-  public SSEntityContext(){}
+  public SSEntityContext(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSEntityContext(
     final SSUri     id,

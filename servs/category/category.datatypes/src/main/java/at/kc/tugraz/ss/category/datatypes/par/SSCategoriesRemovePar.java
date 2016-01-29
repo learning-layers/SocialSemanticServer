@@ -76,7 +76,7 @@ public class SSCategoriesRemovePar extends SSServPar{
     return SSStrU.removeTrailingSlash(circle);
   }
   
-  public SSCategoriesRemovePar(){}
+  public SSCategoriesRemovePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSCategoriesRemovePar(
     final SSServPar servPar,

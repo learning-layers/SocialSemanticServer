@@ -61,5 +61,5 @@ public class SSFlagsGetRESTPar{
     required = false )
   public Long          endTime        = null;
   
-  public SSFlagsGetRESTPar(){}
+  public SSFlagsGetRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

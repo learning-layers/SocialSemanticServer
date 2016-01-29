@@ -111,5 +111,5 @@ public class SSEntityCopyRESTPar{
     this.comment = SSTextComment.get(comment);
   }
   
-  public SSEntityCopyRESTPar(){}
+  public SSEntityCopyRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

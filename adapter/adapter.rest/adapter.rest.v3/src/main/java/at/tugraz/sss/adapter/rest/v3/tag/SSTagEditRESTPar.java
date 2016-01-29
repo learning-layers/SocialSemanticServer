@@ -58,5 +58,5 @@ public class SSTagEditRESTPar{
     this.newLabel = SSTagLabel.get(newLabel);
   }
   
-  public SSTagEditRESTPar(){}
+  public SSTagEditRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

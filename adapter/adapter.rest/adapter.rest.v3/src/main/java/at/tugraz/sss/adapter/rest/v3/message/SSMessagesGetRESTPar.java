@@ -36,5 +36,5 @@ public class SSMessagesGetRESTPar{
     value = "start time to retrieve messages")
   public Long startTime = null;
   
-  public SSMessagesGetRESTPar(){}
+  public SSMessagesGetRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

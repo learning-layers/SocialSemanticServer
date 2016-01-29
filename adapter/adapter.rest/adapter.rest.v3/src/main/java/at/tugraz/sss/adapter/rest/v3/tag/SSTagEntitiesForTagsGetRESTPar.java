@@ -67,5 +67,5 @@ public class SSTagEntitiesForTagsGetRESTPar{
     value = "timestamp to retrieve tags")
   public Long              startTime = null;
   
-  public SSTagEntitiesForTagsGetRESTPar(){}
+  public SSTagEntitiesForTagsGetRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

@@ -45,7 +45,7 @@ public class SSEntityFromTypeAndLabelGetPar extends SSServPar{
     this.type = SSEntityE.get(type);
   }
   
-  public SSEntityFromTypeAndLabelGetPar(){}
+  public SSEntityFromTypeAndLabelGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSEntityFromTypeAndLabelGetPar(
     final SSServPar servPar,

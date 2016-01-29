@@ -37,7 +37,7 @@ public class SSImageGetPar extends SSServPar{
     this.image = SSUri.get(image);
   }
 
-  public SSImageGetPar(){}
+  public SSImageGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSImageGetPar(
     final SSServPar servPar,

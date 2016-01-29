@@ -39,7 +39,7 @@ public class SSMessagesGetPar extends SSServPar{
     this.forUser = SSUri.get(forUser);
   }
   
-  public SSMessagesGetPar(){}
+  public SSMessagesGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSMessagesGetPar(
     final SSServPar servPar,

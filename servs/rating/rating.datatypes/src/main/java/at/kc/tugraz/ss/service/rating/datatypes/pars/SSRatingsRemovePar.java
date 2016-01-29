@@ -36,7 +36,7 @@ public class SSRatingsRemovePar extends SSServPar{
     this.entity = SSUri.get(entity);
   }
 
-  public SSRatingsRemovePar(){}
+  public SSRatingsRemovePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSRatingsRemovePar(
     final SSServPar servPar,

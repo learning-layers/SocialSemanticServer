@@ -87,5 +87,5 @@ public class SSTagsGetRESTPar{
     value = "timestamp to retrieve tag assignments from a certain point in time (optional)")
   public Long               startTime      = null;
   
-  public SSTagsGetRESTPar(){}
+  public SSTagsGetRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

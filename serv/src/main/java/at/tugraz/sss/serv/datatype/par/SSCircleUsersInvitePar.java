@@ -44,7 +44,7 @@ public class SSCircleUsersInvitePar extends SSServPar{
     this.circle = SSUri.get(circle);
   }
   
-  public SSCircleUsersInvitePar(){}
+  public SSCircleUsersInvitePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSCircleUsersInvitePar(
     final SSServPar servPar,

@@ -37,7 +37,7 @@ public class SSAppStackLayoutDeletePar extends SSServPar{
     return SSStrU.removeTrailingSlash(stack);
   }
   
-  public SSAppStackLayoutDeletePar(){}
+  public SSAppStackLayoutDeletePar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSAppStackLayoutDeletePar(
     final SSServPar servPar,

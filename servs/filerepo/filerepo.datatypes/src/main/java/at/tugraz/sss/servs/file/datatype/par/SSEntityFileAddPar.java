@@ -88,7 +88,7 @@ public class SSEntityFileAddPar extends SSServPar{
    this.entity = SSUri.get(entityToAddThumbTo);
   }
   
-  public SSEntityFileAddPar(){} 
+  public SSEntityFileAddPar(){/* Do nothing because of only JSON Jackson needs this */ } 
   
   public SSEntityFileAddPar(
     final SSServPar servPar,

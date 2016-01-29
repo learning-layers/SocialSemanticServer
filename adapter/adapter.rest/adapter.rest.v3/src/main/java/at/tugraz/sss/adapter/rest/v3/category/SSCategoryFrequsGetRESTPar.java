@@ -73,5 +73,5 @@ public class SSCategoryFrequsGetRESTPar{
     required = false)
   public Long               startTime  = null;
   
-  public SSCategoryFrequsGetRESTPar(){}
+  public SSCategoryFrequsGetRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

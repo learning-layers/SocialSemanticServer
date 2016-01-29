@@ -37,7 +37,7 @@ public class SSDiscRemovePar extends SSServPar{
     return SSStrU.removeTrailingSlash(disc);
   }
   
-  public SSDiscRemovePar(){}
+  public SSDiscRemovePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSDiscRemovePar(
     final SSServPar servPar,

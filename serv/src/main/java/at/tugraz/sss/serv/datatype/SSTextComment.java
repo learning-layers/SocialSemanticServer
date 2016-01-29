@@ -93,7 +93,7 @@ public class SSTextComment extends SSEntityA {
     }
   }
   
-  public SSTextComment(){}
+  public SSTextComment(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSTextComment(final String value) throws SSErr {
     super(SSStrU.replaceAllLineFeedsWithTextualRepr(value));

@@ -41,7 +41,7 @@ public class SSLearnEpGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(learnEp);
   }
   
-  public SSLearnEpGetPar(){}
+  public SSLearnEpGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSLearnEpGetPar(
     final SSServPar servPar,

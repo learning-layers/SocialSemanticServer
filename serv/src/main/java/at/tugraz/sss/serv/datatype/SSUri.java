@@ -259,7 +259,7 @@ public class SSUri extends SSEntityA{
     return result;
   }
 
-  public SSUri(){}
+  public SSUri(){/* Do nothing because of only JSON Jackson needs this */ }
   
   private SSUri(final String string) throws SSErr{
     

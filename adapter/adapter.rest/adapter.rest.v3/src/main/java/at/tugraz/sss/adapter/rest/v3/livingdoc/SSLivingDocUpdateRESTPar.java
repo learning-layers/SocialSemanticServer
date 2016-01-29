@@ -59,5 +59,5 @@ public class SSLivingDocUpdateRESTPar{
     this.discussion = SSUri.get(discussion, SSConf.sssUri);
   }
   
-  public SSLivingDocUpdateRESTPar(){}
+  public SSLivingDocUpdateRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

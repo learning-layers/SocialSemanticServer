@@ -63,7 +63,7 @@ public class SSFileU{
   public static final String fileNameSSSEvalLog             = "sss.eval.log";
   public static final String fileNameSSSLog                 = "sss.log";
   
-  private SSFileU(){}
+  private SSFileU(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public static String dirWorking(){
     return correctDirPath(new File(SSStrU.empty).getAbsolutePath());

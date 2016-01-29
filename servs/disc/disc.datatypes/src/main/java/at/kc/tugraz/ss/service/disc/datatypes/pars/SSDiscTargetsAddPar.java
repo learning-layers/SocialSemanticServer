@@ -48,7 +48,7 @@ public class SSDiscTargetsAddPar extends SSServPar{
     this.targets = SSUri.get(targets);
   }
 
-  public SSDiscTargetsAddPar(){}
+  public SSDiscTargetsAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSDiscTargetsAddPar(
     final SSServPar servPar,

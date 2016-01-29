@@ -41,7 +41,7 @@ public class SSFriend extends SSEntity{
     return new SSFriend(id);
   }  
   
-  public SSFriend(){}
+  public SSFriend(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSFriend(
     final SSFriend friend,

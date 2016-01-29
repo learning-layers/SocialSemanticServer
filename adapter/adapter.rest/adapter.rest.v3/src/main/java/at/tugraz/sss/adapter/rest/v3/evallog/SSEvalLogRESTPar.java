@@ -87,5 +87,5 @@ public class SSEvalLogRESTPar {
     value = "content to be logged")
   public String           content      = null;
   
-  public SSEvalLogRESTPar(){}
+  public SSEvalLogRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

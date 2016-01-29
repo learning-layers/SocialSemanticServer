@@ -46,7 +46,7 @@ public class SSLikesUserGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(forUser);
   }
   
-  public SSLikesUserGetPar(){}
+  public SSLikesUserGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSLikesUserGetPar(
     final SSServPar servPar,

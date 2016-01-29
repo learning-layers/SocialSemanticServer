@@ -27,7 +27,7 @@ import java.sql.*;
 
 public class SSRecommLoadUserRealmsPar extends SSServPar{
   
-  public SSRecommLoadUserRealmsPar(){}
+  public SSRecommLoadUserRealmsPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSRecommLoadUserRealmsPar(
     final SSServPar servPar,

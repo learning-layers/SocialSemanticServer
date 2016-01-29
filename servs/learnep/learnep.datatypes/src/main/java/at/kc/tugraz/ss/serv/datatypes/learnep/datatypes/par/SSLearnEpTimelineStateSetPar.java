@@ -23,14 +23,14 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import java.sql.*;
 
 public class SSLearnEpTimelineStateSetPar extends SSServPar{
   
   public Long     startTime         = null;
   public Long     endTime           = null;
 
-  public SSLearnEpTimelineStateSetPar(){}
+  public SSLearnEpTimelineStateSetPar(){// Do nothing because of only JSON Jackson needs this
+  }
   
   public SSLearnEpTimelineStateSetPar(
     final SSServPar servPar,

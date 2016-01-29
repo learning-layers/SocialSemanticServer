@@ -49,7 +49,7 @@ public class SSCommentsAddPar extends SSServPar{
     this.comments = SSTextComment.get(comments);
   }
   
-  public SSCommentsAddPar(){}
+  public SSCommentsAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSCommentsAddPar(
     final SSServPar servPar,

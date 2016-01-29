@@ -64,7 +64,7 @@ public class SSMessage extends SSEntity{
     return new SSMessage(message, user, forUser, content);
   }  
   
-  public SSMessage(){}
+  public SSMessage(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSMessage(    
     final SSMessage        message,

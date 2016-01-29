@@ -47,5 +47,5 @@ public class SSLearnEpVersionEntityUpdateRESTPar{
     value = "")
   public Float    y              = null;
   
-  public SSLearnEpVersionEntityUpdateRESTPar(){}
+  public SSLearnEpVersionEntityUpdateRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

@@ -46,5 +46,5 @@ public class SSCollEntryAddRESTPar{
     required = false)
   public boolean            addNewColl = false;
 
-  public SSCollEntryAddRESTPar(){}
+  public SSCollEntryAddRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

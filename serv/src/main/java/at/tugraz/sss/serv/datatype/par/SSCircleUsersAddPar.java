@@ -51,7 +51,7 @@ public class SSCircleUsersAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(users);
   }
   
-  public SSCircleUsersAddPar(){}
+  public SSCircleUsersAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSCircleUsersAddPar(
     final SSServPar servPar,

@@ -64,7 +64,7 @@ public class SSDiscsGetPar extends SSServPar{
     this.targets.addAll(SSUri.get(targets));
   }
   
-  public SSDiscsGetPar(){}
+  public SSDiscsGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSDiscsGetPar(
     final SSServPar servPar,

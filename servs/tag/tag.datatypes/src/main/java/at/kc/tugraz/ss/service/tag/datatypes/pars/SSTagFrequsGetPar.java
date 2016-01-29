@@ -80,7 +80,7 @@ public class SSTagFrequsGetPar extends SSServPar{
     this.circles = SSUri.get(circles);
   }
   
-  public SSTagFrequsGetPar(){}
+  public SSTagFrequsGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
    
   public SSTagFrequsGetPar(
     final SSServPar servPar,

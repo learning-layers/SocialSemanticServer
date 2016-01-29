@@ -61,5 +61,5 @@ public class SSUsersGetRESTPar{
     required = false)
   public boolean               setTags      = false;
   
-  public SSUsersGetRESTPar(){}
+  public SSUsersGetRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

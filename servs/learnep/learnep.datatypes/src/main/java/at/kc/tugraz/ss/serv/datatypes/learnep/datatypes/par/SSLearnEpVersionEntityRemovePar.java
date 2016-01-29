@@ -37,7 +37,7 @@ public class SSLearnEpVersionEntityRemovePar extends SSServPar{
     this.learnEpEntity = SSUri.get(learnEpEntity);
   }
   
-  public SSLearnEpVersionEntityRemovePar(){}
+  public SSLearnEpVersionEntityRemovePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSLearnEpVersionEntityRemovePar(
     final SSServPar servPar,

@@ -63,7 +63,7 @@ public class SSCirclesGetPar extends SSServPar{
     return SSStrU.toStr(entityTypesToIncludeOnly);
   }
   
-  public SSCirclesGetPar(){}
+  public SSCirclesGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSCirclesGetPar(
     final SSServPar servPar,

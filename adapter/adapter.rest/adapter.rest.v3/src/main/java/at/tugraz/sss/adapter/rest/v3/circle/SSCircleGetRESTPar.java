@@ -62,5 +62,5 @@ public class SSCircleGetRESTPar{
     required = false)
   public boolean invokeEntityHandlers = true;
     
-  public SSCircleGetRESTPar(){}
+  public SSCircleGetRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

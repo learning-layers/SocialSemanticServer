@@ -55,7 +55,7 @@ public class SSCircleCreateFromClientPar extends SSCircleCreatePar{
     this.entities = SSUri.get(entities);
   }
   
-  public SSCircleCreateFromClientPar(){}
+  public SSCircleCreateFromClientPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSCircleCreateFromClientPar(
     final SSServPar servPar,

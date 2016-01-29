@@ -77,7 +77,7 @@ public class SSLearnEpVersion extends SSEntity{
       learnEpCircles);
   }
 
-  public SSLearnEpVersion(){}
+  public SSLearnEpVersion(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSLearnEpVersion(
     final SSLearnEpVersion learnEpVersion,

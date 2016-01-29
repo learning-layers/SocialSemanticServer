@@ -54,7 +54,7 @@ public class SSEvernoteResource extends SSEntity{
     return new SSEvernoteResource(id, note);
   }
   
-  public SSEvernoteResource(){}
+  public SSEvernoteResource(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSEvernoteResource(
     final SSEvernoteResource      resource,

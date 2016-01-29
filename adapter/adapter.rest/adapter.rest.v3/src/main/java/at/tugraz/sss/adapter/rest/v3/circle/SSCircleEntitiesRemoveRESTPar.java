@@ -29,5 +29,5 @@ public class SSCircleEntitiesRemoveRESTPar {
     required = false)
   public boolean removeCircleSpecificMetadata       = false;
   
-  public SSCircleEntitiesRemoveRESTPar(){}
+  public SSCircleEntitiesRemoveRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

@@ -88,7 +88,7 @@ public class SSTagEntitiesForTagsGetPar extends SSServPar{
     this.circles = SSUri.get(circles);
   }
   
-  public SSTagEntitiesForTagsGetPar(){}
+  public SSTagEntitiesForTagsGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSTagEntitiesForTagsGetPar(
     final SSServPar servPar,

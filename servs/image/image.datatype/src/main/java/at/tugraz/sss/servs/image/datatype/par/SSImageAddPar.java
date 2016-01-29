@@ -70,7 +70,7 @@ public class SSImageAddPar extends SSServPar{
     this.file = SSUri.get(file);
   }
   
-  public SSImageAddPar(){}
+  public SSImageAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSImageAddPar(
     final SSServPar servPar,

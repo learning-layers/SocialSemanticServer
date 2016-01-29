@@ -29,7 +29,7 @@ public class SSDataImportKCProjWikiVorgaengePar extends SSServPar{
 
   public String filePath = null;
   
-  public SSDataImportKCProjWikiVorgaengePar(){}
+  public SSDataImportKCProjWikiVorgaengePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSDataImportKCProjWikiVorgaengePar(
     final SSServPar servPar,

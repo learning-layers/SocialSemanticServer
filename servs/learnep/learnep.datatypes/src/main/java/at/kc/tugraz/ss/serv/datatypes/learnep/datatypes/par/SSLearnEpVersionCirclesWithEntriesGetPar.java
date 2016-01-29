@@ -37,7 +37,7 @@ public class SSLearnEpVersionCirclesWithEntriesGetPar extends SSServPar{
     this.learnEpVersion = SSUri.get(learnEpVersion);
   }
   
-  public SSLearnEpVersionCirclesWithEntriesGetPar(){}
+  public SSLearnEpVersionCirclesWithEntriesGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSLearnEpVersionCirclesWithEntriesGetPar(
     final SSServPar servPar,

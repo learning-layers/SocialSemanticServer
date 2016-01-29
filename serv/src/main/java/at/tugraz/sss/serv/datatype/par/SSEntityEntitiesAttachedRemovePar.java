@@ -48,7 +48,7 @@ public class SSEntityEntitiesAttachedRemovePar extends SSServPar{
     this.entities = SSUri.get(entities);
   }
   
-  public SSEntityEntitiesAttachedRemovePar(){}
+  public SSEntityEntitiesAttachedRemovePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSEntityEntitiesAttachedRemovePar(
     final SSServPar servPar,

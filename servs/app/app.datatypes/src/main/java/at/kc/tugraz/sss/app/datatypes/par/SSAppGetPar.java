@@ -36,7 +36,7 @@ public class SSAppGetPar extends SSServPar{
     this.app = SSUri.get(app);
   }
   
-  public SSAppGetPar(){}
+  public SSAppGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSAppGetPar(
     final SSServPar servPar,

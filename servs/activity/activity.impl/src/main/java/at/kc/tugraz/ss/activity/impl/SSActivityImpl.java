@@ -605,6 +605,8 @@ implements
           }catch(Exception error2){
             SSServErrReg.regErrThrow(error2);
           }
+          
+          break;
         }
         
         default:{

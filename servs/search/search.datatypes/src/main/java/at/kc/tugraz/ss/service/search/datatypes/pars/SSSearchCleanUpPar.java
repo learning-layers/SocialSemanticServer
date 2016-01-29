@@ -26,7 +26,7 @@ import at.tugraz.sss.serv.util.*;
 
 public class SSSearchCleanUpPar extends SSServPar{
   
-  public SSSearchCleanUpPar(){}
+  public SSSearchCleanUpPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSSearchCleanUpPar(
     final SSServPar servPar,

@@ -46,7 +46,7 @@ public class SSCircleEntitiesRemovePar extends SSServPar{
     this.entities = SSUri.get(entities); 
   }
   
-  public SSCircleEntitiesRemovePar(){}
+  public SSCircleEntitiesRemovePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSCircleEntitiesRemovePar(
     final SSServPar servPar,

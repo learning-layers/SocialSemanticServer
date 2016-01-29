@@ -30,7 +30,7 @@ public class SSKCProjWikiImportPar extends SSServPar{
   public boolean setRead              = false;
   public boolean setCircleTypes       = false;
   
-  public SSKCProjWikiImportPar(){}
+  public SSKCProjWikiImportPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSKCProjWikiImportPar(
     final SSServPar servPar,

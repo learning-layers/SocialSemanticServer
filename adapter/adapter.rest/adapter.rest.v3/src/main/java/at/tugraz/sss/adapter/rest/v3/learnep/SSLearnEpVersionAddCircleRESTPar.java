@@ -65,5 +65,5 @@ public class SSLearnEpVersionAddCircleRESTPar{
     value = "")
   public Float      yC                = null;
   
-  public SSLearnEpVersionAddCircleRESTPar(){}
+  public SSLearnEpVersionAddCircleRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

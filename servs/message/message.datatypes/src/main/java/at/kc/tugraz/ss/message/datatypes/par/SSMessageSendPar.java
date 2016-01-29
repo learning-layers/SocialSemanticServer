@@ -47,7 +47,7 @@ public class SSMessageSendPar extends SSServPar{
     return SSStrU.toStr(message);
   }
   
-  public SSMessageSendPar(){}
+  public SSMessageSendPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSMessageSendPar(
     final SSServPar servPar,

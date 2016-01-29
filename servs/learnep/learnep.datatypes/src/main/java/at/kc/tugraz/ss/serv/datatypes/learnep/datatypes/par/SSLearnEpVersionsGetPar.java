@@ -48,7 +48,7 @@ public class SSLearnEpVersionsGetPar extends SSServPar{
     this.learnEpVersions = SSUri.get(learnEpVersions);
   }
   
-  public SSLearnEpVersionsGetPar(){}
+  public SSLearnEpVersionsGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSLearnEpVersionsGetPar(
     final SSServPar servPar,

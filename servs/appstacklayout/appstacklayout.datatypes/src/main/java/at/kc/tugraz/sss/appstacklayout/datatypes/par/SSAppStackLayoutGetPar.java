@@ -36,7 +36,7 @@ public class SSAppStackLayoutGetPar extends SSServPar{
     this.stack = SSUri.get(stack);
   }
   
-  public SSAppStackLayoutGetPar(){}
+  public SSAppStackLayoutGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSAppStackLayoutGetPar(
     final SSServPar servPar,

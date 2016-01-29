@@ -60,7 +60,7 @@ public class SSServPar{
     return SSStrU.removeTrailingSlash(user);
   }
   
-  public SSServPar(){}
+  public SSServPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSServPar(
     final Connection sqlCon){
@@ -83,7 +83,7 @@ public class SSServPar{
     //TODO for anchient use of serv par
 //    try{
 //      this.user = SSUri.get(SSJSONU.getValueFromJSON(clientJSONRequ, SSVarNames.user));
-//    }catch(Exception error){}
+//    }catch(Exception error){/* Do nothing because of only JSON Jackson needs this */ }
     
     //TODO for anchient use of serv par
 //    clientJSONObj = new ObjectMapper().readTree(clientJSONRequ);
@@ -290,17 +290,17 @@ public class SSServPar{
 //    //TODO code below for anchient serv par use
 //    try{
 //      user = (SSUri) pars.get(SSVarNames.user);
-//    }catch(Exception error){}
+//    }catch(Exception error){/* Do nothing because of only JSON Jackson needs this */ }
 //    
 //    try{
 //      key = (String) pars.get(SSVarNames.key);
-//    }catch(Exception error){}
+//    }catch(Exception error){/* Do nothing because of only JSON Jackson needs this */ }
 //    
 //    try{
 //      shouldCommit = (boolean) pars.get(SSVarNames.shouldCommit);
-//    }catch(Exception error){}
+//    }catch(Exception error){/* Do nothing because of only JSON Jackson needs this */ }
 //    
 //    try{
 //      withUserRestriction = (boolean) pars.get(SSVarNames.withUserRestriction);
-//    }catch(Exception error){}
+//    }catch(Exception error){/* Do nothing because of only JSON Jackson needs this */ }
 //  }

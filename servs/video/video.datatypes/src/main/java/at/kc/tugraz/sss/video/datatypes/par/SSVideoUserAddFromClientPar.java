@@ -31,7 +31,7 @@ public class SSVideoUserAddFromClientPar extends SSVideoUserAddPar{
   public Double                longitude        = null;
   public Float                 accuracy         = null;
 
-  public SSVideoUserAddFromClientPar(){}
+  public SSVideoUserAddFromClientPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSVideoUserAddFromClientPar(
     final SSServPar servPar,

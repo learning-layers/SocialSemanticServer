@@ -65,5 +65,5 @@ public class SSEntityShareRESTPar{
     this.comment = SSTextComment.get(comment);
   }
   
-  public SSEntityShareRESTPar(){}
+  public SSEntityShareRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

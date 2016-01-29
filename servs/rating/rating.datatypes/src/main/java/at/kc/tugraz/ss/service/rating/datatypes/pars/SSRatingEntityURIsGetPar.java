@@ -40,7 +40,7 @@ public class SSRatingEntityURIsGetPar extends SSServPar{
     this.entities = SSUri.get(entities);
   }
   
-  public SSRatingEntityURIsGetPar(){}
+  public SSRatingEntityURIsGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSRatingEntityURIsGetPar(
     final SSServPar   servPar,

@@ -43,5 +43,5 @@ public class SSCollEntriesAddRESTPar{
     this.labels = SSLabel.get(labels);
   }
   
-  public SSCollEntriesAddRESTPar(){}
+  public SSCollEntriesAddRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

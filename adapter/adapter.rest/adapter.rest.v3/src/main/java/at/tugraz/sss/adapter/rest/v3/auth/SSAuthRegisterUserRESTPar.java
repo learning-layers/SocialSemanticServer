@@ -40,5 +40,5 @@ public class SSAuthRegisterUserRESTPar{
     required = true)
   public String  password = null;
   
-  public SSAuthRegisterUserRESTPar(){}
+  public SSAuthRegisterUserRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

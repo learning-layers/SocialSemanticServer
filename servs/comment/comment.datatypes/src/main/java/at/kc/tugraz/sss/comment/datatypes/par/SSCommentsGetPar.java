@@ -36,7 +36,7 @@ public class SSCommentsGetPar extends SSServPar{
     this.entity = SSUri.get(entity);
   }
   
-  public SSCommentsGetPar(){}
+  public SSCommentsGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSCommentsGetPar(
     final SSServPar servPar,

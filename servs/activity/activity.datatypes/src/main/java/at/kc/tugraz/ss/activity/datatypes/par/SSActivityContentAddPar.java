@@ -58,7 +58,7 @@ public class SSActivityContentAddPar extends SSServPar{
     this.content = SSActivityContent.get(content);
   }
   
-  public SSActivityContentAddPar(){}
+  public SSActivityContentAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSActivityContentAddPar(
     final SSServPar servPar,

@@ -68,7 +68,7 @@ public class SSCategoryAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(circle);
   } 
   
-  public SSCategoryAddPar(){}
+  public SSCategoryAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSCategoryAddPar(
     final SSServPar servPar,

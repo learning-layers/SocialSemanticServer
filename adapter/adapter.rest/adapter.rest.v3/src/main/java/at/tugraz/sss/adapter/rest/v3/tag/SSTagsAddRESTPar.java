@@ -66,5 +66,5 @@ public class SSTagsAddRESTPar{
     value = "timestamp for the tag assignment to be created at in milliseconds")
   public Long         creationTime = null;
   
-  public SSTagsAddRESTPar(){}
+  public SSTagsAddRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

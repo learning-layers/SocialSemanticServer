@@ -67,7 +67,7 @@ public class SSSolrKeywordLabel extends SSEntityA{
     return true;
   }
   
-  public SSSolrKeywordLabel(){}
+  public SSSolrKeywordLabel(){/* Do nothing because of only JSON Jackson needs this */ }
   
   private SSSolrKeywordLabel(final String label) throws SSErr{
     

@@ -63,7 +63,7 @@ public class SSLogU{
     log = Logger.getLogger(SSStrU.empty);
   }
   
-  private SSLogU(){}
+  private SSLogU(){/* Do nothing because of only JSON Jackson needs this */ }
   
   private static String getMsg(final String logText){
     

@@ -26,7 +26,7 @@ import java.sql.*;
 
 public class SSCirclePubURIGetPar extends SSServPar{
   
-  public SSCirclePubURIGetPar(){}
+  public SSCirclePubURIGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSCirclePubURIGetPar(
     final SSServPar servPar,

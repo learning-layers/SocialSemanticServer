@@ -51,7 +51,7 @@ public class SSCircleTypeChangePar extends SSServPar{
     this.type = SSCircleE.get(type);
   }
 
-  public SSCircleTypeChangePar(){}
+  public SSCircleTypeChangePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSCircleTypeChangePar(
     final SSServPar servPar,

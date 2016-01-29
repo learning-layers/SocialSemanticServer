@@ -27,7 +27,7 @@ import java.sql.*;
 
 public class SSLearnEpVersionCurrentGetPar extends SSServPar{
   
-  public SSLearnEpVersionCurrentGetPar(){}
+  public SSLearnEpVersionCurrentGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSLearnEpVersionCurrentGetPar(
     final SSServPar servPar,

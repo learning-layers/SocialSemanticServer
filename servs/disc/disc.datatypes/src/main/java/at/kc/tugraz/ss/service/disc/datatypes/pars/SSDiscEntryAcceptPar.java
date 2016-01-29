@@ -37,7 +37,7 @@ public class SSDiscEntryAcceptPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entry);
   }
   
-  public SSDiscEntryAcceptPar(){}
+  public SSDiscEntryAcceptPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSDiscEntryAcceptPar(
     final SSServPar servPar,

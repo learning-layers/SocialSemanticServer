@@ -37,7 +37,7 @@ public class SSLearnEpRemovePar extends SSServPar{
     this.learnEp = SSUri.get(learnEp);
   }
   
-  public SSLearnEpRemovePar(){}
+  public SSLearnEpRemovePar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSLearnEpRemovePar(
     final SSServPar servPar,

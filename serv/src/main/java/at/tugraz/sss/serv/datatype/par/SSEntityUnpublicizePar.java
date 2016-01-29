@@ -37,7 +37,7 @@ public class SSEntityUnpublicizePar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
   
-  public SSEntityUnpublicizePar(){}
+  public SSEntityUnpublicizePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSEntityUnpublicizePar(
     final SSServPar servPar,

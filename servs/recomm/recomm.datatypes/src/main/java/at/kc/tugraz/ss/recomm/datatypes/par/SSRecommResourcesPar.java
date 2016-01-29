@@ -64,7 +64,7 @@ public class SSRecommResourcesPar extends SSServPar{
     return SSStrU.toStr(typesToRecommOnly);
   }
 
-  public SSRecommResourcesPar(){}
+  public SSRecommResourcesPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSRecommResourcesPar(
     final SSServPar servPar,

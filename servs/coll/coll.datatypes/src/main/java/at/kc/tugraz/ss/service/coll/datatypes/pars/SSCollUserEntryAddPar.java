@@ -56,7 +56,7 @@ public class SSCollUserEntryAddPar extends SSServPar{
     return SSStrU.toStr(label);
   }
   
-  public SSCollUserEntryAddPar(){}
+  public SSCollUserEntryAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSCollUserEntryAddPar(
     final SSServPar servPar,

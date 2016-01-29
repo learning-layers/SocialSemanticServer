@@ -28,7 +28,7 @@ import java.sql.*;
 
 public class SSEntitiesAccessibleGetCleanUpPar extends SSServPar{
   
-  public SSEntitiesAccessibleGetCleanUpPar(){}
+  public SSEntitiesAccessibleGetCleanUpPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSEntitiesAccessibleGetCleanUpPar(
     final SSServPar servPar,

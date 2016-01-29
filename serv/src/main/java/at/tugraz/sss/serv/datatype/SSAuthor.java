@@ -46,7 +46,7 @@ public class SSAuthor extends SSEntity{
     return new SSAuthor(id);
   }
   
-  public SSAuthor(){}
+  public SSAuthor(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSAuthor(
     final SSAuthor         author,

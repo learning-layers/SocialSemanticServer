@@ -48,5 +48,5 @@ public class SSMessageSendRESTPar{
     this.message = SSTextComment.get(message);
   }
   
-  public SSMessageSendRESTPar(){}
+  public SSMessageSendRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

@@ -27,7 +27,7 @@ import java.sql.*;
 
 public class SSActivityTypesGetPar extends SSServPar{
   
-  public SSActivityTypesGetPar(){}
+  public SSActivityTypesGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSActivityTypesGetPar(
     final SSServPar servPar,

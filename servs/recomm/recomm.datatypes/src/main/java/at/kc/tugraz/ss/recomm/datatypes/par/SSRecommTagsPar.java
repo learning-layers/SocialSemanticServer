@@ -53,7 +53,7 @@ public class SSRecommTagsPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
   
-  public SSRecommTagsPar(){}
+  public SSRecommTagsPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSRecommTagsPar(
     final SSServPar servPar,

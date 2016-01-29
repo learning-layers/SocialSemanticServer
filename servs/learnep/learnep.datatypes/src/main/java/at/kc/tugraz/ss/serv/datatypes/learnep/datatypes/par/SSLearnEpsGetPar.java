@@ -39,7 +39,7 @@ public class SSLearnEpsGetPar extends SSServPar{
     this.forUser = SSUri.get(forUser);
   }
   
-  public SSLearnEpsGetPar(){}
+  public SSLearnEpsGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSLearnEpsGetPar(
     final SSServPar servPar,

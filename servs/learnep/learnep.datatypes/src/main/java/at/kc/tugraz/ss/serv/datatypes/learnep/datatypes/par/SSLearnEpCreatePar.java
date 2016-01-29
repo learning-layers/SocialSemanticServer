@@ -47,7 +47,7 @@ public class SSLearnEpCreatePar extends SSServPar{
     this.description = SSTextComment.get(description);
   }
   
-  public SSLearnEpCreatePar(){}
+  public SSLearnEpCreatePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSLearnEpCreatePar(
     final SSServPar servPar,

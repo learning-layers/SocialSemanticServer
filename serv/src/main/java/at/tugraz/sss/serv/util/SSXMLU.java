@@ -25,7 +25,7 @@ import org.w3c.dom.Node;
 
 public class SSXMLU{
   
-  private SSXMLU(){}
+  private SSXMLU(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public static final String       coverage                 = "coverage";
   public static final String       value                    = "value";

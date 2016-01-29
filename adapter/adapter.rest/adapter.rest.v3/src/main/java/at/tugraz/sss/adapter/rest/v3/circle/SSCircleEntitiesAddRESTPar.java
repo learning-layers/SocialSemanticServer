@@ -34,5 +34,5 @@ public class SSCircleEntitiesAddRESTPar {
     required = false)
   public List<String> categories = null;
   
-  public SSCircleEntitiesAddRESTPar(){}
+  public SSCircleEntitiesAddRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

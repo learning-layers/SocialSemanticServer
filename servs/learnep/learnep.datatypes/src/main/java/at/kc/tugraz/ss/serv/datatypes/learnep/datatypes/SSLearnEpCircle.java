@@ -81,7 +81,7 @@ public class SSLearnEpCircle extends SSEntity{
       yC);
   }
   
-  public SSLearnEpCircle(){}
+  public SSLearnEpCircle(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSLearnEpCircle(
     final SSLearnEpCircle learnEpCircle,

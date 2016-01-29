@@ -41,7 +41,7 @@ public class SSLivingDocument extends SSEntity{
     return new SSLivingDocument(id);
   }
   
-  public SSLivingDocument(){}
+  public SSLivingDocument(){/* Do nothing because of only JSON Jackson needs this */ }
   
   protected SSLivingDocument(
     final SSUri id) throws SSErr{
