@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.activity.serv;
 import at.kc.tugraz.ss.activity.api.SSActivityClientI;
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.activity.impl.SSActivityImpl;
-import at.kc.tugraz.ss.serv.auth.conf.*;
 import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.datatype.SSErr;

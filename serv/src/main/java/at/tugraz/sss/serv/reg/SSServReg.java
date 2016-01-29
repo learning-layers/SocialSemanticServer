@@ -48,24 +48,24 @@ import java.util.concurrent.*;
 
 public class SSServReg{
   
-  public static final SSServReg                            inst                                         = new SSServReg();
-  public static final Map<String,        SSServContainerI> servsForClientOps                            = new HashMap<>();
-  public static final Map<Class,         SSServContainerI> servsForServerI                              = new HashMap<>();
-  public static final Map<Class,         SSServContainerI> servsForClientI                              = new HashMap<>();
-  public static final List<SSServContainerI>               servsForGatheringUsersResources              = new ArrayList<>();
-  public static final List<SSServContainerI>               servsForGatheringUserRelations               = new ArrayList<>();
-  public static final List<SSServContainerI>               servsHandlingCircleContentRemoved            = new ArrayList<>();
-  public static final List<SSServContainerI>               servsHandlingEntityCopied                    = new ArrayList<>();
-  public static final List<SSServContainerI>               servsHandlingGetSubEntities                  = new ArrayList<>();
-  public static final List<SSServContainerI>               servsHandlingGetParentEntities               = new ArrayList<>();
-  public static final List<SSServContainerI>               servsHandlingCopyEntity                      = new ArrayList<>();
-  public static final List<SSServContainerI>               servsHandlingDescribeEntity                  = new ArrayList<>();
-  public static final List<SSServContainerI>               servsHandlingAddAffiliatedEntitiesToCircle   = new ArrayList<>();
-  public static final List<SSServContainerI>               servsHandlingPushEntitiesToUsers             = new ArrayList<>();
-  public static final List<SSServContainerI>               servsHandlingEntitiesSharedWithUsers         = new ArrayList<>();
+  public    static final SSServReg                            inst                                         = new SSServReg();
+  protected static final Map<String,        SSServContainerI> servsForClientOps                            = new HashMap<>();
+  protected static final Map<Class,         SSServContainerI> servsForServerI                              = new HashMap<>();
+  protected static final Map<Class,         SSServContainerI> servsForClientI                              = new HashMap<>();
+  protected static final List<SSServContainerI>               servsForGatheringUsersResources              = new ArrayList<>();
+  protected static final List<SSServContainerI>               servsForGatheringUserRelations               = new ArrayList<>();
+  protected static final List<SSServContainerI>               servsHandlingCircleContentRemoved            = new ArrayList<>();
+  protected static final List<SSServContainerI>               servsHandlingEntityCopied                    = new ArrayList<>();
+  protected static final List<SSServContainerI>               servsHandlingGetSubEntities                  = new ArrayList<>();
+  protected static final List<SSServContainerI>               servsHandlingGetParentEntities               = new ArrayList<>();
+  protected static final List<SSServContainerI>               servsHandlingCopyEntity                      = new ArrayList<>();
+  protected static final List<SSServContainerI>               servsHandlingDescribeEntity                  = new ArrayList<>();
+  protected static final List<SSServContainerI>               servsHandlingAddAffiliatedEntitiesToCircle   = new ArrayList<>();
+  protected static final List<SSServContainerI>               servsHandlingPushEntitiesToUsers             = new ArrayList<>();
+  protected static final List<SSServContainerI>               servsHandlingEntitiesSharedWithUsers         = new ArrayList<>();
   
-  public    static final Map<String, Integer>                         requsLimitsForClientOpsPerUser  = new HashMap<>();
-  public    static final Map<String, Map<String, List<SSServImplA>>>  currentRequsForClientOpsPerUser = new HashMap<>();
+  protected static final Map<String, Integer>                         requsLimitsForClientOpsPerUser  = new HashMap<>();
+  protected static final Map<String, Map<String, List<SSServImplA>>>  currentRequsForClientOpsPerUser = new HashMap<>();
   protected static final List<ScheduledExecutorService>               schedulers                      = new ArrayList<>();
     
   public static void destroy() throws SSErr{

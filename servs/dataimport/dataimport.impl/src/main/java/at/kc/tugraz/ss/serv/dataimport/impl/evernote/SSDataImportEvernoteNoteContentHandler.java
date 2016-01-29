@@ -131,14 +131,16 @@ public class SSDataImportEvernoteNoteContentHandler{
           }
           
         }catch(Exception error1){
-          SSLogU.err(error);
+          SSLogU.err(error1);
           return;
         }
       }finally{
         
         try{
           SSFileU.delFile(xhtmlFilePath);
-        }catch(Exception error){}
+        }catch(Exception error){
+          SSLogU.warn(error);
+        }
       }
       
       fileServ.fileAdd(

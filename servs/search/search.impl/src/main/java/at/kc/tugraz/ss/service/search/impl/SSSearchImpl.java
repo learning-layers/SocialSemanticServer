@@ -429,7 +429,8 @@ implements
       try{
         page = pages.pages.get(par.pageNumber - 1);
       }catch(Exception error){
-        throw SSErr.get(SSErrE.queryPageInvalid);
+        SSServErrReg.regErrThrow(SSErrE.queryPageInvalid, error);
+        return null;
       }
       
       return SSSearchRet.get(

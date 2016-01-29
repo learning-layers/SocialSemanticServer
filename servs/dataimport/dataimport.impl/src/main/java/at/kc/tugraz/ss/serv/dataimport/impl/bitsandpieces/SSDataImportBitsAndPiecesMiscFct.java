@@ -457,6 +457,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
             false)); //shouldCommit
         
       }catch(Exception error){
+        SSLogU.warn(error);
         
         entityServ.entityUpdate(
           new SSEntityUpdatePar(

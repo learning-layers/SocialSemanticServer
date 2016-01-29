@@ -392,6 +392,7 @@ implements
         try{
           passwordPerUser.put(line[0].trim(), line[1].trim());
         }catch(Exception error){
+          SSLogU.warn(error);
         }
       }
       
@@ -428,6 +429,7 @@ implements
           System.out.println(userName);
           
         }catch(Exception error){
+          SSLogU.warn(error);
           continue;
         }
         
@@ -548,7 +550,7 @@ implements
           
           vorgaenge.put(vorgangNumber, vorgang);
         }catch(Exception error){
-          SSLogU.warn("line " + (lineCounter + 1) + " reading from csv failed", null);
+          SSLogU.warn("line " + (lineCounter + 1) + " reading from csv failed", error);
         }
       }
       
@@ -586,18 +588,24 @@ implements
           
           try{
             entry.toolContext               = SSToolContextE.get(line[1].trim());
-          }catch(Exception error){}
+          }catch(Exception error){
+            SSLogU.warn(error);
+          }
           
           entry.userLabel                 = SSLabel.get       (line[2].trim());
           entry.logType                   = SSEvalLogE.get    (line[3].trim());
           
           try{
             entry.entity                    = SSUri.get         (line[4].trim());
-          }catch(Exception error){}
+          }catch(Exception error){
+            SSLogU.warn(error);
+          }
           
           try{
             entry.entityType                = SSEntityE.get     (line[5].trim());
-          }catch(Exception error){}
+          }catch(Exception error){
+            SSLogU.warn(error);
+          }
           
           entry.entityLabel               = SSLabel.get       (line[6].trim());
           entry.content                   = line[7].trim();
@@ -605,20 +613,26 @@ implements
           
           try{
             entry.entityIDs.addAll            (SSUri.get  (SSStrU.splitDistinctWithoutEmptyAndNull(line[9].trim(), SSStrU.comma)));
-          }catch(Exception error){}
+          }catch(Exception error){
+            SSLogU.warn(error);
+          }
           
           entry.entityLabels.addAll         (SSLabel.get(SSStrU.splitDistinctWithoutEmptyAndNull(line[10].trim(), SSStrU.comma)));
           entry.userLabels.addAll           (SSLabel.get(SSStrU.splitDistinctWithoutEmptyAndNull(line[11].trim(), SSStrU.comma)));
           
           try{
             entry.episodeSpace              = SSSpaceE.get(line[12].trim());
-          }catch(Exception error){}
+          }catch(Exception error){
+            SSLogU.warn(error);
+          }
           
           entry.selectedBitsMeasure       = line[13].trim();
           
           try{
             entry.notSelectedEntityIds.addAll   (SSUri.get  (SSStrU.splitDistinctWithoutEmptyAndNull(line[14].trim(), SSStrU.comma)));
-          }catch(Exception error){}
+          }catch(Exception error){
+            SSLogU.warn(error);
+          }
           
           entry.notSelectedEntityLabels.addAll(SSLabel.get(SSStrU.splitDistinctWithoutEmptyAndNull(line[15].trim(), SSStrU.comma)));
           
@@ -649,6 +663,7 @@ implements
         try{
           passwordPerUser.put(line[0].trim(), new SSKCProjWikiProject(line[0].trim()));
         }catch(Exception error){
+            SSLogU.warn(error);
         }
       }
       

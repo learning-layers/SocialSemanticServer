@@ -195,7 +195,9 @@ public class SSDataImportBitsAndPiecesMailImporter {
         
         try{
           SSFileU.delFile(txtFilePath);
-        }catch(Exception error){}
+        }catch(Exception error){
+          SSLogU.warn(error);
+        }
       }
       
       miscFct.addNote(

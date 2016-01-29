@@ -526,6 +526,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
 //          }
         }
       }catch(Exception error){
+        SSLogU.warn(error);
       }
       
       resourceWithContent = 
@@ -591,7 +592,9 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         return SSUri.get(createSharedNotebookUriStr(userName, notebook));
       }
       
-    }catch(Exception error){}
+    }catch(Exception error){
+      SSLogU.warn(error);
+    }
     
     return getNotebookDefaultUri(notebook);
   }
@@ -637,6 +640,8 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         return tmpLabel;
       }
     }catch(Exception error){
+      SSLogU.warn(error);
+      
       return getDefaultLabel();
     }
   }
@@ -653,6 +658,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         return tmpLabel;
       }
     }catch(Exception error){
+       SSLogU.warn(error);
       return getDefaultLabel();
     }
   }
@@ -669,6 +675,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         return tmpLabel;
       }
     }catch(Exception error){
+       SSLogU.warn(error);
       return getDefaultLabel();
     }
   }
@@ -688,6 +695,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       
       return SSLabel.get(resource.getAttributes().getFileName());
     }catch(Exception error){
+       SSLogU.warn(error);
       return getDefaultLabel();
     }
   }
