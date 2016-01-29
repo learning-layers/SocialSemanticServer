@@ -69,31 +69,66 @@ public class SSLogU{
     
     return
       "thread: "   + Thread.currentThread().getId()                            +
-      " class: "   + Thread.currentThread().getStackTrace()[4].getClassName()  +
-      " method: "  + Thread.currentThread().getStackTrace()[4].getMethodName() +
-      " line: "    + Thread.currentThread().getStackTrace()[4].getLineNumber() + SSStrU.backslashRBackslashN +
+      " class: "   + Thread.currentThread().getStackTrace()[3].getClassName()  +
+      " method: "  + Thread.currentThread().getStackTrace()[3].getMethodName() +
+      " line: "    + Thread.currentThread().getStackTrace()[3].getLineNumber() + SSStrU.backslashRBackslashN +
       logText;
+  }
+  
+  private static String getMsg(
+    final String  logText, 
+    final boolean fromRegistry){
+    
+    if(fromRegistry){
+      return
+        "thread: "   + Thread.currentThread().getId()                            +
+        " class: "   + Thread.currentThread().getStackTrace()[4].getClassName()  +
+        " method: "  + Thread.currentThread().getStackTrace()[4].getMethodName() +
+        " line: "    + Thread.currentThread().getStackTrace()[4].getLineNumber() + SSStrU.backslashRBackslashN +
+        logText;
+    }else{
+      return getMsg(logText);
+    }
   }
   
   private static String getMsg(final Exception error){
     
     return
       "thread: "   + Thread.currentThread().getId()                            +
-      " class: "   + Thread.currentThread().getStackTrace()[4].getClassName()  +
-      " method: "  + Thread.currentThread().getStackTrace()[4].getMethodName() +
-      " line: "    + Thread.currentThread().getStackTrace()[4].getLineNumber() + SSStrU.backslashRBackslashN +
+      " class: "   + Thread.currentThread().getStackTrace()[3].getClassName()  +
+      " method: "  + Thread.currentThread().getStackTrace()[3].getMethodName() +
+      " line: "    + Thread.currentThread().getStackTrace()[3].getLineNumber() + SSStrU.backslashRBackslashN +
       error;
   }
   
-  private static String getMsg(final Exception error, final String logText){
+  private static String getMsg(
+    final Exception error, 
+    final String    logText){
     
     return
       "thread: "   + Thread.currentThread().getId()                            +
-      " class: "   + Thread.currentThread().getStackTrace()[4].getClassName()  +
-      " method: "  + Thread.currentThread().getStackTrace()[4].getMethodName() +
-      " line: "    + Thread.currentThread().getStackTrace()[4].getLineNumber() + SSStrU.backslashRBackslashN +
+      " class: "   + Thread.currentThread().getStackTrace()[3].getClassName()  +
+      " method: "  + Thread.currentThread().getStackTrace()[3].getMethodName() +
+      " line: "    + Thread.currentThread().getStackTrace()[3].getLineNumber() + SSStrU.backslashRBackslashN +
       logText                                                                  + SSStrU.backslashRBackslashN +
       error;
+  }
+  
+  private static String getMsg(
+    final Exception error, 
+    final boolean   fromRegistry){
+    
+    if(fromRegistry){
+    
+      return
+        "thread: "   + Thread.currentThread().getId()                            +
+        " class: "   + Thread.currentThread().getStackTrace()[4].getClassName()  +
+        " method: "  + Thread.currentThread().getStackTrace()[4].getMethodName() +
+        " line: "    + Thread.currentThread().getStackTrace()[4].getLineNumber() + SSStrU.backslashRBackslashN +
+        error;
+    }else{
+      return getMsg(error);
+    }
   }
   
   public static void info(final String logText){
@@ -154,6 +189,19 @@ public class SSLogU{
 //    error.printStackTrace();
   }
   
+  public static void err(
+    final Exception error, 
+    final boolean   fromRegistry){
+    
+    if(error == null){
+      return;
+    }
+    
+    log.error(getMsg(error, fromRegistry));
+    
+//    error.printStackTrace();
+  }
+  
   public static void err(final SSErrE code){
     
     if(code == null){
@@ -161,6 +209,17 @@ public class SSLogU{
     }
     
     log.error(getMsg(code.toString()));
+    
+//    error.printStackTrace();
+  }
+  
+  public static void err(final SSErrE code, final boolean fromRegistry){
+    
+    if(code == null){
+      return;
+    }
+    
+    log.error(getMsg(code.toString(), fromRegistry));
     
 //    error.printStackTrace();
   }

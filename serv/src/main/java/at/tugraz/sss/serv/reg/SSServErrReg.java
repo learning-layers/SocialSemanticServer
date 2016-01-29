@@ -26,6 +26,134 @@ import at.tugraz.sss.serv.datatype.enums.SSErrE;
 
 public class SSServErrReg {
   
+  public static void regErrThrow(
+    final Exception originalError,
+    final boolean   log) throws SSErr{
+    
+    SSErr errorToThrow = null;
+    
+    try{
+      
+      if(log){
+        SSLogU.err(originalError, true);
+      }
+      
+      if(originalError instanceof SSErr){
+        errorToThrow = (SSErr) originalError;
+      }else{
+        errorToThrow = SSErr.get(SSErrE.defaultErr, originalError);
+      }
+      
+    }catch(Exception error1){
+      SSLogU.err(error1);
+    }
+    
+    throw errorToThrow;
+  }
+  
+  public static void regErrThrow(
+    final SSErrE    code,
+    final Exception originalError) throws SSErr{
+    
+    SSErr errorToThrow = null;
+    
+    try{
+      
+      SSLogU.err(code, true);
+      
+      if(originalError == null){
+        errorToThrow = SSErr.get(code);
+      }else{
+        errorToThrow = SSErr.get(code, originalError);
+      }
+      
+    }catch(Exception error1){
+      SSLogU.err(error1);
+    }
+    
+    throw errorToThrow;
+  }
+  
+  public static void regErrThrow(final Exception error) throws SSErr{
+    
+    SSErr errorToThrow = null;
+    
+    try{
+      
+      SSLogU.err(error, true);
+      
+      if(error instanceof SSErr){
+        errorToThrow = (SSErr) error;
+      }else{
+        errorToThrow = SSErr.get(SSErrE.defaultErr, error);
+      }
+      
+    }catch(Exception error1){
+      SSLogU.err(error1);
+    }
+    
+    throw errorToThrow;
+  }
+}
+
+//private static final ThreadLocal<List<SSErr>> servImplErrors = new ThreadLocal<List<SSErr>>(){
+//    
+//    @Override
+//    protected List<SSErr> initialValue(){
+//      
+//      try{
+//        return new ArrayList<>();
+//      }catch (Exception error){
+//        SSLogU.err(error);
+//        return null;
+//      }
+//    }
+//  };
+
+//public static void reset(){
+//    servImplErrors.get().clear();
+//  }
+
+//public static void logAndReset(final boolean log){
+//    
+//    try{
+//      
+//      if(!log){
+//        
+//        reset();
+//        return;
+//      }
+//      
+//      for(SSErr error : servImplErrors.get()){
+//        
+//        SSLogU.err(
+//          error.threadWhereThrown + SSStrU.blank
+//            +  error.classWhereThrown  + SSStrU.blank
+//            +  error.methodWhereThrown + SSStrU.blank
+//            +  error.lineWhereThrown   + SSStrU.blank
+//            +  error.className         + SSStrU.blank
+//            +  error.message);
+//      }
+//      
+//      reset();
+//      
+//    }catch(Exception error1){
+//      SSLogU.err(error1);
+//    }
+//  }
+
+//  public static List<SSErr> getErrors(){
+//    return new ArrayList<>(servImplErrors.get());
+//  }
+
+//public static void destroy(){
+//    
+//    logAndReset(true);
+//    
+//    servImplErrors.remove();
+//  }
+
+
 //  public static boolean containsErr(final SSErrE code){
 //    
 //    if(servImplErrors.get().stream().anyMatch((error) -> (error.code.compareTo(code) == 0))) {
@@ -120,131 +248,4 @@ public class SSServErrReg {
 //    }catch(Exception error1){
 //      SSLogU.err(error1);
 //    }
-//  }
-  
-  public static void regErrThrow(
-    final Exception originalError,
-    final boolean   log) throws SSErr{
-    
-    SSErr errorToThrow = null;
-    
-    try{
-      
-      if(log){
-        SSLogU.err(originalError);
-      }
-      
-      if(originalError instanceof SSErr){
-        errorToThrow = (SSErr) originalError;
-      }else{
-        errorToThrow = SSErr.get(SSErrE.defaultErr, originalError);
-      }
-      
-    }catch(Exception error1){
-      SSLogU.err(error1);
-    }
-    
-    throw errorToThrow;
-  }
-  
-  public static void regErrThrow(
-    final SSErrE    code,
-    final Exception originalError) throws SSErr{
-    
-    SSErr errorToThrow = null;
-    
-    try{
-      
-      SSLogU.err(code);
-      
-      if(originalError == null){
-        errorToThrow = SSErr.get(code);
-      }else{
-        errorToThrow = SSErr.get(code, originalError);
-      }
-      
-    }catch(Exception error1){
-      SSLogU.err(error1);
-    }
-    
-    throw errorToThrow;
-  }
-  
-  public static void regErrThrow(final Exception error) throws SSErr{
-    
-    SSErr errorToThrow = null;
-    
-    try{
-      
-      SSLogU.err(error);
-      
-      if(error instanceof SSErr){
-        errorToThrow = (SSErr) error;
-      }else{
-        errorToThrow = SSErr.get(SSErrE.defaultErr, error);
-      }
-      
-    }catch(Exception error1){
-      SSLogU.err(error1);
-    }
-    
-    throw errorToThrow;
-  }
-}
-
-//private static final ThreadLocal<List<SSErr>> servImplErrors = new ThreadLocal<List<SSErr>>(){
-//    
-//    @Override
-//    protected List<SSErr> initialValue(){
-//      
-//      try{
-//        return new ArrayList<>();
-//      }catch (Exception error){
-//        SSLogU.err(error);
-//        return null;
-//      }
-//    }
-//  };
-
-//public static void reset(){
-//    servImplErrors.get().clear();
-//  }
-
-//public static void logAndReset(final boolean log){
-//    
-//    try{
-//      
-//      if(!log){
-//        
-//        reset();
-//        return;
-//      }
-//      
-//      for(SSErr error : servImplErrors.get()){
-//        
-//        SSLogU.err(
-//          error.threadWhereThrown + SSStrU.blank
-//            +  error.classWhereThrown  + SSStrU.blank
-//            +  error.methodWhereThrown + SSStrU.blank
-//            +  error.lineWhereThrown   + SSStrU.blank
-//            +  error.className         + SSStrU.blank
-//            +  error.message);
-//      }
-//      
-//      reset();
-//      
-//    }catch(Exception error1){
-//      SSLogU.err(error1);
-//    }
-//  }
-
-//  public static List<SSErr> getErrors(){
-//    return new ArrayList<>(servImplErrors.get());
-//  }
-
-//public static void destroy(){
-//    
-//    logAndReset(true);
-//    
-//    servImplErrors.remove();
 //  }
