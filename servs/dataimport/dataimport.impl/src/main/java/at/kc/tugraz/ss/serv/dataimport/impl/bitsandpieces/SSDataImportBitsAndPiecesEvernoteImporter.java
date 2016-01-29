@@ -93,7 +93,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     final SSUEServerI                  ueServ,
     final SSTagServerI                 tagServ,
     final SSEvalServerI                evalServ,
-    final SSUri                        userUri) throws Exception{
+    final SSUri                        userUri) throws SSErr{
     
     this.conf            = conf;
     this.par             = par;
@@ -114,7 +114,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         userUri);
   }
   
-  public void handle(final SSServPar servPar) throws Exception{
+  public void handle(final SSServPar servPar) throws SSErr{
     
     try{
   
@@ -133,12 +133,12 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       SSLogU.info("end B&P evernote import for evernote account " + par.authEmail);
       
     }catch(Exception error){
-      SSLogU.err("B&P evernote import failed for " + par.authEmail);
+      SSLogU.err(error, "B&P evernote import failed for " + par.authEmail);
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  private void setBasicEvernoteInfo(final SSServPar servPar) throws Exception{
+  private void setBasicEvernoteInfo(final SSServPar servPar) throws SSErr{
     
     try{
       
@@ -164,7 +164,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     }
   }
   
-  private void setUSN(final SSServPar servPar) throws Exception{
+  private void setUSN(final SSServPar servPar) throws SSErr{
     
     final Integer usn;
     
@@ -174,7 +174,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       if(evernoteInfo.noteStoreSyncChunk.isSetUpdateCount()){
         usn = evernoteInfo.noteStoreSyncChunk.getUpdateCount();
       }else{
-        SSLogU.warn("couldnt set USN as Evernote didnt provide one");
+        SSLogU.warn("couldnt set USN as Evernote didnt provide one", null);
         usn = 0;
       }
     }
@@ -188,7 +188,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         false));
   }
   
-  private void setSharedNotebooks(final SSServPar servPar) throws Exception{
+  private void setSharedNotebooks(final SSServPar servPar) throws SSErr{
     
     sharedNotebooks     = 
       evernoteServ.evernoteNotebooksSharedGet (
@@ -208,7 +208,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     });
   }
   
-  private void handleNotebooks(final SSServPar servPar) throws Exception{
+  private void handleNotebooks(final SSServPar servPar) throws SSErr{
     
     final List<Notebook> notebooks      = evernoteInfo.noteStoreSyncChunk.getNotebooks();
     SSUri                notebookUri;
@@ -240,7 +240,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
   private void addNotebookUEs(
     final SSServPar servPar,
     final SSUri    notebookUri,
-    final Notebook notebook) throws Exception{
+    final Notebook notebook) throws SSErr{
     
     final List<SSEntity> existingCreationUEs =
       ueServ.userEventsGet(
@@ -299,7 +299,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     }
   }
   
-  private void handleLinkedNotebooks(final SSServPar servPar) throws Exception{
+  private void handleLinkedNotebooks(final SSServPar servPar) throws SSErr{
     
     try{
       final List<LinkedNotebook> linkedNotebooks = evernoteInfo.noteStoreSyncChunk.getLinkedNotebooks();
@@ -337,7 +337,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
   private void addLinkedNotebookUEs(
     final SSServPar servPar,
     final SSUri notebookUri,
-    final Long  creationTimeForLinkedNotebook) throws Exception {
+    final Long  creationTimeForLinkedNotebook) throws SSErr {
     
     final List<SSEntity> existingUEs =
       ueServ.userEventsGet(
@@ -369,7 +369,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         false)); //shouldCommit
   }
   
-  private void handleNotes(final SSServPar servPar) throws Exception{
+  private void handleNotes(final SSServPar servPar) throws SSErr{
     
     final List<Note>     notes = evernoteInfo.noteStoreSyncChunk.getNotes();
     Note                 noteWithContent;
@@ -469,7 +469,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     }
   }
   
-  private void handleResources(final SSServPar servPar) throws Exception{
+  private void handleResources(final SSServPar servPar) throws SSErr{
     
     final List<Resource> resources = evernoteInfo.noteStoreSyncChunk.getResources();
     Resource             resourceWithContent;
@@ -581,7 +581,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     }
   }
   
-  private SSUri getNormalOrSharedNotebookUri(SSLabel userName, Notebook notebook, List<String> sharedNotebookGuids) throws Exception{
+  private SSUri getNormalOrSharedNotebookUri(SSLabel userName, Notebook notebook, List<String> sharedNotebookGuids) throws SSErr{
     
     try{
       
@@ -596,25 +596,25 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     return getNotebookDefaultUri(notebook);
   }
   
-  private SSUri getNormalOrSharedNoteUri(SSEvernoteInfo evernoteInfo, Note note) throws Exception {
+  private SSUri getNormalOrSharedNoteUri(SSEvernoteInfo evernoteInfo, Note note) throws SSErr {
     return SSUri.get(evernoteInfo.shardUri + "view/notebook/" + note.getGuid());
   }
   
-  private SSUri getLinkedNotebookUri(LinkedNotebook linkedNotebook) throws Exception {
+  private SSUri getLinkedNotebookUri(LinkedNotebook linkedNotebook) throws SSErr {
     return SSUri.get(linkedNotebook.getWebApiUrlPrefix() + "share/" + linkedNotebook.getShareKey());
   }
   
-  private SSUri getResourceUri(SSEvernoteInfo evernoteInfo, Resource resource) throws Exception{
+  private SSUri getResourceUri(SSEvernoteInfo evernoteInfo, Resource resource) throws SSErr{
     return SSUri.get(evernoteInfo.shardUri + "res/" + resource.getGuid());
   }
   
-  private String createSharedNotebookUriStr(SSLabel userName, Notebook notebook) throws Exception{
+  private String createSharedNotebookUriStr(SSLabel userName, Notebook notebook) throws SSErr{
     
     //TODO dtheiler: check evernote environment to use here
     return SSLinkU.httpsEvernote + "pub/" + SSStrU.toStr(userName) + SSStrU.slash + notebook.getPublishing().getUri(); //7SSStrU.replaceAllBlanksSpecialCharactersDoubleDots(notebook.getName(), SSStrU.empty)
   }
   
-  private SSUri getNotebookDefaultUri(Notebook notebook) throws Exception{
+  private SSUri getNotebookDefaultUri(Notebook notebook) throws SSErr{
     
     if(
       notebook                  == null ||
@@ -626,7 +626,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
   }
   
   private SSLabel getNormalOrSharedNotebookLabel(
-    final Notebook notebook) throws Exception{
+    final Notebook notebook) throws SSErr{
     
     try{
       final SSLabel tmpLabel = SSLabel.get(notebook.getName());
@@ -642,7 +642,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
   }
   
   private SSLabel getLinkedNotebookLabel(
-    final LinkedNotebook linkedNotebook) throws Exception{
+    final LinkedNotebook linkedNotebook) throws SSErr{
     
     try{
       final SSLabel tmpLabel = SSLabel.get(linkedNotebook.getShareName());
@@ -658,7 +658,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
   }
   
   public SSLabel getNoteLabel(
-    final Note  note) throws Exception {
+    final Note  note) throws SSErr {
     
     try{
       final SSLabel tmpLabel = SSLabel.get(note.getTitle());
@@ -675,7 +675,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
   
   private SSLabel getResourceLabel(
     final Resource resource,
-    final Note     note) throws Exception{
+    final Note     note) throws SSErr{
     
     try{
       
@@ -692,7 +692,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     }
   }
   
-  private SSLabel getDefaultLabel() throws Exception{
+  private SSLabel getDefaultLabel() throws SSErr{
     return SSLabel.get("no label");
   }
 }
@@ -704,12 +704,12 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
 
 
 
-//  public String getUserEmail(final SSEvernoteInfo evernoteInfo) throws Exception{
+//  public String getUserEmail(final SSEvernoteInfo evernoteInfo) throws SSErr{
 //    return evernoteInfo.userStore.getUser().getEmail();
 //  }
 
 //  private static SSLabel getLinkedNoteLabel(
-//    final Note  note) throws Exception {
+//    final Note  note) throws SSErr {
 //
 //    try{
 //      final SSLabel tmpLabel = SSLabel.get(note.getTitle());
@@ -724,7 +724,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
 //    }
 //  }
 
-//private static SSUri getLinkedNoteUri(LinkedNotebook linkedNotebook, Note note) throws Exception{
+//private static SSUri getLinkedNoteUri(LinkedNotebook linkedNotebook, Note note) throws SSErr{
 //    return SSUri.get(linkedNotebook.getWebApiUrlPrefix() + "share/view/" + linkedNotebook.getShareKey() + "?#n=" + note.getGuid());
 //  }
 //

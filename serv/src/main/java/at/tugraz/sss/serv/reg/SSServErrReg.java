@@ -74,6 +74,24 @@ public class SSServErrReg {
     throw errorToThrow;
   }
   
+  public static void regErrThrow(
+    final SSErrE    code) throws SSErr{
+    
+    SSErr errorToThrow = null;
+    
+    try{
+      
+      SSLogU.err(code, true);
+      
+      errorToThrow = SSErr.get(code);
+      
+    }catch(Exception error1){
+      SSLogU.err(error1);
+    }
+    
+    throw errorToThrow;
+  }
+  
   public static void regErrThrow(final Exception error) throws SSErr{
     
     SSErr errorToThrow = null;

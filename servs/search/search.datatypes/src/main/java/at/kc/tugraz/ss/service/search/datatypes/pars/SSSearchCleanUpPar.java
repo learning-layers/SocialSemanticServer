@@ -30,7 +30,7 @@ public class SSSearchCleanUpPar extends SSServPar{
   
   public SSSearchCleanUpPar(
     final SSServPar servPar,
-    final SSUri                user) throws Exception{
+    final SSUri                user) throws SSErr{
     
     super(SSVarNames.searchCleanUp, null, user, servPar.sqlCon);
   }

@@ -67,24 +67,24 @@ public class SSOCDServ extends SSServContainerI{
   }  
   
   @Override
-  public void initServ() throws Exception {
+  public void initServ() throws SSErr {
     
   }
   
   @Override
-  public void schedule() throws Exception {
+  public void schedule() throws SSErr {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
   
   @Override
-  public SSServContainerI regServ() throws Exception {
+  public SSServContainerI regServ() throws SSErr {
     this.conf = SSCoreConf.instGet().getOcd();
     SSServReg.inst.regServ(this);
     return this;
   }
   
   @Override
-  public SSCoreConfA getConfForCloudDeployment(SSCoreConfA coreConfA, List<Class> configuredServs) throws Exception {
+  public SSCoreConfA getConfForCloudDeployment(SSCoreConfA coreConfA, List<Class> configuredServs) throws SSErr {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

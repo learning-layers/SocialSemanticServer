@@ -50,7 +50,7 @@ public class SSImageSQLFct extends SSCoreSQL{
     final SSServPar servPar,
     final SSUri    image,
     final SSImageE imageType,
-    final SSUri    link) throws Exception{
+    final SSUri    link) throws SSErr{
     
     try{
 
@@ -81,7 +81,7 @@ public class SSImageSQLFct extends SSCoreSQL{
   
   public SSImage getImage(
     final SSServPar servPar,
-    final SSUri    image) throws Exception{
+    final SSUri    image) throws SSErr{
     
     if(image == null){
       throw SSErr.get(SSErrE.parameterMissing);
@@ -121,7 +121,7 @@ public class SSImageSQLFct extends SSCoreSQL{
   public List<SSUri> getImages(
     final SSServPar servPar,
     final SSUri    forEntity,
-    final SSImageE imageType) throws Exception{
+    final SSImageE imageType) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -163,7 +163,7 @@ public class SSImageSQLFct extends SSCoreSQL{
   public void addImageToEntity(
     final SSServPar servPar,
     final SSUri image,
-    final SSUri entity) throws Exception{
+    final SSUri entity) throws SSErr{
     
     try{
       
@@ -184,7 +184,7 @@ public class SSImageSQLFct extends SSCoreSQL{
   
   public void removeProfilePictures(
     final SSServPar servPar,
-    final SSUri entity) throws Exception{
+    final SSUri entity) throws SSErr{
     
     try{
       final Map<String, String> wheres = new HashMap<>();
@@ -200,7 +200,7 @@ public class SSImageSQLFct extends SSCoreSQL{
   
   public void removeImagesFromEntity(
     final SSServPar servPar,
-    final List<SSUri> images) throws Exception{
+    final List<SSUri> images) throws SSErr{
     
     try{
       
@@ -223,7 +223,7 @@ public class SSImageSQLFct extends SSCoreSQL{
   public void addProfilePicture(
     final SSServPar servPar,
     final SSUri entity,
-    final SSUri image) throws Exception{
+    final SSUri image) throws SSErr{
     
     try{
       final Map<String, String> inserts    = new HashMap<>();
@@ -244,7 +244,7 @@ public class SSImageSQLFct extends SSCoreSQL{
   
   public List<SSUri> getProfilePictures(
     final SSServPar servPar,
-    final SSUri entity) throws Exception{
+    final SSUri entity) throws SSErr{
     
     ResultSet resultSet  = null;
     
@@ -269,7 +269,7 @@ public class SSImageSQLFct extends SSCoreSQL{
   }
 
 //  public List<SSUri> getImageFiles(
-//    final SSUri image) throws Exception{
+//    final SSUri image) throws SSErr{
 //    
 //    ResultSet resultSet = null;
 //    

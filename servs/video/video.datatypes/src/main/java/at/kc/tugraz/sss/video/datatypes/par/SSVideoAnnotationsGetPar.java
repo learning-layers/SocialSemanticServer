@@ -32,7 +32,7 @@ public class SSVideoAnnotationsGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(video);
   }
 
-  public void setVideo(String video) throws Exception{
+  public void setVideo(String video) throws SSErr{
     this.video = SSUri.get(video);
   }
 

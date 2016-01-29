@@ -42,7 +42,7 @@ public class SSCategoriesAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
 
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity);
   }
 
@@ -50,7 +50,7 @@ public class SSCategoriesAddPar extends SSServPar{
     return SSStrU.toStr(labels);
   }
 
-  public void setLabels(final List<String> labels) throws Exception{
+  public void setLabels(final List<String> labels) throws SSErr{
     this.labels = SSCategoryLabel.get(labels);
   }
 
@@ -58,7 +58,7 @@ public class SSCategoriesAddPar extends SSServPar{
     return SSStrU.toStr(space);
   }
   
-  public void setSpace(final String space) throws Exception{
+  public void setSpace(final String space) throws SSErr{
     this.space = SSSpaceE.get(space);
   }
   
@@ -66,7 +66,7 @@ public class SSCategoriesAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(circle);
   }
   
-  public void setCircle(final String circle) throws Exception{
+  public void setCircle(final String circle) throws SSErr{
     this.circle = SSUri.get(circle);
   }
   

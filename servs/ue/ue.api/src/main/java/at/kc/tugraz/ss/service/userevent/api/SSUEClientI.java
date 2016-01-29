@@ -20,14 +20,15 @@
 */
  package at.kc.tugraz.ss.service.userevent.api;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 
 public interface SSUEClientI {
   
-  public SSServRetI userEventCountGet (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI userEventGet      (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI userEventsGet     (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI userEventAdd      (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI userEventCountGet (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI userEventGet      (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI userEventsGet     (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI userEventAdd      (final SSClientE clientType, final SSServPar parA) throws SSErr;
 }

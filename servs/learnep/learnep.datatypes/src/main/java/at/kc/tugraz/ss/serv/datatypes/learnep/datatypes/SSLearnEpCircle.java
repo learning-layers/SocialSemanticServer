@@ -49,7 +49,7 @@ public class SSLearnEpCircle extends SSEntity{
   
   public static SSLearnEpCircle get(
     final SSLearnEpCircle learnEpCircle, 
-    final SSEntity        entity) throws Exception{
+    final SSEntity        entity) throws SSErr{
     
     return new SSLearnEpCircle(learnEpCircle, entity);
   }
@@ -65,7 +65,7 @@ public class SSLearnEpCircle extends SSEntity{
     final Float                  xR, 
     final Float                  yR, 
     final Float                  xC, 
-    final Float                  yC) throws Exception{
+    final Float                  yC) throws SSErr{
     
     return new SSLearnEpCircle(
       id,
@@ -85,7 +85,7 @@ public class SSLearnEpCircle extends SSEntity{
   
   protected SSLearnEpCircle(
     final SSLearnEpCircle learnEpCircle,
-    final SSEntity        entity) throws Exception{
+    final SSEntity        entity) throws SSErr{
     
     super(learnEpCircle, entity);
     
@@ -155,7 +155,7 @@ public class SSLearnEpCircle extends SSEntity{
     final Float         xR, 
     final Float         yR, 
     final Float         xC, 
-    final Float         yC) throws Exception{
+    final Float         yC) throws SSErr{
     
     super(
       id, 

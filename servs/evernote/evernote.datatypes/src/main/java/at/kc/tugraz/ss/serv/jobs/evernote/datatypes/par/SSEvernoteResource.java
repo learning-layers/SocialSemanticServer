@@ -42,14 +42,14 @@ public class SSEvernoteResource extends SSEntity{
 
   public static SSEvernoteResource get(
     final SSEvernoteResource      resource,
-    final SSEntity                entity) throws Exception{
+    final SSEntity                entity) throws SSErr{
     
     return new SSEvernoteResource(resource, entity);
   }
   
   public static SSEvernoteResource get(
     final SSUri           id,
-    final SSUri           note) throws Exception{
+    final SSUri           note) throws SSErr{
     
     return new SSEvernoteResource(id, note);
   }
@@ -58,7 +58,7 @@ public class SSEvernoteResource extends SSEntity{
   
   protected SSEvernoteResource(
     final SSEvernoteResource      resource,
-    final SSEntity                entity) throws Exception{
+    final SSEntity                entity) throws SSErr{
 
     super(resource, entity);
     
@@ -74,7 +74,7 @@ public class SSEvernoteResource extends SSEntity{
   
   protected SSEvernoteResource(
     final SSUri       id,
-    final SSUri       note) throws Exception{
+    final SSUri       note) throws SSErr{
 
     super(id, SSEntityE.evernoteResource);
     

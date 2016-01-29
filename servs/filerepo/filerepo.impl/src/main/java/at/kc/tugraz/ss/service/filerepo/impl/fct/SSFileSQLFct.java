@@ -47,7 +47,7 @@ public class SSFileSQLFct extends SSCoreSQL{
   
   public void addFile(
     final SSServPar servPar, 
-    final SSUri file) throws Exception{
+    final SSUri file) throws SSErr{
     
     try{
 
@@ -70,7 +70,7 @@ public class SSFileSQLFct extends SSCoreSQL{
   
   public List<SSUri> getEntityFiles(
     final SSServPar servPar, 
-    final SSUri entity) throws Exception{
+    final SSUri entity) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -98,7 +98,7 @@ public class SSFileSQLFct extends SSCoreSQL{
   public void addFileToEntity(
     final SSServPar servPar, 
     final SSUri file, 
-    final SSUri entity) throws Exception {
+    final SSUri entity) throws SSErr {
     
     try{
       

@@ -20,6 +20,8 @@
 */
 package at.tugraz.sss.serv.datatype.enums;
 
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.reg.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +30,7 @@ public enum SSToolE{
   bnp,
   knowbrain;
   
-  public static SSToolE get(final String space) throws Exception{
+  public static SSToolE get(final String space) throws SSErr{
     
     try{
       
@@ -38,22 +40,28 @@ public enum SSToolE{
       
       return SSToolE.valueOf(space);
     }catch(Exception error){
-      throw new Exception("tool enumn ivalid");
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
-  public static List<SSToolE> get(final List<String> strings) throws Exception{
-
-    final List<SSToolE> result = new ArrayList<>();
+  public static List<SSToolE> get(final List<String> strings) throws SSErr{
     
-    if(strings == null){
+    try{
+      final List<SSToolE> result = new ArrayList<>();
+      
+      if(strings == null){
+        return result;
+      }
+      
+      for(String string : strings){
+        result.add(get(string));
+      }
+      
       return result;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    for(String string : strings){
-      result.add(get(string));
-    }
-    
-    return result;
   }
 }

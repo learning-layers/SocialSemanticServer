@@ -43,7 +43,7 @@ public class SSLivingDocSQLFct extends SSCoreSQL{
   
   public SSLivingDocument getLivingDoc(
     final SSServPar   servPar,
-    final SSUri livingDoc) throws Exception{
+    final SSUri livingDoc) throws SSErr{
     
     ResultSet resultSet  = null;
     
@@ -71,7 +71,7 @@ public class SSLivingDocSQLFct extends SSCoreSQL{
   }
 
   public List<SSUri> getLivingDocURIs(
-  final SSServPar   servPar) throws Exception{
+  final SSServPar   servPar) throws SSErr{
     
     ResultSet resultSet  = null;
     
@@ -96,7 +96,7 @@ public class SSLivingDocSQLFct extends SSCoreSQL{
    
   public List<SSUri> getLivingDocURIsForUser(
     final SSServPar   servPar,
-    final SSUri           user) throws Exception{
+    final SSUri           user) throws SSErr{
     
     ResultSet resultSet  = null;
     
@@ -124,7 +124,7 @@ public class SSLivingDocSQLFct extends SSCoreSQL{
   public void createLivingDoc(
     final SSServPar   servPar,
     final SSUri    livingDocURI,
-    final SSUri    user) throws Exception{
+    final SSUri    user) throws SSErr{
     
     try{
       final Map<String, String> inserts    = new HashMap<>();
@@ -145,7 +145,7 @@ public class SSLivingDocSQLFct extends SSCoreSQL{
   public void addLivingDoc(
     final SSServPar   servPar,
     final SSUri    livingDocURI,
-    final SSUri    user) throws Exception{
+    final SSUri    user) throws SSErr{
     
     try{
       final Map<String, String> inserts    = new HashMap<>();
@@ -166,7 +166,7 @@ public class SSLivingDocSQLFct extends SSCoreSQL{
   
   public List<SSUri> getLivingDocUserURIs(
     final SSServPar   servPar,
-    final SSUri livingDoc) throws Exception{
+    final SSUri livingDoc) throws SSErr{
 
     ResultSet resultSet   = null;
     
@@ -192,7 +192,7 @@ public class SSLivingDocSQLFct extends SSCoreSQL{
 
   public void removeLivingDoc(
     final SSServPar   servPar, 
-    final SSUri livingDoc) throws Exception{
+    final SSUri livingDoc) throws SSErr{
     
     try{
       final Map<String, String> wheres = new HashMap<>();

@@ -41,35 +41,35 @@ public class SSDiscEntryAddPar extends SSServPar{
   public List<SSUri>         entities       = new ArrayList<>();
   public List<SSLabel>       entityLabels   = new ArrayList<>();
 
-  public void setDisc(final String disc) throws Exception{
+  public void setDisc(final String disc) throws SSErr{
     this.disc = SSUri.get(disc);
   }
 
-  public void setTargets(final List<String> targets) throws Exception{
+  public void setTargets(final List<String> targets) throws SSErr{
     this.targets.addAll(SSUri.get(targets));
   }
   
-  public void setEntry(final String entry) throws Exception{
+  public void setEntry(final String entry) throws SSErr{
     this.entry = SSTextComment.get(entry); 
   }
   
-  public void setType(final String type) throws Exception{
+  public void setType(final String type) throws SSErr{
     this.type = SSEntityE.get(type); 
   }
   
-  public void setLabel(final String label) throws Exception{
+  public void setLabel(final String label) throws SSErr{
     this.label = SSLabel.get(label); 
   }
 
-  public void setDescription(final String description) throws Exception{
+  public void setDescription(final String description) throws SSErr{
     this.description = SSTextComment.get(description); 
   }
   
-  public void setEntities(final List<String> entities) throws Exception{
+  public void setEntities(final List<String> entities) throws SSErr{
     this.entities = SSUri.get(entities); 
   }
   
-  public void setEntityLabels(final List<String> entityLabels) throws Exception{
+  public void setEntityLabels(final List<String> entityLabels) throws SSErr{
     this.entityLabels = SSLabel.get(entityLabels);
   }
   
@@ -97,7 +97,7 @@ public class SSDiscEntryAddPar extends SSServPar{
     return SSStrU.toStr(description);
   }
 
-  public List<String> getEntities() throws Exception{
+  public List<String> getEntities() throws SSErr{
     return SSStrU.removeTrailingSlash(entities);
   }
   

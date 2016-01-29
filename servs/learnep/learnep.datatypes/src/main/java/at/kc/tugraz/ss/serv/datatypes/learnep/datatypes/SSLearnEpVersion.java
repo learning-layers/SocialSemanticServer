@@ -51,7 +51,7 @@ public class SSLearnEpVersion extends SSEntity{
 
   public static SSLearnEpVersion get(
     final SSLearnEpVersion learnEpVersion,
-    final SSEntity         entity) throws Exception{
+    final SSEntity         entity) throws SSErr{
     
     return new SSLearnEpVersion(learnEpVersion, entity);
   }
@@ -64,7 +64,7 @@ public class SSLearnEpVersion extends SSEntity{
     final SSEntity               author,
     final SSUri                  learnEp,
     final List<SSEntity>         learnEpEntities,
-    final List<SSEntity>         learnEpCircles) throws Exception{
+    final List<SSEntity>         learnEpCircles) throws SSErr{
     
     return new SSLearnEpVersion(
       id,
@@ -81,7 +81,7 @@ public class SSLearnEpVersion extends SSEntity{
   
   protected SSLearnEpVersion(
     final SSLearnEpVersion learnEpVersion,
-    final SSEntity         entity) throws Exception{
+    final SSEntity         entity) throws SSErr{
     
     super(learnEpVersion, entity);
     
@@ -111,7 +111,7 @@ public class SSLearnEpVersion extends SSEntity{
     final SSEntity               author,
     final SSUri                  learnEp,
     final List<SSEntity>         learnEpEntities,
-    final List<SSEntity>         learnEpCircles) throws Exception{
+    final List<SSEntity>         learnEpCircles) throws SSErr{
     
     super(
       id, 

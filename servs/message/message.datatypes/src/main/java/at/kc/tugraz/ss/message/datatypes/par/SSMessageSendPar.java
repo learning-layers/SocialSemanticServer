@@ -31,11 +31,11 @@ public class SSMessageSendPar extends SSServPar{
   public SSUri          forUser    = null;
   public SSTextComment  message    = null;
   
-  public void setForUser(final String forUser) throws Exception{
+  public void setForUser(final String forUser) throws SSErr{
     this.forUser = SSUri.get(forUser);
   }
   
-  public void setMessage(final String message) throws Exception{
+  public void setMessage(final String message) throws SSErr{
     this.message = SSTextComment.get(message);
   }
   
@@ -43,7 +43,7 @@ public class SSMessageSendPar extends SSServPar{
     return SSStrU.removeTrailingSlash(forUser);
   }
 
-  public String getMessage() throws Exception{
+  public String getMessage() throws SSErr{
     return SSStrU.toStr(message);
   }
   

@@ -31,7 +31,7 @@ public class SSLivingDocGetPar extends SSServPar{
   public boolean setUsers             = false;
   public boolean setDiscs             = false;
   
-  public void setLivingDoc(final String livingDoc) throws Exception{
+  public void setLivingDoc(final String livingDoc) throws SSErr{
     this.livingDoc = SSUri.get(livingDoc);
   }
   

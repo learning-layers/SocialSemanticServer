@@ -33,7 +33,7 @@ public class SSCircleEntitiesRemoveFromClientPar extends SSCircleEntitiesRemoveP
     final SSServPar servPar,
     final SSUri          circle,
     final List<SSUri>    entities,
-    final boolean        removeCircleSpecificMetadata) throws Exception{
+    final boolean        removeCircleSpecificMetadata) throws SSErr{
     
     super(servPar, null, circle, entities, true, true);
     

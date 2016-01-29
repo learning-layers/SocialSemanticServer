@@ -53,7 +53,7 @@ public class SSDBSQLSelectPar {
     final List<MultivaluedMap<String, String>>                   orWheres,
     final List<MultivaluedMap<String, String>>                   andWheres,
     final MultivaluedMap<String, MultivaluedMap<String, String>> numbericWheres,
-    final List<String>                                           tableCons) throws Exception{
+    final List<String>                                           tableCons) throws SSErr{
     
     this.servPar = servPar;
     

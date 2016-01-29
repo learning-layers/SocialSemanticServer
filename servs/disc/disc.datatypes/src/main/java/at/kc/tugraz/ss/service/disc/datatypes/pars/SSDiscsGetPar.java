@@ -44,7 +44,7 @@ public class SSDiscsGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(forUser);
   }
 
-  public void setForUser(final String forUser) throws Exception{
+  public void setForUser(final String forUser) throws SSErr{
     this.forUser = SSUri.get(forUser);
   }
 
@@ -52,7 +52,7 @@ public class SSDiscsGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(discs);
   }
 
-  public void setDiscs(List<String> discs) throws Exception {
+  public void setDiscs(List<String> discs) throws SSErr {
     this.discs = SSUri.get(discs);
   }
   
@@ -60,7 +60,7 @@ public class SSDiscsGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(targets);
   }
 
-  public void setTargets(final List<String> targets) throws Exception{
+  public void setTargets(final List<String> targets) throws SSErr{
     this.targets.addAll(SSUri.get(targets));
   }
   

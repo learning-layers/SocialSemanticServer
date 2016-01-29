@@ -48,7 +48,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
     super(serv.dbSQL, systemUserURI);
   }
 
-//  public List<SSUri> getDiscURIs() throws Exception{
+//  public List<SSUri> getDiscURIs() throws SSErr{
 //
 //    ResultSet resultSet = null;
 //
@@ -65,7 +65,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
 //  }
   
   //  public List<SSUri> getDiscURIsForTarget(
-//    final SSUri targetUri) throws Exception {
+//    final SSUri targetUri) throws SSErr {
 //  
 //    ResultSet resultSet = null;
 //
@@ -87,7 +87,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
   
   public List<SSUri> getDiscUserURIs(
     final SSServPar servPar,
-    final SSUri disc) throws Exception{
+    final SSUri disc) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -113,7 +113,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
   
   public List<SSUri> getDiscURIs(
     final SSServPar servPar,
-    final SSUri userUri) throws Exception{
+    final SSUri userUri) throws SSErr{
 
     ResultSet resultSet = null;
 
@@ -143,7 +143,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
   public List<SSUri> getDiscURIsForTarget(
     final SSServPar servPar,
     final SSUri forUser,
-    final SSUri target) throws Exception{
+    final SSUri target) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -190,7 +190,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
   public void createDisc(
     final SSServPar servPar,
     final SSUri         user,
-    final SSUri         disc) throws Exception{
+    final SSUri         disc) throws SSErr{
     
     try{
       final Map<String, String> inserts =  new HashMap<>();
@@ -209,7 +209,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
   public void addDiscTargets(
     final SSServPar servPar,
     final SSUri       disc, 
-    final List<SSUri> targets) throws Exception{
+    final List<SSUri> targets) throws SSErr{
     
     try{
       final Map<String, String> inserts    = new HashMap<>();
@@ -238,7 +238,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
   public void addDisc(
     final SSServPar servPar,
     final SSUri    disc,
-    final SSUri    user) throws Exception{
+    final SSUri    user) throws SSErr{
     
     try{
       final Map<String, String> inserts = new HashMap<>();
@@ -257,7 +257,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
     final SSServPar servPar,
     final SSUri         discEntryUri, 
     final SSUri         discUri, 
-    final SSTextComment content) throws Exception{
+    final SSTextComment content) throws SSErr{
     
     try{
       final Map<String, String> inserts = new HashMap<>();
@@ -286,7 +286,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
   
   public Integer getDiscEntryCount(
     final SSServPar servPar,
-    final SSUri discUri) throws Exception{
+    final SSUri discUri) throws SSErr{
     
     ResultSet resultSet      = null;
     
@@ -314,7 +314,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
   public boolean isDisc(
     final SSServPar servPar,
     final SSUri     entityUri,
-    final SSEntityE discType) throws Exception {
+    final SSEntityE discType) throws SSErr {
     
     ResultSet resultSet   = null;
     
@@ -346,7 +346,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
   
   public boolean isDisc(
     final SSServPar servPar,
-    final SSUri entityUri) throws Exception {
+    final SSUri entityUri) throws SSErr {
     
     ResultSet resultSet   = null;
     
@@ -372,7 +372,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
   
   public boolean isDiscEntry(
     final SSServPar servPar,
-    final SSUri entityUri) throws Exception {
+    final SSUri entityUri) throws SSErr {
     
     ResultSet resultSet   = null;
     
@@ -398,7 +398,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
   
   private SSDisc getDiscWithoutEntries(
     final SSServPar servPar,
-    final SSUri discUri) throws Exception{
+    final SSUri discUri) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -443,7 +443,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
   
   private List<SSEntity> getDiscTargets(
     final SSServPar servPar,
-    final SSUri discUri) throws Exception{
+    final SSUri discUri) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -469,7 +469,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
   
   public void deleteDisc(
     final SSServPar servPar,
-    final SSUri discUri) throws Exception{
+    final SSUri discUri) throws SSErr{
     
     try{
       final Map<String, String> wheres = new HashMap<>();
@@ -485,7 +485,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
   public void unlinkDisc(
     final SSServPar servPar,
     final SSUri userUri, 
-    final SSUri discUri) throws Exception{
+    final SSUri discUri) throws SSErr{
     
     try{
       final Map<String, String> wheres = new HashMap<>();
@@ -501,7 +501,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
   
   public List<SSUri> getDiscEntryURIs(
     final SSServPar servPar,
-    final SSUri disc) throws Exception{
+    final SSUri disc) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -529,7 +529,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
   public SSDisc getDisc(
     final SSServPar servPar,
     final SSUri   discUri,
-    final boolean setEntries) throws Exception {
+    final boolean setEntries) throws SSErr {
     
     ResultSet resultSet = null;
     
@@ -586,7 +586,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
   public boolean ownsUserDisc(
     final SSServPar servPar,
     final SSUri user, 
-    final SSUri disc) throws Exception {
+    final SSUri disc) throws SSErr {
     
     ResultSet resultSet = null;
     
@@ -613,7 +613,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
 
   public void acceptEntry(
     final SSServPar servPar,
-    final SSUri entry) throws Exception {
+    final SSUri entry) throws SSErr {
     
     try{
       final Map<String, String>  wheres   = new HashMap<>();
@@ -632,7 +632,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
 
   public SSUri getDiscForEntry(
     final SSServPar servPar,
-    final SSUri entry) throws Exception {
+    final SSUri entry) throws SSErr {
     
     ResultSet resultSet = null;
     
@@ -663,7 +663,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
   public void updateEntryContent(
     final SSServPar servPar,
     final SSUri         entry, 
-    final SSTextComment content) throws Exception{
+    final SSTextComment content) throws SSErr{
     
     try{
       final Map<String, String>  wheres   = new HashMap<>();
@@ -683,7 +683,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
   public void updateDiscContent(
     final SSServPar servPar,
     final SSUri         disc, 
-    final SSTextComment content) throws Exception{
+    final SSTextComment content) throws SSErr{
     
     try{
       final Map<String, String>  wheres   = new HashMap<>();

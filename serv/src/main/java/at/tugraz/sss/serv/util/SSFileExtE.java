@@ -136,7 +136,7 @@ public enum SSFileExtE{
       return SSStrU.contains(imageFileExts, fileExt);
   }
   
-  public static SSFileExtE ext(final String fileName) throws Exception {
+  public static SSFileExtE ext(final String fileName) throws SSErr {
     
     try{
       if(
@@ -148,7 +148,8 @@ public enum SSFileExtE{
       return get(fileName.substring(fileName.lastIndexOf(SSStrU.dot) + 1));
       
     }catch(Exception error){
-      throw new Exception("file ext not found for fileName: " + fileName);
+      SSServErrReg.regErrThrow(SSErrE.fileExtInvalid);
+      return null;
     }
   }
 
@@ -158,7 +159,7 @@ public enum SSFileExtE{
       
       return valueOf(value);
     }catch(Exception error){
-      SSServErrReg.regErrThrow(SSErrE.fileExtNotAvailable, error);
+      SSServErrReg.regErrThrow(SSErrE.fileExtInvalid, error);
       return null;
     }
   }

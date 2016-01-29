@@ -78,7 +78,7 @@ public class SSRESTActivity{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -99,14 +99,14 @@ public class SSRESTActivity{
             true); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       //    System.out.println("activity end " + new Date().getTime());
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -115,7 +115,7 @@ public class SSRESTActivity{
         return Response.status(200).entity(activityServ.activitiesGet(SSClientE.rest, par)).build();
         
       }catch(SSErr error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -149,7 +149,7 @@ public class SSRESTActivity{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -160,13 +160,13 @@ public class SSRESTActivity{
             null);
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -175,7 +175,7 @@ public class SSRESTActivity{
         return Response.status(200).entity(activityServ.activityTypesGet(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -211,7 +211,7 @@ public class SSRESTActivity{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       try{
         
@@ -228,13 +228,13 @@ public class SSRESTActivity{
             true);
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -243,7 +243,7 @@ public class SSRESTActivity{
         return Response.status(200).entity(activityServ.activityAdd(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       

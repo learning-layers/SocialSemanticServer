@@ -39,7 +39,7 @@ public class SSRecommUpdateBulkEntitiesPar extends SSServPar{
     return SSStrU.removeTrailingSlash(forUser);
   }
   
-  public List<String> getEntities() throws Exception{
+  public List<String> getEntities() throws SSErr{
     return SSStrU.removeTrailingSlash(entities);
   }
   

@@ -44,7 +44,7 @@ public class SSEntityFileAddPar extends SSServPar{
     return SSStrU.toStr(fileExt);
   }
 
-  public void setFileExt(final String fileExt) throws Exception {
+  public void setFileExt(final String fileExt) throws SSErr {
     this.fileExt = SSFileExtE.get(fileExt);
   }
   
@@ -52,7 +52,7 @@ public class SSEntityFileAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(file);
   }
 
-  public void setFile(final String file) throws Exception{
+  public void setFile(final String file) throws SSErr{
     this.file = SSUri.get(file);
   }
   
@@ -60,7 +60,7 @@ public class SSEntityFileAddPar extends SSServPar{
     return SSStrU.toStr(type);
   }
 
-  public void setType(final String type) throws Exception{
+  public void setType(final String type) throws SSErr{
     this.type = SSEntityE.get(type);
   }
   
@@ -68,7 +68,7 @@ public class SSEntityFileAddPar extends SSServPar{
     return SSStrU.toStr(label);
   }
 
-  public void setLabel(final String label) throws Exception{
+  public void setLabel(final String label) throws SSErr{
     this.label = SSLabel.get(label);
   }
 
@@ -76,7 +76,7 @@ public class SSEntityFileAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
 
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
    this.entity = SSUri.get(entity);
   }
   
@@ -84,7 +84,7 @@ public class SSEntityFileAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entityToAddThumbTo);
   }
 
-  public void setEntityToAddThumbTo(final String entityToAddThumbTo) throws Exception{
+  public void setEntityToAddThumbTo(final String entityToAddThumbTo) throws SSErr{
    this.entity = SSUri.get(entityToAddThumbTo);
   }
   

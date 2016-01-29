@@ -82,7 +82,7 @@ public class SSCategory extends SSEntity{
     this.circle = SSUri.get(circle);
   }
   
-  public String getCircle() throws Exception{
+  public String getCircle() throws SSErr{
     return SSStrU.removeTrailingSlash(circle);
   }
   
@@ -93,7 +93,7 @@ public class SSCategory extends SSEntity{
   
   public static SSCategory get(
     final SSCategory            category,
-    final SSEntity              entity) throws Exception{
+    final SSEntity              entity) throws SSErr{
     
     return new SSCategory(category, entity);
   }
@@ -105,7 +105,7 @@ public class SSCategory extends SSEntity{
     final SSSpaceE         space    ,
     final SSCategoryLabel  categoryLabel,
     final SSUri            circle, 
-    final Long             creationTime) throws Exception{
+    final Long             creationTime) throws SSErr{
     
     return new SSCategory(id, entity, user, space, categoryLabel, circle, creationTime);
   }
@@ -119,7 +119,7 @@ public class SSCategory extends SSEntity{
     final SSSpaceE          space,
     final SSCategoryLabel   categoryLabel,
     final SSUri             circle, 
-    final Long              creationTime) throws Exception{
+    final Long              creationTime) throws SSErr{
     
     super(id, SSEntityE.category, SSLabel.get(SSStrU.toStr(categoryLabel)));
     
@@ -133,7 +133,7 @@ public class SSCategory extends SSEntity{
   
    protected SSCategory(
     final SSCategory            category,
-    final SSEntity              entity) throws Exception{
+    final SSEntity              entity) throws SSErr{
     
     super(category, entity);
     
@@ -143,7 +143,7 @@ public class SSCategory extends SSEntity{
     this.categoryLabel = category.categoryLabel;
   }
   
-  public static Map<String, List<String>> getCategoryLabelsPerEntities(final List<SSEntity> categories) throws Exception{
+  public static Map<String, List<String>> getCategoryLabelsPerEntities(final List<SSEntity> categories) throws SSErr{
     
     final Map<String, List<String>>     categorysPerEntity = new HashMap<>();
     List<String>                        categoryLabels;
@@ -177,7 +177,7 @@ public class SSCategory extends SSEntity{
 }
 
 
-//  public static List<SSUri> getDistinctResources(final List<SSCategory> categories) throws Exception{
+//  public static List<SSUri> getDistinctResources(final List<SSCategory> categories) throws SSErr{
 //    
 //    final List<SSUri> result = new ArrayList<>();
 //		

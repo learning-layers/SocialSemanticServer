@@ -57,7 +57,7 @@ public class SSEntityActAndLogFct {
     final SSEntity      entity,
     final SSLabel       label,
     final SSTextComment description,
-    final boolean       shouldCommit) throws Exception{
+    final boolean       shouldCommit) throws SSErr{
     
     if(
       !storeLogs ||
@@ -100,7 +100,7 @@ public class SSEntityActAndLogFct {
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -116,7 +116,7 @@ public class SSEntityActAndLogFct {
     final SSUri         targetEntity,
     final List<SSUri>   forUsers,
     final SSTextComment comment,
-    final boolean       shouldCommit) throws Exception{
+    final boolean       shouldCommit) throws SSErr{
     
     try{
       
@@ -135,7 +135,7 @@ public class SSEntityActAndLogFct {
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -160,7 +160,7 @@ public class SSEntityActAndLogFct {
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -174,7 +174,7 @@ public class SSEntityActAndLogFct {
     final SSUri       user,
     final SSUri       entity,
     final List<SSUri> entities,
-    final boolean     shouldCommit) throws Exception{
+    final boolean     shouldCommit) throws SSErr{
     
     if(
       entity == null ||
@@ -199,7 +199,7 @@ public class SSEntityActAndLogFct {
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -213,7 +213,7 @@ public class SSEntityActAndLogFct {
     final SSUri       user,
     final SSUri       entity,
     final List<SSUri> entities,
-    final boolean     shouldCommit) throws Exception{
+    final boolean     shouldCommit) throws SSErr{
     
     if(
       entity == null ||
@@ -238,7 +238,7 @@ public class SSEntityActAndLogFct {
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       

@@ -31,7 +31,7 @@ public interface SSGetSubEntitiesI{
     final SSServPar     servPar, 
     final SSUri         user,
     final SSUri         entity,
-    final SSEntityE     type) throws Exception;
+    final SSEntityE     type) throws SSErr;
 }
 
 //  public List<SSUri> getSubEntities(final SSEntityUserSubEntitiesGetPar par) throws SSErr{

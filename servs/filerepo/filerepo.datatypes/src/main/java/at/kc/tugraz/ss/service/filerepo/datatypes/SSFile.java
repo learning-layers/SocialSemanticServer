@@ -69,14 +69,14 @@ public class SSFile extends SSEntity{
     final SSEntityE    type,
     final SSFileExtE   fileExt,
     final SSMimeTypeE  mimeType, 
-    final SSUri        downloadLink) throws Exception{
+    final SSUri        downloadLink) throws SSErr{
     
     return new SSFile(id, type, fileExt, mimeType, downloadLink);
   }
    
   public static SSFile get(
     final SSFile           file,
-    final SSEntity         entity) throws Exception{
+    final SSEntity         entity) throws SSErr{
     
     return new SSFile(file, entity);
   }
@@ -85,7 +85,7 @@ public class SSFile extends SSEntity{
   
   protected SSFile(
     final SSFile           file,
-    final SSEntity         entity) throws Exception{
+    final SSEntity         entity) throws SSErr{
     
     super(file, entity);
     
@@ -122,7 +122,7 @@ public class SSFile extends SSEntity{
     final SSEntityE    type,
     final SSFileExtE   fileExt,
     final SSMimeTypeE  mimeType, 
-    final SSUri        downloadLink) throws Exception{
+    final SSUri        downloadLink) throws SSErr{
     
     super(id, type);
     

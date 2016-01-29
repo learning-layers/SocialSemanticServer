@@ -32,8 +32,8 @@ import java.util.List;
 
 public interface SSImageServerI{
   
-  public SSImage        imageGet               (final SSImageGetPar                par) throws Exception;
-  public List<SSEntity> imagesGet              (final SSImagesGetPar               par) throws Exception;
-  public SSImageAddRet  imageAdd               (final SSImageAddPar                par) throws Exception;
-  public SSUri          imageProfilePictureSet (final SSImageProfilePictureSetPar  par) throws Exception;
+  public SSImage        imageGet               (final SSImageGetPar                par) throws SSErr;
+  public List<SSEntity> imagesGet              (final SSImagesGetPar               par) throws SSErr;
+  public SSImageAddRet  imageAdd               (final SSImageAddPar                par) throws SSErr;
+  public SSUri          imageProfilePictureSet (final SSImageProfilePictureSetPar  par) throws SSErr;
 }

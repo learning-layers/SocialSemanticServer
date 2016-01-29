@@ -20,6 +20,7 @@
  */
 package at.tugraz.sss.servs.mail.impl.gmx;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.servs.mail.conf.SSMailConf;
 import java.util.Properties;
@@ -45,7 +46,7 @@ public class SSMailSenderGMXSMTP {
     final String fromEmail, 
     final String toEmail,
     final String subject,
-    final String content) throws Exception {
+    final String content) throws SSErr {
     
     try{
 

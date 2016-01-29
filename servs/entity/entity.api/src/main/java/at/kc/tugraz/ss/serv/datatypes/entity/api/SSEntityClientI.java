@@ -20,29 +20,30 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.api;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 
 public interface SSEntityClientI {
 
-  public SSServRetI entityTypesGet        (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI entitiesGet           (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI entityUpdate          (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI entityGet             (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI entityCopy            (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI entityShare           (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI entityUnpublicize     (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI entitiesAccessibleGet (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI entityTypesGet        (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI entitiesGet           (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI entityUpdate          (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI entityGet             (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI entityCopy            (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI entityShare           (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI entityUnpublicize     (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI entitiesAccessibleGet (final SSClientE clientType, final SSServPar parA) throws SSErr;
   
-  public SSServRetI circleGet             (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI circleEntitiesAdd     (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI circleUsersAdd        (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI circlesGet            (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI circleCreate          (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI circleEntitiesRemove  (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI circleUsersRemove     (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI circleRemove          (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI circleUsersInvite     (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI circleTypeChange      (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI circleGet             (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI circleEntitiesAdd     (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI circleUsersAdd        (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI circlesGet            (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI circleCreate          (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI circleEntitiesRemove  (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI circleUsersRemove     (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI circleRemove          (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI circleUsersInvite     (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI circleTypeChange      (final SSClientE clientType, final SSServPar parA) throws SSErr;
 }

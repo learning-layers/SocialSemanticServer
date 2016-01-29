@@ -30,11 +30,11 @@ public class SSLikesUserGetPar extends SSServPar{
   public SSUri               entity        = null;
   public SSUri               forUser        = null;
   
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity);
   }
   
-  public void setForUser(final String forUser) throws Exception{
+  public void setForUser(final String forUser) throws SSErr{
     this.forUser = SSUri.get(forUser);
   }
   

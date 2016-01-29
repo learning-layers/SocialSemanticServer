@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.serv.db.api;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSDBNoSQLSearchPar;
 import at.tugraz.sss.serv.datatype.par.SSDBNoSQLAddDocPar;
 import at.tugraz.sss.serv.datatype.par.SSDBNoSQLRemoveDocPar;
@@ -27,16 +28,16 @@ import java.util.List;
 
 public interface SSDBNoSQLI{
   
-  public void                   addDoc           (final SSDBNoSQLAddDocPar     par)   throws Exception;
-  public List<String>           search           (final SSDBNoSQLSearchPar     par)   throws Exception;
-  public void                   removeDoc        (final SSDBNoSQLRemoveDocPar  par)   throws Exception;
-//  public void                   removeDocsAll    (SSServPar parA)   throws Exception;
+  public void                   addDoc           (final SSDBNoSQLAddDocPar     par)   throws SSErr;
+  public List<String>           search           (final SSDBNoSQLSearchPar     par)   throws SSErr;
+  public void                   removeDoc        (final SSDBNoSQLRemoveDocPar  par)   throws SSErr;
+//  public void                   removeDocsAll    (SSServPar parA)   throws SSErr;
 }
 
 
 //  /**
 //	 * in case the schema of solr has changed use this method in order to re-index all
 //	 * the documents
-//	 * @throws Exception
+//	 * @throws SSErr
 //	 */
-//	public void reindexDocuments() throws Exception;
+//	public void reindexDocuments() throws SSErr;

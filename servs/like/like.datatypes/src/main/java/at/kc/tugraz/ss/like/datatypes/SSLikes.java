@@ -20,11 +20,9 @@
 */
  package at.kc.tugraz.ss.like.datatypes;
 
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.api.SSEntityA;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SSLikes extends SSEntityA{
   
@@ -35,7 +33,7 @@ public class SSLikes extends SSEntityA{
   public static SSLikes get(
     final Integer     likes,
     final Integer     dislikes,
-    final Integer     like) throws Exception{
+    final Integer     like) throws SSErr{
     
     return new SSLikes(likes, dislikes, like);
   }
@@ -43,7 +41,7 @@ public class SSLikes extends SSEntityA{
   protected SSLikes(
     final Integer   likes,
     final Integer   dislikes,
-    final Integer   like) throws Exception{
+    final Integer   like) throws SSErr{
     
     super(SSStrU.empty);
     
@@ -51,5 +49,4 @@ public class SSLikes extends SSEntityA{
     this.dislikes = dislikes;
     this.like     = like;
   }
-  
 }

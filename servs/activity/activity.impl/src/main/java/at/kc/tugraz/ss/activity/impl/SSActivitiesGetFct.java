@@ -52,7 +52,7 @@ public class SSActivitiesGetFct {
   public void setEntitiesToQuery(
     final SSActivitiesGetPar   par,
     final SSEntityDescriberPar descPar,
-    final List<SSUri>          entityURIsToQuery) throws Exception{
+    final List<SSUri>          entityURIsToQuery) throws SSErr{
     
     try{
       
@@ -85,7 +85,7 @@ public class SSActivitiesGetFct {
   public void setCirclesToQuery(
     final SSActivitiesGetPar   par,
     final SSEntityDescriberPar descPar,
-    final List<SSUri>          entityURIsToQuery) throws Exception{
+    final List<SSUri>          entityURIsToQuery) throws SSErr{
     
     try{
       
@@ -123,7 +123,7 @@ public class SSActivitiesGetFct {
   public void setActivityURIsToFill(
     final SSActivitiesGetPar   par,
     final SSEntityDescriberPar descPar,
-    final List<SSUri>          activityURIsToQuery) throws Exception{
+    final List<SSUri>          activityURIsToQuery) throws SSErr{
   
     try{
       
@@ -168,12 +168,12 @@ public class SSActivitiesGetFct {
   public SSEntity getActivityEntity(
     final SSActivitiesGetPar   par,
     final SSEntityDescriberPar descPar, 
-    final SSEntity             activityEntity) throws Exception{
+    final SSEntity             activityEntity) throws SSErr{
     
     try{
       
       if(activityEntity == null){
-        SSLogU.warn("entity for activity null");
+        SSLogU.warn("entity for activity null", null);
         return null;
       }
       
@@ -207,7 +207,7 @@ public class SSActivitiesGetFct {
   public void setActivityEntities(
     final SSActivity            activity,
     final SSActivitiesGetPar    par,
-    final SSEntityDescriberPar  descPar) throws Exception{
+    final SSEntityDescriberPar  descPar) throws SSErr{
      
     try{
     
@@ -244,7 +244,7 @@ public class SSActivitiesGetFct {
   public void setActivityUsers(
     final SSActivity            activity,
     final SSActivitiesGetPar    par,
-    final SSEntityDescriberPar  descPar) throws Exception{
+    final SSEntityDescriberPar  descPar) throws SSErr{
      
     try{
     

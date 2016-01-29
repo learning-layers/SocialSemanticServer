@@ -34,7 +34,7 @@ import at.tugraz.sss.serv.reg.*;
 public class SSRatingActivityFct{
 
   public static void rateEntity(
-    final SSRatingSetPar par) throws Exception{
+    final SSRatingSetPar par) throws SSErr{
     
     try{
       
@@ -53,7 +53,7 @@ public class SSRatingActivityFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
     }catch(Exception error){

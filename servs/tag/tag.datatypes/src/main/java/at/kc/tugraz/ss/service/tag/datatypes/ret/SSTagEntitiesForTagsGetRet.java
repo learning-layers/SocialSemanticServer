@@ -35,7 +35,7 @@ public class SSTagEntitiesForTagsGetRet extends SSServRetI{
   
   public List<SSUri> entities = new ArrayList<>();
   
-  public List<String> getEntities() throws Exception{
+  public List<String> getEntities() throws SSErr{
     return SSStrU.removeTrailingSlash(entities);
   }
   

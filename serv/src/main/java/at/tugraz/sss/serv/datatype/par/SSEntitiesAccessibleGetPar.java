@@ -41,7 +41,7 @@ public class SSEntitiesAccessibleGetPar extends SSServPar{
     return SSStrU.toStr(types);
   }
   
-  public void setTypes(List<String> types) throws Exception{
+  public void setTypes(List<String> types) throws SSErr{
     this.types = SSEntityE.get(types);
   }
   
@@ -49,7 +49,7 @@ public class SSEntitiesAccessibleGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(authors);
   }
 
-  public void setAuthors(final List<String> authors) throws Exception{
+  public void setAuthors(final List<String> authors) throws SSErr{
     this.authors = SSUri.get(authors);
   }
   
@@ -63,7 +63,7 @@ public class SSEntitiesAccessibleGetPar extends SSServPar{
     final Long                 startTime, 
     final Long                 endTime,
     final SSEntityDescriberPar descPar,
-    final boolean              withUserRestriction) throws Exception{
+    final boolean              withUserRestriction) throws SSErr{
     
     super(SSVarNames.entitiesAccessibleGet, null, user, servPar.sqlCon);
 

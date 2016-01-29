@@ -42,7 +42,7 @@ public class SSImageAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(link);
   }
   
-  public void setLink(final String link) throws Exception{
+  public void setLink(final String link) throws SSErr{
     this.link = SSUri.get(link);
   }
   
@@ -54,7 +54,7 @@ public class SSImageAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(file);
   }
   
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity);
   }
   
@@ -62,11 +62,11 @@ public class SSImageAddPar extends SSServPar{
     return SSStrU.toStr(imageType);
   }
   
-  public void setImageType(final String imageType) throws Exception{
+  public void setImageType(final String imageType) throws SSErr{
     this.imageType = SSImageE.get(imageType);
   }
   
-  public void setFile(final String file) throws Exception{
+  public void setFile(final String file) throws SSErr{
     this.file = SSUri.get(file);
   }
   

@@ -39,27 +39,27 @@ public class SSEntityCopyPar extends SSServPar{
   public List<SSUri>   entitiesToExclude                             = new ArrayList<>();
   public SSTextComment comment                                       = null;
     
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity);
   }
   
-  public void setTargetEntity(final String targetEntity) throws Exception{
+  public void setTargetEntity(final String targetEntity) throws SSErr{
     this.targetEntity = SSUri.get(targetEntity);
   }
   
-  public void setForUsers(final List<String> forUsers) throws Exception{
+  public void setForUsers(final List<String> forUsers) throws SSErr{
     this.forUsers = SSUri.get(forUsers);
   }
   
-  public void setLabel(final String label) throws Exception{
+  public void setLabel(final String label) throws SSErr{
     this.label = SSLabel.get(label);
   }
   
-  public void setEntitiesToExclude(final List<String> entitiesToExclude) throws Exception{
+  public void setEntitiesToExclude(final List<String> entitiesToExclude) throws SSErr{
     this.entitiesToExclude = SSUri.get(entitiesToExclude);
   }
   
-  public void setComment(final String comment) throws Exception{
+  public void setComment(final String comment) throws SSErr{
     this.comment = SSTextComment.get(comment);
   }
   
@@ -71,15 +71,15 @@ public class SSEntityCopyPar extends SSServPar{
     return SSStrU.removeTrailingSlash(targetEntity);
   }
   
-  public List<String> getForUsers() throws Exception{
+  public List<String> getForUsers() throws SSErr{
     return SSStrU.removeTrailingSlash(forUsers);
   }
   
-  public String getLabel() throws Exception{
+  public String getLabel() throws SSErr{
     return SSStrU.toStr(label);
   }
   
-  public List<String> getEntitiesToExclude() throws Exception{
+  public List<String> getEntitiesToExclude() throws SSErr{
     return SSStrU.removeTrailingSlash(entitiesToExclude);
   }
   

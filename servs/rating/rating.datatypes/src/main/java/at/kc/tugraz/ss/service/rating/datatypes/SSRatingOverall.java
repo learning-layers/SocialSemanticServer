@@ -20,11 +20,8 @@
 */
  package at.kc.tugraz.ss.service.rating.datatypes;
 
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.api.SSEntityA;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SSRatingOverall extends SSEntityA{
    
@@ -33,14 +30,14 @@ public class SSRatingOverall extends SSEntityA{
 
   public static SSRatingOverall get(
     Double score,
-    int    frequency) throws Exception { 
+    int    frequency) throws SSErr{ 
     
     return new SSRatingOverall(score, frequency);
   }
   
   private SSRatingOverall(
     Double score,
-    int    frequency) throws  Exception{
+    int    frequency) throws SSErr{
 
     super(score);
     

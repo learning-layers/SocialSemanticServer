@@ -36,23 +36,23 @@ public class SSCategoriesRemovePar extends SSServPar{
   public SSSpaceE          space      = null;
   public SSUri             circle     = null;
   
-  public void setForUser(final String forUser) throws Exception{
+  public void setForUser(final String forUser) throws SSErr{
     this.forUser = SSUri.get(forUser);
   }
   
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity);
   }
   
-  public void setLabel(final String label) throws Exception{
+  public void setLabel(final String label) throws SSErr{
     this.label = SSCategoryLabel.get(label);
   }
   
-  public void setSpace(final String space) throws Exception{
+  public void setSpace(final String space) throws SSErr{
     this.space =  SSSpaceE.get(space);
   }
   
-  public void setCircle(final String circle) throws Exception{
+  public void setCircle(final String circle) throws SSErr{
     this.circle = SSUri.get(circle);
   }
   

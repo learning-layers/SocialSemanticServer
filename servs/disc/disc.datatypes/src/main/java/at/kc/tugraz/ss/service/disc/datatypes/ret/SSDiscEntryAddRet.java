@@ -33,11 +33,11 @@ public class SSDiscEntryAddRet extends SSServRetI{
   public SSUri disc   = null; 
   public SSUri entry  = null;
   
-  public String getDisc() throws Exception {
+  public String getDisc() throws SSErr {
     return SSStrU.removeTrailingSlash(disc);
   }
     
-  public String getEntry() throws Exception {
+  public String getEntry() throws SSErr {
     return SSStrU.removeTrailingSlash(entry);
   }
   

@@ -20,29 +20,25 @@
 */
 package at.kc.tugraz.ss.recomm.datatypes.ret;
 
-import at.tugraz.sss.serv.util.SSJSONLDU;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.recomm.datatypes.SSResourceLikelihood;
-
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SSRecommResourcesRet extends SSServRetI{
 
   public List<SSResourceLikelihood> resources = new ArrayList<>();
 
   public static SSRecommResourcesRet get(
-    final List<SSResourceLikelihood> resourcesWithLikelihood) throws Exception{
+    final List<SSResourceLikelihood> resourcesWithLikelihood) throws SSErr{
     
     return new SSRecommResourcesRet(resourcesWithLikelihood);
   }
   
   private SSRecommResourcesRet(
-    final List<SSResourceLikelihood> resourcesWithLikelihood) throws Exception{
+    final List<SSResourceLikelihood> resourcesWithLikelihood) throws SSErr{
     
     super(SSVarNames.recommResources);
     

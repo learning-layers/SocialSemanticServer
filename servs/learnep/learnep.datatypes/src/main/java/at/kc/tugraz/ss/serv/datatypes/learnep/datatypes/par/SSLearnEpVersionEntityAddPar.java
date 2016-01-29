@@ -36,7 +36,7 @@ public class SSLearnEpVersionEntityAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(learnEpVersion);
   }
   
-  public void setLearnEpVersion(String learnEpVersion) throws Exception{
+  public void setLearnEpVersion(String learnEpVersion) throws SSErr{
     this.learnEpVersion = SSUri.get(learnEpVersion);
   }
   
@@ -44,7 +44,7 @@ public class SSLearnEpVersionEntityAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
   
-  public void setEntity(String entity) throws Exception{
+  public void setEntity(String entity) throws SSErr{
     this.entity = SSUri.get(entity);
   }
   

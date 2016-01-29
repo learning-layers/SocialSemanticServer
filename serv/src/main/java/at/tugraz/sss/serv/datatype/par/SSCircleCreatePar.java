@@ -35,19 +35,19 @@ public class SSCircleCreatePar extends SSServPar{
   public SSCircleE             circleType           = null;               
   public boolean               isSystemCircle       = false;
 
-  public void setLabel(final String label) throws Exception{
+  public void setLabel(final String label) throws SSErr{
     this.label = SSLabel.get(label);
   }
 
-  public void setDescription(final String description) throws Exception{
+  public void setDescription(final String description) throws SSErr{
     this.description = SSTextComment.get(description);
   }
   
-  public String getLabel() throws Exception{
+  public String getLabel() throws SSErr{
     return SSStrU.toStr(label);
   }
   
-  public String getDescription() throws Exception{
+  public String getDescription() throws SSErr{
     return SSStrU.toStr(description);
   }
 
@@ -55,7 +55,7 @@ public class SSCircleCreatePar extends SSServPar{
     return SSStrU.toStr(circleType);
   }
 
-  public void setCircleType(final String circleType) throws Exception{
+  public void setCircleType(final String circleType) throws SSErr{
     this.circleType = SSCircleE.get(circleType);
   }
   

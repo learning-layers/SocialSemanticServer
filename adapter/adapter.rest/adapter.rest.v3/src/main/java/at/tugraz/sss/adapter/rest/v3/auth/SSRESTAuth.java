@@ -74,7 +74,7 @@ public class SSRESTAuth{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -86,13 +86,13 @@ public class SSRESTAuth{
             null);
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -101,7 +101,7 @@ public class SSRESTAuth{
         return Response.status(200).entity(authServ.authCheckCred(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -133,7 +133,7 @@ public class SSRESTAuth{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       try{
         
@@ -144,7 +144,7 @@ public class SSRESTAuth{
             input.password);
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -153,7 +153,7 @@ public class SSRESTAuth{
         return Response.status(200).entity(authServ.authCheckCred(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -189,7 +189,7 @@ public class SSRESTAuth{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -206,7 +206,7 @@ public class SSRESTAuth{
             true); //shouldCommitsss
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -215,7 +215,7 @@ public class SSRESTAuth{
         return Response.status(200).entity(authServ.authRegisterUser(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       

@@ -499,12 +499,12 @@ implements
               if(
                 sql.containsCollEntry (servPar, rootColl.id,        entityToPush.id) ||
                 sql.ownsUserColl      (servPar, userToPushTo, entityToPush.id)){
-                SSLogU.warn(SSWarnE.collAlreadySharedWithUser);
+                SSLogU.warn(SSWarnE.collAlreadySharedWithUser, null);
                 continue;
               }
               
               if(SSCollMiscFct.ownsUserASubColl(servPar, sql, userToPushTo, entityToPush.id)){
-                SSLogU.warn(SSWarnE.subCollAlreadySharedWithUser);
+                SSLogU.warn(SSWarnE.subCollAlreadySharedWithUser, null);
                 continue;
               }
               

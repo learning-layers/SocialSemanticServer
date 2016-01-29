@@ -37,7 +37,7 @@ public class SSCommentsAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
   
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity);
   }
   
@@ -45,7 +45,7 @@ public class SSCommentsAddPar extends SSServPar{
     return SSStrU.toStr(comments);
   }
   
-  public void setComments(final List<String> comments) throws Exception{
+  public void setComments(final List<String> comments) throws SSErr{
     this.comments = SSTextComment.get(comments);
   }
   

@@ -31,11 +31,11 @@ public class SSFileAddRet extends SSServRetI{
   public SSUri file  = null;
   public SSUri thumb = null;
   
-  public String getFile() throws Exception{
+  public String getFile() throws SSErr{
     return SSStrU.removeTrailingSlash(file);
   }
    
-  public String getThumb() throws Exception{
+  public String getThumb() throws SSErr{
     return SSStrU.removeTrailingSlash(thumb);
   }
     

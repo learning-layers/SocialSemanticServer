@@ -36,7 +36,7 @@ public class SSRecommUpdateBulkTask implements Runnable {
   private final SSRecommConf recommConf;
   
   public SSRecommUpdateBulkTask(
-    final SSRecommConf recommConf) throws Exception{
+    final SSRecommConf recommConf){
     
     this.recommConf = recommConf;
   }

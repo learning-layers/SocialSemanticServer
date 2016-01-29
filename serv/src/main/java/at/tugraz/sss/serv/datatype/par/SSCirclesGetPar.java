@@ -39,19 +39,19 @@ public class SSCirclesGetPar extends SSServPar{
   public boolean         setThumb                 = false;
   public boolean         setTags                  = false;
 
-  public void setForUser(final String forUser) throws Exception{
+  public void setForUser(final String forUser) throws SSErr{
     this.forUser = SSUri.get(forUser);
   }
   
-  public String getForUser() throws Exception{
+  public String getForUser() throws SSErr{
     return SSStrU.removeTrailingSlash(forUser);
   }
   
-  public void setEntity(final String entity)throws Exception{
+  public void setEntity(final String entity)throws SSErr{
     this.entity = SSUri.get(entity);
   }
 
-  public void setEntityTypesToIncludeOnly(final List<String> entityTypesToIncludeOnly)throws Exception{
+  public void setEntityTypesToIncludeOnly(final List<String> entityTypesToIncludeOnly)throws SSErr{
     this.entityTypesToIncludeOnly = SSEntityE.get(entityTypesToIncludeOnly);
   }
 
@@ -59,7 +59,7 @@ public class SSCirclesGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
   
-  public List<String> getEntityTypesToIncludeOnly() throws Exception{
+  public List<String> getEntityTypesToIncludeOnly() throws SSErr{
     return SSStrU.toStr(entityTypesToIncludeOnly);
   }
   

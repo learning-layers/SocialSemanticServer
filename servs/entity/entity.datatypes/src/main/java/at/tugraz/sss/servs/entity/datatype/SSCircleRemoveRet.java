@@ -32,7 +32,7 @@ public class SSCircleRemoveRet extends SSServRetI{
 
   public SSUri circle = null;
 
-  public String getCircle() throws Exception{
+  public String getCircle() throws SSErr{
     return SSStrU.removeTrailingSlash(circle);
   }
 

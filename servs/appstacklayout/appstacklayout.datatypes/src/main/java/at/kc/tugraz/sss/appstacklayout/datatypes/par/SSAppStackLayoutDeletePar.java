@@ -29,7 +29,7 @@ public class SSAppStackLayoutDeletePar extends SSServPar{
   
   public SSUri               stack              = null;
 
-  public void setStack(final String stack) throws Exception{
+  public void setStack(final String stack) throws SSErr{
     this.stack = SSUri.get(stack);
   }
   

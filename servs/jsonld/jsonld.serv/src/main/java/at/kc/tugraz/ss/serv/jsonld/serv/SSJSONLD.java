@@ -68,7 +68,7 @@ public class SSJSONLD extends SSServContainerI{
   }
 
     @Override
-  public SSServContainerI regServ() throws Exception{
+  public SSServContainerI regServ() throws SSErr{
     
     this.conf = SSCoreConf.instGet().getJsonLD();
     
@@ -77,18 +77,18 @@ public class SSJSONLD extends SSServContainerI{
     return this;
   }
   @Override
-  public void initServ() throws Exception{
+  public void initServ() throws SSErr{
   }
   
   @Override
   public SSCoreConfA getConfForCloudDeployment(
     final SSCoreConfA coreConfA, 
-    final List<Class> configuredServs) throws Exception{
+    final List<Class> configuredServs) throws SSErr{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 
   @Override
-  public void schedule() throws Exception{
+  public void schedule() throws SSErr{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }
@@ -97,7 +97,7 @@ public class SSJSONLD extends SSServContainerI{
 //          String username,
 //          String password,
 //          String host,
-//          int port) throws Exception {
+//          int port) throws SSErr {
 //    instance = new SSDbalVirtuosoConnector(username, password, host, port);
 //    return instance;
 //  }

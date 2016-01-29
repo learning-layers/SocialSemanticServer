@@ -122,7 +122,7 @@ public class SSApp extends SSEntity{
 
   public static SSApp get(
     final SSApp     app,
-    final SSEntity  entity) throws Exception{
+    final SSEntity  entity) throws SSErr{
     
     return new SSApp(app, entity);
   }
@@ -135,7 +135,7 @@ public class SSApp extends SSEntity{
     final SSTextComment   descriptionInstall,
     final SSUri           downloadIOS,
     final SSUri           downloadAndroid,
-    final SSUri           fork) throws Exception{
+    final SSUri           fork) throws SSErr{
     
     return new SSApp(
       id,
@@ -152,7 +152,7 @@ public class SSApp extends SSEntity{
   
   protected SSApp(
     final SSApp     app,
-    final SSEntity  entity) throws Exception{
+    final SSEntity  entity) throws SSErr{
     
     super(app, entity);
     
@@ -174,7 +174,7 @@ public class SSApp extends SSEntity{
     final SSTextComment   descriptionInstall,
     final SSUri           downloadIOS,
     final SSUri           downloadAndroid,
-    final SSUri           fork) throws Exception{
+    final SSUri           fork) throws SSErr{
     
     super(id, SSEntityE.app);
     

@@ -20,11 +20,12 @@
 */
 package at.kc.tugraz.ss.serv.jsonld.api;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 
 public interface SSJSONLDClientI {
   
-  public SSServRetI jsonLD(final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI jsonLD(final SSClientE clientType, final SSServPar parA) throws SSErr;
 }

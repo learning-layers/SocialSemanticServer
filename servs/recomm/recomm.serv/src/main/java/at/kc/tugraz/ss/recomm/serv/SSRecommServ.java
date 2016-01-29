@@ -79,7 +79,7 @@ public class SSRecommServ extends SSServContainerI{
   }  
   
   @Override
-  public SSServContainerI regServ() throws Exception{
+  public SSServContainerI regServ() throws SSErr{
     
     this.conf = SSCoreConf.instGet().getRecomm();
     
@@ -89,7 +89,7 @@ public class SSRecommServ extends SSServContainerI{
   }
   
   @Override
-  public void initServ() throws Exception{
+  public void initServ() throws SSErr{
     
     final SSRecommConf recommConf = (SSRecommConf)conf;
     
@@ -125,7 +125,7 @@ public class SSRecommServ extends SSServContainerI{
   }
   
   @Override
-  public void schedule() throws Exception{
+  public void schedule() throws SSErr{
     
     final SSRecommConf recommConf = (SSRecommConf)conf;
     
@@ -141,7 +141,7 @@ public class SSRecommServ extends SSServContainerI{
       recommConf.scheduleIntervals.isEmpty()                              ||
       recommConf.scheduleOps.size() != recommConf.scheduleIntervals.size()){
       
-      SSLogU.warn(SSWarnE.scheduleConfigInvalid);
+      SSLogU.warn(SSWarnE.scheduleConfigInvalid, null);
       return;
     }
     
@@ -194,7 +194,7 @@ public class SSRecommServ extends SSServContainerI{
   @Override
   public SSCoreConfA getConfForCloudDeployment(
     final SSCoreConfA coreConfA,
-    final List<Class> configuredServs) throws Exception{
+    final List<Class> configuredServs) throws SSErr{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

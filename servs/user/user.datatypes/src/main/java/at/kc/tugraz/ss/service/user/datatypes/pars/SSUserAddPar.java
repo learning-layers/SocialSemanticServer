@@ -34,7 +34,7 @@ public class SSUserAddPar extends SSServPar{
     return SSStrU.toStr(label);
   }
 
-  public void setLabel(final String label) throws Exception{
+  public void setLabel(final String label) throws SSErr{
     this.label = SSLabel.get(label);
   }
   

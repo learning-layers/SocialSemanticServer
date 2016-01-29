@@ -32,7 +32,7 @@ public class SSCircleTypesGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
 
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity);
   }
   

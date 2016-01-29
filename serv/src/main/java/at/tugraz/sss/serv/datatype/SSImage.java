@@ -53,7 +53,7 @@ public class SSImage extends SSEntity{
   
   public static SSImage get(
     final SSImage         image,
-    final SSEntity        entity) throws Exception{
+    final SSEntity        entity) throws SSErr{
     
     return new SSImage(image, entity);
   }
@@ -62,7 +62,7 @@ public class SSImage extends SSEntity{
   
   protected SSImage(
     final SSImage         image,
-    final SSEntity        entity) throws Exception{
+    final SSEntity        entity) throws SSErr{
     
     super(image, entity);
     
@@ -88,7 +88,7 @@ public class SSImage extends SSEntity{
   public static SSImage get(
     final SSUri           id, 
     final SSImageE        imageType,
-    final SSUri           link) throws Exception{
+    final SSUri           link) throws SSErr{
     
     return new SSImage(id, imageType, link);
   }
@@ -96,7 +96,7 @@ public class SSImage extends SSEntity{
   protected SSImage(
     final SSUri           id, 
     final SSImageE        imageType,
-    final SSUri           link) throws Exception{
+    final SSUri           link) throws SSErr{
     
     super(id, SSEntityE.image);
     

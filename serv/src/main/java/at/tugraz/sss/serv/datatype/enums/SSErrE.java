@@ -22,12 +22,15 @@ package at.tugraz.sss.serv.datatype.enums;
 
 public enum SSErrE{
 
-  //file
-  fileExtNotAvailable,
-  fileExtNotAvailableForMimeType,
+  //solr, 
+  solrKeywordInvald,
   
-  mimeTypeNotAvailable,
-  mimeTypeNotAvailableForFileExt,
+  //file
+  fileExtInvalid,
+  fileExtInvalidForMimeType,
+  
+  mimeTypeInvalid,
+  mimeTypeInvalidForFileExt,
   
   //misc
   unknownError,
@@ -35,8 +38,7 @@ public enum SSErrE{
   //service
   servNotRunning,
   servImplCreationFailed,
-  servClientNotAvailable,
-  servServerNotAvailable,
+  servInvalid,
   servContainerHasNoServerInterface,
   maxNumClientConsForOpReached,       
     
@@ -103,7 +105,7 @@ public enum SSErrE{
   sssReadFailed,
   sssResponseParsingFailed,
   sssResponseFailed,
-  queryPageUnavailable,
+  queryPageInvalid,
   queryResultOutDated,
   
   servAlreadyRegistered,

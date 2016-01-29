@@ -47,7 +47,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   
   public SSLearnEp getLearnEp(
     final SSServPar servPar,
-    final SSUri learnEpUri) throws Exception{
+    final SSUri learnEpUri) throws SSErr{
     
     ResultSet resultSet  = null;
     
@@ -95,7 +95,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   
   public List<SSUri> getLearnEpUserURIs(
     final SSServPar servPar,
-    final SSUri learnEp) throws Exception{
+    final SSUri learnEp) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -119,7 +119,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   }
   
   public List<SSUri> getLearnEpURIs(
-    final SSServPar servPar) throws Exception{
+    final SSServPar servPar) throws SSErr{
     
     ResultSet resultSet  = null;
     
@@ -144,7 +144,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   
   public List<SSUri> getLearnEpURIs(
     final SSServPar servPar,
-    final SSUri           user) throws Exception{
+    final SSUri           user) throws SSErr{
     
     ResultSet resultSet  = null;
     
@@ -172,7 +172,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   
   public SSUri getLearnEpCurrentVersionURI(
     final SSServPar servPar,
-    final SSUri user) throws Exception {
+    final SSUri user) throws SSErr {
     
     ResultSet resultSet = null;
     
@@ -207,7 +207,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
     final SSServPar servPar,
     final SSUri   learnEpVersionUri,
     final Boolean setCircles,
-    final Boolean setEntities) throws Exception {
+    final Boolean setEntities) throws SSErr {
     
     ResultSet                  resultSet       = null;
     
@@ -275,7 +275,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   
   public List<SSUri> getLearnEpVersionURIs(
     final SSServPar servPar,
-    final SSUri learnEpUri) throws Exception {
+    final SSUri learnEpUri) throws SSErr {
     
     ResultSet resultSet       = null;
 
@@ -302,7 +302,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   
   public List<SSEntity> getLearnEpVersionCircles(
     final SSServPar servPar,
-    final SSUri learnEpVersionUri) throws Exception{
+    final SSUri learnEpVersionUri) throws SSErr{
     
     ResultSet resultSet          = null;
     
@@ -361,7 +361,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   
   public List<SSEntity> getLearnEpVersionEntities(
     final SSServPar servPar,
-    final SSUri learnEpVersionUri) throws Exception{
+    final SSUri learnEpVersionUri) throws SSErr{
     
     ResultSet resultSet          = null;
     
@@ -410,7 +410,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   public SSUri createLearnEpVersion(
     final SSServPar servPar,
     final SSUri learnEpVersionUri,
-    final SSUri learnEpUri) throws Exception{
+    final SSUri learnEpUri) throws SSErr{
     
     try{
       final Map<String, String> inserts = new HashMap<>();
@@ -442,7 +442,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
     final Float      xR,
     final Float      yR,
     final Float      xC,
-    final Float      yC) throws Exception{
+    final Float      yC) throws SSErr{
     
     try{
       final Map<String, String> inserts = new HashMap<>();
@@ -475,7 +475,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
     final Float      xR,
     final Float      yR,
     final Float      xC,
-    final Float      yC) throws Exception{
+    final Float      yC) throws SSErr{
     
     try{
       final Map<String, String> wheres  = new HashMap<>();
@@ -521,7 +521,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
     final SSServPar servPar,
     final SSUri    learnEpEntityUri,
     final Float    x,
-    final Float    y) throws Exception{
+    final Float    y) throws SSErr{
     
     try{
       final Map<String, String> wheres  = new HashMap<>();
@@ -554,7 +554,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
     final SSUri    learnEpVersionUri,
     final SSUri    entityUri,
     final Float    x,
-    final Float    y) throws Exception{
+    final Float    y) throws SSErr{
     
     try{
       final Map<String, String> inserts = new HashMap<>();
@@ -579,7 +579,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   public void createLearnEp(
     final SSServPar servPar,
     final SSUri    learnEpUri,
-    final SSUri    user) throws Exception{
+    final SSUri    user) throws SSErr{
     
     try{
       final Map<String, String> inserts = new HashMap<>();
@@ -598,7 +598,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   public void addLearnEp(
     final SSServPar servPar,
     final SSUri    learnEpUri,
-    final SSUri    user) throws Exception{
+    final SSUri    user) throws SSErr{
     
     try{
       final Map<String, String> inserts    = new HashMap<>();
@@ -620,7 +620,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   public void deleteCurrentEpVersion(
     final SSServPar servPar,
     final SSUri user,
-    final SSUri learnEpVersion) throws Exception {
+    final SSUri learnEpVersion) throws SSErr {
     
     try{
       final Map<String, String> wheres = new HashMap<>();
@@ -638,7 +638,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   public void setLearnEpCurrentVersion(
     final SSServPar servPar,
     final SSUri user, 
-    final SSUri learnEpVersionUri) throws Exception {
+    final SSUri learnEpVersionUri) throws SSErr {
     
     ResultSet resultSet  = null;
     
@@ -683,7 +683,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
     final SSUri user,
     final SSUri timelineStateURI,
     final Long  startTime, 
-    final Long  endTime) throws Exception {
+    final Long  endTime) throws SSErr {
     
     try{
       final Map<String, String> inserts = new HashMap<>();
@@ -704,7 +704,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
     final SSServPar servPar,
     final SSUri timelineStateURI,
     final Long  startTime, 
-    final Long  endTime) throws Exception {
+    final Long  endTime) throws SSErr {
     
     try{
       final Map<String, String> updates = new HashMap<>();
@@ -724,7 +724,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   
   public SSLearnEpTimelineState getTimelineState(
     final SSServPar servPar,
-    final SSUri user) throws Exception{
+    final SSUri user) throws SSErr{
     
     ResultSet resultSet        = null;
     
@@ -769,7 +769,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
 
   public SSUri getLearnEpForVersion(
     final SSServPar servPar,
-    final SSUri learnEpVersion) throws Exception{
+    final SSUri learnEpVersion) throws SSErr{
     
     ResultSet resultSet;
     
@@ -796,7 +796,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   
   public SSUri getLearnEpVersionForCircle(
     final SSServPar servPar,
-    final SSUri circle) throws Exception{
+    final SSUri circle) throws SSErr{
     
     ResultSet resultSet;
     
@@ -823,7 +823,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   
   public SSUri getLearnEpVersionForEntity(
     final SSServPar servPar,
-    final SSUri entity) throws Exception{
+    final SSUri entity) throws SSErr{
     
     ResultSet resultSet;
     
@@ -850,7 +850,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
 
   public SSUri getLearnEpForEntity(
     final SSServPar servPar,
-    final SSUri learnEpEntity) throws Exception{
+    final SSUri learnEpEntity) throws SSErr{
     
     ResultSet resultSet;
     
@@ -895,7 +895,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   
   public SSUri getLearnEpForCircle(
     final SSServPar servPar,
-    final SSUri learnEpCircle) throws Exception{
+    final SSUri learnEpCircle) throws SSErr{
     
     ResultSet resultSet;
     
@@ -940,7 +940,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   
   public void deleteCircle(
     final SSServPar servPar,
-    final SSUri learnEpCircle) throws Exception{
+    final SSUri learnEpCircle) throws SSErr{
     
     try{
       final Map<String, String> wheres = new HashMap<>();
@@ -955,7 +955,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
 
   public void deleteEntity(
     final SSServPar servPar,
-    final SSUri learnEpEntity) throws Exception{
+    final SSUri learnEpEntity) throws SSErr{
     
     try{
       final Map<String, String> wheres = new HashMap<>();
@@ -971,7 +971,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   public SSUri getEntity(
     final SSServPar servPar,
     final SSUri learnEpVersion, 
-    final SSUri learnEpEntity) throws Exception{
+    final SSUri learnEpEntity) throws SSErr{
     
     ResultSet resultSet;
     
@@ -1007,7 +1007,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   public void removeLearnEpForUser(
     final SSServPar servPar,
     final SSUri user, 
-    final SSUri learnEp) throws Exception{
+    final SSUri learnEp) throws SSErr{
     
     try{
       final Map<String, String> wheres = new HashMap<>();
@@ -1029,7 +1029,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
 //      
 //      dbSQL.insert(learnEpVersionCirclesTable, inserts);
 
-//  private SSLearnEpCircle getLearnEpCircle(SSUri circleUri) throws Exception {
+//  private SSLearnEpCircle getLearnEpCircle(SSUri circleUri) throws SSErr {
 //    
 //    ResultSet                  resultSet     = null;
 //    Map<String, String>        selectPars    = new HashMap<>();
@@ -1062,7 +1062,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
 //    return learnEpCircle;
 //  }
   
-//  private SSLearnEpEntity getLearnEpEntity(SSUri entityUri) throws Exception {
+//  private SSLearnEpEntity getLearnEpEntity(SSUri entityUri) throws SSErr {
 //    
 //    ResultSet                  resultSet     = null;
 //    Map<String, String>        selectPars    = new HashMap<>();
@@ -1091,7 +1091,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
 //    return learnEpEntity;
 //  }
 
-//  public Boolean isLearnEp(SSUri entityUri) throws Exception{
+//  public Boolean isLearnEp(SSUri entityUri) throws SSErr{
 //    
 //    ResultSet           resultSet  = null;
 //    Map<String, String> selectPars = new HashMap<>();
@@ -1113,7 +1113,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
 //    return isLearnEp;
 //  }
 //
-//  public Boolean isLearnEpVersion(SSUri entityUri) throws Exception{
+//  public Boolean isLearnEpVersion(SSUri entityUri) throws SSErr{
 //    
 //    ResultSet           resultSet  = null;
 //    Map<String, String> selectPars = new HashMap<>();
@@ -1135,7 +1135,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
 //    return isVersion;
 //  }
 //
-//  public Boolean isLearnEpCircle(SSUri entityUri) throws Exception{
+//  public Boolean isLearnEpCircle(SSUri entityUri) throws SSErr{
 //    
 //    ResultSet           resultSet  = null;
 //    Map<String, String> selectPars = new HashMap<>();
@@ -1157,7 +1157,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
 //    return isCircle;
 //  }
 //
-//  public Boolean isLearnEpEntity(SSUri entityUri) throws Exception{
+//  public Boolean isLearnEpEntity(SSUri entityUri) throws SSErr{
 //    
 //    ResultSet           resultSet  = null;
 //    Map<String, String> selectPars = new HashMap<>();
@@ -1179,7 +1179,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
 //    return isEntity;
 //  }
 //
-//  public Boolean isLearnEpTimelineState(SSUri entityUri) throws Exception{
+//  public Boolean isLearnEpTimelineState(SSUri entityUri) throws SSErr{
 //    
 //    ResultSet           resultSet         = null;
 //    Map<String, String> selectPars        = new HashMap<>();
@@ -1203,7 +1203,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
 
 //  public Boolean ownsUserLearnEp(
 //    final SSUri user, 
-//    final SSUri learnEp) throws Exception {
+//    final SSUri learnEp) throws SSErr {
 //    
 //    ResultSet resultSet = null;
 //    

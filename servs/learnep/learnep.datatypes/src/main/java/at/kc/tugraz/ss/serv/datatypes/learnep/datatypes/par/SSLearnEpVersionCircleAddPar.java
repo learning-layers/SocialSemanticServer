@@ -40,7 +40,7 @@ public class SSLearnEpVersionCircleAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(learnEpVersion);
   }
 
-  public void setLearnEpVersion(String learnEpVersion) throws Exception{
+  public void setLearnEpVersion(String learnEpVersion) throws SSErr{
     this.learnEpVersion = SSUri.get(learnEpVersion);
   }
 
@@ -48,7 +48,7 @@ public class SSLearnEpVersionCircleAddPar extends SSServPar{
     return SSStrU.toStr(label);
   }
 
-  public void setLabel(final String label) throws Exception{
+  public void setLabel(final String label) throws SSErr{
     this.label = SSLabel.get(label);
   }
   

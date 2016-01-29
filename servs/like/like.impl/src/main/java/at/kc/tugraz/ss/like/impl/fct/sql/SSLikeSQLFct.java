@@ -46,7 +46,7 @@ public class SSLikeSQLFct extends SSCoreSQL{
     final SSServPar servPar,
     final SSUri user,
     final SSUri forUser, 
-    final SSUri entity) throws Exception{
+    final SSUri entity) throws SSErr{
     
     ResultSet resultSet = null;
     Integer   value;
@@ -100,7 +100,7 @@ public class SSLikeSQLFct extends SSCoreSQL{
     final SSServPar servPar,
     final SSUri   user,
     final SSUri   entity,
-    final Integer value) throws Exception{
+    final Integer value) throws SSErr{
     
     try{
       
@@ -142,7 +142,7 @@ public class SSLikeSQLFct extends SSCoreSQL{
   public Integer getLike(
     final SSServPar servPar,
     final SSUri   user,
-    final SSUri   entity) throws Exception{
+    final SSUri   entity) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -174,7 +174,7 @@ public class SSLikeSQLFct extends SSCoreSQL{
   }
   
  /* public List<SSFriend> getFriends(
-    final SSUri   user) throws Exception{
+    final SSUri   user) throws SSErr{
     
     ResultSet resultSet = null;
     

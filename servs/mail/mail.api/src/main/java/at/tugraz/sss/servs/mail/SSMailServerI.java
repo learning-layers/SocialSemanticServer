@@ -20,13 +20,13 @@
 */
 package at.tugraz.sss.servs.mail;
 
-import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.servs.mail.datatype.par.SSMailSendPar;
 import at.tugraz.sss.servs.mail.datatype.par.SSMailsReceivePar;
 import java.util.List;
 
 public interface SSMailServerI {
 
-  public boolean        mailSend     (final SSMailSendPar     par) throws Exception;
-  public List<SSEntity> mailsReceive (final SSMailsReceivePar par) throws Exception;
+  public boolean        mailSend     (final SSMailSendPar     par) throws SSErr;
+  public List<SSEntity> mailsReceive (final SSMailsReceivePar par) throws SSErr;
 }

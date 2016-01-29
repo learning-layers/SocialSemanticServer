@@ -65,7 +65,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
     final SSEvalServerI                evalServ,
     final SSUEServerI                  ueServ,
     final SSEvernoteServerI            evernoteServ,
-    final SSUri                        userUri) throws Exception{
+    final SSUri                        userUri) throws SSErr{
     
     this.conf          = conf;
     this.par           = par;
@@ -83,7 +83,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
         userUri);
   }
   
-  public void handle(final SSServPar servPar) throws Exception{
+  public void handle(final SSServPar servPar) throws SSErr{
 
     try{
      
@@ -123,12 +123,12 @@ public class SSDataImportBitsAndPiecesMailImporter {
       SSLogU.info("end B&P mail import for " +  par.authEmail);
       
     }catch(Exception error){
-      SSLogU.warn("B&P mail import failed for " + par.authEmail);
+      SSLogU.warn("B&P mail import failed for " + par.authEmail, error);
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  private SSUri handleEmailNotebook(final SSServPar servPar) throws Exception{
+  private SSUri handleEmailNotebook(final SSServPar servPar) throws SSErr{
     
     try{
       
@@ -165,7 +165,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
     final SSServPar servPar,
     final SSMail mail,
     final SSUri  notebookUri,
-    final SSUri  noteUri) throws Exception{
+    final SSUri  noteUri) throws SSErr{
     
     String                    txtFilePath;
     SSUri                     pdfFileUri;
@@ -238,7 +238,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
   private void handleMailContentMultimedia(
     final SSServPar servPar,
     final SSMail mail,
-    final SSUri  noteUri) throws Exception{
+    final SSUri  noteUri) throws SSErr{
     
     try{
       
@@ -291,7 +291,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
   private void handleMailAttachments(
     final SSServPar servPar,
     final SSMail mail, 
-    final SSUri  noteUri) throws Exception{
+    final SSUri  noteUri) throws SSErr{
     
     try{
       
@@ -341,7 +341,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
     }
   }
 
-  private boolean areResourceDimensionsOk(final SSUri resource) throws Exception{
+  private boolean areResourceDimensionsOk(final SSUri resource) throws SSErr{
     
     try{
 

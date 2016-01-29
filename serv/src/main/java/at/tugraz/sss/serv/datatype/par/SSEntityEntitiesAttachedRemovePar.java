@@ -36,7 +36,7 @@ public class SSEntityEntitiesAttachedRemovePar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
 
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity);
   }
   
@@ -44,7 +44,7 @@ public class SSEntityEntitiesAttachedRemovePar extends SSServPar{
     return SSStrU.removeTrailingSlash(entities);
   }
 
-  public void setEntities(final List<String> entities) throws Exception{
+  public void setEntities(final List<String> entities) throws SSErr{
     this.entities = SSUri.get(entities);
   }
   

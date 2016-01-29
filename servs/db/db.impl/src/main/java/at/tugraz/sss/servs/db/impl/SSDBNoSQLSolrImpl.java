@@ -48,7 +48,7 @@ extends SSServImplDBA
 implements SSDBNoSQLI{
 
 //  @Override
-//  public boolean integrationTestSolrForSearch() throws Exception {
+//  public boolean integrationTestSolrForSearch() throws SSErr {
 //    
 //    try{
 //      
@@ -121,7 +121,7 @@ implements SSDBNoSQLI{
   }
   
   @Override
-  public void addDoc(final SSDBNoSQLAddDocPar par) throws Exception {
+  public void addDoc(final SSDBNoSQLAddDocPar par) throws SSErr {
     
 //    according to Solr specification by adding a document with an ID already
 //	  existing in the index will replace the document (eg. refer to 
@@ -148,7 +148,7 @@ implements SSDBNoSQLI{
   }
 	
   @Override
-  public void removeDoc(final SSDBNoSQLRemoveDocPar par) throws Exception{
+  public void removeDoc(final SSDBNoSQLRemoveDocPar par) throws SSErr{
 
     try{
       
@@ -162,7 +162,7 @@ implements SSDBNoSQLI{
   }
 
   @Override
-  public List<String> search(final SSDBNoSQLSearchPar par) throws Exception {
+  public List<String> search(final SSDBNoSQLSearchPar par) throws SSErr {
     
     try{
       final List<String>    searchResults   = new ArrayList<>();
@@ -216,7 +216,7 @@ implements SSDBNoSQLI{
 }
 
 //	@Override
-//	public void reindexDocuments() throws Exception { //not yet tested w/ subfolders in webdav!
+//	public void reindexDocuments() throws SSErr { //not yet tested w/ subfolders in webdav!
 		
 //		int    cnt = 0;
 //    String filename;
@@ -243,7 +243,7 @@ implements SSDBNoSQLI{
 //	}
 
 //@Override
-//  public void solrRemoveDocsAll(final SSServPar parA) throws Exception {
+//  public void solrRemoveDocsAll(final SSServPar parA) throws SSErr {
 //    
 //    try{
 //      

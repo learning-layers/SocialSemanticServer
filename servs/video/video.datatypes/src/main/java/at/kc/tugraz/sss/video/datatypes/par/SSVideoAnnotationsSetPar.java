@@ -38,15 +38,15 @@ public class SSVideoAnnotationsSetPar extends SSServPar{
   public List<SSTextComment>       descriptions       = new ArrayList<>();
   public boolean                   removeExisting     = false;
 
-  public void setVideo(final String video) throws Exception{
+  public void setVideo(final String video) throws SSErr{
     this.video = SSUri.get(video);
   }
   
-  public void setLabels(final List<String> labels) throws Exception{
+  public void setLabels(final List<String> labels) throws SSErr{
     this.labels = SSLabel.get(labels);
   }
   
-  public void setDescriptions(final List<String> descriptions) throws Exception{
+  public void setDescriptions(final List<String> descriptions) throws SSErr{
     this.descriptions = SSTextComment.get(descriptions);
   }
   

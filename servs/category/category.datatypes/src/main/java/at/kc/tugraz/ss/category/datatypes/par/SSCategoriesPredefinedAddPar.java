@@ -36,7 +36,7 @@ public class SSCategoriesPredefinedAddPar extends SSServPar{
     return SSStrU.toStr(labels);
   }
 
-  public void setLabels(final List<String> labels) throws Exception{
+  public void setLabels(final List<String> labels) throws SSErr{
     this.labels = SSCategoryLabel.get(labels);
   }
   
@@ -46,7 +46,7 @@ public class SSCategoriesPredefinedAddPar extends SSServPar{
     final SSServPar servPar,
     final SSUri                  user,
     final List<SSCategoryLabel>  labels,
-    final boolean                shouldCommit) throws Exception{
+    final boolean                shouldCommit) throws SSErr{
     
     super(SSVarNames.categoriesPredefinedAdd, null, user, servPar.sqlCon);
     

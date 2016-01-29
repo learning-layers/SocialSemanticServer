@@ -37,7 +37,7 @@ public class SSLearnEpsLockHoldPar extends SSServPar{
     return SSStrU.removeTrailingSlash(learnEps);
   }
 
-  public void setLearnEps(final List<String> learnEps) throws Exception{
+  public void setLearnEps(final List<String> learnEps) throws SSErr{
     this.learnEps = SSUri.get(learnEps);
   }
 

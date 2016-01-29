@@ -20,11 +20,12 @@
 */
 package at.tugraz.sss.serv.entity.api;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
 
 public interface SSEntityCopiedI {
   
   public void entityCopied(
     final SSServPar                 servPar, 
-    final SSEntityCopiedPar         par) throws Exception;
+    final SSEntityCopiedPar         par) throws SSErr;
 }

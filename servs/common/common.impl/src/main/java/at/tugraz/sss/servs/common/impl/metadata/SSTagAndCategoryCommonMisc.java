@@ -65,7 +65,7 @@ public class SSTagAndCategoryCommonMisc {
     final SSSearchOpE    labelSearchOp,
     final List<SSSpaceE> spaces,
     final List<SSUri>    circles,
-    final Long           startTime) throws Exception{
+    final Long           startTime) throws SSErr{
     
     try{
       final SSEntityServerI entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
@@ -178,7 +178,7 @@ public class SSTagAndCategoryCommonMisc {
   
   public List<SSUri> getEntitiesFromMetadataDistinctNotNull(
     final SSServPar      servPar,
-    final List<SSEntity> metadata) throws Exception{
+    final List<SSEntity> metadata) throws SSErr{
     
     final List<SSUri> entities = new ArrayList<>();
     
@@ -207,7 +207,7 @@ public class SSTagAndCategoryCommonMisc {
   
   public List<SSEntityA> getMetadataFrequsFromMetadata(
     final SSServPar      servPar,
-    final List<SSEntity> metadata) throws Exception{
+    final List<SSEntity> metadata) throws SSErr{
     
     final Map<String, SSEntityA> metadataFrequs = new HashMap<>();
     
@@ -255,7 +255,7 @@ public class SSTagAndCategoryCommonMisc {
     final List<SSEntity>   metadata,
     final boolean          withUserRestriction,
     final SSUri            user,
-    final SSUri            forUser) throws Exception{
+    final SSUri            forUser) throws SSErr{
     
     final List<SSEntity> filtered = new ArrayList<>();
     
@@ -344,7 +344,7 @@ public class SSTagAndCategoryCommonMisc {
     final SSServPar      servPar,
     final List<SSEntity> metadata,
     final Integer        differentTagCount,
-    final SSSearchOpE    labelSearchOp) throws Exception{
+    final SSSearchOpE    labelSearchOp) throws SSErr{
     
     try{
       
@@ -429,7 +429,7 @@ public class SSTagAndCategoryCommonMisc {
 //public static List<SSUri> getEntitiesForTagsIfSpaceSet(
 //    final SSTagSQLFct                               sqlFct,
 //    final SSTagEntitiesForTagsGetPar            par,
-//    final SSUri                                     userToUse) throws Exception{
+//    final SSUri                                     userToUse) throws SSErr{
 //
 //    final List<SSUri> entities = new ArrayList<>();
 //    SSEntity          tagEntity;
@@ -476,7 +476,7 @@ public class SSTagAndCategoryCommonMisc {
 //
 //  public static List<SSTag> getTagsIfSpaceNotSet(
 //    final SSTagSQLFct        sqlFct,
-//    final SSTagsGetPar       par) throws Exception{
+//    final SSTagsGetPar       par) throws SSErr{
 //
 //    final List<SSTag> tags    = new ArrayList<>();
 //    SSLabel           slabel;
@@ -667,7 +667,7 @@ public class SSTagAndCategoryCommonMisc {
 //  public static List<SSTag> getTagsIfSpaceSet(
 //    final SSTagSQLFct        sqlFct,
 //    final SSTagsGetPar       par,
-//    final SSUri              userToUse) throws Exception{
+//    final SSUri              userToUse) throws SSErr{
 //
 //    final List<SSTag>      tags   = new ArrayList<>();
 //    SSLabel                slabel;
@@ -783,7 +783,7 @@ public class SSTagAndCategoryCommonMisc {
 //
 //  public static List<SSUri> getEntitiesForTagsIfSpaceNotSet(
 //    final SSTagSQLFct                    sqlFct,
-//    final SSTagEntitiesForTagsGetPar     par) throws Exception{
+//    final SSTagEntitiesForTagsGetPar     par) throws SSErr{
 //
 //    final List<SSUri> entities = new ArrayList<>();
 //    SSLabel           slabel;
@@ -852,7 +852,7 @@ public class SSTagAndCategoryCommonMisc {
 //    }
 //
 
-//  private void saveUETagAdd(SSServPar parA) throws Exception {
+//  private void saveUETagAdd(SSServPar parA) throws SSErr {
 //
 //    Map<String, Object> opPars = new HashMap<>();
 //    SSTagAddPar par = new SSTagAddPar(parA);
@@ -880,7 +880,7 @@ public class SSTagAndCategoryCommonMisc {
 //    SSServReg.callServServer(new SSServPar(SSVarNames.uEAdd, opPars));
 //  }
 
-//  private void saveUETagDelete(SSServPar parA) throws Exception{
+//  private void saveUETagDelete(SSServPar parA) throws SSErr{
 //
 //    Map<String, Object> opPars = new HashMap<>();
 //    SSTagAssRemovePar par = new SSTagAssRemovePar(parA);
@@ -926,7 +926,7 @@ public class SSTagAndCategoryCommonMisc {
 //    return outString;
 //  }
 
-//  public static Map<String, Long> getCreationTimePerTagFromTags(final List<SSTag> tags) throws Exception{
+//  public static Map<String, Long> getCreationTimePerTagFromTags(final List<SSTag> tags) throws SSErr{
 //
 //    final Map<String, Long> creationTimesPerTag = new HashMap<>();
 //
@@ -941,7 +941,7 @@ public class SSTagAndCategoryCommonMisc {
 //    final SSUri        user,
 //    final List<String> labels,
 //    final SSSpaceE     space,
-//    final SSUri        userToUse) throws Exception{
+//    final SSUri        userToUse) throws SSErr{
 //
 //    final List<SSUri> entities = new ArrayList<>();
 //    SSEntity          metadataEntity;
@@ -985,7 +985,7 @@ public class SSTagAndCategoryCommonMisc {
 //  public List<SSUri> getEntitiesForMetadataIfSpaceNotSet(
 //    final SSUri        user,
 //    final SSUri        forUser,
-//    final List<String> labels)throws Exception{
+//    final List<String> labels)throws SSErr{
 //
 //    final List<SSUri> entities = new ArrayList<>();
 //    SSEntity          metadataEntity;
@@ -1042,7 +1042,7 @@ public class SSTagAndCategoryCommonMisc {
 //    final List<SSUri> entityURIs,
 //    final boolean     withUserRestriction,
 //    final SSUri       user,
-//    final SSUri       forUser) throws Exception{
+//    final SSUri       forUser) throws SSErr{
 //
 //    final List<SSUri> filtered = new ArrayList<>();
 //

@@ -49,7 +49,7 @@ public class SSUEsGetFct {
 
   public void setUEEntity(
     final SSUEsGetPar par,
-    final SSUE        ue) throws Exception{
+    final SSUE        ue) throws SSErr{
     
     try{
       
@@ -94,7 +94,7 @@ public class SSUEsGetFct {
 
   public void setUEUser(
     final SSUEsGetPar par, 
-    final SSUE        ue) throws Exception{
+    final SSUE        ue) throws SSErr{
     
     try{
       
@@ -129,7 +129,7 @@ public class SSUEsGetFct {
   }
 
   public List<SSUri> getUEsToFill(
-    final SSUEsGetPar par) throws Exception{
+    final SSUEsGetPar par) throws SSErr{
     
     try{
   

@@ -41,7 +41,7 @@ public class SSDiscUpdatePar extends SSServPar{
     return SSStrU.removeTrailingSlash(disc);
   }
 
-  public void setDisc(String disc) throws Exception {
+  public void setDisc(String disc) throws SSErr {
     this.disc = SSUri.get(disc);
   }
   
@@ -49,7 +49,7 @@ public class SSDiscUpdatePar extends SSServPar{
     return SSStrU.toStr(label);
   }
 
-  public void setLabel(String label) throws Exception {
+  public void setLabel(String label) throws SSErr {
     this.label = SSLabel.get(label);
   }
   
@@ -57,7 +57,7 @@ public class SSDiscUpdatePar extends SSServPar{
     return SSStrU.toStr(content);
   }
 
-  public void setContent(String content) throws Exception {
+  public void setContent(String content) throws SSErr {
     this.content = SSTextComment.get(content);
   }
 
@@ -65,7 +65,7 @@ public class SSDiscUpdatePar extends SSServPar{
     return SSStrU.removeTrailingSlash(entitiesToRemove);
   }
 
-  public void setEntitiesToRemove(List<String> entitiesToRemove) throws Exception {
+  public void setEntitiesToRemove(List<String> entitiesToRemove) throws SSErr {
     this.entitiesToRemove = SSUri.get(entitiesToRemove);
   }
 
@@ -73,7 +73,7 @@ public class SSDiscUpdatePar extends SSServPar{
     return SSStrU.removeTrailingSlash(entitiesToAttach);
   }
 
-  public void setEntitiesToAttach(List<String> entitiesToAttach) throws Exception {
+  public void setEntitiesToAttach(List<String> entitiesToAttach) throws SSErr {
     this.entitiesToAttach = SSUri.get(entitiesToAttach);
   }
   

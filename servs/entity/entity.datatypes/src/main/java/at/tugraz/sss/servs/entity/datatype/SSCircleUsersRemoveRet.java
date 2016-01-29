@@ -33,7 +33,7 @@ public class SSCircleUsersRemoveRet extends SSServRetI{
 
   public List<SSUri> users = new ArrayList<>();
 
-  public List<String> getUsers() throws Exception {
+  public List<String> getUsers() throws SSErr {
     return SSStrU.removeTrailingSlash(users);
   }
 

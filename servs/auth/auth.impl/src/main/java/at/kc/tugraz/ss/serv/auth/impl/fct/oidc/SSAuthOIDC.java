@@ -31,7 +31,6 @@ import com.nimbusds.openid.connect.sdk.UserInfoResponse;
 import com.nimbusds.openid.connect.sdk.UserInfoSuccessResponse;
 import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import net.minidev.json.JSONObject;
 import at.tugraz.sss.serv.datatype.SSErr;
@@ -40,7 +39,7 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 
 public class SSAuthOIDC{
   
-  public static String getOIDCUserEmail(final String authToken) throws Exception{
+  public static String getOIDCUserEmail(final String authToken) throws SSErr{
         
     // send request to OpenID Connect user info endpoint to retrieve complete user information
     // in exchange for access token.
@@ -57,7 +56,7 @@ public class SSAuthOIDC{
         //TODO: process all error cases that can happen (in particular invalid tokens)
         hrs = hrq.send();
         
-      } catch (IOException|URISyntaxException error) {
+      } catch (IOException error) {
         throw SSErr.get(SSErrE.authCouldntConnectToOIDC);
       }
       
@@ -106,7 +105,7 @@ public class SSAuthOIDC{
     }
   }
   
-//  private static JSONObject fetchOidcProviderConfig() throws Exception{
+//  private static JSONObject fetchOidcProviderConfig() throws SSErr{
 //
 //		JSONObject result = new JSONObject();
 //

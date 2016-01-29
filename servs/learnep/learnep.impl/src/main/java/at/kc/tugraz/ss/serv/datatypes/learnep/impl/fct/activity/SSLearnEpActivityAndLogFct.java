@@ -61,7 +61,7 @@ public class SSLearnEpActivityAndLogFct{
     final SSUri                        learnEpVersion,
     final SSUri                        circle,
     final SSUri                        learnEp,
-    final boolean                      shouldCommit) throws Exception{
+    final boolean                      shouldCommit) throws SSErr{
     
     try{
       
@@ -80,7 +80,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -105,7 +105,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -121,7 +121,7 @@ public class SSLearnEpActivityAndLogFct{
     final SSUri                        entity,
     final SSUri                        learnEpEntity,
     final SSUri                        learnEp,
-    final boolean                      shouldCommit) throws Exception{
+    final boolean                      shouldCommit) throws SSErr{
     
     try{
       
@@ -140,7 +140,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -165,7 +165,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -180,7 +180,7 @@ public class SSLearnEpActivityAndLogFct{
     final SSUri                           learnEpVersion,
     final SSUri                           learnEp,
     final SSUri                           learnEpCircle,
-    final boolean                         shouldCommit) throws Exception{
+    final boolean                         shouldCommit) throws SSErr{
     
     try{
       
@@ -199,7 +199,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -224,7 +224,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -239,7 +239,7 @@ public class SSLearnEpActivityAndLogFct{
     final SSUri                           learnEpVersion,
     final SSUri                           learnEp,
     final SSEntity                        learnEpCircle,
-    final boolean                         shouldCommit) throws Exception{
+    final boolean                         shouldCommit) throws SSErr{
     
     try{
       
@@ -267,7 +267,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -282,7 +282,7 @@ public class SSLearnEpActivityAndLogFct{
     final SSUri                           learnEpVersion,
     final SSUri                           learnEp,
     final SSEntity                        learnEpCircle,
-    final boolean                         shouldCommit) throws Exception{
+    final boolean                         shouldCommit) throws SSErr{
     
     final List<SSUri> uris = new ArrayList<>();
     
@@ -317,7 +317,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -342,7 +342,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -358,7 +358,7 @@ public class SSLearnEpActivityAndLogFct{
     final SSUri                           learnEpEntity,
     final SSUri                           entity,
     final SSUri                           learnEp,
-    final boolean                         shouldCommit) throws Exception{
+    final boolean                         shouldCommit) throws SSErr{
     
     try{
       
@@ -377,7 +377,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -402,7 +402,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -435,7 +435,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -460,7 +460,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -475,7 +475,7 @@ public class SSLearnEpActivityAndLogFct{
     final SSUri       learnEp,
     final List<SSUri> usersToCopyFor,
     final List<SSUri> includedEntities,
-    final boolean     shouldCommit) throws Exception{
+    final boolean     shouldCommit) throws SSErr{
     
     try{
       
@@ -494,7 +494,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -519,7 +519,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -537,7 +537,7 @@ public class SSLearnEpActivityAndLogFct{
     final SSUri                           learnEpVersion,
     final SSUri                           learnEpCircle,
     final SSUri                           learnEp,
-    final boolean                         shouldCommit) throws Exception{
+    final boolean                         shouldCommit) throws SSErr{
     
     try{
       
@@ -575,7 +575,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -605,7 +605,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -622,7 +622,7 @@ public class SSLearnEpActivityAndLogFct{
     final SSUri   learnEpEntity,
     final SSUri   entity,
     final SSUri   circle,
-    final boolean shouldCommit) throws Exception{
+    final boolean shouldCommit) throws SSErr{
     
     try{
       
@@ -641,7 +641,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -666,7 +666,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -683,7 +683,7 @@ public class SSLearnEpActivityAndLogFct{
     final SSUri   learnEpEntity,
     final SSUri   entity,
     final SSUri   circle,
-    final boolean shouldCommit) throws Exception{
+    final boolean shouldCommit) throws SSErr{
     
     try{
       
@@ -702,7 +702,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -727,7 +727,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -747,7 +747,7 @@ public class SSLearnEpActivityAndLogFct{
     final List<SSEntity> versionCirclesBefore,
     final boolean        calledFromRemove,
     final boolean        calledFromAdd,
-    final boolean        shouldCommit) throws Exception{
+    final boolean        shouldCommit) throws SSErr{
     
     try{
       

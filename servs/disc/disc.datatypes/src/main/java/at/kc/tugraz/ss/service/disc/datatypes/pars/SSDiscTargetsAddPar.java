@@ -36,7 +36,7 @@ public class SSDiscTargetsAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(discussion);
   }
 
-  public void setDiscussion(final String discussion) throws Exception{
+  public void setDiscussion(final String discussion) throws SSErr{
     this.discussion = SSUri.get(discussion);
   }
 
@@ -44,7 +44,7 @@ public class SSDiscTargetsAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(targets);
   }
 
-  public void setTargets(final List<String> targets) throws Exception{
+  public void setTargets(final List<String> targets) throws SSErr{
     this.targets = SSUri.get(targets);
   }
 

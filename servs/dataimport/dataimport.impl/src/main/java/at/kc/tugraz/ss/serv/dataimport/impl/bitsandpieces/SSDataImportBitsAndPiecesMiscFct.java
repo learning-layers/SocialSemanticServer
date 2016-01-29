@@ -58,7 +58,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
     final SSEvernoteServerI            evernoteServ,
     final SSUEServerI                  ueServ,
     final SSEvalServerI                evalServ,
-    final SSUri                        userUri) throws Exception{
+    final SSUri                        userUri) throws SSErr{
     
     this.par             = par;
     this.entityServ      = entityServ;
@@ -73,7 +73,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
     final SSToolContextE toolContext,
     final SSUri          notebookUri,
     final SSLabel        notebookLabel,
-    final Long           notebookCreationTime) throws Exception{
+    final Long           notebookCreationTime) throws SSErr{
     
     try{
       entityServ.entityUpdate(
@@ -114,7 +114,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
     final SSUri          noteUri,
     final SSLabel        noteLabel,
     final SSUri          notebookUri,
-    final Long           creationTime) throws Exception{
+    final Long           creationTime) throws SSErr{
     
     try{
       
@@ -185,7 +185,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
     final Note         note,
     final SSUri        noteUri,
     final Long         creationTime,
-    final Long         updateTime) throws Exception {
+    final Long         updateTime) throws SSErr {
     
     try{
       
@@ -385,7 +385,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
   public void addResourceUEs(
     final SSServPar servPar,
     final SSUri resourceUri,
-    final Long  resourceAddTime) throws Exception{
+    final Long  resourceAddTime) throws SSErr{
     
     try{
       
@@ -427,7 +427,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
     final SSUri          resourceUri,
     final SSLabel        resourceLabel,
     final Long           resourceAddTime,
-    final SSUri          noteUri) throws Exception{
+    final SSUri          noteUri) throws SSErr{
     
     try{
       entityServ.entityUpdate(

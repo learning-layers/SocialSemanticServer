@@ -55,7 +55,7 @@ public class SSTagActAndLogFct {
     final List<SSUri>      entities,
     final List<SSUri>      tagURIs,
     final List<SSTagLabel> labels,
-    final boolean          shouldCommit) throws Exception{
+    final boolean          shouldCommit) throws SSErr{
     
     if(entities.isEmpty()){
       return;
@@ -81,7 +81,7 @@ public class SSTagActAndLogFct {
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -116,7 +116,7 @@ public class SSTagActAndLogFct {
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -130,7 +130,7 @@ public class SSTagActAndLogFct {
     final SSUri            user,
     final SSUri            entity,
     final SSTagLabel       label,
-    final boolean          shouldCommit) throws Exception{
+    final boolean          shouldCommit) throws SSErr{
     
     try{
       
@@ -149,7 +149,7 @@ public class SSTagActAndLogFct {
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -173,7 +173,7 @@ public class SSTagActAndLogFct {
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       

@@ -37,9 +37,11 @@ import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
+import at.tugraz.sss.serv.util.*;
 import java.sql.*;
 
 import java.util.List;
+import java.util.logging.*;
 
 public class SSAuthServ extends SSServContainerI{
   
@@ -71,7 +73,7 @@ public class SSAuthServ extends SSServContainerI{
   }
   
   @Override
-  public SSServContainerI regServ() throws Exception{
+  public SSServContainerI regServ() throws SSErr{
     
     this.conf = SSCoreConf.instGet().getAuth();
     
@@ -81,7 +83,7 @@ public class SSAuthServ extends SSServContainerI{
   }
   
   @Override
-  public void initServ() throws Exception{
+  public void initServ() throws SSErr{
     
     if(!conf.use){
       return;
@@ -124,7 +126,11 @@ public class SSAuthServ extends SSServContainerI{
     }finally{
       
       if(sqlCon != null){
-        sqlCon.close();
+        try {
+          sqlCon.close();
+        } catch (SQLException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }
@@ -132,12 +138,12 @@ public class SSAuthServ extends SSServContainerI{
   @Override
   public SSCoreConfA getConfForCloudDeployment(
     final SSCoreConfA coreConfA, 
-    final List<Class> configuredServs) throws Exception{
+    final List<Class> configuredServs) throws SSErr{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 
   @Override
-  public void schedule() throws Exception{
+  public void schedule() throws SSErr{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

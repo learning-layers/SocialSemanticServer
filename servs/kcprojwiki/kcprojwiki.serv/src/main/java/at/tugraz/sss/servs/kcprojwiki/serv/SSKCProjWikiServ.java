@@ -71,7 +71,7 @@ public class SSKCProjWikiServ extends SSServContainerI{
   }
   
   @Override
-  public SSServContainerI regServ() throws Exception{
+  public SSServContainerI regServ() throws SSErr{
     
     this.conf = SSCoreConf.instGet().getKcprojwiki();
     
@@ -81,7 +81,7 @@ public class SSKCProjWikiServ extends SSServContainerI{
   }
   
   @Override
-  public void initServ() throws Exception{
+  public void initServ() throws SSErr{
     
     final SSKCProjWikiConf projWikiConf = (SSKCProjWikiConf)conf;
     
@@ -95,7 +95,7 @@ public class SSKCProjWikiServ extends SSServContainerI{
   }
   
   @Override
-  public void schedule() throws Exception{
+  public void schedule() throws SSErr{
     
     final SSKCProjWikiConf projWikiConf = (SSKCProjWikiConf)conf;
     
@@ -111,7 +111,7 @@ public class SSKCProjWikiServ extends SSServContainerI{
       projWikiConf.scheduleIntervals.isEmpty()                                  ||
       projWikiConf.scheduleOps.size() != projWikiConf.scheduleIntervals.size()){
       
-      SSLogU.warn(SSWarnE.scheduleConfigInvalid);
+      SSLogU.warn(SSWarnE.scheduleConfigInvalid, null);
       return;
     }
     
@@ -130,7 +130,7 @@ public class SSKCProjWikiServ extends SSServContainerI{
   }
 
   @Override
-  public SSCoreConfA getConfForCloudDeployment(SSCoreConfA coreConfA, List<Class> configuredServs) throws Exception {
+  public SSCoreConfA getConfForCloudDeployment(SSCoreConfA coreConfA, List<Class> configuredServs) throws SSErr {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

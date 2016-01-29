@@ -30,13 +30,13 @@ public class SSFriend extends SSEntity{
   
   public static SSFriend get(
     final SSFriend  friend,
-    final SSEntity  entity) throws Exception{
+    final SSEntity  entity) throws SSErr{
     
     return new SSFriend(friend, entity);
   }
   
   public static SSFriend get(
-    final SSUri         id) throws Exception{
+    final SSUri         id) throws SSErr{
     
     return new SSFriend(id);
   }  
@@ -45,13 +45,13 @@ public class SSFriend extends SSEntity{
   
   protected SSFriend(
     final SSFriend friend,
-    final SSEntity entity) throws Exception{
+    final SSEntity entity) throws SSErr{
     
     super(friend, entity);
   }
 	
   protected SSFriend(    
-    final SSUri         id) throws Exception{
+    final SSUri         id) throws SSErr{
     
     super(id, SSEntityE.user);
 	}

@@ -34,7 +34,7 @@ public class SSLearnEpLockRemovePar extends SSServPar{
     return SSStrU.removeTrailingSlash(learnEp);
   }
 
-  public void setLearnEp(final String learnEp) throws Exception{
+  public void setLearnEp(final String learnEp) throws SSErr{
     this.learnEp = SSUri.get(learnEp);
   }
 
@@ -42,7 +42,7 @@ public class SSLearnEpLockRemovePar extends SSServPar{
     return SSStrU.removeTrailingSlash(forUser);
   }
 
-  public void setForUser(final String forUser) throws Exception{
+  public void setForUser(final String forUser) throws SSErr{
     this.forUser = SSUri.get(forUser);
   }
   

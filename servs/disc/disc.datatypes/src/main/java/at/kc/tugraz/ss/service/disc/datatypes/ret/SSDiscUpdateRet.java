@@ -30,7 +30,7 @@ public class SSDiscUpdateRet extends SSServRetI{
   
   public SSUri disc   = null; 
   
-  public String getDisc() throws Exception {
+  public String getDisc() throws SSErr {
     return SSStrU.removeTrailingSlash(disc);
   }
     

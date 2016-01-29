@@ -39,5 +39,5 @@ public interface SSOCDServerI extends SSServServerI{
   public String             ocdCreateCover              (final SSOCDCreateCoverPar par) throws SSErr;
   public String             ocdGetCovers                (final SSOCDGetCoversPar   par) throws SSErr;
   public String             ocdDeleteCover              (final SSOCDDeleteCoverPar par) throws SSErr;
-  public String             ocdGetAlgorithmNames        () throws Exception;
+  public String             ocdGetAlgorithmNames        () throws SSErr;
 }

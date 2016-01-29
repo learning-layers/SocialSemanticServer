@@ -66,7 +66,7 @@ public class SSCircle extends SSEntity{
   public static SSCircle get(
     final SSUri                          id,
     final SSCircleE                      circleType,
-    final boolean                        isSystemCircle) throws Exception{
+    final boolean                        isSystemCircle) throws SSErr{
     
     return new SSCircle(id, circleType, isSystemCircle);
   }
@@ -91,7 +91,7 @@ public class SSCircle extends SSEntity{
   protected SSCircle(
     final SSUri                           id,
     final SSCircleE                       circleType, 
-    final boolean                         isSystemCircle) throws Exception{
+    final boolean                         isSystemCircle) throws SSErr{
     
     super(id, SSEntityE.circle);
     

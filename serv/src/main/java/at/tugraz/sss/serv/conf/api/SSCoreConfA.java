@@ -24,7 +24,8 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.SSFileU;
 import at.tugraz.sss.serv.util.SSLogU;
-import java.io.FileWriter;
+import java.io.*;
+import java.util.logging.*;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.Property;
@@ -82,7 +83,7 @@ public abstract class SSCoreConfA {
   }
   
   public void save(
-    final String pathToFile) throws Exception{
+    final String pathToFile) throws SSErr{
     
     FileWriter fileWriter = null;
     
@@ -95,11 +96,16 @@ public abstract class SSCoreConfA {
       yaml.dump(this, fileWriter);
       
     }catch (Exception error) {
-      SSLogU.errThrow(error);
+      SSServErrReg.regErrThrow(error);
     }finally{
       
       if(fileWriter != null){
-        fileWriter.close();
+        
+        try{
+          fileWriter.close();
+        }catch(IOException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }

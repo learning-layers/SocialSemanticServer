@@ -33,7 +33,7 @@ public class SSLearnEpVersionGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(learnEpVersion);
   }
 
-  public void setLearnEpVersion(final String learnEpVersion) throws Exception{
+  public void setLearnEpVersion(final String learnEpVersion) throws SSErr{
     this.learnEpVersion = SSUri.get(learnEpVersion);
   }
   

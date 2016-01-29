@@ -84,7 +84,7 @@ public class SSRESTUE{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -103,13 +103,13 @@ public class SSRESTUE{
             true); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -118,7 +118,7 @@ public class SSRESTUE{
         return Response.status(200).entity(ueServ.userEventsGet(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -155,7 +155,7 @@ public class SSRESTUE{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -169,13 +169,13 @@ public class SSRESTUE{
             true); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -184,7 +184,7 @@ public class SSRESTUE{
         return Response.status(200).entity(ueServ.userEventGet(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -220,7 +220,7 @@ public class SSRESTUE{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -237,13 +237,13 @@ public class SSRESTUE{
             true); //withUserRestriction
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -252,7 +252,7 @@ public class SSRESTUE{
         return Response.status(200).entity(ueServ.userEventCountGet(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -287,7 +287,7 @@ public class SSRESTUE{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -304,13 +304,13 @@ public class SSRESTUE{
             true); //shouldCommit
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -319,7 +319,7 @@ public class SSRESTUE{
         return Response.status(200).entity(ueServ.userEventAdd(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       

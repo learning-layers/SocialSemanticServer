@@ -52,7 +52,7 @@ public class SSFlagSQLFct extends SSCoreSQL{
   
   public SSFlag getFlag(
     final SSServPar servPar,
-    final SSUri flag) throws Exception {
+    final SSUri flag) throws SSErr {
     
     ResultSet resultSet = null;
     
@@ -115,7 +115,7 @@ public class SSFlagSQLFct extends SSCoreSQL{
     final List<SSUri>   entities,
     final List<SSFlagE> types,
     final Long          startTime,
-    final Long          endTime) throws Exception{
+    final Long          endTime) throws SSErr{
     
     ResultSet resultSet = null;
       
@@ -224,7 +224,7 @@ public class SSFlagSQLFct extends SSCoreSQL{
     final SSUri   flag,
     final SSFlagE type,
     final Long    endTime,
-    final Integer value) throws Exception{
+    final Integer value) throws SSErr{
     
     try{
       final Map<String, String> inserts    = new HashMap<>();
@@ -257,7 +257,7 @@ public class SSFlagSQLFct extends SSCoreSQL{
     final SSServPar servPar,
     final SSUri         user, 
     final SSUri         flag, 
-    final SSUri         entity) throws Exception{
+    final SSUri         entity) throws SSErr{
     
     try{
       final Map<String, String> inserts    = new HashMap<>();
@@ -281,7 +281,7 @@ public class SSFlagSQLFct extends SSCoreSQL{
     final SSUri   user,
     final SSUri   flagUri,
     final SSFlagE flag,
-    final SSUri   entity) throws Exception{
+    final SSUri   entity) throws SSErr{
     
     try{
       final Map<String, String> wheres = new HashMap<>();
@@ -303,7 +303,7 @@ public class SSFlagSQLFct extends SSCoreSQL{
       }
       
       if(wheres.isEmpty()){
-        SSLogU.warn("not setting any pars would delete the whole flag ass table content");
+        SSLogU.warn("not setting any pars would delete the whole flag ass table content", null);
         return;
       }
       

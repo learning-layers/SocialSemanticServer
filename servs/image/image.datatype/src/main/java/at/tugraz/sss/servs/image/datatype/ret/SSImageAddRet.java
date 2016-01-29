@@ -31,11 +31,11 @@ public class SSImageAddRet extends SSServRetI{
   public SSUri image  = null;
   public SSUri thumb = null;
   
-  public String getImage() throws Exception{
+  public String getImage() throws SSErr{
     return SSStrU.removeTrailingSlash(image);
   }
    
-  public String getThumb() throws Exception{
+  public String getThumb() throws SSErr{
     return SSStrU.removeTrailingSlash(thumb);
   }
     

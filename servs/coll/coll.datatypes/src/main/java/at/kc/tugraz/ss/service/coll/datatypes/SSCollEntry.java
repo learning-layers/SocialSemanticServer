@@ -34,7 +34,7 @@ public class SSCollEntry extends SSEntity {
   public static SSCollEntry get(
     final SSUri           id,
     final SSEntityE       type,
-    final int             pos) throws Exception{
+    final int             pos) throws SSErr{
     
     return new SSCollEntry(id, type, pos);
   }
@@ -42,7 +42,7 @@ public class SSCollEntry extends SSEntity {
   protected SSCollEntry(
     final SSUri           id,
     final SSEntityE       type,
-    final int             pos) throws Exception{
+    final int             pos) throws SSErr{
 
     super(id, type);
     

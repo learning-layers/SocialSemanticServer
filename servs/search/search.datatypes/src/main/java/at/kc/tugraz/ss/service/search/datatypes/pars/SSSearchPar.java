@@ -53,27 +53,27 @@ public class SSSearchPar extends SSServPar{
   public boolean             orderByLabel                                  = false;
   public boolean             orderByCreationTime                           = false;
 
-  public void setAuthorsToSearchFor(final List<String> authorsToSearchFor) throws Exception{
+  public void setAuthorsToSearchFor(final List<String> authorsToSearchFor) throws SSErr{
     this.authorsToSearchFor = SSUri.get(authorsToSearchFor);
   }
   
-  public void setLabelsToSearchFor(final List<String> labelsToSearchFor) throws Exception{
+  public void setLabelsToSearchFor(final List<String> labelsToSearchFor) throws SSErr{
     this.labelsToSearchFor = SSSearchLabel.get(labelsToSearchFor); 
   }
 
-  public void setDescriptionsToSearchFor(final List<String> descriptionsToSearchFor) throws Exception{
+  public void setDescriptionsToSearchFor(final List<String> descriptionsToSearchFor) throws SSErr{
     this.descriptionsToSearchFor = SSSearchLabel.get(descriptionsToSearchFor);
   }
 
-  public void setTypesToSearchOnlyFor(final List<String> typesToSearchOnlyFor) throws Exception{
+  public void setTypesToSearchOnlyFor(final List<String> typesToSearchOnlyFor) throws SSErr{
     this.typesToSearchOnlyFor = SSEntityE.get(typesToSearchOnlyFor);
   }
 
-  public void setLocalSearchOp(final String localSearchOp) throws Exception{
+  public void setLocalSearchOp(final String localSearchOp) throws SSErr{
     this.localSearchOp = SSSearchOpE.get(localSearchOp);
   }
 
-  public void setGlobalSearchOp(final String globalSearchOp) throws Exception{
+  public void setGlobalSearchOp(final String globalSearchOp) throws SSErr{
     this.globalSearchOp = SSSearchOpE.get(globalSearchOp);
   }
   
@@ -81,23 +81,23 @@ public class SSSearchPar extends SSServPar{
     return SSStrU.removeTrailingSlash(authorsToSearchFor);
   }
   
-  public List<String> getLabelsToSearchFor() throws Exception{
+  public List<String> getLabelsToSearchFor() throws SSErr{
     return SSStrU.toStr(labelsToSearchFor);
   }
   
-  public List<String> getDescriptionsToSearchFor() throws Exception{
+  public List<String> getDescriptionsToSearchFor() throws SSErr{
     return SSStrU.toStr(descriptionsToSearchFor);
   }
   
-  public List<String> getTypesToSearchOnlyFor() throws Exception{
+  public List<String> getTypesToSearchOnlyFor() throws SSErr{
     return SSStrU.toStr(typesToSearchOnlyFor);
   }
   
-  public String getLocalSearchOp() throws Exception{
+  public String getLocalSearchOp() throws SSErr{
     return SSStrU.toStr(localSearchOp);
   }
   
-  public String getGlobalSearchOp() throws Exception{
+  public String getGlobalSearchOp() throws SSErr{
     return SSStrU.toStr(globalSearchOp);
   }
   

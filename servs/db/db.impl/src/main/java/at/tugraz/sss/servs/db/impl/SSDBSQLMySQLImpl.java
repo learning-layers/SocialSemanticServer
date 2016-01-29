@@ -190,7 +190,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
           
         }catch(SQLException sqlError){
           
-          SSLogU.warn("no db conn available anymore... going to sleep for 3000 ms");
+          SSLogU.warn("no db conn available anymore... going to sleep for 3000 ms", sqlError);
           
           numberTimesTriedToGetCon++;
           
@@ -828,7 +828,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
         try{
           stmt.close();
         }catch(SQLException sqlError) {
-          SSLogU.warn(SSWarnE.sqlCloseStatementFailed);
+          SSLogU.warn(SSWarnE.sqlCloseStatementFailed, sqlError);
         }
       }
     }

@@ -20,15 +20,15 @@
  */
 package at.tugraz.sss.servs.common.impl.entity;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.SSDateU;
-import at.tugraz.sss.serv.datatype.SSEntityResultPages;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.util.Iterator;
 import java.util.Map;
 
 public class SSEntityQueryCacheU {
   
-  public static void entityQueryCacheClean(final Map<String, SSEntityResultPages> entityQueryCache) throws Exception{
+  public static void entityQueryCacheClean(final Map<String, SSEntityResultPages> entityQueryCache) throws SSErr{
     
     try{
       

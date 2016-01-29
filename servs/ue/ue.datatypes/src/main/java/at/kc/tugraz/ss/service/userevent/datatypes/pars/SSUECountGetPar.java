@@ -35,15 +35,15 @@ public class SSUECountGetPar extends SSServPar{
   public Long             startTime  = null;
   public Long             endTime    = null;
   
-  public void setForUser(final String forUser) throws Exception{
+  public void setForUser(final String forUser) throws SSErr{
     this.forUser = SSUri.get(forUser); 
   }
   
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity); 
   }
 
-  public void setType(final String type) throws Exception{
+  public void setType(final String type) throws SSErr{
     this.type = SSUEE.get(type); 
   }
   

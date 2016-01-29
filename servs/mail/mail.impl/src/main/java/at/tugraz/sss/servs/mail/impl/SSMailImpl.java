@@ -57,7 +57,7 @@ implements
   }
   
   @Override
-  public boolean mailSend(final SSMailSendPar par) throws Exception{
+  public boolean mailSend(final SSMailSendPar par) throws SSErr{
     
     try{
       
@@ -108,7 +108,7 @@ implements
   }
   
   @Override
-  public List<SSEntity> mailsReceive(final SSMailsReceivePar par) throws Exception{
+  public List<SSEntity> mailsReceive(final SSMailsReceivePar par) throws SSErr{
     
     try{
       

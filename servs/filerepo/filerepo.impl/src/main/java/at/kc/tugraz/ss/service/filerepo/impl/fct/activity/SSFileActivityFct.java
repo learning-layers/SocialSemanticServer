@@ -38,7 +38,7 @@ public class SSFileActivityFct{
     final SSServPar   servPar,
     final SSUri       user,
     final SSUri       entity,
-    final List<SSUri> usersToShareWith) throws Exception{
+    final List<SSUri> usersToShareWith) throws SSErr{
     
     try{
       
@@ -57,7 +57,7 @@ public class SSFileActivityFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       

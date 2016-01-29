@@ -33,19 +33,19 @@ public class SSDiscEntryAddFromClientPar extends SSDiscEntryAddPar{
   public List<SSUri>         users          = new ArrayList<>();
   public List<SSUri>         circles        = new ArrayList<>();
   
-  public void setUsers(final List<String> users) throws Exception{
+  public void setUsers(final List<String> users) throws SSErr{
     this.users = SSUri.get(users); 
   }
   
-  public List<String> getUsers() throws Exception{
+  public List<String> getUsers() throws SSErr{
     return SSStrU.removeTrailingSlash(users);
   }
   
-  public void setCircles(final List<String> circles) throws Exception{
+  public void setCircles(final List<String> circles) throws SSErr{
     this.circles = SSUri.get(circles); 
   }
   
-  public List<String> getCircles() throws Exception{
+  public List<String> getCircles() throws SSErr{
     return SSStrU.removeTrailingSlash(circles);
   }
   

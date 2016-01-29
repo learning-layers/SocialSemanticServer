@@ -42,7 +42,7 @@ public class SSLearnEpVersionCircleUpdatePar extends SSServPar{
     return SSStrU.removeTrailingSlash(learnEpCircle);
   }
 
-  public void setLearnEpCircle(final String learnEpCircle) throws Exception{
+  public void setLearnEpCircle(final String learnEpCircle) throws SSErr{
     this.learnEpCircle = SSUri.get(learnEpCircle);
   }
 
@@ -50,7 +50,7 @@ public class SSLearnEpVersionCircleUpdatePar extends SSServPar{
     return SSStrU.toStr(label);
   }
 
-  public void setLabel(final String label) throws Exception{
+  public void setLabel(final String label) throws SSErr{
     this.label = SSLabel.get(label);
   }
   
@@ -58,7 +58,7 @@ public class SSLearnEpVersionCircleUpdatePar extends SSServPar{
     return SSStrU.toStr(description);
   }
 
-  public void setDescription(final String description) throws Exception{
+  public void setDescription(final String description) throws SSErr{
     this.description = SSTextComment.get(description);
   }
   

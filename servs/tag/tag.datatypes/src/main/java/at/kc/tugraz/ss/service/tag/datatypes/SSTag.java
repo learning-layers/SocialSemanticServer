@@ -98,7 +98,7 @@ public class SSTag extends SSEntity{
     final SSSpaceE    space,
     final SSTagLabel  tagLabel,
     final SSUri       circle, 
-    final Long        creationTime) throws Exception{
+    final Long        creationTime) throws SSErr{
     
     return new SSTag(id, entity, user, space, tagLabel, circle, creationTime);
   }
@@ -112,7 +112,7 @@ public class SSTag extends SSEntity{
     final SSSpaceE    space,
     final SSTagLabel  tagLabel,
     final SSUri       circle, 
-    final Long        creationTime) throws Exception{
+    final Long        creationTime) throws SSErr{
     
     super(id, SSEntityE.tag, SSLabel.get(SSStrU.toStr(tagLabel)));
     
@@ -125,7 +125,7 @@ public class SSTag extends SSEntity{
     this.creationTime = creationTime;
   }
   
-  public static Map<String, List<String>> getTagLabelsPerEntities(final List<SSEntity> tags) throws Exception{
+  public static Map<String, List<String>> getTagLabelsPerEntities(final List<SSEntity> tags) throws SSErr{
     
     final Map<String, List<String>>     tagsPerEntity = new HashMap<>();
     List<String>                        tagLabels;
@@ -159,7 +159,7 @@ public class SSTag extends SSEntity{
 }
 
 //  public static List<SSUri> getDistinctResources(
-//    final List<SSTag> tags) throws Exception{
+//    final List<SSTag> tags) throws SSErr{
 //    
 //    final List<SSEntityA> result = new ArrayList<>();
 //		

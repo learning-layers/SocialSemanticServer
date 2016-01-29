@@ -40,21 +40,21 @@ public class SSUser extends SSEntity{
   public String         email          = null;
   
   public static SSUser get(
-    final SSEntity       entity) throws Exception{
+    final SSEntity       entity) throws SSErr{
     
     return new SSUser(entity);
   }
   
   public static SSUser get(
     final SSUser         user,
-    final SSEntity       entity) throws Exception{
+    final SSEntity       entity) throws SSErr{
     
     return new SSUser(user, entity);
   }
   
   public static SSUser get(
     final SSUri    id,
-    final String   email) throws Exception{
+    final String   email) throws SSErr{
     
     return new SSUser(id, email);
   }
@@ -62,7 +62,7 @@ public class SSUser extends SSEntity{
   public SSUser(){}
   
   protected SSUser(
-    final SSEntity       entity) throws Exception{
+    final SSEntity       entity) throws SSErr{
     
     super(entity);
     
@@ -77,7 +77,7 @@ public class SSUser extends SSEntity{
   
   protected SSUser(
     final SSUser         user,
-    final SSEntity       entity) throws Exception{
+    final SSEntity       entity) throws SSErr{
     
     super(user, entity);
     
@@ -108,7 +108,7 @@ public class SSUser extends SSEntity{
   
   protected SSUser(
     final SSUri   id,
-    final String  email) throws Exception{
+    final String  email) throws SSErr{
     
     super(id, SSEntityE.user);
     

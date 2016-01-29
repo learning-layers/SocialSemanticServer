@@ -43,7 +43,7 @@ public class SSCircleCreateFromClientPar extends SSCircleCreatePar{
     return SSStrU.removeTrailingSlash(users);
   }
   
-  public void setUsers(final List<String> users) throws Exception{
+  public void setUsers(final List<String> users) throws SSErr{
     this.users = SSUri.get(users);
   }
   
@@ -51,7 +51,7 @@ public class SSCircleCreateFromClientPar extends SSCircleCreatePar{
     return SSStrU.removeTrailingSlash(entities);
   }
   
-  public void setEntities(final List<String> entities) throws Exception{
+  public void setEntities(final List<String> entities) throws SSErr{
     this.entities = SSUri.get(entities);
   }
   

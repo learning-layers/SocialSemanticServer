@@ -32,7 +32,7 @@ public class SSDataImportSSSUsersFromCSVFilePar extends SSServPar{
   public SSDataImportSSSUsersFromCSVFilePar(
     final SSServPar servPar,
     final SSUri  user, 
-    final String filePath) throws Exception{
+    final String filePath) throws SSErr{
     
     super(SSVarNames.dataImportSSSUsersFromCSVFile, null, user, servPar.sqlCon);
     

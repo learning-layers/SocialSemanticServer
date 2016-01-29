@@ -30,5 +30,5 @@ public interface SSUserRelationGathererI{
   public void getUserRelations(
     final SSServPar                servPar, 
     final List<String>             allUsers,
-    final Map<String, List<SSUri>> userRelations) throws Exception;
+    final Map<String, List<SSUri>> userRelations) throws SSErr;
 }

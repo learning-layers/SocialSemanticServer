@@ -45,7 +45,7 @@ public class SSAppSQLFct extends SSDBSQLFctA{
   
   public SSApp getApp(
     final SSServPar servPar,
-    final SSUri app) throws Exception{
+    final SSUri app) throws SSErr{
     
     ResultSet resultSet = null;
       
@@ -94,7 +94,7 @@ public class SSAppSQLFct extends SSDBSQLFctA{
   }
   
   public List<SSUri> getAppURIs(
-    final SSServPar servPar) throws Exception{
+    final SSServPar servPar) throws SSErr{
     
     ResultSet resultSet = null;
       
@@ -125,7 +125,7 @@ public class SSAppSQLFct extends SSDBSQLFctA{
     final SSTextComment descriptionInstall, 
     final SSUri         downloadIOS, 
     final SSUri         downloadAndroid, 
-    final SSUri         fork) throws Exception{
+    final SSUri         fork) throws SSErr{
     
      try{
       final Map<String, String> inserts    = new HashMap<>();
@@ -185,7 +185,7 @@ public class SSAppSQLFct extends SSDBSQLFctA{
 
   public void removeApps(
     final SSServPar servPar,
-    final List<SSUri> apps) throws Exception {
+    final List<SSUri> apps) throws SSErr {
     
     try{
       final Map<String, String> wheres = new HashMap<>();

@@ -39,23 +39,23 @@ public class SSEvalLogPar extends SSServPar{
   public List<SSUri>      entities     = new ArrayList<>();
   public List<SSUri>      users        = new ArrayList<>();
   
-  public void setToolContext(final String toolContext) throws Exception {
+  public void setToolContext(final String toolContext) throws SSErr {
     this.toolContext = SSToolContextE.get(toolContext);
   }
 
-  public void setType(final String type) throws Exception{
+  public void setType(final String type) throws SSErr{
     this.type = SSEvalLogE.get(type);
   }
   
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
    this.entity = SSUri.get(entity); 
   }
 
-  public void setEntities(final List<String> entities) throws Exception{
+  public void setEntities(final List<String> entities) throws SSErr{
     this.entities = SSUri.get(entities); 
   }
   
-  public void setUsers(final List<String> users)throws Exception{
+  public void setUsers(final List<String> users)throws SSErr{
     this.users = SSUri.get(users);
   }
   
@@ -71,11 +71,11 @@ public class SSEvalLogPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
   
-  public List<String> getEntities() throws Exception{
+  public List<String> getEntities() throws SSErr{
     return SSStrU.removeTrailingSlash(entities);
   }
   
-  public List<String> getUsers() throws Exception{
+  public List<String> getUsers() throws SSErr{
     return SSStrU.removeTrailingSlash(users);
   }
   

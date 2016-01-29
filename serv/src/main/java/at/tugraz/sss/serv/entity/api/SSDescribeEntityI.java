@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.serv.entity.api;
 
-import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
 
 public interface SSDescribeEntityI {
@@ -28,5 +28,5 @@ public interface SSDescribeEntityI {
   public SSEntity describeEntity(
     final SSServPar            servPar,
     final SSEntity             entity, 
-    final SSEntityDescriberPar par) throws Exception;
+    final SSEntityDescriberPar par) throws SSErr;
 }

@@ -44,7 +44,7 @@ public class SSMail extends SSEntity{
 
   public static SSMail get(
     final SSMail     mail, 
-    final SSEntity   entity) throws Exception{
+    final SSEntity   entity) throws SSErr{
     
     return new SSMail(mail, entity);
   }
@@ -52,7 +52,7 @@ public class SSMail extends SSEntity{
   public static SSMail get(
     final SSUri  id,
     final String subject,
-    final Long   creationTime) throws Exception{
+    final Long   creationTime) throws SSErr{
     
     return new SSMail(id, subject, creationTime);
   }
@@ -61,7 +61,7 @@ public class SSMail extends SSEntity{
   
   protected SSMail(
     final SSMail   mail,
-    final SSEntity entity) throws Exception{
+    final SSEntity entity) throws SSErr{
     
     super(mail, entity);
   }
@@ -69,7 +69,7 @@ public class SSMail extends SSEntity{
   protected SSMail(
     final SSUri          id,
     final String         subject,
-    final Long           creationTime) throws Exception{
+    final Long           creationTime) throws SSErr{
     
     super(id, SSEntityE.mail);
     

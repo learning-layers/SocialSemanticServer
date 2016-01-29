@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.serv.util;
 
+import at.tugraz.sss.serv.datatype.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,12 +44,12 @@ public class SSJSONLDU {
 //    space     = appSpace;
   }
   
-  public static Map<String, Object> jsonLDContext() throws Exception{
+  public static Map<String, Object> jsonLDContext() throws SSErr{
     return jsonLDContextBasic();
   }
 
   public static Map<String, Object> jsonLDContext(
-    final Map<String, Object> jsonLDDesc) throws Exception {
+    final Map<String, Object> jsonLDDesc) throws SSErr {
     
     final Map<String, Object> jsonLDContext = jsonLDContextBasic();
     
@@ -59,7 +60,7 @@ public class SSJSONLDU {
     return jsonLDContext;
   }
   
-  private static Map<String, Object> jsonLDContextBasic() throws Exception{
+  private static Map<String, Object> jsonLDContextBasic() throws SSErr{
    
     final Map<String, Object> jsonLDContext = new HashMap<>();
       
@@ -98,7 +99,7 @@ public class SSJSONLDU {
 //          type);
 //      
 //    }catch(Exception error){
-//      return Response.status(422).build();
+//      return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
 //    }
 //    
 //    return SSRestMainV2.handleRequest(headers, par, false, true).response;

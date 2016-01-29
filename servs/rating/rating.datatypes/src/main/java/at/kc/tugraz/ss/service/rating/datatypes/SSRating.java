@@ -58,7 +58,7 @@ public class SSRating extends SSEntity{
     final SSUri   id,
     final SSUri   user,
     final SSUri   entity,
-    final int     value) throws Exception{
+    final int     value) throws SSErr{
     
     return new SSRating(id, user, entity, value);
   }
@@ -67,7 +67,7 @@ public class SSRating extends SSEntity{
     final SSUri   id,
     final SSUri   user,
     final SSUri   entity,
-    final int     value) throws Exception{
+    final int     value) throws SSErr{
     
     super(id, SSEntityE.rating);
     

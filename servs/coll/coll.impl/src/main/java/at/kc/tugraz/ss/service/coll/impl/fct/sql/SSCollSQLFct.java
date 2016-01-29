@@ -48,7 +48,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   
   public SSUri addColl(
     final SSServPar servPar,
-    final SSUri collUri) throws Exception{
+    final SSUri collUri) throws SSErr{
     
     try{
       final Map<String, String> inserts = new HashMap<>();
@@ -67,7 +67,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   public void addCollRoot(
     final SSServPar servPar,
     final SSUri   collUri, 
-    final SSUri   userUri) throws Exception{
+    final SSUri   userUri) throws SSErr{
     
     try{
       
@@ -93,7 +93,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   
   public boolean isCollRoot(
     final SSServPar servPar,
-    final SSUri collUri) throws Exception{
+    final SSUri collUri) throws SSErr{
     
     ResultSet  resultSet = null;
     
@@ -121,7 +121,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   public void addCollSpecial(
     final SSServPar servPar,
     final SSUri   collUri, 
-    final SSUri   userUri) throws Exception{
+    final SSUri   userUri) throws SSErr{
     
     try{
       
@@ -140,7 +140,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   
   public boolean isCollSpecial(
     final SSServPar servPar,
-    final SSUri collUri) throws Exception{
+    final SSUri collUri) throws SSErr{
     
     ResultSet  resultSet               = null;
     
@@ -166,7 +166,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   
    public SSUri getSpecialCollURI(
      final SSServPar servPar,
-     final SSUri userUri) throws Exception{
+     final SSUri userUri) throws SSErr{
     
      ResultSet  resultSet = null;
      
@@ -197,7 +197,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 
   public boolean isColl(
     final SSServPar servPar,
-    final SSUri entityUri) throws Exception{
+    final SSUri entityUri) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -223,7 +223,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   public void addCollEntry(
     final SSServPar servPar,
     final SSUri      collParent,
-    final SSUri      collEntry) throws Exception{
+    final SSUri      collEntry) throws SSErr{
     
     try{
       final Map<String, String> inserts = new HashMap<>();
@@ -245,7 +245,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 
   public Integer getCollEntryCount(
     final SSServPar servPar,
-    final SSUri collUri) throws Exception{
+    final SSUri collUri) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -271,7 +271,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   }
   
   public List<SSUri> getPublicCollURIs(
-    final SSServPar servPar) throws Exception{
+    final SSServPar servPar) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -314,7 +314,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   
   public List<SSUri> getUserCollURIs(
     final SSServPar servPar,
-    final SSUri userUri) throws Exception{
+    final SSUri userUri) throws SSErr{
      
     ResultSet resultSet = null;
     
@@ -341,7 +341,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   public boolean ownsUserColl(
     final SSServPar servPar,
     final SSUri userUri, 
-    final SSUri collUri) throws Exception {
+    final SSUri collUri) throws SSErr {
     
     ResultSet resultSet = null;
     
@@ -372,7 +372,7 @@ public class SSCollSQLFct extends SSCoreSQL{
     final SSUri       collParent,
     final SSUri       collChild,
     final boolean     createdCollIsInSharedOrPublicCircle,
-    final boolean     addedCollIsSharedOrPublic) throws Exception{
+    final boolean     addedCollIsSharedOrPublic) throws SSErr{
     
     try{
       
@@ -451,7 +451,7 @@ public class SSCollSQLFct extends SSCoreSQL{
     final SSServPar servPar,
     final SSUri userUri,
     final SSUri parentCollUri,
-    final SSUri collUri) throws Exception{
+    final SSUri collUri) throws SSErr{
     
     try{
       final Map<String, String> wheres     = new HashMap<>();
@@ -497,7 +497,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   
   public List<SSUri> getDirectChildCollURIs(
     final SSServPar servPar,
-    final SSUri collUri) throws Exception{
+    final SSUri collUri) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -523,7 +523,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   
   public List<SSUri> getDirectParentCollURIs(
     final SSServPar servPar,
-    final SSUri collUri) throws Exception{
+    final SSUri collUri) throws SSErr{
 
     ResultSet resultSet = null;
     
@@ -551,7 +551,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   public void removeCollAndUnlinkSubColls(
     final SSServPar servPar,
     final SSUri userUri,
-    final SSUri collUri) throws Exception{
+    final SSUri collUri) throws SSErr{
     
     try{
       
@@ -576,7 +576,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   public void removeCollEntry(
     final SSServPar servPar,
     final SSUri collUri,
-    final SSUri collEntryUri) throws Exception{
+    final SSUri collEntryUri) throws SSErr{
     
     try{
       final Map<String, String> wheres = new HashMap<>();
@@ -594,7 +594,7 @@ public class SSCollSQLFct extends SSCoreSQL{
     final SSServPar servPar,
     final SSUri         collUri, 
     final List<SSUri>   collEntries,
-    final List<Integer> order) throws Exception{
+    final List<Integer> order) throws SSErr{
     
     try{
       final Map<String, String> wheres   = new HashMap<>();
@@ -619,7 +619,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   
   private SSColl getColl(
     final SSServPar servPar,
-    final SSUri           collUri) throws Exception{
+    final SSUri           collUri) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -652,7 +652,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   
   public SSColl getCollWithEntries(
     final SSServPar servPar,
-    final SSUri  collUri) throws Exception{
+    final SSUri  collUri) throws SSErr{
 
     ResultSet  resultSet = null;
     
@@ -697,7 +697,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 
   public SSUri getRootCollURI(
     final SSServPar servPar,
-    final SSUri userUri) throws Exception{
+    final SSUri userUri) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -727,7 +727,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   public boolean containsCollEntry(
     final SSServPar servPar,
     final SSUri collUri, 
-    final SSUri collEntryUri) throws Exception{
+    final SSUri collEntryUri) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -753,7 +753,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 
   public boolean existsCollRootForUser(
     final SSServPar servPar,
-    final SSUri userUri) throws Exception{
+    final SSUri userUri) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -779,7 +779,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   
   public List<SSUri> getCollUserURIs(
     final SSServPar servPar,
-    final SSUri collUri) throws Exception{
+    final SSUri collUri) throws SSErr{
 
     ResultSet resultSet   = null;
     
@@ -805,7 +805,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   
   public List<SSUri> getCollURIsContainingEntity(
     final SSServPar servPar,
-    final SSUri entityUri) throws Exception{
+    final SSUri entityUri) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -831,7 +831,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   }
 }
 
-//  public SSSpaceEnum getUserCollSpace(SSUri user, SSUri coll) throws Exception{
+//  public SSSpaceEnum getUserCollSpace(SSUri user, SSUri coll) throws SSErr{
 //    
 //    Map<String, String> selectPars    = new HashMap<>();
 //    ResultSet           resultSet     = null;
@@ -856,7 +856,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 //    return userCollSpace;
 //  }
 
-//private boolean ownsUserCollByHierarchy(SSUri userUri, SSUri collUri) throws Exception{
+//private boolean ownsUserCollByHierarchy(SSUri userUri, SSUri collUri) throws SSErr{
 //    
 //    final List<String> collParents    = new ArrayList<>();
 //    final List<String> newCollParents = new ArrayList<>();
@@ -899,7 +899,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 //    }
 //  }
 
-//  public SSSpaceEnum getCollSpace(SSUri userUri, SSUri collUri) throws Exception{
+//  public SSSpaceEnum getCollSpace(SSUri userUri, SSUri collUri) throws SSErr{
 //    
 //    if(
 //      userUri      == null ||
@@ -934,7 +934,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 //    return collSpace;
 //  }
 
-// public boolean isEntityInPrivateUserColl(SSUri user, SSUri entity) throws Exception{
+// public boolean isEntityInPrivateUserColl(SSUri user, SSUri entity) throws SSErr{
 //
 //    Map<String, String> selectPars                = new HashMap<>();
 //    ResultSet           resultSet                 = null;
@@ -1007,7 +1007,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 //    return false;
 //  }
 
-//public boolean isEntityInSharedOrFollowedUserColl(final SSUri user, SSUri entity) throws Exception{
+//public boolean isEntityInSharedOrFollowedUserColl(final SSUri user, SSUri entity) throws SSErr{
 //
 //    Map<String, String> selectPars;
 //    ResultSet           resultSet                            = null;
@@ -1079,7 +1079,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 //    return false;
 //  }
 
-//  public boolean newIsEntityInPrivateUserColl(final SSUri userUri, final SSUri entityUri) throws Exception{
+//  public boolean newIsEntityInPrivateUserColl(final SSUri userUri, final SSUri entityUri) throws SSErr{
 //    
 //    if(SSObjU.isNull(userUri, entityUri)){
 //      SSServErrReg.regErrThrow(new Exception("pars null"));
@@ -1116,7 +1116,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 //    return false;
 //  }
   
-//  public boolean newIsEntityInSharedOrFollowedUserColl(final SSUri userUri, final SSUri entityUri) throws Exception{
+//  public boolean newIsEntityInSharedOrFollowedUserColl(final SSUri userUri, final SSUri entityUri) throws SSErr{
 //    
 //    if(SSObjU.isNull(userUri, entityUri)){
 //      SSServErrReg.regErrThrow(new Exception("pars null"));
@@ -1161,7 +1161,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 //  }
 
 //  public void removeColl(
-//    final SSUri collUri) throws Exception{
+//    final SSUri collUri) throws SSErr{
 //    
 //    if(collUri == null){
 //      SSServErrReg.regErrThrow(new Exception("colluri null"));
@@ -1208,7 +1208,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 //  public boolean ownsUserASubColl(
 //    final SSUri       userUri, 
 //    final SSUri       collUri,
-//    final SSSpaceEnum space) throws Exception{
+//    final SSSpaceEnum space) throws SSErr{
 //    
 //    if(SSObjU.isNull(userUri, collUri, space)){
 //      SSServErrReg.regErrThrow(new Exception("pars not okay"));
@@ -1232,7 +1232,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   //  public boolean ownsUserASuperColl(
 //    final SSUri       userUri, 
 //    final SSUri       collUri,
-//    final SSSpaceEnum space) throws Exception{
+//    final SSSpaceEnum space) throws SSErr{
 //    
 //    if(SSObjU.isNull(userUri, collUri, space)){
 //      SSServErrReg.regErrThrow(new Exception("pars not okay"));
@@ -1255,7 +1255,7 @@ public class SSCollSQLFct extends SSCoreSQL{
   
 //  public boolean ownsUserASuperColl(
 //    final SSUri userUri, 
-//    final SSUri collUri) throws Exception{
+//    final SSUri collUri) throws SSErr{
 //    
 //    if(SSObjU.isNull(userUri, collUri)){
 //      SSServErrReg.regErrThrow(new Exception("pars not okay"));
@@ -1279,7 +1279,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 //  private boolean ownsUserColl(
 //    final SSUri       userUri, 
 //    final SSUri       collUri, 
-//    final SSSpaceEnum space) throws Exception{
+//    final SSSpaceEnum space) throws SSErr{
 //    
 //    
 //    if(SSObjU.isNull(userUri, collUri, space)){
@@ -1309,7 +1309,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 //    //id = entityUri, circleUser = userUri, circleType = private and id=entityId, circle.circleId=circlecircleId
 //    //select * from entity, circleUser, circleEntity, cirlce where id = entityUri, circleUser = userUri, circleType != private;
 //  }
-//  public List<SSUri> getAllSharedCollURIs() throws Exception{
+//  public List<SSUri> getAllSharedCollURIs() throws SSErr{
 //    
 //    final List<SSUri>         sharedCollURIs          = new ArrayList<>();
 //    final List<String>        columnNames             = new ArrayList<>();
@@ -1338,7 +1338,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 //  }
 
 //  public void shareCollAndSubColls(
-//    final SSUri collUri) throws Exception{
+//    final SSUri collUri) throws SSErr{
 //    
 //    if(SSObjU.isNull(collUri)){
 //      SSServErrReg.regErrThrow(new Exception("pars not okay"));
@@ -1369,7 +1369,7 @@ public class SSCollSQLFct extends SSCoreSQL{
 
 
 //public SSColl getColl(
-//    final SSUri collUri) throws Exception{
+//    final SSUri collUri) throws SSErr{
 //   
 //    if(SSObjU.isNull(collUri)){
 //      SSServErrReg.regErrThrow(new Exception("pars null"));

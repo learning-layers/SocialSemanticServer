@@ -36,7 +36,7 @@ public class SSSolrSearchResult {
     return new SSSolrSearchResult(id);
 	}
   
-  public static synchronized List<SSSolrSearchResult> get(final SolrDocumentList solrDocList) throws Exception {
+  public static synchronized List<SSSolrSearchResult> get(final SolrDocumentList solrDocList) throws SSErr {
     
     final List<SSSolrSearchResult> result = new ArrayList<>();
     
@@ -82,7 +82,7 @@ public class SSSolrSearchResult {
       if (tmp != null) {
         x = tmp.getClass() + "";
       }
-      SSLogU.warn("field " + field + " could not be converted to any supported class. " + x);
+      SSLogU.warn("field " + field + " could not be converted to any supported class. " + x, null);
       return "";
     }
   }

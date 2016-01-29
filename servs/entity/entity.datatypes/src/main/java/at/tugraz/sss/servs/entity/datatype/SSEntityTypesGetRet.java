@@ -20,19 +20,17 @@
 */
 package at.tugraz.sss.servs.entity.datatypes.ret;
 
-
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class SSEntityTypesGetRet extends SSServRetI{
  
   public List<SSEntityE> types = new ArrayList<>();
 
-  public List<String> getTypes() throws Exception {
+  public List<String> getTypes(){
     return SSStrU.toStr(types);
   }
   
@@ -47,8 +45,6 @@ public class SSEntityTypesGetRet extends SSServRetI{
 
     super(SSVarNames.entityTypesGet);
     
-    if(types != null){
-      this.types.addAll(types);
-    }
+    SSEntityE.addDistinctWithoutNull(this.types, types);
   }
 }

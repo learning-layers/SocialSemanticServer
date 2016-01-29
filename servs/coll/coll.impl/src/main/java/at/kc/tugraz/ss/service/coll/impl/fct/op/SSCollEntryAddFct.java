@@ -31,6 +31,7 @@ import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
 import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
+import at.tugraz.sss.serv.reg.*;
 
 public class SSCollEntryAddFct{
   
@@ -38,7 +39,7 @@ public class SSCollEntryAddFct{
     final SSEntityServerI       circleServ,
     final SSEntityServerI       entityServ,
     final SSCollSQLFct          sqlFct,
-    final SSCollUserEntryAddPar par) throws Exception{
+    final SSCollUserEntryAddPar par) throws SSErr{
     
     final boolean isParentCollSharedOrPublic;
     
@@ -94,49 +95,54 @@ public class SSCollEntryAddFct{
   public static SSUri addPublicColl(
     final SSCollSQLFct          sqlFct,
     final SSEntityServerI       circleServ,
-    final SSCollUserEntryAddPar par) throws Exception{
+    final SSCollUserEntryAddPar par) throws SSErr{
     
-    if(!circleServ.circleIsEntityPublic(
-      new SSCircleIsEntityPublicPar(
-        par, 
-        par.user, 
-        par.entry))){
-      throw new Exception("coll to add is not public");
-    }
-    
-    if(!circleServ.circleIsEntityPrivate(
-      new SSCircleIsEntityPrivatePar(
-        par, 
-        par.user, 
-        par.entry))){
+    try{
+      if(!circleServ.circleIsEntityPublic(
+        new SSCircleIsEntityPublicPar(
+          par,
+          par.user,
+          par.entry))){
+        throw new Exception("coll to add is not public");
+      }
       
-      throw new Exception("cannot add shared or public coll to shared / public parent coll");
+      if(!circleServ.circleIsEntityPrivate(
+        new SSCircleIsEntityPrivatePar(
+          par,
+          par.user,
+          par.entry))){
+        
+        throw new Exception("cannot add shared or public coll to shared / public parent coll");
+      }
+      
+      if(sqlFct.ownsUserColl(par, par.user, par.entry)){
+        throw new Exception("coll is already followed by user");
+      }
+      
+      if(SSCollMiscFct.ownsUserASubColl(par, sqlFct, par.user, par.entry)){
+        throw new Exception("a sub coll is already followed");
+      }
+      
+      sqlFct.addCollToColl(
+        par,
+        par.user,
+        par.coll,
+        par.entry,
+        false,
+        true);
+      
+      return par.entry;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    if(sqlFct.ownsUserColl(par, par.user, par.entry)){
-      throw new Exception("coll is already followed by user");
-    }
-    
-    if(SSCollMiscFct.ownsUserASubColl(par, sqlFct, par.user, par.entry)){
-      throw new Exception("a sub coll is already followed");
-    }
-    
-    sqlFct.addCollToColl(
-      par, 
-      par.user, 
-      par.coll, 
-      par.entry, 
-      false,
-      true);
-    
-    return par.entry;
   }
   
   public static SSUri addCollEntry(
     final SSEntityServerI       circleServ, 
     final SSEntityServerI       entityServ,
     final SSCollSQLFct          sqlFct, 
-    final SSCollUserEntryAddPar par) throws Exception{
+    final SSCollUserEntryAddPar par) throws SSErr{
     
     final SSUri entry =
       entityServ.entityUpdate(

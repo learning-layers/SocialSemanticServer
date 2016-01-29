@@ -20,11 +20,12 @@
 */
 package at.tugraz.sss.serv.entity.api;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
 
 public interface SSPushEntitiesToUsersI {
   
   public void pushEntitiesToUsers(
     final SSServPar                servPar, 
-    final SSPushEntitiesToUsersPar par) throws Exception;
+    final SSPushEntitiesToUsersPar par) throws SSErr;
 }

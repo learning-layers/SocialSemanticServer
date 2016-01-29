@@ -32,15 +32,15 @@ public class SSCollUserEntryAddPar extends SSServPar{
   public boolean      addNewColl  = false;
   public SSUri        entry       = null;
   
-  public void setColl(final String coll) throws Exception{
+  public void setColl(final String coll) throws SSErr{
     this.coll = SSUri.get(coll);
   }
   
-  public void setLabel(final String label) throws Exception{
+  public void setLabel(final String label) throws SSErr{
     this.label = SSLabel.get(label);
   }
   
-  public void setEntry(final String entry) throws Exception{
+  public void setEntry(final String entry) throws SSErr{
     this.entry = SSUri.get(entry);
   }
   

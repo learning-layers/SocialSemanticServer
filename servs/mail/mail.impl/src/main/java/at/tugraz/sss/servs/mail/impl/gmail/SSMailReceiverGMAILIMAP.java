@@ -21,7 +21,7 @@
 package at.tugraz.sss.servs.mail.impl.gmail;
 
 import at.tugraz.sss.conf.SSConf;
-import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.mail.conf.SSMailConf;
@@ -29,10 +29,7 @@ import at.tugraz.sss.servs.mail.datatype.SSMail;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import javax.mail.Folder;
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.Store;
+import javax.mail.*;
 
 public class SSMailReceiverGMAILIMAP {
   
@@ -48,7 +45,7 @@ public class SSMailReceiverGMAILIMAP {
 
   public List<SSEntity> receiveMails(
     final String fromEmail,
-    final String fromPassword) throws Exception {
+    final String fromPassword) throws SSErr {
     
     Store  store  = null;
     Folder folder = null;
@@ -103,13 +100,21 @@ public class SSMailReceiverGMAILIMAP {
       if(
         folder != null &&
         folder.isOpen()){
-        folder.close (true);
+        try {
+          folder.close (true);
+        } catch (MessagingException ex) {
+          SSLogU.err(ex);
+        }
       }
       
       if(
         store != null && 
         store.isConnected()){
-        store.close  ();
+        try {
+          store.close  ();
+        } catch (MessagingException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }

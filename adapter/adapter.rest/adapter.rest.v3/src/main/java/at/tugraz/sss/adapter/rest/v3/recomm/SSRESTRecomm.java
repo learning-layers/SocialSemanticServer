@@ -81,7 +81,7 @@ public class SSRESTRecomm{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -97,13 +97,13 @@ public class SSRESTRecomm{
             input.categories); //categories
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -112,7 +112,7 @@ public class SSRESTRecomm{
         return Response.status(200).entity(recommServ.recommUpdate(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -158,7 +158,7 @@ public class SSRESTRecomm{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -173,13 +173,13 @@ public class SSRESTRecomm{
             SSClientE.rest); //clientType
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -188,7 +188,7 @@ public class SSRESTRecomm{
         return Response.status(200).entity(recommServ.recommUpdateBulk(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -224,7 +224,7 @@ public class SSRESTRecomm{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -240,13 +240,13 @@ public class SSRESTRecomm{
             input.categories);   //categories
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -255,7 +255,7 @@ public class SSRESTRecomm{
         return Response.status(200).entity(recommServ.recommUpdateBulkEntities(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -289,7 +289,7 @@ public class SSRESTRecomm{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -308,13 +308,13 @@ public class SSRESTRecomm{
             true); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -323,7 +323,7 @@ public class SSRESTRecomm{
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -363,7 +363,7 @@ public class SSRESTRecomm{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -382,13 +382,13 @@ public class SSRESTRecomm{
             true); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -397,7 +397,7 @@ public class SSRESTRecomm{
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -437,7 +437,7 @@ public class SSRESTRecomm{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -456,13 +456,13 @@ public class SSRESTRecomm{
             false); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -471,7 +471,7 @@ public class SSRESTRecomm{
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -517,7 +517,7 @@ public class SSRESTRecomm{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -536,13 +536,13 @@ public class SSRESTRecomm{
             true); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -551,7 +551,7 @@ public class SSRESTRecomm{
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -603,7 +603,7 @@ public class SSRESTRecomm{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -622,13 +622,13 @@ public class SSRESTRecomm{
             true); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -637,7 +637,7 @@ public class SSRESTRecomm{
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -689,7 +689,7 @@ public class SSRESTRecomm{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -708,13 +708,13 @@ public class SSRESTRecomm{
             false); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -723,7 +723,7 @@ public class SSRESTRecomm{
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -763,7 +763,7 @@ public class SSRESTRecomm{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -782,13 +782,13 @@ public class SSRESTRecomm{
             true); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -797,7 +797,7 @@ public class SSRESTRecomm{
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -843,7 +843,7 @@ public class SSRESTRecomm{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -863,13 +863,13 @@ public class SSRESTRecomm{
         
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -878,7 +878,7 @@ public class SSRESTRecomm{
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -924,7 +924,7 @@ public class SSRESTRecomm{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -943,13 +943,13 @@ public class SSRESTRecomm{
             false); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -958,7 +958,7 @@ public class SSRESTRecomm{
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -998,7 +998,7 @@ public class SSRESTRecomm{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -1017,13 +1017,13 @@ public class SSRESTRecomm{
             true); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -1032,7 +1032,7 @@ public class SSRESTRecomm{
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -1078,7 +1078,7 @@ public class SSRESTRecomm{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -1097,13 +1097,13 @@ public class SSRESTRecomm{
             true); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -1112,7 +1112,7 @@ public class SSRESTRecomm{
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -1159,7 +1159,7 @@ public class SSRESTRecomm{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -1178,13 +1178,13 @@ public class SSRESTRecomm{
             false); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -1193,7 +1193,7 @@ public class SSRESTRecomm{
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
     }finally{
@@ -1230,7 +1230,7 @@ public class SSRESTRecomm{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -1252,13 +1252,13 @@ public class SSRESTRecomm{
             true); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -1267,7 +1267,7 @@ public class SSRESTRecomm{
         return Response.status(200).entity(recommServ.recommResources(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -1303,7 +1303,7 @@ public class SSRESTRecomm{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -1322,13 +1322,13 @@ public class SSRESTRecomm{
             true); //withUserRestriction
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -1337,7 +1337,7 @@ public class SSRESTRecomm{
         return Response.status(200).entity(recommServ.recommTags(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       

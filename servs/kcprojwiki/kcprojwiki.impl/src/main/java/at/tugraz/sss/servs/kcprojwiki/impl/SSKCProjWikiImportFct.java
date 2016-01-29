@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.servs.kcprojwiki.impl;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.SSEncodingU;
 import at.tugraz.sss.serv.util.SSFileU;
 import at.tugraz.sss.serv.util.SSLogU;
@@ -28,9 +29,10 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.kcprojwiki.conf.SSKCProjWikiConf;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgang;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgangEmployeeResource;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.*;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -104,13 +106,13 @@ public class SSKCProjWikiImportFct {
   private String                 token;
   private String                 sessionID;
   
-  public SSKCProjWikiImportFct(final SSKCProjWikiConf conf) throws Exception{
+  public SSKCProjWikiImportFct(final SSKCProjWikiConf conf){
     
     this.conf          = conf;
     this.httpclient    = HttpClients.createDefault();
   }
   
-  public void updateVorgangBasics(final SSKCProjWikiVorgang vorgang) throws Exception{
+  public void updateVorgangBasics(final SSKCProjWikiVorgang vorgang) throws SSErr{
     
     try{
       
@@ -163,7 +165,7 @@ public class SSKCProjWikiImportFct {
     }
   }
   
-  public void updateVorgangEmployeeResources(final SSKCProjWikiVorgang vorgang) throws Exception{
+  public void updateVorgangEmployeeResources(final SSKCProjWikiVorgang vorgang) throws SSErr{
     
     try{
       final String              editToken             = getWikiPageEditToken      (vorgang.title);
@@ -209,7 +211,7 @@ public class SSKCProjWikiImportFct {
     }
   }
   
-  public String getVorgangPageTitleByVorgangNumber(final String vorgangNumber) throws Exception{
+  public String getVorgangPageTitleByVorgangNumber(final String vorgangNumber) throws SSErr{
     
     InputStream in = null;
     
@@ -253,12 +255,16 @@ public class SSKCProjWikiImportFct {
     }finally{
       
       if(in != null){
-        in.close();
+        try {
+          in.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }
   
-  public String getVorgangPageTitleByProjectNumber(final String projectNumber) throws Exception{
+  public String getVorgangPageTitleByProjectNumber(final String projectNumber) throws SSErr{
     
     InputStream in = null;
     
@@ -295,12 +301,16 @@ public class SSKCProjWikiImportFct {
     }finally{
       
       if(in != null){
-        in.close();
+        try {
+          in.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }
   
-  public String getProjectPageTitleByProjectNumber(final Integer projectNumber) throws Exception{
+  public String getProjectPageTitleByProjectNumber(final Integer projectNumber) throws SSErr{
     
     InputStream in = null;
     
@@ -337,12 +347,16 @@ public class SSKCProjWikiImportFct {
     }finally{
       
       if(in != null){
-        in.close();
+        try {
+          in.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }
   
-  private void loginFirstTime() throws Exception{
+  private void loginFirstTime() throws SSErr{
     
     InputStream in = null;
     
@@ -367,12 +381,16 @@ public class SSKCProjWikiImportFct {
       SSServErrReg.regErrThrow(new Exception("first login failed"));
     }finally{
       if(in != null){
-        in.close();
+        try {
+          in.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }
     
-  private void loginSecondTime() throws Exception{
+  private void loginSecondTime() throws SSErr{
     
     InputStream in  = null;
     
@@ -397,12 +415,16 @@ public class SSKCProjWikiImportFct {
       SSServErrReg.regErrThrow(new Exception("second login failed"));
     }finally{
       if(in != null){
-        in.close();
+        try {
+          in.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }
   
-  private void logout() throws Exception{
+  private void logout() throws SSErr{
 
     try{
       httpclient.execute(
@@ -412,11 +434,11 @@ public class SSKCProjWikiImportFct {
           + SSStrU.ampersand + valueFormatJson));
       
     }catch(Exception error){
-      SSLogU.warn("logout failed");
+      SSLogU.warn("logout failed", error);
     }
   }
   
-  private String getWikiPageContent(final String title) throws Exception{
+  private String getWikiPageContent(final String title) throws SSErr{
 
     InputStream in = null;
     
@@ -462,12 +484,16 @@ public class SSKCProjWikiImportFct {
       return null;
     }finally{
       if(in != null){
-        in.close();
+        try {
+          in.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }
   
-  private String getWikiPageEditToken(final String title) throws Exception{
+  private String getWikiPageEditToken(final String title) throws SSErr{
     
     InputStream in = null;
     
@@ -509,12 +535,16 @@ public class SSKCProjWikiImportFct {
     }finally{
       
       if(in != null){
-        in.close();
+        try {
+          in.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }
 
-  public void start() throws Exception{
+  public void start() throws SSErr{
     
     try{
       loginFirstTime  ();
@@ -524,7 +554,7 @@ public class SSKCProjWikiImportFct {
     }
   }
   
-  public void end() throws Exception{
+  public void end() throws SSErr{
     
     try{
       logout();
@@ -533,7 +563,7 @@ public class SSKCProjWikiImportFct {
     }
   }
   
-  private List<BasicNameValuePair> getFirstLoginParams() throws Exception{
+  private List<BasicNameValuePair> getFirstLoginParams() throws SSErr{
     
     try{
       final List<BasicNameValuePair> params = new ArrayList<>();
@@ -549,7 +579,7 @@ public class SSKCProjWikiImportFct {
     }
   }
   
-  private List<BasicNameValuePair> getSecondLoginParams() throws Exception{
+  private List<BasicNameValuePair> getSecondLoginParams() throws SSErr{
     
     try{
       final List<BasicNameValuePair> params = getFirstLoginParams();
@@ -565,7 +595,7 @@ public class SSKCProjWikiImportFct {
   }
 
   private String removeEmployeeResourcesFromVorgangContent(
-    final String content) throws Exception{
+    final String content) throws SSErr{
     
     try{
       String                    result = content;
@@ -593,7 +623,7 @@ public class SSKCProjWikiImportFct {
   
   private void parseUpdateResponse(
     final HttpResponse            response,
-    final SSKCProjWikiVorgang     vorgang) throws Exception{
+    final SSKCProjWikiVorgang     vorgang) throws SSErr{
     
     InputStream in = null;
     
@@ -614,7 +644,7 @@ public class SSKCProjWikiImportFct {
         Integer     code       = Integer.valueOf((String) jsonResult.get    (valueCode));
         
         if(code.compareTo(200) != 0){
-          SSLogU.warn("vorgang import for " + vorgang.title + ", " + vorgang.vorgangNumber + " failed with http code " + code);
+          SSLogU.warn("vorgang import for " + vorgang.title + ", " + vorgang.vorgangNumber + " failed with http code " + code, null);
         }
         
         return;
@@ -623,14 +653,18 @@ public class SSKCProjWikiImportFct {
       strResult = (String) edit.get          (valueResult);
       
       if(!SSStrU.equals(strResult, valueSuccess)){
-        SSLogU.warn("vorgang import for " + vorgang.title + ", " + vorgang.vorgangNumber + " failed with result value " + strResult);
+        SSLogU.warn("vorgang import for " + vorgang.title + ", " + vorgang.vorgangNumber + " failed with result value " + strResult, null);
       }
 
     }catch(Exception error){
       SSServErrReg.regErrThrow(new Exception("parsing update response failed"));
     }finally{
       if(in != null){
-        in.close();
+        try {
+          in.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }

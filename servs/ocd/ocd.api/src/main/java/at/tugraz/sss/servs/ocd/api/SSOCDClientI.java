@@ -20,17 +20,18 @@
 */
 package at.tugraz.sss.servs.ocd.api;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 
 public interface SSOCDClientI {
   
-  public SSServRetI ocdCreateGraph          (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI ocdGetGraphs            (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI ocdGetGraph             (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI ocdDeleteGraph          (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI ocdCreateCover          (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI ocdGetCovers            (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI ocdDeleteCover          (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI ocdCreateGraph          (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI ocdGetGraphs            (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI ocdGetGraph             (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI ocdDeleteGraph          (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI ocdCreateCover          (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI ocdGetCovers            (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI ocdDeleteCover          (final SSClientE clientType, final SSServPar parA) throws SSErr;
 }

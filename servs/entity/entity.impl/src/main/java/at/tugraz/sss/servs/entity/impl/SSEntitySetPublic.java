@@ -44,7 +44,7 @@ public class SSEntitySetPublic {
     final SSServPar servPar,
     final SSUri       user,
     final SSEntity    entity,
-    final boolean     withUserRestriction) throws Exception{
+    final boolean     withUserRestriction) throws SSErr{
     
     try{
       

@@ -32,7 +32,7 @@ public class SSDataImportBitsAndPiecesTask implements Runnable{
   private final SSDataImportBitsAndPiecesPar par;
   
   public SSDataImportBitsAndPiecesTask(
-    final SSDataImportBitsAndPiecesPar par) throws Exception{
+    final SSDataImportBitsAndPiecesPar par){
     
     this.par = par;
   }

@@ -43,19 +43,19 @@ public class SSUEsGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(userEvents);
   }
 
-  public void setUserEvents(final List<String> userEvents) throws Exception {
+  public void setUserEvents(final List<String> userEvents) throws SSErr {
     this.userEvents = SSUri.get(userEvents);
   }
   
-  public void setForUser(final String forUser) throws Exception{
+  public void setForUser(final String forUser) throws SSErr{
     this.forUser = SSUri.get(forUser);
   }
   
-  public void setEntity(final String entity)throws Exception{
+  public void setEntity(final String entity)throws SSErr{
     this.entity = SSUri.get(entity);
   }
   
-  public void setTypes(final List<String> types)throws Exception{
+  public void setTypes(final List<String> types)throws SSErr{
     this.types = SSUEE.get(types);
   }
   
@@ -67,7 +67,7 @@ public class SSUEsGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
   
-  public List<String> getTypes() throws Exception{
+  public List<String> getTypes() throws SSErr{
     return SSStrU.toStr(types);
   }
   

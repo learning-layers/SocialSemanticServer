@@ -22,6 +22,7 @@ package at.tugraz.sss.serv.impl.api;
 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.conf.api.SSConfA;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
 
@@ -36,7 +37,7 @@ public abstract class SSServImplDBA extends SSServImplA{
   @Override
   public SSServRetI invokeClientServOp(
     final Class      servImplClientInteraceClass, 
-    final SSServPar  par) throws Exception{
+    final SSServPar  par) throws SSErr{
     
     throw new UnsupportedOperationException(SSStrU.empty);
   }

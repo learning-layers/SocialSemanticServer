@@ -44,39 +44,39 @@ public class SSActivitiesGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(activities);
   }
 
-  public void setActivities(final List<String> activities) throws Exception {
+  public void setActivities(final List<String> activities) throws SSErr {
     this.activities = SSUri.get(activities);
   }
   
-  public void setTypes(final List<String> types) throws Exception{
+  public void setTypes(final List<String> types) throws SSErr{
     this.types = SSActivityE.get(types);
   }
   
-  public void setUsers(final List<String> users) throws Exception{
+  public void setUsers(final List<String> users) throws SSErr{
     this.users = SSUri.get(users);
   }
   
-  public void setEntities(final List<String> entities) throws Exception{
+  public void setEntities(final List<String> entities) throws SSErr{
     this.entities = SSUri.get(entities);
   }
   
-  public void setCircles(final List<String> circles) throws Exception{
+  public void setCircles(final List<String> circles) throws SSErr{
     this.circles = SSUri.get(circles);
   }
   
-  public List<String> getCircles() throws Exception{
+  public List<String> getCircles() throws SSErr{
     return SSStrU.removeTrailingSlash(circles);
   }
   
-  public List<String> getUsers() throws Exception{
+  public List<String> getUsers() throws SSErr{
     return SSStrU.removeTrailingSlash(users);
   }
   
-  public List<String> getEntities() throws Exception{
+  public List<String> getEntities() throws SSErr{
     return SSStrU.removeTrailingSlash(entities);
   }
   
-  public List<String> getTypes() throws Exception{
+  public List<String> getTypes() throws SSErr{
     return SSStrU.toStr(types);
   }
   

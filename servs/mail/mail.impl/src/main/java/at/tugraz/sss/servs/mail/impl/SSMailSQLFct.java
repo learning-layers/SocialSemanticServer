@@ -45,7 +45,7 @@ public class SSMailSQLFct extends SSDBSQLFctA{
     final SSServPar servPar,
     final SSUri     mail,
     final String hash,
-    final String receiverEmail) throws Exception{
+    final String receiverEmail) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -98,7 +98,7 @@ public class SSMailSQLFct extends SSDBSQLFctA{
     final SSServPar servPar,
     final SSUri         mail, 
     final String        receiverEmail,
-    final String        hash) throws Exception{
+    final String        hash) throws SSErr{
     
     if(!existsMail(servPar, mail, hash, receiverEmail)){
       

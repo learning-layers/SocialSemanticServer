@@ -38,10 +38,8 @@ import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import com.evernote.clients.NoteStoreClient;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Resource;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
+import java.io.*;
+import java.util.logging.*;
 
 public class SSDataImportEvernoteNoteContentHandler{
   
@@ -72,7 +70,7 @@ public class SSDataImportEvernoteNoteContentHandler{
   }
   
   public void handleNoteContent(
-    final SSServPar servPar) throws Exception{
+    final SSServPar servPar) throws SSErr{
     
     String                    xhtmlFilePath;
     SSUri                     fileUri;
@@ -108,7 +106,7 @@ public class SSDataImportEvernoteNoteContentHandler{
               xhtmlFilePath);
             
           }catch(Exception error1){
-            SSLogU.warn("reducing XHTML failed");            
+            SSLogU.warn("reducing XHTML failed", error1);            
             throw error;
           }
           
@@ -118,7 +116,7 @@ public class SSDataImportEvernoteNoteContentHandler{
               xhtmlFilePath);
             
           }catch(Exception error1){
-            SSLogU.warn("filling reduced XHTML failed");
+            SSLogU.warn("filling reduced XHTML failed", error1);
             throw error;
           }
           
@@ -128,7 +126,7 @@ public class SSDataImportEvernoteNoteContentHandler{
               xhtmlFilePath,
               true);
           }catch(Exception error1){
-            SSLogU.warn("PDF creation from reduced and filled XHTML failed");
+            SSLogU.warn("PDF creation from reduced and filled XHTML failed", error1);
             throw error;
           }
           
@@ -165,7 +163,7 @@ public class SSDataImportEvernoteNoteContentHandler{
     }
   }
   
-  public static String reduceXHTMLToTextAndImage(final String path) throws Exception{
+  public static String reduceXHTMLToTextAndImage(final String path) throws SSErr{
     
     BufferedReader br     = null;
     String         result = SSStrU.empty;
@@ -285,14 +283,18 @@ public class SSDataImportEvernoteNoteContentHandler{
     }finally{
       
       if(br != null){
-        br.close();
+        try {
+          br.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }
   
   private String downnloadNoteResourcesAndFillXHTMLWithLocalImageLinks(
     final SSServPar servPar,
-    final String path) throws Exception{
+    final String path) throws SSErr{
     
     BufferedReader lineReader      = null;
     String         result          = SSStrU.empty;
@@ -489,7 +491,7 @@ public class SSDataImportEvernoteNoteContentHandler{
           
           if(mimeType == null){
              
-            SSLogU.warn("no / unknown mime type set in:"  + tmpLine);
+            SSLogU.warn("no / unknown mime type set in:"  + tmpLine, null);
             
             if(endIndex == endIndex1){
               result += tmpLine.substring(0, endIndex + 11);
@@ -671,7 +673,11 @@ public class SSDataImportEvernoteNoteContentHandler{
     }finally{
       
       if(lineReader != null){
-        lineReader.close();
+        try {
+          lineReader.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }

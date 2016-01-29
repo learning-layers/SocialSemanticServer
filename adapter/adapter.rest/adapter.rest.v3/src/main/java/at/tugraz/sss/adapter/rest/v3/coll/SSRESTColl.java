@@ -94,7 +94,7 @@ public class SSRESTColl{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -109,13 +109,13 @@ public class SSRESTColl{
             true); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -124,7 +124,7 @@ public class SSRESTColl{
         return Response.status(200).entity(collServ.collGet(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -158,7 +158,7 @@ public class SSRESTColl{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -171,13 +171,13 @@ public class SSRESTColl{
             true); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -186,7 +186,7 @@ public class SSRESTColl{
         return Response.status(200).entity(collServ.collRootGet(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -223,7 +223,7 @@ public class SSRESTColl{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -237,13 +237,13 @@ public class SSRESTColl{
             true); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -252,7 +252,7 @@ public class SSRESTColl{
         return Response.status(200).entity(collServ.collHierarchyGet(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -291,7 +291,7 @@ public class SSRESTColl{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -308,13 +308,13 @@ public class SSRESTColl{
             true); //shouldCommit
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -323,7 +323,7 @@ public class SSRESTColl{
         return Response.status(200).entity(collServ.collEntryAdd(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -362,7 +362,7 @@ public class SSRESTColl{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -378,13 +378,13 @@ public class SSRESTColl{
             true); //shouldCommit
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -393,7 +393,7 @@ public class SSRESTColl{
         return Response.status(200).entity(collServ.collEntriesAdd(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -430,7 +430,7 @@ public class SSRESTColl{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -444,13 +444,13 @@ public class SSRESTColl{
             true); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -459,7 +459,7 @@ public class SSRESTColl{
         return Response.status(200).entity(collServ.collsEntityIsInGet(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -496,7 +496,7 @@ public class SSRESTColl{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -509,13 +509,13 @@ public class SSRESTColl{
             true); //withUserRestriction
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -524,7 +524,7 @@ public class SSRESTColl{
         return Response.status(200).entity(collServ.collCumulatedTagsGet(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -564,7 +564,7 @@ public class SSRESTColl{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -579,13 +579,13 @@ public class SSRESTColl{
             true); // shouldCommit
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -594,7 +594,7 @@ public class SSRESTColl{
         return Response.status(200).entity(collServ.collEntriesDelete(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       

@@ -43,47 +43,47 @@ public class SSAppAddPar extends SSServPar{
   public List<SSUri>         screenShots            = new ArrayList<>();
   public List<SSUri>         videos                 = new ArrayList<>();
 
-  public void setLabel(final String label) throws Exception{
+  public void setLabel(final String label) throws SSErr{
     this.label = SSLabel.get(label);
   }
 
-  public void setDescriptionShort(final String descriptionShort) throws Exception{
+  public void setDescriptionShort(final String descriptionShort) throws SSErr{
     this.descriptionShort = SSTextComment.get(descriptionShort);
   }
 
-  public void setDescriptionFunctional(final String descriptionFunctional)throws Exception{
+  public void setDescriptionFunctional(final String descriptionFunctional)throws SSErr{
     this.descriptionFunctional = SSTextComment.get(descriptionFunctional);
   }
 
-  public void setDescriptionTechnical(final String descriptionTechnical)throws Exception{
+  public void setDescriptionTechnical(final String descriptionTechnical)throws SSErr{
     this.descriptionTechnical = SSTextComment.get(descriptionTechnical);
   }
 
-  public void setDescriptionInstall(final String descriptionInstall)throws Exception{
+  public void setDescriptionInstall(final String descriptionInstall)throws SSErr{
     this.descriptionInstall = SSTextComment.get(descriptionInstall);
   }
 
-  public void setDownloads(final List<String> downloads)throws Exception{
+  public void setDownloads(final List<String> downloads)throws SSErr{
     this.downloads = SSUri.get(downloads);
   }
 
-  public void setDownloadIOS(final String downloadIOS)throws Exception{
+  public void setDownloadIOS(final String downloadIOS)throws SSErr{
     this.downloadIOS =  SSUri.get(downloadIOS);
   }
 
-  public void setDownloadAndroid(final String downloadAndroid)throws Exception{
+  public void setDownloadAndroid(final String downloadAndroid)throws SSErr{
     this.downloadAndroid =  SSUri.get(downloadAndroid);
   }
 
-  public void setFork(final String fork)throws Exception{
+  public void setFork(final String fork)throws SSErr{
     this.fork =  SSUri.get(fork);
   }
 
-  public void setScreenShots(final List<String> screenShots)throws Exception{
+  public void setScreenShots(final List<String> screenShots)throws SSErr{
     this.screenShots =  SSUri.get(screenShots);
   }
 
-  public void setVideos(final List<String> videos) throws Exception{
+  public void setVideos(final List<String> videos) throws SSErr{
     this.videos =  SSUri.get(videos);
   }
   
@@ -107,7 +107,7 @@ public class SSAppAddPar extends SSServPar{
     return SSStrU.toStr(descriptionInstall);
   }
   
-  public List<String> getDownloads() throws Exception{
+  public List<String> getDownloads() throws SSErr{
     return SSStrU.toStr(downloads);
   }
   
@@ -123,11 +123,11 @@ public class SSAppAddPar extends SSServPar{
     return SSStrU.toStr(fork);
   }
   
-  public List<String> getScreenShots()throws Exception{
+  public List<String> getScreenShots()throws SSErr{
     return SSStrU.toStr(screenShots);
   }
   
-  public List<String> getVideos()throws Exception{
+  public List<String> getVideos()throws SSErr{
     return SSStrU.toStr(videos);
   }
   

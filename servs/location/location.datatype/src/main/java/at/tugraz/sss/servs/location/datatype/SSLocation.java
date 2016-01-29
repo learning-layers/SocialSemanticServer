@@ -39,7 +39,7 @@ public class SSLocation extends SSEntity{
   
   public static SSLocation get(
     final SSLocation  location,
-    final SSEntity    entity) throws Exception{
+    final SSEntity    entity) throws SSErr{
     
     return new SSLocation(location, entity);
   }
@@ -48,7 +48,7 @@ public class SSLocation extends SSEntity{
     final SSUri  id, 
     final Double latitude,
     final Double longitude,
-    final Float  accuracy) throws Exception{
+    final Float  accuracy) throws SSErr{
     
     return new SSLocation(id, latitude, longitude, accuracy);
   }
@@ -57,7 +57,7 @@ public class SSLocation extends SSEntity{
   
   protected SSLocation(
     final SSLocation  location,
-    final SSEntity    entity) throws Exception{
+    final SSEntity    entity) throws SSErr{
     
     super(location, entity);
     
@@ -70,7 +70,7 @@ public class SSLocation extends SSEntity{
     final SSUri  id, 
     final Double latitude,
     final Double longitude,
-    final Float  accuracy) throws Exception{
+    final Float  accuracy) throws SSErr{
     
     super(id, SSEntityE.location);
     

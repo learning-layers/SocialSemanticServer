@@ -95,7 +95,7 @@ public class SSRESTFile{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -113,13 +113,13 @@ public class SSRESTFile{
             true); //shouldCommit
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
         par.key = SSRestMain.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).build();
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -128,7 +128,7 @@ public class SSRESTFile{
         return Response.status(200).entity(fileServ.fileUpload(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -169,7 +169,7 @@ public class SSRESTFile{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -187,7 +187,7 @@ public class SSRESTFile{
         fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -200,7 +200,7 @@ public class SSRESTFile{
           build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -247,7 +247,7 @@ public class SSRESTFile{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -267,7 +267,7 @@ public class SSRESTFile{
         fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -280,7 +280,7 @@ public class SSRESTFile{
           build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -318,7 +318,7 @@ public class SSRESTFile{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
       
       try{
@@ -336,7 +336,7 @@ public class SSRESTFile{
         fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
         
       }catch(Exception error){
-        return Response.status(422).build();
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -349,7 +349,7 @@ public class SSRESTFile{
           build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrors(error);
+        return SSRestMain.prepareErrorResponse(error);
       }
     }finally{
       
@@ -418,7 +418,7 @@ public class SSRESTFile{
 //      restObj = new SSRESTObject(par);
 //
 //    }catch(Exception error){
-//      return Response.status(422).build();
+//      return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
 //    }
 //
 //    return SSRestMainV2.handleFileUploadRequest(headers, restObj, fileHandle).response;

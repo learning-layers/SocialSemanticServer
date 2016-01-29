@@ -29,7 +29,7 @@ public class SSLivingDocRemovePar extends SSServPar{
   
   public SSUri   livingDoc            = null;
   
-  public void setLivingDoc(final String livingDoc) throws Exception{
+  public void setLivingDoc(final String livingDoc) throws SSErr{
     this.livingDoc = SSUri.get(livingDoc);
   }
   

@@ -33,7 +33,7 @@ public class SSActivityTypesGetRet extends SSServRetI{
   @ApiModelProperty
   public List<SSActivityE> types = new ArrayList<>();
 
-  public List<String> getTypes() throws Exception {
+  public List<String> getTypes(){
     return SSStrU.toStr(types);
   }
   

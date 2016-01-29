@@ -30,7 +30,7 @@ public class SSFileDownloadRet extends SSServRetI{
   public  SSUri           file         = null;
   public  StreamingOutput outputStream = null;
 
-  public String getFile() throws Exception{
+  public String getFile() throws SSErr{
     return SSStrU.removeTrailingSlash(file);
   }
    

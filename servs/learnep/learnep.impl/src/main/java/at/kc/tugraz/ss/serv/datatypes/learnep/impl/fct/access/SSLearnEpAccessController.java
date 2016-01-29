@@ -45,7 +45,7 @@ public class SSLearnEpAccessController{
   
   public static boolean lock(
     final SSUri         user,
-    final SSUri         learnEp) throws Exception{
+    final SSUri         learnEp) throws SSErr{
     
     try{
       
@@ -77,7 +77,7 @@ public class SSLearnEpAccessController{
   }
   
   public static boolean unLock(
-    final SSUri         learnEp) throws Exception{
+    final SSUri         learnEp) throws SSErr{
     
     try{
       
@@ -103,7 +103,7 @@ public class SSLearnEpAccessController{
     }
   }
   
-  public static boolean isLocked(final SSUri learnEp) throws Exception{
+  public static boolean isLocked(final SSUri learnEp) throws SSErr{
     
     try{
       
@@ -121,7 +121,7 @@ public class SSLearnEpAccessController{
   
   public static boolean hasLock(
     final SSUri user, 
-    final SSUri learnEp) throws Exception{
+    final SSUri learnEp) throws SSErr{
     
     try{
       
@@ -147,7 +147,7 @@ public class SSLearnEpAccessController{
     final SSServPar     servPar,
     final SSLearnEpConf learnEpConf,
     final SSUri         user,
-    final SSUri         learnEp) throws Exception{
+    final SSUri         learnEp) throws SSErr{
     
     try{
       
@@ -185,7 +185,7 @@ public class SSLearnEpAccessController{
     }
   }
   
-  public static Long getPassedTime(final SSUri learnEp) throws Exception{
+  public static Long getPassedTime(final SSUri learnEp) throws SSErr{
     
     try{
       learnEpsLock.readLock().lock();
@@ -204,11 +204,11 @@ public class SSLearnEpAccessController{
     }
   }
   
-  public static Long getRemainingTime(final SSUri learnEp) throws Exception{
+  public static Long getRemainingTime(final SSUri learnEp) throws SSErr{
     return (SSDateU.minuteInMilliSeconds * 5) - SSLearnEpAccessController.getPassedTime(learnEp);
   }
   
-  public static List<String> getLockedLearnEps() throws Exception{
+  public static List<String> getLockedLearnEps() throws SSErr{
     
     try{
       learnEpsLock.readLock().lock();

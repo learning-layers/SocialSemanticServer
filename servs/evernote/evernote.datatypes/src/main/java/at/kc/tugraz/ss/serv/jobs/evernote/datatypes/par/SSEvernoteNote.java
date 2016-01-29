@@ -42,14 +42,14 @@ public class SSEvernoteNote extends SSEntity{
   
   public static SSEvernoteNote get(
     final SSEvernoteNote note,
-    final SSEntity       entity) throws Exception{
+    final SSEntity       entity) throws SSErr{
     
     return new SSEvernoteNote(note, entity);
   }
   
   public static SSEvernoteNote get(
     final SSUri id,
-    final SSUri notebook) throws Exception{
+    final SSUri notebook) throws SSErr{
     
     return new SSEvernoteNote(id, notebook);
   }
@@ -58,7 +58,7 @@ public class SSEvernoteNote extends SSEntity{
   
   protected SSEvernoteNote(
     final SSEvernoteNote note,
-    final SSEntity       entity) throws Exception{
+    final SSEntity       entity) throws SSErr{
 
     super(note, entity);
     
@@ -74,7 +74,7 @@ public class SSEvernoteNote extends SSEntity{
   
   protected SSEvernoteNote(
     final SSUri id,
-    final SSUri notebook) throws Exception{
+    final SSUri notebook) throws SSErr{
 
     super(id, SSEntityE.evernoteNote);
     

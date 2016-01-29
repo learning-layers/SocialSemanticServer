@@ -46,7 +46,7 @@ public class SSCommentSQLFct extends SSCoreSQL{
   
   public List<SSUri> getEntityURIsCommented(
     final SSServPar servPar,
-    final SSUri forUser) throws Exception{
+    final SSUri forUser) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -85,7 +85,7 @@ public class SSCommentSQLFct extends SSCoreSQL{
   public List<SSTextComment> getComments(
     final SSServPar servPar,
     final SSUri entity,
-    final SSUri forUser) throws Exception{
+    final SSUri forUser) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -129,7 +129,7 @@ public class SSCommentSQLFct extends SSCoreSQL{
   public void addComment(
     final SSServPar servPar,
     final SSUri         entity,
-    final SSUri         commentUri) throws Exception{
+    final SSUri         commentUri) throws SSErr{
     
     try{
       final Map<String, String> inserts = new HashMap<>();
@@ -147,7 +147,7 @@ public class SSCommentSQLFct extends SSCoreSQL{
   public void createComment(
     final SSServPar servPar,
     final SSUri         commentUri,
-    final SSTextComment content) throws Exception{
+    final SSTextComment content) throws SSErr{
     
     try{
       final Map<String, String> inserts = new HashMap<>();

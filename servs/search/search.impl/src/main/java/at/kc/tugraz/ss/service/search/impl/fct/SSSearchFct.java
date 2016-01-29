@@ -33,7 +33,7 @@ public class SSSearchFct {
   
   public static List<SSEntity> selectSearchResultsWithRegardToSearchOp(
     final SSSearchOpE                 searchOp,
-    final Map<String, List<SSEntity>> searchResultsPerKeyword) throws Exception{
+    final Map<String, List<SSEntity>> searchResultsPerKeyword) throws SSErr{
     
     final List<SSEntity>      searchResults               = new ArrayList<>();
     final List<SSUri>         checkEntityUris             = new ArrayList<>();
@@ -90,7 +90,7 @@ public class SSSearchFct {
     final List<SSUri>    uris,
     final SSSearchPar    par,
     final List<SSUri>    recommendedEntities,
-    Integer              recommendedEntityCounter) throws Exception{
+    Integer              recommendedEntityCounter) throws SSErr{
     
     if(
       !par.includeRecommendedResults                         ||

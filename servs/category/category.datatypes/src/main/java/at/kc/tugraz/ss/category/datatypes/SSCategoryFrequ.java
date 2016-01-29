@@ -20,14 +20,11 @@
 */
 package at.kc.tugraz.ss.category.datatypes;
 
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.api.SSEntityA;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SSCategoryFrequ extends SSEntityA{
   
@@ -46,7 +43,7 @@ public class SSCategoryFrequ extends SSEntityA{
   public static SSCategoryFrequ get(
     final SSCategoryLabel    label,
     final SSSpaceE           space,
-    final Integer            frequ) throws Exception{
+    final Integer            frequ) throws SSErr{
     
     return new SSCategoryFrequ(label, space, frequ);
   }  
@@ -54,7 +51,7 @@ public class SSCategoryFrequ extends SSEntityA{
   protected SSCategoryFrequ(
     final SSCategoryLabel    label,
     final SSSpaceE           space,
-    final Integer            frequ) throws Exception{
+    final Integer            frequ) throws SSErr{
 		
     super(label);
     

@@ -40,7 +40,7 @@ public class SSActivityContentsAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(activity);
   }
 
-  public void setActivity(final String activity) throws Exception{
+  public void setActivity(final String activity) throws SSErr{
     this.activity = SSUri.get(activity);
   }
 
@@ -48,7 +48,7 @@ public class SSActivityContentsAddPar extends SSServPar{
     return SSStrU.toStr(contentType);
   }
 
-  public void setContentType(final String contentType) throws Exception{
+  public void setContentType(final String contentType) throws SSErr{
     this.contentType = SSActivityContentE.get(contentType);
   }
 
@@ -56,7 +56,7 @@ public class SSActivityContentsAddPar extends SSServPar{
     return SSStrU.toStr(contents);
   }
 
-  public void setContents(final List<String> contents) throws Exception{
+  public void setContents(final List<String> contents) throws SSErr{
     this.contents = SSActivityContent.get(contents);
   }
   

@@ -29,7 +29,7 @@ public class SSDiscEntryAcceptPar extends SSServPar{
   
   public SSUri      entry                 = null;
   
-  public void setEntry(final String entry) throws Exception{
+  public void setEntry(final String entry) throws SSErr{
     this.entry = SSUri.get(entry);
   }
   

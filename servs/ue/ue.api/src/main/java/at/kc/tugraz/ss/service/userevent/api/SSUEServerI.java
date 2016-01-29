@@ -103,128 +103,128 @@ public interface SSUEServerI extends SSServServerI{
 
 
 //public List<SSUserEvent> getArbitraryResourceEvents(
-//    Date  startTime) throws Exception;
+//    Date  startTime) throws SSErr;
 //
 //	public List<SSUserEvent> getRecentResourceEvents(
 //    List<SSUri> resources,
-//    Date        startTime) throws Exception;
+//    Date        startTime) throws SSErr;
 //  
 //  public List<SSUserEvent> getEventObjects(
 //    SSUri     user, 
 //    SSUserEventEnum actionType, 
 //    SSUri     resource, 
-//    long      startTimestamp) throws Exception;
+//    long      startTimestamp) throws SSErr;
 //  
 //  public boolean addUserEventArray(
 //    boolean         shouldCommit, 
 //    SSUri           userUri,
 //    List<SSUserEventEnum> actionTypes,
 //    List<SSUri>     resourceUris,
-//    List<String>    contents) throws Exception;
+//    List<String>    contents) throws SSErr;
 //  
 //  public boolean addUserEvent(
 //    boolean    shouldCommit, 
 //    SSUri      user,
 //    SSUserEventEnum  actionType,
 //    SSUri      resource,
-//    String     content)throws Exception;
+//    String     content)throws SSErr;
 //  
 //  public boolean addUserEvent(
 //    boolean    shouldCommit, 
 //    SSUri      user,
 //    SSUserEventEnum  actionType,
 //    SSUri      resource,
-//    SSUri      content)throws Exception;
+//    SSUri      content)throws SSErr;
 //  
 //  public boolean addUserEvent(
 //    boolean          shouldCommit, 
 //    SSUri            user,
 //    SSUserEventEnum  actionType,
 //    SSUri            resource,
-//    SSTagString      content)throws Exception;
+//    SSTagString      content)throws SSErr;
 //  
 //  public void saveUEAppearsInSearchResult(
 //    boolean               shouldCommit, 
 //    SSUri                 user,
-//    SSUri                 resource) throws Exception; 
+//    SSUri                 resource) throws SSErr; 
 //  
 //  public void saveUEShareCollection(
 //    boolean               shouldCommit, 
 //    boolean               saveUserEvent,
 //    SSUri                 user,
-//    SSUri                 coll)throws Exception;
+//    SSUri                 coll)throws SSErr;
 //  
 //  public void saveUESubscribeToCollection(
 //    boolean               shouldCommit, 
 //    SSUri                 user,
-//    SSUri                 resource)throws Exception;
+//    SSUri                 resource)throws SSErr;
 //  
 //  public void saveUEUnSubscribeToCollection(
 //    boolean               shouldCommit, 
 //    SSUri                 user,
-//    SSUri                 resource)throws Exception;
+//    SSUri                 resource)throws SSErr;
 //  
 //  public void saveUECreateCollection(
 //    boolean               shouldCommit, 
 //    SSUri                 user,
 //    SSUri                 resource,
-//    SSSpaceEnum                space)throws Exception;
+//    SSSpaceEnum                space)throws SSErr;
 //
 //  public void saveUERateEntity(
 //    boolean    shouldCommit, 
 //    SSUri      user,
 //    SSUri      resource,
-//    String     value)throws Exception;
+//    String     value)throws SSErr;
 //  
 //  public void saveUEDiscussEntity(
 //    boolean               shouldCommit, 
 //    SSUri                 user,
 //    SSUri                 target,
-//    SSUri                 disc)throws Exception;
+//    SSUri                 disc)throws SSErr;
 //  
 //  public void saveUEAddDiscussionComment(
 //    boolean               shouldCommit, 
 //    SSUri                 user,
-//    SSUri                 disc)throws Exception;
+//    SSUri                 disc)throws SSErr;
 //
 //  public void saveUEAddTag(
 //    boolean               shouldCommit, 
 //    SSUri                 user,
 //    SSUri                 resource,
 //    SSTagString           tagString,
-//    SSSpaceEnum           space)throws Exception;
+//    SSSpaceEnum           space)throws SSErr;
 //  
 //  public void saveUEAddTag(
 //    boolean               shouldCommit, 
 //    SSUri                 user,
 //    SSUri                 resource,
 //    List<SSTagString>     tagStrings,
-//    SSSpaceEnum                space)throws Exception;
+//    SSSpaceEnum                space)throws SSErr;
 //  
 //  public void saveUERemoveTag(
 //    boolean     shouldCommit, 
 //    SSUri       user,
 //    SSUri       resource,
 //    SSSpaceEnum      space,
-//    SSTagString tagString)throws Exception;
+//    SSTagString tagString)throws SSErr;
 //
 //  public void saveUERemoveCollectionItem(
 //    boolean shouldCommit, 
 //    SSUri   user,
 //    SSUri   coll,
 //    SSUri   resource,
-//    SSSpaceEnum  space)throws Exception;
+//    SSSpaceEnum  space)throws SSErr;
 //  
 //  public void saveUERemoveCollection(
 //    boolean   shouldCommit, 
 //    SSUri     user,
 //    SSUri     coll,
-//    SSSpaceEnum    space)throws Exception;
+//    SSSpaceEnum    space)throws SSErr;
 //  
 //  public void saveUERenameDiscussion(
 //    boolean  shouldCommit, 
 //    SSUri    user,
-//    SSUri    disc)throws Exception;
+//    SSUri    disc)throws SSErr;
 //  
 //  public void saveUEAddCollectionItem(
 //    boolean  shouldCommit, 
@@ -232,4 +232,4 @@ public interface SSUEServerI extends SSServServerI{
 //    SSUri    user,
 //    SSUri    collEntry,
 //    SSUri    coll,
-//    SSSpaceEnum   space) throws Exception;
+//    SSSpaceEnum   space) throws SSErr;

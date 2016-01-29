@@ -20,6 +20,8 @@
 */
 package at.tugraz.sss.serv.util;
 
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.reg.*;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,21 +55,33 @@ public enum SSEncodingU{
   
   public static String decode(
     final String      toDecode, 
-    final SSEncodingU format) throws Exception{
+    final SSEncodingU format) throws SSErr{
     
+    try{
     return URLDecoder.decode(toDecode, SSStrU.toStr(format));
+    
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
   public static List<String> decode(
-    final List<String> toDecodes, 
-    final SSEncodingU  format) throws Exception{
+    final List<String> toDecodes,
+    final SSEncodingU  format) throws SSErr{
     
-    final List<String> decodeds = new ArrayList<>();
-    
-    for(String toDecode : toDecodes){
-      decodeds.add(URLDecoder.decode(toDecode, SSStrU.toStr(format)));
+    try{
+      final List<String> decodeds = new ArrayList<>();
+      
+      for(String toDecode : toDecodes){
+        decodeds.add(URLDecoder.decode(toDecode, SSStrU.toStr(format)));
+      }
+      
+      return decodeds;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return decodeds;
   }
 }

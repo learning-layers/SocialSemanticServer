@@ -31,11 +31,11 @@ public class SSCollUserEntriesDeletePar extends SSServPar{
   public SSUri       coll     = null;
   public List<SSUri> entries  = new ArrayList<>();
   
-  public void setColl(final String coll) throws Exception{
+  public void setColl(final String coll) throws SSErr{
     this.coll = SSUri.get(coll);
   }
   
-  public void setEntries(final List<String> entries) throws Exception{
+  public void setEntries(final List<String> entries) throws SSErr{
     this.entries = SSUri.get(entries);
   }
   
@@ -43,7 +43,7 @@ public class SSCollUserEntriesDeletePar extends SSServPar{
     return SSStrU.removeTrailingSlash(coll);
   }
   
-  public List<String> getEntries() throws Exception{
+  public List<String> getEntries() throws SSErr{
     return SSStrU.removeTrailingSlash(entries);
   }
   

@@ -39,7 +39,7 @@ public class SSLearnEpEntity extends SSEntity {
   
   public static SSLearnEpEntity get(
     final SSLearnEpEntity learnEpEntity, 
-    final SSEntity        entity) throws Exception{
+    final SSEntity        entity) throws SSErr{
     
     return new SSLearnEpEntity(learnEpEntity, entity);
   }
@@ -48,7 +48,7 @@ public class SSLearnEpEntity extends SSEntity {
     final SSUri    id, 
     final SSEntity entity, 
     final Float    x, 
-    final Float    y)throws Exception{
+    final Float    y)throws SSErr{
     
     return new SSLearnEpEntity(id, entity, x, y);
   }
@@ -57,7 +57,7 @@ public class SSLearnEpEntity extends SSEntity {
   
   protected SSLearnEpEntity(
     final SSLearnEpEntity learnEpEntity,
-    final SSEntity        entity) throws Exception{
+    final SSEntity        entity) throws SSErr{
     
     super(learnEpEntity, entity);
     
@@ -93,7 +93,7 @@ public class SSLearnEpEntity extends SSEntity {
     final SSUri    id,
     final SSEntity entity,
     final Float    x,
-    final Float    y)throws Exception{
+    final Float    y)throws SSErr{
     
     super(id, SSEntityE.learnEpEntity);
     

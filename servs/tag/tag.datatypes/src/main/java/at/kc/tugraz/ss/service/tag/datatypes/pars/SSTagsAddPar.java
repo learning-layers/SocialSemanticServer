@@ -43,7 +43,7 @@ public class SSTagsAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entities);
   }
 
-  public void setEntities(final List<String> entities) throws Exception {
+  public void setEntities(final List<String> entities) throws SSErr {
     this.entities = SSUri.get(entities);
   }
 
@@ -51,7 +51,7 @@ public class SSTagsAddPar extends SSServPar{
     return SSStrU.toStr(labels);
   }
 
-  public void setLabels(final List<String> labels) throws Exception{
+  public void setLabels(final List<String> labels) throws SSErr{
     this.labels = SSTagLabel.get(labels);
   }
 
@@ -59,7 +59,7 @@ public class SSTagsAddPar extends SSServPar{
     return SSStrU.toStr(space);
   }
 
-  public void setSpace(final String space) throws Exception{
+  public void setSpace(final String space) throws SSErr{
     this.space = SSSpaceE.get(space);
   }
   
@@ -67,7 +67,7 @@ public class SSTagsAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(circle);
   }
   
-  public void setCircle(final String circle) throws Exception{
+  public void setCircle(final String circle) throws SSErr{
     this.circle = SSUri.get(circle);
   }
   

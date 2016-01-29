@@ -41,7 +41,7 @@ public class SSVideoUserAddPar extends SSServPar{
   public Long                  creationTime     = null;
   public SSUri                 file             = null;
 
-  public void setLink(final String link) throws Exception{
+  public void setLink(final String link) throws SSErr{
     this.link = SSUri.get(link);
   }
 
@@ -49,7 +49,7 @@ public class SSVideoUserAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(link);
   }
   
-  public void setType(final String type) throws Exception{
+  public void setType(final String type) throws SSErr{
     this.type = SSVideoE.get(type);
   }
 
@@ -57,7 +57,7 @@ public class SSVideoUserAddPar extends SSServPar{
     return SSStrU.toStr(type);
   }
   
-  public void setForEntity(final String forEntity) throws Exception{
+  public void setForEntity(final String forEntity) throws SSErr{
     this.forEntity = SSUri.get(forEntity);
   }
 
@@ -65,7 +65,7 @@ public class SSVideoUserAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(forEntity);
   }
   
-  public void setLabel(final String label) throws Exception{
+  public void setLabel(final String label) throws SSErr{
     this.label = SSLabel.get(label);
   }
 
@@ -73,7 +73,7 @@ public class SSVideoUserAddPar extends SSServPar{
     return SSStrU.toStr(label);
   }
    
-  public void setDescription(final String description) throws Exception{
+  public void setDescription(final String description) throws SSErr{
     this.description = SSTextComment.get(description);
   }
 
@@ -81,7 +81,7 @@ public class SSVideoUserAddPar extends SSServPar{
     return SSStrU.toStr(description);
   }
   
-  public void setFile(final String file) throws Exception{
+  public void setFile(final String file) throws SSErr{
     this.file = SSUri.get(file);
   }
 

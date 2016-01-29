@@ -84,7 +84,7 @@ public class SSEvalLogAnalyzer {
   
   public void analyzeLDs(
     final SSServPar servPar,
-    final List<SSEvalLogEntry> logEntries) throws Exception{
+    final List<SSEvalLogEntry> logEntries) throws SSErr{
     
     try{
       
@@ -172,7 +172,7 @@ public class SSEvalLogAnalyzer {
   
   public void analyzeUsers(
     final SSServPar            servPar,
-    final List<SSEvalLogEntry> logEntries) throws Exception{
+    final List<SSEvalLogEntry> logEntries) throws SSErr{
     
     try{
       
@@ -386,7 +386,7 @@ public class SSEvalLogAnalyzer {
   
   private void addImportInfos(
     final Map<String, SSUserInfo> userInfos,
-    final SSEvalLogEntry          logEntry) throws Exception{
+    final SSEvalLogEntry          logEntry) throws SSErr{
     
     try{
       
@@ -443,7 +443,7 @@ public class SSEvalLogAnalyzer {
   private void addWorkedOnReceivedSharedBit(
     final SSServPar servPar,
     final Map<String, SSUserInfo> userInfos,
-    final SSEvalLogEntry          logEntry) throws Exception{
+    final SSEvalLogEntry          logEntry) throws SSErr{
     
     try{
       
@@ -503,7 +503,7 @@ public class SSEvalLogAnalyzer {
 
   private void addStartedDiscussionInfos(
     final Map<String, SSUserInfo> userInfos,
-    final SSEvalLogEntry          logEntry) throws Exception{
+    final SSEvalLogEntry          logEntry) throws SSErr{
     
     try{
       
@@ -523,7 +523,7 @@ public class SSEvalLogAnalyzer {
   
   private SSUserInfo getOrCreateUserInfo(
     final Map<String, SSUserInfo> userInfos,
-    final SSEvalLogEntry          logEntry) throws Exception{
+    final SSEvalLogEntry          logEntry) throws SSErr{
     
     try{
       
@@ -547,7 +547,7 @@ public class SSEvalLogAnalyzer {
 
   private SSLDInfo getOrCreateLDInfo(
     final Map<String, SSLDInfo> ldInfos, 
-    final SSEntity              doc) throws Exception{
+    final SSEntity              doc) throws SSErr{
     
     try{
       
@@ -572,7 +572,7 @@ public class SSEvalLogAnalyzer {
   private void addWorkedOnOwnBit(
     final SSServPar servPar,
     final Map<String, SSUserInfo> userInfos,
-    final SSEvalLogEntry          logEntry) throws Exception{
+    final SSEvalLogEntry          logEntry) throws SSErr{
     
     try{
       
@@ -634,7 +634,7 @@ public class SSEvalLogAnalyzer {
   private void addWorkedOnReceivedDiscussion(
     final SSServPar servPar,
     final Map<String, SSUserInfo> userInfos,
-    final SSEvalLogEntry          logEntry) throws Exception{
+    final SSEvalLogEntry          logEntry) throws SSErr{
     
     try{
       
@@ -693,7 +693,7 @@ public class SSEvalLogAnalyzer {
   private void addWorkedOnReceivedSharedEpisode(
     final SSServPar               servPar,
     final Map<String, SSUserInfo> userInfos,
-    final SSEvalLogEntry          logEntry) throws Exception{
+    final SSEvalLogEntry          logEntry) throws SSErr{
     
     try{
       
@@ -730,7 +730,7 @@ public class SSEvalLogAnalyzer {
       
       if(
         SSObjU.isNull(episodeID, episodeLabel, episodeAuthor)){
-        SSLogU.warn("episode not found");
+        SSLogU.warn("episode not found", null);
         return;
       }
       
@@ -766,7 +766,7 @@ public class SSEvalLogAnalyzer {
   private void addWorkedOnOwnEpisode(
     final SSServPar servPar,
     final Map<String, SSUserInfo> userInfos,
-    final SSEvalLogEntry          logEntry) throws Exception{
+    final SSEvalLogEntry          logEntry) throws SSErr{
     
     try{
       
@@ -803,7 +803,7 @@ public class SSEvalLogAnalyzer {
       
       if(
         SSObjU.isNull(episodeID, episodeLabel, episodeAuthor)){
-        SSLogU.warn("episode not found");
+        SSLogU.warn("episode not found", null);
         return;
       }
       
@@ -838,7 +838,7 @@ public class SSEvalLogAnalyzer {
   private void addBitActionDetails(
     final SSServPar servPar,
     final SSWorkedOnBitInfo        workedOnBitInfo,
-    final SSEvalLogEntry           logEntry) throws Exception{
+    final SSEvalLogEntry           logEntry) throws SSErr{
     
     try{
       
@@ -889,7 +889,7 @@ public class SSEvalLogAnalyzer {
   private void addEpisodeActionDetails(
     final SSServPar servPar,
     final SSWorkedOnEpisodeInfo    workedOnEpisodeInfo,
-    final SSEvalLogEntry           logEntry) throws Exception{
+    final SSEvalLogEntry           logEntry) throws SSErr{
     
     try{
       
@@ -939,7 +939,7 @@ public class SSEvalLogAnalyzer {
   
   private void addSharedEpisodeInfos(
     final Map<String, SSUserInfo> userInfos,
-    final SSEvalLogEntry          logEntry) throws Exception{
+    final SSEvalLogEntry          logEntry) throws SSErr{
     
     try{
       final SSUserInfo         userInfo  = getOrCreateUserInfo(userInfos, logEntry);
@@ -947,7 +947,7 @@ public class SSEvalLogAnalyzer {
       final SSEntity           episode   = episodes.get(logEntry.entity.toString());
       
       if(episode == null){
-        SSLogU.warn("episode not found");
+        SSLogU.warn("episode not found", null);
         return;
       }
       
@@ -970,7 +970,7 @@ public class SSEvalLogAnalyzer {
   }
   
   private void printUserWorkedOnReceivedSharedBit(
-    final Map<String, SSWorkedOnReceivedSharedBitInfo> workedOnReceivedBitInfos) throws Exception{
+    final Map<String, SSWorkedOnReceivedSharedBitInfo> workedOnReceivedBitInfos) throws SSErr{
     
      try{
       
@@ -1000,7 +1000,7 @@ public class SSEvalLogAnalyzer {
   }
   
   private void printUserWorkedOnOwnBit(
-    final Map<String, SSWorkedOnOwnBitInfo> workedOnOwnBitInfos) throws Exception{
+    final Map<String, SSWorkedOnOwnBitInfo> workedOnOwnBitInfos) throws SSErr{
     
      try{
       
@@ -1029,7 +1029,7 @@ public class SSEvalLogAnalyzer {
   }
   
   private void printUserWorkedOnReceivedSharedEpisode(
-    final Map<String, SSWorkedOnReceivedSharedEpisodeInfo> workedOnReceivedSharedEpisodeInfos) throws Exception{
+    final Map<String, SSWorkedOnReceivedSharedEpisodeInfo> workedOnReceivedSharedEpisodeInfos) throws SSErr{
     
     try{
       
@@ -1062,7 +1062,7 @@ public class SSEvalLogAnalyzer {
   }
   
   private void printUserWorkedOnReceivedDiscussions(
-    final Map<String, SSWorkedOnReceivedDiscussionInfo> workedOnReceivedDiscussionInfos) throws Exception{
+    final Map<String, SSWorkedOnReceivedDiscussionInfo> workedOnReceivedDiscussionInfos) throws SSErr{
     
     try{
       
@@ -1092,7 +1092,7 @@ public class SSEvalLogAnalyzer {
   }
   
   private void printUserWorkedOnOwnEpisode(
-    final Map<String, SSWorkedOnOwnEpisodeInfo> workedOnOwnEpisodeInfos) throws Exception{
+    final Map<String, SSWorkedOnOwnEpisodeInfo> workedOnOwnEpisodeInfos) throws SSErr{
     
     try{
       
@@ -1125,7 +1125,7 @@ public class SSEvalLogAnalyzer {
   }
   
   private void printUserEpisodeShares(
-    final List<SSEpisodeShareInfo> sharedEpisodeInfos) throws Exception{
+    final List<SSEpisodeShareInfo> sharedEpisodeInfos) throws SSErr{
     
     try{
       
@@ -1159,7 +1159,7 @@ public class SSEvalLogAnalyzer {
     }
   }
 
-  private void printUserEpisodeCreated(List<SSEpisodeCreationInfo> createdEpisodeInfos) throws Exception {
+  private void printUserEpisodeCreated(List<SSEpisodeCreationInfo> createdEpisodeInfos) throws SSErr {
     
     try{
       
@@ -1182,7 +1182,7 @@ public class SSEvalLogAnalyzer {
     }
   }
 
-  private void printUserImports(final Map<String, List<SSImportInfo>> importInfos) throws Exception {
+  private void printUserImports(final Map<String, List<SSImportInfo>> importInfos) throws SSErr {
    
     try{
       
@@ -1232,7 +1232,7 @@ public class SSEvalLogAnalyzer {
     }
   }
 
-  private void printUserSentMessages(List<SSMessageSentInfo> messageSentInfos) throws Exception {
+  private void printUserSentMessages(List<SSMessageSentInfo> messageSentInfos) throws SSErr {
     
     try{
       
@@ -1256,7 +1256,7 @@ public class SSEvalLogAnalyzer {
   }
 
   private void printUserStartedDiscussions(
-    final List<SSStartDiscussionInfo> startDiscussionInfos) throws Exception {
+    final List<SSStartDiscussionInfo> startDiscussionInfos) throws SSErr {
     
     try{
       
@@ -1281,7 +1281,7 @@ public class SSEvalLogAnalyzer {
   }
   
   public void setEpisodes(
-    final SSServPar servPar) throws Exception{
+    final SSServPar servPar) throws SSErr{
     
     try{
       

@@ -31,19 +31,19 @@ public class SSImageProfilePictureSetPar extends SSServPar{
   public SSUri entity = null;
   public SSUri file   = null;
   
-  public String getEntity() throws Exception{
+  public String getEntity() throws SSErr{
     return SSStrU.removeTrailingSlash(entity);
   }
 
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity);
   }
   
-  public String getFile() throws Exception{
+  public String getFile() throws SSErr{
     return SSStrU.removeTrailingSlash(file);
   }
 
-  public void setFile(final String file) throws Exception{
+  public void setFile(final String file) throws SSErr{
     this.file = SSUri.get(file);
   }
   

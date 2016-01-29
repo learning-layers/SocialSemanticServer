@@ -32,7 +32,7 @@ public class SSLearnEpVersionEntityAddRet extends SSServRetI{
 
   public SSUri learnEpEntity = null;
   
-  public String getLearnEpEntity() throws Exception {
+  public String getLearnEpEntity() throws SSErr {
     return SSStrU.removeTrailingSlash(learnEpEntity);
   }
    

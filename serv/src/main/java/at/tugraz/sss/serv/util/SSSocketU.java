@@ -121,7 +121,7 @@ public class SSSocketU {
 
 //  public void writeRetFullToClient(
 //    final Object    result, 
-//    final SSServOpE op) throws Exception{
+//    final SSServOpE op) throws SSErr{
 //  
 ////    if(sendJSONLD){
 ////      ret.put(SSJSONLDU.context, SSJSONLDU.jsonLDContext(result.jsonLDDesc()));
@@ -146,7 +146,7 @@ public class SSSocketU {
 //    sSOutRequFull.flush();
 //  }
 //
-//  public String readMsgFullFromSS() throws Exception{
+//  public String readMsgFullFromSS() throws SSErr{
 //    
 //    char[]     buffer = new char [SSSocketU.socketTranmissionSize]; 
 //    String     string = new String();
@@ -164,7 +164,7 @@ public class SSSocketU {
 //    return string;
 //  }
 
-//public boolean writeFileChunkToSS(byte[] chunk) throws Exception{
+//public boolean writeFileChunkToSS(byte[] chunk) throws SSErr{
 //    
 //    if(SSObjU.isNull(chunk)){
 //      throw new Exception("chunk to send to SSS is null");
@@ -182,7 +182,7 @@ public class SSSocketU {
 //    sSOutFileChunk.flush     ();
 //    return true;  
 //  }
-//public boolean writeFileChunkToSS(byte[] chunk, int length) throws Exception{
+//public boolean writeFileChunkToSS(byte[] chunk, int length) throws SSErr{
 //    
 //    if(SSObjU.isNull(chunk)){
 //      throw new Exception("chunk to send to SSS is null");

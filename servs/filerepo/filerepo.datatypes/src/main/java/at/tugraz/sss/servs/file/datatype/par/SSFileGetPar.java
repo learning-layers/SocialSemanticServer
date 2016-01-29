@@ -33,7 +33,7 @@ public class SSFileGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(file);
   }
 
-  public void setFile(final String file) throws Exception{
+  public void setFile(final String file) throws SSErr{
    this.file = SSUri.get(file);
   }
   

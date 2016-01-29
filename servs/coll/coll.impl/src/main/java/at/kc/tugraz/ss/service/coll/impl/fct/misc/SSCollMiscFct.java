@@ -38,7 +38,7 @@ public class SSCollMiscFct{
     final SSServPar servPar,
     final SSCollSQLFct sqlFct, 
     final SSUri        userUri,
-    final SSUri        collUri) throws Exception{
+    final SSUri        collUri) throws SSErr{
     
     final List<SSUri> subCollUris = new ArrayList<>();
     
@@ -59,7 +59,7 @@ public class SSCollMiscFct{
     final SSCollSQLFct sqlFct,
     final SSUri        startCollUri, 
     final SSUri        currentCollUri, 
-    final List<SSUri>  subCollUris) throws Exception{
+    final List<SSUri>  subCollUris) throws SSErr{
     
     for(SSUri directSubCollUri : sqlFct.getDirectChildCollURIs(servPar, currentCollUri)){
       getAllChildCollURIs(servPar, sqlFct, startCollUri, directSubCollUri, subCollUris);
@@ -77,7 +77,7 @@ public class SSCollMiscFct{
   public static List<SSUri> getCollSubCollAndEntryURIs(
     final SSServPar servPar,
     final SSCollSQLFct sqlFct,
-    final SSColl       startColl) throws Exception{
+    final SSColl       startColl) throws SSErr{
 
     try{
 
@@ -117,7 +117,7 @@ public class SSCollMiscFct{
     final SSServPar servPar,
     final SSCollSQLFct sqlFct, 
     final SSUri        userUri, 
-    final SSUri        childColl) throws Exception{
+    final SSUri        childColl) throws SSErr{
     
     try{
       
@@ -144,7 +144,7 @@ public class SSCollMiscFct{
 //    final SSCollSQLFct sqlFct, 
 //    final String       startCollUri, 
 //    final String       currentCollUri, 
-//    final List<String> parentCollUris) throws Exception{
+//    final List<String> parentCollUris) throws SSErr{
 //    
 //    for(String directParentCollUri : sqlFct.getDirectParentCollURIs(currentCollUri)){
 //      getAllParentCollURIs(sqlFct, startCollUri, directParentCollUri, parentCollUris);
@@ -164,7 +164,7 @@ public class SSCollMiscFct{
 //    final SSCollSQLFct sqlFct,
 //    final SSUri        userUri,
 //    final SSColl       coll,
-//    final SSUri        circleUri) throws Exception{
+//    final SSUri        circleUri) throws SSErr{
 //
 //    try{
 //
@@ -210,7 +210,7 @@ public class SSCollMiscFct{
 //public static SSColl getCollWithEntriesWithCircleTypes(
 //    final SSCollSQLFct sqlFct,
 //    final SSUri userUri,
-//    final SSUri collUri) throws Exception{
+//    final SSUri collUri) throws SSErr{
 //
 //    SSCollEntry collEntry;
 //    

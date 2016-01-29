@@ -67,7 +67,7 @@ public class SSRecommUserRealmKeeper{
     final boolean         checkForUpdate,
     final EngineInterface engine, 
     final SSRecommSQLFct  sqlFct,
-    final boolean         storeToDB) throws Exception{
+    final boolean         storeToDB) throws SSErr{
     
     try{
       
@@ -150,7 +150,7 @@ public class SSRecommUserRealmKeeper{
   }
   
   public void setAndLoadUserRealmEnginesFromDB(
-    final Map<String, List<String>> usersRealms) throws Exception{
+    final Map<String, List<String>> usersRealms) throws SSErr{
     
     FileOutputStream userRealmFileOut = null;
     
@@ -183,7 +183,7 @@ public class SSRecommUserRealmKeeper{
             
             userRealmEngines.get(userRealms.getKey()).add(userRealmEngine);
           }catch(Exception error){
-            SSLogU.warn("user realm engine creation of file failed");
+            SSLogU.warn("user realm engine creation of file failed", error);
           }finally{
             
             if(userRealmFileOut != null){
@@ -206,7 +206,7 @@ public class SSRecommUserRealmKeeper{
 }
 
 //public static void setUserRealmEnginesFromConf(
-//    final SSRecommConf        conf) throws Exception{
+//    final SSRecommConf        conf) throws SSErr{
 //    
 //    FileOutputStream userRealmFileOut = null;
 //    String    realm;
@@ -276,7 +276,7 @@ public class SSRecommUserRealmKeeper{
 //    }
 //  }
 
-//public static void setSSSRealmEngine(final SSRecommConf conf) throws Exception{
+//public static void setSSSRealmEngine(final SSRecommConf conf) throws SSErr{
 //    
 //    FileOutputStream sssRealmFileOut = null;
 //    

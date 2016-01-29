@@ -85,7 +85,7 @@ public class SSConf extends SSCoreServConfA{
     return result.substring(result.lastIndexOf(SSStrU.slash) + 1);
   }
   
-  public static SSUri vocURICreateFromId(final String id) throws Exception{
+  public static SSUri vocURICreateFromId(final String id) throws SSErr{
     return SSUri.get(vocURIPrefixGet() + id);
   }
 }

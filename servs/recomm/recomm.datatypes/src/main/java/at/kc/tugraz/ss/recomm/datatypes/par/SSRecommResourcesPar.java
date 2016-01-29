@@ -40,15 +40,15 @@ public class SSRecommResourcesPar extends SSServPar{
   public boolean         includeOwn           = true;
   public boolean         ignoreAccessRights   = false;
   
-  public void setForUser(final String forUser) throws Exception{
+  public void setForUser(final String forUser) throws SSErr{
     this.forUser = SSUri.get(forUser);
   }
   
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity); 
   }
 
-  public void setTypesToRecommOnly(final List<String> typesToRecommOnly) throws Exception{
+  public void setTypesToRecommOnly(final List<String> typesToRecommOnly) throws SSErr{
     this.typesToRecommOnly = SSEntityE.get(typesToRecommOnly);
   }
 
@@ -60,7 +60,7 @@ public class SSRecommResourcesPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
   
-  public List<String> getTypesToRecommOnly() throws Exception{
+  public List<String> getTypesToRecommOnly() throws SSErr{
     return SSStrU.toStr(typesToRecommOnly);
   }
 

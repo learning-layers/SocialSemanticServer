@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.serv.entity.api;
 
-import at.tugraz.sss.serv.datatype.SSEntityContext;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import java.util.List;
 import java.util.Map;
@@ -29,5 +29,5 @@ public interface SSUsersResourcesGathererI{
   
   public void getUsersResources(
     final SSServPar                          servPar,
-    final Map<String, List<SSEntityContext>> usersEntities) throws Exception;
+    final Map<String, List<SSEntityContext>> usersEntities) throws SSErr;
 }

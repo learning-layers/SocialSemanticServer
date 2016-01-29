@@ -42,7 +42,7 @@ public class SSMessageActivityFct{
     final SSUri           forUser,
     final SSUri           message,
     final SSTextComment   content,
-    final boolean         shouldCommit) throws Exception{
+    final boolean         shouldCommit) throws SSErr{
     
     try{
       
@@ -71,7 +71,7 @@ public class SSMessageActivityFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       

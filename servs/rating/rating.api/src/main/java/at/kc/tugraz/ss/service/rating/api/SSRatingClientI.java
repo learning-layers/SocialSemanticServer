@@ -20,13 +20,14 @@
 */
  package at.kc.tugraz.ss.service.rating.api;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 
 public interface SSRatingClientI {
   
-  public SSServRetI ratingSet         (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI ratingGet         (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI ratingOverallGet  (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI ratingSet         (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI ratingGet         (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI ratingOverallGet  (final SSClientE clientType, final SSServPar parA) throws SSErr;
 }

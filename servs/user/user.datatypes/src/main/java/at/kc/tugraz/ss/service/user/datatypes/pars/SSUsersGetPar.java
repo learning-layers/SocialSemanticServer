@@ -40,11 +40,11 @@ public class SSUsersGetPar extends SSServPar{
   public boolean     setColls             = false;
   public boolean     setTags              = false;
 
-  public List<String> getUsers() throws Exception{
+  public List<String> getUsers() throws SSErr{
     return SSStrU.removeTrailingSlash(users);
   }
 
-  public void setUsers(final List<String> users) throws Exception{
+  public void setUsers(final List<String> users) throws SSErr{
     this.users = SSUri.get(users);
   }
   

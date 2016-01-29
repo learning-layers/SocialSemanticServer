@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.service.coll.impl.fct.op;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSCircleIsEntityPrivatePar;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 
@@ -31,7 +32,7 @@ public class SSCollEntryDeleteFct{
   public static boolean removeColl(
     final SSCollSQLFct             sqlFct,
     final SSEntityServerI          circleServ,
-    final SSCollUserEntryDeletePar par) throws Exception{
+    final SSCollUserEntryDeletePar par) throws SSErr{
     
     try{
       
@@ -57,7 +58,7 @@ public class SSCollEntryDeleteFct{
 
   public static void removeCollEntry(
     final SSCollSQLFct             sqlFct, 
-    final SSCollUserEntryDeletePar par) throws Exception{
+    final SSCollUserEntryDeletePar par) throws SSErr{
     
     sqlFct.removeCollEntry(par, par.coll, par.entry);
   }

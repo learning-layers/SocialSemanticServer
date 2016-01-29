@@ -42,7 +42,7 @@ public class SSFlag extends SSEntity{
     this.flagType = SSFlagE.get(flagType);
   }
   
-  public String getFlagType() throws Exception{
+  public String getFlagType() throws SSErr{
     return SSStrU.toStr(flagType);
   }
   
@@ -54,7 +54,7 @@ public class SSFlag extends SSEntity{
   
   public static SSFlag get(
     final SSFlag     flag,
-    final SSEntity   entity) throws Exception{
+    final SSEntity   entity) throws SSErr{
     
     return new SSFlag(flag, entity);
   }
@@ -65,7 +65,7 @@ public class SSFlag extends SSEntity{
     final SSEntity   entity,
     final SSFlagE    flagType,
     final Long       endTime,
-    final Integer    value) throws Exception{
+    final Integer    value) throws SSErr{
     
     return new SSFlag(id, user, entity, flagType, endTime, value);
   }
@@ -74,7 +74,7 @@ public class SSFlag extends SSEntity{
   
   protected SSFlag(
     final SSFlag     flag,
-    final SSEntity   entity) throws Exception{
+    final SSEntity   entity) throws SSErr{
    
     super(flag, entity);
 
@@ -130,7 +130,7 @@ public class SSFlag extends SSEntity{
     final SSEntity   entity,
     final SSFlagE flagType,
     final Long    endTime,
-    final Integer value) throws Exception{
+    final Integer value) throws SSErr{
     
     super(id, SSEntityE.flag);
     

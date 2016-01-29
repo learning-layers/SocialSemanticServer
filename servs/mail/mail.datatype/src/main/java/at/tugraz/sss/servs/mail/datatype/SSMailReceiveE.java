@@ -20,9 +20,8 @@
  */
 package at.tugraz.sss.servs.mail.datatype;
 
-import at.tugraz.sss.serv.jsonld.SSJSONLDPropI;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.reg.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public enum SSMailReceiveE{
   gmailIMAP,
   kcDavMailIMAP;
   
-  public static SSMailReceiveE get(final String mailSend) throws Exception{
+  public static SSMailReceiveE get(final String mailSend) throws SSErr{
     
     try{
       
@@ -41,22 +40,28 @@ public enum SSMailReceiveE{
       
       return SSMailReceiveE.valueOf(mailSend);
     }catch(Exception error){
-      throw new Exception("mail receive enum invalid");
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
-  public static List<SSMailReceiveE> get(final List<String> strings) throws Exception{
-
-    final List<SSMailReceiveE> result = new ArrayList<>();
+  public static List<SSMailReceiveE> get(final List<String> strings) throws SSErr{
     
-    if(strings == null){
+    try{
+      final List<SSMailReceiveE> result = new ArrayList<>();
+      
+      if(strings == null){
+        return result;
+      }
+      
+      for(String string : strings){
+        result.add(get(string));
+      }
+      
       return result;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    for(String string : strings){
-      result.add(get(string));
-    }
-    
-    return result;
   }
 }

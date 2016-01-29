@@ -35,7 +35,7 @@ public class SSAppsDeletePar extends SSServPar{
     return SSStrU.removeTrailingSlash(apps);
   }
 
-  public void setApps(final List<String> apps) throws Exception {
+  public void setApps(final List<String> apps) throws SSErr {
     this.apps = SSUri.get(apps);
   }
   

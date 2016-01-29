@@ -123,7 +123,7 @@ public class SSLearnEp extends SSEntity {
 
 
 //  public static SSLearnEp copy(
-//    final SSLearnEp learnEp) throws Exception{
+//    final SSLearnEp learnEp) throws SSErr{
 //
 //    final SSLearnEp   copy = get(learnEp.user, learnEp.id, learnEp.label, null);
 //    SSLearnEpVersion  versionCopy;

@@ -61,7 +61,7 @@ public class SSVideo extends SSEntity{
   
   public static SSVideo get(
     final SSVideo      video,
-    final SSEntity     entity) throws Exception{
+    final SSEntity     entity) throws SSErr{
     
     return new SSVideo(video, entity);
   }
@@ -71,7 +71,7 @@ public class SSVideo extends SSEntity{
     final String                  genre, 
     final List<SSVideoAnnotation> annotations,
     final SSUri                   link, 
-    final SSVideoE                videoType) throws Exception{
+    final SSVideoE                videoType) throws SSErr{
     
     return new SSVideo(
       id,
@@ -85,7 +85,7 @@ public class SSVideo extends SSEntity{
   
   protected SSVideo(
     final SSVideo     video,
-    final SSEntity    entity) throws Exception{
+    final SSEntity    entity) throws SSErr{
     
     super(video, entity);
     
@@ -128,7 +128,7 @@ public class SSVideo extends SSEntity{
     final String                  genre,
     final List<SSVideoAnnotation> annotations,
     final SSUri                   link, 
-    final SSVideoE                videoType) throws Exception{
+    final SSVideoE                videoType) throws SSErr{
     
     super(id, SSEntityE.video);
     

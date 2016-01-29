@@ -35,7 +35,7 @@ public class SSAuthMiscFct{
   
   public static String genKey(
     final String email, 
-    final String password) throws Exception{
+    final String password) throws SSErr{
 
     final String toDigest = email + password;
     
@@ -68,7 +68,7 @@ public class SSAuthMiscFct{
     final SSAuthSQLFct sqlFct,
     final SSUri        userUri,
     final String       email,
-    final String       pass) throws Exception{
+    final String       pass) throws SSErr{
     
     try{
       
@@ -94,7 +94,7 @@ public class SSAuthMiscFct{
 //    final Map<String, String> passwordPerUser, 
 //    final Map<String, String> keyPerUser, 
 //    final SSLabel             userLabel,
-//    final String              password) throws Exception{
+//    final String              password) throws SSErr{
 //    
 //    try{
 //      final String userStr = SSStrU.toStr(userLabel);

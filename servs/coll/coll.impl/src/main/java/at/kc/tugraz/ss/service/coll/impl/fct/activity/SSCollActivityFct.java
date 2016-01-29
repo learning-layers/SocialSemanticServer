@@ -36,7 +36,7 @@ import at.tugraz.sss.serv.reg.*;
 public class SSCollActivityFct{
   
   public static void removeCollEntries(
-    final SSCollUserEntriesDeletePar par) throws Exception{
+    final SSCollUserEntriesDeletePar par) throws SSErr{
     
     try{
       
@@ -55,7 +55,7 @@ public class SSCollActivityFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -65,7 +65,7 @@ public class SSCollActivityFct{
   }
   
   public static void addCollEntry(
-    final SSCollUserEntryAddPar par) throws Exception{
+    final SSCollUserEntryAddPar par) throws SSErr{
     
     try{
       
@@ -84,7 +84,7 @@ public class SSCollActivityFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
     }catch(Exception error){
@@ -93,7 +93,7 @@ public class SSCollActivityFct{
   }
   
   public static void addCollEntries(
-    final SSCollUserEntriesAddPar par) throws Exception{
+    final SSCollUserEntriesAddPar par) throws SSErr{
     
     try{
       
@@ -112,7 +112,7 @@ public class SSCollActivityFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
     }catch(Exception error){

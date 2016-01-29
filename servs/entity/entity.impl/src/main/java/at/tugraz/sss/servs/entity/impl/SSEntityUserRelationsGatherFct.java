@@ -63,7 +63,7 @@ public class SSEntityUserRelationsGatherFct{
   private static void addRelationsForUserCircles(
     final SSServPar servPar, 
     final Map<String, List<SSUri>>  userRelations,
-    final SSUri                     userUri) throws Exception{
+    final SSUri                     userUri) throws SSErr{
     
     final String userStr = SSStrU.toStr(userUri);
     

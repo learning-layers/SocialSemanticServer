@@ -20,11 +20,12 @@
 */
 package sss.serv.eval.api;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 
 public interface SSEvalClientI {
   
-  public SSServRetI evalLog(final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI evalLog(final SSClientE clientType, final SSServPar parA) throws SSErr;
 }

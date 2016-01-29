@@ -68,7 +68,7 @@ public abstract class SSServImplStartA extends SSServImplA{
   @Override
   public SSServRetI invokeClientServOp(
     final Class        servImplClientInteraceClass, 
-    final SSServPar    par) throws Exception{
+    final SSServPar    par) throws SSErr{
     
     throw new UnsupportedOperationException(SSStrU.empty);
   }

@@ -40,7 +40,7 @@ public class SSActivity extends SSEntity{
     this.activityType = SSActivityE.get(activityType);
   }
   
-  public String getActivityType() throws Exception{
+  public String getActivityType() throws SSErr{
     return SSStrU.toStr(activityType);
   }
   
@@ -54,13 +54,13 @@ public class SSActivity extends SSEntity{
     this.contents = SSActivityContent.get(contents);
   }
     
-  public List<String> getContents() throws Exception {
+  public List<String> getContents() throws SSErr {
     return SSStrU.toStr(contents);
   }
   
   public static SSActivity get(
     final SSActivity              activity,
-    final SSEntity                entity) throws Exception{
+    final SSEntity                entity) throws SSErr{
     
     return new SSActivity(activity, entity);
   }
@@ -73,7 +73,7 @@ public class SSActivity extends SSEntity{
     final SSEntity                author,
     final SSActivityE             activityType,
     final SSEntity                entity,
-    final List<SSActivityContent> contents) throws Exception{
+    final List<SSActivityContent> contents) throws SSErr{
     
     return new SSActivity(
       id,
@@ -90,7 +90,7 @@ public class SSActivity extends SSEntity{
   
   protected SSActivity(
     final SSActivity           activity,
-    final SSEntity             entity) throws Exception{
+    final SSEntity             entity) throws SSErr{
     
     super(activity, entity);
     
@@ -110,7 +110,7 @@ public class SSActivity extends SSEntity{
     final SSEntity                author,
     final SSActivityE             activityType,
     final SSEntity                entity,
-    final List<SSActivityContent> contents) throws Exception{
+    final List<SSActivityContent> contents) throws SSErr{
     
     super(
       id, 

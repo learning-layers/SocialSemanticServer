@@ -47,7 +47,7 @@ public class SSLocationSQLFct extends SSCoreSQL{
     final SSServPar  servPar,
     final SSUri      locationURI,
     final SSUri      entity, 
-    final SSLocation location) throws Exception{
+    final SSLocation location) throws SSErr{
     
     try{
 
@@ -79,7 +79,7 @@ public class SSLocationSQLFct extends SSCoreSQL{
 
    public SSLocation getLocation(
     final SSServPar  servPar,
-     final SSUri location) throws Exception{
+     final SSUri location) throws SSErr{
    
     ResultSet resultSet = null;
     
@@ -114,7 +114,7 @@ public class SSLocationSQLFct extends SSCoreSQL{
    
   public List<SSUri> getLocationURIs(
     final SSServPar  servPar,
-    final SSUri forEntity) throws Exception{
+    final SSUri forEntity) throws SSErr{
    
     ResultSet resultSet = null;
     

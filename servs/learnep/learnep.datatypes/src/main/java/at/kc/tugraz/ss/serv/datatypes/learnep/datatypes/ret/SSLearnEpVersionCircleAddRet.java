@@ -32,7 +32,7 @@ public class SSLearnEpVersionCircleAddRet extends SSServRetI{
 
   public SSUri learnEpCircle = null;
 
-  public String getLearnEpCircle() throws Exception {
+  public String getLearnEpCircle() throws SSErr {
     return SSStrU.removeTrailingSlash(learnEpCircle);
   }
   

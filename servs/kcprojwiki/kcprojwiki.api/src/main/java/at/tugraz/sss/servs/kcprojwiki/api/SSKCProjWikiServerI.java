@@ -20,9 +20,10 @@
 */
 package at.tugraz.sss.servs.kcprojwiki.api;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiImportPar;
 
 public interface SSKCProjWikiServerI {
   
-  public void                    kcprojwikiImport (final SSKCProjWikiImportPar                          par) throws Exception;
+  public void                    kcprojwikiImport (final SSKCProjWikiImportPar                          par) throws SSErr;
 }

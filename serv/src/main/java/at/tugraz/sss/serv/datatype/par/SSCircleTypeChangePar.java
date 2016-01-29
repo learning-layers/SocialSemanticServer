@@ -35,19 +35,19 @@ public class SSCircleTypeChangePar extends SSServPar{
   public SSUri     circle   = null;
   public SSCircleE type     = null;
 
-  public String getCircle() throws Exception{
+  public String getCircle() throws SSErr{
     return SSStrU.removeTrailingSlash(circle);
   }
   
-  public void setCircle(final String circle) throws Exception{
+  public void setCircle(final String circle) throws SSErr{
     this.circle = SSUri.get(circle);
   }
   
-  public String getType() throws Exception{
+  public String getType() throws SSErr{
     return SSStrU.toStr(type);
   }
   
-  public void setType(final String type) throws Exception{
+  public void setType(final String type) throws SSErr{
     this.type = SSCircleE.get(type);
   }
 
@@ -59,7 +59,7 @@ public class SSCircleTypeChangePar extends SSServPar{
     final SSUri          circle,
     final SSCircleE      type,
     final boolean        withUserRestriction,
-    final boolean        shouldCommit) throws Exception{
+    final boolean        shouldCommit) throws SSErr{
     
     super(SSVarNames.circleTypeChange, null, user, servPar.sqlCon);
     

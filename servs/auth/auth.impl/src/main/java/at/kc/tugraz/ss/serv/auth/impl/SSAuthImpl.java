@@ -103,7 +103,7 @@ implements
       }catch(SSErr error){
         
         switch(error.code){
-          case servServerNotAvailable: SSLogU.warn(error.getMessage()); return;
+          case servInvalid: SSLogU.warn(error); return;
           default: SSServErrReg.regErrThrow(error);
         }
       }      
@@ -226,7 +226,7 @@ implements
       }catch(SSErr error){
         
         switch(error.code){
-          case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+          case servInvalid: SSLogU.warn(error); break;
           default: SSServErrReg.regErrThrow(error);
         }
       }
@@ -404,7 +404,7 @@ implements
               }catch(SSErr error){
 
                 switch(error.code){
-                  case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+                  case servInvalid: SSLogU.warn(error); break;
                   default: SSServErrReg.regErrThrow(error);
                 }
               }

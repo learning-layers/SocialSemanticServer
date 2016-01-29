@@ -31,7 +31,7 @@ public interface SSGetParentEntitiesI{
     final SSServPar     servPar, 
     final SSUri         user,
     final SSUri         entity,
-    final SSEntityE     type) throws Exception;
+    final SSEntityE     type) throws SSErr;
 }
 
 

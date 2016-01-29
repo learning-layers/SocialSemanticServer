@@ -34,7 +34,7 @@ public class SSServPar{
   public String               op                  = null;
   public SSUri                user                = null;
   
-  public void setUser(final String user) throws Exception{
+  public void setUser(final String user) throws SSErr{
     this.user = SSUri.get(user);
   }
   
@@ -71,7 +71,7 @@ public class SSServPar{
   public SSServPar(
     final Socket       clientSocket,
     final Connection   sqlCon,
-    final String       clientJSONRequ) throws Exception{
+    final String       clientJSONRequ) throws SSErr{
     
     this.clientSocket      = clientSocket;
     this.sqlCon            = sqlCon;
@@ -155,7 +155,7 @@ public class SSServPar{
 //  public  String      op      = null;
 // public  List<String>  pars    = new ArrayList<>();
 //
-//  public SSRequ(String requJSON) throws Exception{
+//  public SSRequ(String requJSON) throws SSErr{
 //    
 //    JSONObject objJSON = new JSONObject      (requJSON);
 //    JSONArray  parsJSON;
@@ -174,7 +174,7 @@ public class SSServPar{
 //    }
 //  }
 //  
-//  public SSRequ(List<String> opAndPars) throws Exception{
+//  public SSRequ(List<String> opAndPars) throws SSErr{
 //
 //    if(
 //      SSObjU.isNull(opAndPars) ||
@@ -189,7 +189,7 @@ public class SSServPar{
 //    this.pars.remove (0);
 // }
 //  
-//  public SSRequ(String op, String ... pars) throws Exception{
+//  public SSRequ(String op, String ... pars) throws SSErr{
 //
 //    if(
 //      SSObjU.isNull (op)        ||
@@ -257,7 +257,7 @@ public class SSServPar{
 //      }
 //    }
 
-//  protected SSServPar(final SSServPar par) throws Exception{
+//  protected SSServPar(final SSServPar par) throws SSErr{
 //    
 //    this.op           = par.op;
 //    this.user         = par.user;
@@ -276,7 +276,7 @@ public class SSServPar{
   
   //  public SSServPar(
 //    final String               op,
-//    final Map<String, Object>  pars) throws Exception{
+//    final Map<String, Object>  pars) throws SSErr{
 //    
 //    this.op            = op;
 //    this.pars          = pars;

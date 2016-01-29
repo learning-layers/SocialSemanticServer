@@ -32,7 +32,7 @@ public class SSLearnEpCreateRet extends SSServRetI{
 
   public SSUri learnEp = null;
 
-  public String getLearnEp() throws Exception {
+  public String getLearnEp() throws SSErr {
     return SSStrU.removeTrailingSlash(learnEp);
   }
   

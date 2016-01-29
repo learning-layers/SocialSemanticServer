@@ -153,7 +153,7 @@ public class SSTagLabel extends SSEntityA{
 //  } 
 
 //  public static boolean isTagLabel(
-//    final String string) throws Exception {
+//    final String string) throws SSErr {
 //    
 //    try{
 //      if(SSStrU.isEmpty(string)){

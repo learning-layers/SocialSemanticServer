@@ -20,22 +20,17 @@
   */
 package at.kc.tugraz.sss.comment.datatypes.ret;
 
-
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.SSJSONLDU;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SSCommentsGetRet extends SSServRetI{
   
   final List<SSTextComment> comments = new ArrayList<>();
 
-  public List<String> getComments() throws Exception{
+  public List<String> getComments(){
     return SSStrU.toStr(comments);
   }
   

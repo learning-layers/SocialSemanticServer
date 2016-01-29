@@ -34,7 +34,7 @@ import at.tugraz.sss.serv.datatype.*;
 public class SSEntityActivityFct{
   
   public static void shareEntityWithUsers(
-    final SSEntitySharePar par) throws Exception{
+    final SSEntitySharePar par) throws SSErr{
     
     try{
       
@@ -53,7 +53,7 @@ public class SSEntityActivityFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
 
@@ -63,7 +63,7 @@ public class SSEntityActivityFct{
   }
   
   public static void shareEntityWithCircles(
-    final SSEntitySharePar par) throws Exception{
+    final SSEntitySharePar par) throws SSErr{
     
     try{
       
@@ -82,7 +82,7 @@ public class SSEntityActivityFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
 
@@ -92,7 +92,7 @@ public class SSEntityActivityFct{
   }
   
   public static void setEntityPublic(
-   final SSEntitySharePar par) throws Exception{
+   final SSEntitySharePar par) throws SSErr{
     
      try{
       
@@ -111,7 +111,7 @@ public class SSEntityActivityFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       

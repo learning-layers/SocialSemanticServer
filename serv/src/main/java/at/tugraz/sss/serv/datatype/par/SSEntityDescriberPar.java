@@ -62,7 +62,7 @@ public class SSEntityDescriberPar{
     return SSStrU.removeTrailingSlash(circle);
   }
 
-  public void setCircle(final String circle) throws Exception {
+  public void setCircle(final String circle) throws SSErr {
     this.circle = SSUri.get(circle);
   }
   
@@ -70,7 +70,7 @@ public class SSEntityDescriberPar{
     return SSStrU.removeTrailingSlash(recursiveEntity);
   }
 
-  public void setRecursiveEntity(final String recursiveEntity) throws Exception {
+  public void setRecursiveEntity(final String recursiveEntity) throws SSErr {
     this.recursiveEntity = SSUri.get(recursiveEntity);
   }
 
@@ -78,7 +78,7 @@ public class SSEntityDescriberPar{
     return SSStrU.toStr(entityTypesToIncludeOnly);
   }
 
-  public void setEntityTypesToIncludeOnly(final List<String> entityTypesToIncludeOnly) throws Exception {
+  public void setEntityTypesToIncludeOnly(final List<String> entityTypesToIncludeOnly) throws SSErr {
     this.entityTypesToIncludeOnly = SSEntityE.get(entityTypesToIncludeOnly);
   }
   

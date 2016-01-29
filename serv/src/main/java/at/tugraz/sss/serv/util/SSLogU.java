@@ -157,27 +157,35 @@ public class SSLogU{
     log.debug(getMsg(logText));
   }
   
+//  public static void warn(
+//    final Object    warning,
+//    final Exception error){
+//    
+//    log.warn(getMsg(SSStrU.toStr(warning) + SSStrU.blank + SSStrU.toStr(error)));
+//  }
+  
   public static void warn(
-    final Object    warning,
+    final Exception error){
+    
+    log.warn(getMsg(SSStrU.toStr(error)));
+  }
+  
+  public static void warn(
+    final SSWarnE   warning, 
     final Exception error){
     
     log.warn(getMsg(SSStrU.toStr(warning) + SSStrU.blank + SSStrU.toStr(error)));
   }
   
   public static void warn(
-    final SSWarnE warning){
+    final Object    logText, 
+    final Exception error){
     
-    log.warn(getMsg(SSStrU.toStr(warning)));
-  }
-  
-  public static void warn(
-    final Object    logText){
-    
-    log.warn(getMsg(SSStrU.toStr(logText)));
+    log.warn(getMsg(SSStrU.toStr(logText) + SSStrU.blank + SSStrU.toStr(error)));
   }
   
   public static void err(
-    final Exception error, 
+    final Exception error,
     final String    logText){
     
     if(error == null){
@@ -213,7 +221,9 @@ public class SSLogU{
 //    error.printStackTrace();
   }
   
-  public static void err(final SSErrE code, final boolean fromRegistry){
+  public static void err(
+    final SSErrE  code, 
+    final boolean fromRegistry){
     
     if(code == null){
       return;
@@ -235,36 +245,36 @@ public class SSLogU{
 //    error.printStackTrace();
   }
   
-  public static void err(final String errorMsg){
-    
-    if(errorMsg == null){
-      return;
-    }
-    
-    log.error(getMsg(errorMsg));
-  }
+//  public static void err(final String errorMsg){
+//    
+//    if(errorMsg == null){
+//      return;
+//    }
+//    
+//    log.error(getMsg(errorMsg));
+//  }
   
-  public static void errThrow(final Exception error) throws Exception{
-    
-    if(error == null){
-      throw new Exception("error to log null");
-    }
-    
-    log.error(getMsg(error));
-    
-//    error.printStackTrace();
-    
-    throw error;
-  }
+//  public static void errThrow(final Exception error) throws Exception{
+//    
+//    if(error == null){
+//      return;
+//    }
+//    
+//    log.error(getMsg(error));
+//    
+////    error.printStackTrace();
+//    
+//    throw error;
+//  }
   
-  public static void fatalThrow(final Exception error) throws Exception{
-    
-    if(error == null){
-      throw new Exception("error to log null");
-    }
-    
-    log.fatal(getMsg(error));
-    
-//    error.printStackTrace();
-  }
+//  public static void fatalThrow(final Exception error) throws SSErr{
+//    
+//    if(error == null){
+//      throw new Exception("error to log null");
+//    }
+//    
+//    log.fatal(getMsg(error));
+//    
+////    error.printStackTrace();
+//  }
 }

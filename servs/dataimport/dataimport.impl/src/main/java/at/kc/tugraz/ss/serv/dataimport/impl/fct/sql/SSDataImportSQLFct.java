@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.impl.fct.sql;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLFctA;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
@@ -40,7 +41,7 @@ public class SSDataImportSQLFct extends SSDBSQLFctA{
   public void addUserWithGroup(
     final SSServPar servPar, 
     final String userName,
-    final String password) throws Exception{
+    final String password) throws SSErr{
     
     final String userId;
     ResultSet    resultSet               = null;

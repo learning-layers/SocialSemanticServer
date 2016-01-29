@@ -39,27 +39,27 @@ public class SSCircleGetPar extends SSServPar{
   public boolean         setProfilePicture          = false;
   public boolean         setThumb                   = false;
  
-  public void setCircle(final String circle) throws Exception{
+  public void setCircle(final String circle) throws SSErr{
     this.circle = SSUri.get(circle);
   }
   
-  public String getCircle() throws Exception{
+  public String getCircle() throws SSErr{
     return SSStrU.removeTrailingSlash(circle);
   }
   
-  public void setEntityTypesToIncludeOnly(final List<String> entityTypesToIncludeOnly) throws Exception{
+  public void setEntityTypesToIncludeOnly(final List<String> entityTypesToIncludeOnly) throws SSErr{
     this.entityTypesToIncludeOnly = SSEntityE.get(entityTypesToIncludeOnly); 
   }
   
-  public List<String> getEntityTypesToIncludeOnly() throws Exception{
+  public List<String> getEntityTypesToIncludeOnly() throws SSErr{
     return SSStrU.toStr(entityTypesToIncludeOnly);
   }
   
-  public void setTagSpace(final String tagSpace) throws Exception{
+  public void setTagSpace(final String tagSpace) throws SSErr{
     this.tagSpace = SSSpaceE.get(tagSpace);
   }
   
-  public String getTagSpace() throws Exception{
+  public String getTagSpace() throws SSErr{
     return SSStrU.toStr(tagSpace);
   }
   

@@ -101,9 +101,8 @@ public class SSRestMain extends ResourceConfig{
 //    ClassReaders.setReader( new DefaultJaxrsApiReader( ) );
   }
   
-  public static Response prepareErrors(final Exception originalError){
+  public static String prepareErrorJSON(final Exception originalError){
     
-    //    SSServErrReg.logAndReset(true);
     try{
       
       final Map<String, Object> jsonObj = new HashMap<>();
@@ -118,7 +117,20 @@ public class SSRestMain extends ResourceConfig{
         jsonObj.put(SSVarNames.message,                 originalError.getMessage());
       }
       
-      return Response.status(500).entity(SSJSONU.jsonStr(jsonObj)).build();
+      return SSJSONU.jsonStr(jsonObj);
+      
+    }catch(Exception error){
+      SSLogU.err(error);
+      return null;
+    }
+  }
+  
+  public static Response prepareErrorResponse(final Exception originalError){
+    
+    //    SSServErrReg.logAndReset(true);
+    try{
+      
+      return Response.status(500).entity(prepareErrorJSON(originalError)).build();
       
     }catch(Exception error){
       SSLogU.err(error);

@@ -93,7 +93,7 @@ implements
   @Override
   public void getUsersResources(
     final SSServPar                          servPar,
-    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
+    final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
     
     try{
       
@@ -134,7 +134,7 @@ implements
   public SSEntity describeEntity(
     final SSServPar            servPar,
     final SSEntity             entity,
-    final SSEntityDescriberPar par) throws Exception{
+    final SSEntityDescriberPar par) throws SSErr{
     
     switch(entity.type){
       
@@ -158,7 +158,7 @@ implements
   @Override
   public void pushEntitiesToUsers(
     final SSServPar                servPar,
-    final SSPushEntitiesToUsersPar par) throws Exception {
+    final SSPushEntitiesToUsersPar par) throws SSErr {
     
     try{
       for(SSEntity entityToPush : par.entities){
@@ -181,7 +181,7 @@ implements
   }
   
   @Override
-  public SSServRetI livingDocAdd(final SSClientE clientType, final SSServPar parA) throws Exception{
+  public SSServRetI livingDocAdd(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       userCommons.checkKeyAndSetUser(parA);
@@ -218,7 +218,7 @@ implements
   }
   
   @Override
-  public SSUri livingDocAdd(final SSLivingDocAddPar par) throws Exception{
+  public SSUri livingDocAdd(final SSLivingDocAddPar par) throws SSErr{
     
     try{
       
@@ -287,7 +287,7 @@ implements
   }
   
   @Override
-  public SSServRetI livingDocUpdate(final SSClientE clientType, final SSServPar parA) throws Exception{
+  public SSServRetI livingDocUpdate(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       userCommons.checkKeyAndSetUser(parA);
@@ -324,7 +324,7 @@ implements
   }
   
   @Override
-  public SSUri livingDocUpdate(final SSLivingDocUpdatePar par) throws Exception{
+  public SSUri livingDocUpdate(final SSLivingDocUpdatePar par) throws SSErr{
     
     try{
       
@@ -382,7 +382,7 @@ implements
   }
   
   @Override
-  public SSServRetI livingDocRemove(final SSClientE clientType, final SSServPar parA) throws Exception{
+  public SSServRetI livingDocRemove(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     userCommons.checkKeyAndSetUser(parA);
     
@@ -392,7 +392,7 @@ implements
   }
   
   @Override
-  public SSUri livingDocRemove(final SSLivingDocRemovePar par) throws Exception{
+  public SSUri livingDocRemove(final SSLivingDocRemovePar par) throws SSErr{
     
     try{
       
@@ -444,7 +444,7 @@ implements
   }
   
   @Override
-  public SSServRetI livingDocGet(final SSClientE clientType, final SSServPar parA) throws Exception{
+  public SSServRetI livingDocGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     userCommons.checkKeyAndSetUser(parA);
     
@@ -454,7 +454,7 @@ implements
   }
   
   @Override
-  public SSLivingDocument livingDocGet(final SSLivingDocGetPar par) throws Exception{
+  public SSLivingDocument livingDocGet(final SSLivingDocGetPar par) throws SSErr{
 
     try{
       
@@ -518,7 +518,7 @@ implements
   }
   
   @Override
-  public SSServRetI livingDocsGet(final SSClientE clientType, final SSServPar parA) throws Exception{
+  public SSServRetI livingDocsGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     userCommons.checkKeyAndSetUser(parA);
     
@@ -528,7 +528,7 @@ implements
   }
   
   @Override
-  public List<SSEntity> livingDocsGet(final SSLivingDocsGetPar par) throws Exception{
+  public List<SSEntity> livingDocsGet(final SSLivingDocsGetPar par) throws SSErr{
 
     try{
       

@@ -39,43 +39,43 @@ public class SSActivityAddPar extends SSServPar{
   public List<SSTextComment>    comments         = new ArrayList<>();
   public Long                   creationTime     = null;
   
-  public void setType(final String type) throws Exception{
+  public void setType(final String type) throws SSErr{
     this.type = SSActivityE.get(type);
   }
 
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity);
   }
   
-  public void setComments(final List<String> comments) throws Exception{
+  public void setComments(final List<String> comments) throws SSErr{
     this.comments = SSTextComment.get(comments);
   }
   
-  public void setUsers(final List<String> users) throws Exception{
+  public void setUsers(final List<String> users) throws SSErr{
     this.users = SSUri.get(users);
   }
   
-  public void setEntities(final List<String> entities) throws Exception{
+  public void setEntities(final List<String> entities) throws SSErr{
     this.entities = SSUri.get(entities);
   }
 
-  public String getType() throws Exception{
+  public String getType() throws SSErr{
     return SSStrU.toStr(type);
   }
   
-  public String getEntity() throws Exception{
+  public String getEntity() throws SSErr{
     return SSStrU.removeTrailingSlash(entity);
   }
   
-  public List<String> getUsers() throws Exception{
+  public List<String> getUsers() throws SSErr{
     return SSStrU.removeTrailingSlash(users);
   }
   
-  public List<String> getEntities() throws Exception{
+  public List<String> getEntities() throws SSErr{
     return SSStrU.removeTrailingSlash(entities);
   }
   
-  public List<String> getComments() throws Exception{
+  public List<String> getComments() throws SSErr{
     return SSStrU.removeTrailingSlash(comments);
   }
   

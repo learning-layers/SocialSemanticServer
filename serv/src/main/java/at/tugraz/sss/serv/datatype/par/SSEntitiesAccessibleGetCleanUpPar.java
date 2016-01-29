@@ -32,7 +32,7 @@ public class SSEntitiesAccessibleGetCleanUpPar extends SSServPar{
   
   public SSEntitiesAccessibleGetCleanUpPar(
     final SSServPar servPar,
-    final SSUri                user) throws Exception{
+    final SSUri                user) throws SSErr{
     
     super(SSVarNames.entitiesAccessibleGetCleanUp, null, user, servPar.sqlCon);
   }

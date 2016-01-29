@@ -52,6 +52,7 @@ import at.tugraz.sss.serv.util.SSSocketU;
 import at.tugraz.sss.serv.util.SSEncodingU;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.tugraz.sss.serv.impl.api.SSServImplStartA;
@@ -67,8 +68,7 @@ import at.tugraz.sss.servs.livingdocument.serv.*;
 import at.tugraz.sss.servs.location.serv.*;
 import at.tugraz.sss.servs.mail.serv.*;
 import at.tugraz.sss.servs.ocd.service.*;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.*;
 import java.sql.*;
 import sss.serv.eval.serv.*;
@@ -79,14 +79,14 @@ public class SSSocketMain extends SSServImplStartA{
     super(null);
   }
   
-  public static void main(String[] args) throws Exception {
+  public static void main(String[] args) throws SSErr {
     
 //    System.getProperties().list(System.out);
     
     new SSSocketMain().start(args);
   }
   
-  public void start(String[] args) throws Exception {
+  public void start(String[] args) throws SSErr {
     
 //    addShutDownHookThread ();
 //    initJmx               ();
@@ -207,7 +207,7 @@ public class SSSocketMain extends SSServImplStartA{
     private SSServRetI               ret         = null;
     
     public SSSocket(
-      final Socket  clientSocket) throws Exception{
+      final Socket  clientSocket) throws UnsupportedEncodingException, IOException{
       
       this.clientSocket      = clientSocket;
       
@@ -222,7 +222,6 @@ public class SSSocketMain extends SSServImplStartA{
           SSEncodingU.utf8.toString());
       
       this.socketAdapterU = new SSSocketAdapterU();
-      
     }
     
     @Override
@@ -288,7 +287,7 @@ public class SSSocketMain extends SSServImplStartA{
     }
   }
 }
-//  private void initJmx() throws Exception {
+//  private void initJmx() throws SSErr {
 //
 //    MBeanServer  mBeanServer  = ManagementFactory.getPlatformMBeanServer();
 //
@@ -310,7 +309,7 @@ public class SSSocketMain extends SSServImplStartA{
 //    Runtime.getRuntime().addShutdownHook(new ShutdownHookThread());
 //  }
 
-//  private void waitForEnterPressed()throws Exception{
+//  private void waitForEnterPressed()throws SSErr{
 //
 //    try {
 //      SSLogU.logInfo("waiting info");
@@ -324,7 +323,7 @@ public class SSSocketMain extends SSServImplStartA{
 //    }
 //  }
 
-//  private void checkAndExecScaffServTests(String[] args) throws Exception{
+//  private void checkAndExecScaffServTests(String[] args) throws SSErr{
 //
 //    if(SSStrU.equals(args[0], SSVarNames.scaffRecommTags)){
 //
@@ -346,7 +345,7 @@ public class SSSocketMain extends SSServImplStartA{
 //    }
 //  }
 //
-//  private void checkAndExecDataImportServTests(String[] args) throws Exception{
+//  private void checkAndExecDataImportServTests(String[] args) throws SSErr{
 //
 //    if(SSStrU.equals(args[0], SSVarNames.dataImportUserResourceTagFromWikipedia)){
 //
@@ -356,7 +355,7 @@ public class SSSocketMain extends SSServImplStartA{
 //    }
 //  }
 //
-//  private void checkAndExecLomExtractFromDirServTests(String[] args) throws Exception{
+//  private void checkAndExecLomExtractFromDirServTests(String[] args) throws SSErr{
 //
 //    if(SSStrU.equals(args[0], SSVarNames.lomExtractFromDir)){
 //
@@ -366,7 +365,7 @@ public class SSSocketMain extends SSServImplStartA{
 //    }
 //  }
 //
-//  private void checkAndExecSolrServTests(String[] args) throws Exception{
+//  private void checkAndExecSolrServTests(String[] args) throws SSErr{
 //
 //    if(SSStrU.equals(args[0], SSVarNames.solrRemoveDocsAll)){
 //

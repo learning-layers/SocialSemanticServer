@@ -41,7 +41,7 @@ public class SSEntityURIsGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entities);
   }
 
-  public void setEntities(final List<String> entities) throws Exception{
+  public void setEntities(final List<String> entities) throws SSErr{
     this.entities = SSUri.get(entities);
   }
   
@@ -49,7 +49,7 @@ public class SSEntityURIsGetPar extends SSServPar{
     return SSStrU.toStr(types);
   }
   
-  public void setTypes(List<String> types) throws Exception{
+  public void setTypes(List<String> types) throws SSErr{
     this.types = SSEntityE.get(types);
   }
   
@@ -57,7 +57,7 @@ public class SSEntityURIsGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(authors);
   }
 
-  public void setAuthors(final List<String> authors) throws Exception{
+  public void setAuthors(final List<String> authors) throws SSErr{
     this.authors = SSUri.get(authors);
   }
   
@@ -71,7 +71,7 @@ public class SSEntityURIsGetPar extends SSServPar{
     final List<SSEntityE>      types,
     final List<SSUri>          authors,
     final Long                 startTime,
-    final Long                 endTime) throws Exception{
+    final Long                 endTime) throws SSErr{
     
     super(SSVarNames.entitiesGet, null, user, servPar.sqlCon);
     

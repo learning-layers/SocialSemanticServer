@@ -46,7 +46,7 @@ public class SSFileUploadPar extends SSServPar{
     return SSStrU.toStr(label);
   }
   
-  public void setLabel(final String label) throws Exception{
+  public void setLabel(final String label) throws SSErr{
     this.label = SSLabel.get(label);
   }
   
@@ -54,11 +54,11 @@ public class SSFileUploadPar extends SSServPar{
     return SSStrU.toStr(mimeType);
   }
   
-  public void setMimeType(final String mimeType) throws Exception{
+  public void setMimeType(final String mimeType) throws SSErr{
     this.mimeType = SSMimeTypeE.get(mimeType);
   }
   
-  public void setCircle(final String circle) throws Exception{
+  public void setCircle(final String circle) throws SSErr{
     this.circle = SSUri.get(circle);
   }
   

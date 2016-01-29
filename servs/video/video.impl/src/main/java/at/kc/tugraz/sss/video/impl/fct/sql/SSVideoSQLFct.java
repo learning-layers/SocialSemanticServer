@@ -48,7 +48,7 @@ public class SSVideoSQLFct extends SSCoreSQL{
   public void addVideoToUser(
     final SSServPar servPar,
     final SSUri         user,
-    final SSUri         video) throws Exception{
+    final SSUri         video) throws SSErr{
     
     try{
       final Map<String, String> inserts    = new HashMap<>();
@@ -71,7 +71,7 @@ public class SSVideoSQLFct extends SSCoreSQL{
     final SSUri         video,
     final String        genre,
     final SSUri         link, 
-    final SSVideoE      type) throws Exception{
+    final SSVideoE      type) throws SSErr{
     
      try{
       final Map<String, String> inserts    = new HashMap<>();
@@ -108,7 +108,7 @@ public class SSVideoSQLFct extends SSCoreSQL{
   
   public void removeAnnotation(
     final SSServPar servPar,
-    final SSUri annotation) throws Exception{
+    final SSUri annotation) throws SSErr{
    
     try{
       final Map<String, String> wheres = new HashMap<>();
@@ -128,7 +128,7 @@ public class SSVideoSQLFct extends SSCoreSQL{
     final SSUri videoAnnotation,
     final Float x, 
     final Float y,
-    final Long  timePoint) throws Exception{
+    final Long  timePoint) throws SSErr{
    
     try{
       final Map<String, String> inserts    = new HashMap<>();
@@ -169,7 +169,7 @@ public class SSVideoSQLFct extends SSCoreSQL{
   
   public SSVideo getVideo(
     final SSServPar servPar,
-    final SSUri videoUri) throws Exception{
+    final SSUri videoUri) throws SSErr{
     
     ResultSet resultSet = null;
       
@@ -234,7 +234,7 @@ public class SSVideoSQLFct extends SSCoreSQL{
   public List<SSUri> getVideoURIs(
     final SSServPar servPar,
     final SSUri   forUser,     
-    final SSUri   forEntity) throws Exception{
+    final SSUri   forEntity) throws SSErr{
     
     ResultSet resultSet = null;
       
@@ -278,7 +278,7 @@ public class SSVideoSQLFct extends SSCoreSQL{
 
   public SSVideoAnnotation getAnnotation(
     final SSServPar servPar,
-    final SSUri annotation) throws Exception{
+    final SSUri annotation) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -316,7 +316,7 @@ public class SSVideoSQLFct extends SSCoreSQL{
   
   public List<SSUri> getAnnotations(
     final SSServPar servPar,
-    final SSUri video) throws Exception{
+    final SSUri video) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -350,7 +350,7 @@ public class SSVideoSQLFct extends SSCoreSQL{
   public void addVideoToEntity(
     final SSServPar servPar,
     final SSUri video,
-    final SSUri entity) throws Exception{
+    final SSUri entity) throws SSErr{
     
     try{
       

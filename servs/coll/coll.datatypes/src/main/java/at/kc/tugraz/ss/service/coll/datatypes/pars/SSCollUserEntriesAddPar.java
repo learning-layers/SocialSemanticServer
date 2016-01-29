@@ -33,15 +33,15 @@ public class SSCollUserEntriesAddPar extends SSServPar{
   public List<SSUri>       entries       = new ArrayList<>();
   public List<SSLabel>     labels        = new ArrayList<>();
   
-  public void setColl(final String coll) throws Exception{
+  public void setColl(final String coll) throws SSErr{
     this.coll = SSUri.get(coll);
   }
   
-  public void setEntries(final List<String> entries) throws Exception{
+  public void setEntries(final List<String> entries) throws SSErr{
     this.entries = SSUri.get(entries);
   }
 
-  public void setLabels(final List<String> labels) throws Exception{
+  public void setLabels(final List<String> labels) throws SSErr{
     this.labels = SSLabel.get(labels);
   }
 

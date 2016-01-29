@@ -62,7 +62,7 @@ public class SSDiscActAndLogFct{
     final SSTextComment entryContent,
     final List<SSUri>   entities,
     final List<SSLabel> entityLabels,
-    final boolean       shouldCommit) throws Exception{
+    final boolean       shouldCommit) throws SSErr{
     
     try{
       
@@ -87,7 +87,7 @@ public class SSDiscActAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
     }catch(Exception error){
@@ -134,7 +134,7 @@ public class SSDiscActAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -161,7 +161,7 @@ public class SSDiscActAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
     }catch(Exception error){
@@ -188,7 +188,7 @@ public class SSDiscActAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -202,7 +202,7 @@ public class SSDiscActAndLogFct{
     final SSUri       user,
     final SSUri       disc,
     final List<SSUri> targets,
-    final boolean     shouldCommit) throws Exception{
+    final boolean     shouldCommit) throws SSErr{
     
     if(disc == null){
       return;
@@ -228,7 +228,7 @@ public class SSDiscActAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -243,7 +243,7 @@ public class SSDiscActAndLogFct{
 //    final SSUri         disc,
 //    final SSLabel       label,
 //    final SSTextComment content,
-//    final boolean       shouldCommit) throws Exception {
+//    final boolean       shouldCommit) throws SSErr {
 //    
 //    try{
 //      
@@ -280,7 +280,7 @@ public class SSDiscActAndLogFct{
 //    }catch(SSErr error){
 //      
 //      switch(error.code){
-//        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+//        case servInvalid: SSLogU.warn(error); break;
 //        default: SSServErrReg.regErrThrow(error);
 //      }
 //      
@@ -294,7 +294,7 @@ public class SSDiscActAndLogFct{
     final SSUri         user,
     final SSUri         entry,
     final SSTextComment content,
-    final boolean       shouldCommit) throws Exception{
+    final boolean       shouldCommit) throws SSErr{
     
     try{
       
@@ -316,7 +316,7 @@ public class SSDiscActAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servInvalid: SSLogU.warn(error); break;
         default: SSServErrReg.regErrThrow(error);
       }
       

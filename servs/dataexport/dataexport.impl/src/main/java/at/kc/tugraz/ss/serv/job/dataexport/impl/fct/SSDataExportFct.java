@@ -40,7 +40,7 @@ public class SSDataExportFct{
     final SSUri          userUri,
     final SSUri          forUser,
     final List<SSUri>    entities,
-    final SSUri          circle) throws Exception{
+    final SSUri          circle) throws SSErr{
     
     return SSTag.getTagLabelsPerEntities(
       ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsGet(
@@ -62,7 +62,7 @@ public class SSDataExportFct{
     final SSUri          userUri,
     final SSUri          forUser,
     final List<SSUri>    entities,
-    final SSUri          circle) throws Exception{
+    final SSUri          circle) throws SSErr{
     
     return SSCategory.getCategoryLabelsPerEntities(
       ((SSCategoryServerI) SSServReg.getServ(SSCategoryServerI.class)).categoriesGet(

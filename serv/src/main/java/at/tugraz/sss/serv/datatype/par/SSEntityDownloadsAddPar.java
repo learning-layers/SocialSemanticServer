@@ -36,7 +36,7 @@ public class SSEntityDownloadsAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
 
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity);
   }
   
@@ -44,7 +44,7 @@ public class SSEntityDownloadsAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(downloads);
   }
 
-  public void setDownloads(final List<String> downloads) throws Exception{
+  public void setDownloads(final List<String> downloads) throws SSErr{
     this.downloads = SSUri.get(downloads);
   }
   

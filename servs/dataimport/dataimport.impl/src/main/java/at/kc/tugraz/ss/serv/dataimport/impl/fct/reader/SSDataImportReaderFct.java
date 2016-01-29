@@ -26,15 +26,14 @@ import at.tugraz.sss.serv.util.SSFileU;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import au.com.bytecode.opencsv.CSVReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.List;
 
 public class SSDataImportReaderFct {
 
   public static List<String[]> readAllFromCSV(
-    final String filePath) throws Exception{
+    final String filePath) throws SSErr{
     
     FileInputStream                    in          = null;
     InputStreamReader                  reader      = null;
@@ -59,15 +58,27 @@ public class SSDataImportReaderFct {
     }finally{
       
       if(in != null){
-        in.close();
+        try {
+          in.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
       
       if(reader != null){
-        reader.close();
+        try {
+          reader.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
       
       if(csvReader != null){
-        csvReader.close();
+        try {
+          csvReader.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }

@@ -28,7 +28,7 @@ public class SSLearnEpTimelineStateSetRet extends SSServRetI{
 
   public SSUri learnEpTimelineState = null;
 
-  public String getLearnEpTimelineState() throws Exception {
+  public String getLearnEpTimelineState() throws SSErr {
     return SSStrU.removeTrailingSlash(learnEpTimelineState);
   }
   

@@ -53,7 +53,7 @@ public class SSMessageSQLFct extends SSDBSQLFctA{
     final SSUri         message,
     final SSUri         user,
     final SSUri         forUser, 
-    final SSTextComment messageContent) throws Exception{
+    final SSTextComment messageContent) throws SSErr{
     
     try{
       final Map<String, String> inserts =  new HashMap<>();
@@ -72,7 +72,7 @@ public class SSMessageSQLFct extends SSDBSQLFctA{
 
   public SSMessage getMessage(
     final SSServPar servPar,
-    final SSUri   messageURI) throws Exception{
+    final SSUri   messageURI) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -115,7 +115,7 @@ public class SSMessageSQLFct extends SSDBSQLFctA{
   public List<SSUri> getMessageURIs(
     final SSServPar servPar,
     final SSUri   targetUserURI,
-    final Long    startTime) throws Exception{
+    final Long    startTime) throws SSErr{
     
     ResultSet resultSet = null;
     

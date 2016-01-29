@@ -20,6 +20,8 @@
 */
 package at.tugraz.sss.serv.util;
 
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.reg.*;
 import java.util.*;
 
 public class SSStrU{
@@ -297,25 +299,30 @@ public class SSStrU{
   
   public static void remove(
     final List<? extends Object>  objects,
-    final Object                  objectToRemove) throws Exception{
+    final Object                  objectToRemove) throws SSErr{
     
-    if(objects == null){
-      return;
-    }
-    
-    if(objectToRemove == null){
-      objects.remove(objectToRemove);
-      return;
-    }
-    
-    for(Object object : objects) {
-      
-      if(equals(object, objectToRemove)){
-        
-        objects.remove   (object);
-        remove           (objects, objectToRemove);
+    try{
+      if(objects == null){
         return;
       }
+      
+      if(objectToRemove == null){
+        objects.remove(objectToRemove);
+        return;
+      }
+      
+      for(Object object : objects) {
+        
+        if(equals(object, objectToRemove)){
+          
+          objects.remove   (object);
+          remove           (objects, objectToRemove);
+          return;
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   
@@ -342,7 +349,7 @@ public class SSStrU{
   }
   
   public static List<String> toStrWithoutEmptyAndNull(
-    final Object... objects) throws Exception{
+    final Object... objects) throws SSErr{
     
     final List<String> result = new ArrayList<>();
     
@@ -363,7 +370,7 @@ public class SSStrU{
   }
   
   public static String toCommaSeparatedStrNotNull(
-    final List<? extends Object> objects) throws Exception{
+    final List<? extends Object> objects) throws SSErr{
     
     String result = new String();
     
@@ -384,7 +391,7 @@ public class SSStrU{
   }
   
   public static List<String> toStrWithoutEmptyAndNull(
-    final List<? extends Object> objects) throws Exception{
+    final List<? extends Object> objects) throws SSErr{
     
     final List<String> result = new ArrayList<>();
     
@@ -489,14 +496,14 @@ public class SSStrU{
   
   public static List<String> splitDistinctWithoutEmptyAndNull(
     final String toSplit, 
-    final String splitter) throws Exception{
+    final String splitter) throws SSErr{
     
     return distinctWithoutEmptyAndNull(split(toSplit, splitter));
   }
   
   public static List<String> split(
     final String toSplit, 
-    final String splitter) throws Exception{
+    final String splitter) throws SSErr{
     
     if(
       isEmpty(toSplit) ||
@@ -561,7 +568,7 @@ public class SSStrU{
   }
   
   public static List<String> distinctWithoutNull(
-    final List<? extends Object> objects) throws Exception{
+    final List<? extends Object> objects) throws SSErr{
     
     final List<String> result = new ArrayList<>();
     
@@ -583,7 +590,7 @@ public class SSStrU{
   }
   
   public static void distinctWithoutNull2(
-    final List<? extends Object> objects) throws Exception{
+    final List<? extends Object> objects) throws SSErr{
     
     if(objects == null){
       return;

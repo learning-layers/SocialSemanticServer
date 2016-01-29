@@ -32,9 +32,9 @@ import java.util.List;
 
 public interface SSLivingDocServerI {
   
-  public SSUri              livingDocAdd    (final SSLivingDocAddPar      par) throws Exception;
-  public SSUri              livingDocUpdate (final SSLivingDocUpdatePar   par) throws Exception;
-  public SSLivingDocument   livingDocGet    (final SSLivingDocGetPar      par) throws Exception;
-  public List<SSEntity>     livingDocsGet   (final SSLivingDocsGetPar     par) throws Exception;
-  public SSUri              livingDocRemove (final SSLivingDocRemovePar   par) throws Exception;
+  public SSUri              livingDocAdd    (final SSLivingDocAddPar      par) throws SSErr;
+  public SSUri              livingDocUpdate (final SSLivingDocUpdatePar   par) throws SSErr;
+  public SSLivingDocument   livingDocGet    (final SSLivingDocGetPar      par) throws SSErr;
+  public List<SSEntity>     livingDocsGet   (final SSLivingDocsGetPar     par) throws SSErr;
+  public SSUri              livingDocRemove (final SSLivingDocRemovePar   par) throws SSErr;
 }

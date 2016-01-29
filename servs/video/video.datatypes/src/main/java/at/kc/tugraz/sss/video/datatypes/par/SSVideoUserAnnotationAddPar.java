@@ -36,15 +36,15 @@ public class SSVideoUserAnnotationAddPar extends SSServPar{
   public SSLabel             label              = null;
   public SSTextComment       description        = null;
 
-  public void setVideo(final String video) throws Exception{
+  public void setVideo(final String video) throws SSErr{
     this.video = SSUri.get(video);
   }
   
-  public void setLabel(final String label) throws Exception{
+  public void setLabel(final String label) throws SSErr{
     this.label = SSLabel.get(label);
   }
   
-  public void setDescription(final String description) throws Exception{
+  public void setDescription(final String description) throws SSErr{
     this.description = SSTextComment.get(description);
   }
   

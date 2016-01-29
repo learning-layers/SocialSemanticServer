@@ -20,18 +20,19 @@
 */
  package at.kc.tugraz.ss.service.tag.api;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 
 public interface SSTagClientI {
 
-  public SSServRetI tagAdd                       (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI tagsAdd                      (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI tagsRemove                   (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI tagsGet                      (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI tagEntitiesForTagsGet        (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI tagFrequsGet                 (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI tagAdd                       (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI tagsAdd                      (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI tagsRemove                   (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI tagsGet                      (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI tagEntitiesForTagsGet        (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI tagFrequsGet                 (final SSClientE clientType, final SSServPar parA) throws SSErr;
 }
 
 
@@ -40,7 +41,7 @@ public interface SSTagClientI {
 //			SSUri             resource, 
 //			List<SSTagString> tags, 
 //			SSUri             user, 
-//			SSSpaceEnum            space) throws Exception {
+//			SSSpaceEnum            space) throws SSErr {
 //
 //		tagM.addTagArray        (true, resource, tags,     user,  space);
 //		SSUserEventServ.inst().serv().saveUEAddTag (true, user,     resource, tags, space);

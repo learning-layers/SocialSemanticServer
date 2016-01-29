@@ -29,11 +29,11 @@ public class SSMessageGetPar extends SSServPar{
   
   public SSUri   message              = null;
   
-  public void setMessage(final String message) throws Exception{
+  public void setMessage(final String message) throws SSErr{
     this.message = SSUri.get(message);
   }
 
-  public String getMessage() throws Exception{
+  public String getMessage() throws SSErr{
     return SSStrU.removeTrailingSlash(message);
   }
   

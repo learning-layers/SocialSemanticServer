@@ -43,7 +43,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
   public void addUserIfNotExists(
     final SSServPar servPar,
     final SSUri  user,
-    final String authToken) throws Exception{
+    final String authToken) throws SSErr{
     
     try{
       final Map<String, String> inserts    =  new HashMap<>();
@@ -65,7 +65,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
   public void setUSN(
     final SSServPar servPar,
     final String  authToken,
-    final Integer usn) throws Exception{
+    final Integer usn) throws SSErr{
     
     try{
       final Map<String, String> updates    =  new HashMap<>();
@@ -83,7 +83,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
     
   public String getAuthToken(
     final SSServPar servPar,
-    final SSUri user) throws Exception{
+    final SSUri user) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -115,7 +115,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
   public void addNoteIfNotExists(
     final SSServPar servPar,
     final SSUri notebookUri,
-    final SSUri noteUri) throws Exception{
+    final SSUri noteUri) throws SSErr{
     
     try{
       final Map<String, String> inserts    =  new HashMap<>();
@@ -136,7 +136,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
   public void addResourceIfNotExists(
     final SSServPar servPar,
     final SSUri noteUri,
-    final SSUri resourceUri) throws Exception{
+    final SSUri resourceUri) throws SSErr{
     
     try{
       final Map<String, String> inserts    =  new HashMap<>();
@@ -156,7 +156,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
 
   public SSEvernoteResource getResource(
     final SSServPar servPar,
-    final SSUri resourceId) throws Exception{
+    final SSUri resourceId) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -189,7 +189,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
 
   public Integer getUSN(
     final SSServPar servPar,
-    final String authToken) throws Exception{
+    final String authToken) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -220,7 +220,7 @@ public class SSEvernoteSQLFct extends SSDBSQLFctA {
   
   public SSEvernoteNote getNote(
     final SSServPar servPar,
-    final SSUri noteUri) throws Exception{
+    final SSUri noteUri) throws SSErr{
     
     ResultSet resultSet = null;
     

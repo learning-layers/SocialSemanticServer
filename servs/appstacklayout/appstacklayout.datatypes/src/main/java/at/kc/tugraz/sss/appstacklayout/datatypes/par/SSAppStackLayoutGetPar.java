@@ -32,7 +32,7 @@ public class SSAppStackLayoutGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(stack);
   }
 
-  public void setStack(final String stack) throws Exception{
+  public void setStack(final String stack) throws SSErr{
     this.stack = SSUri.get(stack);
   }
   

@@ -33,7 +33,7 @@ public class SSLocationGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(location);
   }
 
-  public void setLocation(final String location) throws Exception{
+  public void setLocation(final String location) throws SSErr{
     this.location = SSUri.get(location);
   }
   

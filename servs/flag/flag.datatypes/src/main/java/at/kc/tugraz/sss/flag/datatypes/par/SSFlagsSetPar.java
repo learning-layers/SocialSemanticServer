@@ -35,19 +35,19 @@ public class SSFlagsSetPar extends SSServPar{
   public Integer       value          = null;
   public Long          endTime        = null;
   
-  public void setEntities(final List<String> entities) throws Exception{
+  public void setEntities(final List<String> entities) throws SSErr{
     this.entities = SSUri.get(entities); 
   }
   
-  public void setTypes(final List<String> types) throws Exception{
+  public void setTypes(final List<String> types) throws SSErr{
     this.types = SSFlagE.get(types);
   }
   
-  public List<String> getEntities() throws Exception{
+  public List<String> getEntities() throws SSErr{
     return SSStrU.removeTrailingSlash(entities);
   }
   
-  public List<String> getTypes() throws Exception{
+  public List<String> getTypes() throws SSErr{
     return SSStrU.toStr(types);
   }
   

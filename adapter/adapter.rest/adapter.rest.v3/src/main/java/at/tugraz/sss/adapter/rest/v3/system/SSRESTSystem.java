@@ -49,7 +49,7 @@ public class SSRESTSystem{
 //      restObj = new SSRESTObject(par);
 //      
 //    }catch(Exception error){
-//      return Response.status(422).build();
+//      return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
 //    }
 //
 //    try{

@@ -83,7 +83,7 @@ public class SSRecommConf extends SSServConfA{
 //  public String          fileNameForOpRecommTagsCollaborativeFilteringOnUserSimilarity    = null;
 //  public String          fileNameForOpRecommTagsCollaborativeFilteringOnEntitySimilarity  = null;
 
-//  public void setDataSetShortName(String dataSetShortName) throws Exception {
+//  public void setDataSetShortName(String dataSetShortName) throws SSErr {
 //    
 //    this.dataSetShortName = dataSetShortName;
 //    

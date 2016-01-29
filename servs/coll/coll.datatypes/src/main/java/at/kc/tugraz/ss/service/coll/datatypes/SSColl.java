@@ -30,13 +30,13 @@ public class SSColl extends SSEntity{
 
   public static SSColl get(
     final SSColl   coll,
-    final SSEntity entity) throws Exception{
+    final SSEntity entity) throws SSErr{
     
     return new SSColl(coll, entity);
   }
   
   public static SSColl get(
-    final SSUri                  id) throws Exception{
+    final SSUri                  id) throws SSErr{
     
     return new SSColl(id);
   }
@@ -45,13 +45,13 @@ public class SSColl extends SSEntity{
   
   protected SSColl(
     final SSColl   coll, 
-    final SSEntity entity) throws Exception{
+    final SSEntity entity) throws SSErr{
     
     super(coll, entity);
   }
   
   protected SSColl(
-    final SSUri                  id) throws Exception{
+    final SSUri                  id) throws SSErr{
     
     super(id, SSEntityE.coll);
   }

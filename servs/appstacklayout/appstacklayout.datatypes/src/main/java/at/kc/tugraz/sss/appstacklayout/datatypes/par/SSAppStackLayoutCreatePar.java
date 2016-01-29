@@ -33,15 +33,15 @@ public class SSAppStackLayoutCreatePar extends SSServPar{
   public SSLabel             label            = null;
   public SSTextComment       description      = null;
 
-  public void setApp(final String app)  throws Exception{
+  public void setApp(final String app)  throws SSErr{
     this.app = SSUri.get(app);
   }
 
-  public void setLabel(final String label)  throws Exception{
+  public void setLabel(final String label)  throws SSErr{
     this.label = SSLabel.get(label);
   }
 
-  public void setDescription(final String description) throws Exception{
+  public void setDescription(final String description) throws SSErr{
     this.description = SSTextComment.get(description);
   }
   

@@ -20,26 +20,25 @@
 */
 package at.kc.tugraz.ss.recomm.datatypes.ret;
 
-
 import at.kc.tugraz.ss.recomm.datatypes.SSUserLikelihood;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SSRecommUsersRet extends SSServRetI{
 
   public List<SSUserLikelihood> users = new ArrayList<>();
 
   public static SSRecommUsersRet get(
-    final List<SSUserLikelihood> usersWithLikelihoods) throws Exception{
+    final List<SSUserLikelihood> usersWithLikelihoods) throws SSErr{
     
     return new SSRecommUsersRet(usersWithLikelihoods);
   }
   
   private SSRecommUsersRet(
-    final List<SSUserLikelihood> usersWithLikelihood) throws Exception{
+    final List<SSUserLikelihood> usersWithLikelihood) throws SSErr{
     
     super(SSVarNames.recommUsers);
     

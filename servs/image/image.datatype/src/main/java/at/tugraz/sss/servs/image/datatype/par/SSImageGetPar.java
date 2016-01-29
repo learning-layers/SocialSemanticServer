@@ -33,7 +33,7 @@ public class SSImageGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(image);
   }
 
-  public void setImage(final String image) throws Exception{
+  public void setImage(final String image) throws SSErr{
     this.image = SSUri.get(image);
   }
 

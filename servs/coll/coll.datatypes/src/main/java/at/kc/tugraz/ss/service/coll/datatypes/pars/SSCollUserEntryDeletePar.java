@@ -30,11 +30,11 @@ public class SSCollUserEntryDeletePar extends SSServPar{
   public SSUri       coll     = null;
   public SSUri       entry    = null;
   
-  public void setColl(final String coll) throws Exception{
+  public void setColl(final String coll) throws SSErr{
     this.coll = SSUri.get(coll);
   }
 
-  public void setEntry(final String entry) throws Exception{
+  public void setEntry(final String entry) throws SSErr{
     this.entry = SSUri.get(entry);
   }
      

@@ -32,7 +32,7 @@ public class SSCollUserRootAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(forUser);
   }
 
-  public void setForUser(String forUser) throws Exception{
+  public void setForUser(String forUser) throws SSErr{
     this.forUser = SSUri.get(forUser);
   }
 

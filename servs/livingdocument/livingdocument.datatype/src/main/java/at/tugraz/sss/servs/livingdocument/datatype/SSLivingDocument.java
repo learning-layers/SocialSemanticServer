@@ -30,13 +30,13 @@ public class SSLivingDocument extends SSEntity{
 
   public static SSLivingDocument get(
     final SSLivingDocument livingDocument, 
-    final SSEntity         entity) throws Exception{
+    final SSEntity         entity) throws SSErr{
     
     return new SSLivingDocument(livingDocument, entity);
   }
    
   public static SSLivingDocument get(
-    final SSUri           id) throws Exception{
+    final SSUri           id) throws SSErr{
     
     return new SSLivingDocument(id);
   }
@@ -44,14 +44,14 @@ public class SSLivingDocument extends SSEntity{
   public SSLivingDocument(){}
   
   protected SSLivingDocument(
-    final SSUri id) throws Exception{
+    final SSUri id) throws SSErr{
     
     super(id, SSEntityE.livingDoc);
   }
   
   protected SSLivingDocument(
     final SSLivingDocument   livingDocument,
-    final SSEntity           entity) throws Exception{
+    final SSEntity           entity) throws SSErr{
     
     super(livingDocument, entity);
   }

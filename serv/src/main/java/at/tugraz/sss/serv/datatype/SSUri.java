@@ -55,7 +55,7 @@ public class SSUri extends SSEntityA{
       URLEncoder.encode   (string, SSEncodingU.utf8.toString());
       
       if(string.length() > 250){
-        SSLogU.warn("uri too long (> 250 chars) to be stored in sss");
+        SSLogU.warn("uri too long (> 250 chars) to be stored in sss", null);
         return false;
       }
       
@@ -276,7 +276,7 @@ public class SSUri extends SSEntityA{
 }
 
 //public static List<SSUri> distinctWithoutNull(
-//    final List<SSUri> uris) throws Exception{
+//    final List<SSUri> uris) throws SSErr{
 //
 //    try{
 //      
@@ -313,7 +313,7 @@ public class SSUri extends SSEntityA{
 //    }
 //  }
 
-//  public static List<SSUri> get(final Collection<String> uris) throws Exception{
+//  public static List<SSUri> get(final Collection<String> uris) throws SSErr{
 //    
 //    List<SSUri> result = new ArrayList<>();
 //    

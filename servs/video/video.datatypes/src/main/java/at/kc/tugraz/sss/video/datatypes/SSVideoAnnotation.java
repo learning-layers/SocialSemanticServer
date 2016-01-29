@@ -39,7 +39,7 @@ public class SSVideoAnnotation extends SSEntity{
   
   public static SSVideoAnnotation get(
     final SSVideoAnnotation     annotation,
-    final SSEntity              entity) throws Exception{
+    final SSEntity              entity) throws SSErr{
     
     return new SSVideoAnnotation(annotation, entity);
   }
@@ -48,7 +48,7 @@ public class SSVideoAnnotation extends SSEntity{
     final SSUri           id,
     final Long            timePoint,
     final Float           x, 
-    final Float           y) throws Exception{
+    final Float           y) throws SSErr{
     
     return new SSVideoAnnotation(
       id,
@@ -61,7 +61,7 @@ public class SSVideoAnnotation extends SSEntity{
   
   protected SSVideoAnnotation(
     final SSVideoAnnotation   annotation,
-    final SSEntity            entity) throws Exception{
+    final SSEntity            entity) throws SSErr{
     
     super(annotation, entity);
     
@@ -74,7 +74,7 @@ public class SSVideoAnnotation extends SSEntity{
     final SSUri           id,
     final Long            timePoint,
     final Float           x, 
-    final Float           y) throws Exception{
+    final Float           y) throws SSErr{
     
     super(id, SSEntityE.videoAnnotation);
     

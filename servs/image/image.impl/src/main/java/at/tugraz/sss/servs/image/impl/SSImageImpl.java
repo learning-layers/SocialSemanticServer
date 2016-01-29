@@ -415,7 +415,7 @@ implements
             try{
               SSFileU.delFile(conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(thumb.file.id));
             }catch(Exception error){
-              SSLogU.warn("couldnt remove thumbnail files from filesys");
+              SSLogU.warn("couldnt remove thumbnail files from filesys", error);
             }
           }
         }
@@ -861,7 +861,7 @@ implements
             return thumbFileURI;
             
           }catch(Exception error){
-            SSLogU.warn("thumb creation from txt failed");
+            SSLogU.warn("thumb creation from txt failed", error);
             throw error;
           }
         }

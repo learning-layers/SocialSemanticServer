@@ -20,18 +20,19 @@
 */
  package at.kc.tugraz.ss.service.disc.api;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 
 public interface SSDiscClientI {
   
-  public SSServRetI discRemove            (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI discGet               (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI discEntryAdd          (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI discsGet              (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI discEntryAccept       (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI discTargetsAdd        (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI discUpdate            (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI discEntryUpdate       (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI discRemove            (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI discGet               (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI discEntryAdd          (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI discsGet              (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI discEntryAccept       (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI discTargetsAdd        (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI discUpdate            (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI discEntryUpdate       (final SSClientE clientType, final SSServPar parA) throws SSErr;
 }

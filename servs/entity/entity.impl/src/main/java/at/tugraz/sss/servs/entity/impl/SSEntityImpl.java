@@ -553,7 +553,7 @@ implements
       try{
         page = pages.pages.get(par.pageNumber - 1);
       }catch(Exception error){
-        throw SSErr.get(SSErrE.queryPageUnavailable);
+        throw SSErr.get(SSErrE.queryPageInvalid);
       }
       
       return SSEntitiesAccessibleGetRet.get(
@@ -2565,7 +2565,7 @@ implements
           sql.isSystemCircle(par, par.circle) &&
           !SSStrU.equals(par.circle, pubCircleUri)){
           
-          SSLogU.warn(SSErrE.userNotAllowToAccessSystemCircle);
+          SSLogU.warn(SSErrE.userNotAllowToAccessSystemCircle, null);
           return null;
         }
       }
@@ -2714,7 +2714,7 @@ implements
         }
         
         if(par.withSystemCircles){
-          SSLogU.warn(SSErrE.userNotAllowToAccessSystemCircle);
+          SSLogU.warn(SSErrE.userNotAllowToAccessSystemCircle, null);
           return circles;
         }
         
@@ -3181,7 +3181,7 @@ implements
   public boolean isUserInCircle(
     final SSServPar servPar,
     final SSUri          user,
-    final SSUri          circle) throws Exception{
+    final SSUri          circle) throws SSErr{
     
     try{
       final List<SSEntity> usersForCircle = sql.getUsersForCircle(servPar, circle);
@@ -3198,7 +3198,7 @@ implements
     final SSUri          circleUri,
     final SSCircleE      circleType,
     final boolean        isSystemCircle,
-    final SSUri          userToAdd) throws Exception{
+    final SSUri          userToAdd) throws SSErr{
     
     try{
       sql.addCircle(
@@ -3219,7 +3219,7 @@ implements
   
   public void copyCircleToNewCircle(
     final SSEntityCopyPar par,
-    final SSCircle  circle) throws Exception{
+    final SSCircle  circle) throws SSErr{
     
     try{
       
@@ -3375,7 +3375,7 @@ implements
   
   public void copyCircleToExistingCircle(
     final SSEntityCopyPar           par,
-    final SSEntity                  circle) throws Exception{
+    final SSEntity                  circle) throws SSErr{
     
     try{
       
@@ -3507,7 +3507,7 @@ implements
     final SSUri           user,
     final List<String>    tags,
     final List<SSUri>     entities,
-    final SSUri           circleAsSpace) throws Exception{
+    final SSUri           circleAsSpace) throws SSErr{
     
     try{
       
@@ -3537,7 +3537,7 @@ implements
     final SSUri           user,
     final List<String>    categories,
     final List<SSUri>     entities,
-    final SSUri           circleAsSpace) throws Exception{
+    final SSUri           circleAsSpace) throws SSErr{
     
     try{
       
@@ -3567,7 +3567,7 @@ implements
 }
 
 //  public void checkWhetherCircleIsGroupCircle(
-//    final SSCircleE circleType) throws Exception{
+//    final SSCircleE circleType) throws SSErr{
 //
 //    try{
 //
@@ -3582,7 +3582,7 @@ implements
 
 //    public boolean hasCircleOfTypeRight(
 //    final SSUri          circle,
-//    final SSCircleRightE accessRight) throws Exception{
+//    final SSCircleRightE accessRight) throws SSErr{
 //
 //    try{
 //      return doesCircleOfTypeHaveRight(sql.getTypeForCircle(circle), accessRight);
@@ -3595,7 +3595,7 @@ implements
 //  public boolean doesUserHaveRightInAnyCircleOfEntity(
 //    final SSUri          user,
 //    final SSUri          entity,
-//    final SSCircleRightE accessRight) throws Exception{
+//    final SSCircleRightE accessRight) throws SSErr{
 //
 //    try{
 //      final List<SSCircleE> circleTypes = sql.getCircleTypesCommonForUserAndEntity(user, entity);
@@ -3616,7 +3616,7 @@ implements
 
 //  private boolean doesCircleOfTypeHaveRight(
 //    final SSCircleE      circleType,
-//    final SSCircleRightE accessRight) throws Exception{
+//    final SSCircleRightE accessRight) throws SSErr{
 //
 //    try{
 //      switch(circleType){
@@ -3651,7 +3651,7 @@ implements
 
 //  public boolean canUserForEntityType(
 //    final SSUri          user,
-//    final SSEntity       entity) throws Exception{
+//    final SSEntity       entity) throws SSErr{
 //
 //    try{
 //      switch(entity.type){
@@ -3822,7 +3822,7 @@ implements
 
 //  public static boolean canUserRead(
 //    final SSUri user,
-//    final SSUri entityURI) throws Exception{
+//    final SSUri entityURI) throws SSErr{
 //
 //    try{
 //      ((SSEntityServerI)SSServReg.getServ(SSEntityServerI.class)).circleCanAccess(
@@ -3845,7 +3845,7 @@ implements
 //
 //  public static boolean canUserRead(
 //    final SSUri       user,
-//    final List<SSUri> entityURIs) throws Exception{
+//    final List<SSUri> entityURIs) throws SSErr{
 //
 //    try{
 //
@@ -3872,7 +3872,7 @@ implements
 
 //  public static boolean canUserAll(
 //    final SSUri   user,
-//    final SSUri   entityURI) throws Exception{
+//    final SSUri   entityURI) throws SSErr{
 //
 //   try{
 //      ((SSEntityServerI)SSServReg.getServ(SSEntityServerI.class)).circleCanAccess(
@@ -3895,7 +3895,7 @@ implements
 
 //  public static void canUserReadEntity(
 //    final SSUri user,
-//    final SSUri entityURI) throws Exception{
+//    final SSUri entityURI) throws SSErr{
 //
 //    ((SSEntityServerI)SSServReg.getServ(SSEntityServerI.class)).circleCanAccess(
 //      new SSCircleCanAccessPar(
@@ -3908,7 +3908,7 @@ implements
 //
 //  public static void canUserReadEntities(
 //    final SSUri       user,
-//    final List<SSUri> entityURIs) throws Exception{
+//    final List<SSUri> entityURIs) throws SSErr{
 //
 //    for(SSUri entityURI : entityURIs){
 //
@@ -3924,7 +3924,7 @@ implements
 
 //  public static void canUserAllEntity(
 //    final SSUri   user,
-//    final SSUri   entityURI) throws Exception{
+//    final SSUri   entityURI) throws SSErr{
 //
 //    ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circleCanAccess(
 //      new SSCircleCanAccessPar(

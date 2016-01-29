@@ -89,7 +89,7 @@ public interface SSDBSQLI{
   
   public void delete(
     final SSServPar servPar,
-    final String table) throws Exception;
+    final String table) throws SSErr;
   
   public void delete(
     final SSServPar servPar,
@@ -130,9 +130,9 @@ public interface SSDBSQLI{
     final boolean    shouldCommit) throws SSErr;
 }
 
-//  public void       insert         (String tableName, Map<String, String> parNamesWithValues)  throws Exception;
-//  public void       insertIgnore               (String tableName, Map<String, String> parNamesAndValues)   throws Exception;
-//  public ResultSet  query                      (String query)                                                                                     throws Exception;
+//  public void       insert         (String tableName, Map<String, String> parNamesWithValues)  throws SSErr;
+//  public void       insertIgnore               (String tableName, Map<String, String> parNamesAndValues)   throws SSErr;
+//  public ResultSet  query                      (String query)                                                                                     throws SSErr;
 
 
     
@@ -140,20 +140,20 @@ public interface SSDBSQLI{
 //    final List<String>        tables, 
 //    final List<String>        columns, 
 //    final Map<String, String> wheres, 
-//    final List<String>        tableCons) throws Exception;
+//    final List<String>        tableCons) throws SSErr;
 
 //  public ResultSet select(
-//    final String tableName) throws Exception;
+//    final String tableName) throws SSErr;
 
 //  public ResultSet select(
 //    final String              table, 
-//    final Map<String, String> wheres) throws Exception;
+//    final Map<String, String> wheres) throws SSErr;
 
 //  public ResultSet select(
 //    final String              tables, 
 //    final Map<String, String> wheres, 
 //    final String              orderByColumn, 
-//    final String              sortType) throws Exception;
+//    final String              sortType) throws SSErr;
 
 
 //  public ResultSet select(
@@ -162,7 +162,7 @@ public interface SSDBSQLI{
 //    final Map<String, String> wheres, 
 //    final String              tableCon,
 //    final String              orderByColumn,
-//    final String              sortType) throws Exception;
+//    final String              sortType) throws SSErr;
 
 
 
@@ -177,7 +177,7 @@ public interface SSDBSQLI{
 //    final String                               localSearchOp,
 //    final String                               orderByColumn,
 //    final String                               sortType, 
-//    final Integer                              limit) throws Exception;
+//    final Integer                              limit) throws SSErr;
   
 //  public ResultSet selectWithNumerics(
 //    final List<String>                                           tables,
@@ -187,4 +187,4 @@ public interface SSDBSQLI{
 //    final List<String>                                           tableCons,
 //    final String                                                 orderByColumn, 
 //    final String                                                 sortType, 
-//    final Integer                                                limit) throws Exception;
+//    final Integer                                                limit) throws SSErr;

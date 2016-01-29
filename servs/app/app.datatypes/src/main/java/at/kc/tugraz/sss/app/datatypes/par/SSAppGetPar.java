@@ -32,7 +32,7 @@ public class SSAppGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(app);
   }
 
-  public void setApp(final String app) throws Exception{
+  public void setApp(final String app) throws SSErr{
     this.app = SSUri.get(app);
   }
   

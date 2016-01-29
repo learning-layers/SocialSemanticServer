@@ -23,6 +23,7 @@ package at.tugraz.sss.servs.kcprojwiki.impl;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiVorgaengePar;
 import at.tugraz.sss.serv.conf.api.SSConfA;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
@@ -53,7 +54,7 @@ implements
   }
   
   @Override
-  public void kcprojwikiImport(final SSKCProjWikiImportPar par) throws Exception{
+  public void kcprojwikiImport(final SSKCProjWikiImportPar par) throws SSErr{
     
     try{
       
@@ -104,9 +105,9 @@ implements
       }catch(Exception error){
         
         if(vorgang != null){
-          SSLogU.warn("import for vorgang (" + vorgang.title + ", " + vorgang.vorgangNumber + ") failed");
+          SSLogU.warn("import for vorgang (" + vorgang.title + ", " + vorgang.vorgangNumber + ") failed", error);
         }else{
-          SSLogU.warn("import for unknown vorgang failed");
+          SSLogU.warn("import for unknown vorgang failed", error);
         }
       }
       

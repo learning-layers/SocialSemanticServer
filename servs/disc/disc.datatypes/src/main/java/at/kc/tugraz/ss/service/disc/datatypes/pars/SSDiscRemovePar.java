@@ -29,7 +29,7 @@ public class SSDiscRemovePar extends SSServPar{
   
   public SSUri disc = null;
   
-  public void setDisc(final String disc) throws Exception{
+  public void setDisc(final String disc) throws SSErr{
     this.disc = SSUri.get(disc);
   }
   

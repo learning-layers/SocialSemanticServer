@@ -44,7 +44,7 @@ public class SSFriendSQLFct extends SSDBSQLFctA{
   public void addFriend(
     final SSServPar servPar,
     final SSUri         user,
-    final SSUri         friend) throws Exception{
+    final SSUri         friend) throws SSErr{
     
     try{
       final Map<String, String> inserts     = new HashMap<>();
@@ -76,7 +76,7 @@ public class SSFriendSQLFct extends SSDBSQLFctA{
 
   public SSFriend getFriend(
     final SSServPar servPar,
-    final SSUri   friend) throws Exception{
+    final SSUri   friend) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -112,7 +112,7 @@ public class SSFriendSQLFct extends SSDBSQLFctA{
   
   public List<SSUri> getFriends(
     final SSServPar servPar,
-    final SSUri   user) throws Exception{
+    final SSUri   user) throws SSErr{
     
     ResultSet resultSet = null;
     

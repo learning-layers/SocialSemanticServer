@@ -69,7 +69,7 @@ public class SSTagServ extends SSServContainerI{
   }
 
   @Override
-  public SSServContainerI regServ() throws Exception{
+  public SSServContainerI regServ() throws SSErr{
     
     this.conf = SSCoreConf.instGet().getTag();
     
@@ -85,13 +85,13 @@ public class SSTagServ extends SSServContainerI{
   }
   
   @Override
-  public void initServ() throws Exception{
+  public void initServ() throws SSErr{
   }
   
   @Override
   public SSCoreConfA getConfForCloudDeployment(
     final SSCoreConfA coreConfA, 
-    final List<Class> configuredServs) throws Exception{
+    final List<Class> configuredServs) throws SSErr{
    
     //TODO dtheiler: check whether to deploy service calls itself here once in getConfForCloudDeployment
 //    final SSCoreConf coreConf = (SSCoreConf) getConfForCloudDeployment(SSTagServI.class, coreConfA, configuredServs);
@@ -104,7 +104,7 @@ public class SSTagServ extends SSServContainerI{
   }
 
   @Override
-  public void schedule() throws Exception{
+  public void schedule() throws SSErr{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

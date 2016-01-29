@@ -31,7 +31,7 @@ public class SSRatingSetPar extends SSServPar{
   public Integer   value            = -1;
   public boolean   allowToRateAgain = false;
   
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity);
   }
   

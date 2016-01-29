@@ -53,7 +53,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
   public boolean hasUserRatedEntity(
     final SSServPar servPar,
     final SSUri   userUri, 
-    final SSUri   entityUri) throws Exception{
+    final SSUri   entityUri) throws SSErr{
     
     if(SSObjU.isNull(userUri, entityUri)){
       throw SSErr.get(SSErrE.parameterMissing);
@@ -92,7 +92,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
   
   public List<SSUri> getEntitiesRatedByUser(
     final SSServPar servPar,
-    final SSUri user) throws Exception{
+    final SSUri user) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -124,7 +124,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
   public void deleteRatingAss(
     final SSServPar servPar,
     final SSUri user,
-    final SSUri entityUri) throws Exception{
+    final SSUri entityUri) throws SSErr{
     
     try{
       final Map<String, String> wheres = new HashMap<>();
@@ -153,7 +153,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
     final SSUri   userUri, 
     final SSUri   entityUri, 
     final Integer ratingValue, 
-    final boolean userRatedEntityBefore) throws Exception{
+    final boolean userRatedEntityBefore) throws SSErr{
    
     if(userRatedEntityBefore){
       
@@ -182,7 +182,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
   public Integer getUserRating(
     final SSServPar servPar,
     final SSUri userUri, 
-    final SSUri entityUri) throws Exception{
+    final SSUri entityUri) throws SSErr{
     
     if(SSObjU.isNull(userUri, entityUri)){
       throw SSErr.get(SSErrE.parameterMissing);
@@ -225,7 +225,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
 
   public SSRatingOverall getOverallRating(
     final SSServPar servPar,
-    final SSUri entityUri) throws Exception{
+    final SSUri entityUri) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -269,7 +269,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
   public List<SSEntity> getRatingAsss(
     final SSServPar servPar,
     final List<SSUri>     users,
-    final List<SSUri>     entities) throws Exception{
+    final List<SSUri>     entities) throws SSErr{
     
     ResultSet resultSet = null;
     

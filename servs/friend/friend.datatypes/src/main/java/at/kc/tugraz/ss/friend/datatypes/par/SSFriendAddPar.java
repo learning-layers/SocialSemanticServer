@@ -29,7 +29,7 @@ public class SSFriendAddPar extends SSServPar{
   
   public SSUri friend = null;
 
-  public void setFriend(final String friend) throws Exception{
+  public void setFriend(final String friend) throws SSErr{
     this.friend = SSUri.get(friend);
   }
   

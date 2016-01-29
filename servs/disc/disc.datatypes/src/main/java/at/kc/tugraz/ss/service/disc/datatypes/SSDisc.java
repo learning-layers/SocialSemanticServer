@@ -35,7 +35,7 @@ public class SSDisc extends SSEntity {
   public static SSDisc get(
     final SSUri                  id,
     final SSEntityE              type,
-    final List<SSEntity>         targets) throws Exception{
+    final List<SSEntity>         targets) throws SSErr{
     
     return new SSDisc(
       id, 
@@ -45,7 +45,7 @@ public class SSDisc extends SSEntity {
   
   public static SSDisc get(
     final SSDisc              disc,
-    final SSEntity            entity) throws Exception{
+    final SSEntity            entity) throws SSErr{
     
     return new SSDisc(
       disc,
@@ -56,7 +56,7 @@ public class SSDisc extends SSEntity {
      
   protected SSDisc(
     final SSDisc              disc,
-    final SSEntity            entity) throws Exception{
+    final SSEntity            entity) throws SSErr{
     
      super(disc, entity);
      
@@ -70,7 +70,7 @@ public class SSDisc extends SSEntity {
   protected SSDisc(
     final SSUri                  id,
     final SSEntityE              type,
-    final List<SSEntity>         targets) throws Exception{
+    final List<SSEntity>         targets) throws SSErr{
     
     super(id, type);
     

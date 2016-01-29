@@ -32,7 +32,7 @@ public class SSTagUserRelationGathererFct{
   
   public static void addUserForEntity(
     final SSEntity                 tagEntity,
-    final Map<String, List<SSUri>> usersPerEntity) throws Exception{
+    final Map<String, List<SSUri>> usersPerEntity) throws SSErr{
 
     final String            entityStr = SSStrU.toStr(((SSTag)tagEntity).entity);
     final List<SSUri>       usersForEntity;
@@ -56,7 +56,7 @@ public class SSTagUserRelationGathererFct{
   
   public static void addUserForTag(
     final SSEntity                 tagEntity,
-    final Map<String, List<SSUri>> usersPerTag) throws Exception{
+    final Map<String, List<SSUri>> usersPerTag) throws SSErr{
     
     final String            tagLabel = SSStrU.toStr(((SSTag)tagEntity).label);
     final List<SSUri>       usersForTag;
@@ -80,7 +80,7 @@ public class SSTagUserRelationGathererFct{
 
   public static void addUserRelations(
     final Map<String, List<SSUri>> userRelations, 
-    final Map<String, List<SSUri>> usersPerKey) throws Exception{
+    final Map<String, List<SSUri>> usersPerKey) throws SSErr{
     
     String userStr;
     

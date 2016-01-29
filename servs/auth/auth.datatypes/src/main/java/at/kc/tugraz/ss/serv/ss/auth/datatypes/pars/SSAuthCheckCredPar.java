@@ -29,7 +29,7 @@ public class SSAuthCheckCredPar extends SSServPar{
   public SSLabel label    = null;
   public String  password = null;
   
-  public void setLabel(String label) throws Exception{
+  public void setLabel(String label) throws SSErr{
     this.label = SSLabel.get(label);
   }
   

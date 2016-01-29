@@ -20,12 +20,13 @@
 */
  package at.kc.tugraz.ss.serv.auth.api;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 
 public interface SSAuthClientI {
   
-  public SSServRetI authCheckCred    (final SSClientE clientType, final SSServPar par) throws Exception;
-  public SSServRetI authRegisterUser (final SSClientE clientType, final SSServPar par) throws Exception;
+  public SSServRetI authCheckCred    (final SSClientE clientType, final SSServPar par) throws SSErr;
+  public SSServRetI authRegisterUser (final SSClientE clientType, final SSServPar par) throws SSErr;
 }

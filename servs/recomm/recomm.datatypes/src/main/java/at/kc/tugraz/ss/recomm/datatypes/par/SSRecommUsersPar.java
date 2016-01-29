@@ -36,11 +36,11 @@ public class SSRecommUsersPar extends SSServPar{
   public Integer       maxUsers             = 10;
   public boolean       ignoreAccessRights   = false;
 
-  public void setForUser(final String forUser) throws Exception{
+  public void setForUser(final String forUser) throws SSErr{
     this.forUser = SSUri.get(forUser);
   }
 
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
     this.entity =  SSUri.get(entity);
   }
   

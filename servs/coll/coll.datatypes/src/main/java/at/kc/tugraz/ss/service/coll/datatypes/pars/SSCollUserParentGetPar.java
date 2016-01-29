@@ -29,7 +29,7 @@ public class SSCollUserParentGetPar extends SSServPar{
 
   public SSUri   coll                 = null;
   
-  public void setColl(final String coll) throws Exception{
+  public void setColl(final String coll) throws SSErr{
     this.coll = SSUri.get(coll);
   }
   

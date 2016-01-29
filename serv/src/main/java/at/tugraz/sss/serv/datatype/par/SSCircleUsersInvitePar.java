@@ -36,11 +36,11 @@ public class SSCircleUsersInvitePar extends SSServPar{
   public SSUri                 circle               = null;
   public List<String>          emails               = new ArrayList<>();
 
-  public String getCircle() throws Exception{
+  public String getCircle() throws SSErr{
     return SSStrU.removeTrailingSlash(circle);
   }
   
-  public void setCircle(final String circle) throws Exception{
+  public void setCircle(final String circle) throws SSErr{
     this.circle = SSUri.get(circle);
   }
   
@@ -52,7 +52,7 @@ public class SSCircleUsersInvitePar extends SSServPar{
     final SSUri          circle,
     final List<String>   emails,
     final boolean        withUserRestriction,
-    final boolean        shouldCommit) throws Exception{
+    final boolean        shouldCommit) throws SSErr{
     
     super(SSVarNames.circleUsersInvite, null, user, servPar.sqlCon);
     

@@ -36,7 +36,7 @@ public class SSLearnEpVersionsGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(learnEp);
   }
 
-  public void setLearnEp(final String learnEp) throws Exception{
+  public void setLearnEp(final String learnEp) throws SSErr{
     this.learnEp = SSUri.get(learnEp);
   }
 
@@ -44,7 +44,7 @@ public class SSLearnEpVersionsGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(learnEpVersions);
   }
 
-  public void setLearnEpVersions(final List<String> learnEpVersions) throws Exception {
+  public void setLearnEpVersions(final List<String> learnEpVersions) throws SSErr {
     this.learnEpVersions = SSUri.get(learnEpVersions);
   }
   

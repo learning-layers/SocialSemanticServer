@@ -20,6 +20,10 @@
  */
 package at.tugraz.sss.adapter.socket.v3;
 
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
+
 public enum SSServOpE{
 
   //kcprojwiki
@@ -316,12 +320,13 @@ public enum SSServOpE{
   ocdGetCovers,
   ocdDeleteCover;
   
-  public static SSServOpE get(final String value) throws Exception{
+  public static SSServOpE get(final String value) throws SSErr{
     
     try{
       return SSServOpE.valueOf(value);
     }catch(Exception error){
-      throw new Exception("sss serv op '" + value + "' not defined: please add your op in SSServOpE");
+      SSServErrReg.regErrThrow(SSErrE.servInvalid);
+      return null;
     }
   }
 }

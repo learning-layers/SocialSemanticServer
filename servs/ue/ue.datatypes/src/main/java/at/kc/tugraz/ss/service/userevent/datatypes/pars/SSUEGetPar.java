@@ -35,7 +35,7 @@ public class SSUEGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(userEvent);
   }
 
-  public void setUserEvent(final String userEvent) throws Exception{
+  public void setUserEvent(final String userEvent) throws SSErr{
     this.userEvent = SSUri.get(userEvent);
   }
   

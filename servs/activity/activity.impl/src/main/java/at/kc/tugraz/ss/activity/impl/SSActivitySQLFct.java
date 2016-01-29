@@ -54,7 +54,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
     final SSServPar servPar,
     final SSUri               activity,
     final SSActivityContentE  contentType,
-    final SSActivityContent   content) throws Exception{
+    final SSActivityContent   content) throws SSErr{
     
     try{
       
@@ -73,7 +73,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
   
   public List<SSActivityContent> getActivityContents(
     final SSServPar servPar,
-    final SSUri activity) throws Exception{
+    final SSUri activity) throws SSErr{
     
     ResultSet resultSet = null;
       
@@ -110,7 +110,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
     final SSUri               entity, 
     final List<SSUri>         users, 
     final List<SSUri>         entityUris, 
-    final List<SSTextComment> textComments) throws Exception{
+    final List<SSTextComment> textComments) throws SSErr{
     
     try{
       
@@ -180,7 +180,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
     final Long              endTime,
     final boolean           sortByTime,
     final Integer           limit,
-    final boolean           includeOnlyLastActivities) throws Exception{
+    final boolean           includeOnlyLastActivities) throws SSErr{
     
     ResultSet resultSet = null;
       
@@ -341,7 +341,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
   
   public List<SSUri> getActivityUsers(
     final SSServPar servPar,
-    final SSUri activity) throws Exception{
+    final SSUri activity) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -383,7 +383,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
   
   public List<SSUri> getActivityEntities(
     final SSServPar servPar,
-    final SSUri activity) throws Exception{
+    final SSUri activity) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -425,7 +425,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
 
   public SSActivity getActivity(
     final SSServPar servPar,
-    final SSUri activity) throws Exception{
+    final SSUri activity) throws SSErr{
    
     ResultSet resultSet = null;
       

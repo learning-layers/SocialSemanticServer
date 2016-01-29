@@ -4,6 +4,8 @@ import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,16 +28,16 @@ public abstract class SSServContainerI {
     this.servImplServerInteraceClass = servImplServerInteraceClass;
   }
   
-  public    abstract SSCoreConfA      getConfForCloudDeployment (final SSCoreConfA coreConfA, final List<Class> configuredServs) throws Exception;
-  public    abstract void             initServ                  () throws Exception;
-  public    abstract void             schedule                  () throws Exception;
-  public    abstract SSServContainerI regServ                   () throws Exception;
+  public    abstract SSCoreConfA      getConfForCloudDeployment (final SSCoreConfA coreConfA, final List<Class> configuredServs) throws SSErr;
+  public    abstract void             initServ                  () throws SSErr;
+  public    abstract void             schedule                  () throws SSErr;
+  public    abstract SSServContainerI regServ                   () throws SSErr;
   public    abstract SSServImplA      getServImpl               () throws SSErr;
   
   protected SSCoreConfA getConfForCloudDeployment(
     final Class       servI,
     final SSCoreConfA coreConf,
-    final List<Class> configuredServs) throws Exception{
+    final List<Class> configuredServs) throws SSErr{
     
     if(configuredServs.contains(servI)){
       return coreConf;
@@ -52,10 +54,11 @@ public abstract class SSServContainerI {
 //      }
 //    }
     
-    throw new Exception("service not registered");
+    SSServErrReg.regErrThrow(SSErrE.servInvalid);
+    return null;
   }
   
-  public List<String> publishClientOps() throws Exception{
+  public List<String> publishClientOps() throws SSErr{
     
     final List<String> clientOps = new ArrayList<>();
     

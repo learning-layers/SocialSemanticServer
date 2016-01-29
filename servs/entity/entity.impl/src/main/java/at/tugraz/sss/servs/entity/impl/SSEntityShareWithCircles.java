@@ -47,7 +47,7 @@ public class SSEntityShareWithCircles {
     final SSUri       user,
     final SSEntity    entity,
     final List<SSUri> circles,
-    final boolean     withUserRestriction) throws Exception{
+    final boolean     withUserRestriction) throws SSErr{
     
     try{
       

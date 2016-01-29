@@ -429,7 +429,7 @@ implements
       try{
         page = pages.pages.get(par.pageNumber - 1);
       }catch(Exception error){
-        throw SSErr.get(SSErrE.queryPageUnavailable);
+        throw SSErr.get(SSErrE.queryPageInvalid);
       }
       
       return SSSearchRet.get(
@@ -477,7 +477,7 @@ implements
       switch(error.code){
         
         default:{
-          SSLogU.warn(error.code);
+          SSLogU.warn(error.code, error);
           return new ArrayList<>();
         }
       }
@@ -647,7 +647,7 @@ implements
       switch(error.code){
         
         default:{
-          SSLogU.warn(error.code);
+          SSLogU.warn(error.code, error);
           return new ArrayList<>();
         }
       }
@@ -677,7 +677,7 @@ implements
       switch(error.code){
         
         default:{
-          SSLogU.warn(error.code);
+          SSLogU.warn(error.code, error);
           return new ArrayList<>();
         }
       }
@@ -717,7 +717,7 @@ implements
       switch(error.code){
         
         default:{
-          SSLogU.warn(error.code);
+          SSLogU.warn(error.code, error);
           return new ArrayList<>();
         }
       }

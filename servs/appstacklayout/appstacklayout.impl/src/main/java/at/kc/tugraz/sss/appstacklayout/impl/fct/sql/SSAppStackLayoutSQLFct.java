@@ -47,7 +47,7 @@ public class SSAppStackLayoutSQLFct extends SSCoreSQL{
   
   public SSAppStackLayout getAppStackLayout(
     final SSServPar servPar,
-    final SSUri stack) throws Exception{
+    final SSUri stack) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -84,7 +84,7 @@ public class SSAppStackLayoutSQLFct extends SSCoreSQL{
   }
   
   public List<SSUri> getStackURIs(
-    final SSServPar servPar) throws Exception{
+    final SSServPar servPar) throws SSErr{
     
     ResultSet resultSet = null;
       
@@ -109,7 +109,7 @@ public class SSAppStackLayoutSQLFct extends SSCoreSQL{
   public void createAppStackLayout(
     final SSServPar servPar,
     final SSUri         stack,
-    final SSUri         app) throws Exception{
+    final SSUri         app) throws SSErr{
     
      try{
       final Map<String, String> inserts    = new HashMap<>();
@@ -130,7 +130,7 @@ public class SSAppStackLayoutSQLFct extends SSCoreSQL{
 
   public void deleteStack(
     final SSServPar servPar,
-    final SSUri stack) throws Exception{
+    final SSUri stack) throws SSErr{
     
     try{
       final Map<String, String> wheres = new HashMap<>();
@@ -147,7 +147,7 @@ public class SSAppStackLayoutSQLFct extends SSCoreSQL{
   public void updateAppStackLayout(
     final SSServPar servPar,
     final SSUri stack, 
-    final SSUri app) throws Exception{
+    final SSUri app) throws SSErr{
     
     try{
       final Map<String, String> updates    = new HashMap<>();

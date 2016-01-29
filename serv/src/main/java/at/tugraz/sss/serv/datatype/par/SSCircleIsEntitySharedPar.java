@@ -34,7 +34,7 @@ public class SSCircleIsEntitySharedPar extends SSServPar{
     return SSStrU.removeTrailingSlash(forUser);
   }
 
-  public void setForUser(final String forUser) throws Exception{
+  public void setForUser(final String forUser) throws SSErr{
     this.entity = SSUri.get(forUser);
   }
   
@@ -42,7 +42,7 @@ public class SSCircleIsEntitySharedPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
 
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity);
   }
   

@@ -118,7 +118,7 @@ public class SSCoreConf extends SSCoreConfA {
     }
   }
   
-  public static SSCoreConf instGet() throws Exception {
+  public static SSCoreConf instGet() throws SSErr {
     
     try {
       
@@ -133,7 +133,7 @@ public class SSCoreConf extends SSCoreConfA {
     }
   }
   
-  public static SSCoreConf copy() throws Exception {
+  public static SSCoreConf copy() throws SSErr {
     
     try {
       

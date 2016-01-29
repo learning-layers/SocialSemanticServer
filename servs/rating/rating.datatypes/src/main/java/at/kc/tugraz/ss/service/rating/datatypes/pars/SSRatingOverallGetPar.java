@@ -29,7 +29,7 @@ public class SSRatingOverallGetPar extends SSServPar{
   
   public SSUri entity = null;
   
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity);
   }
   

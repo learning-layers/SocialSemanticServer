@@ -101,7 +101,7 @@ implements
       }
       
       if(bitsAndPiecesEvernoteImports.containsValue(authToken)){
-        SSLogU.warn("attempted to start B&P evernote import concurrently for " + authEmail);
+        SSLogU.warn("attempted to start B&P evernote import concurrently for " + authEmail, null);
         return false;
       }
       
@@ -150,7 +150,7 @@ implements
       }
       
       if(bitsAndPiecesEmailsImports.containsValue(authToken)){
-        SSLogU.warn("attempted to start B&P evernote import concurrently for " + authEmail);
+        SSLogU.warn("attempted to start B&P evernote import concurrently for " + authEmail, null);
         return false;
       }
       
@@ -372,7 +372,7 @@ implements
           removeBitsAndPiecesEmailImport(par.authToken);
         }
       }catch(Exception error){
-        SSLogU.err("removing evernote import thread failed");
+        SSLogU.err(error, "removing evernote import thread failed");
       }
     }
   }
@@ -496,7 +496,7 @@ implements
             vorgang = vorgaenge.get(vorgangNumber);
             
             if(!SSStrU.equals(vorgang.projectNumber, projectNumber)){
-              SSLogU.warn("line " + (lineCounter + 1) + " project number difference; wont be imported");
+              SSLogU.warn("line " + (lineCounter + 1) + " project number difference; wont be imported", null);
               continue;
             }
           }else{
@@ -513,7 +513,7 @@ implements
             vorgang.totalResources != null &&
             vorgang.totalResources.compareTo(totalResources) != 0){
             
-            SSLogU.warn("line " + (lineCounter + 1) + " total resources difference; wont be imported");
+            SSLogU.warn("line " + (lineCounter + 1) + " total resources difference; wont be imported", null);
             continue;
           }
           
@@ -521,7 +521,7 @@ implements
             vorgang.usedResources != null &&
             vorgang.usedResources.compareTo(usedResources) != 0){
             
-            SSLogU.warn("line " + (lineCounter + 1) + " used resources difference; wont be imported");
+            SSLogU.warn("line " + (lineCounter + 1) + " used resources difference; wont be imported", null);
             continue;
           }
           
@@ -531,7 +531,7 @@ implements
           employeeResource       = vorgang.employeeResources.get(employee);
           
           if(employeeResource != null){
-            SSLogU.warn("line " + (lineCounter + 1) + " employee resource already defined; wont be imported");
+            SSLogU.warn("line " + (lineCounter + 1) + " employee resource already defined; wont be imported", null);
             continue;
           }
           
@@ -544,7 +544,7 @@ implements
           
           vorgaenge.put(vorgangNumber, vorgang);
         }catch(Exception error){
-          SSLogU.warn("line " + (lineCounter + 1) + " reading from csv failed");
+          SSLogU.warn("line " + (lineCounter + 1) + " reading from csv failed", null);
         }
       }
       
@@ -620,7 +620,7 @@ implements
           
           logEntries.add(entry);
         }catch(Exception error){
-          SSLogU.warn("line " + (lineCounter + 1) + " reading from csv failed");
+          SSLogU.warn("line " + (lineCounter + 1) + " reading from csv failed", error);
         }
       }
       

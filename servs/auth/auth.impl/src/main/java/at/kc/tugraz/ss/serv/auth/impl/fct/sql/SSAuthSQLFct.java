@@ -40,7 +40,7 @@ public class SSAuthSQLFct extends SSDBSQLFctA{
 
   public boolean hasKey(
     final SSServPar servPar,
-    final SSUri userUri) throws Exception{
+    final SSUri userUri) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -66,7 +66,7 @@ public class SSAuthSQLFct extends SSDBSQLFctA{
   
   public String getKey(
     final SSServPar servPar,
-    final SSUri userUri) throws Exception{
+    final SSUri userUri) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -96,7 +96,7 @@ public class SSAuthSQLFct extends SSDBSQLFctA{
   
   public SSUri getUserForKey(
     final SSServPar servPar,
-    final String key) throws Exception{
+    final String key) throws SSErr{
    
     ResultSet resultSet = null;
     
@@ -127,7 +127,7 @@ public class SSAuthSQLFct extends SSDBSQLFctA{
   public String addKey(
     final SSServPar servPar,
     final SSUri  userUri, 
-    final String authKey) throws Exception{
+    final String authKey) throws SSErr{
     
      try{
       final Map<String, String> inserts = new HashMap<>();
@@ -145,7 +145,7 @@ public class SSAuthSQLFct extends SSDBSQLFctA{
   }
 
   public List<String> getKeys(
-    final SSServPar servPar) throws Exception{
+    final SSServPar servPar) throws SSErr{
     
     final List<String>        columns   = new ArrayList<>();
     final Map<String, String> wheres    = new HashMap<>();
@@ -167,7 +167,7 @@ public class SSAuthSQLFct extends SSDBSQLFctA{
 
   public void removeKey(
     final SSServPar servPar,
-    final SSUri user) throws Exception{
+    final SSUri user) throws SSErr{
     
     try{
       final Map<String, String> wheres = new HashMap<>();

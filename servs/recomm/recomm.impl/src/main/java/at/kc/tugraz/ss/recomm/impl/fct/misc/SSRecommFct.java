@@ -26,7 +26,7 @@ public class SSRecommFct{
         
 //  private static Long getTimestampInMillisecOfAUserTagForEntity(
 //    final SSUri       userUri, 
-//    final String      entityUri) throws Exception{
+//    final String      entityUri) throws SSErr{
 //    
 //    final List<SSTag> tags = 
 //      SSServCaller.tagsUserGet(

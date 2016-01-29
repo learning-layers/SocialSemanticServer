@@ -36,7 +36,7 @@ public class SSRatingEntityURIsGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entities);
   }
 
-  public void setEntities(final List<String> entities) throws Exception {
+  public void setEntities(final List<String> entities) throws SSErr {
     this.entities = SSUri.get(entities);
   }
   

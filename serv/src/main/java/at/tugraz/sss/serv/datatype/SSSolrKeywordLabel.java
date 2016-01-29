@@ -22,6 +22,8 @@ package at.tugraz.sss.serv.datatype;
 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.api.SSEntityA;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
 import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +31,11 @@ import java.util.List;
 @ApiModel
 public class SSSolrKeywordLabel extends SSEntityA{
 
-  public static SSSolrKeywordLabel get(final String string) throws Exception{
+  public static SSSolrKeywordLabel get(final String string) throws SSErr{
     return new SSSolrKeywordLabel(string);
   }
   
-  public static List<SSSolrKeywordLabel> get(final List<String> strings) throws Exception{
+  public static List<SSSolrKeywordLabel> get(final List<String> strings) throws SSErr{
     
     final List<SSSolrKeywordLabel> result = new ArrayList<>();
     
@@ -45,7 +47,7 @@ public class SSSolrKeywordLabel extends SSEntityA{
   }
   
   public static boolean isSolrKeywordLabel(
-    final String string) throws Exception{
+    final String string) throws SSErr{
     
     if(string == null || string.trim().isEmpty()){
       return false;
@@ -67,12 +69,12 @@ public class SSSolrKeywordLabel extends SSEntityA{
   
   public SSSolrKeywordLabel(){}
   
-  private SSSolrKeywordLabel(final String label) throws Exception{
+  private SSSolrKeywordLabel(final String label) throws SSErr{
     
     super(label);
     
     if(!isSolrKeywordLabel(label)){
-      throw new Exception("invalid solr keyword " + label);
+      SSServErrReg.regErrThrow(SSErrE.solrKeywordInvald);
     }
   }
 }

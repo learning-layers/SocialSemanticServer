@@ -32,7 +32,7 @@ public class SSFlagGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(flag);
   }
 
-  public void setFlag(final String flag) throws Exception{
+  public void setFlag(final String flag) throws SSErr{
     this.flag = SSUri.get(flag);
   }
   

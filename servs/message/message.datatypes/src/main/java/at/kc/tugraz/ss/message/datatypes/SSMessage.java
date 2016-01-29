@@ -50,7 +50,7 @@ public class SSMessage extends SSEntity{
   
   public static SSMessage get(
     final SSMessage        message,
-    final SSEntity         entity) throws Exception{
+    final SSEntity         entity) throws SSErr{
     
     return new SSMessage(message, entity);
   } 
@@ -59,7 +59,7 @@ public class SSMessage extends SSEntity{
     final SSUri         message,
     final SSEntity      user,
     final SSEntity      forUser,
-    final SSTextComment content) throws Exception{
+    final SSTextComment content) throws SSErr{
     
     return new SSMessage(message, user, forUser, content);
   }  
@@ -68,7 +68,7 @@ public class SSMessage extends SSEntity{
   
   protected SSMessage(    
     final SSMessage        message,
-    final SSEntity         entity) throws Exception{
+    final SSEntity         entity) throws SSErr{
     
     super(message, entity);
     
@@ -81,7 +81,7 @@ public class SSMessage extends SSEntity{
     final SSUri         message,
     final SSEntity      user, 
     final SSEntity      forUser,
-    final SSTextComment content) throws Exception{
+    final SSTextComment content) throws SSErr{
     
     super(message, SSEntityE.message);
     

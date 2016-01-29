@@ -20,15 +20,16 @@
  */
 package at.tugraz.sss.servs.livingdocument.api;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 
 public interface SSLivingDocClientI {
   
-  public SSServRetI livingDocGet    (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI livingDocAdd    (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI livingDocUpdate (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI livingDocsGet   (final SSClientE clientType, final SSServPar parA) throws Exception;
-  public SSServRetI livingDocRemove (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI livingDocGet    (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI livingDocAdd    (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI livingDocUpdate (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI livingDocsGet   (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI livingDocRemove (final SSClientE clientType, final SSServPar parA) throws SSErr;
 }

@@ -20,6 +20,8 @@
 */
 package at.tugraz.sss.servs.ocd.impl.test;
 
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.ocd.datatypes.SSOCDCreationTypeE;
 import at.tugraz.sss.servs.ocd.datatypes.SSOCDGraphInputE;
 import at.tugraz.sss.servs.ocd.datatypes.SSOCDGraphOutputE;
@@ -32,31 +34,35 @@ import java.nio.file.Paths;
 
 public class SSOCDTestJerseyClient {
   
-  public static void main(String[] args) throws Exception {
+  public static void main(String[] args) throws SSErr {
     
-    // test createGraph
-    SSOCDCreateGraphPar createGraphPar = new SSOCDCreateGraphPar();
-    String content = new String(Files.readAllBytes(Paths.get("docaTestUnweightedEdgeList.txt")));
-    createGraphPar.setContent(content);
-    createGraphPar.setCreationType(SSOCDCreationTypeE.UNDEFINED);
-    createGraphPar.setGraphInputFormat(SSOCDGraphInputE.UNWEIGHTED_EDGE_LIST);
-    createGraphPar.setGraphName("graph1");
-    createGraphPar.setMakeUndirected(Boolean.FALSE); 
-    
-    //String response = SSOCDResource.requestCreateGraph(cDCreateGraphPar);
-    
-    //String response = SSOCDResource.requestGetAlgorithms();
-    
-    // test getGraph
-    SSOCDGetGraphPar getGraphPar = new SSOCDGetGraphPar();
-    getGraphPar.setGraphId("4");
-    getGraphPar.setGraphOutput(SSOCDGraphOutputE.WEIGHTED_EDGE_LIST);
-    String response = SSOCDResource.requestGetGraph(getGraphPar);
-    
-    // test deleteGraph
-    SSOCDDeleteGraphPar deleteGraphPar = new SSOCDDeleteGraphPar();
-    deleteGraphPar.setGraphId("7");
-    //String response = SSOCDResource.requestDeleteGraph(deleteGraphPar);
-    System.out.println(response);
+    try{
+      // test createGraph
+      SSOCDCreateGraphPar createGraphPar = new SSOCDCreateGraphPar();
+      String content = new String(Files.readAllBytes(Paths.get("docaTestUnweightedEdgeList.txt")));
+      createGraphPar.setContent(content);
+      createGraphPar.setCreationType(SSOCDCreationTypeE.UNDEFINED);
+      createGraphPar.setGraphInputFormat(SSOCDGraphInputE.UNWEIGHTED_EDGE_LIST);
+      createGraphPar.setGraphName("graph1");
+      createGraphPar.setMakeUndirected(Boolean.FALSE);
+      
+      //String response = SSOCDResource.requestCreateGraph(cDCreateGraphPar);
+      
+      //String response = SSOCDResource.requestGetAlgorithms();
+      
+      // test getGraph
+      SSOCDGetGraphPar getGraphPar = new SSOCDGetGraphPar();
+      getGraphPar.setGraphId("4");
+      getGraphPar.setGraphOutput(SSOCDGraphOutputE.WEIGHTED_EDGE_LIST);
+      String response = SSOCDResource.requestGetGraph(getGraphPar);
+      
+      // test deleteGraph
+      SSOCDDeleteGraphPar deleteGraphPar = new SSOCDDeleteGraphPar();
+      deleteGraphPar.setGraphId("7");
+      //String response = SSOCDResource.requestDeleteGraph(deleteGraphPar);
+      System.out.println(response);
+    }catch(Exception error){
+      SSLogU.err(error);
+    }
   }
 }

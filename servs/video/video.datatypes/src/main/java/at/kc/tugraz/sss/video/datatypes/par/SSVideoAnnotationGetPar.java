@@ -32,7 +32,7 @@ public class SSVideoAnnotationGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(annotation);
   }
 
-  public void setAnnotation(String annotation) throws Exception{
+  public void setAnnotation(String annotation) throws SSErr{
     this.annotation = SSUri.get(annotation);
   }
 

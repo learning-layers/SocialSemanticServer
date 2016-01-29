@@ -86,7 +86,7 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
   
   public List<String> getMetadata(
     final SSServPar servPar,
-    final boolean   isPredefined) throws Exception{
+    final boolean   isPredefined) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -124,7 +124,7 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
     final List<SSSpaceE>  spaces,
     final Long            startTime,
     final List<SSUri>     metadataURIs,
-    final List<SSUri>     circleURIs) throws Exception{
+    final List<SSUri>     circleURIs) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -281,7 +281,7 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
   public void addMetadataIfNotExists(
     final SSServPar       servPar,
     final SSUri           metadataURI, 
-    final boolean         isPredefined) throws Exception{
+    final boolean         isPredefined) throws SSErr{
     
     try{
       final Map<String, String> inserts    = new HashMap<>();
@@ -306,7 +306,7 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
     final SSUri       entityUri,
     final SSSpaceE    space,
     final SSUri       circleUri,
-    final Long        creationTime) throws Exception{
+    final Long        creationTime) throws SSErr{
     
     try{
       final Map<String, String> inserts    = new HashMap<>();
@@ -344,7 +344,7 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
     final SSUri       entityUri, 
     final SSUri       metadataURI, 
     final SSSpaceE    space,
-    final SSUri       circle) throws Exception{
+    final SSUri       circle) throws SSErr{
     
     try{
       
@@ -388,7 +388,7 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
 //    final SSUri       entity, 
 //    final SSSpaceE    tagSpace,
 //    final Long        startTime,
-//    final SSUri       tagURI) throws Exception{
+//    final SSUri       tagURI) throws SSErr{
 //    
 //    ResultSet resultSet = null;
 //    
@@ -466,7 +466,7 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
 //    final SSSpaceE    tagSpace,
 //    final Long        startTime,
 //    final List<SSUri> tagURIs, 
-//    final List<SSUri> circleURIs) throws Exception{
+//    final List<SSUri> circleURIs) throws SSErr{
 //    
 //    ResultSet resultSet = null;
 //    
@@ -591,7 +591,7 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
 //  public List<SSUri> getEntities(
 //    final SSUri       userUri, 
 //    final SSSpaceE    tagSpace,
-//    final SSUri       tagURI) throws Exception{
+//    final SSUri       tagURI) throws SSErr{
 //    
 //    ResultSet resultSet = null;
 //    
@@ -630,7 +630,7 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
 //public List<SSUri> getEntities(
 //    final SSUri       userUri,
 //    final SSSpaceE    space,
-//    final SSUri       metadataURI) throws Exception{
+//    final SSUri       metadataURI) throws SSErr{
 //    
 //    ResultSet resultSet = null;
 //    
@@ -670,7 +670,7 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
 //    final SSUri       entity,
 //    final SSSpaceE    space,
 //    final Long        startTime,
-//    final SSUri       metadataURI) throws Exception{
+//    final SSUri       metadataURI) throws SSErr{
 //    
 //    ResultSet resultSet = null;
 //    

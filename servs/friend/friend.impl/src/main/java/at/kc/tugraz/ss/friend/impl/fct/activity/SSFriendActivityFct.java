@@ -36,7 +36,7 @@ public class SSFriendActivityFct{
   
   public static void addFriend(
     final SSServPar      servPar,
-    final SSFriendAddPar par) throws Exception{
+    final SSFriendAddPar par) throws SSErr{
     
     try{
       
@@ -55,7 +55,12 @@ public class SSFriendActivityFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
+        
+        case servInvalid:{
+          SSLogU.warn(error.getMessage(), error);
+          break;
+        }
+        
         default: SSServErrReg.regErrThrow(error);
       }
       

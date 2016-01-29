@@ -55,9 +55,9 @@ public interface SSEvernoteServerI extends SSServServerI{
   public boolean              evernoteUSNSet             (final SSEvernoteUSNSetPar             par) throws SSErr;
   public boolean              evernoteResourceAdd        (final SSEvernoteResourceAddPar        par) throws SSErr;
 
-  //  public String               evernoteUsersAuthTokenGet  (final SSServPar parA) throws Exception;
-//  public List<Note>           evernoteNotesLinkedGet     (final SSServPar parA) throws Exception;
-//  public List<Notebook>       evernoteNotebooksGet       (final SSServPar parA) throws Exception;
-  //  public List<LinkedNotebook> evernoteNotebooksLinkedGet (final SSServPar parA) throws Exception;
-  //  public List<Note>           evernoteNotesGet           (final SSServPar parA) throws Exception;
+  //  public String               evernoteUsersAuthTokenGet  (final SSServPar parA) throws SSErr;
+//  public List<Note>           evernoteNotesLinkedGet     (final SSServPar parA) throws SSErr;
+//  public List<Notebook>       evernoteNotebooksGet       (final SSServPar parA) throws SSErr;
+  //  public List<LinkedNotebook> evernoteNotebooksLinkedGet (final SSServPar parA) throws SSErr;
+  //  public List<Note>           evernoteNotesGet           (final SSServPar parA) throws SSErr;
 }

@@ -50,7 +50,7 @@ public class SSUESQLFct extends SSCoreSQL{
 
   public SSUE getUE(
     final SSServPar servPar,
-    final SSUri ue) throws Exception{
+    final SSUri ue) throws SSErr{
     
     ResultSet            resultSet  = null;
     
@@ -121,7 +121,7 @@ public class SSUESQLFct extends SSCoreSQL{
     final SSUri       entity,
     final List<SSUEE> eventTypes,
     final Long        startTime,
-    final Long        endTime) throws Exception{
+    final Long        endTime) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -238,7 +238,7 @@ public class SSUESQLFct extends SSCoreSQL{
     final SSUri    user, 
     final SSUri    entity, 
     final SSUEE    eventType, 
-    final String   content) throws Exception{
+    final String   content) throws SSErr{
 
     try{
       final Map<String, String> inserts = new HashMap<>();

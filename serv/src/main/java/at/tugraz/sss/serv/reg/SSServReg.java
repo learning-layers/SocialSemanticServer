@@ -126,7 +126,7 @@ public class SSServReg{
       final SSServContainerI serv = servsForClientI.get(clientServClass);
       
       if(serv == null){
-        throw SSErr.get(SSErrE.servClientNotAvailable);
+        throw SSErr.get(SSErrE.servInvalid);
       }
       
       return serv.getServImpl();
@@ -145,7 +145,7 @@ public class SSServReg{
       final SSServContainerI serv = servsForClientOps.get(op);
       
       if(serv == null){
-        throw SSErr.get(SSErrE.servClientNotAvailable);
+        throw SSErr.get(SSErrE.servInvalid);
       }
       
       return serv;
@@ -214,7 +214,7 @@ public class SSServReg{
   public void unregClientRequest(
     final String        op,
     final SSUri         user,
-    final SSServImplA   servImpl) throws Exception{
+    final SSServImplA   servImpl) throws SSErr{
     
     try{
       if(!requsLimitsForClientOpsPerUser.containsKey(op)){
@@ -239,7 +239,7 @@ public class SSServReg{
   
   public void regClientRequestLimit(
     final Class                servImplClientInteraceClass,
-    final Map<String, Integer> maxRequsPerOps) throws Exception{
+    final Map<String, Integer> maxRequsPerOps) throws SSErr{
     
     for(Map.Entry<String, Integer> maxRequestPerOp : maxRequsPerOps.entrySet()){
       
@@ -260,7 +260,7 @@ public class SSServReg{
   }
   
   public void regServForHandlingDescribeEntity(
-    final SSServContainerI servContainer) throws Exception{
+    final SSServContainerI servContainer) throws SSErr{
     
     try{
       
@@ -282,7 +282,7 @@ public class SSServReg{
   }
   
   public void regServForHandlingPushEntitiesToUsers(
-    final SSServContainerI servContainer) throws Exception{
+    final SSServContainerI servContainer) throws SSErr{
     
     try{
       
@@ -304,7 +304,7 @@ public class SSServReg{
   }
   
   public void regServForHandlingEntitiesSharedWithUsers(
-    final SSServContainerI servContainer) throws Exception{
+    final SSServContainerI servContainer) throws SSErr{
     
     try{
       
@@ -326,7 +326,7 @@ public class SSServReg{
   }
   
   public void regServForHandlingAddAffiliatedEntitiesToCircle(
-    final SSServContainerI servContainer) throws Exception{
+    final SSServContainerI servContainer) throws SSErr{
     
     try{
       
@@ -348,7 +348,7 @@ public class SSServReg{
   }
   
   public void regServForHandlingCopyEntity(
-    final SSServContainerI servContainer) throws Exception{
+    final SSServContainerI servContainer) throws SSErr{
     
     try{
       
@@ -370,7 +370,7 @@ public class SSServReg{
   }
   
   public void regServForHandlingGetParentEntities(
-    final SSServContainerI servContainer) throws Exception{
+    final SSServContainerI servContainer) throws SSErr{
     
     try{
       
@@ -392,7 +392,7 @@ public class SSServReg{
   }
   
   public void regServForHandlingGetSubEntities(
-    final SSServContainerI servContainer) throws Exception{
+    final SSServContainerI servContainer) throws SSErr{
     
     try{
       
@@ -414,7 +414,7 @@ public class SSServReg{
   }
   
   public void regServForHandlingEntityCopied(
-    final SSServContainerI servContainer) throws Exception{
+    final SSServContainerI servContainer) throws SSErr{
     
     try{
       
@@ -436,7 +436,7 @@ public class SSServReg{
   }
   
   public void regServForHandlingCircleContentRemoved(
-    final SSServContainerI servContainer) throws Exception{
+    final SSServContainerI servContainer) throws SSErr{
     
     try{
       
@@ -458,7 +458,7 @@ public class SSServReg{
   }
   
   public void regServForGatheringUserRelations(
-    final SSServContainerI servContainer) throws Exception{
+    final SSServContainerI servContainer) throws SSErr{
     
     try{
       
@@ -480,7 +480,7 @@ public class SSServReg{
   }
   
   public void regServForGatheringUsersResources(
-    final SSServContainerI servContainer) throws Exception{
+    final SSServContainerI servContainer) throws SSErr{
     
     try{
       
@@ -517,7 +517,7 @@ public class SSServReg{
   }
   
   public SSServContainerI regServ(
-    final SSServContainerI servContainer) throws Exception{
+    final SSServContainerI servContainer) throws SSErr{
     
     try{
       
@@ -545,7 +545,7 @@ public class SSServReg{
       serv = servsForServerI.get(servServerI);
       
       if(serv == null){
-        throw SSErr.get(SSErrE.servServerNotAvailable);
+        throw SSErr.get(SSErrE.servInvalid);
       }
       
       return serv.getServImpl();
@@ -557,7 +557,7 @@ public class SSServReg{
   }
   
   private void regServOps(
-    final SSServContainerI servContainer) throws Exception{
+    final SSServContainerI servContainer) throws SSErr{
    
     try{
       
@@ -579,7 +579,7 @@ public class SSServReg{
   }
   
   private void regServClientI(
-    final SSServContainerI servContainer) throws Exception{
+    final SSServContainerI servContainer) throws SSErr{
    
     try{
       
@@ -590,7 +590,7 @@ public class SSServReg{
         }
         
         if(servContainer.servImplClientInteraceClass == null){
-          SSLogU.warn("service container has no service client interface");
+          SSLogU.warn("service container has no service client interface", null);
           return;
         }
         
@@ -603,7 +603,7 @@ public class SSServReg{
   }
   
   private void regServServerI(
-    final SSServContainerI servContainer) throws Exception{
+    final SSServContainerI servContainer) throws SSErr{
    
     try{
       
@@ -631,7 +631,7 @@ public class SSServReg{
     final SSUri             circle,
     final List<SSEntity>    entities,
     final List<SSUri>       recursiveEntities,
-    final boolean           withUserRestriction) throws Exception{
+    final boolean           withUserRestriction) throws SSErr{
     
     try{
       final List<SSEntity> addedAffiliatedEntities = new ArrayList<>();
@@ -670,7 +670,7 @@ public class SSServReg{
     final SSUri          user, 
     final SSCircle circle,
     final List<SSUri>    users, 
-    final boolean        withUserRestriction) throws Exception {
+    final boolean        withUserRestriction) throws SSErr {
     
     try{
       
@@ -820,7 +820,7 @@ public class SSServReg{
     final SSUri          user, 
     final SSCircle circle,
     final List<SSEntity> entities,
-    final boolean        withUserRestriction) throws Exception{
+    final boolean        withUserRestriction) throws SSErr{
     
     try{
       
@@ -940,7 +940,7 @@ public class SSServReg{
 //    return new ArrayList<>(servsForGatheringUsersResources);
 //  }
 
-//  public static SSServA servForEntityType(SSEntityEnum entityType) throws Exception{
+//  public static SSServA servForEntityType(SSEntityEnum entityType) throws SSErr{
 //
 //    if(SSObjU.isNull (entityType)){
 //      SSLogU.logAndThrow(new Exception("entityType null"));
@@ -969,7 +969,7 @@ public class SSServReg{
 
 //  private void deployServNode(
 //    final SSServPar          par,
-//    final SSServContainerI   serv) throws Exception{
+//    final SSServContainerI   serv) throws SSErr{
 //    
 //    final Map<String, Object> opPars = new HashMap<>();
 //    
@@ -980,7 +980,7 @@ public class SSServReg{
 //  }
   
 //  private SSServContainerI getClientServAvailableOnNodes(
-//    final SSServPar par) throws Exception{
+//    final SSServPar par) throws SSErr{
 //    
 //    try{
 //      final SSServContainerI serv = servs.get(par.op);

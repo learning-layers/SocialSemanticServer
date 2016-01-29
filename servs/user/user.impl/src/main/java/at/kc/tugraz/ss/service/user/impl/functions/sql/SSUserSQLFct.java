@@ -47,7 +47,7 @@ public class SSUserSQLFct extends SSCoreSQL{
   
   public boolean existsUser(
     final SSServPar servPar, 
-    final String email) throws Exception{
+    final String email) throws SSErr{
     
     ResultSet resultSet  = null;
     
@@ -81,7 +81,7 @@ public class SSUserSQLFct extends SSCoreSQL{
   
   public SSUri getUserURIForEmail(
     final SSServPar servPar, 
-    final String email) throws Exception{
+    final String email) throws SSErr{
     
     ResultSet resultSet  = null;
     
@@ -119,7 +119,7 @@ public class SSUserSQLFct extends SSCoreSQL{
   
   public SSUser getUser(
     final SSServPar servPar, 
-    final SSUri user) throws Exception{
+    final SSUri user) throws SSErr{
     
     ResultSet resultSet  = null;
     
@@ -159,7 +159,7 @@ public class SSUserSQLFct extends SSCoreSQL{
   
   public List<SSUri> getUserURIs(
     final SSServPar servPar, 
-    final List<SSUri> userURIs) throws Exception{
+    final List<SSUri> userURIs) throws SSErr{
     
     ResultSet resultSet  = null;
     
@@ -213,7 +213,7 @@ public class SSUserSQLFct extends SSCoreSQL{
   public void addUser(
     final SSServPar servPar, 
     final SSUri  user,
-    final String email) throws Exception{
+    final String email) throws SSErr{
     
     try{
       final Map<String, String> inserts    = new HashMap<>();

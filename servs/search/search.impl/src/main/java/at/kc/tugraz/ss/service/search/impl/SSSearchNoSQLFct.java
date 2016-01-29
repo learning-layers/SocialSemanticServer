@@ -42,7 +42,7 @@ public class SSSearchNoSQLFct extends SSDBNoSQLFctA{
   public List<SSUri> search(
     final SSSearchOpE  globalSearchOp,
     final SSSearchOpE  localSearchOp,
-    final List<String> keywords) throws Exception {
+    final List<String> keywords) throws SSErr {
     
     try{
       final Map<SSSolrSearchFieldE, List<SSSolrKeywordLabel>> wheres = new HashMap<>();

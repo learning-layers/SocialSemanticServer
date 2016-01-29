@@ -20,14 +20,11 @@
 */
 package at.kc.tugraz.ss.service.tag.datatypes;
 
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.api.SSEntityA;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SSTagFrequ extends SSEntityA{
   
@@ -46,7 +43,7 @@ public class SSTagFrequ extends SSEntityA{
   public static SSTagFrequ get(
     final SSTagLabel    label,
     final SSSpaceE      space,
-    final Integer       frequ) throws Exception{
+    final Integer       frequ) throws SSErr{
     
     return new SSTagFrequ(label, space, frequ);
   }  
@@ -54,7 +51,7 @@ public class SSTagFrequ extends SSEntityA{
   protected SSTagFrequ(
     final SSTagLabel    label,
     final SSSpaceE      space,
-    final Integer       frequ) throws Exception{
+    final Integer       frequ) throws SSErr{
 		
     super(label);
     

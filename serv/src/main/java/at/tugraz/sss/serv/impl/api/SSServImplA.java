@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
+import at.tugraz.sss.serv.reg.*;
 
 public abstract class SSServImplA{
 
@@ -42,18 +43,23 @@ public abstract class SSServImplA{
   
   public SSServRetI invokeClientServOp(
     final Class        clientInterfaceClass,
-    final SSServPar    par) throws Exception{
+    final SSServPar    par) throws SSErr{
     
-    if(clientInterfaceClass == null){
-      SSLogU.err(new Exception("service op shouldnt be instantiated this way"));
+    try{
+      if(clientInterfaceClass == null){
+        SSLogU.err(new Exception("service op shouldnt be instantiated this way"));
+        return null;
+      }
+
+      return (SSServRetI) clientInterfaceClass.getMethod(SSStrU.toStr(par.op), SSClientE.class, SSServPar.class).invoke(this, SSClientE.socket, par);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
       return null;
     }
-    
-    return (SSServRetI) clientInterfaceClass.getMethod(SSStrU.toStr(par.op), SSClientE.class, SSServPar.class).invoke(this, SSClientE.socket, par);
   }
 }
 
-  //  public static void addLogAndThrow(final Exception error) throws Exception{
+  //  public static void addLogAndThrow(final Exception error) throws SSErr{
   //
   //    if(error == null){
   //      SSLogU.logAndThrow(new Exception("error null"));
@@ -66,7 +72,7 @@ public abstract class SSServImplA{
   //    throw error;
   //  }
   
-  //  public static void log(final Exception error) throws Exception{
+  //  public static void log(final Exception error) throws SSErr{
   //
   //    SSLogU.logError(error);
   //
@@ -77,7 +83,7 @@ public abstract class SSServImplA{
   //    servImplErrors.get().add(SSErrForClient.get(error));
   //  }
   //
-  //  public static void logAndThrow(final String logText) throws Exception{
+  //  public static void logAndThrow(final String logText) throws SSErr{
   //
   //    Exception error = new Exception(logText);
   //
@@ -86,7 +92,7 @@ public abstract class SSServImplA{
   //    throw error;
   //  }
   //
-  //  public static void logAndThrow(final Exception error) throws Exception{
+  //  public static void logAndThrow(final Exception error) throws SSErr{
   //
   //    SSLogU.logError(error);
   //
@@ -99,7 +105,7 @@ public abstract class SSServImplA{
   //    throw error;
   //  }
   //
-  //  public static void logAndThrow(final Exception error, final String logText) throws Exception{
+  //  public static void logAndThrow(final Exception error, final String logText) throws SSErr{
   //
   //    SSLogU.logError(error, logText);
   //
@@ -114,7 +120,7 @@ public abstract class SSServImplA{
   //    throw error;
   //  }
 
-  //  public List<String> recommendTagsWithLanguageModel(SSUri userUri, SSUri entityUri, Integer maxTags) throws Exception {
+  //  public List<String> recommendTagsWithLanguageModel(SSUri userUri, SSUri entityUri, Integer maxTags) throws SSErr {
   //
   //    HashMap<String, Object> opPars = new HashMap<>();
   //

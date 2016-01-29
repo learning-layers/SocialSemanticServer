@@ -33,7 +33,7 @@ public class SSLearnEpRemovePar extends SSServPar{
     return SSStrU.removeTrailingSlash(learnEp);
   }
 
-  public void setLearnEp(final String learnEp) throws Exception{
+  public void setLearnEp(final String learnEp) throws SSErr{
     this.learnEp = SSUri.get(learnEp);
   }
   

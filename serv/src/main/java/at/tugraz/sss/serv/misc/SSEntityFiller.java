@@ -32,7 +32,7 @@ public class SSEntityFiller {
   
   public void addFilledEntity(
     final SSUri    id,
-    final SSEntity entity) throws Exception{
+    final SSEntity entity) throws SSErr{
     
     try{
       
@@ -53,7 +53,7 @@ public class SSEntityFiller {
     }
   }
   
-  public boolean containsFilledEntity(final SSUri entityURI) throws Exception {
+  public boolean containsFilledEntity(final SSUri entityURI) throws SSErr {
     
     try{
       
@@ -69,7 +69,7 @@ public class SSEntityFiller {
     }
   }
   
-  public boolean containsFilledEntity(final SSEntity entity) throws Exception {
+  public boolean containsFilledEntity(final SSEntity entity) throws SSErr {
     
     try{
       
@@ -85,7 +85,7 @@ public class SSEntityFiller {
     }
   }
   
-  public SSEntity getFilledEntity(final SSEntity entity) throws Exception{
+  public SSEntity getFilledEntity(final SSEntity entity) throws SSErr{
     
     try{
       
@@ -101,7 +101,7 @@ public class SSEntityFiller {
     }
   }
   
-  public SSEntity getFilledEntity(final SSUri entityURI) throws Exception{
+  public SSEntity getFilledEntity(final SSUri entityURI) throws SSErr{
     
     try{
       

@@ -49,7 +49,7 @@ public class SSLearnEpVersionsGetFct {
   
   public void setLearnEpVersionCircles(
     final SSServPar servPar, 
-    final SSLearnEpVersion        learnEpVersion) throws Exception{
+    final SSLearnEpVersion        learnEpVersion) throws SSErr{
     
     try{
       learnEpVersion.learnEpCircles.addAll(sqlFct.getLearnEpVersionCircles(servPar, learnEpVersion.id));
@@ -60,7 +60,7 @@ public class SSLearnEpVersionsGetFct {
   
   public void setLearnEpVersionEntities(
     final SSLearnEpVersionsGetPar par,
-    final SSLearnEpVersion        learnEpVersion) throws Exception{
+    final SSLearnEpVersion        learnEpVersion) throws SSErr{
     
     try{
       
@@ -118,7 +118,7 @@ public class SSLearnEpVersionsGetFct {
   }
 
   public List<SSUri> getLearnEpVersionURIsToFill(
-    final SSLearnEpVersionsGetPar par) throws Exception {
+    final SSLearnEpVersionsGetPar par) throws SSErr {
     
     try{
       

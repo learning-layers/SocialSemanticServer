@@ -453,7 +453,7 @@ implements
         try{
           fileOutputStream.close();
         }catch(IOException ex){
-          SSLogU.warn("closing file output stream failed");
+          SSLogU.warn("closing file output stream failed", ex);
         }
       }
     }
@@ -461,7 +461,7 @@ implements
   
   private void readFileFromSocketStreamAndSave(
     final DataInputStream dataInputStream,
-    final String          fileID) throws Exception{
+    final String          fileID) throws SSErr{
     
     FileOutputStream fileOutputStream = null;
       
@@ -495,7 +495,7 @@ implements
         try{
           fileOutputStream.close();
         }catch(IOException ex){
-          SSLogU.warn("closing file output stream failed");
+          SSLogU.warn("closing file output stream failed", ex);
         }
       }
     }
@@ -509,8 +509,8 @@ implements
       
     }catch(Exception error){
       
-//      if(SSServErrReg.containsErr(SSErrE.servServerNotAvailable)){
-        SSLogU.warn(SSErrE.servServerNotAvailable.toString());
+//      if(SSServErrReg.containsErr(SSErrE.servInvalid)){
+        SSLogU.warn(SSErrE.servInvalid.toString(), error);
 //      }else{
 //        SSLogU.warn(error.getMessage());
 //      }
@@ -522,7 +522,7 @@ implements
     final SSUri   user,
     final SSUri   fileUri,
     final SSLabel label,
-    final boolean withUserRestriction) throws Exception{
+    final boolean withUserRestriction) throws SSErr{
     
     try{
       
@@ -636,7 +636,7 @@ implements
           try{
             SSFileU.delFile(conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(file.id));
           }catch(Exception error){
-            SSLogU.warn("file couldnt be removed from file system");
+            SSLogU.warn("file couldnt be removed from file system", error);
           }
         }
       }
@@ -905,7 +905,7 @@ implements
 //  }
 
 
-//private void uploadFileToWebDav() throws Exception{
+//private void uploadFileToWebDav() throws SSErr{
 //    
 //    try{
 //      fileInputStream = SSFileU.openFileForRead(localWorkPath + fileId);
@@ -920,7 +920,7 @@ implements
 //    }
 //  }
 
-//  private void uploadFileToI5Cloud() throws Exception{
+//  private void uploadFileToI5Cloud() throws SSErr{
 //
 //    try{
 //      SSServCaller.i5CloudFileUpload(this.fileId, "private", SSServCaller.i5CloudAuth().get(SSHTMLU.xAuthToken));
@@ -929,7 +929,7 @@ implements
 //    }
 //  }
 
-//private void disposeUploadedFile() throws Exception{
+//private void disposeUploadedFile() throws SSErr{
 //    
 //    try{
 //      
@@ -942,7 +942,7 @@ implements
 //    }
 //  }
 
-//  private void removeFileFromLocalWorkFolder() throws Exception{
+//  private void removeFileFromLocalWorkFolder() throws SSErr{
 //    
 //    if(SSStrU.equals(localWorkPath, fileConf.getPath())){
 //      return;
@@ -955,7 +955,7 @@ implements
 //    }
 //  }
   
-//  private void moveFileToLocalRepo() throws Exception{
+//  private void moveFileToLocalRepo() throws SSErr{
 //    
 //    if(SSStrU.equals(localWorkPath, fileConf.getPath())){
 //      return;
@@ -972,7 +972,7 @@ implements
 //    }
 //  }
 
-//  private void saveActivity() throws Exception{
+//  private void saveActivity() throws SSErr{
 //    
 //    try{
 //      
@@ -996,7 +996,7 @@ implements
 //      SSServErrReg.regErrThrow(error);
 //    }
 //  }
-//  private void downloadFromI5Cloud() throws Exception{
+//  private void downloadFromI5Cloud() throws SSErr{
 //    
 //    try{
 //      SSServCaller.i5CloudFileDownload(this.fileId, "private", SSServCaller.i5CloudAuth().get(SSHTMLU.xAuthToken));

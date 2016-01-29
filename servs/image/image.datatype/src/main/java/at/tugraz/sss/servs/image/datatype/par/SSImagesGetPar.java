@@ -36,7 +36,7 @@ public class SSImagesGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
 
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity);
   }
 
@@ -44,7 +44,7 @@ public class SSImagesGetPar extends SSServPar{
     return SSStrU.toStr(imageType);
   }
 
-  public void setImageType(final String imageType) throws Exception{
+  public void setImageType(final String imageType) throws SSErr{
     this.imageType = SSImageE.get(imageType);
   }
   

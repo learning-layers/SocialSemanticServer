@@ -32,7 +32,7 @@ public class SSEntityShareRet extends SSServRetI{
   
   public SSUri entity = null;
 
-  public String getEntity() throws Exception {
+  public String getEntity() throws SSErr {
     return SSStrU.removeTrailingSlash(entity);
   }
   

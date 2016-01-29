@@ -41,19 +41,19 @@ public class SSEntitySharePar extends SSServPar{
   public boolean       setPublic       = false;
   public SSTextComment comment         = null;
   
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity);
   }
     
-  public void setUsers(final List<String> users) throws Exception{
+  public void setUsers(final List<String> users) throws SSErr{
     this.users = SSUri.get(users);
   }
     
-  public void setCircles(final List<String> circles) throws Exception{
+  public void setCircles(final List<String> circles) throws SSErr{
     this.circles = SSUri.get(circles);
   }
 
-  public void getComment(final String comment) throws Exception{
+  public void getComment(final String comment) throws SSErr{
     this.comment = SSTextComment.get(comment);
   }
   
@@ -61,11 +61,11 @@ public class SSEntitySharePar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
   
-  public List<String> getUsers() throws Exception{
+  public List<String> getUsers() throws SSErr{
     return SSStrU.removeTrailingSlash(users);
   }
   
-  public List<String> getCircles() throws Exception{
+  public List<String> getCircles() throws SSErr{
     return SSStrU.removeTrailingSlash(circles);
   }
   

@@ -33,7 +33,7 @@ public class SSVideosUserGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(forEntity);
   }
 
-  public void setForEntity(String forEntity) throws Exception{
+  public void setForEntity(String forEntity) throws SSErr{
     this.forEntity = SSUri.get(forEntity);
   }
 

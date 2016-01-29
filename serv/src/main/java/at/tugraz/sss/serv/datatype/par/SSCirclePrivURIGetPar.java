@@ -32,7 +32,7 @@ public class SSCirclePrivURIGetPar extends SSServPar{
   public SSCirclePrivURIGetPar(
     final SSServPar servPar,
     final SSUri         user, 
-    final boolean       shouldCommit) throws Exception{
+    final boolean       shouldCommit) throws SSErr{
       
     super(SSVarNames.circlePrivURIGet, null, user, servPar.sqlCon);
     

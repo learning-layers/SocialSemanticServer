@@ -38,7 +38,7 @@ public class SSLinkU{
 }
 
 
-//public List<String> scaffRecommTags(SSServPar parI) throws Exception{
+//public List<String> scaffRecommTags(SSServPar parI) throws SSErr{
 //URL                  recommUri;
 //URLConnection        recommCon;
 //BufferedReader       recommIn;

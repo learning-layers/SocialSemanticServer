@@ -34,7 +34,7 @@ public class SSLivingDocAddPar extends SSServPar{
   public SSTextComment   description          = null;
   public SSUri           discussion           = null;
   
-  public void setUri(final String uri) throws Exception{
+  public void setUri(final String uri) throws SSErr{
     this.uri = SSUri.get(uri);
   }
   
@@ -46,7 +46,7 @@ public class SSLivingDocAddPar extends SSServPar{
     return SSStrU.toStr(label);
   }
 
-  public void setLabel(final String label) throws Exception {
+  public void setLabel(final String label) throws SSErr {
     this.label = SSLabel.get(label);
   }
 
@@ -54,11 +54,11 @@ public class SSLivingDocAddPar extends SSServPar{
     return SSStrU.toStr(description);
   }
 
-  public void setDescription(final String description) throws Exception {
+  public void setDescription(final String description) throws SSErr {
     this.description = SSTextComment.get(description);
   }
   
-  public void setDiscussion(final String discussion) throws Exception{
+  public void setDiscussion(final String discussion) throws SSErr{
     this.discussion = SSUri.get(discussion);
   }
   

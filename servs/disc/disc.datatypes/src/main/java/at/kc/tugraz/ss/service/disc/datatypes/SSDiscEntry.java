@@ -52,7 +52,7 @@ public class SSDiscEntry extends SSEntity{
     final SSEntityE              type,
     final int                    pos,
     final SSTextComment          content,
-    final boolean                accepted) throws Exception{
+    final boolean                accepted) throws SSErr{
     
     return new SSDiscEntry(
       id,
@@ -64,7 +64,7 @@ public class SSDiscEntry extends SSEntity{
   
   public static SSDiscEntry get(
     final SSDiscEntry            entry,
-    final SSEntity               entity) throws Exception{
+    final SSEntity               entity) throws SSErr{
     
     return new SSDiscEntry(
       entry, 
@@ -73,7 +73,7 @@ public class SSDiscEntry extends SSEntity{
   
   protected SSDiscEntry(
     final SSDiscEntry            discEntry,
-    final SSEntity               entity) throws Exception{
+    final SSEntity               entity) throws SSErr{
     
     super(discEntry, entity);
     
@@ -110,7 +110,7 @@ public class SSDiscEntry extends SSEntity{
     final SSEntityE              type,
     final int                    pos,
     final SSTextComment          content, 
-    final boolean                accepted) throws Exception{
+    final boolean                accepted) throws SSErr{
     
     super(id, type);
     

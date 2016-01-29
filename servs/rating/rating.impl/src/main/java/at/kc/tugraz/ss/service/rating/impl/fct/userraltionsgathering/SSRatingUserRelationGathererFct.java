@@ -31,7 +31,7 @@ public class SSRatingUserRelationGathererFct{
   
   public static void addUserForEntity(
     final SSRating                    rating,
-    final Map<String, List<SSUri>>    usersPerEntity) throws Exception{
+    final Map<String, List<SSUri>>    usersPerEntity) throws SSErr{
 
     final String            entityStr = SSStrU.toStr(rating.entity);
     final List<SSUri>       usersForEntity;
@@ -55,7 +55,7 @@ public class SSRatingUserRelationGathererFct{
   
   public static void addUserRelations(
     final Map<String, List<SSUri>> userRelations, 
-    final Map<String, List<SSUri>> usersPerKey) throws Exception{
+    final Map<String, List<SSUri>> usersPerKey) throws SSErr{
     
     String userStr;
     

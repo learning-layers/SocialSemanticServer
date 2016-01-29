@@ -41,12 +41,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import javax.mail.Folder;
-import javax.mail.Message;
-import javax.mail.Multipart;
-import javax.mail.Part;
-import javax.mail.Session;
-import javax.mail.Store;
+import java.util.logging.*;
+import javax.mail.*;
 
 public class SSMailReceiverKCDavIMAP {
   
@@ -57,7 +53,7 @@ public class SSMailReceiverKCDavIMAP {
   
   public SSMailReceiverKCDavIMAP(
     final SSMailConf    mailConf,
-    final SSMailSQLFct  sqlFct) throws Exception{
+    final SSMailSQLFct  sqlFct) throws SSErr{
     
     this.mailConf        = mailConf;
     this.sqlFct          = sqlFct;
@@ -70,7 +66,7 @@ public class SSMailReceiverKCDavIMAP {
 //    final boolean shouldCommit
   
   public List<SSEntity> receiveMails(
-    final SSMailsReceivePar servPar) throws Exception {
+    final SSMailsReceivePar servPar) throws SSErr {
     
     Store  store  = null;
     Folder folder = null;
@@ -146,13 +142,21 @@ public class SSMailReceiverKCDavIMAP {
       if(
         folder != null &&
         folder.isOpen()){
-        folder.close (true);
+        try {
+          folder.close (true);
+        } catch (MessagingException ex) {
+          SSLogU.err(ex);
+        }
       }
       
       if(
         store != null && 
         store.isConnected()){
-        store.close  ();
+        try {
+          store.close  ();
+        } catch (MessagingException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }
@@ -160,7 +164,7 @@ public class SSMailReceiverKCDavIMAP {
   private void createMessageFromMessageParts(
     final Part    message, 
     final SSMail  mail,
-    final boolean isFirstLevel) throws Exception{
+    final boolean isFirstLevel) throws SSErr{
     
     try{
       
@@ -176,7 +180,7 @@ public class SSMailReceiverKCDavIMAP {
       }
       
       if(message.getContent() instanceof InputStream){
-        SSLogU.warn("unhandled content!!! inputstream");
+        SSLogU.warn("unhandled content!!! inputstream", null);
         return;
       }
       
@@ -186,14 +190,14 @@ public class SSMailReceiverKCDavIMAP {
         return;
       }
       
-      SSLogU.warn("unhandled content!!!");
+      SSLogU.warn("unhandled content!!!", null);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  private SSEntity getAttachmentObj(final String fileName) throws Exception{
+  private SSEntity getAttachmentObj(final String fileName) throws SSErr{
     
     SSEntity result;
     
@@ -234,14 +238,14 @@ public class SSMailReceiverKCDavIMAP {
       }
       
     }catch(Exception error){
-      SSLogU.warn("mail attachment creation failed");
+      SSLogU.warn("mail attachment creation failed", error);
     }
   }
   
   private void handleMultiPartContent(
     final Multipart multipart, 
     final SSMail    mail, 
-    final boolean   isFirstLevel) throws Exception{
+    final boolean   isFirstLevel) throws SSErr{
     
     try{
       
@@ -290,11 +294,11 @@ public class SSMailReceiverKCDavIMAP {
         }
         
         if(bodyPart.getContent() instanceof InputStream){
-          SSLogU.warn("unhandled content!!! content is multipart; no attachment; input stream");
+          SSLogU.warn("unhandled content!!! content is multipart; no attachment; input stream", null);
           continue;
         }
         
-        SSLogU.warn("unhandled content!!!");
+        SSLogU.warn("unhandled content!!!", null);
       }
       
     }catch(Exception error){

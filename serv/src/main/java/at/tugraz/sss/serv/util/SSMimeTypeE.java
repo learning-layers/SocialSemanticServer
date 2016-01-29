@@ -91,7 +91,7 @@ public enum SSMimeTypeE {
     try{
       
       if(!mimeTypes.containsKey(value)){
-        throw SSErr.get(SSErrE.mimeTypeNotAvailable);
+        throw SSErr.get(SSErrE.mimeTypeInvalid);
       }
       
       return mimeTypes.get(value);
@@ -238,7 +238,7 @@ public enum SSMimeTypeE {
         return fileExtPerMimeType.get(mimeType);
       }
       
-      throw SSErr.get(SSErrE.fileExtNotAvailableForMimeType);
+      throw SSErr.get(SSErrE.fileExtInvalidForMimeType);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -256,7 +256,7 @@ public enum SSMimeTypeE {
         return fileExtPerMimeType.get(mime);
       }
       
-      throw SSErr.get(SSErrE.fileExtNotAvailableForMimeType);
+      throw SSErr.get(SSErrE.fileExtInvalidForMimeType);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -272,7 +272,7 @@ public enum SSMimeTypeE {
         return mimeTypePerFileExt.get(ext);
       }
       
-      throw SSErr.get(SSErrE.mimeTypeNotAvailableForFileExt);
+      throw SSErr.get(SSErrE.mimeTypeInvalidForFileExt);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -28,7 +28,7 @@ public class SSVideoUserGetPar extends SSServPar{
   
   public SSUri    video                = null;
   
-  public void setVideo(final String video) throws Exception{
+  public void setVideo(final String video) throws SSErr{
     this.video = SSUri.get(video);
   }
   

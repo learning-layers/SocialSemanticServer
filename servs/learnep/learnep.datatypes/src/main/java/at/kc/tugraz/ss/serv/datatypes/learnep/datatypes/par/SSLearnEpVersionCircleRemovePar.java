@@ -33,7 +33,7 @@ public class SSLearnEpVersionCircleRemovePar extends SSServPar{
     return SSStrU.removeTrailingSlash(learnEpCircle);
   }
 
-  public void setLearnEpCircle(final String learnEpCircle) throws Exception{
+  public void setLearnEpCircle(final String learnEpCircle) throws SSErr{
     this.learnEpCircle = SSUri.get(learnEpCircle);
   }
   

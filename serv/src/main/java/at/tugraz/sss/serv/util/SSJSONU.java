@@ -20,6 +20,8 @@
 */
 package at.tugraz.sss.serv.util;
 
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.reg.*;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
 
@@ -40,35 +42,50 @@ public class SSJSONU{
   
   public static String getValueFromJSON(
     final String jsonStr,
-    final String name) throws Exception{
+    final String name) throws SSErr{
     
-    final ObjectMapper mapper = new ObjectMapper();
-    final JsonNode     node   = mapper.readTree(jsonStr).get(name);
-    
-    if(node == null){
+    try{
+      final ObjectMapper mapper = new ObjectMapper();
+      final JsonNode     node   = mapper.readTree(jsonStr).get(name);
+      
+      if(node == null){
+        return null;
+      }
+      
+      return node.textValue(); //getTextValue();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
       return null;
     }
-    
-    return node.textValue(); //getTextValue();
   }
   
   public static Object obj(
-    final String  jsonStr, 
-    final Class   customClass) throws Exception{
+    final String  jsonStr,
+    final Class   customClass) throws SSErr{
     
-    return createDefaultMapper().readValue(jsonStr, customClass);
+    try{
+      return createDefaultMapper().readValue(jsonStr, customClass);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
   public static String jsonStr(
-    final Object obj) throws Exception{
+    final Object obj) throws SSErr{
     
-    return createDefaultMapper().writeValueAsString(obj);
+    try{
+      return createDefaultMapper().writeValueAsString(obj);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 }
 
 //  public static final JsonToken jsonEnd = JsonToken.END_OBJECT;
 
-//  public static List<String> jsonArrayList(final String jsonStr) throws Exception {
+//  public static List<String> jsonArrayList(final String jsonStr) throws SSErr {
 //    
 //    ObjectMapper mapper = new ObjectMapper();
 //    
@@ -77,10 +94,10 @@ public class SSJSONU{
 //    return mapper.readValue(jsonStr, type);
 //  }
   
-//  public static Map<String, String> jsonMap(String jsonStr) throws Exception{
+//  public static Map<String, String> jsonMap(String jsonStr) throws SSErr{
 //    return new ObjectMapper().readValue(jsonStr, new TypeReference<Map<String,String>>() { });
 //  }
   
-//  public static JsonParser jsonParser(String jsonStr) throws Exception{
+//  public static JsonParser jsonParser(String jsonStr) throws SSErr{
 //    return new JsonFactory().createJsonParser(jsonStr);
 //  }

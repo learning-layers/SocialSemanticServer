@@ -38,7 +38,7 @@ public class SSEntityUpdatePar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
 
-  public void setEntity(final String entity) throws Exception{
+  public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity);
   }
   
@@ -46,7 +46,7 @@ public class SSEntityUpdatePar extends SSServPar{
     return SSStrU.toStr(type);
   }
 
-  public void setType(final String type) throws Exception{
+  public void setType(final String type) throws SSErr{
     this.type = SSEntityE.get(type);
   }
   
@@ -54,7 +54,7 @@ public class SSEntityUpdatePar extends SSServPar{
     return SSStrU.toStr(label);
   }
 
-  public void setLabel(final String label) throws Exception{
+  public void setLabel(final String label) throws SSErr{
     this.label = SSLabel.get(label);
   }
 
@@ -62,7 +62,7 @@ public class SSEntityUpdatePar extends SSServPar{
     return SSStrU.toStr(description);
   }
 
-  public void setDescription(final String description) throws Exception{
+  public void setDescription(final String description) throws SSErr{
     this.description = SSTextComment.get(description);
   }
 

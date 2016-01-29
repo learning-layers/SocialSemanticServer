@@ -39,7 +39,6 @@ import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -133,11 +132,11 @@ public class SSFileU{
     }
   }
   
-  public static void delFile(final String filePath) throws Exception {
+  public static void delFile(final String filePath) throws SSErr {
     new File(filePath).delete();
   }
   
-  public static void appendTextToFile(String filePath, String text) throws Exception{
+  public static void appendTextToFile(String filePath, String text) throws SSErr{
     
     FileWriter     fileWriter    = null;
     BufferedWriter bufferWritter = null;
@@ -149,15 +148,23 @@ public class SSFileU{
       bufferWritter.write(text);
       
     }catch (IOException error) {
-      throw error;
+      SSServErrReg.regErrThrow(error);
     }finally{
       
       if(bufferWritter != null){
-        bufferWritter.close();
+        try {
+          bufferWritter.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
       
-      if(fileWriter!= null){
-        fileWriter.close();
+      if(fileWriter != null){
+        try {
+          fileWriter.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }
@@ -173,7 +180,7 @@ public class SSFileU{
     }
   }
   
-  public static boolean existsFile(final String filePath) throws Exception{
+  public static boolean existsFile(final String filePath) throws SSErr{
     
     try{
       
@@ -186,7 +193,7 @@ public class SSFileU{
   }
   
   public static FileOutputStream openOrCreateFileWithPathForWrite(
-    final String filePath) throws Exception{
+    final String filePath) throws SSErr{
     
     try{
       
@@ -198,12 +205,13 @@ public class SSFileU{
       
       return new FileOutputStream(file);
     }catch(Exception error){
-      throw error;
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
   public static FileOutputStream openOrCreateFileWithPathForAppend(
-    final String filePath) throws Exception{
+    final String filePath) throws SSErr{
     
     try{
       
@@ -215,13 +223,14 @@ public class SSFileU{
       
       return new FileOutputStream(file, true);
     }catch(Exception error){
-      throw error;
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
   public static String readFileText(
     final File    file,
-    final Charset charset) throws Exception {
+    final Charset charset) throws SSErr {
     
     FileInputStream   in = null;
     
@@ -240,23 +249,25 @@ public class SSFileU{
       
       return fileContent;
     }catch(Exception error){
-      throw error;
+      SSServErrReg.regErrThrow(error);
+      return null;
     }finally{
       
       if(in != null){
-        in.close();
+        try {
+          in.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }
   
   public static String readStreamText(
-    final InputStream streamIn) throws Exception{
-    
-    if(SSObjU.isNull(streamIn)){
-      throw new Exception("pars not okay");
-    }
+    final InputStream streamIn) throws SSErr{
     
     try{
+      
       final InputStreamReader inputReader = new InputStreamReader (streamIn, SSEncodingU.utf8.toString());
       final char[]            buffer      = new char[1];
       String                  result      = new String();
@@ -267,11 +278,16 @@ public class SSFileU{
       
       return result;
     }catch(Exception error){
-      throw error;
+      SSServErrReg.regErrThrow(error);
+      return null;
     }finally{
       
       if(streamIn != null){
-        streamIn.close();
+        try {
+          streamIn.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }
@@ -279,16 +295,13 @@ public class SSFileU{
   public static void readFileBytes(
     final OutputStream    outStream,
     final FileInputStream fileIn,
-    final Integer         transmissionSize) throws Exception{
-    
-    if(SSObjU.isNull(outStream, fileIn)){
-      throw new Exception("pars not okay");
-    }
-    
-    final byte[] fileBytes   = new byte[transmissionSize];
-    int          read;
+    final Integer         transmissionSize) throws SSErr{
     
     try{
+      final byte[] fileBytes   = new byte[transmissionSize];
+      int          read;
+      
+      
       
       while ((read = fileIn.read(fileBytes)) != -1) {
         
@@ -305,33 +318,36 @@ public class SSFileU{
         outStream.flush     ();
       }
     }catch(Exception error){
-      throw error;
+      SSServErrReg.regErrThrow(error);
     }finally{
       
       if(outStream != null){
-        outStream.close();
+        try {
+          outStream.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
       
       if(fileIn != null){
-        fileIn.close();
+        try {
+          fileIn.close();
+        } catch (IOException ex) {
+           SSLogU.err(ex);
+        }
       }
     }
   }
   
   public static void writeFileText(
     final File   file,
-    final String text) throws Exception{
+    final String text) throws SSErr{
     
-    if(SSObjU.isNull(file, text)){
-      throw new Exception("pars not okay");
-    }
-    
-//    final byte[]        bytes      = text.getBytes();
-    OutputStreamWriter fileOut    = null;
-    
-    try{
+    OutputStreamWriter fileOut = null;
       
-      fileOut =
+    try{
+//    final byte[]        bytes      = text.getBytes();
+      
         new OutputStreamWriter(
           openOrCreateFileWithPathForWrite(
             file.getAbsolutePath()),
@@ -341,29 +357,28 @@ public class SSFileU{
 //      fileOut.write (bytes, 0, bytes.length);
       
     }catch(Exception error){
-      throw error;
+      SSServErrReg.regErrThrow(error);
     }finally{
       
       if(fileOut != null){
-        fileOut.close();
+        try {
+          fileOut.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }
   
   public static void writeFileBytes(
     final FileOutputStream fileOut,
-    final InputStream      streamIn, 
-    final Integer          transmissionSize) throws Exception{
-    
-    if(SSObjU.isNull(fileOut, streamIn)){
-      throw new Exception("pars not okay");
-    }
-    
-    final byte[] fileBytes   = new byte[transmissionSize];
-    int          read;
+    final InputStream      streamIn,
+    final Integer          transmissionSize) throws SSErr{
     
     try{
       
+      final byte[] fileBytes   = new byte[transmissionSize];
+      int          read;
       while ((read = streamIn.read(fileBytes)) != -1) {
         
         if(
@@ -379,15 +394,23 @@ public class SSFileU{
         fileOut.flush     ();
       }
     }catch(Exception error){
-      throw error;
+      SSServErrReg.regErrThrow(error);
     }finally{
       
       if(fileOut != null){
-        fileOut.close();
+        try {
+          fileOut.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
       
       if(streamIn != null){
-        streamIn.close();
+        try {
+          streamIn.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }
@@ -395,11 +418,7 @@ public class SSFileU{
   public static void writeFileBytes(
     final FileOutputStream fileOut,
     final byte[]           bytes,
-    final Integer          length) throws Exception{
-    
-    if(SSObjU.isNull(fileOut, bytes)){
-      throw new Exception("pars not okay");
-    }
+    final Integer          length) throws SSErr{
     
     try{
       
@@ -407,11 +426,15 @@ public class SSFileU{
       fileOut.flush     ();
       
     }catch(Exception error){
-      throw error;
+      SSServErrReg.regErrThrow(error);
     }finally{
       
       if(fileOut != null){
-        fileOut.close();
+        try {
+          fileOut.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }
@@ -424,7 +447,7 @@ public class SSFileU{
   public static synchronized void writePDFFromXHTML(
     final String  pdfFilePath,
     final String  xhtmlFilePath,
-    final boolean useImageEmbedder) throws Exception{
+    final boolean useImageEmbedder) throws SSErr{
     
     FileOutputStream out = null;
     
@@ -444,18 +467,23 @@ public class SSFileU{
       renderer.setDocument(uri);
       renderer.layout(); //can happen http://stackoverflow.com/questions/13678641/while-converting-xhtml-with-css-to-pdf-got-an-exception-java-lang-indexoutofboun
       renderer.createPDF(out);
-      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }finally{
       
       if(out != null){
-        out.close();
+        try {
+          out.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }
   
   public static void writePDFFromText(
     final String pdfFilePath,
-    final String textFilePath)throws Exception{
+    final String textFilePath)throws SSErr{
     
     OutputStream    out = null;
     BufferedReader  br = null;
@@ -482,52 +510,66 @@ public class SSFileU{
       document.close();
       
     }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }finally{
       
       if(out != null){
-        out.close();
+        try {
+          out.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
       
       if(br != null){
-        br.close();
+        try {
+          br.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }
   
   public static void writePDFFromDoc(
     final String docFilePath,
-    final String pdfFilePath) throws Exception{
+    final String pdfFilePath) throws SSErr{
     
-    final Document        document = new Document();
-    final POIFSFileSystem fs       = new POIFSFileSystem(openFileForRead(docFilePath));
-    final HWPFDocument    word     = new HWPFDocument  (fs);
-    final WordExtractor   we       = new WordExtractor (word);
-    final OutputStream    out      = openOrCreateFileWithPathForWrite(pdfFilePath);
-    final PdfWriter       writer   = PdfWriter.getInstance(document, out);
-    final Range           range    = word.getRange();
-    
-    document.open();
-    writer.setPageEmpty(true);
-    document.newPage();
-    writer.setPageEmpty(true);
-    
-    String[] paragraphs = we.getParagraphText();
-    
-    for (int i = 0; i < paragraphs.length; i++) {
+    try{
+      final Document        document = new Document();
+      final POIFSFileSystem fs       = new POIFSFileSystem(openFileForRead(docFilePath));
+      final HWPFDocument    word     = new HWPFDocument  (fs);
+      final WordExtractor   we       = new WordExtractor (word);
+      final OutputStream    out      = openOrCreateFileWithPathForWrite(pdfFilePath);
+      final PdfWriter       writer   = PdfWriter.getInstance(document, out);
+      final Range           range    = word.getRange();
       
-      org.apache.poi.hwpf.usermodel.Paragraph pr = range.getParagraph(i);
-      // CharacterRun run = pr.getCharacterRun(i);
-      // run.setBold(true);
-      // run.setCapitalized(true);
-      // run.setItalic(true);
-      paragraphs[i] = paragraphs[i].replaceAll("\\cM?\r?\n", "");
-      System.out.println("Length:" + paragraphs[i].length());
-      System.out.println("Paragraph" + i + ": " + paragraphs[i].toString());
+      document.open();
+      writer.setPageEmpty(true);
+      document.newPage();
+      writer.setPageEmpty(true);
       
-      // add the paragraph to the document
-      document.add(new Paragraph(paragraphs[i]));
+      String[] paragraphs = we.getParagraphText();
+      
+      for (int i = 0; i < paragraphs.length; i++) {
+        
+        org.apache.poi.hwpf.usermodel.Paragraph pr = range.getParagraph(i);
+        // CharacterRun run = pr.getCharacterRun(i);
+        // run.setBold(true);
+        // run.setCapitalized(true);
+        // run.setItalic(true);
+        paragraphs[i] = paragraphs[i].replaceAll("\\cM?\r?\n", "");
+        System.out.println("Length:" + paragraphs[i].length());
+        System.out.println("Paragraph" + i + ": " + paragraphs[i].toString());
+        
+        // add the paragraph to the document
+        document.add(new Paragraph(paragraphs[i]));
+      }
+      
+      document.close();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
-    
-    document.close();
   }
   
   public static void writeScaledPNGFromPDF(
@@ -535,7 +577,7 @@ public class SSFileU{
     final String  pngFilePath,
     final Integer width,
     final Integer height,
-    final boolean scale) throws Exception{
+    final boolean scale) throws SSErr{
     
     PdfDecoder    pdfToImgDecoder = null;
     BufferedImage buffImage;
@@ -568,7 +610,9 @@ public class SSFileU{
       if(scale){
         scalePNGAndWrite(buffImage, pngFilePath, width, height);
       }
-      
+     
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }finally{
       
       if(pdfToImgDecoder != null){
@@ -595,7 +639,7 @@ public class SSFileU{
   
   public static void writeStr(
     final String str,
-    final String filePath) throws Exception{
+    final String filePath) throws SSErr{
     
     OutputStreamWriter out = null;
     
@@ -604,63 +648,73 @@ public class SSFileU{
       out = new OutputStreamWriter(openOrCreateFileWithPathForWrite(filePath), SSEncodingU.utf8.toString());
       
       out.write(str);
-      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }finally{
       
       if(out != null){
-        out.close();
+        try {
+          out.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
       }
     }
   }
   
   public static String readImageToBase64Str(
-    final String  filePath, 
-    final Integer transmissionSize) throws Exception{
-    
-    final DataInputStream fileReader = new DataInputStream (new FileInputStream(new File(filePath)));
-    final List<Byte>      bytes      = new ArrayList<>();
-    byte[]                chunk      = new byte[transmissionSize];
-    int                   fileChunkLength;
-    
-    while(true){
-      
-      fileChunkLength = fileReader.read(chunk);
-      
-      if(fileChunkLength == -1){
-        break;
-      }
-      
-      for(int counter = 0; counter < fileChunkLength; counter++){
-        bytes.add(chunk[counter]);
-      }
-    }
-    
-    return "data:image/png;base64," + DatatypeConverter.printBase64Binary(ArrayUtils.toPrimitive(bytes.toArray(new Byte[bytes.size()])));
-  }
-  
-  private static void formatAudioAndVideoFileName(final File file) throws Exception{
-    
-    final  Path      pathToFile  = file.toPath();
-    String            fileName   = pathToFile.getFileName().toString().toLowerCase();
-    final  SSFileExtE fileExt    = SSFileExtE.ext(fileName);
-    
-    if(!SSFileExtE.isAudioOrVideoFileExt(fileExt)){
-      return;
-    }
-    
-    fileName = SSStrU.replaceAllBlanksSpecialCharactersDoubleDots(fileName, SSStrU.underline);
+    final String  filePath,
+    final Integer transmissionSize) throws SSErr{
     
     try{
+      final DataInputStream fileReader = new DataInputStream (new FileInputStream(new File(filePath)));
+      final List<Byte>      bytes      = new ArrayList<>();
+      byte[]                chunk      = new byte[transmissionSize];
+      int                   fileChunkLength;
+      
+      while(true){
+        
+        fileChunkLength = fileReader.read(chunk);
+        
+        if(fileChunkLength == -1){
+          break;
+        }
+        
+        for(int counter = 0; counter < fileChunkLength; counter++){
+          bytes.add(chunk[counter]);
+        }
+      }
+      
+      return "data:image/png;base64," + DatatypeConverter.printBase64Binary(ArrayUtils.toPrimitive(bytes.toArray(new Byte[bytes.size()])));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  private static void formatAudioAndVideoFileName(final File file) throws SSErr{
+    
+    try{
+      final  Path       pathToFile  = file.toPath();
+      String            fileName    = pathToFile.getFileName().toString().toLowerCase();
+      final  SSFileExtE fileExt     = SSFileExtE.ext(fileName);
+      
+      if(!SSFileExtE.isAudioOrVideoFileExt(fileExt)){
+        return;
+      }
+      
+      fileName = SSStrU.replaceAllBlanksSpecialCharactersDoubleDots(fileName, SSStrU.underline);
+      
       Files.move(pathToFile, pathToFile.resolveSibling(fileName));
-    }catch(FileAlreadyExistsException error){
-      System.out.println("file " + pathToFile.resolveSibling(fileName) + " already exists!");
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
 }
 
 //  private void writePDF(
 //    final String pdfFilePath,
-//    final String filePath) throws Exception{
+//    final String filePath) throws SSErr{
 //
 //    FileOutputStream out      = null;
 //    ITextRenderer    renderer;
@@ -692,7 +746,7 @@ public class SSFileU{
 //  }
 
 
-//  private static void existsDirTemp() throws Exception{
+//  private static void existsDirTemp() throws SSErr{
 //
 //    File file = new File(dirWorkingTmp());
 //
@@ -717,7 +771,7 @@ public class SSFileU{
 //    return false;
 //  }
 
-//	public static String copyDocumentFromWebdav(String filename) throws Exception {
+//	public static String copyDocumentFromWebdav(String filename) throws SSErr {
 //		try {
 //			InputStream is = WebdavHelper.getInstance().getDocument(filename);
 //			String location = SolrG.getTempFolderAbsolute();
@@ -786,7 +840,7 @@ public class SSFileU{
 //    }
 //  }
 
-//private static void formatAudioAndVideoFileNamesInDir(final File[] files) throws Exception {
+//private static void formatAudioAndVideoFileNamesInDir(final File[] files) throws SSErr {
 //
 //    for(File file : files){
 //

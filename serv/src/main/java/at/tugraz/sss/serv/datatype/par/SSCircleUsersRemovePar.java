@@ -36,19 +36,19 @@ public class SSCircleUsersRemovePar extends SSServPar{
   public SSUri                 circle                       = null;
   public List<SSUri>           users                        = new ArrayList<>();
 
-  public String getCircle() throws Exception{
+  public String getCircle() throws SSErr{
     return SSStrU.removeTrailingSlash(circle);
   }
   
-  public void setCircle(final String circle) throws Exception{
+  public void setCircle(final String circle) throws SSErr{
     this.circle = SSUri.get(circle);
   }
 
-  public List<String> getUsers() throws Exception{
+  public List<String> getUsers() throws SSErr{
     return SSStrU.removeTrailingSlash(users);
   }
   
-  public void setUsers(final List<String> users) throws Exception{
+  public void setUsers(final List<String> users) throws SSErr{
     this.users = SSUri.get(users); 
   }
   
@@ -60,7 +60,7 @@ public class SSCircleUsersRemovePar extends SSServPar{
     final SSUri          circle,
     final List<SSUri>    users,
     final boolean        withUserRestriction,
-    final boolean        shouldCommit) throws Exception{
+    final boolean        shouldCommit) throws SSErr{
     
     super(SSVarNames.circleUsersRemove, null, user, servPar.sqlCon);
     
