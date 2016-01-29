@@ -54,7 +54,10 @@ public class SSEntityActivityFct{
       
       switch(error.code){
         case servInvalid: SSLogU.warn(error); break;
-        default: SSServErrReg.regErrThrow(error);
+        default: {
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
       }
 
     }catch(Exception error){
@@ -83,7 +86,10 @@ public class SSEntityActivityFct{
       
       switch(error.code){
         case servInvalid: SSLogU.warn(error); break;
-        default: SSServErrReg.regErrThrow(error);
+        default: {
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
       }
 
     }catch(Exception error){
@@ -112,7 +118,10 @@ public class SSEntityActivityFct{
       
       switch(error.code){
         case servInvalid: SSLogU.warn(error); break;
-        default: SSServErrReg.regErrThrow(error);
+        default: {
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
       }
       
     }catch(Exception error){

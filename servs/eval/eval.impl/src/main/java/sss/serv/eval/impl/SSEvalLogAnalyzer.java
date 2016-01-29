@@ -1220,6 +1220,7 @@ public class SSEvalLogAnalyzer {
               System.out.println("    " + new Date(detail.timestamp));
               
               counter++;
+              break;
             }
           }
         }

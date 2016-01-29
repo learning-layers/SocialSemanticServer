@@ -689,6 +689,7 @@ implements
         
         default:{
           SSServErrReg.regErrThrow(error);
+          break;
         }
       }
       
@@ -793,6 +794,7 @@ implements
         
         default:{
           SSServErrReg.regErrThrow(error);
+          break;
         }
       }
       
@@ -917,6 +919,7 @@ implements
         
         default:{
           SSServErrReg.regErrThrow(error);
+          break;
         }
       }
       

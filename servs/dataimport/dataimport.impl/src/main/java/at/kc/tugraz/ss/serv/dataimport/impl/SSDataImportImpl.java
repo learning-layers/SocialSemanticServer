@@ -252,6 +252,7 @@ implements
           
           default:{
             SSLogU.err(error);
+            break;
           }
         }
         
@@ -298,6 +299,7 @@ implements
             
             default:{
               SSLogU.err(error);
+              break;
             }
           }
           
@@ -347,6 +349,7 @@ implements
             
             default:{
               SSLogU.err(error);
+              break;
             }
           }
           
@@ -449,6 +452,7 @@ implements
         
         default:{
           SSServErrReg.regErrThrow(error);
+          break;
         }
       }
       

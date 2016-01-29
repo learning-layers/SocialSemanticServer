@@ -2277,7 +2277,11 @@ public List<SSUri> getCircleURIs(
       switch(circleType){
         case priv: circleRights.add(SSCircleRightE.all);  break;
         case pub:  circleRights.add(SSCircleRightE.read); break;
-        default:   circleRights.add(SSCircleRightE.read); circleRights.add(SSCircleRightE.edit);
+        default:{
+          circleRights.add(SSCircleRightE.read);
+          circleRights.add(SSCircleRightE.edit);
+          break;
+        }
       }
       
       return circleRights;

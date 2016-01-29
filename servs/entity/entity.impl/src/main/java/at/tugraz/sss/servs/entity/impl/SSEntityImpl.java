@@ -3170,6 +3170,7 @@ implements
         
         default:{
           SSServErrReg.regErrThrow(error);
+          break;
         }
       }
       

@@ -61,7 +61,10 @@ public class SSFriendActivityFct{
           break;
         }
         
-        default: SSServErrReg.regErrThrow(error);
+        default: {
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
       }
       
     }catch(Exception error){

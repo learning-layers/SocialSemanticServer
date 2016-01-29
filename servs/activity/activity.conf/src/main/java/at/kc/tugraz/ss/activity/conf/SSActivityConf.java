@@ -25,9 +25,6 @@ import at.tugraz.sss.serv.conf.api.SSServConfA;
 public class SSActivityConf extends SSServConfA{
   
   public static SSActivityConf copy(final SSActivityConf orig){
-    
-    final SSActivityConf copy = (SSActivityConf) SSServConfA.copy(orig, new SSActivityConf());
-    
-    return copy;
+    return (SSActivityConf) SSServConfA.copy(orig, new SSActivityConf());
   }
 }

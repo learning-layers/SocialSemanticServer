@@ -224,7 +224,10 @@ implements
           
           switch(error.code){
             case servInvalid: SSLogU.warn(error); return;
-            default: SSServErrReg.regErrThrow(error); return;
+            default: {
+              SSServErrReg.regErrThrow(error);
+              return;
+            }
           }
         }
       }
@@ -399,7 +402,10 @@ implements
         
         switch(error.code){
           case servInvalid: SSLogU.warn(error); return;
-          default: SSServErrReg.regErrThrow(error); return;
+          default:{
+            SSServErrReg.regErrThrow(error);
+            return;
+          }
         }
       }
       

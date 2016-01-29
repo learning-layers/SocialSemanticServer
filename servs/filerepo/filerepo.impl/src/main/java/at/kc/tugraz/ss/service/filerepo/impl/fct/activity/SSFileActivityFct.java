@@ -58,7 +58,10 @@ public class SSFileActivityFct{
       
       switch(error.code){
         case servInvalid: SSLogU.warn(error); break;
-        default: SSServErrReg.regErrThrow(error);
+        default: {
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
       }
       
     }catch(Exception error){
