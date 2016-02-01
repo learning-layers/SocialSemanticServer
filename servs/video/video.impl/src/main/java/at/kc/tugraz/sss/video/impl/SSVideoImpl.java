@@ -412,7 +412,7 @@ implements
               null,  //fileExt
               par.file, //file
               null, //type
-              null, //label
+              par.label, //label
               video, //entity,
               false, //createThumb
               null, //entityToAddThumbTo

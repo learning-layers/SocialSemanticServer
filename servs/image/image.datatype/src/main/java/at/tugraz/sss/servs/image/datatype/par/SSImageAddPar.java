@@ -21,11 +21,9 @@
 package at.tugraz.sss.servs.image.datatype.par;
 
 import at.tugraz.sss.serv.datatype.enums.SSImageE;
-
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import java.sql.*;
 
 public class SSImageAddPar extends SSServPar{
   
@@ -34,6 +32,7 @@ public class SSImageAddPar extends SSServPar{
   public SSImageE imageType                            = null;
   public SSUri    entity                               = null;
   public SSUri    file                                 = null;
+  public SSLabel  label                                = null;
   public boolean  createThumb                          = false;
   public boolean  isImageToAddTheThumb                 = false;
   public boolean  removeThumbsFromEntity               = false;
@@ -54,6 +53,10 @@ public class SSImageAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(file);
   }
   
+  public String getLabel(){
+    return SSStrU.toStr(label);
+  }
+  
   public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity);
   }
@@ -70,6 +73,10 @@ public class SSImageAddPar extends SSServPar{
     this.file = SSUri.get(file);
   }
   
+  public void setLabel(final String label) throws SSErr{
+    this.label = SSLabel.get(label);
+  }
+  
   public SSImageAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSImageAddPar(
@@ -79,7 +86,8 @@ public class SSImageAddPar extends SSServPar{
     final SSUri         link,
     final SSImageE      imageType,
     final SSUri         entity,
-    final SSUri         file, 
+    final SSUri         file,
+    final SSLabel       label,
     final boolean       createThumb,
     final boolean       isImageToAddTheThumb,
     final boolean       removeThumbsFromEntity, 
@@ -93,6 +101,7 @@ public class SSImageAddPar extends SSServPar{
     this.imageType                            = imageType;
     this.entity                               = entity;
     this.file                                 = file;
+    this.label                                = label;
     this.createThumb                          = createThumb;
     this.isImageToAddTheThumb                 = isImageToAddTheThumb;
     this.removeThumbsFromEntity               = removeThumbsFromEntity;

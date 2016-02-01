@@ -39,12 +39,12 @@ import com.evernote.clients.NoteStoreClient;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Resource;
 import java.io.*;
-import java.util.logging.*;
 
 public class SSDataImportEvernoteNoteContentHandler{
   
   private final SSUri             user;
   private final SSUri             noteUri;
+  private final SSLabel           noteLabel;
   private final Note              note;
   private final NoteStoreClient   noteStore;
   private final SSFileRepoServerI fileServ;
@@ -58,6 +58,7 @@ public class SSDataImportEvernoteNoteContentHandler{
     final SSUri             user,
     final Note              note,
     final SSUri             noteUri,
+    final SSLabel           noteLabel,
     final NoteStoreClient   noteStore){
     
     this.conf          = conf;
@@ -66,6 +67,7 @@ public class SSDataImportEvernoteNoteContentHandler{
     this.user          = user;
     this.note          = note;
     this.noteUri       = noteUri;
+    this.noteLabel     = noteLabel;
     this.noteStore     = noteStore;
   }
   
@@ -152,7 +154,7 @@ public class SSDataImportEvernoteNoteContentHandler{
           null, //fileExt
           fileUri, //file
           SSEntityE.file, //type,
-          null, //label
+          noteLabel, //label
           noteUri, //entity
           true, //createThumb
           noteUri, //entityToAddThumbTo

@@ -656,21 +656,21 @@ implements
         }
       }
         
-      par.file = 
+      par.file =
         entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          par, 
-          par.user, 
-          par.file,  //entity
-          par.type,  //type
-          par.label, //label,
-          null, //description, 
-          null, //creationTime, 
-          null, //read, 
-          false, //setPublic, 
-          true, //createIfNotExists
-          par.withUserRestriction, //withUserRestriction
-          false)); //shouldCommit)
+          new SSEntityUpdatePar(
+            par,
+            par.user,
+            par.file,  //entity
+            par.type,  //type
+            par.label, //label,
+            null, //description,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic,
+            true, //createIfNotExists
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
       
       if(par.file == null){
         dbSQL.rollBack(par, par.shouldCommit);
@@ -736,6 +736,7 @@ implements
               SSImageE.thumb, //imageType,
               entityToAddThumbTo, //entity
               par.file, //file
+              par.label, //label
               true, //createThumb
               true, //isImageToAddTheThumb,
               true, //removeThumbsFromEntity

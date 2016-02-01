@@ -154,6 +154,7 @@ implements
             SSImageE.screenShot, //image type
             app, //forEntity
             null, //file
+            par.label, //label
             false, //createThumb
             false, //isImageToAddTheThumb
             false, //removeThumbsFromEntity

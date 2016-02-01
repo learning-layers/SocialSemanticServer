@@ -428,7 +428,7 @@ implements
             par.user,
             imageUri,  //entity
             SSEntityE.image,  //type
-            null, //label,
+            par.label, //label,
             null, //description,
             null, //creationTime,
             null, //read,
@@ -484,7 +484,7 @@ implements
             null, //fileExt
             thumbFileURI, //file
             null, //type
-            null, //label
+            par.label, //label
             imageUri, //entity
             false, //createThumb
             null, //entityToAddThumbTo
@@ -506,7 +506,7 @@ implements
             null, //fileExt
             par.file, //file
             null, //type
-            null, //label
+            par.label, //label
             imageUri, //entity
             false, //createThumb
             null, //entityToAddThumbTo
@@ -616,6 +616,7 @@ implements
             SSImageE.image, //imageType
             par.entity, //entity
             par.file, //file
+            entity.label, //label
             false, //createThumb
             false, //isImageToAddTheThumb
             false, //removeThumbsFromEntity
@@ -662,6 +663,7 @@ implements
         par.user,
         par.entity,
         par.file,
+        entity.label,
         par.withUserRestriction)){
         
         dbSQL.rollBack(par, par.shouldCommit);
@@ -729,6 +731,7 @@ implements
     final SSUri   user,
     final SSUri   entity,
     final SSUri   file,
+    final SSLabel entityLabel,
     final boolean withUserRestriction) throws SSErr{
     
     try{
@@ -761,6 +764,7 @@ implements
               SSImageE.thumb,
               entity, //entity
               fileThumb.file.id, //file
+              entityLabel, //label
               false, //createThumb
               false, //isImageToAddTheThumb
               false, //removeThumbsFromEntity

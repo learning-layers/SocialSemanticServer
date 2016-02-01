@@ -377,6 +377,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     SSUri                notebookUri;
     SSUri                noteUri;
     List<String>         noteTagNames;
+    SSLabel              noteLabel;
     
     if(notes == null){
       return;
@@ -408,11 +409,13 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
           notebook,
           sharedNotebookGuids);
       
+      noteLabel = getNoteLabel(note);
+        
       miscFct.addNote(
         servPar,
         SSToolContextE.evernoteImport,
         noteUri,
-        getNoteLabel(note),
+        noteLabel,
         notebookUri,
         note.getCreated());
       
@@ -465,6 +468,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         userUri,
         noteWithContent,
         noteUri,
+        noteLabel,
         evernoteInfo.noteStore).handleNoteContent(servPar);
     }
   }
@@ -476,6 +480,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     SSUri                resourceUri;
     Note                 note;
     SSUri                noteUri;
+    SSLabel              resourceLabel;
     SSFileExtE           fileExt;
     
     if(resources == null){
@@ -549,12 +554,13 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
             false));
       
       noteUri             = getNormalOrSharedNoteUri (evernoteInfo, note);
+      resourceLabel       = getResourceLabel(resource, note);
       
       miscFct.addResource(
         servPar,
         SSToolContextE.evernoteImport,
         resourceUri,
-        getResourceLabel(resource, note),
+        resourceLabel,
         note.getUpdated(),
         noteUri);
       
@@ -567,7 +573,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
           fileExt, //fileExt
           null, //file
           SSEntityE.file, //type,
-          null, //label
+          resourceLabel, //label
           resourceUri, //entity
           true, //createThumb,
           resourceUri, //entityToAddThumbTo
@@ -576,7 +582,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
           false));//shouldCommit
       
       miscFct.addResourceUEs(
-         servPar,
+        servPar,
         resourceUri,
         note.getUpdated());
     }
