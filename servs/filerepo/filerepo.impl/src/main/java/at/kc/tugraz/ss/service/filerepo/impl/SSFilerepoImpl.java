@@ -238,25 +238,40 @@ implements
     
     try{
       
-      if(
-        !par.isPublicDownload &&
-        par.withUserRestriction){
+      SSEntity file = null;
         
-        final SSEntity file =
+      if(
+        par.withUserRestriction &&
+        !par.isPublicDownload){
+        
+        file =
           sql.getEntityTest(
             par, 
             par.user,
             par.file,
             par.withUserRestriction);
-        
+       
         if(file == null){
           throw SSErr.get(SSErrE.userNotAllowedToAccessEntity);
+        }
+        
+      }else{
+        
+        file =
+          sql.getEntityTest(
+            par, 
+            par.user,
+            par.file,
+            false); //withUserRestriction
+        
+        if(file == null){
+          throw SSErr.get(SSErrE.entityDoesNotExist);
         }
       }
       
       final String            fileId          = SSConf.fileIDFromSSSURI(par.file);
       final FileInputStream   fileInputStream = new FileInputStream(new File(conf.getLocalWorkPath() + fileId));
-      final SSFileDownloadRet ret             = new SSFileDownloadRet(par.file, null);
+      final SSFileDownloadRet ret             = new SSFileDownloadRet(par.file, file.label, null);
       
       switch(par.clientType){
         
@@ -765,7 +780,7 @@ implements
     
     try{
     
-      final SSFileExtE  fileExt       = SSFileExtE.ext(SSStrU.removeTrailingSlash(par.file));
+      final SSFileExtE  fileExt       = SSFileExtE.ext(par.file);
       final SSMimeTypeE mimeType      = SSMimeTypeE.mimeTypeForFileExt (fileExt);
       final SSUri       downloadLink  =
         SSUri.get(

@@ -161,7 +161,7 @@ public class SSRESTFile{
     final String file) throws SSErr{
     
     final SSFileDownloadPar par;
-    String                  fileName;
+//    String                  fileName;
     Connection               sqlCon = null;
     
     try{
@@ -183,8 +183,8 @@ public class SSRESTFile{
             false, //isPublicDownload
             SSClientE.rest);  //clientTpype
         
-        fileName = SSStrU.removeTrailingSlash(par.file);
-        fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
+//        fileName = SSStrU.removeTrailingSlash(par.file);
+//        fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
         
       }catch(Exception error){
         return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
@@ -195,8 +195,8 @@ public class SSRESTFile{
         final SSFileDownloadRet ret         = (SSFileDownloadRet) fileServ.fileDownload(SSClientE.rest, par);
         
         return Response.ok(ret.outputStream).
-          header("Content-Disposition", "inline; filename=\"" + fileName + "\"").
-          header("Content-Type", SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(fileName)).toString()).
+          header("Content-Disposition", "inline; filename=\"" + ret.label + "\"").
+          header("Content-Type", SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(ret.file)).toString()).
           build();
         
       }catch(Exception error){
@@ -239,7 +239,7 @@ public class SSRESTFile{
     final String file) throws SSErr{
     
     final SSFileDownloadPar par;
-    String                  fileName;
+//    String                  fileName;
     Connection               sqlCon = null;
     
     try{
@@ -263,8 +263,8 @@ public class SSRESTFile{
         
         par.key  = key;
         
-        fileName = SSStrU.removeTrailingSlash(par.file);
-        fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
+//        fileName = SSStrU.removeTrailingSlash(par.file);
+//        fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
         
       }catch(Exception error){
         return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
@@ -275,8 +275,8 @@ public class SSRESTFile{
         final SSFileDownloadRet ret         = (SSFileDownloadRet) fileServ.fileDownload(SSClientE.rest, par);
         
         return Response.ok(ret.outputStream).
-          header("Content-Disposition", "inline; filename=\"" + fileName + "\"").
-          header("Content-Type", SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(fileName)).toString()).
+          header("Content-Disposition", "inline; filename=\"" + ret.label + "\"").
+          header("Content-Type", SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(ret.file)).toString()).
           build();
         
       }catch(Exception error){
@@ -310,7 +310,7 @@ public class SSRESTFile{
     final String file) throws SSErr{
     
     final SSFileDownloadPar par;
-    String                  fileName;
+//    String                  fileName;
     Connection               sqlCon = null;
     
     try{
@@ -332,8 +332,8 @@ public class SSRESTFile{
             true, //isPublicDownload
             SSClientE.rest);
         
-        fileName = SSStrU.removeTrailingSlash(par.file);
-        fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
+//        fileName = SSStrU.removeTrailingSlash(par.file);
+//        fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
         
       }catch(Exception error){
         return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
@@ -344,8 +344,8 @@ public class SSRESTFile{
         final SSFileDownloadRet ret         = (SSFileDownloadRet) fileServ.fileDownload(SSClientE.rest, par);
         
         return Response.ok(ret.outputStream).
-          header("Content-Disposition", "inline; filename=\"" + fileName + "\"").
-          header("Content-Type", SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(fileName)).toString()).
+          header("Content-Disposition", "inline; filename=\"" + ret.label + "\"").
+          header("Content-Type", SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(ret.file)).toString()).
           build();
         
       }catch(Exception error){

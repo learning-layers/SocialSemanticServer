@@ -136,16 +136,19 @@ public enum SSFileExtE{
       return SSStrU.contains(imageFileExts, fileExt);
   }
   
-  public static SSFileExtE ext(final String fileName) throws SSErr {
+  public static SSFileExtE ext(final SSUri file) throws SSErr {
     
     try{
+      
+      final String fileStr = SSStrU.removeTrailingSlash(file);
+      
       if(
-        SSStrU.isEmpty       (fileName) ||
-        fileName.lastIndexOf (SSStrU.dot) == -1){
-        throw new Exception("fileName is null or doesnt contain dot with succeeding file extension");
+        SSStrU.isEmpty       (fileStr) ||
+        fileStr.lastIndexOf  (SSStrU.dot) == -1){
+        throw new Exception("file id is null or doesnt contain dot with succeeding file extension");
       }
       
-      return get(fileName.substring(fileName.lastIndexOf(SSStrU.dot) + 1));
+      return get(fileStr.substring(fileStr.lastIndexOf(SSStrU.dot) + 1));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(SSErrE.fileExtInvalid);

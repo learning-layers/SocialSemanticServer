@@ -39,8 +39,6 @@ import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.poi.hwpf.usermodel.Range;
@@ -691,25 +689,6 @@ public class SSFileU{
       return null;
     }
   }
-  
-  private static void formatAudioAndVideoFileName(final File file) throws SSErr{
-    
-    try{
-      final  Path       pathToFile  = file.toPath();
-      String            fileName    = pathToFile.getFileName().toString().toLowerCase();
-      final  SSFileExtE fileExt     = SSFileExtE.ext(fileName);
-      
-      if(!SSFileExtE.isAudioOrVideoFileExt(fileExt)){
-        return;
-      }
-      
-      fileName = SSStrU.replaceAllBlanksSpecialCharactersDoubleDots(fileName, SSStrU.underline);
-      
-      Files.move(pathToFile, pathToFile.resolveSibling(fileName));
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
 }
 
 //  private void writePDF(
@@ -849,5 +828,24 @@ public class SSFileU{
 //      }else{
 //        formatAudioAndVideoFileName(file);
 //      }
+//    }
+//  }
+
+//private static void formatAudioAndVideoFileName(final File file) throws SSErr{
+//    
+//    try{
+//      final  Path       pathToFile  = file.toPath();
+//      String            fileName    = pathToFile.getFileName().toString().toLowerCase();
+//      final  SSFileExtE fileExt     = SSFileExtE.ext(fileName);
+//      
+//      if(!SSFileExtE.isAudioOrVideoFileExt(fileExt)){
+//        return;
+//      }
+//      
+//      fileName = SSStrU.replaceAllBlanksSpecialCharactersDoubleDots(fileName, SSStrU.underline);
+//      
+//      Files.move(pathToFile, pathToFile.resolveSibling(fileName));
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
 //    }
 //  }

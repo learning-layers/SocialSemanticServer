@@ -28,19 +28,26 @@ import javax.ws.rs.core.*;
 public class SSFileDownloadRet extends SSServRetI{
   
   public  SSUri           file         = null;
+  public  SSLabel         label        = null;
   public  StreamingOutput outputStream = null;
 
-  public String getFile() throws SSErr{
+  public String getFile(){
     return SSStrU.removeTrailingSlash(file);
   }
    
+  public String getLabel(){
+    return SSStrU.toStr(label);
+  }
+  
   public SSFileDownloadRet(
     final SSUri           file,
+    final SSLabel         label,
     final StreamingOutput outputStream){
     
     super(SSVarNames.fileDownload);
     
     this.file         = file;
+    this.label        = label;
     this.outputStream = outputStream;
   }
 }
