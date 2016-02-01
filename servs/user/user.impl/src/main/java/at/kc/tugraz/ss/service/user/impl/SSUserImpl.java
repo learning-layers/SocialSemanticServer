@@ -144,7 +144,12 @@ implements
   public boolean userExists(final SSUserExistsPar par) throws SSErr{
     
     try{
-      return sql.existsUser(par, par.email);
+      
+      if(par.email == null){
+        return false;
+      }
+      
+      return sql.existsUser(par, par.email.toLowerCase());
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
@@ -155,7 +160,12 @@ implements
   public SSUri userURIGet(final SSUserURIGetPar par) throws SSErr{
     
     try{
-      return sql.getUserURIForEmail(par, par.email);
+      
+      if(par.email == null){
+        return null;
+      }
+      
+      return sql.getUserURIForEmail(par, par.email.toLowerCase());
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -171,7 +181,13 @@ implements
       final List<SSUri> uris = new ArrayList<>();
       
       for(String email : par.emails){
-        uris.add(sql.getUserURIForEmail(par, email));
+        
+        if(email == null){
+          uris.add(null);
+          continue;
+        }
+        
+        uris.add(sql.getUserURIForEmail(par, email.toLowerCase()));
       }
       
       return uris;
@@ -332,7 +348,7 @@ implements
         return null;
       }
       
-      sql.addUser(par, userUri, tmpEmail);
+      sql.addUser(par, userUri, tmpEmail.toLowerCase());
       
       publicCircleURI =
         circleServ.circleUsersAdd(

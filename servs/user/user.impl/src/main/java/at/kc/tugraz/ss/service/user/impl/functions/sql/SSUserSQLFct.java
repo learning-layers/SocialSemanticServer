@@ -81,7 +81,7 @@ public class SSUserSQLFct extends SSCoreSQL{
   
   public SSUri getUserURIForEmail(
     final SSServPar servPar, 
-    final String email) throws SSErr{
+    final String    email) throws SSErr{
     
     ResultSet resultSet  = null;
     
@@ -103,7 +103,7 @@ public class SSUserSQLFct extends SSCoreSQL{
       
       resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
-      if(!existsFirstResult(resultSet)){
+      if(!existsFirstResult(resultSet)){   
         return null;
       }
       

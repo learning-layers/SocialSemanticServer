@@ -36,10 +36,16 @@ public class SSAuthMiscFct{
   public static String genKey(
     final String email, 
     final String password) throws SSErr{
-
-    final String toDigest = email + password;
     
     try{
+      
+      if(email == null){
+        SSServErrReg.regErrThrow(SSErrE.parameterMissing);
+        return null;
+      }
+      
+      final String toDigest = email.toLowerCase() + password;
+      
       if(SSStrU.isEmpty(toDigest)){
         throw new Exception("to digest string not valid");
       }
@@ -47,7 +53,7 @@ public class SSAuthMiscFct{
       final MessageDigest digest = MessageDigest.getInstance(SSEncodingU.md5.toString());
       
       byte[] hash = digest.digest(toDigest.getBytes());
-
+      
       //converting byte array to Hexadecimal String
       final StringBuilder sb = new StringBuilder(2 * hash.length);
       
@@ -64,7 +70,7 @@ public class SSAuthMiscFct{
   }
   
   public static String checkAndGetKey(
-    final SSServPar servPar, 
+    final SSServPar    servPar, 
     final SSAuthSQLFct sqlFct,
     final SSUri        userUri,
     final String       email,
@@ -72,7 +78,8 @@ public class SSAuthMiscFct{
     
     try{
       
-      if(!sqlFct.hasKey(servPar, userUri)){
+      if(
+        !sqlFct.hasKey(servPar, userUri)){
         throw SSErr.get(SSErrE.userNotRegistered);
       }
        

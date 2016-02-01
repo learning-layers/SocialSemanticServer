@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.service.user.datatypes.pars;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import java.sql.*;
 
 public class SSUserExistsPar extends SSServPar{
   

@@ -354,12 +354,12 @@ implements
               throw SSErr.get(SSErrE.userNotRegistered);
             }
             
-            userUri = 
-             userServ.userURIGet(
-               new SSUserURIGetPar(
-                 par,
-                 SSConf.systemUserUri, 
-                 email));
+            userUri =
+              userServ.userURIGet(
+                new SSUserURIGetPar(
+                  par,
+                  SSConf.systemUserUri,
+                  email));
             
             return new SSAuthCheckCredRet(
               SSAuthMiscFct.checkAndGetKey(
