@@ -112,6 +112,7 @@ public class SSTagActAndLogFct {
               SSStrU.toStr(label), //content,
               null, //entities
               null, //users
+              null, //creationTime
               shouldCommit));
         }
       }
@@ -174,6 +175,7 @@ public class SSTagActAndLogFct {
           SSStrU.toStr(label), //content,
           null, //entities
           null, //users
+          null, //creationTime
           shouldCommit));
       
     }catch(SSErr error){

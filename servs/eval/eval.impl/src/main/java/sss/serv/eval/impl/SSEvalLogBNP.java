@@ -164,7 +164,13 @@ public class SSEvalLogBNP {
       
       //timestamp;tool context;user label;log type;entity;entity type;entity label;content;tag type;entities' ids;entities' labels;users' labels;episodespace;selected bits measure;not selected entities' ids;not selected entities' labels
       //time stamp
-      logText += SSDateU.dateAsLong();
+      
+      if(par.creationTime != null){
+        logText += par.creationTime;
+      }else{
+        logText += SSDateU.dateAsLong();
+      }
+      
       logText += SSStrU.semiColon;
       
       //tool context

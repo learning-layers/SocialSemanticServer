@@ -101,6 +101,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
           null,  //content
           null, //entities
           null,  //users
+          notebookCreationTime, //creationTime
           false)); //shouldCommit
       
     }catch(Exception error){
@@ -173,6 +174,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
           null, //content
           SSUri.asListNotNull(notebookUri), //entities
           null, //users
+          creationTime, //creationTime
           false)); //shouldCommit
       
     }catch(Exception error){
@@ -493,6 +495,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
           null, //content
           SSUri.asListNotNull(noteUri), //entitites
           null,  //users
+          resourceAddTime, //creationTime
           false)); //shouldCommit
       
     }catch(Exception error){

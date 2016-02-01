@@ -22,10 +22,9 @@ package sss.serv.eval.datatypes.par;
 
 import at.tugraz.sss.serv.util.*;
 import sss.serv.eval.datatypes.SSEvalLogE;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
-import java.sql.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +37,7 @@ public class SSEvalLogPar extends SSServPar{
   public String           content      = null;
   public List<SSUri>      entities     = new ArrayList<>();
   public List<SSUri>      users        = new ArrayList<>();
+  public Long             creationTime = null;
   
   public void setToolContext(final String toolContext) throws SSErr {
     this.toolContext = SSToolContextE.get(toolContext);
@@ -89,7 +89,8 @@ public class SSEvalLogPar extends SSServPar{
     final SSUri          entity, 
     final String         content, 
     final List<SSUri>    entities,
-    final List<SSUri>    users, 
+    final List<SSUri>    users,
+    final Long           creationTime,
     final boolean        shouldCommit){
     
     super(SSVarNames.evalLog, null, user, servPar.sqlCon);
@@ -102,6 +103,7 @@ public class SSEvalLogPar extends SSServPar{
     SSUri.addDistinctWithoutNull(this.entities, entities);
     SSUri.addDistinctWithoutNull(this.users,    users);
     
+    this.creationTime = creationTime;
     this.shouldCommit = shouldCommit;
   }
 }

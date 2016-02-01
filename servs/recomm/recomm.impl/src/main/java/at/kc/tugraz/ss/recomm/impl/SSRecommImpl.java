@@ -257,6 +257,7 @@ implements
           SSStrU.toCommaSeparatedStrNotNull(par.categories),  //content
           null, //entities,
           SSUri.asListNotNull(par.forUser), //users,
+          null, //creationTime
           par.shouldCommit));
       
       final List<SSTagLikelihood> result = recommTags(par);
@@ -283,7 +284,8 @@ implements
           par.entity,
           tagRecommStrResult,  //content
           null, //entities,
-          null, //users,
+          null, //users
+          null, //creationTime
           par.shouldCommit));
       
       return ret;

@@ -113,6 +113,7 @@ public class SSDiscActAndLogFct{
               null, //content
               SSUri.asListNotNull(disc), //entities
               null, //users
+              null, //creationTime
               shouldCommit));
         }
         
@@ -130,6 +131,7 @@ public class SSDiscActAndLogFct{
               SSStrU.toStr(discDescription), //content
               null, //entities
               null, //users
+              null, //creationTime
               shouldCommit));
         }
       }
@@ -191,6 +193,7 @@ public class SSDiscActAndLogFct{
             SSStrU.toStr(entryContent), //content
             SSUri.asListNotNull(entry), //entities
             null, //users
+            null, //creationTime
             shouldCommit));
       }
       
@@ -234,6 +237,7 @@ public class SSDiscActAndLogFct{
             null, //content
             SSUri.asListNotNull(disc), //entities
             null, //users
+            null, //creationTime
             shouldCommit));
       }
       
@@ -325,6 +329,7 @@ public class SSDiscActAndLogFct{
             SSStrU.toStr(content), //content
             null, //entities
             null, //users
+            null, //creationTime
             shouldCommit));
       }
       

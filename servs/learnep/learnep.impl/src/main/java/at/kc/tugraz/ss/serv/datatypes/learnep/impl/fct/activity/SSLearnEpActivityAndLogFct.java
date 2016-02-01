@@ -100,6 +100,7 @@ public class SSLearnEpActivityAndLogFct{
           null, //content
           SSUri.asListNotNull(learnEp), //entities
           null, //users
+          null, //creationTime
           shouldCommit));
       
     }catch(SSErr error){
@@ -160,6 +161,7 @@ public class SSLearnEpActivityAndLogFct{
           null, //content
           SSUri.asListNotNull(learnEp), //entities
           null, //users
+          null, //creationTime
           shouldCommit));
       
     }catch(SSErr error){
@@ -219,6 +221,7 @@ public class SSLearnEpActivityAndLogFct{
           null, //content
           SSUri.asListNotNull(learnEp), //entities
           null, //users
+          null, //creationTime
           shouldCommit));
       
     }catch(SSErr error){
@@ -337,6 +340,7 @@ public class SSLearnEpActivityAndLogFct{
           null, //content
           uris, //entities
           null, //users
+          null, //creationTime
           shouldCommit));
       
     }catch(SSErr error){
@@ -397,6 +401,7 @@ public class SSLearnEpActivityAndLogFct{
           null, //content
           SSUri.asListNotNull(learnEp), //entities
           null, //users
+          null, //creationTime
           shouldCommit));
       
     }catch(SSErr error){
@@ -455,6 +460,7 @@ public class SSLearnEpActivityAndLogFct{
           null, //content
           null, //entities
           usersToShareWith, //users
+          null, //creationTime
           shouldCommit));
       
     }catch(SSErr error){
@@ -514,6 +520,7 @@ public class SSLearnEpActivityAndLogFct{
           null, //content
           includedEntities, //entities
           SSUri.asListNotNull(usersToCopyFor),
+          null, //creationTime
           shouldCommit));
       
     }catch(SSErr error){
@@ -661,6 +668,7 @@ public class SSLearnEpActivityAndLogFct{
           null, //content
           SSUri.asListNotNull(learnEp, circle), //entities
           null, //users
+          null, //creationTime
           shouldCommit));
       
     }catch(SSErr error){
@@ -722,6 +730,7 @@ public class SSLearnEpActivityAndLogFct{
           null, //content
           SSUri.asListNotNull(learnEp, circle), //entities
           null, //users
+          null, //creationTime
           shouldCommit));
       
     }catch(SSErr error){

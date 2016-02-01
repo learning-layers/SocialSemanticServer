@@ -451,6 +451,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
             noteTag, //content
             SSUri.asListNotNull(notebookUri), //entities
             null, //users
+            note.getUpdated(), //creationTime
             false)); //shouldCommit
       }
       
