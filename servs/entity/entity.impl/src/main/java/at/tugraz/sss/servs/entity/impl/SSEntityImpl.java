@@ -891,6 +891,12 @@ implements
       
       if(isPlaceholderAdd){
         
+        actAndLogFct.createPlaceHolder(
+          par,
+          par.user,
+          par.entity, 
+          par.shouldCommit);
+        
         ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
           new SSUEAddPar(
             par,

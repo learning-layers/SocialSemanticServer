@@ -25,7 +25,6 @@ import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.util.*;
-import java.sql.*;
 
 public class SSTagsRemovePar extends SSServPar{
   

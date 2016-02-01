@@ -69,9 +69,14 @@ public class SSEvalLogBNP {
         case discussEntity: //server
         case attachEntities: //server
         case removeEntities: //server
+        case removeLearnEp: //server
+        case changeLearnEpVersionCircleLabel: //server
+        case downloadEntity: //server
+        case createPlaceholder: //server
+        case addTag: //server
+        case removeTag: //server
         case changeLabel:  //client | server
         case changeDescription: //client | server
-        case addTag: //client | server
         case clickBit:  //client
         case clickTag:  //client
         case clickLabelRecommendation:   //client
@@ -83,12 +88,21 @@ public class SSEvalLogBNP {
         case readMessage: //client
         case sendMessage: //client
         case setImportance: //client
-        case removeTag: //client
         case setFilter: //client
         case removeFilter: //client
         case executeJumpToDateButton: //client
         case requestEditButton:  //client
         case releaseEditButton: //client
+          
+        case openBitsAndPieces: //client
+        case openLivingDocuments: //client
+        case closeDiscussionTool: //client
+        case startDiscussionTool: //client
+        case startBitsAndPieces: //client
+        case worksInBitsAndPieces: //client
+        case worksInDiscussionTool: //client
+        case addLearnEpVersionEntityFromRecommendedEntities: //client
+        
         { 
           
           break;

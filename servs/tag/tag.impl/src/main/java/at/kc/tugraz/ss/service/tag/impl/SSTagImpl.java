@@ -616,7 +616,7 @@ implements
         
         final SSEntity entity =
           sql.getEntityTest(
-                par,
+            par,
             par.user,
             par.entity,
             par.withUserRestriction);

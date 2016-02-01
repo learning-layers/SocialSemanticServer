@@ -218,7 +218,7 @@ implements
             par, 
             par.user,
             SSToolContextE.sss,
-            SSEvalLogE.fileDowload,
+            SSEvalLogE.downloadEntity,
             par.file,  //entity
             null, //content,
             null, //entities

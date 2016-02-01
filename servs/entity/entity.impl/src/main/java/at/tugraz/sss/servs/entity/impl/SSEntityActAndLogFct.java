@@ -266,4 +266,40 @@ public class SSEntityActAndLogFct {
       SSServErrReg.regErrThrow(error);
     }
   }
+
+  public void createPlaceHolder(
+    final SSServPar par, 
+    final SSUri     user, 
+    final SSUri     placeholder, 
+    final boolean   shouldCommit) throws SSErr{
+    
+    try{
+      
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par,
+          user,
+          SSToolContextE.organizeArea,
+          SSEvalLogE.createPlaceholder,
+          placeholder, //entity
+          null, //content
+          null, //entities
+          null, //users
+          null, //creationTime
+          shouldCommit));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default:{
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
 }

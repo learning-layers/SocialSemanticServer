@@ -26,7 +26,7 @@ import at.kc.tugraz.ss.activity.datatypes.enums.*;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.par.*;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCirclesWithEntriesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.*;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.SSLearnEpImpl;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
@@ -556,7 +556,7 @@ public class SSLearnEpActivityAndLogFct{
           activityServ.activityAdd(
             new SSActivityAddPar(
               servPar,
-              user,
+              user, 
               SSActivityE.changeLearnEpVersionCircleLabel,
               learnEpVersion,
               null,
@@ -579,19 +579,6 @@ public class SSLearnEpActivityAndLogFct{
             shouldCommit));
       }
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-    
-    try{
-      
       if(
         description != null &&
         !SSStrU.equals(circleEntity.description, description)){
@@ -606,6 +593,37 @@ public class SSLearnEpActivityAndLogFct{
             SSUri.asListNotNull(learnEpCircle, learnEp),
             null,
             null,
+            shouldCommit));
+      }
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default:{ SSServErrReg.regErrThrow(error); break;}
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+    
+    try{
+      
+      if(
+        label != null &&
+        !SSStrU.equals(circleEntity.label, label)){
+        
+        evalServ.evalLog(
+          new SSEvalLogPar(
+            servPar,
+            user,
+            SSToolContextE.organizeArea,
+            SSEvalLogE.changeLearnEpVersionCircleLabel,
+            learnEpCircle,
+            "from " + circleEntity.label + SSStrU.blank + " to " + SSStrU.toStr(label), //content
+            SSUri.asListNotNull(learnEp), //entities
+            null, //users
+            null, //creationTime
             shouldCommit));
       }
       
@@ -854,6 +872,40 @@ public class SSLearnEpActivityAndLogFct{
           learnEp,
           shouldCommit);
       }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public void removeLearnEp(
+    final SSLearnEpRemovePar par, 
+    final boolean            shouldCommit) throws SSErr{
+    
+    try{
+      
+      if(par.storeLogs){
+      
+        evalServ.evalLog(
+          new SSEvalLogPar(
+            par,
+            par.user,
+            SSToolContextE.sss,
+            SSEvalLogE.removeLearnEp,
+            par.learnEp, //entity
+            null, //content
+            null, //entities
+            null, //users
+            null, //creationTime
+            shouldCommit));
+      }
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default:{ SSServErrReg.regErrThrow(error); break;}
+      }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

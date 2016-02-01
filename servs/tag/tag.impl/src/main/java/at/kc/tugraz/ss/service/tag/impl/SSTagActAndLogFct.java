@@ -130,7 +130,7 @@ public class SSTagActAndLogFct {
   }
   
   public void tagsRemove(
-    final SSServPar servPar,
+    final SSServPar        servPar,
     final SSUri            user,
     final SSUri            entity,
     final SSTagLabel       label,
@@ -170,7 +170,7 @@ public class SSTagActAndLogFct {
           servPar,
           user,
           SSToolContextE.sss,
-          SSEvalLogE.tagsRemove,
+          SSEvalLogE.removeTag,
           entity,  //entity
           SSStrU.toStr(label), //content,
           null, //entities

@@ -178,6 +178,7 @@ implements
             null)); //descPar
       
       if(par.entity != null){
+        
         targetEntity =
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
             new SSEntityGetPar(

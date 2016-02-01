@@ -93,7 +93,7 @@ implements
   private final SSEntityServerI            entityServ;
   private final SSEntityServerI            circleServ;
   private final SSLearnEpActivityAndLogFct actAndLogFct;
-  private final SSUserCommons           userCommons;
+  private final SSUserCommons              userCommons;
   
   public SSLearnEpImpl(final SSConfA conf) throws SSErr{
     
@@ -317,7 +317,6 @@ implements
         return;
       }
       
-      final SSEntityServerI circleServ       = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final List<SSEntity>  copiedEntities   = new ArrayList<>();
       final List<SSEntity>  entitiesIncluded = new ArrayList<>();
       SSUri                 copyVersionUri;
@@ -728,6 +727,9 @@ implements
       
       final SSLearnEpRemovePar par = (SSLearnEpRemovePar) parA.getFromClient(clientType, parA, SSLearnEpRemovePar.class);
       
+      par.storeActivities = true;
+      par.storeLogs       = true;
+      
       return SSLearnEpRemoveRet.get(learnEpRemove(par));
       
     }catch(Exception error){
@@ -761,6 +763,10 @@ implements
       }
       
       dbSQL.commit(par, par.shouldCommit);
+      
+      actAndLogFct.removeLearnEp(
+        par, 
+        par.shouldCommit);
       
       return par.learnEp;
     }catch(SSErr error){

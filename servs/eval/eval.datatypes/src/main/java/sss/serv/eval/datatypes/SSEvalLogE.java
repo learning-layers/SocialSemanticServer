@@ -39,9 +39,7 @@ public enum SSEvalLogE{
   circleUsersRemove,
   entityCopy,
   fileUpload,
-  fileDowload,
   categoryAdd,
-  tagsRemove,
   categoriesRemove,
   recommTagsQuery,
   recommTagsResult,
@@ -64,6 +62,12 @@ public enum SSEvalLogE{
   discussEntity, //server
   attachEntities, //server
   removeEntities, //server
+  removeLearnEp, //server
+  changeLearnEpVersionCircleLabel, //server
+  downloadEntity, //server
+  createPlaceholder, //server
+  addTag, //server
+  removeTag, //server
   changeLabel,  //client | server
   changeDescription, //client | server
   clickBit,  //client
@@ -77,15 +81,20 @@ public enum SSEvalLogE{
   readMessage, //client
   sendMessage, //client
   setImportance, //client
-  removeTag, //client
   setFilter, //client
   removeFilter, //client
   executeJumpToDateButton, //client
   requestEditButton,  //client
   releaseEditButton, //client
   
-  //knowbrain && bits and pieces
-  addTag //client | server //TODO refactor to have it at one place only
+  openBitsAndPieces, //client
+  openLivingDocuments, //client
+  closeDiscussionTool, //client
+  startDiscussionTool, //client
+  startBitsAndPieces, //client
+  worksInBitsAndPieces, //client
+  worksInDiscussionTool, //client
+  addLearnEpVersionEntityFromRecommendedEntities, //client
   ;
   
   public static SSEvalLogE get(final String space) throws SSErr{
