@@ -23,12 +23,10 @@ package at.tugraz.sss.servs.entity.impl;
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
-import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.serv.datatype.par.*;
@@ -50,69 +48,69 @@ public class SSEntityActAndLogFct {
     this.evalServ     = evalServ;
   }
   
-  public void entityUpdate(
-    final SSServPar     servPar,
-    final SSUri         user,
-    final boolean       storeLogs,
-    final SSEntity      entity,
-    final SSLabel       label,
-    final SSTextComment description,
-    final boolean       shouldCommit) throws SSErr{
-    
-    if(
-      !storeLogs ||
-      entity == null){
-      return;
-    }
-    
-    try{
-      
-      if(!SSStrU.equals(entity.label, label)){
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            servPar,
-            user,
-            SSToolContextE.sss,
-            SSEvalLogE.changeLabel,
-            entity.id,
-            SSStrU.toStr(entity.label), //content
-            null, //entities
-            null, //users
-            null, //creationTime
-            shouldCommit));
-      }
-      
-      if(!SSStrU.equals(entity.description, description)){
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            servPar,
-            user,
-            SSToolContextE.sss,
-            SSEvalLogE.changeDescription,
-            entity.id,
-            SSStrU.toStr(entity.description), //content
-            null, //entities
-            null, //users
-            null, //creationTime
-            shouldCommit));
-      }
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
+//  public void entityUpdate(
+//    final SSServPar     servPar,
+//    final SSUri         user,
+//    final boolean       storeLogs,
+//    final SSEntity      entity,
+//    final SSLabel       label,
+//    final SSTextComment description,
+//    final boolean       shouldCommit) throws SSErr{
+//    
+//    if(
+//      !storeLogs ||
+//      entity == null){
+//      return;
+//    }
+//    
+//    try{
+//      
+//      if(!SSStrU.equals(entity.label, label)){
+//        
+//        evalServ.evalLog(
+//          new SSEvalLogPar(
+//            servPar,
+//            user,
+//            SSToolContextE.sss,
+//            SSEvalLogE.changeLabel,
+//            entity.id,
+//            SSStrU.toStr(entity.label), //content
+//            null, //entities
+//            null, //users
+//            null, //creationTime
+//            shouldCommit));
+//      }
+//      
+//      if(!SSStrU.equals(entity.description, description)){
+//        
+//        evalServ.evalLog(
+//          new SSEvalLogPar(
+//            servPar,
+//            user,
+//            SSToolContextE.sss,
+//            SSEvalLogE.changeDescription,
+//            entity.id,
+//            SSStrU.toStr(entity.description), //content
+//            null, //entities
+//            null, //users
+//            null, //creationTime
+//            shouldCommit));
+//      }
+//      
+//    }catch(SSErr error){
+//      
+//      switch(error.code){
+//        case servInvalid: SSLogU.warn(error); break;
+//        default:{
+//          SSServErrReg.regErrThrow(error);
+//          break;
+//        }
+//      }
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }
+//  }
   
   public void entityCopy(
     final SSServPar servPar,

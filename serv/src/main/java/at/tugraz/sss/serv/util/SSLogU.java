@@ -43,7 +43,7 @@ public class SSLogU{
     p.setProperty("log4j.appender.file", "org.apache.log4j.RollingFileAppender");
     p.setProperty("log4j.appender.file.File", workDirPath + SSFileU.fileNameSSSLog);
     p.setProperty("log4j.appender.file.MaxFileSize", "10000KB");
-    p.setProperty("log4j.appender.file.MaxBackupIndex", "1");
+    p.setProperty("log4j.appender.file.MaxBackupIndex", "1000");
     p.setProperty("log4j.appender.file.layout", "org.apache.log4j.PatternLayout");
     p.setProperty("log4j.appender.file.layout.ConversionPattern", "%d %5p - %m%n");
     p.setProperty("log4j.appender.file.threshold", "INFO");
@@ -150,6 +150,22 @@ public class SSLogU{
       log.trace(getMsg(logText));
     }else{
       log.trace(logText);
+    }
+  }
+  
+  public static void trace(
+    final Exception  error,
+    final boolean    provideRuntimeInfo,
+    final boolean    doLog){
+    
+    if(!doLog){
+      return;
+    }
+    
+    if(provideRuntimeInfo){
+      log.trace(getMsg(error));
+    }else{
+      log.trace(error.getMessage());
     }
   }
   

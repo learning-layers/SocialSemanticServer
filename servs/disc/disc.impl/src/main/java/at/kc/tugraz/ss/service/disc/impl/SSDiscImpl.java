@@ -703,17 +703,6 @@ implements
       
       final SSDiscUpdateRet ret = discUpdate(par);
       
-//      if(ret.disc != null){
-//        
-//        actAndLogFct.discUpdate(
-//          par, 
-//          par.user,
-//          par.disc,
-//          par.label,
-//          par.content,
-//          par.shouldCommit);
-//      }
-      
       return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -864,16 +853,6 @@ implements
       final SSDiscEntryUpdatePar par = (SSDiscEntryUpdatePar) parA.getFromClient(clientType, parA, SSDiscEntryUpdatePar.class);
       
       final SSDiscEntryUpdateRet ret = discEntryUpdate(par);
-      
-      if(ret.entry != null){
-        
-        actAndLogFct.discEntryUpdate(
-          par, 
-          par.user,
-          ret.entry,
-          par.content,
-          par.shouldCommit);
-      }
       
       return ret;
     }catch(Exception error){

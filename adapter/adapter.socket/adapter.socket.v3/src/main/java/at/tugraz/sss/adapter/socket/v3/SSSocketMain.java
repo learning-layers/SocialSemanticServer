@@ -96,12 +96,23 @@ public class SSSocketMain extends SSServImplStartA{
 //    initializer.join();
     try{
       
-      SSCoreConf.instSet("/sssWorkDir/" + SSFileU.fileNameSSSConf);
-//      SSCoreConf.instSet("C:\\workspace_git\\tomcat\\SocialSemanticServer\\sssWorkDir\\" + SSFileU.fileNameSSSConf);
-//      SSCoreConf.instSet("/home/dtheiler/bp.preparation/" + SSFileU.fileNameSSSConf);
+      try{
+//      SSCoreConf.instSet("/sssWorkDir/" + SSFileU.fileNameSSSConf);
+        SSCoreConf.instSet("C:\\workspace_git\\master\\SocialSemanticServer\\sssWorkDir\\" + SSFileU.fileNameSSSConf);
+      }catch(Exception error){
+        System.err.println("conf couldnt be set");
+        SSServErrReg.regErrThrow(error);
+      }
       
       try{
         SSLogU.init(SSCoreConf.instGet().getSss().getSssWorkDir());
+      }catch(Exception error){
+        System.err.println("logUtil couldnt be set");
+        SSServErrReg.regErrThrow(error);
+      }
+      
+      try{
+        
         SSFileExtE.init    ();
         SSMimeTypeE.init   ();
         SSJSONLDU.init(SSCoreConf.instGet().getJsonLD().uri);
@@ -172,6 +183,7 @@ public class SSSocketMain extends SSServImplStartA{
         SSRecommServ.inst.schedule         ();
         SSKCProjWikiServ.inst.schedule     ();
         SSEvalServ.inst.schedule           ();
+        SSFilerepoServ.inst.schedule       ();
       }catch(Exception error){
         SSServErrReg.regErrThrow(error);
       }

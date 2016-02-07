@@ -24,6 +24,7 @@ public class SSVarNames{
   
   private SSVarNames(){/* Do nothing because of only JSON Jackson needs this */ }
 
+  public static final String filesDeleteNotRegistered                    = "filesDeleteNotRegistered";
   public static final String circleAddEntitiesToCircleOfEntity           = "circleAddEntitiesToCircleOfEntity";
   public static final String kcprojwikiImport                            = "kcprojwikiImport";
   public static final String mailSend                                    = "mailSend";

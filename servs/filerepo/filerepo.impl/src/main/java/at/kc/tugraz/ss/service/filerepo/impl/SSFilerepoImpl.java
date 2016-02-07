@@ -36,10 +36,9 @@ import at.tugraz.sss.serv.datatype.enums.*;
 import at.kc.tugraz.ss.service.filerepo.api.*;
 import at.kc.tugraz.ss.service.filerepo.conf.*;
 import at.kc.tugraz.ss.service.filerepo.datatypes.*;
+import at.kc.tugraz.ss.service.filerepo.datatypes.pars.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.*;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileSQLFct;
 import at.tugraz.sss.adapter.socket.*;
@@ -890,6 +889,57 @@ implements
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
+    }
+  }
+  
+  @Override
+  public boolean filesDeleteNotRegistered(final SSFilesDeleteNotRegisteredPar par) throws SSErr{
+    
+    try{
+      
+      if(SSStrU.isEmpty(par.dirPath)){
+        par.dirPath = SSCoreConf.instGet().getSss().getSssWorkDirTmp();
+      }
+      
+      final File[] filesForDirPath = SSFileU.filesForDirPath(par.dirPath);
+      SSUri        fileURI;
+      SSEntity     fileEntity;
+      int          counter = 1;
+      
+      for(File file : filesForDirPath){
+        
+        try{
+          
+          fileURI = SSUri.get(file.getName(), SSConf.sssUri);
+
+          if(fileURI == null){
+            continue;
+          }
+
+          fileEntity = 
+            sql.getEntityTest(
+              par, 
+              par.user, 
+              fileURI, //entity
+              false); //withUserRestriction
+
+          if(fileEntity == null){
+            SSFileU.delFile(file.getAbsolutePath());
+//            SSLogU.info("delete file " + file.getName() + " " + counter++);
+          }else{
+//            SSLogU.info("file exists " + file.getName());
+          }
+          
+        }catch(Exception error){
+          SSLogU.err(error);
+        }
+      }
+      
+      return true;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return false;
     }
   }
 }

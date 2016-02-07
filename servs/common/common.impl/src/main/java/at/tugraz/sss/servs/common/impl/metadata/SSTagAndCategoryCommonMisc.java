@@ -167,7 +167,7 @@ public class SSTagAndCategoryCommonMisc {
       return filterMetadataRegardingLabelSearchOp(
         servPar,
         metadata, //metadata
-        metadataURIs.size(),  //differentTagCount
+        labels.size(),  //differentTagCount
         labelSearchOp); //labelSearchOp
       
     }catch(Exception error){
@@ -343,7 +343,7 @@ public class SSTagAndCategoryCommonMisc {
   private List<SSEntity> filterMetadataRegardingLabelSearchOp(
     final SSServPar      servPar,
     final List<SSEntity> metadata,
-    final Integer        differentTagCount,
+    final Integer        differentMetadataLabelCount,
     final SSSearchOpE    labelSearchOp) throws SSErr{
     
     try{
@@ -379,7 +379,7 @@ public class SSTagAndCategoryCommonMisc {
               
               for(Map.Entry<String, List<SSEntity>> metadataForEntity : metadataForEntities.entrySet()){
                 
-                if(metadataForEntity.getValue().size() != differentTagCount){
+                if(metadataForEntity.getValue().size() != differentMetadataLabelCount){
                   continue;
                 }
                 
@@ -402,7 +402,7 @@ public class SSTagAndCategoryCommonMisc {
               
               for(Map.Entry<String, List<SSEntity>> metadataForEntity : metadataForEntities.entrySet()){
                 
-                if(metadataForEntity.getValue().size() != differentTagCount){
+                if(metadataForEntity.getValue().size() != differentMetadataLabelCount){
                   continue;
                 }
                 

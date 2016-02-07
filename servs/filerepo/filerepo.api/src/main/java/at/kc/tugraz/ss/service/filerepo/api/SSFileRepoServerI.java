@@ -21,8 +21,7 @@
  package at.kc.tugraz.ss.service.filerepo.api;
 
 import at.kc.tugraz.ss.service.filerepo.datatypes.SSFile;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
+import at.kc.tugraz.ss.service.filerepo.datatypes.pars.*;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSErr;
@@ -34,9 +33,10 @@ import java.util.List;
 
 public interface SSFileRepoServerI extends SSServServerI{
 
-  public SSFileAddRet      fileAdd                  (final SSEntityFileAddPar      par) throws SSErr;
-  public SSFile            fileGet                  (final SSFileGetPar            par) throws SSErr;
-  public List<SSEntity>    filesGet                 (final SSEntityFilesGetPar     par) throws SSErr;
-  public SSFileDownloadRet fileDownload             (final SSFileDownloadPar       par) throws SSErr;
-  public SSFileUploadRet   fileUpload               (final SSFileUploadPar         par) throws SSErr;
+  public SSFileAddRet      fileAdd                  (final SSEntityFileAddPar             par) throws SSErr;
+  public SSFile            fileGet                  (final SSFileGetPar                   par) throws SSErr;
+  public List<SSEntity>    filesGet                 (final SSEntityFilesGetPar            par) throws SSErr;
+  public SSFileDownloadRet fileDownload             (final SSFileDownloadPar              par) throws SSErr;
+  public SSFileUploadRet   fileUpload               (final SSFileUploadPar                par) throws SSErr;
+  public boolean           filesDeleteNotRegistered (final SSFilesDeleteNotRegisteredPar  par) throws SSErr;
 }

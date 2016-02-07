@@ -1020,14 +1020,14 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
-      actAndLogFct.entityUpdate(
-        par,
-        par.user,
-        par.storeLogs,
-        entity,
-        par.label,
-        par.description,
-        par.shouldCommit);
+//      actAndLogFct.entityUpdate(
+//        par,
+//        par.user,
+//        par.storeLogs,
+//        entity,
+//        par.label,
+//        par.description,
+//        par.shouldCommit);
       
       return par.entity;
       

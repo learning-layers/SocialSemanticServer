@@ -24,6 +24,7 @@ import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
@@ -236,98 +237,6 @@ public class SSDiscActAndLogFct{
             target, //entity
             null, //content
             SSUri.asListNotNull(disc), //entities
-            null, //users
-            null, //creationTime
-            shouldCommit));
-      }
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-//  public void discUpdate(
-//    final SSServPar     servPar,
-//    final SSUri         user,
-//    final SSUri         disc,
-//    final SSLabel       label,
-//    final SSTextComment content,
-//    final boolean       shouldCommit) throws SSErr {
-//    
-//    try{
-//      
-//      if(label != null){
-//        
-//        evalServ.evalLog(
-//          new SSEvalLogPar(
-//            servPar,
-//            user,
-//            SSToolContextE.sss,
-//            SSEvalLogE.changeLabel,
-//            disc,
-//            SSStrU.toStr(label), //content
-//            null, //entities
-//            null, //users
-//            shouldCommit));
-//      }
-//      
-//      if(content != null){
-//        
-//        evalServ.evalLog(
-//          new SSEvalLogPar(
-//            servPar,
-//            user,
-//            SSToolContextE.sss,
-//            SSEvalLogE.changeDescription,
-//            disc,
-//            SSStrU.toStr(content), //content
-//            null, //entities
-//            null, //users
-//            shouldCommit));
-//      }
-//      
-//    }catch(SSErr error){
-//      
-//      switch(error.code){
-//        case servInvalid: SSLogU.warn(error); break;
-//        default: SSServErrReg.regErrThrow(error);
-//      }
-//      
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//    }
-//  }
-  
-  public void discEntryUpdate(
-    final SSServPar     servPar,
-    final SSUri         user,
-    final SSUri         entry,
-    final SSTextComment content,
-    final boolean       shouldCommit) throws SSErr{
-    
-    try{
-      
-      if(content != null){
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            servPar,
-            user,
-            SSToolContextE.sss,
-            SSEvalLogE.changeDiscEntryContent,
-            entry,
-            SSStrU.toStr(content), //content
-            null, //entities
             null, //users
             null, //creationTime
             shouldCommit));

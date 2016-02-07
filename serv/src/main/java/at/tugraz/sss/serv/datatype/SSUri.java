@@ -62,7 +62,7 @@ public class SSUri extends SSEntityA{
       return true;
       
     }catch(MalformedURLException | UnsupportedEncodingException error){
-      SSLogU.debug(SSWarnE.uriInvalid.toString());
+      SSLogU.trace(error, false, false);
       return false;
     }
   }

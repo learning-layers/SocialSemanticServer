@@ -56,6 +56,13 @@ comment:
   use: true  
 filerepo: 
   use: true
+  filesDeleteNotRegisteredDirPath:
+  schedule: false
+  executeScheduleAtStartUp: false
+  scheduleOps:
+    #- 
+  scheduleIntervals:
+    - 0
 dataExport:
   use: true
   fileNameForUserRelationsExport: userRelations.txt

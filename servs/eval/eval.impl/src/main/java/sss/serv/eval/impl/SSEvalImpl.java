@@ -48,8 +48,11 @@ import sss.serv.eval.datatypes.par.SSEvalLogPar;
 import sss.serv.eval.datatypes.ret.SSEvalLogRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
+import at.kc.tugraz.ss.service.user.api.*;
+import at.kc.tugraz.ss.service.user.datatypes.*;
+import at.kc.tugraz.ss.service.user.datatypes.pars.*;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocServerI;
@@ -163,24 +166,30 @@ implements
         return false;
       }
       
+      final SSEntityServerI  entityServ     = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class); 
+      final SSUserServerI    userServ       = (SSUserServerI)   SSServReg.getServ(SSUserServerI.class); 
       final List<SSEntity>   targetEntities = new ArrayList<>();
       final List<SSEntity>   targetUsers    = new ArrayList<>();
       SSEntity               targetEntity   = null;
-      SSEntity               originUser;
+      final SSUser           originUser;
+      final List<SSEntity>   originUsers    =
+        userServ.usersGet(
+          new SSUsersGetPar(
+            par,
+            par.user,
+            SSUri.asListNotNull(par.user),
+            false)); //invokeEntityHandlers
       
-      originUser = 
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-          new SSEntityGetPar(
-            par, 
-            null,
-            par.user,  //entity
-            false, //withUserRestriction
-            null)); //descPar
+      if(!originUsers.isEmpty()){
+        originUser = (SSUser) originUsers.get(0);
+      }else{
+        return false;
+      }
       
       if(par.entity != null){
         
         targetEntity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          entityServ.entityGet(
             new SSEntityGetPar(
               par, 
               null,
@@ -193,7 +202,7 @@ implements
       
         SSEntity.addEntitiesDistinctWithoutNull(
           targetEntities,
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+          entityServ.entitiesGet(
             new SSEntitiesGetPar(
               par, 
               par.user,
@@ -206,7 +215,7 @@ implements
         
         SSEntity.addEntitiesDistinctWithoutNull(
           targetUsers,
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+          entityServ.entitiesGet(
             new SSEntitiesGetPar(
               par, 
               par.user,

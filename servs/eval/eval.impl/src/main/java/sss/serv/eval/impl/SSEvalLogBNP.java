@@ -28,6 +28,7 @@ import at.tugraz.sss.serv.datatype.par.SSCircleTypesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCurrentGetPar;
+import at.kc.tugraz.ss.service.user.datatypes.*;
 import at.tugraz.sss.serv.datatype.enums.SSCircleE;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.datatype.SSEntity;
@@ -43,7 +44,7 @@ public class SSEvalLogBNP {
   
   public void log(
     final SSEvalLogPar     par,
-    final SSEntity         originUser,
+    final SSUser           originUser,
     final SSEntity         targetEntity,
     final List<SSEntity>   targetEntities,
     final List<SSEntity>   targetUsers){
@@ -52,58 +53,106 @@ public class SSEvalLogBNP {
       
       switch(par.type){
         
-        case addNotebook: //server
-        case addNote: //server
-        case addResource: //server
-        case copyLearnEpForUser: //server
-        case shareLearnEpWithUser:  //server
-        case removeLearnEpVersionCircle: //server
-        case removeLearnEpVersionEntity: //server
-        case addEntityToLearnEpVersion: //server
-        case addCircleToLearnEpVersion: //server
-        case addEntityToLearnEpCircle: //server
-        case removeEntityFromLearnEpCircle: //server
-        case removeLearnEpVersionCircleWithEntitites: //server
-        case changeDiscEntryContent: //server
-        case addDiscEntry: //server
-        case discussEntity: //server
-        case attachEntities: //server
-        case removeEntities: //server
-        case removeLearnEp: //server
-        case changeLearnEpVersionCircleLabel: //server
-        case downloadEntity: //server
-        case createPlaceholder: //server
-        case addTag: //server
-        case removeTag: //server
-        case changeLabel:  //client | server
-        case changeDescription: //client | server
-        case clickBit:  //client
-        case clickTag:  //client
-        case clickLabelRecommendation:   //client
-        case clickTagRecommendation: //client
-        case clickJumpToDateButton:   //client
-        case clickAffectButton: //client
-        case clickHelpButton:  //client
-        case searchWithKeyword://client
-        case readMessage: //client
-        case sendMessage: //client
-        case setImportance: //client
-        case setFilter: //client
-        case removeFilter: //client
-        case executeJumpToDateButton: //client
-        case requestEditButton:  //client
-        case releaseEditButton: //client
-          
-        case openBitsAndPieces: //client
-        case openLivingDocuments: //client
-        case closeDiscussionTool: //client
-        case startDiscussionTool: //client
-        case startBitsAndPieces: //client
-        case worksInBitsAndPieces: //client
-        case worksInDiscussionTool: //client
-        case addLearnEpVersionEntityFromRecommendedEntities: //client
+        //evernote & mail import
+        case addNotebook:
+        case addNote:
+        case addResource:{
         
-        { 
+          break;
+        }
+        
+        //organize area
+        case addLearnEpVersionEntityFromRecommendedEntities:
+        case removeLearnEpVersionCircle: 
+        case removeLearnEpVersionEntity: 
+        case addEntityToLearnEpVersion: 
+        case addCircleToLearnEpVersion: 
+        case addEntityToLearnEpCircle: 
+        case removeEntityFromLearnEpCircle: 
+        case removeLearnEpVersionCircleWithEntitites:
+        case requestEditButton:  
+        case clickLabelRecommendation:
+        case releaseEditButton:{ 
+        
+          break;
+        }
+          
+        //search tab
+        case searchWithKeyword:{
+          
+          break;
+        }
+        
+        //bit tab
+        case clickTagRecommendation:
+        case setImportance:{
+          
+          break;
+        }
+
+        //notification tab
+        case setFilter:
+        case removeFilter:{
+          
+          break;
+        }
+        
+        //timeline
+        case createPlaceholder:
+        case clickJumpToDateButton:
+        case executeJumpToDateButton:{
+          
+          break;
+        }
+        
+        //menu bar
+        case createLearnEp:
+        case removeLearnEp:
+        case clickHelpButton:
+        case clickAffectButton:{
+          
+          break;
+        }
+      
+        //episode tab
+        case copyLearnEpForUser:
+        case shareLearnEpWithUser:{
+         
+          break;
+        }
+
+        //discussions
+        case discussEntity: 
+        case addDiscEntry: 
+        case attachEntities: 
+        case removeEntities:{
+          
+          break;
+        }
+        
+        //global
+        case clickTag:
+        case clickBit:
+        case likeEntity:
+        case dislikeEntity:
+        case downloadEntity:
+        case addTag:
+        case removeTag:
+        case changeLabel:
+        case changeDescription:{
+
+          break;
+        }
+        
+        //open, start and works events
+        case openBitsAndPieces:
+        case openDiscussionTool: 
+        case openLivingDocuments: 
+        case closeDiscussionTool: 
+        case startDiscussionTool: 
+        case startBitsAndPieces: 
+        case worksInBitsAndPieces: 
+        case worksInDiscussionTool:{
           
           break;
         }
@@ -176,7 +225,7 @@ public class SSEvalLogBNP {
         }
       }
       
-      //timestamp;tool context;user label;log type;entity;entity type;entity label;content;tag type;entities' ids;entities' labels;users' labels;episodespace;selected bits measure;not selected entities' ids;not selected entities' labels
+      //timestamp;tool context;user label;user email;log type;entity;entity type;entity label;content;tag type;entities' ids;entities' labels;users' labels;episodespace;selected bits measure;not selected entities' ids;not selected entities' labels
       //time stamp
       
       if(par.creationTime != null){
@@ -194,11 +243,12 @@ public class SSEvalLogBNP {
       
       logText += SSStrU.semiColon;
       
-      //user
-      if(originUser != null){
-        logText += originUser.label;
-      }
+      //user label
+      logText += originUser.label;
+      logText += SSStrU.semiColon;
       
+      //user email
+      logText += originUser.email;
       logText += SSStrU.semiColon;
       
       // log type
@@ -370,7 +420,7 @@ public class SSEvalLogBNP {
       
       //not selected entities' labels
       for(SSEntity entity : notSelectedEntities){
-        logText += entity.label;
+        logText += entity.id;
         logText += SSStrU.comma;
       }
       

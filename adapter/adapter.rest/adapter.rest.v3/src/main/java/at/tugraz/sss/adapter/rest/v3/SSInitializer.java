@@ -94,9 +94,9 @@ public class SSInitializer extends SSServImplStartA implements ServletContextLis
       
       try{
 //        SSCoreConf.instSet("/sssWorkDir/" + SSFileU.fileNameSSSConf);
-              SSCoreConf.instSet("C:\\workspace_git\\master\\SocialSemanticServer\\sssWorkDir\\" + SSFileU.fileNameSSSConf);
+//              SSCoreConf.instSet("C:\\workspace_git\\master\\SocialSemanticServer\\sssWorkDir\\" + SSFileU.fileNameSSSConf);
 //      SSCoreConf.instSet("/home/dtheiler/bp.preparation/" + SSFileU.fileNameSSSConf);
-//        SSCoreConf.instSet("/home/dtheiler/eval/" + SSFileU.fileNameSSSConf);
+        SSCoreConf.instSet("/home/dtheiler/eval/" + SSFileU.fileNameSSSConf);
       }catch(Exception error){
         System.err.println("conf couldnt be set");
         SSServErrReg.regErrThrow(error);
@@ -180,6 +180,7 @@ public class SSInitializer extends SSServImplStartA implements ServletContextLis
         SSRecommServ.inst.schedule         ();
         SSKCProjWikiServ.inst.schedule     ();
         SSEvalServ.inst.schedule           ();
+        SSFilerepoServ.inst.schedule       ();
       }catch(Exception error){
         SSServErrReg.regErrThrow(error);
       }

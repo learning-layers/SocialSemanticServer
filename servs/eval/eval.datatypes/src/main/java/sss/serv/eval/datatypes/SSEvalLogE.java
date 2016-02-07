@@ -45,56 +45,57 @@ public enum SSEvalLogE{
   recommTagsResult,
   
   //bits and pieces
-  addNotebook, //server
-  addNote, //server
-  addResource, //server
-  copyLearnEpForUser, //server
-  shareLearnEpWithUser,  //server
-  removeLearnEpVersionCircle, //server
-  removeLearnEpVersionEntity, //server
-  addEntityToLearnEpVersion, //server
-  addCircleToLearnEpVersion, //server
-  addEntityToLearnEpCircle, //server
-  removeEntityFromLearnEpCircle, //server
-  removeLearnEpVersionCircleWithEntitites, //server
-  changeDiscEntryContent, //server
-  addDiscEntry, //server
-  discussEntity, //server
-  attachEntities, //server
-  removeEntities, //server
-  removeLearnEp, //server
-  changeLearnEpVersionCircleLabel, //server
-  downloadEntity, //server
-  createPlaceholder, //server
-  addTag, //server
-  removeTag, //server
-  changeLabel,  //client | server
-  changeDescription, //client | server
-  clickBit,  //client
-  clickTag,  //client
-  clickLabelRecommendation,   //client
-  clickTagRecommendation, //client
-  clickJumpToDateButton,   //client
-  clickAffectButton, //client
-  clickHelpButton,  //client
-  searchWithKeyword,//client
-  readMessage, //client
-  sendMessage, //client
-  setImportance, //client
-  setFilter, //client
-  removeFilter, //client
-  executeJumpToDateButton, //client
-  requestEditButton,  //client
-  releaseEditButton, //client
-  
-  openBitsAndPieces, //client
-  openLivingDocuments, //client
-  closeDiscussionTool, //client
-  startDiscussionTool, //client
-  startBitsAndPieces, //client
-  worksInBitsAndPieces, //client
-  worksInDiscussionTool, //client
-  addLearnEpVersionEntityFromRecommendedEntities, //client
+  addNotebook, 
+  addNote, 
+  addResource, 
+  copyLearnEpForUser, 
+  shareLearnEpWithUser,  
+  removeLearnEpVersionCircle, 
+  removeLearnEpVersionEntity, 
+  addEntityToLearnEpVersion, 
+  addCircleToLearnEpVersion, 
+  addEntityToLearnEpCircle, 
+  removeEntityFromLearnEpCircle, 
+  removeLearnEpVersionCircleWithEntitites, 
+  addDiscEntry, 
+  discussEntity, 
+  attachEntities, 
+  removeEntities, 
+  createLearnEp,
+  removeLearnEp, 
+  downloadEntity, 
+  createPlaceholder, 
+  addTag, 
+  removeTag, 
+  changeLabel,   
+  changeDescription,
+  clickBit,  
+  likeEntity,
+  dislikeEntity,
+  clickTag,  
+  clickLabelRecommendation,   
+  clickTagRecommendation, 
+  clickJumpToDateButton,   
+  clickAffectButton, 
+  clickHelpButton,  
+  searchWithKeyword,
+  readMessage, 
+  sendMessage, 
+  setImportance, 
+  setFilter, 
+  removeFilter, 
+  executeJumpToDateButton, 
+  requestEditButton,  
+  releaseEditButton, 
+  openDiscussionTool, 
+  openBitsAndPieces, 
+  openLivingDocuments, 
+  closeDiscussionTool, 
+  startDiscussionTool, 
+  startBitsAndPieces, 
+  worksInBitsAndPieces, 
+  worksInDiscussionTool, 
+  addLearnEpVersionEntityFromRecommendedEntities, 
   ;
   
   public static SSEvalLogE get(final String space) throws SSErr{

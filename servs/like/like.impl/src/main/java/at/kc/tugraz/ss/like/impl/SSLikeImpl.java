@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.like.impl;
 
+import at.kc.tugraz.ss.activity.api.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.like.api.SSLikeClientI;
@@ -47,6 +48,7 @@ import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
+import sss.serv.eval.api.*;
 
 public class SSLikeImpl 
 extends SSServImplWithDBA 
@@ -55,9 +57,10 @@ implements
   SSLikeServerI,
   SSDescribeEntityI{
   
-  private final SSLikeSQLFct     sql;
-  private final SSEntityServerI  entityServ;
-  private final SSUserCommons userCommons;
+  private final SSLikeSQLFct       sql;
+  private final SSEntityServerI    entityServ;
+  private final SSUserCommons      userCommons;
+  private final SSLikeActAndLogFct actAndLogFct;
    
   public SSLikeImpl(final SSConfA conf) throws SSErr{
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
@@ -65,6 +68,11 @@ implements
     this.sql          = new SSLikeSQLFct(dbSQL, SSConf.systemUserUri);
     this.entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
     this.userCommons  = new SSUserCommons();
+    
+    this.actAndLogFct = 
+      new SSLikeActAndLogFct(
+        (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class),
+        (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class));
   }
   
   @Override
@@ -143,6 +151,9 @@ implements
       
       final SSLikeUserSetPar par = (SSLikeUserSetPar) parA.getFromClient(clientType, parA, SSLikeUserSetPar.class);
       
+      par.storeLogs       = true;
+      par.storeActivities = true;
+      
       return SSLikeUserSetRet.get(likeSet(par));
       
     }catch(Exception error){
@@ -186,6 +197,10 @@ implements
         par.value);
       
       dbSQL.commit(par, par.shouldCommit);
+      
+      actAndLogFct.setLike(
+        par, 
+        par.shouldCommit);
       
       return par.entity;
       

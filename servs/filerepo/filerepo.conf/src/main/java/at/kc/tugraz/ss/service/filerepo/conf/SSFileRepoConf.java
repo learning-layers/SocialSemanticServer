@@ -23,10 +23,14 @@
 import at.tugraz.sss.serv.conf.api.SSServConfA;
 
 public class SSFileRepoConf extends SSServConfA{
+
+  public String filesDeleteNotRegisteredDirPath = null;
   
   public static SSFileRepoConf copy(final SSFileRepoConf orig){
     
     final SSFileRepoConf copy = (SSFileRepoConf) SSServConfA.copy(orig, new SSFileRepoConf());
+    
+    copy.filesDeleteNotRegisteredDirPath = orig.filesDeleteNotRegisteredDirPath;
     
     return copy;
   }

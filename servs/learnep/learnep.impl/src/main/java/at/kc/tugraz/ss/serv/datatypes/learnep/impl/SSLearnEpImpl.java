@@ -1332,6 +1332,9 @@ implements
       
       final SSLearnEpCreatePar par = (SSLearnEpCreatePar) parA.getFromClient(clientType, parA, SSLearnEpCreatePar.class);
       
+      par.storeActivities = true;
+      par.storeLogs       = true;
+      
       final SSUri learnEp = learnEpCreate(par);
 
       return SSLearnEpCreateRet.get(learnEp);
@@ -1375,6 +1378,11 @@ implements
       sql.createLearnEp(par, learnEp, par.user);
       
       dbSQL.commit(par, par.shouldCommit);
+      
+      actAndLogFct.createLearnEp(
+        par, 
+        learnEp, 
+        par.shouldCommit);
       
       return learnEp;
     }catch(SSErr error){
