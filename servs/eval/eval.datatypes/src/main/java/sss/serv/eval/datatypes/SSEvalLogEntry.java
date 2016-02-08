@@ -22,9 +22,7 @@ package sss.serv.eval.datatypes;
 
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
-import at.tugraz.sss.serv.datatype.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +37,7 @@ public class SSEvalLogEntry {
   public SSLabel                                entityLabel               = null;
   public String                                 content                   = null;
   public String                                 tagType                   = null;
-  public SSSpaceE                               episodeSpace              = null;
+  public SSCircleE                              circleType                = null;
   public String                                 selectedBitsMeasure       = null;
   public List<SSUri>                            entityIDs                 = new ArrayList<>();
   public List<SSLabel>                          entityLabels              = new ArrayList<>();

@@ -48,6 +48,7 @@ import sss.serv.eval.datatypes.par.SSEvalLogPar;
 import sss.serv.eval.datatypes.ret.SSEvalLogRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
+import at.kc.tugraz.ss.service.tag.api.*;
 import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.*;
 import at.kc.tugraz.ss.service.user.datatypes.pars.*;
@@ -67,7 +68,7 @@ implements
   private final SSEvalConf                evalConf;
   private final SSEvalLogKnowBrain        evalLogKnowBrain;
   private final SSEvalLogBNP              evalLogBNP;
-  private final SSUserCommons          userCommons;
+  private final SSUserCommons             userCommons;
 
   public SSEvalImpl(final SSConfA conf) throws SSErr{
 
@@ -77,13 +78,13 @@ implements
     evalLogKnowBrain = new SSEvalLogKnowBrain();
     evalLogBNP       = new SSEvalLogBNP();
     userCommons      = new SSUserCommons();
-    
   }
 
   @Override
   public void evalAnalyze(final SSEvalAnalyzePar par) throws SSErr{
     
     try{
+      final SSTagServerI        tagServ        = (SSTagServerI)        SSServReg.getServ(SSTagServerI.class);
       final SSDataImportServerI dataImportServ = (SSDataImportServerI) SSServReg.getServ(SSDataImportServerI.class);
       final SSLearnEpServerI    learnEpServ    = (SSLearnEpServerI)    SSServReg.getServ(SSLearnEpServerI.class);
       final SSEntityServerI     entityServ     = (SSEntityServerI)     SSServReg.getServ(SSEntityServerI.class);
@@ -94,6 +95,7 @@ implements
       final Date                nov17          = new Date(Long.valueOf("1447752600000"));
       final SSEvalLogAnalyzer   analyzer       =
         new SSEvalLogAnalyzer(
+          tagServ,
           learnEpServ, 
           entityServ, 
           messageServ,
@@ -112,27 +114,42 @@ implements
       
       analyzer.setEpisodes (par);
       
-      System.out.println();
-      System.out.println();
-      System.out.println("##################################");
-      System.out.println("##################################");
-      System.out.println("Users");
-      System.out.println("##################################");
-      System.out.println("##################################");
-      System.out.println();
-        
-      analyzer.analyzeUsers  (par, logEntries);
+      analyzer.analyzeNumberOfEntriesInDiscussions               (par, logEntries);
+      analyzer.analyzeNumberOfTagsInDiscussions                  (par, logEntries);
+      analyzer.analyzeNumberOfEntitiesInDiscussions              (par, logEntries);
+      analyzer.analyzeNumberOfAuthorsInDiscussions               (par, logEntries);
+      analyzer.analyzeNumberOfDiscussions                        (par, logEntries);
+      analyzer.analyzeNumberOfTagActivitiesDistinctUserEntityTag (par, logEntries);
+      analyzer.analyzeNumberOfTagsForBitsUsedInEpisodes          (par, logEntries);
+      analyzer.analyzeNumberOfBitsUsedInEpisodes                 (par, logEntries);
+      analyzer.analyzeNumberOfInteractionsInEpisodes             (par, logEntries);
+      analyzer.analyzeNumberOfSharedEpisodes                     (par, logEntries);
+      analyzer.analyzeNumberOfAcceptedRecommendations            (par, logEntries);
+      analyzer.analyzeDistinctUsers                              (par, logEntries);
+      analyzer.analyzeNumberOfImports                            (par, logEntries);
       
-      System.out.println();
-      System.out.println();
-      System.out.println("##################################");
-      System.out.println("##################################");
-      System.out.println("Living Docs");
-      System.out.println("##################################");
-      System.out.println("##################################");
-      System.out.println();
-      
-      analyzer.analyzeLDs(par, logEntries);
+//      
+//      System.out.println();
+//      System.out.println();
+//      System.out.println("##################################");
+//      System.out.println("##################################");
+//      System.out.println("Users");
+//      System.out.println("##################################");
+//      System.out.println("##################################");
+//      System.out.println();
+//        
+//      analyzer.analyzeUsers  (par, logEntries);
+//      
+//      System.out.println();
+//      System.out.println();
+//      System.out.println("##################################");
+//      System.out.println("##################################");
+//      System.out.println("Living Docs");
+//      System.out.println("##################################");
+//      System.out.println("##################################");
+//      System.out.println();
+//      
+//      analyzer.analyzeLDs(par, logEntries);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

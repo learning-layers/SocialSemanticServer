@@ -12,8 +12,6 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,11 +23,16 @@ import sss.serv.eval.impl.helpers.SSEpisodeShareInfo;
 import sss.serv.eval.impl.helpers.SSUserInfo;
 import sss.serv.eval.impl.helpers.SSWorkedOnReceivedSharedEpisodeInfo;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.*;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
-import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscGetPar;
+import at.kc.tugraz.ss.service.disc.datatypes.*;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.*;
+import at.kc.tugraz.ss.service.tag.api.*;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocServerI;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocsGetPar;
+import sss.serv.eval.datatypes.par.*;
 import sss.serv.eval.impl.helpers.SSEpisodeCreationInfo;
 import sss.serv.eval.impl.helpers.SSEvalActionInfo;
 import sss.serv.eval.impl.helpers.SSImportInfo;
@@ -43,8 +46,32 @@ import sss.serv.eval.impl.helpers.SSWorkedOnOwnEpisodeInfo;
 import sss.serv.eval.impl.helpers.SSWorkedOnReceivedDiscussionInfo;
 import sss.serv.eval.impl.helpers.SSWorkedOnReceivedSharedBitInfo;
 
+//&lt; --> < 
+//&amp; --> &
+//
+//
+//done
+//•	Number of imported bits
+//•	Number of accepted (tag) recommendations overall
+//•	Number of episodes shared/copied [(and how)]
+//•	Number of interactions in each episode
+//•	Number of bits used in episodes
+//•	Number of taggings in each episode
+//•	Number of taggings overall
+//•	Number of discussions
+//•	Numbers of persons discussing
+//•	Number of bits in discussions
+//•	Number of tags in discussions
+//•	Number of interactions in discussions
+
+//outstanding
+//•	Number of persons collaborating
+//•	Number of persons collaborating in each episode
+//•	Number of persons discussing in each episode
+
 public class SSEvalLogAnalyzer {
   
+  private final SSTagServerI           tagServ;
   private final SSLearnEpServerI       learnEpServ;
   private final SSEntityServerI        entityServ;
   private final SSMessageServerI       messageServ;
@@ -56,6 +83,7 @@ public class SSEvalLogAnalyzer {
   private final List<String>           ignoredUsers = new ArrayList<>();
   
   public SSEvalLogAnalyzer(
+    final SSTagServerI       tagServ,
     final SSLearnEpServerI   learnEpServ,
     final SSEntityServerI    entityServ,
     final SSMessageServerI   messageServ,
@@ -64,6 +92,7 @@ public class SSEvalLogAnalyzer {
     final Long               timeBeginStudy,
     final Long               timeBeginLogAnalyze){
     
+    this.tagServ              = tagServ;
     this.learnEpServ          = learnEpServ;
     this.entityServ           = entityServ;
     this.messageServ          = messageServ;
@@ -80,6 +109,9 @@ public class SSEvalLogAnalyzer {
     ignoredUsers.add("david.zaki@hotmail.com");
     ignoredUsers.add("mar7in.bachl@gmail.com");
     ignoredUsers.add("mar7in.bachl@hotmail.com");
+    ignoredUsers.add("philipp.dallmann@outlook.com");
+    ignoredUsers.add("sdennerlein@know-center.at");
+    ignoredUsers.add("zahra.grosser@gmail.com");
   }
   
   public void analyzeLDs(
@@ -164,6 +196,759 @@ public class SSEvalLogAnalyzer {
         
         System.out.println();
       }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void analyzeDistinctUsers(
+    final SSEvalAnalyzePar     par,
+    final List<SSEvalLogEntry> logEntries) throws SSErr{
+    
+    System.out.println();
+    System.out.println();
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println("distinct users");
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println();
+    
+    try{
+      
+      final List<SSLabel> distinctUsers = new ArrayList<>();
+      
+      for(SSEvalLogEntry logEntry : logEntries){
+        
+        if(SSStrU.equalsOne  (logEntry.userLabel, ignoredUsers)){
+          continue;
+        }
+        
+        SSLabel.addDistinctNotNull(distinctUsers, logEntry.userLabel);
+      }
+      
+      for(SSLabel distinctUser : distinctUsers){
+        System.out.println(distinctUser);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void analyzeNumberOfEntriesInDiscussions(
+    final SSEvalAnalyzePar     par,
+    final List<SSEvalLogEntry> logEntries) throws SSErr{
+    
+    System.out.println();
+    System.out.println();
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println("number of entities in discussions");
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println();
+    
+    try{
+      
+      final Map<String, List<SSEntity>> entitiesPerDiscussions = new HashMap<>();
+      final SSDiscsGetPar               discGetPar =
+        new SSDiscsGetPar(
+          par,
+          par.user,
+          true, //setEntries,
+          null, //forUser,
+          null, //discs,
+          null, //targets,
+          false, //withUserRestriction,
+          true);  //invokeEntityHandlers
+        
+      SSDisc disc;
+      
+      discGetPar.setAttachedEntities = true;
+      
+      for(SSEntity discEntity : discServ.discsGet(discGetPar)){
+        
+        if(SSStrU.equalsOne  (discEntity.author.label, ignoredUsers)){
+          continue;
+        }
+        
+        disc = (SSDisc) discEntity;
+        
+        entitiesPerDiscussions.put(SSStrU.toStr(disc), new ArrayList<>());
+        
+        System.out.println(disc.id + ": " + disc.entries.size());
+      }
+      
+      return;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void analyzeNumberOfTagsInDiscussions(
+    final SSEvalAnalyzePar     par,
+    final List<SSEvalLogEntry> logEntries) throws SSErr{
+    
+    System.out.println();
+    System.out.println();
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println("number of tags in discussions");
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println();
+    
+    try{
+      
+      final Map<String, List<SSEntity>> entitiesPerDiscussions = new HashMap<>();
+      final SSDiscsGetPar               discGetPar =
+        new SSDiscsGetPar(
+          par,
+          par.user,
+          true, //setEntries,
+          null, //forUser,
+          null, //discs,
+          null, //targets,
+          false, //withUserRestriction,
+          true);  //invokeEntityHandlers
+        
+      SSDisc disc;
+      
+      discGetPar.setAttachedEntities = true;
+      
+      final List<SSEntity> tags = new ArrayList<>();
+      final SSTagsGetPar   tagsGetPar =
+        new SSTagsGetPar(
+          par,
+          par.user,
+          null, //forUser
+          null, //entities
+          null, // labels
+          SSSearchOpE.or, //labelSearchOp,
+          null, //spaces,
+          null, //circles,
+          null, //startTime,
+          false); //withUserRestriction
+       
+      for(SSEntity discEntity : discServ.discsGet(discGetPar)){
+        
+        if(SSStrU.equalsOne  (discEntity.author.label, ignoredUsers)){
+          continue;
+        }
+        
+        disc = (SSDisc) discEntity;
+        
+        entitiesPerDiscussions.put(SSStrU.toStr(disc), new ArrayList<>());
+        
+        for(SSEntity discEntry : disc.entries){
+          SSEntity.addEntitiesDistinctWithoutNull(entitiesPerDiscussions.get(SSStrU.toStr(disc)), discEntry.attachedEntities);
+        }
+      }
+      
+      for(Map.Entry<String, List<SSEntity>> entitiesForDisc : entitiesPerDiscussions.entrySet()){
+        
+        tagsGetPar.entities = SSUri.getDistinctNotNullFromEntities(entitiesForDisc.getValue());
+       
+        if(tagsGetPar.entities.isEmpty()){
+          System.out.println(entitiesForDisc.getKey() + ": " + 0);
+          continue;
+        }
+        
+        tags.clear();
+        tags.addAll(tagServ.tagsGet(tagsGetPar));
+          
+        System.out.println(entitiesForDisc.getKey() + ": " + tags.size());
+        
+        for(SSEntity tag : tags){
+          System.out.println("    " + tag.label);
+        }
+      }
+      
+      return;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void analyzeNumberOfEntitiesInDiscussions(
+    final SSEvalAnalyzePar     par,
+    final List<SSEvalLogEntry> logEntries) throws SSErr{
+    
+    System.out.println();
+    System.out.println();
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println("number of entities in discussions");
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println();
+    
+    try{
+      
+      final Map<String, List<SSEntity>> entitiesPerDiscussions = new HashMap<>();
+      final SSDiscsGetPar               discGetPar =
+        new SSDiscsGetPar(
+          par,
+          par.user,
+          true, //setEntries,
+          null, //forUser,
+          null, //discs,
+          null, //targets,
+          false, //withUserRestriction,
+          true);  //invokeEntityHandlers
+        
+      SSDisc disc;
+      
+      discGetPar.setAttachedEntities = true;
+      
+      for(SSEntity discEntity : discServ.discsGet(discGetPar)){
+        
+        if(SSStrU.equalsOne  (discEntity.author.label, ignoredUsers)){
+          continue;
+        }
+        
+        disc = (SSDisc) discEntity;
+        
+        entitiesPerDiscussions.put(SSStrU.toStr(disc), new ArrayList<>());
+        
+        for(SSEntity discEntry : disc.entries){
+          SSEntity.addEntitiesDistinctWithoutNull(entitiesPerDiscussions.get(SSStrU.toStr(disc)), discEntry.attachedEntities);
+        }
+      }
+      
+      for(Map.Entry<String, List<SSEntity>> entitiesForDisc : entitiesPerDiscussions.entrySet()){
+        
+        System.out.println(entitiesForDisc.getKey() + ": " +entitiesForDisc.getValue().size());
+        
+        for(SSEntity attachedEntity : entitiesForDisc.getValue()){
+          System.out.println("    " + attachedEntity.label);
+        }
+      }
+      
+      return;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void analyzeNumberOfAuthorsInDiscussions(
+    final SSEvalAnalyzePar     par,
+    final List<SSEvalLogEntry> logEntries) throws SSErr{
+    
+    System.out.println();
+    System.out.println();
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println("number of authors in discussions");
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println();
+    
+    try{
+      
+      final Map<String, List<SSLabel>> authorsPerDiscussions = new HashMap<>();
+      SSDisc disc;
+      
+      for(SSEntity discEntity : 
+        discServ.discsGet(
+          new SSDiscsGetPar(
+            par, 
+            par.user, 
+            true, //setEntries, 
+            null, //forUser, 
+            null, //discs, 
+            null, //targets, 
+            false, //withUserRestriction, 
+            false))){ //invokeEntityHandlers));
+        
+        if(SSStrU.equalsOne  (discEntity.author.label, ignoredUsers)){
+          continue;
+        }
+        
+        disc = (SSDisc) discEntity;
+        
+        authorsPerDiscussions.put(SSStrU.toStr(disc), new ArrayList<>());
+        
+        authorsPerDiscussions.get(SSStrU.toStr(disc)).add(disc.author.label);
+          
+        for(SSEntity discEntry : disc.entries){
+          
+          if(SSStrU.equalsOne  (discEntity.author.label, ignoredUsers)){
+            continue;
+          }
+          
+          SSLabel.addDistinctNotNull(authorsPerDiscussions.get(SSStrU.toStr(disc)), discEntry.author.label);
+        }
+      }
+      
+      for(Map.Entry<String, List<SSLabel>> authorsForDisc : authorsPerDiscussions.entrySet()){
+        System.out.println(authorsForDisc.getKey() + ": " + authorsForDisc.getValue().size() + " " + authorsForDisc.getValue());
+      }
+      
+      return;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void analyzeNumberOfDiscussions(
+    final SSEvalAnalyzePar     par,
+    final List<SSEvalLogEntry> logEntries) throws SSErr{
+    
+    System.out.println();
+    System.out.println();
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println("number of discussions");
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println();
+    
+    try{
+      
+      final List<SSLabel> discussions = new ArrayList<>();
+      
+      for(SSEntity disc : 
+        discServ.discsGet(
+          new SSDiscsGetPar(
+            par, 
+            par.user, 
+            false, //setEntries, 
+            null, //forUser, 
+            null, //discs, 
+            null, //targets, 
+            false, //withUserRestriction, 
+            false))){ //invokeEntityHandlers));
+        
+        if(SSStrU.equalsOne  (disc.author.label, ignoredUsers)){
+          continue;
+        }
+        
+        discussions.add(disc.label);
+        
+        System.out.println(disc.label);
+      }
+      
+      return;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void analyzeNumberOfTagActivitiesDistinctUserEntityTag(
+    final SSEvalAnalyzePar     par,
+    final List<SSEvalLogEntry> logEntries) throws SSErr{
+    
+    System.out.println();
+    System.out.println();
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println("number of tag activities distinct user entity tag");
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println();
+    
+    try{
+      
+      final List<String> distinctUserEntityTag = new ArrayList<>();
+      
+      for(SSEvalLogEntry logEntry : logEntries){
+        
+        if(SSStrU.equalsOne  (logEntry.userLabel, ignoredUsers)){
+          continue;
+        }
+        
+        switch(logEntry.logType){
+          
+          case addTag:
+          case tagAdd:{
+            
+            SSStrU.addDistinctNotNull(distinctUserEntityTag, logEntry.userLabel + " " + logEntry.entity + " " + logEntry.content);
+            break;
+          }
+        }
+      }
+      
+      for(String line : distinctUserEntityTag){
+        System.out.println(line);
+      }
+      
+      return;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void analyzeNumberOfTagsForBitsUsedInEpisodes(
+    final SSEvalAnalyzePar     par,
+    final List<SSEvalLogEntry> logEntries) throws SSErr{
+    
+    System.out.println();
+    System.out.println();
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println("number of tags for bits used in episodes");
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println();
+    
+    try{
+      
+      final Map<String, List<SSUri>> entitiesPerLearnEp = new HashMap<>();
+
+      SSLearnEp        learnEp;
+      SSLearnEpVersion learnEpVersion;
+      SSLearnEpEntity  learnEpEntity;
+        
+      for(Map.Entry<String, SSEntity> learnEpEntry : episodes.entrySet()){
+        
+        learnEp = (SSLearnEp) learnEpEntry.getValue();
+        
+        if(SSStrU.equalsOne(learnEp.author.label, ignoredUsers)){
+          continue;
+        }
+
+        for(SSEntity learnEpVersionEntity : learnEp.getVersions()){
+          
+          learnEpVersion = (SSLearnEpVersion) learnEpVersionEntity;
+          
+          for(SSEntity entity : learnEpVersion.learnEpEntities){
+          
+            learnEpEntity = (SSLearnEpEntity) entity;
+            
+            if(!SSStrU.containsKey(entitiesPerLearnEp, learnEp.id)){
+              entitiesPerLearnEp.put(SSStrU.toStr(learnEp.id), new ArrayList<>());
+            
+            }
+            
+            entitiesPerLearnEp.get(SSStrU.toStr(learnEp.id)).add(learnEpEntity.entity.id);  
+          }
+        }
+      }
+          
+      final List<String> tagLabels  = new ArrayList<>();
+      final SSTagsGetPar tagsGetPar =
+        new SSTagsGetPar(
+          par,
+          par.user,
+          null, //forUser
+          null, //entities
+          null, // labels
+          SSSearchOpE.or, //labelSearchOp,
+          null, //spaces,
+          null, //circles,
+          null, //startTime,
+          false); //withUserRestriction
+      
+      for(Map.Entry<String, List<SSUri>> entitiesForLearnEp : entitiesPerLearnEp.entrySet()){
+        
+        tagLabels.clear();
+        
+        tagsGetPar.entities = entitiesForLearnEp.getValue();
+        
+        for(SSEntity tag : tagServ.tagsGet(tagsGetPar)){
+          SSStrU.addDistinctNotNull(tagLabels, tag.label);
+        }
+        
+        System.out.println(entitiesForLearnEp.getKey() + ": " + tagLabels.size() + " " + tagLabels);
+      }
+      
+      return;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void analyzeNumberOfBitsUsedInEpisodes(
+    final SSEvalAnalyzePar     par,
+    final List<SSEvalLogEntry> logEntries) throws SSErr{
+    
+    System.out.println();
+    System.out.println();
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println("number of bits used in episodes");
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println();
+    
+    try{
+      
+      final Map<String, List<SSLabel>> entitiesPerLearnEp = new HashMap<>();
+
+      SSLearnEp        learnEp;
+      SSLearnEpVersion learnEpVersion;
+      SSLearnEpEntity  learnEpEntity;
+        
+      for(Map.Entry<String, SSEntity> learnEpEntry : episodes.entrySet()){
+        
+        learnEp = (SSLearnEp) learnEpEntry.getValue();
+        
+        if(SSStrU.equalsOne(learnEp.author.label, ignoredUsers)){
+          continue;
+        }
+
+        for(SSEntity learnEpVersionEntity : learnEp.getVersions()){
+          
+          learnEpVersion = (SSLearnEpVersion) learnEpVersionEntity;
+          
+          for(SSEntity entity : learnEpVersion.learnEpEntities){
+          
+            learnEpEntity = (SSLearnEpEntity) entity;
+            
+            if(!SSStrU.containsKey(entitiesPerLearnEp, learnEp.id)){
+              entitiesPerLearnEp.put(SSStrU.toStr(learnEp.id), new ArrayList<>());
+            
+            }
+            
+            entitiesPerLearnEp.get(SSStrU.toStr(learnEp.id)).add(learnEpEntity.entity.label);  
+          }
+        }
+      }
+            
+      for(Map.Entry<String, List<SSLabel>> entitiesForLearnEp : entitiesPerLearnEp.entrySet()){
+        System.out.println(entitiesForLearnEp.getKey() + ": " + entitiesForLearnEp.getValue().size() + " " + entitiesForLearnEp.getValue());
+      }
+      
+      return;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void analyzeNumberOfInteractionsInEpisodes(
+    final SSEvalAnalyzePar     par,
+    final List<SSEvalLogEntry> logEntries) throws SSErr{
+    
+    System.out.println();
+    System.out.println();
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println("number of interactions in episodes");
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println();
+    
+    try{
+      
+      final Map<String, Integer> interactionsPerEpisode = new HashMap<>();
+      
+      Integer value;
+        
+      for(SSEvalLogEntry logEntry : logEntries){
+        
+        if(SSStrU.equalsOne(logEntry.userLabel, ignoredUsers)){
+          continue;
+        }
+        
+        switch(logEntry.logType){
+          
+          case addCircleToLearnEpVersion:
+          case addEntityToLearnEpCircle:
+          case addEntityToLearnEpVersion:
+          case removeEntityFromLearnEpCircle:
+          case removeLearnEpVersionCircle:
+          case removeLearnEpVersionCircleWithEntitites:
+          case removeLearnEpVersionEntity:
+          case requestEditButton:
+          case releaseEditButton:{
+            
+            if(logEntry.entity != null){
+              
+              switch(logEntry.entityType){
+
+                case learnEp:{
+                  
+                  if(SSStrU.containsKey(interactionsPerEpisode, logEntry.entity)){
+                    value = interactionsPerEpisode.get(SSStrU.toStr(logEntry.entity));
+                    
+                    value++;
+                  }else{
+                    value = 0;
+                  }
+                  
+                  interactionsPerEpisode.put(SSStrU.toStr(logEntry.entity), value);
+                  
+                  break;
+                }
+              }
+              
+              continue;
+            }
+            
+            for(
+              SSEntity entity :
+              entityServ.entitiesGet(
+                new SSEntitiesGetPar(
+                  par,
+                  par.user,
+                  logEntry.entityIDs,  //entities
+                  null, //descPar
+                  false))){ //withUserRestriction
+              
+              switch(entity.type){
+                
+                case learnEp:{
+                  
+                  if(SSStrU.containsKey(interactionsPerEpisode, entity.id)){
+                    value = interactionsPerEpisode.get(SSStrU.toStr(entity.id));
+                    
+                    value++;
+                  }else{
+                    value = 0;
+                  }
+                  
+                  interactionsPerEpisode.put(SSStrU.toStr(entity.id), value);
+                  
+                  break;
+                }
+              }
+            }
+
+            break;
+          }
+        }
+      }
+      
+      for(Map.Entry<String, Integer> interactionsInEpisode : interactionsPerEpisode.entrySet()){
+        System.out.println(interactionsInEpisode.getKey() + ": " + interactionsInEpisode.getValue());
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void analyzeNumberOfSharedEpisodes(
+    final SSEvalAnalyzePar     par,
+    final List<SSEvalLogEntry> logEntries) throws SSErr{
+    
+    System.out.println();
+    System.out.println();
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println("number of shared and copied episodes");
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println();
+    
+    try{
+      
+      final List<SSUri> sharedLearnEps = new ArrayList<>();
+      final List<SSUri> copiedLearnEps = new ArrayList<>();
+      
+      for(SSEvalLogEntry logEntry : logEntries){
+        
+        if(SSStrU.equalsOne(logEntry.userLabel, ignoredUsers)){
+          continue;
+        }
+        
+        switch(logEntry.logType){
+          
+          case shareLearnEpWithUser:{
+            SSUri.addDistinctWithoutNull(sharedLearnEps, logEntry.entity);
+            break;
+          }
+          
+          case copyLearnEpForUser:{
+            SSUri.addDistinctWithoutNull(copiedLearnEps, logEntry.entity);
+            break;
+          }
+        }
+      }
+      
+      System.out.println("shared: " + sharedLearnEps.size());
+      System.out.println("copied: " + copiedLearnEps.size());
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void analyzeNumberOfAcceptedRecommendations(
+    final SSEvalAnalyzePar     par,
+    final List<SSEvalLogEntry> logEntries) throws SSErr{
+    
+    System.out.println();
+    System.out.println();
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println("number of accepted tag recommendations");
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println();
+    
+    try{
+      
+      final List<Long> timestamps  = new ArrayList<>();
+      
+      for(SSEvalLogEntry logEntry : logEntries){
+        
+        if(SSStrU.equalsOne(logEntry.userLabel, ignoredUsers)){
+          continue;
+        }
+        
+        switch(logEntry.logType){
+          
+          case clickTagRecommendation:
+            timestamps.add(logEntry.timestamp);
+            break;
+        }
+      }
+      
+      System.out.println(timestamps.size());
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void analyzeNumberOfImports(
+    final SSEvalAnalyzePar     par,
+    final List<SSEvalLogEntry> logEntries) throws SSErr{
+    
+    System.out.println();
+    System.out.println();
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println("number of imports");
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println();
+    
+    try{
+      
+      final List<SSUri>   importedBits  = new ArrayList<>();
+      
+      for(SSEvalLogEntry logEntry : logEntries){
+      
+        if(SSStrU.equalsOne  (logEntry.userLabel, ignoredUsers)){
+          continue;
+        }
+        
+        switch(logEntry.logType){
+          
+          case addNote:
+          case addNotebook:
+          case addResource:{
+
+            SSUri.addDistinctWithoutNull(importedBits, logEntry.entity);
+            break;
+          }
+        }
+      }
+      
+      System.out.println(importedBits.size());
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

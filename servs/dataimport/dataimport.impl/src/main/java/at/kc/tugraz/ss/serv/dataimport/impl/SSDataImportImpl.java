@@ -25,7 +25,6 @@ import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportClientI;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
@@ -587,22 +586,44 @@ implements
           }
           
           try{
-            entry.toolContext               = SSToolContextE.get(line[1].trim());
+            
+            if(SSStrU.isEmpty(line[1].trim())){
+              entry.toolContext = null;
+            }else{
+              entry.toolContext = SSToolContextE.get(line[1].trim());
+            }
+            
           }catch(Exception error){
             SSLogU.warn(error);
           }
           
           entry.userLabel                 = SSLabel.get       (line[2].trim());
-          entry.logType                   = SSEvalLogE.get    (line[3].trim());
           
           try{
-            entry.entity                    = SSUri.get         (line[4].trim());
+            entry.logType                 = SSEvalLogE.get    (line[3].trim());
           }catch(Exception error){
             SSLogU.warn(error);
           }
           
           try{
-            entry.entityType                = SSEntityE.get     (line[5].trim());
+            
+            if(SSStrU.isEmpty(line[4].trim())){
+              entry.entity = null;
+            }else{
+              entry.entity = SSUri.get (line[4].trim());
+            }
+            
+          }catch(Exception error){
+            SSLogU.warn(error);
+          }
+          
+          try{
+            if(SSStrU.isEmpty(line[5].trim())){
+              entry.entityType = null;
+            }else{
+              entry.entityType = SSEntityE.get(line[5].trim());
+            }
+            
           }catch(Exception error){
             SSLogU.warn(error);
           }
@@ -621,7 +642,13 @@ implements
           entry.userLabels.addAll           (SSLabel.get(SSStrU.splitDistinctWithoutEmptyAndNull(line[11].trim(), SSStrU.comma)));
           
           try{
-            entry.episodeSpace              = SSSpaceE.get(line[12].trim());
+            
+            if(SSStrU.isEmpty(line[12].trim())){
+              entry.circleType = null;
+            }else{
+              entry.circleType              = SSCircleE.get(line[12].trim());
+            }
+            
           }catch(Exception error){
             SSLogU.warn(error);
           }

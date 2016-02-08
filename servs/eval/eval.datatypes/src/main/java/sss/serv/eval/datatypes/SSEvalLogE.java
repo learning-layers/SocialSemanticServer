@@ -28,6 +28,9 @@ import java.util.List;
 
 public enum SSEvalLogE{
   
+  //old
+  tagAdd,
+  
   //knowbrain
   circleEntitiesAddTagsAdd,
   circleEntitiesAddCategoriesAdd,

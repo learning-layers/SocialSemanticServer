@@ -91,7 +91,7 @@ public class SSLabel extends SSEntityA{
       
       if(
         label != null &&
-        !labels.contains(label)){
+        !SSStrU.contains(labels, label)){
         
         labels.add(label);
       }
