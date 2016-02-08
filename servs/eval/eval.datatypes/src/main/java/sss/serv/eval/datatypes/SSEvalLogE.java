@@ -29,14 +29,8 @@ import java.util.List;
 public enum SSEvalLogE{
   
   //knowbrain
-  circleCreate,
-  circleEntitiesAdd,
   circleEntitiesAddTagsAdd,
   circleEntitiesAddCategoriesAdd,
-  circleUsersAdd,
-  circleEntitiesRemove,
-  circleRemove,
-  circleUsersRemove,
   entityCopy,
   fileUpload,
   categoryAdd,
@@ -45,6 +39,15 @@ public enum SSEvalLogE{
   recommTagsResult,
   
   //bits and pieces
+  createCircle,
+  addCircleEntities,
+  addCircleUsers,
+  removeCircle,
+  removeCircleUsers,
+  removeCircleEntities,
+  
+  
+  
   addNotebook, 
   addNote, 
   addResource, 

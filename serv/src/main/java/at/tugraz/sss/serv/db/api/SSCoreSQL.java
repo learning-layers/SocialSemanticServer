@@ -1478,8 +1478,8 @@ public List<SSUri> getCircleURIs(
       final List<String>              columns           = new ArrayList<>();
       final List<String>              tableCons         = new ArrayList<>();
       
-      table    (tables, SSSQLVarNames.circleEntitiesTable);
-      table    (tables, SSSQLVarNames.circleTable);
+      table    (tables,    SSSQLVarNames.circleEntitiesTable);
+      table    (tables,    SSSQLVarNames.circleTable);
       column   (columns,   SSSQLVarNames.circleType);
       where    (wheres,    SSSQLVarNames.entityId, entityUri);
       tableCon (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.circleId);
@@ -1863,30 +1863,6 @@ public List<SSUri> getCircleURIs(
     
     try{
       return SSStrU.contains(getCircleURIsForUser(servPar, userUri, true), circleUri);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return false;
-    }
-  }
-  
-  public boolean isGroupOrPubCircleCircle(
-    final SSServPar       servPar,
-    final SSUri circleUri) throws SSErr{
-    
-    try{
-      
-      final SSCircleE circleType = getTypeForCircle(servPar, circleUri);
-      
-      switch(circleType){
-        
-        case pubCircle:
-        case group:{
-          return true;
-        }
-        
-        default: return false;
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
@@ -2637,5 +2613,29 @@ public List<SSUri> getCircleURIs(
 //      return null;
 //    }finally{
 //      dbSQL.closeStmt(resultSet);
+//    }
+//  }
+
+//public boolean isGroupOrPubCircleCircle(
+//    final SSServPar       servPar,
+//    final SSUri circleUri) throws SSErr{
+//    
+//    try{
+//      
+//      final SSCircleE circleType = getTypeForCircle(servPar, circleUri);
+//      
+//      switch(circleType){
+//        
+//        case pubCircle:
+//        case group:{
+//          return true;
+//        }
+//        
+//        default: return false;
+//      }
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return false;
 //    }
 //  }

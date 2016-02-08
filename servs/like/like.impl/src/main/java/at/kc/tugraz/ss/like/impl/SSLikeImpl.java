@@ -151,9 +151,6 @@ implements
       
       final SSLikeUserSetPar par = (SSLikeUserSetPar) parA.getFromClient(clientType, parA, SSLikeUserSetPar.class);
       
-      par.storeLogs       = true;
-      par.storeActivities = true;
-      
       return SSLikeUserSetRet.get(likeSet(par));
       
     }catch(Exception error){

@@ -883,21 +883,18 @@ public class SSLearnEpActivityAndLogFct{
     
     try{
       
-      if(par.storeLogs){
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            par,
-            par.user,
-            SSToolContextE.sss,
-            SSEvalLogE.removeLearnEp,
-            par.learnEp, //entity
-            null, //content
-            null, //entities
-            null, //users
-            null, //creationTime
-            shouldCommit));
-      }
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.removeLearnEp,
+          par.learnEp, //entity
+          null, //content
+          null, //entities
+          null, //users
+          null, //creationTime
+          shouldCommit));
       
     }catch(SSErr error){
       
@@ -918,21 +915,18 @@ public class SSLearnEpActivityAndLogFct{
     
     try{
       
-      if(par.storeLogs){
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            par,
-            par.user,
-            SSToolContextE.sss,
-            SSEvalLogE.createLearnEp,
-            learnEp, //entity
-            null, //content
-            null, //entities
-            null, //users
-            null, //creationTime
-            shouldCommit));
-      }
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.createLearnEp,
+          learnEp, //entity
+          null, //content
+          null, //entities
+          null, //users
+          null, //creationTime
+          shouldCommit));
       
     }catch(SSErr error){
       

@@ -21,22 +21,16 @@
 package at.tugraz.sss.serv.datatype.par;
 
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar;import at.tugraz.sss.serv.util.*;
- import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSCircleEntitiesAddPar extends SSServPar{
   
-  public SSUri         circle        = null;
-  public List<SSUri>   entities      = new ArrayList<>();
-  public List<String>  tags          = new ArrayList<>();
-  public List<String>  categories    = new ArrayList<>();
+  public SSUri         circle         = null;
+  public List<SSUri>   entities       = new ArrayList<>();
+  public List<String>  tags           = new ArrayList<>();
+  public List<String>  categories     = new ArrayList<>();
 
   public void setCircle(final String circle) throws SSErr{
     this.circle = SSUri.get(circle);
@@ -57,7 +51,7 @@ public class SSCircleEntitiesAddPar extends SSServPar{
   public SSCircleEntitiesAddPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSCircleEntitiesAddPar(
-    final SSServPar servPar,
+    final SSServPar     servPar,
     final SSUri         user,
     final SSUri         circle,
     final List<SSUri>   entities,

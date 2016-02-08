@@ -727,9 +727,6 @@ implements
       
       final SSLearnEpRemovePar par = (SSLearnEpRemovePar) parA.getFromClient(clientType, parA, SSLearnEpRemovePar.class);
       
-      par.storeActivities = true;
-      par.storeLogs       = true;
-      
       return SSLearnEpRemoveRet.get(learnEpRemove(par));
       
     }catch(Exception error){
@@ -1332,9 +1329,6 @@ implements
       
       final SSLearnEpCreatePar par = (SSLearnEpCreatePar) parA.getFromClient(clientType, parA, SSLearnEpCreatePar.class);
       
-      par.storeActivities = true;
-      par.storeLogs       = true;
-      
       final SSUri learnEp = learnEpCreate(par);
 
       return SSLearnEpCreateRet.get(learnEp);
@@ -1438,10 +1432,7 @@ implements
         par.user,
         learnEp);
 
-      par.storeActivities = true;
-      par.storeLogs       = true;
-      
-      final boolean                         worked;
+      final boolean worked;
       
       worked = learnEpVersionCircleUpdate(par);
       
@@ -1490,9 +1481,6 @@ implements
           false, //createIfNotExists
           par.withUserRestriction, //withUserRestriction
           false); //shouldCommit)
-      
-      entityUpdatePar.storeLogs       = par.storeLogs;
-      entityUpdatePar.storeActivities = par.storeActivities;
       
       final SSUri circle = entityServ.entityUpdate(entityUpdatePar);
       

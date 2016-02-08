@@ -242,6 +242,7 @@ implements
           case bnp:{
             evalLogBNP.log(
               par, 
+              entityServ,
               originUser, 
               targetEntity, 
               targetEntities, 

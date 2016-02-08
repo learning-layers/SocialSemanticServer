@@ -22,7 +22,6 @@ package at.tugraz.sss.serv.datatype.par;
 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import java.sql.*;
 
 public class SSCircleTypesGetPar extends SSServPar{
 
@@ -39,7 +38,7 @@ public class SSCircleTypesGetPar extends SSServPar{
   public SSCircleTypesGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSCircleTypesGetPar(
-    final SSServPar servPar,
+    final SSServPar     servPar,
     final SSUri         user,
     final SSUri         entity,
     final boolean       withUserRestriction){

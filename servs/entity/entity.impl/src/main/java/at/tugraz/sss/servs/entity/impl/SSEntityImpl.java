@@ -21,8 +21,6 @@
 package at.tugraz.sss.servs.entity.impl;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
-import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.category.api.SSCategoryServerI;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddPar;
@@ -185,13 +183,13 @@ implements
       
       if(par.withUserRestriction){
         
-        if(!sql.isGroupOrPubCircleCircle(servPar, entity.id)){
+        if(isPrivPubOrSystemGroupCircle(servPar, entity.id)){ //former: !sql.isGroupOrPubCircleCircle(servPar, entity.id)){
           return;
         }
         
         if(par.targetEntity != null){
           
-          if(!sql.isGroupOrPubCircleCircle(servPar, par.targetEntity)){
+          if(isPrivPubOrSystemGroupCircle(servPar, par.targetEntity)){ //former: !sql.isGroupOrPubCircleCircle(servPar, par.targetEntity)){
             return;
           }
         }
@@ -860,9 +858,6 @@ implements
       final SSEntityUpdatePar par = (SSEntityUpdatePar) parA.getFromClient(clientType, parA, SSEntityUpdatePar.class);
       final SSUri             entityURI;
       boolean                 isPlaceholderAdd = false;
-      
-      par.storeLogs       = true;
-      par.storeActivities = true;
       
       if(
         par.entity == null &&
@@ -1619,7 +1614,8 @@ implements
       final SSCircleEntitiesRemoveFromClientPar par    = (SSCircleEntitiesRemoveFromClientPar) parA.getFromClient(clientType, parA, SSCircleEntitiesRemoveFromClientPar.class);
       final List<SSUri>                         result;
       
-      if(!sql.isGroupOrPubCircleCircle(par, par.circle)){
+      
+      if(isPrivPubOrSystemGroupCircle(parA, par.circle)){ //former: !sql.isGroupOrPubCircleCircle(par, par.circle)){
         result = new ArrayList<>();
       }else{
         result = circleEntitiesRemove(par);
@@ -1639,22 +1635,8 @@ implements
         SSServReg.inst.circleContentRemoved(par, circleContentRemovedPar);
       }
       
-      final SSCircleEntitiesRemoveRet ret = SSCircleEntitiesRemoveRet.get(result);
+      return SSCircleEntitiesRemoveRet.get(result);
       
-      evalServ.evalLog(
-        new SSEvalLogPar(
-          par,
-          par.user,
-          SSToolContextE.sss,
-          SSEvalLogE.circleEntitiesRemove,
-          par.circle,  //entity
-          null, //content,
-          par.entities, //entities
-          null, //users
-          null, //creationTime
-          par.shouldCommit));
-      
-      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -1684,6 +1666,11 @@ implements
       }
       
       dbSQL.commit(par, par.shouldCommit);
+      
+      actAndLogFct.removeEntitiesFromCircle(
+        par, 
+        isPrivPubOrSystemGroupCircle(par, par.circle),
+        par.shouldCommit);
       
       return par.entities;
     }catch(SSErr error){
@@ -1724,28 +1711,13 @@ implements
       final SSCircleUsersRemovePar par    = (SSCircleUsersRemovePar) parA.getFromClient(clientType, parA, SSCircleUsersRemovePar.class);
       final List<SSUri>            result;
       
-      if(!sql.isGroupOrPubCircleCircle(par, par.circle)){
+      if(isPrivPubOrSystemGroupCircle(parA, par.circle)){ //former: !sql.isGroupOrPubCircleCircle(par, par.circle)){
         result = new ArrayList<>();
       }else{
         result = circleUsersRemove(par);
       }
       
-      final SSCircleUsersRemoveRet ret = SSCircleUsersRemoveRet.get(result);
-      
-      evalServ.evalLog(
-        new SSEvalLogPar(
-          par,
-          par.user,
-          SSToolContextE.sss,
-          SSEvalLogE.circleUsersRemove,
-          par.circle,  //entity
-          null, //content,
-          null, //entities
-          par.users, //users
-          null, //creationTime
-          par.shouldCommit));
-      
-      return ret;
+      return SSCircleUsersRemoveRet.get(result);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -1775,6 +1747,11 @@ implements
       }
       
       dbSQL.commit(par, par.shouldCommit);
+      
+      actAndLogFct.removeUsersFromCircle(
+        par, 
+        isPrivPubOrSystemGroupCircle(par, par.circle),
+        par.shouldCommit);
       
       return par.users;
     }catch(SSErr error){
@@ -1869,34 +1846,7 @@ implements
         circle.entities,
         par.withUserRestriction);
       
-      final SSCircleCreateRet ret = SSCircleCreateRet.get(circleURI);
-      
-      activityServ.activityAdd(
-        new SSActivityAddPar(
-          par,
-          par.user,
-          SSActivityE.createCircle,
-          circleURI,
-          par.users, //users,
-          par.entities, //entities,
-          null,
-          null,
-          par.shouldCommit));
-      
-      evalServ.evalLog(
-        new SSEvalLogPar(
-          par,
-          par.user,
-          SSToolContextE.sss,
-          SSEvalLogE.circleCreate,
-          circleURI,  //entity
-          null, //content,
-          par.entities,
-          par.users,
-          null, //creationTime
-          par.shouldCommit));
-      
-      return ret;
+      return SSCircleCreateRet.get(circleURI);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -1960,6 +1910,12 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
+      actAndLogFct.createCircle(
+        par, 
+        isPrivPubOrSystemGroupCircle(par, circleUri),
+        circleUri, 
+        par.shouldCommit);
+      
       return circleUri;
     }catch(SSErr error){
       
@@ -1999,30 +1955,27 @@ implements
       final SSCircleRemovePar par       = (SSCircleRemovePar) parA.getFromClient(clientType, parA, SSCircleRemovePar.class);
       final SSUri             circleURI;
       
-      if(
-        sql.isGroupOrPubCircleCircle(par, par.circle) &&
-        sql.isUserAuthor(par, par.user, par.circle, par.withUserRestriction)){
-        circleURI = circleRemove(par);
-      }else{
+            //former: 
+//      if(
+//        sql.isGroupOrPubCircleCircle(par, par.circle) &&
+//        sql.isUserAuthor(par, par.user, par.circle, par.withUserRestriction)){
+//        circleURI = circleRemove(par);
+//      }else{
+//        circleURI = null;
+//      }
+      
+      if(isPrivPubOrSystemGroupCircle(parA, par.circle)){
         circleURI = null;
+      }else{
+        
+        if(!sql.isUserAuthor(par, par.user, par.circle, par.withUserRestriction)){
+          circleURI = null;
+        }else{
+          circleURI = circleRemove(par);
+        }
       }
       
-      final SSCircleRemoveRet ret = SSCircleRemoveRet.get(circleURI);
-      
-      evalServ.evalLog(
-        new SSEvalLogPar(
-          par,
-          par.user,
-          SSToolContextE.sss,
-          SSEvalLogE.circleRemove,
-          par.circle,  //entity
-          null, //content,
-          null, //entities
-          null, //users
-          null, //creationTime
-          par.shouldCommit));
-      
-      return ret;
+      return SSCircleRemoveRet.get(circleURI);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -2051,6 +2004,11 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
+      actAndLogFct.removeCircle(
+        par, 
+        isPrivPubOrSystemGroupCircle(par, par.circle),
+        par.shouldCommit);
+        
       return par.circle;
     }catch(SSErr error){
       
@@ -2090,13 +2048,13 @@ implements
       final SSCircleUsersAddPar par = (SSCircleUsersAddPar) parA.getFromClient(clientType, parA, SSCircleUsersAddPar.class);
       final SSUri               circleURI;
       
-      if(!sql.isGroupOrPubCircleCircle(par, par.circle)){
+      if(isPrivPubOrSystemGroupCircle(parA, par.circle)){ //former: !sql.isGroupOrPubCircleCircle(par, par.circle)){
         circleURI = null;
       }else{
         circleURI = circleUsersAdd(par);
       }
       
-      final SSCircle circle    =
+      final SSCircle circle =
         circleGet(
           new SSCircleGetPar(
             par,
@@ -2117,34 +2075,7 @@ implements
         par.users,
         par.withUserRestriction);
       
-      final SSCircleUsersAddRet ret = SSCircleUsersAddRet.get(circleURI);
-      
-      activityServ.activityAdd(
-        new SSActivityAddPar(
-          par,
-          par.user,
-          SSActivityE.addUsersToCircle,
-          par.circle,
-          par.users,
-          null,
-          null,
-          null,
-          par.shouldCommit));
-      
-      evalServ.evalLog(
-        new SSEvalLogPar(
-          par,
-          par.user,
-          SSToolContextE.sss,
-          SSEvalLogE.circleUsersAdd,
-          par.circle,  //entity
-          null, //content,
-          null, //entities
-          par.users, //users
-          null, //creationTime
-          par.shouldCommit));
-      
-      return ret;
+      return SSCircleUsersAddRet.get(circleURI);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -2210,6 +2141,11 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
+      actAndLogFct.addUsersToCircle(
+        par, 
+        isPrivPubOrSystemGroupCircle(par, par.circle),
+        par.shouldCommit);
+      
       return par.circle;
     }catch(SSErr error){
       
@@ -2248,7 +2184,7 @@ implements
       final SSCircleEntitiesAddPar par      = (SSCircleEntitiesAddPar) parA.getFromClient(clientType, parA, SSCircleEntitiesAddPar.class);
       final SSUri                  cicleURI;
       
-      if(!sql.isGroupOrPubCircleCircle(par, par.circle)){
+      if(isPrivPubOrSystemGroupCircle(parA, par.circle)){ //former: sql.isGroupOrPubCircleCircle(par, par.circle)){
         cicleURI = null;
       }else{
         cicleURI = circleEntitiesAdd(par);
@@ -2299,31 +2235,6 @@ implements
         par.withUserRestriction);
       
       final SSCircleEntitiesAddRet ret = SSCircleEntitiesAddRet.get(cicleURI);
-      
-      activityServ.activityAdd(
-        new SSActivityAddPar(
-          par,
-          par.user,
-          SSActivityE.addEntitiesToCircle,
-          par.circle,
-          SSUri.asListNotNull(),
-          par.entities,
-          null,
-          null,
-          par.shouldCommit));
-      
-      evalServ.evalLog(
-        new SSEvalLogPar(
-          par,
-          par.user,
-          SSToolContextE.sss,
-          SSEvalLogE.circleEntitiesAdd,
-          par.circle,  //entity
-          null, //content,
-          par.entities,
-          null, //users
-          null, //creationTime
-          par.shouldCommit));
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -2411,6 +2322,11 @@ implements
       }
       
       dbSQL.commit(par, par.shouldCommit);
+      
+      actAndLogFct.addEntitiesToCircle(
+        par, 
+        isPrivPubOrSystemGroupCircle(par, par.circle),
+        par.shouldCommit);
       
       return par.circle;
     }catch(SSErr error){
@@ -3018,8 +2934,36 @@ implements
       userCommons.checkKeyAndSetUser(parA);
       
       final SSCircleTypeChangePar par = (SSCircleTypeChangePar) parA.getFromClient(clientType, parA, SSCircleTypeChangePar.class);
+      final SSUri                 circleURI;
       
-      return SSCircleTypeChangeRet.get(circleTypeChange(par));
+      //former in server method: 
+//      if(par.withUserRestriction){
+//        
+//        if(
+//          !sql.isGroupOrPubCircleCircle(par, par.circle) ||
+//          !sql.isUserAuthor(par, par.user, par.circle, par.withUserRestriction)){
+//          return null;
+//        }
+//        
+//        
+//        switch(par.type){
+//          
+//          case group:
+//          case pubCircle:{
+//            break;
+//          }
+//          
+//          default: return null;
+//        }
+//      }
+      
+      if(isPrivPubOrSystemGroupCircle(parA, par.circle)){
+        circleURI = null;
+      }else{
+        circleURI = circleTypeChange(par);
+      }
+      
+      return SSCircleTypeChangeRet.get(circleURI);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -3045,26 +2989,6 @@ implements
       
       if(sql.isSystemCircle(par, par.circle)){
         return null;
-      }
-      
-      if(par.withUserRestriction){
-        
-        if(
-          !sql.isGroupOrPubCircleCircle(par, par.circle) ||
-          !sql.isUserAuthor(par, par.user, par.circle, par.withUserRestriction)){
-          return null;
-        }
-        
-        
-        switch(par.type){
-          
-          case group:
-          case pubCircle:{
-            break;
-          }
-          
-          default: return null;
-        }
       }
       
       dbSQL.startTrans(par, par.shouldCommit);
@@ -3577,6 +3501,43 @@ implements
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  private boolean isPrivPubOrSystemGroupCircle(
+    final SSServPar servPar, 
+    final SSUri     circleURI) throws SSErr{
+    
+    try{
+      
+      final SSCircle circle =
+        sql.getCircle(
+          servPar,
+          circleURI,
+          false,  //withUsers
+          false, //withEntities
+          false, //withCircleRights,
+          null); //entityTypesToIncludeOnly
+      
+      if(
+        circle == null ||
+        circle.isSystemCircle){
+        return true;
+      }
+      
+      switch(circle.circleType){
+        
+        case pub:
+        case priv:{
+          return true;
+        }
+      }
+      
+      return false;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return false;
     }
   }
 }

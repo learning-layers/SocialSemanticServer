@@ -223,7 +223,7 @@ public class SSEntityActAndLogFct {
   }
   
   public void removeEntities(
-    final SSServPar servPar,
+    final SSServPar   servPar,
     final SSUri       user,
     final SSUri       entity,
     final List<SSUri> entities,
@@ -282,6 +282,339 @@ public class SSEntityActAndLogFct {
           placeholder, //entity
           null, //content
           null, //entities
+          null, //users
+          null, //creationTime
+          shouldCommit));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default:{
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public void createCircle(
+    final SSCircleCreatePar par, 
+    final boolean           isPrivPubOrSystemGroupCircle,
+    final SSUri             circleURI,
+    final boolean           shouldCommit) throws SSErr{
+
+    if(isPrivPubOrSystemGroupCircle){
+      return;
+    }
+    
+    if(par.isSystemCircle){
+      return;
+    }
+    
+    switch(par.circleType){
+      
+      case pub:
+      case priv:{
+      
+        return;
+      }
+    }
+    
+    try{
+      
+      activityServ.activityAdd(
+        new SSActivityAddPar(
+          par,
+          par.user,
+          SSActivityE.createCircle,
+          circleURI,
+          null, //users,
+          null, //entities,
+          null,
+          null,
+          shouldCommit));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default:{
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+    
+    try{
+      
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.createCircle,
+          circleURI,  //entity
+          null, //content,
+          null,
+          null,
+          null, //creationTime
+          shouldCommit));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default:{
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public void addEntitiesToCircle(
+    final SSCircleEntitiesAddPar par, 
+    final boolean                isPrivPubOrSystemGroupCircle,
+    final boolean                shouldCommit) throws SSErr{
+    
+    if(isPrivPubOrSystemGroupCircle){
+      return;
+    }
+    
+    try{
+      
+      activityServ.activityAdd(
+        new SSActivityAddPar(
+          par, //servPar
+          par.user, //user
+          SSActivityE.addEntitiesToCircle, //type
+          par.circle, //entity
+          null, //users
+          par.entities, //entities
+          null, //comments
+          null, //creationTime
+          shouldCommit));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default:{
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+    
+    try{
+      
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.addCircleEntities,
+          par.circle, //entity
+          null, //content,
+          par.entities, //entities
+          null, //users
+          null, //creationTime
+          shouldCommit));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default:{
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public void addUsersToCircle(
+    final SSCircleUsersAddPar par,
+    final boolean             isPrivPubOrSystemGroupCircle,
+    final boolean             shouldCommit) throws SSErr{
+    
+    
+    if(isPrivPubOrSystemGroupCircle){
+      return;
+    }
+    
+    try{
+      
+      activityServ.activityAdd(
+        new SSActivityAddPar(
+          par,
+          par.user,
+          SSActivityE.addUsersToCircle,
+          par.circle,
+          par.users,
+          null,
+          null,
+          null,
+          shouldCommit));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default:{
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+    
+    try{
+      
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.addCircleUsers,
+          par.circle,  //entity
+          null, //content,
+          null, //entities
+          par.users, //users
+          null, //creationTime
+          shouldCommit));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default:{
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public void removeCircle(
+    final SSCircleRemovePar par,
+    final boolean           isPrivPubOrSystemGroupCircle,
+    final boolean           shouldCommit) throws SSErr{
+    
+    if(isPrivPubOrSystemGroupCircle){
+      return;
+    }
+    
+    try{
+      
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.removeCircle,
+          par.circle,  //entity
+          null, //content,
+          null, //entities
+          null, //users
+          null, //creationTime
+          shouldCommit));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default:{
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public void removeUsersFromCircle(
+    final SSCircleUsersRemovePar par,
+    final boolean                isPrivPubOrSystemGroupCircle,
+    final boolean                shouldCommit) throws SSErr{
+    
+    if(isPrivPubOrSystemGroupCircle){
+      return;
+    }
+    
+    try{
+      
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.removeCircleUsers,
+          par.circle,  //entity
+          null, //content,
+          null, //entities
+          par.users, //users
+          null, //creationTime
+          shouldCommit));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default:{
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public void removeEntitiesFromCircle(
+    final SSCircleEntitiesRemovePar par, 
+    final boolean                   isPrivPubOrSystemGroupCircle, 
+    final boolean                   shouldCommit) throws SSErr{
+    
+    if(isPrivPubOrSystemGroupCircle){
+      return;
+    }
+    
+    try{
+      
+       evalServ.evalLog(
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.removeCircleEntities,
+          par.circle,  //entity
+          null, //content,
+          par.entities, //entities
           null, //users
           null, //creationTime
           shouldCommit));

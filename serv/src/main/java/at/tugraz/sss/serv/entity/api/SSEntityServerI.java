@@ -87,7 +87,7 @@ public interface SSEntityServerI extends SSServServerI{
   public SSUri                           circleUsersAdd                           (final SSCircleUsersAddPar                    par) throws SSErr;
   public SSUri                           circleEntitiesAdd                        (final SSCircleEntitiesAddPar                 par) throws SSErr;
   public List<SSCircleE>                 circleTypesGet                           (final SSCircleTypesGetPar                    par) throws SSErr;
-  public SSCircle                  circleGet                                (final SSCircleGetPar                         par) throws SSErr;
+  public SSCircle                        circleGet                                (final SSCircleGetPar                         par) throws SSErr;
   public List<SSEntity>                  circlesGet                               (final SSCirclesGetPar                        par) throws SSErr;
   public SSUri                           circlePrivURIGet                         (final SSCirclePrivURIGetPar                  par) throws SSErr;
   public SSUri                           circlePubURIGet                          (final SSCirclePubURIGetPar                   par) throws SSErr;

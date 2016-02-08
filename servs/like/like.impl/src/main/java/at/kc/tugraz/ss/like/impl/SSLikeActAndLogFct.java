@@ -49,10 +49,6 @@ public class SSLikeActAndLogFct{
     
     try{
       
-      if(!par.storeLogs){
-        return;
-      }
-      
       if(par.value == 1){
         
         evalServ.evalLog(

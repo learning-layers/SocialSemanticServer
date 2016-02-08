@@ -36,6 +36,7 @@ import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import java.util.ArrayList;
 import java.util.List;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
@@ -44,6 +45,7 @@ public class SSEvalLogBNP {
   
   public void log(
     final SSEvalLogPar     par,
+    final SSEntityServerI  entityServ,
     final SSUser           originUser,
     final SSEntity         targetEntity,
     final List<SSEntity>   targetEntities,
@@ -52,6 +54,17 @@ public class SSEvalLogBNP {
     try{
       
       switch(par.type){
+        
+        //circle
+        case createCircle:
+        case addCircleEntities:
+        case addCircleUsers:
+        case removeCircle:
+        case removeCircleUsers:
+        case removeCircleEntities:{
+          
+          break;
+        }
         
         //evernote & mail import
         case addNotebook:
@@ -165,21 +178,41 @@ public class SSEvalLogBNP {
       String                 logText             = new String();
       String                 selectBitsMeasure   = SSStrU.empty;
       final List<SSCircleE>  episodeSpaces       = new ArrayList<>();
+      SSCircle               circle          = null;
       
       if(targetEntity != null){
         
         switch(targetEntity.type){
           
-          case learnEp:
+          case learnEp:{
             
-            episodeSpaces.addAll(((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circleTypesGet(
-              new SSCircleTypesGetPar(
-                par, 
-                originUser.id, 
-                targetEntity.id, 
-                true)));
+            episodeSpaces.addAll(
+              entityServ.circleTypesGet(
+                new SSCircleTypesGetPar(
+                  par,
+                  originUser.id,
+                  targetEntity.id,
+                  true)));
             
             break;
+          }
+          
+          case circle:{
+            
+            circle =
+              entityServ.circleGet(
+                new SSCircleGetPar(
+                  par,
+                  originUser.id, //user
+                  targetEntity.id, //circle
+                  null, //entityTypesToIncludeOnly
+                  false,  //setTags
+                  null,  //tagSpace
+                  false,  //setEntities
+                  false,  //setUsers
+                  false,  //withUserRestriction
+                  false)); //invokeEntityHandlers
+          }
         }
       }
       
@@ -225,7 +258,9 @@ public class SSEvalLogBNP {
         }
       }
       
-      //timestamp;tool context;user label;user email;log type;entity;entity type;entity label;content;tag type;entities' ids;entities' labels;users' labels;episodespace;selected bits measure;not selected entities' ids;not selected entities' labels
+      //timestamp;tool context;user label;user email;log type;entity;entity type;entity label;content;tag type;entities' ids;entities' labels;
+      //users' labels;episodespace;selected bits measure;not selected entities' ids;not selected entities' labels;circle type
+      
       //time stamp
       
       if(par.creationTime != null){
@@ -385,10 +420,10 @@ public class SSEvalLogBNP {
             
             selectBitsMeasure = targetEntities.size() + SSStrU.slash + itemCount;
             
-            for(SSEntity circle : learnEpVersion.learnEpCircles){
+            for(SSEntity learnEpCircle : learnEpVersion.learnEpCircles){
               
-              if(!SSStrU.contains(targetEntities, circle)){
-                notSelectedEntities.add(circle);
+              if(!SSStrU.contains(targetEntities, learnEpCircle)){
+                notSelectedEntities.add(learnEpCircle);
               }
             }
             
@@ -422,6 +457,15 @@ public class SSEvalLogBNP {
       for(SSEntity entity : notSelectedEntities){
         logText += entity.id;
         logText += SSStrU.comma;
+      }
+      
+      logText += SSStrU.semiColon;
+      
+      //circleType
+      if(circle != null){
+        logText += circle.circleType;
+      }else{
+        logText += SSStrU.empty;
       }
       
       logText += SSStrU.semiColon;

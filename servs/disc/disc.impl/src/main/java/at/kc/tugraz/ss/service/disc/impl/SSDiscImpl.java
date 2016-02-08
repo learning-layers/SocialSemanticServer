@@ -697,10 +697,6 @@ implements
       userCommons.checkKeyAndSetUser(parA);
       
       final SSDiscUpdatePar par = (SSDiscUpdatePar) parA.getFromClient(clientType, parA, SSDiscUpdatePar.class);
-      
-      par.storeLogs       = true;
-      par.storeActivities = true;
-      
       final SSDiscUpdateRet ret = discUpdate(par);
       
       return ret;
@@ -744,9 +740,6 @@ implements
           false, //createIfNotExists
           true, //withUserRestriction
           false); //shouldCommit
-      
-      entityUpdatePar.storeLogs       = par.storeLogs;
-      entityUpdatePar.storeActivities = par.storeActivities;
       
       par.disc = entityServ.entityUpdate(entityUpdatePar);
       

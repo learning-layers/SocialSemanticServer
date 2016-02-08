@@ -22,14 +22,7 @@ package at.tugraz.sss.serv.datatype.par;
 
 import at.tugraz.sss.serv.datatype.enums.SSCircleE;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.*;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +51,7 @@ public class SSCircleCreateFromClientPar extends SSCircleCreatePar{
   public SSCircleCreateFromClientPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSCircleCreateFromClientPar(
-    final SSServPar servPar,
+    final SSServPar       servPar,
     final SSUri           user,
     final SSCircleE       circleType,
     final SSLabel         label,
