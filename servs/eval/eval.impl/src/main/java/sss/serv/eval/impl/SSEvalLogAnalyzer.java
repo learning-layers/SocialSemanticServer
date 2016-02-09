@@ -65,9 +65,11 @@ import sss.serv.eval.impl.helpers.SSWorkedOnReceivedSharedBitInfo;
 //•	Number of interactions in discussions
 
 //outstanding
-//•	Number of persons collaborating
 //•	Number of persons collaborating in each episode
 //•	Number of persons discussing in each episode
+//the episodes for bits
+//time span of edits in episodes
+//Number of relabelled categories
 
 public class SSEvalLogAnalyzer {
   
