@@ -24,7 +24,6 @@ import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
-import at.kc.tugraz.ss.service.disc.datatypes.pars.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
@@ -85,6 +84,21 @@ public class SSDiscActAndLogFct{
         }
       }
       
+      if(entry != null){
+        
+        activityServ.activityAdd(
+          new SSActivityAddPar(
+            servPar,
+            user,
+            SSActivityE.addDiscEntry,
+            disc,
+            null, //users,
+            SSUri.asListNotNull(entry), //entities
+            SSTextComment.asListWithoutNullAndEmpty(entryContent), //comment
+            null,
+            shouldCommit));
+      }
+      
     }catch(SSErr error){
       
       switch(error.code){
@@ -127,7 +141,7 @@ public class SSDiscActAndLogFct{
               servPar,
               user,
               SSToolContextE.sss,
-              SSEvalLogE.addDiscEntry,
+              SSEvalLogE.createDisc,
               disc, //entity
               SSStrU.toStr(discDescription), //content
               null, //entities
@@ -136,51 +150,6 @@ public class SSDiscActAndLogFct{
               shouldCommit));
         }
       }
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-    
-    try{
-      if(entry != null){
-        
-        activityServ.activityAdd(
-          new SSActivityAddPar(
-            servPar,
-            user,
-            SSActivityE.addDiscEntry,
-            disc,
-            null, //users,
-            SSUri.asListNotNull(entry), //entities
-            SSTextComment.asListWithoutNullAndEmpty(entryContent), //comment
-            null,
-            shouldCommit));
-      }
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-    
-    try{
       
       if(entry != null){
         

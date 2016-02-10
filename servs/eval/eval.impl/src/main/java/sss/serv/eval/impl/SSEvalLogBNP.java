@@ -135,6 +135,7 @@ public class SSEvalLogBNP {
         }
 
         //discussions
+        case createDisc:
         case discussEntity: 
         case addDiscEntry: 
         case attachEntities: 

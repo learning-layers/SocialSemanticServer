@@ -64,6 +64,7 @@ public enum SSEvalLogE{
   removeEntityFromLearnEpCircle, 
   removeLearnEpVersionCircleWithEntitites, 
   addDiscEntry, 
+  createDisc,
   discussEntity, 
   attachEntities, 
   removeEntities, 
