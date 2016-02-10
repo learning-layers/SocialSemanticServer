@@ -989,6 +989,61 @@ public class SSEvalLogAnalyzer {
     }
   }
   
+  public void analyzeNumberOfLearnEpCircleLabels(
+    final SSEvalAnalyzePar     par,
+    final List<SSEvalLogEntry> logEntries) throws SSErr{
+    
+    System.out.println();
+    System.out.println();
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println("number of learnep circle labels");
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println();
+    
+    try{
+      
+      final List<String> differentLabels    = new ArrayList<>();
+
+      SSLearnEp        learnEp;
+      SSLearnEpVersion learnEpVersion;
+      SSLearnEpCircle  learnEpCircle;
+        
+      for(Map.Entry<String, SSEntity> learnEpEntry : episodes.entrySet()){
+        
+        learnEp = (SSLearnEp) learnEpEntry.getValue();
+        
+        if(SSStrU.equalsOne(learnEp.author.label, ignoredUsers)){
+          continue;
+        }
+        
+//        if(learnEp.creationTime < timeBeginStudy){
+//          continue;
+//        }
+
+        for(SSEntity learnEpVersionEntity : learnEp.getVersions()){
+          
+          learnEpVersion = (SSLearnEpVersion) learnEpVersionEntity;
+          
+          for(SSEntity circle : learnEpVersion.learnEpCircles){
+          
+            learnEpCircle = (SSLearnEpCircle) circle;
+            
+            SSStrU.addDistinctNotNull(differentLabels, SSStrU.toStr(learnEpCircle.label).trim());
+          }
+        }
+      }
+            
+      System.out.println("total number of different circle labels in episodes: " + differentLabels.size() + " " + differentLabels);
+      
+      return;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   public void analyzeNumberOfBitsUsedInEpisodes(
     final SSEvalAnalyzePar     par,
     final List<SSEvalLogEntry> logEntries) throws SSErr{
