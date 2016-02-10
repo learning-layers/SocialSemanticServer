@@ -26,9 +26,12 @@ import at.tugraz.sss.adapter.rest.v3.app.*;
 import at.tugraz.sss.adapter.rest.v3.disc.*;
 import at.tugraz.sss.adapter.rest.v3.entity.*;
 import at.tugraz.sss.serv.util.*;
+import java.io.*;
 import java.util.*;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.*;
+import org.glassfish.jersey.media.multipart.*;
+import org.glassfish.jersey.media.multipart.file.*;
 
 public class SSRestClient {
   
@@ -61,13 +64,44 @@ public class SSRestClient {
       final Client       client = ClientBuilder.newClient();
       final SSRestClient caller = new SSRestClient(client);
       
+      client.register(MultiPartFeature.class);
+      
       caller.auth();
+      
+      caller.uploadFile();
 //      caller.appsGet();
 //      caller.appAdd();
       
 //      caller.getEntitiesFilteredAccessible();
 //      caller.discCreate();
 //      caller.discsGetFiltered();
+      
+    }catch (Exception error) {
+      SSLogU.err(error);
+    }
+  }
+  
+  public void uploadFile(){
+    
+    try{
+      final WebTarget        target           = client.target(host + restPath + "files/upload/");
+      final MultiPart        multiPart        = new MultiPart();
+      
+      multiPart.setMediaType(MediaType.MULTIPART_FORM_DATA_TYPE);
+      
+      final FileDataBodyPart fileDataBodyPart =
+        new FileDataBodyPart(
+          "file",
+          new File("C:\\dieter\\Clipboard01.jpg"),
+          MediaType.APPLICATION_OCTET_STREAM_TYPE);
+      
+      multiPart.bodyPart(fileDataBodyPart);
+      
+      Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(multiPart, multiPart.getMediaType()));
+        
+//        target.request(MediaType.MULTIPART_FORM_DATA).post(Entity.entity(multiPart, multiPart.getMediaType()));
+      
+      System.out.println(response.getStatus() + " " + response.getStatusInfo()+ " " + response);
       
     }catch (Exception error) {
       SSLogU.err(error);

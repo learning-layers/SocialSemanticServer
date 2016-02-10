@@ -1461,6 +1461,14 @@
         }, {
           "in" : "body",
           "name" : "body",
+          "description" : "description for the file",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "body",
+          "name" : "body",
           "description" : "circle to consider for metadata visibility",
           "required" : false,
           "schema" : {

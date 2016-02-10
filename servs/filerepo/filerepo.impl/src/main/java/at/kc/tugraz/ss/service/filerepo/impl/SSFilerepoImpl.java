@@ -427,6 +427,7 @@ implements
           par.user,
           fileUri,
           par.label,
+          par.description,
           par.withUserRestriction);
       
       dbSQL.commit(par, par.shouldCommit);
@@ -435,6 +436,28 @@ implements
 //      removeFileFromLocalWorkFolder();
       
       return result;
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+
+        case sqlDeadLock:{
+          
+          try{
+            dbSQL.rollBack(par, par.shouldCommit);
+            SSServErrReg.regErrThrow(error);
+            return null;
+          }catch(Exception error2){
+            SSServErrReg.regErrThrow(error2);
+            return null;
+          }
+        }
+        
+        default:{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -533,15 +556,16 @@ implements
   }
   
   private SSUri registerFileAndCreateThumb(
-    final SSServPar servPar, 
-    final SSUri   user,
-    final SSUri   fileUri,
-    final SSLabel label,
-    final boolean withUserRestriction) throws SSErr{
+    final SSServPar     servPar, 
+    final SSUri         user,
+    final SSUri         fileUri,
+    final SSLabel       label,
+    final SSTextComment description,
+    final boolean       withUserRestriction) throws SSErr{
     
     try{
       
-      final SSFileAddRet      result   =
+      final SSFileAddRet result =
         fileAdd(
           new SSEntityFileAddPar(
             servPar, 
@@ -558,6 +582,25 @@ implements
             false, //removeExistingFilesForEntity,
             withUserRestriction,
             false));
+
+      if(result == null){
+        return null;
+      }
+      
+      entityServ.entityUpdate(
+        new SSEntityUpdatePar(
+          servPar,
+          user,
+          fileUri,
+          null,
+          null, //label,
+          description, //description,
+          null, //creationTime,
+          null, //read,
+          false, //setPublic,
+          false, //createIfNotExists,
+          withUserRestriction,
+          false)); //shouldCommit)
       
       return result.thumb;
       

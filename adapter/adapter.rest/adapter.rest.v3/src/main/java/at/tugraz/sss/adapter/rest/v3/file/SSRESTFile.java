@@ -70,6 +70,12 @@ public class SSRESTFile{
     final String label,
     
     @ApiParam(
+      value = "description for the file",
+      required = false)
+    @FormDataParam(SSVarNames.description)
+    final String description,
+    
+    @ApiParam(
       value = "circle to consider for metadata visibility",
       required = false)
     @FormDataParam(SSVarNames.circle)
@@ -81,11 +87,14 @@ public class SSRESTFile{
     @FormDataParam(SSVarNames.mimeType)
     final String mimeType,
     
+//    @FormDataParam("file") InputStream file,
+//    @FormDataParam("file") FormDataContentDisposition fileDisposition){
+
     @ApiParam(
       value = "file data",
       required = true)
     @FormDataParam("file")
-    final InputStream fileHandle){ //@FormDataParam("my_file") FormDataBodyPart body Then you can use body.getMediaType()
+    final InputStream file){ //@FormDataParam("my_file") FormDataBodyPart body Then you can use body.getMediaType()
     
     final SSFileUploadPar  par;
     Connection               sqlCon = null;
@@ -104,11 +113,12 @@ public class SSRESTFile{
           new SSFileUploadPar(
             new SSServPar(sqlCon),
             null,
-            SSMimeTypeE.get(mimeType),  //mimeType
-            SSLabel.get    (label),  //label
-            SSUri.get(circle, SSConf.sssUri), //circle
+            SSMimeTypeE.get   (mimeType),  //mimeType
+            SSLabel.get       (label),  //label
+            SSTextComment.get (description),  //description
+            SSUri.get         (circle, SSConf.sssUri), //circle
             null, //clientSocket
-            fileHandle, //fileInputStream
+            file, //fileInputStream
             SSClientE.rest, //clientType
             true); //shouldCommit
         

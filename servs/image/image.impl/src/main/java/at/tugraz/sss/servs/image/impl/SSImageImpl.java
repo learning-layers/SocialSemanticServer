@@ -363,7 +363,6 @@ implements
       }
       
       final SSFileRepoServerI fileServ = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
-      SSUri                   thumbURI = null;
       SSUri                   imageUri;
 
       if(par.uuid != null){
@@ -517,7 +516,7 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
 
-      return new SSImageAddRet(imageUri, thumbURI);
+      return new SSImageAddRet(imageUri, thumbFileURI);
     }catch(SSErr error){
       
       switch(error.code){

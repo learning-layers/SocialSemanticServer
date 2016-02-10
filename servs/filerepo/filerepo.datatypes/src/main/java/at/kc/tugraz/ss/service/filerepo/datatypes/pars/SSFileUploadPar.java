@@ -27,20 +27,16 @@ import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
 import java.io.*;
 import java.net.Socket;
-import java.sql.*;
 
 public class SSFileUploadPar extends SSServPar{
   
   public SSLabel       label       = null;
+  public SSTextComment description = null;
   public SSMimeTypeE   mimeType    = null;
   public SSUri         circle      = null;
   
   public InputStream  fileInputStream = null;
   public SSClientE    clientType      = SSClientE.socket;
-  
-  public String getCircle(){
-    return SSStrU.removeTrailingSlash(circle);
-  }
   
   public String getLabel(){
     return SSStrU.toStr(label);
@@ -48,6 +44,14 @@ public class SSFileUploadPar extends SSServPar{
   
   public void setLabel(final String label) throws SSErr{
     this.label = SSLabel.get(label);
+  }
+  
+  public String getDescription(){
+    return SSStrU.toStr(description);
+  }
+  
+  public void setDescription(final String description) throws SSErr{
+    this.description = SSTextComment.get(description);
   }
   
   public String getMimeType(){
@@ -58,6 +62,10 @@ public class SSFileUploadPar extends SSServPar{
     this.mimeType = SSMimeTypeE.get(mimeType);
   }
   
+  public String getCircle(){
+    return SSStrU.removeTrailingSlash(circle);
+  }
+  
   public void setCircle(final String circle) throws SSErr{
     this.circle = SSUri.get(circle);
   }
@@ -65,10 +73,11 @@ public class SSFileUploadPar extends SSServPar{
   public SSFileUploadPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSFileUploadPar(
-    final SSServPar servPar,
+    final SSServPar     servPar,
     final SSUri         user,
     final SSMimeTypeE   mimeType,
     final SSLabel       label,
+    final SSTextComment description,
     final SSUri         circle,
     final Socket        clientSocket,
     final InputStream   fileInputStream,
@@ -79,6 +88,7 @@ public class SSFileUploadPar extends SSServPar{
     
     this.mimeType        = mimeType;
     this.label           = label;
+    this.description     = description;
     this.circle          = circle;
     this.clientSocket    = clientSocket;
     this.fileInputStream = fileInputStream;
