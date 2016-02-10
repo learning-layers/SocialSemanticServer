@@ -113,24 +113,24 @@ implements
       
       analyzer.setEpisodes (par);
       
-//      analyzer.analyzeNumberOfLogEntries                         (par, logEntries);
-//      analyzer.analyzeNumberOfImports                            (par, logEntries);
-//      analyzer.analyzeDistinctUsers                              (par, logEntries);
-//      analyzer.analyzeNumberArtifacts                            (par, logEntries);
-//      analyzer.analyzeNumberOfLivingDocs                         (par, logEntries);
-//      analyzer.analyzeNumberOfTags                               (par, logEntries);
-//      analyzer.analyzeNumberOfEntriesInDiscussions               (par, logEntries);
-//      analyzer.analyzeNumberOfTagsInDiscussions                  (par, logEntries);
-//      analyzer.analyzeNumberOfEntitiesInDiscussions              (par, logEntries);
-//      analyzer.analyzeNumberOfAuthorsInDiscussions               (par, logEntries);
-//      analyzer.analyzeNumberOfDiscussions                        (par, logEntries);
-//      analyzer.analyzeNumberOfTagActivitiesDistinctUserEntityTag (par, logEntries);
-//      analyzer.analyzeNumberOfTagsForBitsUsedInEpisodes          (par, logEntries);
-//      analyzer.analyzeNumberOfBitsUsedInEpisodes                 (par, logEntries);
+      analyzer.analyzeNumberOfLogEntries                         (par, logEntries);
+      analyzer.analyzeNumberOfImportedResources                  (par, logEntries);
+      analyzer.analyzeDistinctUsers                              (par, logEntries);
+      analyzer.analyzeNumberArtifacts                            (par, logEntries);
+      analyzer.analyzeNumberOfLivingDocs                         (par, logEntries);
+      analyzer.analyzeNumberOfTags                               (par, logEntries);
+      analyzer.analyzeNumberOfEntriesInDiscussions               (par, logEntries);
+      analyzer.analyzeNumberOfTagsInDiscussions                  (par, logEntries);
+      analyzer.analyzeNumberOfEntitiesInDiscussions              (par, logEntries);
+      analyzer.analyzeNumberOfAuthorsInDiscussions               (par, logEntries);
+      analyzer.analyzeNumberOfDiscussions                        (par, logEntries);
+      analyzer.analyzeNumberOfTagActivitiesDistinctUserEntityTag (par, logEntries);
+      analyzer.analyzeNumberOfTagsForBitsUsedInEpisodes          (par, logEntries);
+      analyzer.analyzeNumberOfBitsUsedInEpisodes                 (par, logEntries);
       analyzer.analyzeNumberOfLearnEpCircleLabels                (par, logEntries);
-//      analyzer.analyzeNumberOfInteractionsInEpisodes             (par, logEntries);
-//      analyzer.analyzeNumberOfSharedEpisodes                     (par, logEntries);
-//      analyzer.analyzeNumberOfAcceptedRecommendations            (par, logEntries);
+      analyzer.analyzeNumberOfInteractionsInEpisodes             (par, logEntries);
+      analyzer.analyzeNumberOfSharedEpisodes                     (par, logEntries);
+      analyzer.analyzeNumberOfAcceptedRecommendations            (par, logEntries);
       
       System.out.println();
       System.out.println();

@@ -459,18 +459,15 @@ public class SSEvalLogAnalyzer {
       
       entitiesGetPar.types.add(SSEntityE.qa);
       entitiesGetPar.types.add(SSEntityE.qaEntry);
-      entitiesGetPar.types.add(SSEntityE.discEntry);
       entitiesGetPar.types.add(SSEntityE.evernoteNote);
       entitiesGetPar.types.add(SSEntityE.evernoteResource);
       entitiesGetPar.types.add(SSEntityE.evernoteNotebook);
       entitiesGetPar.types.add(SSEntityE.learnEp);
-      entitiesGetPar.types.add(SSEntityE.learnEpCircle);
-      entitiesGetPar.types.add(SSEntityE.learnEpEntity);
-      entitiesGetPar.types.add(SSEntityE.learnEpVersion);
-      entitiesGetPar.types.add(SSEntityE.learnEpTimelineState);
+//      entitiesGetPar.types.add(SSEntityE.learnEpCircle);
+//      entitiesGetPar.types.add(SSEntityE.learnEpEntity);
       entitiesGetPar.types.add(SSEntityE.livingDoc);
-      entitiesGetPar.types.add(SSEntityE.mail);
-      entitiesGetPar.types.add(SSEntityE.message);
+//      entitiesGetPar.types.add(SSEntityE.mail);
+//      entitiesGetPar.types.add(SSEntityE.message);
       entitiesGetPar.types.add(SSEntityE.placeholder);
       
       final List<SSEntity> entities =
@@ -1316,7 +1313,7 @@ public class SSEvalLogAnalyzer {
     }
   }
   
-  public void analyzeNumberOfImports(
+  public void analyzeNumberOfImportedResources(
     final SSEvalAnalyzePar     par,
     final List<SSEvalLogEntry> logEntries) throws SSErr{
     
@@ -1324,7 +1321,7 @@ public class SSEvalLogAnalyzer {
     System.out.println();
     System.out.println("##################################");
     System.out.println("##################################");
-    System.out.println("number of imports");
+    System.out.println("number of imported resources");
     System.out.println("##################################");
     System.out.println("##################################");
     System.out.println();
