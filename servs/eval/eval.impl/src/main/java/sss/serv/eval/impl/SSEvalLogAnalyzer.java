@@ -80,7 +80,6 @@ public class SSEvalLogAnalyzer {
   private final SSDiscServerI          discServ;
   private final SSLivingDocServerI     ldServ;
   private final Long                   timeBeginStudy;
-  private final Long                   timeBeginLogAnalyze;
   private final Map<String, SSEntity>  episodes     = new HashMap<>();
   private final List<String>           ignoredUsers = new ArrayList<>();
   
@@ -91,8 +90,7 @@ public class SSEvalLogAnalyzer {
     final SSMessageServerI   messageServ,
     final SSDiscServerI      discServ,
     final SSLivingDocServerI ldServ,
-    final Long               timeBeginStudy,
-    final Long               timeBeginLogAnalyze){
+    final Long               timeBeginStudy){
     
     this.tagServ              = tagServ;
     this.learnEpServ          = learnEpServ;
@@ -101,19 +99,65 @@ public class SSEvalLogAnalyzer {
     this.ldServ               = ldServ;
     this.discServ             = discServ;
     this.timeBeginStudy       = timeBeginStudy;
-    this.timeBeginLogAnalyze  = timeBeginLogAnalyze;
-      
-    ignoredUsers.add("t.treasure-jones@leeds.ac.uk");
+    
+    ignoredUsers.add("koren@dbis.rwth-aachen.de");
+    ignoredUsers.add("samuli.raivio@aalto.fi");
+    ignoredUsers.add("fabiorex81@gmail.com");
+    ignoredUsers.add("dtheiler@tugraz.at");
+    ignoredUsers.add("seb@know-center.at");
+    ignoredUsers.add("jaanika.hirv@gmail.com");
+    ignoredUsers.add("anna.pee@outlook.com");
+    ignoredUsers.add("edwin@raycom.com");
+    ignoredUsers.add("mburchert@gmx.de");
+    ignoredUsers.add("dirkstieglitz@gmail.com");
+    ignoredUsers.add("marjo.virnes@aalto.fi");
+    ignoredUsers.add("pkamar@uni-bremen.de");
+    ignoredUsers.add("bchootang@outlook.sg");
+    ignoredUsers.add("marjo.virnes@gmail.com");
+    ignoredUsers.add("anna-kaisa.partanen@metropolia.fi");
+    ignoredUsers.add("matti.jokitulppo@gmail.com");
+    ignoredUsers.add("gnum@tlu.ee");
+    ignoredUsers.add("gilbert.peffer@gmail.com");
+    ignoredUsers.add("atarraco@cimne.upc.edu");
+    ignoredUsers.add("jukka.purma@aalto.fi");
+    ignoredUsers.add("i902200@trbvm.com");
+    ignoredUsers.add("samulixd@gmail.com");
+    ignoredUsers.add("dieter@know-center.at");
+    ignoredUsers.add("henry.paananen@gmail.com");
+    ignoredUsers.add("lina.seppola@gmail.com");
+    ignoredUsers.add("burchert@uni-bremen.de");
+    ignoredUsers.add("john.bibby@nhs.net");
+    ignoredUsers.add("zahra.grosser@gmail.com");
+    ignoredUsers.add("martin@web.de");
     ignoredUsers.add("bn-testuser7@know-center.at");
     ignoredUsers.add("bn-testuser8@know-center.at");
-    ignoredUsers.add("john.bibby@nhs.net");
-    ignoredUsers.add("m.p.kerr@leeds.ac.uk");
     ignoredUsers.add("david.zaki@hotmail.com");
+    ignoredUsers.add("t.treasure-jones@leeds.ac.uk");
+    ignoredUsers.add("patricia.santosrodriguez@uwe.ac.uk");
+    ignoredUsers.add("m.p.kerr@leeds.ac.uk");
     ignoredUsers.add("mar7in.bachl@gmail.com");
     ignoredUsers.add("mar7in.bachl@hotmail.com");
     ignoredUsers.add("philipp.dallmann@outlook.com");
+    ignoredUsers.add("paul.carder@bradford.nhs.uk");
+    ignoredUsers.add("gemma.doran@bradford.nhs.uk");
+    ignoredUsers.add("p.hamill@pinbellcom.co.uk");
+    ignoredUsers.add("c.lawrence@leeds.ac.uk");
+    ignoredUsers.add("jabibby@gmail.com");
+    ignoredUsers.add("johnnigelcook@gmail.com");
+    ignoredUsers.add("dario.devito@egton.net");
+    ignoredUsers.add("raymond@raycom.com");
     ignoredUsers.add("sdennerlein@know-center.at");
-    ignoredUsers.add("zahra.grosser@gmail.com");
+    ignoredUsers.add("system@know-center.at");
+//    ignoredUsers.add("vikki.sykes@gp-b82028.nhs.uk");
+//    ignoredUsers.add("lois.brown1@nhs.net");
+//    ignoredUsers.add("helen.pow@gp-b82028.nhs.uk");
+//    ignoredUsers.add("fiona.parker@gp-B82028.nhs.uk");
+//    ignoredUsers.add("danny.meachin@gp-b82028.nhs.uk");
+//    ignoredUsers.add("linden.veitch@gp-B82028.nhs.uk");
+//    ignoredUsers.add("rosemary.dewey@nhs.net");
+//    ignoredUsers.add("richard.price@yas.nhs.uk");
+//    ignoredUsers.add("jamesthomas2@nhs.net");
+
   }
   
   public void analyzeLDs(
@@ -204,6 +248,91 @@ public class SSEvalLogAnalyzer {
     }
   }
   
+  public void analyzeNumberOfTags(
+    final SSEvalAnalyzePar     par,
+    final List<SSEvalLogEntry> logEntries) throws SSErr{
+    
+    System.out.println();
+    System.out.println();
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println("number of tags");
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println();
+    
+    try{
+      
+      final List<String> tags = new ArrayList<>();
+      
+      for(SSEvalLogEntry logEntry : logEntries){
+        
+        if(SSStrU.equalsOne  (logEntry.userLabel, ignoredUsers)){
+          continue;
+        }
+        
+        if(logEntry.timestamp < timeBeginStudy){
+          continue;
+        }
+        
+        switch(logEntry.logType){
+          
+          case addTag:
+          case tagAdd:{
+            SSStrU.addDistinctNotNull(tags, logEntry.content);
+            break;
+          }
+        }
+      }
+      
+      System.out.println(tags.size() + " " + tags);
+      
+      return;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void analyzeNumberOfLogEntries(
+    final SSEvalAnalyzePar     par,
+    final List<SSEvalLogEntry> logEntries) throws SSErr{
+    
+    System.out.println();
+    System.out.println();
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println("number of log entries");
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println();
+    
+    try{
+      
+      final List<SSEvalLogEntry> finalLogEntries = new ArrayList<>();
+      
+      for(SSEvalLogEntry logEntry : logEntries){
+        
+        if(SSStrU.equalsOne  (logEntry.userLabel, ignoredUsers)){
+          continue;
+        }
+        
+        if(logEntry.timestamp < timeBeginStudy){
+          continue;
+        }
+        
+        finalLogEntries.add(logEntry);
+      }
+      
+      System.out.println(finalLogEntries.size());
+      
+      return;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   public void analyzeDistinctUsers(
     final SSEvalAnalyzePar     par,
     final List<SSEvalLogEntry> logEntries) throws SSErr{
@@ -239,6 +368,138 @@ public class SSEvalLogAnalyzer {
     }
   }
   
+  public void analyzeNumberOfLivingDocs(
+    final SSEvalAnalyzePar     par,
+    final List<SSEvalLogEntry> logEntries) throws SSErr{
+    
+    System.out.println();
+    System.out.println();
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println("number of living docs");
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println();
+    
+    try{
+      
+      final SSEntitiesGetPar entitiesGetPar =
+        new SSEntitiesGetPar(
+          par,
+          null, //user
+          null, //entities
+          null, //descPar
+          false);//withUserRestriction
+      
+//      entitiesGetPar.types.add(SSEntityE.qa);
+//      entitiesGetPar.types.add(SSEntityE.qaEntry);
+//      entitiesGetPar.types.add(SSEntityE.discEntry);
+//      entitiesGetPar.types.add(SSEntityE.evernoteNote);
+//      entitiesGetPar.types.add(SSEntityE.evernoteResource);
+//      entitiesGetPar.types.add(SSEntityE.evernoteNotebook);
+//      entitiesGetPar.types.add(SSEntityE.learnEp);
+//      entitiesGetPar.types.add(SSEntityE.learnEpCircle);
+//      entitiesGetPar.types.add(SSEntityE.learnEpEntity);
+//      entitiesGetPar.types.add(SSEntityE.learnEpVersion);
+//      entitiesGetPar.types.add(SSEntityE.learnEpTimelineState);
+      entitiesGetPar.types.add(SSEntityE.livingDoc);
+//      entitiesGetPar.types.add(SSEntityE.mail);
+//      entitiesGetPar.types.add(SSEntityE.message);
+//      entitiesGetPar.types.add(SSEntityE.placeholder);
+      
+      final List<SSEntity> entities =
+        entityServ.entitiesGet(entitiesGetPar);
+      
+      final List<SSEntity> finalEntities = new ArrayList<>();
+      
+      for(SSEntity entity : entities){
+        
+        if(SSStrU.equalsOne(entity.author.label, ignoredUsers)){
+          continue;
+        }
+        
+        if(entity.creationTime < timeBeginStudy){
+          continue;
+        }
+        
+        finalEntities.add(entity);
+      }
+      
+      System.out.println(finalEntities.size() + " " + entitiesGetPar.types);
+      
+      return;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void analyzeNumberArtifacts(
+    final SSEvalAnalyzePar     par,
+    final List<SSEvalLogEntry> logEntries) throws SSErr{
+    
+    System.out.println();
+    System.out.println();
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println("number of artifacts");
+    System.out.println("##################################");
+    System.out.println("##################################");
+    System.out.println();
+    
+    try{
+      
+      final SSEntitiesGetPar entitiesGetPar =
+        new SSEntitiesGetPar(
+          par,
+          null, //user
+          null, //entities
+          null, //descPar
+          false);//withUserRestriction
+      
+      entitiesGetPar.types.add(SSEntityE.qa);
+      entitiesGetPar.types.add(SSEntityE.qaEntry);
+      entitiesGetPar.types.add(SSEntityE.discEntry);
+      entitiesGetPar.types.add(SSEntityE.evernoteNote);
+      entitiesGetPar.types.add(SSEntityE.evernoteResource);
+      entitiesGetPar.types.add(SSEntityE.evernoteNotebook);
+      entitiesGetPar.types.add(SSEntityE.learnEp);
+      entitiesGetPar.types.add(SSEntityE.learnEpCircle);
+      entitiesGetPar.types.add(SSEntityE.learnEpEntity);
+      entitiesGetPar.types.add(SSEntityE.learnEpVersion);
+      entitiesGetPar.types.add(SSEntityE.learnEpTimelineState);
+      entitiesGetPar.types.add(SSEntityE.livingDoc);
+      entitiesGetPar.types.add(SSEntityE.mail);
+      entitiesGetPar.types.add(SSEntityE.message);
+      entitiesGetPar.types.add(SSEntityE.placeholder);
+      
+      final List<SSEntity> entities =
+        entityServ.entitiesGet(entitiesGetPar);
+      
+      final List<SSEntity> finalEntities = new ArrayList<>();
+      
+      for(SSEntity entity : entities){
+        
+        if(SSStrU.equalsOne(entity.author.label, ignoredUsers)){
+          continue;
+        }
+        
+        if(entity.creationTime < timeBeginStudy){
+          continue;
+        }
+        
+        finalEntities.add(entity);
+      }
+      
+      System.out.println(finalEntities.size() + " " + entitiesGetPar.types);
+      
+      return;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   public void analyzeNumberOfEntriesInDiscussions(
     final SSEvalAnalyzePar     par,
     final List<SSEvalLogEntry> logEntries) throws SSErr{
@@ -247,14 +508,14 @@ public class SSEvalLogAnalyzer {
     System.out.println();
     System.out.println("##################################");
     System.out.println("##################################");
-    System.out.println("number of entities in discussions");
+    System.out.println("number of entries in discussions");
     System.out.println("##################################");
     System.out.println("##################################");
     System.out.println();
     
     try{
       
-      final Map<String, List<SSEntity>> entitiesPerDiscussions = new HashMap<>();
+      int totalNumberOfEntries = 0;
       final SSDiscsGetPar               discGetPar =
         new SSDiscsGetPar(
           par,
@@ -276,12 +537,18 @@ public class SSEvalLogAnalyzer {
           continue;
         }
         
+        if(discEntity.creationTime < timeBeginStudy){
+          continue;
+        }
+        
         disc = (SSDisc) discEntity;
         
-        entitiesPerDiscussions.put(SSStrU.toStr(disc), new ArrayList<>());
+        totalNumberOfEntries += disc.entries.size(); 
         
         System.out.println(disc.id + ": " + disc.entries.size());
       }
+      
+      System.out.println("total number of entries: " + totalNumberOfEntries);
       
       return;
       
@@ -304,6 +571,8 @@ public class SSEvalLogAnalyzer {
     System.out.println();
     
     try{
+      
+      final List<String> differentTags = new ArrayList<>();
       
       final Map<String, List<SSEntity>> entitiesPerDiscussions = new HashMap<>();
       final SSDiscsGetPar               discGetPar =
@@ -341,6 +610,10 @@ public class SSEvalLogAnalyzer {
           continue;
         }
         
+        if(discEntity.creationTime < timeBeginStudy){
+          continue;
+        }
+        
         disc = (SSDisc) discEntity;
         
         entitiesPerDiscussions.put(SSStrU.toStr(disc), new ArrayList<>());
@@ -365,9 +638,14 @@ public class SSEvalLogAnalyzer {
         System.out.println(entitiesForDisc.getKey() + ": " + tags.size());
         
         for(SSEntity tag : tags){
+          
+          SSStrU.addDistinctNotNull(differentTags, tag.label);
+          
           System.out.println("    " + tag.label);
         }
       }
+      
+      System.out.println("total number of different tags used in discussions: " + differentTags.size() + " " + differentTags);
       
       return;
       
@@ -391,6 +669,7 @@ public class SSEvalLogAnalyzer {
     
     try{
       
+      final List<SSUri>                 differentEntities      = new ArrayList<>();
       final Map<String, List<SSEntity>> entitiesPerDiscussions = new HashMap<>();
       final SSDiscsGetPar               discGetPar =
         new SSDiscsGetPar(
@@ -413,6 +692,10 @@ public class SSEvalLogAnalyzer {
           continue;
         }
         
+        if(discEntity.creationTime < timeBeginStudy){
+          continue;
+        }
+        
         disc = (SSDisc) discEntity;
         
         entitiesPerDiscussions.put(SSStrU.toStr(disc), new ArrayList<>());
@@ -427,9 +710,14 @@ public class SSEvalLogAnalyzer {
         System.out.println(entitiesForDisc.getKey() + ": " +entitiesForDisc.getValue().size());
         
         for(SSEntity attachedEntity : entitiesForDisc.getValue()){
+          
+          SSUri.addDistinctWithoutNull(differentEntities, attachedEntity.id);
+          
           System.out.println("    " + attachedEntity.label);
         }
       }
+      
+      System.out.println("total number of different entities in discussions: " + differentEntities.size());
       
       return;
       
@@ -453,6 +741,7 @@ public class SSEvalLogAnalyzer {
     
     try{
       
+      final List<String>               differentAuthors      = new ArrayList<>();
       final Map<String, List<SSLabel>> authorsPerDiscussions = new HashMap<>();
       SSDisc disc;
       
@@ -472,6 +761,10 @@ public class SSEvalLogAnalyzer {
           continue;
         }
         
+        if(discEntity.creationTime < timeBeginStudy){
+          continue;
+        }
+         
         disc = (SSDisc) discEntity;
         
         authorsPerDiscussions.put(SSStrU.toStr(disc), new ArrayList<>());
@@ -480,7 +773,7 @@ public class SSEvalLogAnalyzer {
           
         for(SSEntity discEntry : disc.entries){
           
-          if(SSStrU.equalsOne  (discEntity.author.label, ignoredUsers)){
+          if(SSStrU.equalsOne  (discEntry.author.label, ignoredUsers)){
             continue;
           }
           
@@ -489,8 +782,13 @@ public class SSEvalLogAnalyzer {
       }
       
       for(Map.Entry<String, List<SSLabel>> authorsForDisc : authorsPerDiscussions.entrySet()){
+        
+        SSStrU.addDistinctNotNull(differentAuthors, SSStrU.toStr(authorsForDisc.getValue()));
+        
         System.out.println(authorsForDisc.getKey() + ": " + authorsForDisc.getValue().size() + " " + authorsForDisc.getValue());
       }
+      
+      System.out.println("total number of different authors in discussions:" + differentAuthors.size());
       
       return;
       
@@ -532,10 +830,16 @@ public class SSEvalLogAnalyzer {
           continue;
         }
         
+        if(disc.creationTime < timeBeginStudy){
+          continue;
+        }
+        
         discussions.add(disc.label);
         
         System.out.println(disc.label);
       }
+      
+      System.out.println("total number of discussions: " + discussions.size());
       
       return;
       
@@ -567,6 +871,10 @@ public class SSEvalLogAnalyzer {
           continue;
         }
         
+        if(logEntry.timestamp < timeBeginStudy){
+          continue;
+        }
+        
         switch(logEntry.logType){
           
           case addTag:
@@ -578,10 +886,12 @@ public class SSEvalLogAnalyzer {
         }
       }
       
+      System.out.println("total number of tag activities: " + distinctUserEntityTag.size());
+      
       for(String line : distinctUserEntityTag){
         System.out.println(line);
       }
-      
+
       return;
       
     }catch(Exception error){
@@ -604,6 +914,7 @@ public class SSEvalLogAnalyzer {
     
     try{
       
+      final List<String>             differentTags      = new ArrayList<>();
       final Map<String, List<SSUri>> entitiesPerLearnEp = new HashMap<>();
 
       SSLearnEp        learnEp;
@@ -617,6 +928,10 @@ public class SSEvalLogAnalyzer {
         if(SSStrU.equalsOne(learnEp.author.label, ignoredUsers)){
           continue;
         }
+        
+//        if(learnEp.creationTime < timeBeginStudy){
+//          continue;
+//        }
 
         for(SSEntity learnEpVersionEntity : learnEp.getVersions()){
           
@@ -628,7 +943,6 @@ public class SSEvalLogAnalyzer {
             
             if(!SSStrU.containsKey(entitiesPerLearnEp, learnEp.id)){
               entitiesPerLearnEp.put(SSStrU.toStr(learnEp.id), new ArrayList<>());
-            
             }
             
             entitiesPerLearnEp.get(SSStrU.toStr(learnEp.id)).add(learnEpEntity.entity.id);  
@@ -657,11 +971,16 @@ public class SSEvalLogAnalyzer {
         tagsGetPar.entities = entitiesForLearnEp.getValue();
         
         for(SSEntity tag : tagServ.tagsGet(tagsGetPar)){
+          
+          SSStrU.addDistinctNotNull(differentTags, tag.label);
+          
           SSStrU.addDistinctNotNull(tagLabels, tag.label);
         }
         
         System.out.println(entitiesForLearnEp.getKey() + ": " + tagLabels.size() + " " + tagLabels);
       }
+      
+      System.out.println("total number of different tags used: " + differentTags.size());
       
       return;
       
@@ -685,6 +1004,7 @@ public class SSEvalLogAnalyzer {
     
     try{
       
+      final List<SSUri>                differentBits      = new ArrayList<>();
       final Map<String, List<SSLabel>> entitiesPerLearnEp = new HashMap<>();
 
       SSLearnEp        learnEp;
@@ -698,6 +1018,10 @@ public class SSEvalLogAnalyzer {
         if(SSStrU.equalsOne(learnEp.author.label, ignoredUsers)){
           continue;
         }
+        
+//        if(learnEp.creationTime < timeBeginStudy){
+//          continue;
+//        }
 
         for(SSEntity learnEpVersionEntity : learnEp.getVersions()){
           
@@ -712,6 +1036,8 @@ public class SSEvalLogAnalyzer {
             
             }
             
+            SSUri.addDistinctWithoutNull(differentBits, learnEpEntity.entity.id);
+              
             entitiesPerLearnEp.get(SSStrU.toStr(learnEp.id)).add(learnEpEntity.entity.label);  
           }
         }
@@ -720,6 +1046,8 @@ public class SSEvalLogAnalyzer {
       for(Map.Entry<String, List<SSLabel>> entitiesForLearnEp : entitiesPerLearnEp.entrySet()){
         System.out.println(entitiesForLearnEp.getKey() + ": " + entitiesForLearnEp.getValue().size() + " " + entitiesForLearnEp.getValue());
       }
+      
+      System.out.println("total number of different bits used in episodes: " + differentBits.size());
       
       return;
       
@@ -743,6 +1071,7 @@ public class SSEvalLogAnalyzer {
     
     try{
       
+      int totalNumberOfInteractions = 0;
       final Map<String, Integer> interactionsPerEpisode = new HashMap<>();
       
       Integer value;
@@ -750,6 +1079,10 @@ public class SSEvalLogAnalyzer {
       for(SSEvalLogEntry logEntry : logEntries){
         
         if(SSStrU.equalsOne(logEntry.userLabel, ignoredUsers)){
+          continue;
+        }
+        
+        if(logEntry.timestamp < timeBeginStudy){
           continue;
         }
         
@@ -823,8 +1156,13 @@ public class SSEvalLogAnalyzer {
       }
       
       for(Map.Entry<String, Integer> interactionsInEpisode : interactionsPerEpisode.entrySet()){
+        
+        totalNumberOfInteractions += interactionsInEpisode.getValue();
+          
         System.out.println(interactionsInEpisode.getKey() + ": " + interactionsInEpisode.getValue());
       }
+      
+      System.out.println("total number of interactions in episodes: " + totalNumberOfInteractions);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -852,6 +1190,10 @@ public class SSEvalLogAnalyzer {
       for(SSEvalLogEntry logEntry : logEntries){
         
         if(SSStrU.equalsOne(logEntry.userLabel, ignoredUsers)){
+          continue;
+        }
+        
+        if(logEntry.timestamp < timeBeginStudy){
           continue;
         }
         
@@ -900,6 +1242,10 @@ public class SSEvalLogAnalyzer {
           continue;
         }
         
+        if(logEntry.timestamp < timeBeginStudy){
+          continue;
+        }
+        
         switch(logEntry.logType){
           
           case clickTagRecommendation:
@@ -938,6 +1284,10 @@ public class SSEvalLogAnalyzer {
           continue;
         }
         
+        if(logEntry.timestamp < timeBeginStudy){
+          continue;
+        }
+        
         switch(logEntry.logType){
           
           case addNote:
@@ -967,6 +1317,10 @@ public class SSEvalLogAnalyzer {
       final List<SSEntity>        episodesForLabel    = new ArrayList<>();
       
       for(SSEvalLogEntry logEntry : logEntries){
+        
+        if(logEntry.timestamp < timeBeginStudy){
+          continue;
+        }
         
         episodesForLabel.clear();
         
@@ -1018,7 +1372,7 @@ public class SSEvalLogAnalyzer {
           userInfo = userInfos.get(episode.author.label.toString());
         }
         
-        if(episode.creationTime < timeBeginLogAnalyze){
+        if(episode.creationTime < timeBeginStudy){
           System.out.println(episode.label);
           continue;
         }
@@ -1047,7 +1401,7 @@ public class SSEvalLogAnalyzer {
             SSConf.systemUserUri,
             null, //forUser,
             true, //includeRead,
-            timeBeginLogAnalyze, //startTime,
+            timeBeginStudy, //startTime,
             false, //withUserRestriction,
             false))){ //invokeEntityHandlers
       

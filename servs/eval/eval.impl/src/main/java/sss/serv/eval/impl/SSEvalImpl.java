@@ -101,8 +101,7 @@ implements
           messageServ,
           discServ,
           ldServ,
-          oct1.getTime(), //timeBeginStudy
-          oct1.getTime()); //timeBeginLogAnalyze
+          oct1.getTime());//timeBeginStudy
       
       final List<SSEvalLogEntry> logEntries =
         dataImportServ.dataImportEvalLogFile(
@@ -114,6 +113,12 @@ implements
       
       analyzer.setEpisodes (par);
       
+//      analyzer.analyzeNumberOfLogEntries                         (par, logEntries);
+//      analyzer.analyzeNumberOfImports                            (par, logEntries);
+//      analyzer.analyzeDistinctUsers                              (par, logEntries);
+//      analyzer.analyzeNumberArtifacts                            (par, logEntries);
+      analyzer.analyzeNumberOfLivingDocs                         (par, logEntries);
+      analyzer.analyzeNumberOfTags                               (par, logEntries);
       analyzer.analyzeNumberOfEntriesInDiscussions               (par, logEntries);
       analyzer.analyzeNumberOfTagsInDiscussions                  (par, logEntries);
       analyzer.analyzeNumberOfEntitiesInDiscussions              (par, logEntries);
@@ -125,8 +130,15 @@ implements
       analyzer.analyzeNumberOfInteractionsInEpisodes             (par, logEntries);
       analyzer.analyzeNumberOfSharedEpisodes                     (par, logEntries);
       analyzer.analyzeNumberOfAcceptedRecommendations            (par, logEntries);
-      analyzer.analyzeDistinctUsers                              (par, logEntries);
-      analyzer.analyzeNumberOfImports                            (par, logEntries);
+      
+      System.out.println();
+      System.out.println();
+      System.out.println("##################################");
+      System.out.println("##################################");
+      System.out.println("log analyze done");
+      System.out.println("##################################");
+      System.out.println("##################################");
+      System.out.println();
       
 //      
 //      System.out.println();
