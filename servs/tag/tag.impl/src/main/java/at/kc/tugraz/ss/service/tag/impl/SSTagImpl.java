@@ -913,7 +913,7 @@ implements
         
         final SSEntitiesGetPar entitiesGetPar =
           new SSEntitiesGetPar(
-            par, 
+            par,
             par.user,
             null, //entities
             null, //descPar
