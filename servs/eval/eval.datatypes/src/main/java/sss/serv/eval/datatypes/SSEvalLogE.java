@@ -30,6 +30,7 @@ public enum SSEvalLogE{
   
   //old
   tagAdd,
+  shareLearnEpWithUser,
   
   //knowbrain
   circleEntitiesAddTagsAdd,
@@ -49,13 +50,12 @@ public enum SSEvalLogE{
   removeCircleUsers,
   removeCircleEntities,
   
-  
-  
+  shareEntityWithUsers,
+  shareEntityWithCircles,
   addNotebook, 
   addNote, 
   addResource, 
   copyLearnEpForUser, 
-  shareLearnEpWithUser,  
   removeLearnEpVersionCircle, 
   removeLearnEpVersionEntity, 
   addEntityToLearnEpVersion, 

@@ -30,6 +30,10 @@ import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import sss.serv.eval.api.*;
+import sss.serv.eval.datatypes.*;
+import sss.serv.eval.datatypes.par.*;
 
 public class SSEntityActivityFct{
   
@@ -63,6 +67,32 @@ public class SSEntityActivityFct{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+    
+    try{
+      
+     ((SSEvalServerI) SSServReg.getServ(SSEvalServerI.class)).evalLog(
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.shareEntityWithUsers,
+          par.entity,
+          null, //content
+          null, //entities
+          par.users, //users
+          null, //creationTime
+          par.shouldCommit));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default:{ SSServErrReg.regErrThrow(error); break;}
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   public static void shareEntityWithCircles(
@@ -92,6 +122,32 @@ public class SSEntityActivityFct{
         }
       }
 
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+    
+    try{
+      
+     ((SSEvalServerI) SSServReg.getServ(SSEvalServerI.class)).evalLog(
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.shareEntityWithCircles,
+          par.entity,
+          null, //content
+          par.circles, //entities
+          null, //users
+          null, //creationTime
+          par.shouldCommit));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default:{ SSServErrReg.regErrThrow(error); break;}
+      }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

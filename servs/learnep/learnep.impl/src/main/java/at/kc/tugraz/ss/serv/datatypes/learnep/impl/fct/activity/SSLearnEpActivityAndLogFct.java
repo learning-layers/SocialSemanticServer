@@ -447,32 +447,6 @@ public class SSLearnEpActivityAndLogFct{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
-    
-    try{
-      
-      evalServ.evalLog(
-        new SSEvalLogPar(
-          servPar,
-          user,
-          SSToolContextE.episodeTab,
-          SSEvalLogE.shareLearnEpWithUser,
-          learnEp,
-          null, //content
-          null, //entities
-          usersToShareWith, //users
-          null, //creationTime
-          shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
   }
   
   public void copyLearnEp(

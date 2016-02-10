@@ -1251,6 +1251,20 @@ public class SSEvalLogAnalyzer {
         
         switch(logEntry.logType){
           
+          case shareEntityWithUsers:
+          case shareEntityWithCircles:{
+            
+            switch(logEntry.entityType){
+              
+              case learnEp:{
+                SSUri.addDistinctWithoutNull(sharedLearnEps, logEntry.entity);
+                break;
+              }
+            }
+            
+            break;
+          }
+          
           case shareLearnEpWithUser:{
             SSUri.addDistinctWithoutNull(sharedLearnEps, logEntry.entity);
             break;
@@ -1524,6 +1538,20 @@ public class SSEvalLogAnalyzer {
             break;
           }
 
+          case shareEntityWithUsers:
+          case shareEntityWithCircles:{
+            
+            switch(logEntry.entityType){
+              
+              case learnEp:{
+                addSharedEpisodeInfos           (userInfos, logEntry);
+                break;
+              }
+            }
+            
+            break;
+          }
+          
           case copyLearnEpForUser:
           case shareLearnEpWithUser:{
             

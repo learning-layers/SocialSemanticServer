@@ -128,8 +128,9 @@ public class SSEvalLogBNP {
         }
       
         //episode tab
-        case copyLearnEpForUser:
-        case shareLearnEpWithUser:{
+        case shareEntityWithUsers:
+        case shareEntityWithCircles:
+        case copyLearnEpForUser:{
          
           break;
         }
