@@ -80,6 +80,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
   private final SSUri                            userUri;
   private final SSDataImportBitsAndPiecesMiscFct miscFct;
   private final SSDataImportConf                 conf;
+  private final SSDataImportActAndLogFct         actAndLogFct;
   private final List<String>                     sharedNotebookGuids      = new ArrayList<>();
   private       SSEvernoteInfo                   evernoteInfo             = null;
   private       List<SharedNotebook>             sharedNotebooks          = null;
@@ -112,6 +113,10 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         ueServ,
         evalServ,
         userUri);
+    
+    this.actAndLogFct    =
+      new SSDataImportActAndLogFct(
+        evalServ);
   }
   
   public void handle(final SSServPar servPar) throws SSErr{
@@ -441,18 +446,14 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       
       for(String noteTag : noteTagNames){
         
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            servPar,
-            userUri, //user
-            SSToolContextE.evernoteImport, //toolContext
-            SSEvalLogE.addTag, //type
-            noteUri, //entity
-            noteTag, //content
-            SSUri.asListNotNull(notebookUri), //entities
-            null, //users
-            note.getUpdated(), //creationTime
-            false)); //shouldCommit
+        actAndLogFct.addTag(
+          servPar, 
+          SSToolContextE.evernoteImport, //toolContext
+          noteUri, //entity, 
+          noteTag, //content, 
+          SSUri.asListNotNull(notebookUri), //entities
+          note.getUpdated(), //creationTime
+          false); //shouldCommit);
       }
       
       miscFct.addNoteUEs(

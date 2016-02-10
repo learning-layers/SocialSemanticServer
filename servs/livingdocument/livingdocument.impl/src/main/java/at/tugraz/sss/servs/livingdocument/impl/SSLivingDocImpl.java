@@ -20,6 +20,7 @@
  */
 package at.tugraz.sss.servs.livingdocument.impl;
 
+import at.kc.tugraz.ss.activity.api.*;
 import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscTargetsAddPar;
@@ -67,6 +68,7 @@ import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import sss.serv.eval.api.*;
 
 public class SSLivingDocImpl 
 extends SSServImplWithDBA
@@ -77,9 +79,10 @@ implements
   SSPushEntitiesToUsersI, 
   SSUsersResourcesGathererI{
   
-  private final SSLivingDocSQLFct  sql;
-  private final SSLivingDocConf    livingDocConf;
-  private final SSUserCommons      userCommons;
+  private final SSLivingDocSQLFct       sql;
+  private final SSLivingDocConf         livingDocConf;
+  private final SSUserCommons           userCommons;
+  private final SSLivingDocActAndLogFct actAndLogFct;
   
   public SSLivingDocImpl(final SSConfA conf) throws SSErr{
     
@@ -88,6 +91,10 @@ implements
     this.livingDocConf  = (SSLivingDocConf) conf;
     this.sql            = new SSLivingDocSQLFct(this, SSConf.systemUserUri);
     this.userCommons    = new SSUserCommons();
+    this.actAndLogFct   =
+      new SSLivingDocActAndLogFct(
+        (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class),
+        (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class));
   }
   
   @Override
@@ -256,6 +263,11 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
+      actAndLogFct.createLivingDoc(
+        par,
+        livingDocUri,
+        par.shouldCommit);
+      
       return livingDocUri;
       
     }catch(SSErr error){
@@ -351,6 +363,10 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
+      actAndLogFct.updateLivingDoc(
+        par, 
+        par.shouldCommit);
+      
       return livingDocURI;
       
     }catch(SSErr error){
@@ -384,11 +400,17 @@ implements
   @Override
   public SSServRetI livingDocRemove(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
-    userCommons.checkKeyAndSetUser(parA);
-    
-    final SSLivingDocRemovePar par = (SSLivingDocRemovePar) parA.getFromClient(clientType, parA, SSLivingDocRemovePar.class);
-    
-    return SSLivingDocRemoveRet.get(livingDocRemove(par));
+    try{
+      userCommons.checkKeyAndSetUser(parA);
+      
+      final SSLivingDocRemovePar par       = (SSLivingDocRemovePar) parA.getFromClient(clientType, parA, SSLivingDocRemovePar.class);
+      final SSUri                livingDoc = livingDocRemove(par);
+      
+      return SSLivingDocRemoveRet.get(livingDoc);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
   @Override
@@ -412,6 +434,11 @@ implements
       sql.removeLivingDoc(par, par.livingDoc);
       
       dbSQL.commit(par, par.shouldCommit);
+      
+      actAndLogFct.removeLivingDoc(
+        par,
+        par.livingDoc,
+        par.shouldCommit);
       
       return par.livingDoc;
       

@@ -55,6 +55,51 @@ public class SSEvalLogBNP {
       
       switch(par.type){
         
+        //recomm
+        case recommTagsQuery: //seen
+        case recommTagsResult:{ //seen
+          
+          break;
+        }
+        
+        //category
+        case addCategory:
+        case removeCategory:{
+          
+          break;
+        }
+        
+        //video
+        case createVideo:
+        case removeVideo:
+        case createVideoAnnotation:
+        case removeVideoAnnotation:{
+          
+          break;
+        }
+        
+        //livingDoc
+        case createLivingDoc:
+        case removeLivingDoc:{
+          
+          break;
+        }
+        
+        //app stack layout
+        case updateAppStackLayoutApp:
+        case createAppStackLayout:
+        case removeAppStackLayout:{
+          
+          break;
+        }
+        
+        //app
+        case createApp: 
+        case removeApp:{
+          
+          break;
+        }
+        
         //circle
         case createCircle:
         case addCircleEntities:
@@ -75,98 +120,100 @@ public class SSEvalLogBNP {
         }
         
         //organize area
-        case addLearnEpVersionEntityFromRecommendedEntities:
-        case removeLearnEpVersionCircle: 
-        case removeLearnEpVersionEntity: 
-        case addEntityToLearnEpVersion: 
-        case addCircleToLearnEpVersion: 
-        case addEntityToLearnEpCircle: 
-        case removeEntityFromLearnEpCircle: 
-        case removeLearnEpVersionCircleWithEntitites:
-        case requestEditButton:  
-        case clickLabelRecommendation:
-        case releaseEditButton:{ 
+        case addLearnEpVersionEntityFromRecommendedEntities: //seen
+        case removeLearnEpVersionCircle: //seen
+        case removeLearnEpVersionEntity: //seen
+        case addEntityToLearnEpVersion:  //seen
+        case addCircleToLearnEpVersion: //seen
+        case addEntityToLearnEpCircle:  //seen
+        case removeEntityFromLearnEpCircle: //seen
+        case removeLearnEpVersionCircleWithEntitites: //seen
+        case requestEditButton:   //seen 
+        case clickLabelRecommendation: //seen
+        case releaseEditButton:{ //seen
         
           break;
         }
           
         //search tab
-        case searchWithKeyword:{
+        case searchWithKeyword:{ //seen
           
           break;
         }
         
         //bit tab
-        case clickTagRecommendation:
-        case setImportance:{
+        case clickTagRecommendation: //seen
+        case setImportance:{ //seen
           
           break;
         }
 
         //notification tab
-        case setFilter:
-        case removeFilter:{
+        case setFilter: //seen
+        case removeFilter:{ //seen
           
           break;
         }
         
         //timeline
-        case createPlaceholder:
-        case clickJumpToDateButton:
-        case executeJumpToDateButton:{
+        case createPlaceholder: //seen
+        case clickJumpToDateButton: //seen
+        case executeJumpToDateButton:{ //seen
           
           break;
         }
         
         //menu bar
-        case createLearnEp:
-        case removeLearnEp:
-        case clickHelpButton:
+        case uploadFile: //seen
+        case createLearnEp: //seen
+        case removeLearnEp: //seen
+        case clickHelpButton: //seen
         case clickAffectButton:{
           
           break;
         }
       
         //episode tab
-        case shareEntityWithUsers:
+        case copyEntity: //seen
+        case shareEntityWithUsers: //seen
         case shareEntityWithCircles:
-        case copyLearnEpForUser:{
+        case copyLearnEpForUser:{ //seen
          
           break;
         }
 
         //discussions
-        case createDisc:
-        case discussEntity: 
-        case addDiscEntry: 
-        case attachEntities: 
-        case removeEntities:{
+        case createDisc: //seen
+        case addDiscTargets: //seen
+        case addDiscEntry:  //seen
+        case attachEntities: //seen
+        case removeEntities:{ //seen
           
           break;
         }
         
         //global
-        case clickTag:
-        case clickBit:
-        case likeEntity:
-        case dislikeEntity:
-        case downloadEntity:
-        case addTag:
-        case removeTag:
-        case changeLabel:
-        case changeDescription:{
+        case clickTag: //seen
+        case clickBit: //seen
+        case likeEntity: //seen
+        case dislikeEntity: //seen
+        case downloadEntity: //seen
+        case addTag: //seen
+        case removeTag: //seen
+        case changeLabel: //seen
+        case changeDescription:{ //seen
 
           break;
         }
         
         //open, start and works events
-        case openBitsAndPieces:
-        case openDiscussionTool: 
-        case openLivingDocuments: 
-        case closeDiscussionTool: 
+        case openBitsAndPieces: //seen
+        case openDiscussionTool:  //seen
+        case openLivingDocuments:  //seen
+        case closeDiscussionTool:  //seen
         case startDiscussionTool: 
-        case startBitsAndPieces: 
-        case worksInBitsAndPieces: 
+        case startBitsAndPieces:  //seen
+        case worksInBitsAndPieces: //seen 
         case worksInDiscussionTool:{
           
           break;
@@ -409,7 +456,7 @@ public class SSEvalLogBNP {
           try{
             
             final SSLearnEpVersion learnEpVersion =
-              ((SSLearnEpServerI)SSServReg.getServ(SSLearnEpServerI.class)).learnEpVersionCurrentGet(
+              ((SSLearnEpServerI) SSServReg.getServ(SSLearnEpServerI.class)).learnEpVersionCurrentGet(
                 new SSLearnEpVersionCurrentGetPar(
                   par, 
                   originUser.id, 

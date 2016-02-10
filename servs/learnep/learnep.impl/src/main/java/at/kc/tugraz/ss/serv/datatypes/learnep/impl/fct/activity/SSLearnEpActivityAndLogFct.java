@@ -450,7 +450,7 @@ public class SSLearnEpActivityAndLogFct{
   }
   
   public void copyLearnEp(
-    final SSServPar servPar,
+    final SSServPar   servPar,
     final SSUri       user,
     final SSUri       learnEp,
     final List<SSUri> usersToCopyFor,
@@ -580,37 +580,6 @@ public class SSLearnEpActivityAndLogFct{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
-    
-//    try{
-//
-//      if(
-//        label != null &&
-//        !SSStrU.equals(circleEntity.label, label)){
-//
-//        evalServ.evalLog(
-//          new SSEvalLogPar(
-//            servPar,
-//            user,
-//            SSToolContextE.organizeArea,
-//            SSEvalLogE.changeLearnEpVersionCircleLabel,
-//            learnEpCircle,
-//            "from " + circleEntity.label + SSStrU.blank + " to " + SSStrU.toStr(label), //content
-//            SSUri.asListNotNull(learnEp), //entities
-//            null, //users
-//            null, //creationTime
-//            shouldCommit));
-//      }
-//
-//    }catch(SSErr error){
-//
-//      switch(error.code){
-//        case servInvalid: SSLogU.warn(error); break;
-//        default:{ SSServErrReg.regErrThrow(error); break;}
-//      }
-//
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//    }
   }
   
   public void removeEntityFromLearnEpCircle(

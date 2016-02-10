@@ -375,7 +375,20 @@ implements
       final SSFileUploadPar par = (SSFileUploadPar) parA.getFromClient(clientType, parA, SSFileUploadPar.class);
       final SSFileUploadRet ret = fileUpload(par);
       
-      evalLogFileUpload(par, par.user, ret.file, par.shouldCommit);
+      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par, 
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.uploadFile,
+          ret.file,  //entity
+          null, //content,
+          null, //entities
+          null, //users
+          null, //creationTime
+          par.shouldCommit));
       
       return ret;
       
@@ -607,33 +620,6 @@ implements
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
-    }
-  }
-
-  private void evalLogFileUpload(
-    final SSServPar servPar, 
-    final SSUri   user,
-    final SSUri   fileUri,
-    final boolean shouldCommit) {
-    
-    try{
-      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
-      
-      evalServ.evalLog(
-        new SSEvalLogPar(
-          servPar, 
-          user,
-          SSToolContextE.sss,
-          SSEvalLogE.fileUpload,
-          fileUri,  //entity
-          null, //content,
-          null, //entities
-          null, //users
-          null, //creationTime
-          shouldCommit));
-      
-    }catch(Exception error){
-      SSLogU.warn(error);
     }
   }
 

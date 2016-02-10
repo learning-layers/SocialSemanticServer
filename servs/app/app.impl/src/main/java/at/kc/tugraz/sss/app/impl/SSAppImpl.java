@@ -20,6 +20,7 @@
   */
 package at.kc.tugraz.sss.app.impl;
 
+import at.kc.tugraz.ss.activity.api.*;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSEntityDownloadsAddPar;
@@ -60,6 +61,7 @@ import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
+import sss.serv.eval.api.*;
 
 public class SSAppImpl
 extends SSServImplWithDBA
@@ -69,14 +71,19 @@ implements
   SSDescribeEntityI{
   
   private final SSAppSQLFct      sqlFct;
-  private final SSUserCommons userCommons;
+  private final SSUserCommons     userCommons;
+  private final SSAppActAndLogFct actAndLogFct;
   
   public SSAppImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sqlFct      = new SSAppSQLFct(dbSQL);
-    this.userCommons = new SSUserCommons();
+    this.sqlFct       = new SSAppSQLFct(dbSQL);
+    this.userCommons  = new SSUserCommons();
+    this.actAndLogFct =
+      new SSAppActAndLogFct(
+        (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class),
+        (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class));
   }
   
   @Override
@@ -232,6 +239,11 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
+      actAndLogFct.createApp(
+        par,
+        app,
+        par.shouldCommit);
+      
       return app;
       
     }catch(SSErr error){
@@ -378,9 +390,10 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSAppsDeletePar par = (SSAppsDeletePar) parA.getFromClient(clientType, parA, SSAppsDeletePar.class);
+      final SSAppsDeletePar par    = (SSAppsDeletePar) parA.getFromClient(clientType, parA, SSAppsDeletePar.class);
       
       return SSAppsDeleteRet.get(appsDelete(par));
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -397,6 +410,11 @@ implements
       sqlFct.removeApps(par, par.apps);
       
       dbSQL.commit(par, par.shouldCommit);
+      
+      actAndLogFct.removeApps(
+        par,
+        par.apps,
+        par.shouldCommit);
       
       return par.apps;
       

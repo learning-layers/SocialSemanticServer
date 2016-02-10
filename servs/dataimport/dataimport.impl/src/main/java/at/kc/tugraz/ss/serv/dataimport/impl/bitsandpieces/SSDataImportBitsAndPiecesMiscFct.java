@@ -51,6 +51,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
   private final SSUEServerI                  ueServ;
   private final SSEvalServerI                evalServ;
   private final SSUri                        userUri;
+  private final SSDataImportActAndLogFct     actAndLogFct;
   
   public SSDataImportBitsAndPiecesMiscFct(
     final SSDataImportBitsAndPiecesPar par,
@@ -66,6 +67,9 @@ public class SSDataImportBitsAndPiecesMiscFct {
     this.ueServ          = ueServ;
     this.evalServ        = evalServ;
     this.userUri         = userUri;
+    this.actAndLogFct    = 
+      new SSDataImportActAndLogFct(
+        evalServ);
   }
   
   public void addNotebook(
@@ -91,18 +95,13 @@ public class SSDataImportBitsAndPiecesMiscFct {
           true, //withUserRestriction
           false)); //shouldCommit)
       
-      evalServ.evalLog(
-        new SSEvalLogPar(
-          servPar,
-          userUri,
-          toolContext,
-          SSEvalLogE.addNotebook,
-          notebookUri,
-          null,  //content
-          null, //entities
-          null,  //users
-          notebookCreationTime, //creationTime
-          false)); //shouldCommit
+      actAndLogFct.addNotebook(
+        servPar, 
+        userUri, //user
+        toolContext, 
+        notebookUri,  //notebook
+        notebookCreationTime, 
+        false); //shouldCommit);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -164,18 +163,14 @@ public class SSDataImportBitsAndPiecesMiscFct {
           noteUri,
           false)); //shouldCommit
       
-      evalServ.evalLog(
-        new SSEvalLogPar(
-          servPar,
-          userUri,
-          toolContext,
-          SSEvalLogE.addNote,
-          noteUri,
-          null, //content
-          SSUri.asListNotNull(notebookUri), //entities
-          null, //users
-          creationTime, //creationTime
-          false)); //shouldCommit
+      actAndLogFct.addNote(
+        servPar, 
+        userUri, 
+        toolContext, 
+        noteUri, //note
+        SSUri.asListNotNull(notebookUri),//entities, 
+        creationTime, 
+        false); //shouldCommit);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -485,19 +480,15 @@ public class SSDataImportBitsAndPiecesMiscFct {
             false)); //shouldCommit
       }
       
-      evalServ.evalLog(
-        new SSEvalLogPar(
-          servPar,
-          userUri,
-          toolContext,
-          SSEvalLogE.addResource,
-          resourceUri,
-          null, //content
-          SSUri.asListNotNull(noteUri), //entitites
-          null,  //users
-          resourceAddTime, //creationTime
-          false)); //shouldCommit
-      
+      actAndLogFct.addResource(
+        servPar, 
+        userUri, 
+        toolContext, 
+        resourceUri, //resource
+        SSUri.asListNotNull(noteUri), //entitites
+        resourceAddTime, 
+        false); //shouldCommit);
+        
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

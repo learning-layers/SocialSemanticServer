@@ -85,7 +85,6 @@ public enum SSActivityE{
   addEntitiesToCircle,
   
   //entities
-  setEntityPublic,
   copyEntityForUsers,
   shareEntityWithUsers,
   shareEntityWithCircles,

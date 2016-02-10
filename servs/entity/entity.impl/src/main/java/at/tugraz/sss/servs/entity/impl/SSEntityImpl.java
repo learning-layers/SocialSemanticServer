@@ -462,18 +462,6 @@ implements
       final boolean         worked = entityCopy(par);
       final SSEntityCopyRet ret    = SSEntityCopyRet.get(worked);
       
-      if(worked){
-        
-        actAndLogFct.entityCopy(
-          par,
-          par.user,
-          par.entity,
-          par.targetEntity,
-          par.forUsers,
-          par.comment,
-          par.shouldCommit);
-      }
-      
       return ret;
       
     }catch(Exception error){
@@ -505,6 +493,15 @@ implements
       SSServReg.inst.copyEntity(par, entity);
       
       dbSQL.commit(par, par.shouldCommit);
+      
+      actAndLogFct.copyEntity(
+        par,
+        par.user,
+        par.entity,
+        par.targetEntity,
+        par.forUsers,
+        par.comment,
+        par.shouldCommit);
       
       return true;
       
@@ -868,6 +865,7 @@ implements
       if(par.entity == null){
         
         switch(par.type){
+          
           case placeholder:{
             
             par.entity = SSConf.vocURICreate();
@@ -1375,18 +1373,6 @@ implements
       final SSUri            entityURI = entityShare(par);
       final SSEntityShareRet ret       = SSEntityShareRet.get(entityURI);
       
-      if(!par.users.isEmpty()){
-        SSEntityActivityFct.shareEntityWithUsers(par);
-      }
-      
-      if(!par.circles.isEmpty()){
-        SSEntityActivityFct.shareEntityWithCircles(par);
-      }
-      
-      if(par.setPublic){
-        SSEntityActivityFct.setEntityPublic(par);
-      }
-      
       return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -1458,6 +1444,20 @@ implements
       }
       
       dbSQL.commit(par, par.shouldCommit);
+      
+      if(!par.users.isEmpty()){
+        
+        actAndLogFct.shareEntityWithUsers(
+          par, 
+          par.shouldCommit);
+      }
+      
+      if(!par.circles.isEmpty()){
+        
+        actAndLogFct.shareEntityWithCircles(
+          par, 
+          par.shouldCommit);
+      }
       
       return par.entity;
     }catch(SSErr error){
@@ -2236,31 +2236,31 @@ implements
       
       final SSCircleEntitiesAddRet ret = SSCircleEntitiesAddRet.get(cicleURI);
       
-      evalServ.evalLog(
-        new SSEvalLogPar(
-          par,
-          par.user,
-          SSToolContextE.sss,
-          SSEvalLogE.circleEntitiesAddTagsAdd,
-          par.circle,  //entity
-          SSStrU.toCommaSeparatedStrNotNull(par.tags), //content,
-          par.entities,
-          null, //users
-          null, //creationTime
-          par.shouldCommit));
-      
-      evalServ.evalLog(
-        new SSEvalLogPar(
-          par,
-          par.user,
-          SSToolContextE.sss,
-          SSEvalLogE.circleEntitiesAddCategoriesAdd,
-          par.circle,  //entity
-          SSStrU.toCommaSeparatedStrNotNull(par.categories), //content,
-          par.entities,
-          null, //users
-          null, //creationTime
-          par.shouldCommit));
+//      evalServ.evalLog(
+//        new SSEvalLogPar(
+//          par,
+//          par.user,
+//          SSToolContextE.sss,
+//          SSEvalLogE.circleEntitiesAddTagsAdd,
+//          par.circle,  //entity
+//          SSStrU.toCommaSeparatedStrNotNull(par.tags), //content,
+//          par.entities,
+//          null, //users
+//          null, //creationTime
+//          par.shouldCommit));
+//      
+//      evalServ.evalLog(
+//        new SSEvalLogPar(
+//          par,
+//          par.user,
+//          SSToolContextE.sss,
+//          SSEvalLogE.circleEntitiesAddCategoriesAdd,
+//          par.circle,  //entity
+//          SSStrU.toCommaSeparatedStrNotNull(par.categories), //content,
+//          par.entities,
+//          null, //users
+//          null, //creationTime
+//          par.shouldCommit));
       
       return ret;
     }catch(Exception error){

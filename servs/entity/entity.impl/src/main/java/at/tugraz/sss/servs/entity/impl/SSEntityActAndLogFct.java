@@ -48,72 +48,126 @@ public class SSEntityActAndLogFct {
     this.evalServ     = evalServ;
   }
   
-//  public void entityUpdate(
-//    final SSServPar     servPar,
-//    final SSUri         user,
-//    final boolean       storeLogs,
-//    final SSEntity      entity,
-//    final SSLabel       label,
-//    final SSTextComment description,
-//    final boolean       shouldCommit) throws SSErr{
-//    
-//    if(
-//      !storeLogs ||
-//      entity == null){
-//      return;
-//    }
-//    
-//    try{
-//      
-//      if(!SSStrU.equals(entity.label, label)){
-//        
-//        evalServ.evalLog(
-//          new SSEvalLogPar(
-//            servPar,
-//            user,
-//            SSToolContextE.sss,
-//            SSEvalLogE.changeLabel,
-//            entity.id,
-//            SSStrU.toStr(entity.label), //content
-//            null, //entities
-//            null, //users
-//            null, //creationTime
-//            shouldCommit));
-//      }
-//      
-//      if(!SSStrU.equals(entity.description, description)){
-//        
-//        evalServ.evalLog(
-//          new SSEvalLogPar(
-//            servPar,
-//            user,
-//            SSToolContextE.sss,
-//            SSEvalLogE.changeDescription,
-//            entity.id,
-//            SSStrU.toStr(entity.description), //content
-//            null, //entities
-//            null, //users
-//            null, //creationTime
-//            shouldCommit));
-//      }
-//      
-//    }catch(SSErr error){
-//      
-//      switch(error.code){
-//        case servInvalid: SSLogU.warn(error); break;
-//        default:{
-//          SSServErrReg.regErrThrow(error);
-//          break;
-//        }
-//      }
-//      
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//    }
-//  }
+  public void shareEntityWithCircles(
+    final SSEntitySharePar par,
+    final Boolean          shouldCommit) throws SSErr{
+    
+    try{
+      
+      activityServ.activityAdd(
+        new SSActivityAddPar(
+          par,
+          par.user, 
+          SSActivityE.shareEntityWithCircles, 
+          par.entity,
+          null,
+          SSUri.asListNotNull(par.circles),
+          SSTextComment.asListWithoutNullAndEmpty(par.comment), 
+          null, 
+          shouldCommit));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default: {
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
+      }
+
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+    
+    try{
+      
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.shareEntityWithCircles,
+          par.entity,
+          null, //content
+          par.circles, //entities
+          null, //users
+          null, //creationTime
+          shouldCommit));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default:{ SSServErrReg.regErrThrow(error); break;}
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
   
-  public void entityCopy(
-    final SSServPar servPar,
+  public void shareEntityWithUsers(
+    final SSEntitySharePar par,
+    final Boolean          shouldCommit) throws SSErr{
+    
+    try{
+      
+     activityServ.activityAdd(
+        new SSActivityAddPar(
+          par,
+          par.user, 
+          SSActivityE.shareEntityWithUsers, 
+          par.entity,
+          par.users, 
+          SSUri.asListNotNull(), 
+          SSTextComment.asListWithoutNullAndEmpty(par.comment), 
+          null, 
+          shouldCommit));
+     
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default: {
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
+      }
+
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+    
+    try{
+      
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.shareEntityWithUsers,
+          par.entity,
+          null, //content
+          null, //entities
+          par.users, //users
+          null, //creationTime
+          shouldCommit));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default:{ SSServErrReg.regErrThrow(error); break;}
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void copyEntity(
+    final SSServPar     servPar,
     final SSUri         user,
     final SSUri         entity,
     final SSUri         targetEntity,
@@ -156,7 +210,7 @@ public class SSEntityActAndLogFct {
           servPar,
           user,
           SSToolContextE.sss,
-          SSEvalLogE.entityCopy,
+          SSEvalLogE.copyEntity,
           entity,  //entity
           null, //content,
           SSUri.asListNotNull(targetEntity), //entities

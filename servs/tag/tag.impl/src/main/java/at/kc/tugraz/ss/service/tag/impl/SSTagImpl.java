@@ -334,14 +334,6 @@ implements
       final List<SSUri>  tagURIs = tagsAdd(par);
       final SSTagsAddRet ret     = SSTagsAddRet.get(tagURIs);
       
-      actAndLogFct.tagsAdd(
-        par,
-        par.user,
-        par.entities,
-        tagURIs,
-        par.labels,
-        par.shouldCommit);
-      
       return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -417,17 +409,6 @@ implements
       final SSUri       tagURI = tagAdd(par);
       final SSTagAddRet ret    = SSTagAddRet.get(tagURI);
       
-      if(tagURI != null){
-        
-        actAndLogFct.tagsAdd(
-          par,
-          par.user,
-          SSUri.asListNotNull(par.entity),
-          SSUri.asListNotNull(tagURI),
-          SSTagLabel.asListNotEmpty(par.label),
-          par.shouldCommit);
-      }
-      
       return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -444,7 +425,7 @@ implements
       final List<SSEntity>    tagEntities =
         entityServ.entityFromTypeAndLabelGet(
           new SSEntityFromTypeAndLabelGetPar(
-                par,
+            par,
             par.user,
             SSLabel.get(SSStrU.toStr(par.label)), //label,
             SSEntityE.tag, //type,
@@ -513,7 +494,7 @@ implements
         tagUri =
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
-                par,
+              par,
               par.user,
               SSConf.vocURICreate(),
               SSEntityE.tag, //type,
@@ -535,7 +516,7 @@ implements
       }
       
       sql.addMetadataAssIfNotExists1(
-                par,
+        par,
         tagUri,
         par.user,
         par.entity,
@@ -544,6 +525,14 @@ implements
         par.creationTime);
       
       dbSQL.commit(par, par.shouldCommit);
+      
+      actAndLogFct.addTag(
+        par,
+        par.user,
+        par.entity,
+        tagUri,
+        par.label,
+        par.shouldCommit);
       
       return tagUri;
       
@@ -584,16 +573,6 @@ implements
       final SSTagsRemovePar par    = (SSTagsRemovePar) parA.getFromClient(clientType, parA, SSTagsRemovePar.class);
       final boolean         worked = tagsRemove(par);
       final SSTagsRemoveRet ret    = SSTagsRemoveRet.get(worked);
-      
-      if(worked){
-        
-        actAndLogFct.tagsRemove(
-          par,
-          par.user,
-          par.entity,
-          par.label,
-          par.shouldCommit);
-      }
       
       return ret;
       
@@ -658,7 +637,7 @@ implements
         final List<SSEntity> tagEntities =
           entityServ.entityFromTypeAndLabelGet(
             new SSEntityFromTypeAndLabelGetPar(
-                par,
+              par,
               par.user,
               SSLabel.get(SSStrU.toStr(par.label)), //label,
               SSEntityE.tag, //type,
@@ -676,7 +655,7 @@ implements
         dbSQL.startTrans(par, par.shouldCommit);
         
         sql.removeMetadataAsss(
-                par,
+          par,
           par.forUser,
           par.entity,
           tagUri,
@@ -684,6 +663,13 @@ implements
           par.circle);
         
         dbSQL.commit(par, par.shouldCommit);
+        
+        actAndLogFct.removeTag(
+          par,
+          par.user,
+          par.entity,
+          par.label,
+          par.shouldCommit);
         
         return true;
       }
@@ -699,6 +685,14 @@ implements
         sql.removeMetadataAsss(par, par.user, null, tagUri, SSSpaceE.circleSpace,  par.circle);
         
         dbSQL.commit(par, par.shouldCommit);
+        
+        actAndLogFct.removeTag(
+          par,
+          par.user,
+          par.entity,
+          par.label,
+          par.shouldCommit);
+        
         return true;
       }
       
@@ -711,6 +705,14 @@ implements
         sql.removeMetadataAsss(par, par.user, null, tagUri, par.space, par.circle);
         
         dbSQL.commit(par, par.shouldCommit);
+        
+        actAndLogFct.removeTag(
+          par,
+          par.user,
+          par.entity,
+          par.label,
+          par.shouldCommit);
+        
         return true;
       }
       
@@ -725,6 +727,14 @@ implements
         sql.removeMetadataAsss (par, null,     par.entity, tagUri, SSSpaceE.circleSpace,  par.circle);
         
         dbSQL.commit(par, par.shouldCommit);
+        
+        actAndLogFct.removeTag(
+          par,
+          par.user,
+          par.entity,
+          par.label,
+          par.shouldCommit);
+        
         return true;
       }
       
@@ -737,6 +747,14 @@ implements
         sql.removeMetadataAsss(par, null, par.entity, tagUri, par.space, par.circle);
         
         dbSQL.commit(par, par.shouldCommit);
+        
+        actAndLogFct.removeTag(
+          par,
+          par.user,
+          par.entity,
+          par.label,
+          par.shouldCommit);
+        
         return true;
       }
       

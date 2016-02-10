@@ -3,7 +3,7 @@
  * http://www.learning-layers.eu
  * Development is partly funded by the FP7 Programme of the European Commission under
  * Grant Agreement FP7-ICT-318209.
- * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * Copyright (c) 2016, Graz University of Technology - KTI (Knowledge Technologies Institute).
  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,30 +18,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.kc.tugraz.ss.service.tag.impl;
+package at.kc.tugraz.ss.category.impl;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
-import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
-import at.tugraz.sss.serv.datatype.SSErr;
+import at.kc.tugraz.ss.activity.datatypes.enums.*;
+import at.kc.tugraz.ss.activity.datatypes.par.*;
+import at.kc.tugraz.ss.category.datatypes.*;
+import at.kc.tugraz.ss.category.datatypes.par.*;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.*;
-import java.util.List;
+import at.tugraz.sss.serv.util.*;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
-public class SSTagActAndLogFct {
+public class SSCategoryActAndLogFct {
   
   private final SSActivityServerI activityServ;
   private final SSEvalServerI     evalServ;
   
-  public SSTagActAndLogFct(
+  public SSCategoryActAndLogFct(
     final SSActivityServerI activityServ,
     final SSEvalServerI     evalServ){
     
@@ -49,60 +47,34 @@ public class SSTagActAndLogFct {
     this.evalServ     = evalServ;
   }
   
-  public void addTag(
-    final SSServPar        servPar,
-    final SSUri            user,
-    final SSUri            entity,
-    final SSUri            tagURI,
-    final SSTagLabel       label,
+  public void addCategory(
+    final SSCategoryAddPar par, 
+    final SSUri            categoryURI,
+    final SSCategoryLabel  categoryLabel, 
     final boolean          shouldCommit) throws SSErr{
-    
-    if(SSStrU.isEmpty(entity)){
-      return;
-    }
     
     try{
       
       activityServ.activityAdd(
         new SSActivityAddPar(
-          servPar,
-          user,
-          SSActivityE.tagEntity,
-          entity,
-          null,
-          SSUri.asListNotNull(tagURI),
-          null,
-          null,
-          shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-    
-    if(SSStrU.isEmpty(label)){
-      return;
-    }
-    
-    try{
+          par, 
+          par.user,
+          SSActivityE.addCategory,
+          par.entity,
+          null, //users
+          SSUri.asListNotNull(categoryURI), //entities
+          null, //comments
+          null, //creationTime
+          par.shouldCommit));
       
       evalServ.evalLog(
         new SSEvalLogPar(
-          servPar,
-          user,
+          par,
+          par.user,
           SSToolContextE.sss,
-          SSEvalLogE.addTag,
-          entity,  //entity
-          SSStrU.toStr(label), //content,
+          SSEvalLogE.addCategory,
+          par.entity, //entity
+          SSStrU.toStr(categoryLabel), //content
           null, //entities
           null, //users
           null, //creationTime
@@ -112,7 +84,7 @@ public class SSTagActAndLogFct {
       
       switch(error.code){
         case servInvalid: SSLogU.warn(error); break;
-        default: SSServErrReg.regErrThrow(error);
+        default:{ SSServErrReg.regErrThrow(error); break;}
       }
       
     }catch(Exception error){
@@ -120,51 +92,32 @@ public class SSTagActAndLogFct {
     }
   }
   
-  public void removeTag(
-    final SSServPar        servPar,
-    final SSUri            user,
-    final SSUri            entity,
-    final SSTagLabel       label,
-    final boolean          shouldCommit) throws SSErr{
+  public void removeCategories(
+    final SSCategoriesRemovePar par,
+    final boolean               shouldCommit) throws SSErr{
     
     try{
       
       activityServ.activityAdd(
         new SSActivityAddPar(
-          servPar,
-          user,
-          SSActivityE.removeTags,
-          entity,
+          par,
+          par.user,
+          SSActivityE.removeCategories,
+          par.entity,
           null,
           null,
           null,
           null,
-          shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-    
-    try{
+          par.shouldCommit));
       
       evalServ.evalLog(
         new SSEvalLogPar(
-          servPar,
-          user,
+          par,
+          par.user,
           SSToolContextE.sss,
-          SSEvalLogE.removeTag,
-          entity,  //entity
-          SSStrU.toStr(label), //content,
+          SSEvalLogE.removeCategory,
+          par.entity, //entity
+          SSStrU.toStr(par.label), //content
           null, //entities
           null, //users
           null, //creationTime
@@ -174,10 +127,7 @@ public class SSTagActAndLogFct {
       
       switch(error.code){
         case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
+        default:{ SSServErrReg.regErrThrow(error); break;}
       }
       
     }catch(Exception error){

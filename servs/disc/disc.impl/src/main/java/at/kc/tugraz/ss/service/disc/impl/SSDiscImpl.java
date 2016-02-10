@@ -508,7 +508,7 @@ implements
           
           entityServ.entityShare(
             new SSEntitySharePar(
-              par, 
+              par,
               par.user,
               ret.disc,
               par.users, //users
@@ -518,20 +518,6 @@ implements
               par.withUserRestriction, //withUserRestriction,
               par.shouldCommit)); //shouldCommit
       }
-      
-      actAndLogFct.discEntryAdd(
-        par,  
-        par.user,
-        par.addNewDisc,
-        par.targets,
-        ret.disc,
-        par.type,
-        par.description,
-        ret.entry,
-        par.entry,
-        par.entities,
-        par.entityLabels,
-        par.shouldCommit);
       
       return ret;
     }catch(Exception error){
@@ -658,6 +644,18 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
+      actAndLogFct.addDiscEntry(
+        par,  
+        par.user,
+        par.addNewDisc,
+        par.disc,
+        par.type,
+        par.description,
+        discEntryUri,
+        par.entry,
+        par.entityLabels,
+        par.shouldCommit);
+        
       return SSDiscEntryAddRet.get(
         par.disc,
         discEntryUri);
@@ -1374,13 +1372,6 @@ implements
       final SSUri               discussion = discTargetsAdd(par);
       final SSDiscTargetsAddRet ret        = SSDiscTargetsAddRet.get(discussion);
       
-      actAndLogFct.discTargetsAdd(
-        par, 
-        par.user,
-        discussion,
-        par.targets,
-        par.shouldCommit);
-      
       return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -1463,6 +1454,10 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
+      actAndLogFct.addDiscussionTargets(
+        par,
+        par.shouldCommit);
+       
       return par.discussion;
     }catch(SSErr error){
       

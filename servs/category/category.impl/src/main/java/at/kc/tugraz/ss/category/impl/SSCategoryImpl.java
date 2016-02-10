@@ -98,12 +98,13 @@ implements
   SSUserRelationGathererI,
   SSUsersResourcesGathererI{
   
-  final SSTagAndCategoryCommonSQL  sql;
-  final SSTagAndCategoryCommonMisc commonMiscFct;
-  final SSEntityServerI            entityServ;
-  final SSActivityServerI          activityServ;
-  final SSEvalServerI              evalServ;
-  final SSUserCommons           userCommons;
+  private final SSTagAndCategoryCommonSQL  sql;
+  private final SSTagAndCategoryCommonMisc commonMiscFct;
+  private final SSEntityServerI            entityServ;
+  private final SSActivityServerI          activityServ;
+  private final SSEvalServerI              evalServ;
+  private final SSUserCommons              userCommons;
+  private final SSCategoryActAndLogFct    actAndLogFct;
   
   public SSCategoryImpl(final SSConfA conf) throws SSErr{
     
@@ -116,6 +117,10 @@ implements
     this.evalServ      = (SSEvalServerI)     SSServReg.getServ (SSEvalServerI.class);
     this.entityServ    = (SSEntityServerI)   SSServReg.getServ (SSEntityServerI.class);
     this.userCommons   = new SSUserCommons();
+    this.actAndLogFct   =
+      new SSCategoryActAndLogFct(
+        activityServ,
+        evalServ);
   }
   
   @Override
@@ -387,7 +392,7 @@ implements
   }
   
   @Override
-  public SSServRetI categoryAdd(SSClientE clientType, SSServPar parA) throws SSErr {
+  public SSServRetI categoryAdd(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       userCommons.checkKeyAndSetUser(parA);
@@ -396,31 +401,6 @@ implements
       
       final SSUri            categoryUri = categoryAdd(par);
       final SSCategoryAddRet ret         = SSCategoryAddRet.get(categoryUri);
-      
-      activityServ.activityAdd(
-        new SSActivityAddPar(
-          par, 
-          par.user,
-          SSActivityE.addCategory,
-          par.entity,
-          null,
-          SSUri.asListNotNull(categoryUri),
-          null,
-          null,
-          par.shouldCommit));
-      
-      evalServ.evalLog(
-        new SSEvalLogPar(
-          par, 
-          par.user,
-          SSToolContextE.sss,
-          SSEvalLogE.categoryAdd,
-          par.entity,  //entity
-          SSStrU.toStr(par.label), //content,
-          null, //entities
-          null, //users
-          null, //creationTime
-          par.shouldCommit));
       
       return ret;
     }catch(Exception error){
@@ -444,6 +424,7 @@ implements
             par.withUserRestriction)); //withUserRestriction
       
       if(par.circle == null){
+        
         par.circle =
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circlePubURIGet(
             new SSCirclePubURIGetPar(
@@ -543,6 +524,12 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
+      actAndLogFct.addCategory(
+        par, 
+        categoryUri,
+        par.label, 
+        par.shouldCommit);
+      
       return categoryUri;
       
     }catch(SSErr error){
@@ -580,34 +567,9 @@ implements
       userCommons.checkKeyAndSetUser(parA);
       
       final SSCategoriesRemovePar par = (SSCategoriesRemovePar) parA.getFromClient(clientType, parA, SSCategoriesRemovePar.class);
-      final SSCategoriesRemoveRet ret = SSCategoriesRemoveRet.get(categoriesRemove(par));
       
-      activityServ.activityAdd(
-        new SSActivityAddPar(
-          par, 
-          par.user,
-          SSActivityE.removeCategories,
-          par.entity,
-          null,
-          null,
-          null,
-          null,
-          par.shouldCommit));
+      return SSCategoriesRemoveRet.get(categoriesRemove(par));
       
-      evalServ.evalLog(
-        new SSEvalLogPar(
-          par, 
-          par.user,
-          SSToolContextE.sss,
-          SSEvalLogE.categoriesRemove,
-          par.entity,  //entity
-          SSStrU.toStr(par.label), //content,
-          null, //entities
-          null, //users
-          null, //creationTime
-          par.shouldCommit));
-      
-      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -695,6 +657,9 @@ implements
           par.circle);
         
         dbSQL.commit(par, par.shouldCommit);
+        
+        actAndLogFct.removeCategories(par, par.shouldCommit);
+        
         return true;
       }
       
@@ -709,6 +674,9 @@ implements
         sql.removeMetadataAsss(par, par.user, null, categoryUri, SSSpaceE.circleSpace,  par.circle);
         
         dbSQL.commit(par, par.shouldCommit);
+        
+        actAndLogFct.removeCategories(par, par.shouldCommit);
+        
         return true;
       }
       
@@ -721,6 +689,9 @@ implements
         sql.removeMetadataAsss(par, par.user, null, categoryUri, par.space, par.circle);
         
         dbSQL.commit(par, par.shouldCommit);
+        
+        actAndLogFct.removeCategories(par, par.shouldCommit);
+        
         return true;
       }
       
@@ -735,6 +706,9 @@ implements
         sql.removeMetadataAsss (par, null,     par.entity, categoryUri, SSSpaceE.circleSpace,  par.circle);
         
         dbSQL.commit(par, par.shouldCommit);
+        
+        actAndLogFct.removeCategories(par, par.shouldCommit);
+        
         return true;
       }
       
@@ -747,6 +721,9 @@ implements
         sql.removeMetadataAsss(par, null, par.entity, categoryUri, par.space, par.circle);
         
         dbSQL.commit(par, par.shouldCommit);
+        
+        actAndLogFct.removeCategories(par, par.shouldCommit);
+        
         return true;
       }
       

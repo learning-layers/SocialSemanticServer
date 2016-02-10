@@ -20,6 +20,7 @@
   */
 package at.kc.tugraz.sss.appstacklayout.impl;
 
+import at.kc.tugraz.ss.activity.api.*;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
@@ -56,6 +57,7 @@ import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import at.tugraz.sss.serv.util.*;
+import sss.serv.eval.api.*;
 
 public class SSAppStackLayoutImpl
 extends SSServImplWithDBA
@@ -64,15 +66,20 @@ implements
   SSAppStackLayoutServerI,
   SSDescribeEntityI{
   
-  private final SSAppStackLayoutSQLFct sql;
-  private final SSUserCommons       userCommons;
+  private final SSAppStackLayoutSQLFct       sql;
+  private final SSUserCommons                userCommons;
+  private final SSAppStackLayoutActAndLogFct actAndLogFct;
   
   public SSAppStackLayoutImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql         = new SSAppStackLayoutSQLFct(dbSQL, SSConf.systemUserUri);
-    this.userCommons = new SSUserCommons();
+    this.sql          = new SSAppStackLayoutSQLFct(dbSQL, SSConf.systemUserUri);
+    this.userCommons  = new SSUserCommons();
+    this.actAndLogFct =
+      new SSAppStackLayoutActAndLogFct(
+        (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class),
+        (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class));
   }
   
   @Override
@@ -108,12 +115,13 @@ implements
   public SSServRetI appStackLayoutCreate(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-    userCommons.checkKeyAndSetUser(parA);
-    
-    final SSAppStackLayoutCreatePar par = (SSAppStackLayoutCreatePar) parA.getFromClient(clientType, parA, SSAppStackLayoutCreatePar.class);
-     
-    return SSAppStackLayoutCreateRet.get(appStackLayoutCreate(par));
-    
+      userCommons.checkKeyAndSetUser(parA);
+      
+      final SSAppStackLayoutCreatePar par            = (SSAppStackLayoutCreatePar) parA.getFromClient(clientType, parA, SSAppStackLayoutCreatePar.class);
+      final SSUri                     appStackLayout = appStackLayoutCreate(par);
+      
+      return SSAppStackLayoutCreateRet.get(appStackLayout);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -165,6 +173,11 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
+      actAndLogFct.createAppStackLayout(
+        par,
+        appStackLayout,
+        par.shouldCommit);
+      
       return appStackLayout;
       
     }catch(SSErr error){
@@ -199,12 +212,12 @@ implements
   public SSServRetI appStackLayoutUpdate(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-    userCommons.checkKeyAndSetUser(parA);
-    
-    final SSAppStackLayoutUpdatePar par = (SSAppStackLayoutUpdatePar) parA.getFromClient(clientType, parA, SSAppStackLayoutUpdatePar.class);
-    
-    return SSAppStackLayoutUpdateRet.get(appStackLayoutUpdate(par));
-    
+      userCommons.checkKeyAndSetUser(parA);
+      
+      final SSAppStackLayoutUpdatePar par = (SSAppStackLayoutUpdatePar) parA.getFromClient(clientType, parA, SSAppStackLayoutUpdatePar.class);
+      
+      return SSAppStackLayoutUpdateRet.get(appStackLayoutUpdate(par));
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -250,6 +263,10 @@ implements
       }
       
       dbSQL.commit(par, par.shouldCommit);
+      
+      actAndLogFct.updateAppStackLayout(
+        par, 
+        par.shouldCommit);
       
       return appStackLayout;
       
@@ -372,12 +389,13 @@ implements
     
     try{
       
-    userCommons.checkKeyAndSetUser(parA);
-    
-    final SSAppStackLayoutDeletePar par = (SSAppStackLayoutDeletePar) parA.getFromClient(clientType, parA, SSAppStackLayoutDeletePar.class);
-    
-    return SSAppStackLayoutDeleteRet.get(appStackLayoutDelete(par));
-    
+      userCommons.checkKeyAndSetUser(parA);
+      
+      final SSAppStackLayoutDeletePar par    = (SSAppStackLayoutDeletePar) parA.getFromClient(clientType, parA, SSAppStackLayoutDeletePar.class);
+      final boolean                   worked = appStackLayoutDelete(par);
+      
+      return SSAppStackLayoutDeleteRet.get(worked);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -405,6 +423,11 @@ implements
       sql.deleteStack(par, par.stack);
       
       dbSQL.commit(par, par.shouldCommit);
+      
+      actAndLogFct.removeAppStackLayout(
+        par,
+        par.stack,
+        par.shouldCommit);
       
       return true;
       

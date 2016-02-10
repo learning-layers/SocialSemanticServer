@@ -20,6 +20,7 @@
  */
 package at.kc.tugraz.sss.video.impl;
 
+import at.kc.tugraz.ss.activity.api.*;
 import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.conf.SSConf;
@@ -75,6 +76,7 @@ import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import at.tugraz.sss.servs.location.api.SSLocationServerI;
 import at.tugraz.sss.servs.location.datatype.par.SSLocationAddPar;
 import java.util.Map;
+import sss.serv.eval.api.*;
 
 public class SSVideoImpl
 extends SSServImplWithDBA
@@ -86,11 +88,12 @@ implements
   SSAddAffiliatedEntitiesToCircleI,
   SSUsersResourcesGathererI{
   
-  private final SSVideoSQLFct     sql;
-  private final SSEntityServerI   entityServ;
-  private final SSEntityServerI   circleServ;
-  private final SSLocationServerI locationServ;
-  private final SSUserCommons  userCommons;
+  private final SSVideoSQLFct       sql;
+  private final SSEntityServerI     entityServ;
+  private final SSEntityServerI     circleServ;
+  private final SSLocationServerI   locationServ;
+  private final SSUserCommons       userCommons;
+  private final SSVideoActAndLogFct actAndLocFct;
   
   public SSVideoImpl(final SSConfA conf) throws SSErr{
     
@@ -101,6 +104,11 @@ implements
     this.circleServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
     this.locationServ = (SSLocationServerI) SSServReg.getServ(SSLocationServerI.class);
     this.userCommons  = new SSUserCommons();
+    
+    this.actAndLocFct =
+      new SSVideoActAndLogFct(
+        (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class),
+        (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class));
   }
   
   @Override
@@ -435,6 +443,11 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
+      actAndLocFct.createVideo(
+        par, 
+        video, 
+        par.shouldCommit);
+      
       return video;
       
     }catch(SSErr error){
@@ -523,6 +536,11 @@ implements
           }
           
           sql.removeAnnotation(par, annotation);
+
+          actAndLocFct.removeVideoAnnotation(
+            par, 
+            annotation, 
+            par.shouldCommit);
         }
       }
       
@@ -651,6 +669,11 @@ implements
         par.timePoint);
       
       dbSQL.commit(par, par.shouldCommit);
+      
+      actAndLocFct.createVideoAnnotation(
+        par, 
+        annotation, 
+        par.shouldCommit);
       
       return annotation;
       

@@ -3,7 +3,7 @@
  * http://www.learning-layers.eu
  * Development is partly funded by the FP7 Programme of the European Commission under
  * Grant Agreement FP7-ICT-318209.
- * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * Copyright (c) 2016, Graz University of Technology - KTI (Knowledge Technologies Institute).
  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,101 +18,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.kc.tugraz.ss.service.tag.impl;
+package at.kc.tugraz.ss.serv.dataimport.impl.bitsandpieces;
 
-import at.kc.tugraz.ss.activity.api.SSActivityServerI;
-import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
-import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
-import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
-import java.util.List;
+import java.util.*;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
-public class SSTagActAndLogFct {
+public class SSDataImportActAndLogFct {
   
-  private final SSActivityServerI activityServ;
   private final SSEvalServerI     evalServ;
   
-  public SSTagActAndLogFct(
-    final SSActivityServerI activityServ,
+  public SSDataImportActAndLogFct(
     final SSEvalServerI     evalServ){
     
-    this.activityServ = activityServ;
     this.evalServ     = evalServ;
   }
   
   public void addTag(
-    final SSServPar        servPar,
-    final SSUri            user,
+    final SSServPar        servPar, 
+    final SSToolContextE   toolContext, 
     final SSUri            entity,
-    final SSUri            tagURI,
-    final SSTagLabel       label,
+    final String           tag, 
+    final List<SSUri>      entities,
+    final Long             creationTime, 
     final boolean          shouldCommit) throws SSErr{
-    
-    if(SSStrU.isEmpty(entity)){
-      return;
-    }
-    
-    try{
-      
-      activityServ.activityAdd(
-        new SSActivityAddPar(
-          servPar,
-          user,
-          SSActivityE.tagEntity,
-          entity,
-          null,
-          SSUri.asListNotNull(tagURI),
-          null,
-          null,
-          shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-    
-    if(SSStrU.isEmpty(label)){
-      return;
-    }
     
     try{
       
       evalServ.evalLog(
         new SSEvalLogPar(
           servPar,
-          user,
-          SSToolContextE.sss,
+          servPar.user,
+          toolContext,
           SSEvalLogE.addTag,
-          entity,  //entity
-          SSStrU.toStr(label), //content,
-          null, //entities
+          entity, //entity
+          tag, //content
+          entities, //entities
           null, //users
-          null, //creationTime
+          creationTime, //creationTime
           shouldCommit));
       
     }catch(SSErr error){
       
       switch(error.code){
         case servInvalid: SSLogU.warn(error); break;
-        default: SSServErrReg.regErrThrow(error);
+        default:{ SSServErrReg.regErrThrow(error); break;}
       }
       
     }catch(Exception error){
@@ -120,40 +76,13 @@ public class SSTagActAndLogFct {
     }
   }
   
-  public void removeTag(
-    final SSServPar        servPar,
+  public void addNotebook(
+    final SSServPar        servPar, 
     final SSUri            user,
-    final SSUri            entity,
-    final SSTagLabel       label,
+    final SSToolContextE   toolContext, 
+    final SSUri            notebook,
+    final Long             creationTime, 
     final boolean          shouldCommit) throws SSErr{
-    
-    try{
-      
-      activityServ.activityAdd(
-        new SSActivityAddPar(
-          servPar,
-          user,
-          SSActivityE.removeTags,
-          entity,
-          null,
-          null,
-          null,
-          null,
-          shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
     
     try{
       
@@ -161,23 +90,92 @@ public class SSTagActAndLogFct {
         new SSEvalLogPar(
           servPar,
           user,
-          SSToolContextE.sss,
-          SSEvalLogE.removeTag,
-          entity,  //entity
-          SSStrU.toStr(label), //content,
+          toolContext,
+          SSEvalLogE.addNotebook,
+          notebook, //entity
+          null, //content
           null, //entities
           null, //users
-          null, //creationTime
+          creationTime, //creationTime
           shouldCommit));
       
     }catch(SSErr error){
       
       switch(error.code){
         case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
+        default:{ SSServErrReg.regErrThrow(error); break;}
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void addNote(
+    final SSServPar        servPar, 
+    final SSUri            user,
+    final SSToolContextE   toolContext, 
+    final SSUri            note,
+    final List<SSUri>      entities,
+    final Long             creationTime, 
+    final boolean          shouldCommit) throws SSErr{
+    
+    try{
+      
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          servPar,
+          user,
+          toolContext,
+          SSEvalLogE.addNote,
+          note, //entity
+          null, //content
+          entities, //entities
+          null, //users
+          creationTime, //creationTime
+          shouldCommit));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default:{ SSServErrReg.regErrThrow(error); break;}
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void addResource(
+    final SSServPar        servPar, 
+    final SSUri            user,
+    final SSToolContextE   toolContext, 
+    final SSUri            resource,
+    final List<SSUri>      entities,
+    final Long             creationTime, 
+    final boolean          shouldCommit) throws SSErr{
+    
+    try{
+      
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          servPar,
+          user,
+          toolContext,
+          SSEvalLogE.addResource,
+          resource, //entity
+          null, //content
+          entities, //entities
+          null, //users
+          creationTime, //creationTime
+          shouldCommit));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default:{ SSServErrReg.regErrThrow(error); break;}
       }
       
     }catch(Exception error){
