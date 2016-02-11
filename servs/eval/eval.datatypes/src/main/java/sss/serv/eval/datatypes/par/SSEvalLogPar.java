@@ -39,6 +39,9 @@ public class SSEvalLogPar extends SSServPar{
   public List<SSUri>      users        = new ArrayList<>();
   public Long             creationTime = null;
   
+  public String           query        = null;
+  public String           result       = null;
+  
   public void setToolContext(final String toolContext) throws SSErr {
     this.toolContext = SSToolContextE.get(toolContext);
   }

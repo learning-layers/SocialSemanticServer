@@ -22,6 +22,7 @@ package at.tugraz.sss.serv.util;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.reg.*;
+import java.net.*;
 import java.util.*;
 
 public class SSStrU{
@@ -114,8 +115,10 @@ public class SSStrU{
   public  static final String singleQuote                                     = "'";
   
   //characters encoded
-  public  static final String ampersandEncoded                                = "&amp;";
-  public  static final String commaEncoded                                    = "&#44;";
+  public  static final String encodedAmpersand                                = "%26"; //&amp;";
+  public  static final String encodedComma                                    = "%2C"; //"&#44;"
+  public  static final String encodedColon                                    = "%3A";
+  public  static final String encodedSemiColon                                = "%3B";
   
   //values misc
   public  static final String        valueThumb                               = "thumb";
@@ -453,6 +456,46 @@ public class SSStrU{
     }
     
     return "\"" + string + "\"";
+  }
+  
+  public static String escapeColonSemiColonComma(
+    final Object object) throws SSErr{
+    
+    try{
+      
+      String result = toStr(object);
+      
+      if(isEmpty(result)){
+        return result;
+      }
+      
+      result = result.replaceAll("[\\:]", encodedColon);
+      result = result.replaceAll("[\\;]", encodedSemiColon);
+      result = result.replaceAll("[\\,]", encodedComma);
+      
+      return result;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  public static List<String> escapeColonSemiColonComma(
+    final List<? extends Object> objects) throws SSErr{
+    
+    try{
+      
+      final List<String> result = new ArrayList<>();
+      
+      for(Object object : objects){
+        result.add(escapeColonSemiColonComma(object));
+      }
+      
+      return result;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
   public static String replaceAllBlanksSpecialCharactersDoubleDots(

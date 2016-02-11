@@ -51,7 +51,7 @@ import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import java.util.*;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.reg.*;
@@ -60,6 +60,9 @@ import at.tugraz.sss.servs.common.impl.entity.SSEntityQueryCacheU;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
 import at.tugraz.sss.serv.db.api.SSCoreSQL;
 import at.tugraz.sss.serv.datatype.par.SSEntityURIsGetPar;
+import sss.serv.eval.api.*;
+import sss.serv.eval.datatypes.*;
+import sss.serv.eval.datatypes.par.*;
 
 public class SSSearchImpl
 extends SSServImplWithDBA
@@ -68,9 +71,9 @@ implements
   SSSearchServerI{
   
   protected static final Map<String, SSEntityResultPages> searchResultPagesCache = new HashMap<>();
-  private          final SSCoreSQL                      sql;
+  private          final SSCoreSQL                        sql;
   private          final SSSearchNoSQLFct                 noSQLFct;
-  private          final SSUserCommons                 userCommons;
+  private          final SSUserCommons                    userCommons;
   
   public SSSearchImpl(final SSConfA conf) throws SSErr{
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
@@ -94,8 +97,86 @@ implements
       SSServErrReg.regErrThrow(error);
       return null;
     }
+  }
+  
+  private void evalLog(
+    final SSSearchPar par,
+    final SSSearchRet ret,
+    final boolean     shouldCommit) throws SSErr{
     
-//    SSSearchActivityFct.search(new SSSearchPar((parA)));
+    try{
+      
+      final SSEvalServerI   evalServ   = (SSEvalServerI)   SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalLogPar    evalLogPar =
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.search,
+          null, // entity
+          null, //content
+          null, //entities
+          null, //users
+          new Date().getTime(), //creationTime
+          shouldCommit);
+      
+      evalLogPar.query  = SSStrU.empty;
+      evalLogPar.result = SSStrU.empty;
+      
+      final String tagsToSearchFor = 
+        SSStrU.toCommaSeparatedStrNotNull(
+          SSStrU.escapeColonSemiColonComma(par.tagsToSearchFor));
+      
+      final String labelsToSearchFor = 
+        SSStrU.toCommaSeparatedStrNotNull(
+          SSStrU.escapeColonSemiColonComma(par.labelsToSearchFor));
+      
+      final String descriptionsToSearchFor = 
+        SSStrU.toCommaSeparatedStrNotNull(
+          SSStrU.escapeColonSemiColonComma(par.descriptionsToSearchFor));
+      
+      final String documentContentsToSearchFor = 
+        SSStrU.toCommaSeparatedStrNotNull(
+          SSStrU.escapeColonSemiColonComma(par.documentContentsToSearchFor));
+      
+      
+      evalLogPar.query += SSVarNames.tagsToSearchFor                               + SSStrU.colon + tagsToSearchFor                                                    + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.labelsToSearchFor                             + SSStrU.colon + labelsToSearchFor                                                  + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.descriptionsToSearchFor                       + SSStrU.colon + descriptionsToSearchFor                                            + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.typesToSearchOnlyFor                          + SSStrU.colon + SSStrU.toCommaSeparatedStrNotNull(par.typesToSearchOnlyFor)        + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.applyGlobalSearchOpBetweenLabelAndDescription + SSStrU.colon + par.applyGlobalSearchOpBetweenLabelAndDescription                  + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.localSearchOp                                 + SSStrU.colon + par.localSearchOp                                                  + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.globalSearchOp                                + SSStrU.colon + par.globalSearchOp                                                 + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.documentContentsToSearchFor                   + SSStrU.colon + documentContentsToSearchFor                                        + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.authorsToSearchFor                            + SSStrU.colon + SSStrU.toCommaSeparatedStrNotNull(par.authorsToSearchFor)          + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.includeRecommendedResults                     + SSStrU.colon + par.includeRecommendedResults                                      + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.pagesID                                       + SSStrU.colon + par.pagesID                                                        + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.pageNumber                                    + SSStrU.colon + par.pageNumber                                                     + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.pageSize                                      + SSStrU.colon + par.pageSize                                                       + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.minRating                                     + SSStrU.colon + par.minRating                                                      + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.maxRating                                     + SSStrU.colon + par.maxRating                                                      + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.startTime                                     + SSStrU.colon + par.startTime                                                      + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.endTime                                       + SSStrU.colon + par.endTime                                                        + evalLogPar.creationTime;
+      
+      for(SSEntity result : ret.entities){
+        evalLogPar.result += result.id + SSStrU.colon + SSStrU.escapeColonSemiColonComma(result.label) + SSStrU.comma;
+      }
+      
+      evalServ.evalLog(evalLogPar);
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default: {
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
@@ -109,7 +190,11 @@ implements
         par.pagesID    != null &&
         par.pageNumber != null){
         
-        return handleSearchPageRequest(entityServ, par);
+        final SSSearchRet searchResult = handleSearchPageRequest(entityServ, par);
+        
+        evalLog(par, searchResult, par.shouldCommit);
+        
+        return searchResult;
       }
       
       final List<SSUri>        uris                   = new ArrayList<>();
@@ -212,7 +297,7 @@ implements
         pages,
         recommendedResults);
       
-      final List<SSEntity>     results                = new ArrayList<>();
+      final List<SSEntity> results = new ArrayList<>();
       
       if(!pages.isEmpty()){
         
@@ -260,21 +345,33 @@ implements
             pages.get(0)));
       }
       
+      final SSSearchRet ret;
+      
       if(results.isEmpty()){
         
-        return SSSearchRet.get(
-          results,
-          null,
-          0,
-          0);
+        ret =
+          SSSearchRet.get(
+            results,
+            null,
+            0,
+            0);
+        
+        evalLog(par, ret, par.shouldCommit);
+        
+        return ret;
         
       }else{
         
-        return SSSearchRet.get(
-          results,
-          pagesID,
-          1,
-          pages.size());
+        ret =
+          SSSearchRet.get(
+            results,
+            pagesID,
+            1,
+            pages.size());
+          
+        evalLog(par, ret, par.shouldCommit);
+        
+        return ret;
       }
       
     }catch(Exception error){

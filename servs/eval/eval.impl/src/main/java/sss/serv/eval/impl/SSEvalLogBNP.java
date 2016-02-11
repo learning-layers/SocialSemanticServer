@@ -136,7 +136,7 @@ public class SSEvalLogBNP {
         }
           
         //search tab
-        case searchWithKeyword:{ //seen
+        case search:{
           
           break;
         }
@@ -311,7 +311,7 @@ public class SSEvalLogBNP {
       }
       
       //timestamp;tool context;user label;user email;log type;entity;entity type;entity label;content;tag type;entities' ids;entities' labels;
-      //users' labels;episodespace;selected bits measure;not selected entities' ids;not selected entities' labels;circle type
+      //users' labels;episodespace;selected bits measure;not selected entities' ids;not selected entities' labels;circle type;query;result;
       
       //time stamp
       
@@ -331,11 +331,11 @@ public class SSEvalLogBNP {
       logText += SSStrU.semiColon;
       
       //user label
-      logText += originUser.label;
+      logText += SSStrU.escapeColonSemiColonComma(originUser.label);
       logText += SSStrU.semiColon;
       
       //user email
-      logText += originUser.email;
+      logText += SSStrU.escapeColonSemiColonComma(originUser.email);
       logText += SSStrU.semiColon;
       
       // log type
@@ -358,14 +358,14 @@ public class SSEvalLogBNP {
       
       // entity label
       if(targetEntity != null){
-        logText += targetEntity.label;
+        logText += SSStrU.escapeColonSemiColonComma(targetEntity.label);
       }
       
       logText += SSStrU.semiColon;
       
       // content
       if(par.content != null){
-        logText += par.content;
+        logText += SSStrU.escapeColonSemiColonComma(par.content);
       }else{
         if(!activities.isEmpty()){
           logText += ((SSActivity)activities.get(0)).activityType;
@@ -423,7 +423,7 @@ public class SSEvalLogBNP {
       
       // entities' labels
       for(SSEntity entity : targetEntities){
-        logText += entity.label;
+        logText += SSStrU.escapeColonSemiColonComma(entity.label);
         logText += SSStrU.comma;
       }
       
@@ -431,7 +431,7 @@ public class SSEvalLogBNP {
       
       // users' labels
       for(SSEntity user : targetUsers){
-        logText += user.label;
+        logText += SSStrU.escapeColonSemiColonComma(user.label);
         logText += SSStrU.comma;
       }
       
@@ -516,6 +516,24 @@ public class SSEvalLogBNP {
       //circleType
       if(circle != null){
         logText += circle.circleType;
+      }else{
+        logText += SSStrU.empty;
+      }
+      
+      logText += SSStrU.semiColon;
+      
+      //query
+      if(par.query != null){
+        logText += par.query;
+      }else{
+        logText += SSStrU.empty;
+      }
+      
+      logText += SSStrU.semiColon;
+      
+      //result
+      if(par.result != null){
+        logText += par.result;
       }else{
         logText += SSStrU.empty;
       }

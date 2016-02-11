@@ -32,7 +32,7 @@ public enum SSEvalLogE{
   tagAdd,
   shareLearnEpWithUser,
 
-  
+  search,
   changeDiscContent,
   changeDiscEntryContent,
   read,
@@ -94,7 +94,6 @@ public enum SSEvalLogE{
   clickJumpToDateButton,   
   clickAffectButton, 
   clickHelpButton,  
-  searchWithKeyword,
   readMessage, 
   sendMessage, 
   setImportance, 

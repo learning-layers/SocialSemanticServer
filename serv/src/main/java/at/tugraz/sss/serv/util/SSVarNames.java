@@ -298,6 +298,7 @@ public class SSVarNames{
   public static final String labelsToSearchFor                              = "labelsToSearchFor";
   public static final String descriptionsToSearchFor                        = "descriptionsToSearchFor";
   public static final String typesToSearchOnlyFor                           = "typesToSearchOnlyFor";
+  public static final String applyGlobalSearchOpBetweenLabelAndDescription  = "applyGlobalSearchOpBetweenLabelAndDescription";
   public static final String typesToRecommOnly                              = "typesToRecommOnly";
   public static final String entityTypesToIncludeOnly                       = "entityTypesToIncludeOnly";
   public static final String setCircleTypes                                 = "setCircleTypes";
@@ -312,7 +313,9 @@ public class SSVarNames{
   public static final String maxRating                                      = "maxRating";
   public static final String localSearchOp                                  = "localSearchOp";
   public static final String globalSearchOp                                 = "globalSearchOp";
+  public static final String documentContentsToSearchFor                    = "documentContentsToSearchFor";
   public static final String pageNumber                                     = "pageNumber";
+  public static final String pageSize                                       = "pageSize";
   public static final String flags                                          = "flags";
   public static final String notebook                                       = "notebook";
   public static final String thumb                                          = "thumb";
