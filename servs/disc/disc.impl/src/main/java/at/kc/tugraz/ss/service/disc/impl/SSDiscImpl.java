@@ -260,7 +260,7 @@ implements
   
   @Override
   public void getUsersResources(
-    final SSServPar servPar,
+    final SSServPar                          servPar,
     final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
     
     try{
@@ -268,8 +268,8 @@ implements
       final SSDiscsGetPar discsGetPar =
         new SSDiscsGetPar(
           servPar, 
-          null,
-          false, //setEntries,
+          null, //user
+          true, //setEntries,
           null, //forUser,
           null, //discs,
           null, //target,
@@ -293,6 +293,26 @@ implements
               SSEntityE.disc,
               null,
               null));
+          
+          for(SSEntity target : ((SSDisc) disc).targets){
+            
+            usersEntities.get(user).add(
+              new SSEntityContext(
+                target.id,
+                SSEntityE.disc,
+                null,
+                null));
+          }
+          
+          for(SSEntity dicscEntry : disc.entries){
+            
+            usersEntities.get(user).add(
+              new SSEntityContext(
+                dicscEntry.id,
+                SSEntityE.disc,
+                null,
+                null));
+          }
         }
       }
       

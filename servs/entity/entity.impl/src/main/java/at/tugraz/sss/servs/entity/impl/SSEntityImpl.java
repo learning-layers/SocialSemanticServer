@@ -127,10 +127,7 @@ import at.tugraz.sss.serv.datatype.par.SSEntityDownloadURIsGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityTypesGetPar;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
-import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.servs.entity.datatype.*;
-import sss.serv.eval.datatypes.SSEvalLogE;
-import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public class SSEntityImpl
 extends SSServImplWithDBA
@@ -394,14 +391,16 @@ implements
   
   @Override
   public void getUsersResources(
-    final SSServPar servPar,
+    final SSServPar                          servPar,
     final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
     
     try{
       final List<SSEntityE> types = new ArrayList<>();
       
+      types.add(SSEntityE.evernoteNote);
+      types.add(SSEntityE.evernoteNotebook);
+      types.add(SSEntityE.evernoteResource);
       types.add(SSEntityE.placeholder);
-      types.add(SSEntityE.file);
       types.add(SSEntityE.uploadedFile);
       types.add(SSEntityE.entity);
       

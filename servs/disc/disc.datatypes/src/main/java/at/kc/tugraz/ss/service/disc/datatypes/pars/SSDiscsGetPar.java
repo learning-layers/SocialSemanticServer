@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.service.disc.datatypes.pars;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,7 +66,7 @@ public class SSDiscsGetPar extends SSServPar{
   public SSDiscsGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSDiscsGetPar(
-    final SSServPar servPar,
+    final SSServPar   servPar,
     final SSUri       user,
     final boolean     setEntries,
     final SSUri       forUser,

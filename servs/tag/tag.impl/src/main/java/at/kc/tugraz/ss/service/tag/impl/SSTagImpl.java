@@ -198,7 +198,7 @@ implements
       
       final SSTagsGetPar tagsGetPar =
         new SSTagsGetPar(
-              servPar,
+          servPar,
           null, //user
           null, //forUser
           null, //entities

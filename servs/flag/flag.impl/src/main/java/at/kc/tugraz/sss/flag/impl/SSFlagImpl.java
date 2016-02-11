@@ -82,7 +82,7 @@ implements
   
   @Override
   public void getUsersResources(
-    final SSServPar servPar,
+    final SSServPar                          servPar,
     final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
     
     try{

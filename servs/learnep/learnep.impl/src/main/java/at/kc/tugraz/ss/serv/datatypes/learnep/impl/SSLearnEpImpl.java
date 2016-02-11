@@ -163,6 +163,13 @@ implements
         
         for(SSEntity learnEpEntity : learnEpsGet(learnEpsGetPar)){
           
+          usersEntities.get(user).add(
+            new SSEntityContext(
+              learnEpEntity.id,
+              SSEntityE.learnEp,
+              null,
+              null));
+          
           for(SSEntity versionEntity : ((SSLearnEp) learnEpEntity).entries){
             
             for(SSEntity entity : ((SSLearnEpVersion) versionEntity).learnEpEntities){

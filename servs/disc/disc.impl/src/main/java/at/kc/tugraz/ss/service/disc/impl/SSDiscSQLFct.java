@@ -113,7 +113,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
   
   public List<SSUri> getDiscURIs(
     final SSServPar servPar,
-    final SSUri userUri) throws SSErr{
+    final SSUri     userUri) throws SSErr{
 
     ResultSet resultSet = null;
 
@@ -128,7 +128,7 @@ public class SSDiscSQLFct extends SSCoreSQL {
       
         resultSet = dbSQL.select(servPar, SSSQLVarNames.discUserTable, columns, wheres, null, null, null);
       }else{
-        resultSet = dbSQL.select(servPar, SSSQLVarNames.discTable, columns, wheres, null, null, null);
+        resultSet = dbSQL.select(servPar, SSSQLVarNames.discTable,     columns, wheres, null, null, null);
       }
       
       return getURIsFromResult(resultSet, SSSQLVarNames.discId);
