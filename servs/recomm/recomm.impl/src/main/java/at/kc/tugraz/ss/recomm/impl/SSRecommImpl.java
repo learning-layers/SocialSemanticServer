@@ -357,7 +357,11 @@ implements
             tag.getValue()));
       }
       
-      evalLogTags(par, tags, par.shouldCommit);
+      evalLogTags(
+        par, 
+        tags, 
+        algo, 
+        par.shouldCommit);
       
       return tags;
       
@@ -503,7 +507,11 @@ implements
         }
       }
       
-      evalLogResources(par, resources, par.shouldCommit);
+      evalLogResources(
+        par, 
+        resources, 
+        recommConf.recommResourceAlgorithm, 
+        par.shouldCommit);
       
       return resources;
     }catch(Exception error){
@@ -1093,6 +1101,7 @@ implements
   private void evalLogResources(
     final SSRecommResourcesPar       par, 
     final List<SSResourceLikelihood> resources,
+    final Algorithm                  algo,
     final boolean                    shouldCommit) throws SSErr{
     
     try{
@@ -1120,6 +1129,7 @@ implements
       final String realm = 
         SSStrU.escapeColonSemiColonComma(par.realm);
       
+      evalLogPar.query += SSVarNames.algo                              + SSStrU.colon + algo                                                     + evalLogPar.creationTime;
       evalLogPar.query += SSVarNames.forEntity                         + SSStrU.colon + par.entity                                               + evalLogPar.creationTime;
       evalLogPar.query += SSVarNames.forUser                           + SSStrU.colon + par.forUser                                              + evalLogPar.creationTime;
       evalLogPar.query += SSVarNames.typesToRecommOnly                 + SSStrU.colon + SSStrU.toCommaSeparatedStrNotNull(par.typesToRecommOnly) + evalLogPar.creationTime;
@@ -1153,6 +1163,7 @@ implements
   private void evalLogTags(
     final SSRecommTagsPar       par, 
     final List<SSTagLikelihood> tags,
+    final Algorithm             algo,
     final boolean               shouldCommit) throws SSErr{
     
     try{
@@ -1180,6 +1191,7 @@ implements
       final String realm = 
         SSStrU.escapeColonSemiColonComma(par.realm);
       
+      evalLogPar.query += SSVarNames.algo                              + SSStrU.colon + algo                                                   + evalLogPar.creationTime;
       evalLogPar.query += SSVarNames.forEntity                         + SSStrU.colon + par.entity                                             + evalLogPar.creationTime;
       evalLogPar.query += SSVarNames.forUser                           + SSStrU.colon + par.forUser                                            + evalLogPar.creationTime;
       evalLogPar.query += SSVarNames.categories                        + SSStrU.colon + categories                                             + evalLogPar.creationTime;
@@ -1209,4 +1221,3 @@ implements
     }
   }
 }
-
