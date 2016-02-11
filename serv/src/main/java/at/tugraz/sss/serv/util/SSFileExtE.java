@@ -28,6 +28,7 @@ import java.util.List;
 
 public enum SSFileExtE{
   
+  csv,
   bin,
   yaml,
   odt,

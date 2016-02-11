@@ -205,7 +205,7 @@ public class SSRESTFile{
         final SSFileDownloadRet ret         = (SSFileDownloadRet) fileServ.fileDownload(SSClientE.rest, par);
         
         return Response.ok(ret.outputStream).
-          header("Content-Disposition", "inline; filename=\"" + ret.label + "\"").
+          header("Content-Disposition", "inline; filename=\"" + ret.label + SSStrU.dot + SSFileExtE.getFromStrToFormat(SSStrU.toStr(ret.file)) + "\"").
           header("Content-Type", SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(ret.file)).toString()).
           build();
         
@@ -285,7 +285,7 @@ public class SSRESTFile{
         final SSFileDownloadRet ret         = (SSFileDownloadRet) fileServ.fileDownload(SSClientE.rest, par);
         
         return Response.ok(ret.outputStream).
-          header("Content-Disposition", "inline; filename=\"" + ret.label + "\"").
+          header("Content-Disposition", "inline; filename=\"" + ret.label + SSStrU.dot + SSFileExtE.getFromStrToFormat(SSStrU.toStr(ret.file)) + "\"").
           header("Content-Type", SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(ret.file)).toString()).
           build();
         
@@ -354,7 +354,7 @@ public class SSRESTFile{
         final SSFileDownloadRet ret         = (SSFileDownloadRet) fileServ.fileDownload(SSClientE.rest, par);
         
         return Response.ok(ret.outputStream).
-          header("Content-Disposition", "inline; filename=\"" + ret.label + "\"").
+          header("Content-Disposition", "inline; filename=\"" + ret.label + SSStrU.dot + SSFileExtE.getFromStrToFormat(SSStrU.toStr(ret.file)) + "\"").
           header("Content-Type", SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(ret.file)).toString()).
           build();
         
