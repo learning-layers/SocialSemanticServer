@@ -183,6 +183,9 @@ public class SSEvalLogBNP {
         }
 
         //discussions
+        case changeDiscContent:
+        case changeDiscEntryContent:
+        case read:
         case createDisc: //seen
         case addDiscTargets: //seen
         case addDiscEntry:  //seen

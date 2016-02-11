@@ -31,7 +31,11 @@ public enum SSEvalLogE{
   //old
   tagAdd,
   shareLearnEpWithUser,
+
   
+  changeDiscContent,
+  changeDiscEntryContent,
+  read,
   recommTagsQuery,
   recommTagsResult,
   addCategory,

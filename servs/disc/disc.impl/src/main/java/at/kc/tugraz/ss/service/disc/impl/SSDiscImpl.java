@@ -756,7 +756,7 @@ implements
             par.user,
             null, //entity
             null, //type
-            null, //label)
+            null, //label
             null, //description,
             null, //creationTime,
             par.read, //read
@@ -804,6 +804,8 @@ implements
       }
       
       dbSQL.commit(par, par.shouldCommit);
+      
+      actAndLogFct.updateDisc(par, par.shouldCommit);
       
       return SSDiscUpdateRet.get(par.disc);
       
@@ -904,6 +906,8 @@ implements
       }
       
       dbSQL.commit(par, par.shouldCommit);
+      
+      actAndLogFct.updateDiscEntry(par, par.shouldCommit);
       
       return SSDiscEntryUpdateRet.get(
         discURI,

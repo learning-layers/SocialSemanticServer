@@ -211,6 +211,114 @@ public class SSDiscActAndLogFct{
       SSServErrReg.regErrThrow(error);
     }
   }
+
+  public void updateDisc(
+    final SSDiscUpdatePar par, 
+    final boolean         shouldCommit) throws SSErr{
+    
+     try{
+      
+       if(par.content != null){
+         
+         evalServ.evalLog(
+           new SSEvalLogPar(
+             par,
+             par.user,
+             SSToolContextE.sss,
+             SSEvalLogE.changeDiscContent,
+             par.disc, // entity
+             SSStrU.toStr(par.content), //content
+             null, //entities
+             null, //users
+             null, //creationTime
+             shouldCommit));
+       }
+       
+       if(par.label != null){
+        
+         evalServ.evalLog(
+           new SSEvalLogPar(
+             par,
+             par.user,
+             SSToolContextE.sss,
+             SSEvalLogE.changeLabel,
+             par.disc, // entity
+             SSStrU.toStr(par.label), //content
+             null, //entities
+             null, //users
+             null, //creationTime
+             shouldCommit));
+       }
+       
+       if(
+         par.read != null &&
+         par.read){
+         
+         evalServ.evalLog(
+           new SSEvalLogPar(
+             par,
+             par.user,
+             SSToolContextE.sss,
+             SSEvalLogE.read,
+             par.disc, // entity
+             SSStrU.toStr(par.label), //content
+             null, //entities
+             null, //users
+             null, //creationTime
+             shouldCommit));
+       }
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default: {
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public void updateDiscEntry(
+    final SSDiscEntryUpdatePar par, 
+    boolean                    shouldCommit) throws SSErr{
+    
+     try{
+      
+       if(par.content != null){
+        
+         evalServ.evalLog(
+           new SSEvalLogPar(
+             par,
+             par.user,
+             SSToolContextE.sss,
+             SSEvalLogE.changeDiscEntryContent,
+             par.entry, // entity
+             SSStrU.toStr(par.content), //content
+             null, //entities
+             null, //users
+             null, //creationTime
+             shouldCommit));
+       }
+       
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default: {
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
 }
 
 //try{
