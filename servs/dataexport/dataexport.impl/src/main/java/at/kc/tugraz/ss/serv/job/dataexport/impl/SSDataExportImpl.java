@@ -244,29 +244,40 @@ implements
         
         for(SSEntityContext entity : resourcesForUser.getValue()){
           
+          //user;entity;timestamp;content;context;
           lineParts.clear();
           
-          lineParts.add(SSStrU.toStr     (user));
-          lineParts.add(SSStrU.toStr     (entity.id));
+          //user
+          lineParts.add(SSStrU.toStr(user));
           
+          //entity
+          lineParts.add(SSStrU.toStr(entity.id));
+          
+          //timestamp
           if(entity.timestamp != null){
-            lineParts.add(SSStrU.toStr     (entity.timestamp / 1000));
+            lineParts.add(SSStrU.toStr(entity.timestamp / 1000));
           }else{
             lineParts.add(SSStrU.empty);
           }
           
-          if(SSStrU.equals(entity.context, SSEntityE.tag)){
-            lineParts.add(entity.content);
-          }else{
-            lineParts.add(SSStrU.empty);
+          //content
+          switch(entity.context){
+            
+            case category:
+            case tag:{
+              lineParts.add(entity.content);
+              break;
+            }
+            
+            default:{
+              lineParts.add(SSStrU.empty);
+              break;
+            }
           }
           
-          if(SSStrU.equals(entity.context, SSEntityE.category)){
-            lineParts.add(entity.content);
-          }else{
-            lineParts.add(SSStrU.empty);
-          }
-          
+          //context
+          lineParts.add(SSStrU.toStr(entity.context));
+
           fileWriter.writeNext((String[]) lineParts.toArray(new String[lineParts.size()]));
         }
       }
