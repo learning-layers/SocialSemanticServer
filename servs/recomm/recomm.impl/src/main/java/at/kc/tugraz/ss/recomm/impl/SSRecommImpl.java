@@ -80,8 +80,7 @@ import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import engine.EntityRecommenderEngine;
 import engine.TagRecommenderEvalEngine;
 import java.io.*;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
@@ -245,48 +244,9 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSRecommTagsPar par = (SSRecommTagsPar) parA.getFromClient(clientType, parA, SSRecommTagsPar.class);
-      
-      evalServ.evalLog(
-        new SSEvalLogPar(
-          par,
-          par.user,
-          SSToolContextE.sss,
-          SSEvalLogE.recommTagsQuery,
-          par.entity,
-          SSStrU.toCommaSeparatedStrNotNull(par.categories),  //content
-          null, //entities,
-          SSUri.asListNotNull(par.forUser), //users,
-          null, //creationTime
-          par.shouldCommit));
-      
+      final SSRecommTagsPar       par    = (SSRecommTagsPar) parA.getFromClient(clientType, parA, SSRecommTagsPar.class);
       final List<SSTagLikelihood> result = recommTags(par);
       final SSRecommTagsRet       ret    = SSRecommTagsRet.get(result);
-      
-      String tagRecommStrResult = new String();
-      
-      tagRecommStrResult += result.stream().map((tagLikelihood) ->
-        tagLikelihood.getLabel()        +
-          SSStrU.colon                  +
-          tagLikelihood.getLikelihood() +
-          SSStrU.comma).reduce(
-            tagRecommStrResult,
-            String::concat);
-      
-      tagRecommStrResult = SSStrU.removeTrailingString(tagRecommStrResult, SSStrU.comma);
-      
-      evalServ.evalLog(
-        new SSEvalLogPar(
-          par,
-          par.user,
-          SSToolContextE.sss,
-          SSEvalLogE.recommTagsResult,
-          par.entity,
-          tagRecommStrResult,  //content
-          null, //entities,
-          null, //users
-          null, //creationTime
-          par.shouldCommit));
       
       return ret;
     }catch(Exception error){
@@ -396,6 +356,8 @@ implements
             SSTagLabel.get(tag.getKey()),
             tag.getValue()));
       }
+      
+      evalLogTags(par, tags, par.shouldCommit);
       
       return tags;
       
@@ -540,6 +502,8 @@ implements
           break;
         }
       }
+      
+      evalLogResources(par, resources, par.shouldCommit);
       
       return resources;
     }catch(Exception error){
@@ -1125,4 +1089,124 @@ implements
       return false;
     }
   }
+  
+  private void evalLogResources(
+    final SSRecommResourcesPar       par, 
+    final List<SSResourceLikelihood> resources,
+    final boolean                    shouldCommit) throws SSErr{
+    
+    try{
+     
+      final SSEvalLogPar evalLogPar =
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.recommResources,
+          par.entity, // entity
+          null, //content
+          null, //entities
+          SSUri.asListNotNull(par.forUser), //users
+          new Date().getTime(), //creationTime
+          shouldCommit);
+      
+      evalLogPar.query  = SSStrU.empty;
+      evalLogPar.result = SSStrU.empty;
+      
+      final String categories = 
+        SSStrU.toCommaSeparatedStrNotNull(
+          SSStrU.escapeColonSemiColonComma(par.categories));
+      
+      final String realm = 
+        SSStrU.escapeColonSemiColonComma(par.realm);
+      
+      evalLogPar.query += SSVarNames.forEntity                         + SSStrU.colon + par.entity                                               + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.forUser                           + SSStrU.colon + par.forUser                                              + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.typesToRecommOnly                 + SSStrU.colon + SSStrU.toCommaSeparatedStrNotNull(par.typesToRecommOnly) + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.categories                        + SSStrU.colon + categories                                               + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.includeOwn                        + SSStrU.colon + par.includeOwn                                           + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.maxResources                      + SSStrU.colon + par.maxResources                                         + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.realm                             + SSStrU.colon + realm                                                    + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.ignoreAccessRights                + SSStrU.colon + par.ignoreAccessRights                                   + evalLogPar.creationTime;
+      
+      for(SSResourceLikelihood resource : resources){
+        evalLogPar.result += SSStrU.escapeColonSemiColonComma(resource.resource.label) + SSStrU.colon + resource.likelihood + SSStrU.comma;
+      }
+      
+      evalServ.evalLog(evalLogPar);
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default: {
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  private void evalLogTags(
+    final SSRecommTagsPar       par, 
+    final List<SSTagLikelihood> tags,
+    final boolean               shouldCommit) throws SSErr{
+    
+    try{
+     
+      final SSEvalLogPar evalLogPar =
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.recommTags,
+          par.entity, // entity
+          null, //content
+          null, //entities
+          SSUri.asListNotNull(par.forUser), //users
+          new Date().getTime(), //creationTime
+          shouldCommit);
+      
+      evalLogPar.query  = SSStrU.empty;
+      evalLogPar.result = SSStrU.empty;
+      
+      final String categories = 
+        SSStrU.toCommaSeparatedStrNotNull(
+          SSStrU.escapeColonSemiColonComma(par.categories));
+      
+      final String realm = 
+        SSStrU.escapeColonSemiColonComma(par.realm);
+      
+      evalLogPar.query += SSVarNames.forEntity                         + SSStrU.colon + par.entity                                             + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.forUser                           + SSStrU.colon + par.forUser                                            + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.categories                        + SSStrU.colon + categories                                             + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.includeOwn                        + SSStrU.colon + par.includeOwn                                         + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.maxTags                           + SSStrU.colon + par.maxTags                                            + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.realm                             + SSStrU.colon + realm                                                  + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.ignoreAccessRights                + SSStrU.colon + par.ignoreAccessRights                                 + evalLogPar.creationTime;
+      
+      for(SSTagLikelihood tag : tags){
+        evalLogPar.result += SSStrU.escapeColonSemiColonComma(tag.getLabel()) + SSStrU.colon + tag.getLikelihood() + SSStrU.comma;
+      }
+      
+      evalServ.evalLog(evalLogPar);
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case servInvalid: SSLogU.warn(error); break;
+        default: {
+          SSServErrReg.regErrThrow(error);
+          break;
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
 }
+

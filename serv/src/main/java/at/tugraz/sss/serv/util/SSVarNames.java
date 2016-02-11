@@ -245,6 +245,7 @@ public class SSVarNames{
   public static final String code                                           = "code";
   public static final String errClass                                       = "errClass";
   public static final String realm                                          = "realm";
+  public static final String ignoreAccessRights                             = "ignoreAccessRights";
   public static final String toolContext                                    = "toolContext";
   public static final String entityType                                     = "entityType";
   public static final String learnEpLocks                                   = "learnEpLocks";

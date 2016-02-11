@@ -22,7 +22,6 @@ package at.tugraz.sss.serv.util;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.reg.*;
-import java.net.*;
 import java.util.*;
 
 public class SSStrU{

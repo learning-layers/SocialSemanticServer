@@ -55,13 +55,6 @@ public class SSEvalLogBNP {
       
       switch(par.type){
         
-        //recomm
-        case recommTagsQuery: //seen
-        case recommTagsResult:{ //seen
-          
-          break;
-        }
-        
         //category
         case addCategory:
         case removeCategory:{
@@ -119,6 +112,12 @@ public class SSEvalLogBNP {
           break;
         }
         
+        //recomm
+        case recommResources:
+        case recommTags:{
+          break;
+        }
+        
         //organize area
         case addLearnEpVersionEntityFromRecommendedEntities: //seen
         case removeLearnEpVersionCircle: //seen
@@ -136,7 +135,7 @@ public class SSEvalLogBNP {
         }
           
         //search tab
-        case search:{
+        case search:{ //seen
           
           break;
         }
@@ -183,9 +182,9 @@ public class SSEvalLogBNP {
         }
 
         //discussions
-        case changeDiscContent:
+        case changeDiscContent: //seen
         case changeDiscEntryContent:
-        case read:
+        case read: //seen
         case createDisc: //seen
         case addDiscTargets: //seen
         case addDiscEntry:  //seen
@@ -214,10 +213,10 @@ public class SSEvalLogBNP {
         case openDiscussionTool:  //seen
         case openLivingDocuments:  //seen
         case closeDiscussionTool:  //seen
-        case startDiscussionTool: 
+        case startDiscussionTool: //seen
         case startBitsAndPieces:  //seen
         case worksInBitsAndPieces: //seen 
-        case worksInDiscussionTool:{
+        case worksInDiscussionTool:{ //seen
           
           break;
         }
