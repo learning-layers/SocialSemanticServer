@@ -120,23 +120,73 @@ public class SSDataImportServ extends SSServContainerI{
       return;
     }
     
-    if(dataImportConf.executeScheduleAtStartUp){
-      
-      for(String scheduleOp : dataImportConf.scheduleOps){
-        
-        if(SSStrU.equals(scheduleOp, SSVarNames.dataImportBitsAndPieces)){
-          scheduleNowDataImportBitsAndPieces();
-        }
-      }
-    }
+    final SSEvernoteConf evernoteConf = SSCoreConf.instGet().getEvernote();
+    final SSServPar      servPar      = new SSServPar(null);
+    Date                 startDate;
     
-    for(int counter = 0; counter < dataImportConf.scheduleOps.size(); counter++){
+    for(int scheduleOpsCounter = 0; scheduleOpsCounter < dataImportConf.scheduleOps.size(); scheduleOpsCounter++){
       
-      if(SSStrU.equals(dataImportConf.scheduleOps.get(counter), SSVarNames.dataImportBitsAndPieces)){
+      if(SSStrU.equals(dataImportConf.scheduleOps.get(scheduleOpsCounter), SSVarNames.dataImportBitsAndPieces)){
         
-        scheduleWithFixedDelayDataImportBitsAndPieces(
-          SSDateU.getDatePlusMinutes(conf.scheduleIntervals.get(counter)),
-          conf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
+        if(dataImportConf.executeScheduleAtStartUp){
+          startDate = new Date();
+        }else{
+          startDate = SSDateU.getDatePlusMinutes(conf.scheduleIntervals.get(scheduleOpsCounter));
+        }
+        
+        for(int counter = 0; counter < SSCoreConf.instGet().getEvernote().getAuthTokens().size(); counter++){
+          
+          try{
+            
+            SSServReg.regScheduler(
+              SSDateU.scheduleWithFixedDelay(
+                new SSDataImportBitsAndPiecesTask(
+                  new SSDataImportBitsAndPiecesPar(
+                    servPar,
+                    SSConf.systemUserUri,
+                    evernoteConf.getAuthTokens().get(counter),
+                    evernoteConf.getAuthEmails().get(counter),
+                    null,
+                    null,
+                    null,
+                    true, //importEvernote,
+                    false, //importEmail,
+                    true, //withUserRestriction,
+                    true)), //shouldCommit
+                startDate,
+                conf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds));
+            
+          }catch(Exception error){
+            SSLogU.err(error);
+          }
+        }
+        
+        for(int counter = 0; counter < evernoteConf.getEmailInEmails().size(); counter++){
+          
+          try{
+            
+            SSServReg.regScheduler(
+              SSDateU.scheduleWithFixedDelay(
+                new SSDataImportBitsAndPiecesTask(
+                  new SSDataImportBitsAndPiecesPar(
+                    servPar,
+                    SSConf.systemUserUri,
+                    evernoteConf.getAuthTokens().get(counter),
+                    evernoteConf.getAuthEmails().get(counter),
+                    evernoteConf.getEmailInUsers().get(counter),
+                    evernoteConf.getEmailInPasswords().get(counter),
+                    evernoteConf.getEmailInEmails().get(counter),
+                    false, //importEvernote,
+                    true, //importEmail,
+                    true, //withUserRestriction,
+                    true)), //shouldCommit
+                startDate,
+                conf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds));
+            
+          }catch(Exception error){
+            SSLogU.err(error);
+          }
+        }
       }
     }
   }
@@ -146,133 +196,5 @@ public class SSDataImportServ extends SSServContainerI{
     final SSCoreConfA coreConfA,
     final List<Class> configuredServs) throws SSErr{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-  
-  private void scheduleNowDataImportBitsAndPieces(){
-    
-    try{
-      
-      final SSEvernoteConf evernoteConf = SSCoreConf.instGet().getEvernote();
-      final SSServPar      servPar      = new SSServPar(null);
-     
-      for(int counter = 0; counter < SSCoreConf.instGet().getEvernote().getAuthTokens().size(); counter++){
-        
-        try{
-          
-          SSServReg.regScheduler(
-            SSDateU.scheduleNow(
-              new SSDataImportBitsAndPiecesTask(
-                new SSDataImportBitsAndPiecesPar(
-                  servPar,
-                  SSConf.systemUserUri,
-                  evernoteConf.getAuthTokens().get(counter),
-                  evernoteConf.getAuthEmails().get(counter),
-                  null,
-                  null,
-                  null,
-                  true, //importEvernote,
-                  false, //importEmail,
-                  true, //withUserRestriction,
-                  true)))); //shouldCommit
-          
-        }catch(Exception error){
-          SSLogU.err(error);
-        }
-      }
-      
-      for(int counter = 0; counter < evernoteConf.getEmailInEmails().size(); counter++){
-        
-        try{
-          
-          SSServReg.regScheduler(
-            SSDateU.scheduleNow(
-              new SSDataImportBitsAndPiecesTask(
-                new SSDataImportBitsAndPiecesPar(
-                  servPar,
-                  SSConf.systemUserUri,
-                  evernoteConf.getAuthTokens().get(counter),
-                  evernoteConf.getAuthEmails().get(counter),
-                  evernoteConf.getEmailInUsers().get(counter),
-                  evernoteConf.getEmailInPasswords().get(counter),
-                  evernoteConf.getEmailInEmails().get(counter),
-                  false, //importEvernote,
-                  true, //importEmail,
-                  true, //withUserRestriction,
-                  true)))); //shouldCommit
-          
-        }catch(Exception error){
-          SSLogU.err(error);
-        }
-      }
-      
-    }catch(Exception error){
-      SSLogU.err(error);
-    }
-  }
-  
-  private void scheduleWithFixedDelayDataImportBitsAndPieces(final Date startDate, final long timeBetween){
-    
-    try{
-      
-      final SSEvernoteConf evernoteConf = SSCoreConf.instGet().getEvernote();
-      final SSServPar      servPar      = new SSServPar(null);
-      
-      for(int counter = 0; counter < SSCoreConf.instGet().getEvernote().getAuthTokens().size(); counter++){
-        
-        try{
-          
-          SSServReg.regScheduler(
-            SSDateU.scheduleWithFixedDelay(
-              new SSDataImportBitsAndPiecesTask(
-                new SSDataImportBitsAndPiecesPar(
-                  servPar,
-                  SSConf.systemUserUri,
-                  evernoteConf.getAuthTokens().get(counter),
-                  evernoteConf.getAuthEmails().get(counter),
-                  null,
-                  null,
-                  null,
-                  true, //importEvernote,
-                  false, //importEmail,
-                  true, //withUserRestriction,
-                  true)), //shouldCommit
-              startDate,
-              timeBetween));
-          
-        }catch(Exception error){
-          SSLogU.err(error);
-        }
-      }
-      
-      for(int counter = 0; counter < evernoteConf.getEmailInEmails().size(); counter++){
-        
-        try{
-          
-          SSServReg.regScheduler(
-            SSDateU.scheduleWithFixedDelay(
-              new SSDataImportBitsAndPiecesTask(
-                new SSDataImportBitsAndPiecesPar(
-                  servPar,
-                  SSConf.systemUserUri,
-                  evernoteConf.getAuthTokens().get(counter),
-                  evernoteConf.getAuthEmails().get(counter),
-                  evernoteConf.getEmailInUsers().get(counter),
-                  evernoteConf.getEmailInPasswords().get(counter),
-                  evernoteConf.getEmailInEmails().get(counter),
-                  false, //importEvernote,
-                  true, //importEmail,
-                  true, //withUserRestriction,
-                  true)), //shouldCommit
-              startDate,
-              timeBetween));
-          
-        }catch(Exception error){
-          SSLogU.err(error);
-        }
-      }
-      
-    }catch(Exception error){
-      SSLogU.err(error);
-    }
   }
 }

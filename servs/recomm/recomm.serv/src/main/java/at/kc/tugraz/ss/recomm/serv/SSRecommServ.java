@@ -31,8 +31,6 @@ import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommLoadUserRealmsPar;
 import at.kc.tugraz.ss.recomm.impl.SSRecommImpl;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkTask;
-import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkUserRealmsFromCirclesTask;
-import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkUserRealmsFromConfTask;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
@@ -145,41 +143,28 @@ public class SSRecommServ extends SSServContainerI{
       return;
     }
     
-    if(recommConf.executeScheduleAtStartUp){
-      
-      for(String scheduleOp : recommConf.scheduleOps){
-        
-        if(SSStrU.equals(scheduleOp, SSVarNames.recommUpdate)){
-          
-          SSServReg.regScheduler(
-            SSDateU.scheduleNow(
-              new SSRecommUpdateBulkTask (recommConf)));
-          
-//          SSServReg.regScheduler(
-//            SSDateU.scheduleNow(
-//              new SSRecommUpdateBulkUserRealmsFromConfTask()));
-//          
-//          SSServReg.regScheduler(
-//            SSDateU.scheduleNow(
-//              new SSRecommUpdateBulkUserRealmsFromCirclesTask()));
-        }
-      }
-    }
+    java.util.Date startDate;
     
     for(int counter = 0; counter < recommConf.scheduleOps.size(); counter++){
       
       if(SSStrU.equals(recommConf.scheduleOps.get(counter), SSVarNames.recommUpdate)){
         
+        if(recommConf.executeScheduleAtStartUp){
+          startDate = new java.util.Date();
+        }else{
+          startDate = SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter));
+        }
+        
         SSServReg.regScheduler(
           SSDateU.scheduleWithFixedDelay(
             new SSRecommUpdateBulkTask(recommConf),
-            SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
+            startDate,
             recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds));
         
 //        SSServReg.regScheduler(
 //          SSDateU.scheduleWithFixedDelay(
 //            new SSRecommUpdateBulkUserRealmsFromConfTask(),
-//            SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
+//            startDate,
 //            recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds));
 //        
 //        SSServReg.regScheduler(

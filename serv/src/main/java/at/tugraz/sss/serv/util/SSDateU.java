@@ -52,11 +52,19 @@ public class SSDateU{
     return scheduler;
   }
   
-  public static ScheduledExecutorService scheduleWithFixedDelay(final Runnable task, final Date startDate, final long timeBetween){
+  public static ScheduledExecutorService scheduleWithFixedDelay(
+    final Runnable task,
+    final Date     startDate,
+    final long     timeBetween){
     
-    final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+    final ScheduledExecutorService scheduler     = Executors.newSingleThreadScheduledExecutor();
+    long                           initialDelay  = startDate.getTime() - new Date().getTime();
     
-    scheduler.scheduleWithFixedDelay(task, startDate.getTime() - new Date().getTime(), timeBetween, TimeUnit.MILLISECONDS);
+    if(initialDelay < 0){
+      initialDelay = 0;
+    }
+    
+    scheduler.scheduleWithFixedDelay(task, initialDelay, timeBetween, TimeUnit.MILLISECONDS);
     
     return scheduler;
   }

@@ -89,120 +89,108 @@ implements
     this.sqlFct          = new SSDataImportSQLFct(dbSQL);
   }
   
-  private boolean addBitsAndPiecesEvernoteImport(
-    final String authToken,
-    final String authEmail) throws SSErr{
-    
-    try{
-      
-      if(!bitsAndPiecesEvernoteImportsLock.isWriteLockedByCurrentThread()){
-        bitsAndPiecesEvernoteImportsLock.writeLock().lock();
-      }
-      
-      if(bitsAndPiecesEvernoteImports.containsValue(authToken)){
-        SSLogU.warn("attempted to start B&P evernote import concurrently for " + authEmail, null);
-        return false;
-      }
-      
-      bitsAndPiecesEvernoteImports.put(Thread.currentThread(), authToken);
-      
-      return true;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return false;
-    }finally{
-      
-      if(bitsAndPiecesEvernoteImportsLock.isWriteLockedByCurrentThread()){
-        bitsAndPiecesEvernoteImportsLock.writeLock().unlock();
-      }
-    }
-  }
-  
-  private void removeBitsAndPiecesEvernoteImport(final String authToken) throws SSErr{
-    
-    try{
-      bitsAndPiecesEvernoteImportsLock.writeLock().lock();
-      
-      if(authToken != null){
-        bitsAndPiecesEvernoteImports.remove(Thread.currentThread());
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }finally{
-      
-      if(bitsAndPiecesEvernoteImportsLock.isWriteLockedByCurrentThread()){
-        bitsAndPiecesEvernoteImportsLock.writeLock().unlock();
-      }
-    }
-  }
-  
-  private boolean addBitsAndPiecesEmailImport(
-    final String authToken,
-    final String authEmail) throws SSErr{
-    
-    try{
-      
-      if(!bitsAndPiecesEmailsImportsLock.isWriteLockedByCurrentThread()){
-        bitsAndPiecesEmailsImportsLock.writeLock().lock();
-      }
-      
-      if(bitsAndPiecesEmailsImports.containsValue(authToken)){
-        SSLogU.warn("attempted to start B&P evernote import concurrently for " + authEmail, null);
-        return false;
-      }
-      
-      bitsAndPiecesEmailsImports.put(Thread.currentThread(), authToken);
-      
-      return true;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return false;
-    }finally{
-      
-      if(bitsAndPiecesEmailsImportsLock.isWriteLockedByCurrentThread()){
-        bitsAndPiecesEmailsImportsLock.writeLock().unlock();
-      }
-    }
-  }
-  
-  private void removeBitsAndPiecesEmailImport(final String authToken) throws SSErr{
-    
-    try{
-      bitsAndPiecesEmailsImportsLock.writeLock().lock();
-      
-      if(authToken != null){
-        bitsAndPiecesEmailsImports.remove(Thread.currentThread());
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }finally{
-      
-      if(bitsAndPiecesEmailsImportsLock.isWriteLockedByCurrentThread()){
-        bitsAndPiecesEmailsImportsLock.writeLock().unlock();
-      }
-    }
-  }
+//  private boolean addBitsAndPiecesEvernoteImport(
+//    final String authToken,
+//    final String authEmail) throws SSErr{
+//    
+//    try{
+//      
+//      if(!bitsAndPiecesEvernoteImportsLock.isWriteLockedByCurrentThread()){
+//        bitsAndPiecesEvernoteImportsLock.writeLock().lock();
+//      }
+//      
+//      if(bitsAndPiecesEvernoteImports.containsValue(authToken)){
+//        SSLogU.warn("attempted to start B&P evernote import concurrently for " + authEmail, null);
+//        return false;
+//      }
+//      
+//      bitsAndPiecesEvernoteImports.put(Thread.currentThread(), authToken);
+//      
+//      return true;
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return false;
+//    }finally{
+//      
+//      if(bitsAndPiecesEvernoteImportsLock.isWriteLockedByCurrentThread()){
+//        bitsAndPiecesEvernoteImportsLock.writeLock().unlock();
+//      }
+//    }
+//  }
+//  
+//  private void removeBitsAndPiecesEvernoteImport(final String authToken) throws SSErr{
+//    
+//    try{
+//      bitsAndPiecesEvernoteImportsLock.writeLock().lock();
+//      
+//      if(authToken != null){
+//        bitsAndPiecesEvernoteImports.remove(Thread.currentThread());
+//      }
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }finally{
+//      
+//      if(bitsAndPiecesEvernoteImportsLock.isWriteLockedByCurrentThread()){
+//        bitsAndPiecesEvernoteImportsLock.writeLock().unlock();
+//      }
+//    }
+//  }
+//  
+//  private boolean addBitsAndPiecesEmailImport(
+//    final String authToken,
+//    final String authEmail) throws SSErr{
+//    
+//    try{
+//      
+//      if(!bitsAndPiecesEmailsImportsLock.isWriteLockedByCurrentThread()){
+//        bitsAndPiecesEmailsImportsLock.writeLock().lock();
+//      }
+//      
+//      if(bitsAndPiecesEmailsImports.containsValue(authToken)){
+//        SSLogU.warn("attempted to start B&P evernote import concurrently for " + authEmail, null);
+//        return false;
+//      }
+//      
+//      bitsAndPiecesEmailsImports.put(Thread.currentThread(), authToken);
+//      
+//      return true;
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return false;
+//    }finally{
+//      
+//      if(bitsAndPiecesEmailsImportsLock.isWriteLockedByCurrentThread()){
+//        bitsAndPiecesEmailsImportsLock.writeLock().unlock();
+//      }
+//    }
+//  }
+//  
+//  private void removeBitsAndPiecesEmailImport(final String authToken) throws SSErr{
+//    
+//    try{
+//      bitsAndPiecesEmailsImportsLock.writeLock().lock();
+//      
+//      if(authToken != null){
+//        bitsAndPiecesEmailsImports.remove(Thread.currentThread());
+//      }
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }finally{
+//      
+//      if(bitsAndPiecesEmailsImportsLock.isWriteLockedByCurrentThread()){
+//        bitsAndPiecesEmailsImportsLock.writeLock().unlock();
+//      }
+//    }
+//  }
   
   @Override
   public boolean dataImportBitsAndPieces(final SSDataImportBitsAndPiecesPar par) throws SSErr{
     
     try{
-      
-      if(
-        par.importEvernote &&
-        !addBitsAndPiecesEvernoteImport(par.authToken, par.authEmail)){
-        return false;
-      }
-      
-      if(
-        par.importEmails &&
-        !addBitsAndPiecesEmailImport(par.authToken, par.authEmail)){
-        return false;
-      }
       
       final SSEntityServerI   entityServ      = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
       final SSUEServerI       ueServ          = (SSUEServerI)       SSServReg.getServ(SSUEServerI.class);
@@ -211,7 +199,6 @@ implements
       final SSEvernoteServerI evernoteServ    = (SSEvernoteServerI) SSServReg.getServ(SSEvernoteServerI.class);
       final SSTagServerI      tagServ         = (SSTagServerI)      SSServReg.getServ(SSTagServerI.class);
       final SSEvalServerI     evalServ        = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
-      boolean                 worked          = true;
       SSUri                   userUri         = null;
       
       try{
@@ -231,36 +218,22 @@ implements
               false)); //shouldCommit
         
         dbSQL.commit(par, par.shouldCommit);
-      }catch(SSErr error){
+      }catch(Exception error){
         
-        worked = false;
+        SSLogU.err(error);
         
-        switch(error.code){
-          
-          case sqlDeadLock:{
-            
-            try{
-              dbSQL.rollBack(par, par.shouldCommit);
-              SSLogU.err(error);
-            }catch(Exception error2){
-              SSLogU.err(error2);
-            }
-            
-            break;
-          }
-          
-          default:{
-            SSLogU.err(error);
-            break;
-          }
+        try{
+          dbSQL.rollBack(par, par.shouldCommit);
+        }catch(Exception error2){
+          SSLogU.err(error2);
         }
         
-      }catch(Exception error){
-        worked = false;
-        SSLogU.err(error);
+        return false;
       }
       
-      if(worked && par.importEvernote){
+      boolean worked = true;
+      
+      if(par.importEvernote){
         
         try{
           
@@ -278,33 +251,18 @@ implements
             userUri).handle(par);
           
           dbSQL.commit(par, par.shouldCommit);
-        }catch(SSErr error){
-          
-          worked = false;
-          
-          switch(error.code){
-            
-            case sqlDeadLock:{
-              
-              try{
-                dbSQL.rollBack(par, par.shouldCommit);
-                SSLogU.err(error);
-              }catch(Exception error2){
-                SSLogU.err(error2);
-              }
-              
-              break;
-            }
-            
-            default:{
-              SSLogU.err(error);
-              break;
-            }
-          }
           
         }catch(Exception error){
+          
           worked = false;
+          
           SSLogU.err(error);
+          
+          try{
+            dbSQL.rollBack(par, par.shouldCommit);
+          }catch(Exception error2){
+            SSLogU.err(error2);
+          }
         }
       }
       
@@ -328,54 +286,25 @@ implements
           
           dbSQL.commit(par, par.shouldCommit);
           
-        }catch(SSErr error){
-          
-          worked = false;
-          
-          switch(error.code){
-            
-            case sqlDeadLock:{
-              
-              try{
-                dbSQL.rollBack(par, par.shouldCommit);
-                SSLogU.err(error);
-              }catch(Exception error2){
-                SSLogU.err(error2);
-              }
-              
-              break;
-            }
-            
-            default:{
-              SSLogU.err(error);
-              break;
-            }
-          }
-          
         }catch(Exception error){
+          
           worked = false;
+          
           SSLogU.err(error);
+          
+          try{
+            dbSQL.rollBack(par, par.shouldCommit);
+          }catch(Exception error2){
+            SSLogU.err(error2);
+          }
         }
       }
       
       return worked;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
-    }finally{
-      
-      try{
-        
-        if(par.importEvernote){
-          removeBitsAndPiecesEvernoteImport(par.authToken);
-        }
-        
-        if(par.importEmails){
-          removeBitsAndPiecesEmailImport(par.authToken);
-        }
-      }catch(Exception error){
-        SSLogU.err(error, "removing evernote import thread failed");
-      }
     }
   }
   

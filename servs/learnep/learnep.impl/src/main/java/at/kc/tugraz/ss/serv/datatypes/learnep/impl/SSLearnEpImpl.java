@@ -480,7 +480,7 @@ implements
         }
       }
       
-      final List<SSUri> learnEpURIs   = new ArrayList<>();
+      final List<SSUri> learnEpURIs = new ArrayList<>();
       
       if(par.forUser == null){
         learnEpURIs.addAll(sql.getLearnEpURIs(par));
@@ -816,15 +816,12 @@ implements
         par.user,
         par.learnEp);
       
-      final SSUri result = learnEpVersionCreate(par);
-      
-      return SSLearnEpVersionCreateRet.get(result);
+      return SSLearnEpVersionCreateRet.get(learnEpVersionCreate(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
-//    SSLearnEpActivityFct.createLearnEpVersion(new SSLearnEpVersionCreatePar(parA), result);
   }
   
   @Override
@@ -872,14 +869,14 @@ implements
         par.learnEp);
       
       circleServ.circleAddEntitiesToCirclesOfEntity(
-          new SSCircleAddEntitiesToCircleOfEntityPar(
-            par, 
-            par.user,
-            par.learnEp,
-            SSUri.asListNotNull(learnEpVersion), //entities
-            false, //withUserRestriction
-            false, //invokeEntityHandlers,
-            false)); //shouldCommit
+        new SSCircleAddEntitiesToCircleOfEntityPar(
+          par,
+          par.user,
+          par.learnEp,
+          SSUri.asListNotNull(learnEpVersion), //entities
+          false, //withUserRestriction
+          false, //invokeEntityHandlers,
+          false)); //shouldCommit
       
       dbSQL.commit(par, par.shouldCommit);
       
@@ -921,7 +918,6 @@ implements
       
       final SSLearnEpVersionCircleAddPar par     = (SSLearnEpVersionCircleAddPar) parA.getFromClient(clientType, parA, SSLearnEpVersionCircleAddPar.class);
       final SSUri                        learnEp = sql.getLearnEpForVersion(par, par.learnEpVersion);
-      
       final SSUri                        newCircle;
       
       SSLearnEpAccessController.checkHasLock(
@@ -1335,17 +1331,13 @@ implements
       userCommons.checkKeyAndSetUser(parA);
       
       final SSLearnEpCreatePar par = (SSLearnEpCreatePar) parA.getFromClient(clientType, parA, SSLearnEpCreatePar.class);
-      
-      final SSUri learnEp = learnEpCreate(par);
 
-      return SSLearnEpCreateRet.get(learnEp);
+      return SSLearnEpCreateRet.get(learnEpCreate(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
-    
-//    SSLearnEpActivityFct.createLearnEp(new SSLearnEpCreatePar(parA), learnEp);
   }
   
   @Override
@@ -1978,8 +1970,7 @@ implements
     
     try{
       
-      final List<SSEntity> circles = new ArrayList<>();
-      
+      final List<SSEntity>   circles = new ArrayList<>();
       final SSLearnEpVersion version =
         learnEpVersionGet(
           new SSLearnEpVersionGetPar(
@@ -1995,6 +1986,7 @@ implements
       
       SSLearnEpCircle circle;
       SSLearnEpEntity entity;
+      
       double first, firstDivisor, second, secondDivisor, firstResult, secondResult, result;
       
       for(SSEntity circleEntity : version.learnEpCircles){
@@ -2132,7 +2124,6 @@ implements
       SSServErrReg.regErrThrow(error);
       return null;
     }
-//    SSLearnEpActivityFct.setCurrentLearnEpVersion(new SSLearnEpVersionCurrentSetPar(parA));
   }
   
   @Override

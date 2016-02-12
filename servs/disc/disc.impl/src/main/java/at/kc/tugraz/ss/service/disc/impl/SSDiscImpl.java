@@ -99,7 +99,7 @@ implements
   private final SSEntityServerI    entityServ;
   private final SSEntityServerI    circleServ;
   private final SSDiscActAndLogFct actAndLogFct;
-  private final SSUserCommons   userCommons;
+  private final SSUserCommons      userCommons;
   
   public SSDiscImpl(final SSConfA conf) throws SSErr{
     
@@ -265,28 +265,20 @@ implements
     
     try{
       
-      final SSDiscsGetPar discsGetPar =
-        new SSDiscsGetPar(
-          servPar, 
-          null, //user
-          true, //setEntries,
-          null, //forUser,
-          null, //discs,
-          null, //target,
-          true, //withUserRestriction,
-          false); //invokeEntityHandlers
-      
-      SSUri userID;
-      
       for(String user : usersEntities.keySet()){
         
-        userID = SSUri.get(user);
+        for(SSEntity disc :
+          discsGet(
+            new SSDiscsGetPar(
+              servPar,
+              SSUri.get(user), //user
+              true, //setEntries,
+              SSUri.get(user), //forUser,
+              null, //discs,
+              null, //target,
+              true, //withUserRestriction,
+              false))){ //invokeEntityHandlers
         
-        discsGetPar.user    = userID;
-        discsGetPar.forUser = userID;
-        
-        for(SSEntity disc : discsGet(discsGetPar)){
-          
           usersEntities.get(user).add(
             new SSEntityContext(
               disc.id,
@@ -734,7 +726,12 @@ implements
       
       if(par.withUserRestriction){
         
-        isAuthor = sql.isUserAuthor(par, par.user, par.disc, par.withUserRestriction);
+        isAuthor = 
+          sql.isUserAuthor(
+            par, 
+            par.user, 
+            par.disc, 
+            par.withUserRestriction);
         
         if(!isAuthor){
           par.label   = null;
@@ -865,9 +862,7 @@ implements
       
       final SSDiscEntryUpdatePar par = (SSDiscEntryUpdatePar) parA.getFromClient(clientType, parA, SSDiscEntryUpdatePar.class);
       
-      final SSDiscEntryUpdateRet ret = discEntryUpdate(par);
-      
-      return ret;
+      return discEntryUpdate(par);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -1254,7 +1249,8 @@ implements
         }
       }
       
-      final List<SSEntity> discs      = new ArrayList<>();
+      final List<SSUri>    discURIsToQuery = new ArrayList<>();
+      final List<SSEntity> discs           = new ArrayList<>();
       final SSDiscGetPar   discGetPar =
         new SSDiscGetPar(
           par, 
@@ -1274,12 +1270,10 @@ implements
       
       if(!par.targets.isEmpty()){
         
-        par.discs.clear();
-        
         for(SSUri target : par.targets){
           
           SSUri.addDistinctWithoutNull(
-            par.discs,
+            discURIsToQuery,
             sql.getDiscURIsForTarget(
               par, 
               par.forUser,
@@ -1288,11 +1282,11 @@ implements
       }else{
         
         if(par.discs.isEmpty()){
-          par.discs.addAll(sql.getDiscURIs(par, par.forUser));
+          discURIsToQuery.addAll(sql.getDiscURIs(par, par.forUser));
         }
       }
       
-      for(SSUri disc : par.discs){
+      for(SSUri disc : discURIsToQuery){
         
         discGetPar.disc = disc;
         
@@ -1394,9 +1388,9 @@ implements
       
       final SSDiscTargetsAddPar par        = (SSDiscTargetsAddPar) parA.getFromClient(clientType, parA, SSDiscTargetsAddPar.class);
       final SSUri               discussion = discTargetsAdd(par);
-      final SSDiscTargetsAddRet ret        = SSDiscTargetsAddRet.get(discussion);
       
-      return ret;
+      return SSDiscTargetsAddRet.get(discussion);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -1512,7 +1506,7 @@ implements
   }
   
   private List<SSUri> getDiscAffiliatedURIs(
-    final SSServPar servPar,
+    final SSServPar    servPar,
     final SSUri        discUri) throws SSErr{
     
     try{

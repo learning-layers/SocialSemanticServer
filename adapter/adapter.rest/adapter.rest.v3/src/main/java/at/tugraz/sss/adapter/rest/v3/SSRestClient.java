@@ -25,6 +25,7 @@ import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.*;
 import at.tugraz.sss.adapter.rest.v3.app.*;
 import at.tugraz.sss.adapter.rest.v3.disc.*;
 import at.tugraz.sss.adapter.rest.v3.entity.*;
+import at.tugraz.sss.adapter.rest.v3.recomm.*;
 import at.tugraz.sss.serv.util.*;
 import java.io.*;
 import java.util.*;
@@ -44,10 +45,13 @@ public class SSRestClient {
 //  public static final  String host      = "http://test-ll.know-center.tugraz.at/";
 //  public static final  String restPath  = "eval/rest/";
   
+//    public static final  String host      = "http://test-ll.know-center.tugraz.at/";
+//    public static final  String restPath  = "test/rest/";
+  
 //  public static final SSAuthEnum  authMethod = SSAuthEnum.oidc;
   public static final SSAuthEnum  authMethod = SSAuthEnum.csvFileAuth;
   
-  private final String oidcToken = "";
+  private final String oidcToken = "eyJhbGciOiJSUzI1NiJ9.eyJleHAiOjE0NTUyOTI2OTIsImF1ZCI6WyIwM2Q3ZGQwOS1lOTllLTQzZWEtYmQ5My1kMDY2NjE0MjZjOTUiXSwiaXNzIjoiaHR0cHM6XC9cL2FwaS5sZWFybmluZy1sYXllcnMuZXVcL29cL29hdXRoMlwvIiwianRpIjoiMTdjZWRmODUtY2NmMC00OTAxLTk2NjItMjUxYTQ0M2ZlNDFiIiwiaWF0IjoxNDU1Mjc0NjkyfQ.KgTSPc-wRdgleFP9dmazFwlgOUDmIygXT0BS_-n19rVyTYKh0bCC5l077fLQyHWwP03q-HLXdz2ow9fcIQuRxi2ahHht2kbEJYiRQmLe3s8d79eaPrQY0UGLLM1FOvI4n__EPDLhFqR2WHTvPDhIGL44mgBptzsQbEYg2QSqpn0";
   private final Client client;
   
   private String key = null;
@@ -68,7 +72,15 @@ public class SSRestClient {
       
       caller.auth();
       
-      caller.uploadFile();
+//      caller.updateRecomm(
+//        "dieter",  //realm
+//        "someEntity"); //entity
+//      
+//      caller.getUsersForEntityIgnoreAccessRights(
+//        "dieter", //realm
+//        "someEntity");//entity
+      
+//      caller.uploadFile();
 //      caller.appsGet();
 //      caller.appAdd();
       
@@ -77,7 +89,66 @@ public class SSRestClient {
 //      caller.discsGetFiltered();
       
     }catch (Exception error) {
-      SSLogU.err(error);
+      System.err.println(error);
+    }
+  }
+  
+  public void getUsersForEntityIgnoreAccessRights(
+    final String realm, 
+    final String entity){
+    
+    try{
+      
+      final WebTarget          target = client.target(host + restPath + "recomm/users/ignoreaccessrights/realm/" + realm + "/entity/" + entity);
+      final Invocation.Builder builder = target.request(MediaType.APPLICATION_JSON_TYPE);
+      
+      builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + key);
+       
+      final String         response       = builder.get(String.class);
+      
+      System.out.println("recommended users for entity (ignoring access rights)");
+      System.out.println("-----------------------------------------------------");
+      System.out.println(response);
+    }catch (Exception error) {
+      System.err.println(error);
+    }
+  }
+  
+  public void updateRecomm(
+    final String realm, 
+    final String entity){
+    
+    try{
+      
+      final WebTarget          target = client.target(host + restPath + "recomm/update");
+      final Invocation.Builder builder = target.request(MediaType.APPLICATION_JSON_TYPE);
+      
+      builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + key);
+       
+      final SSRecommUpdateRESTPar par = new SSRecommUpdateRESTPar();
+      
+      par.realm = realm;
+      
+      par.setForUser("misc");
+      par.setEntity (entity);
+      
+      par.tags = new ArrayList<>();
+      
+      par.tags.add("one");
+      par.tags.add("two");
+        
+      final String json = SSJSONU.jsonStr(par);
+      
+      System.out.println(json);
+
+      final Entity<String> formattedInput = Entity.entity(json, MediaType.APPLICATION_JSON_TYPE);
+      final String         response       = builder.put(formattedInput, String.class);
+      
+      System.out.println("updated recomm");
+      System.out.println("---------------");
+      System.out.println(response);
+    }catch (Exception error) {
+      System.err.println(error);
     }
   }
   
@@ -104,7 +175,7 @@ public class SSRestClient {
       System.out.println(response.getStatus() + " " + response.getStatusInfo()+ " " + response);
       
     }catch (Exception error) {
-      SSLogU.err(error);
+      System.err.println(error);
     }
   }
   
@@ -134,7 +205,7 @@ public class SSRestClient {
       System.out.println(response);
     
     }catch (Exception error) {
-      SSLogU.err(error);
+      System.err.println(error);
     }
   }
      
@@ -153,7 +224,7 @@ public class SSRestClient {
       System.out.println(response);
     
     }catch (Exception error) {
-      SSLogU.err(error);
+      System.err.println(error);
     }
   }
   
@@ -172,7 +243,7 @@ public class SSRestClient {
       System.out.println(response);
     
     }catch (Exception error) {
-      SSLogU.err(error);
+      System.err.println(error);
     }
   }
   
@@ -211,7 +282,7 @@ public class SSRestClient {
       System.out.println(response);
       
     }catch(Exception error){
-      SSLogU.err(error);
+      System.err.println(error);
     }
   }
   
@@ -252,7 +323,7 @@ public class SSRestClient {
       final String         response       = builder.post(formattedInput, String.class);
 
     }catch (Exception error) {
-      SSLogU.err(error);
+      System.err.println(error);
     }
   }
   
@@ -291,7 +362,7 @@ public class SSRestClient {
       key = ret.key;
       
     }catch (Exception error) {
-      SSLogU.err(error);
+      System.err.println(error);
     }
   }
 }

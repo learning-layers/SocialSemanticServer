@@ -800,7 +800,13 @@ implements
       if(
         par.descPar   == null &&
         entity.author != null){
-        entity.author = sql.getEntityTest(par, null, entity.author.id, false);
+        
+        entity.author = 
+          sql.getEntityTest(
+            par, 
+            null, 
+            entity.author.id, 
+            false);
       }
       
       if(par.descPar != null){
@@ -808,10 +814,13 @@ implements
         par.descPar.user                = par.user;
         par.descPar.withUserRestriction = par.withUserRestriction;
         
-        entity = SSServReg.inst.describeEntity(par, par.user, entity, par.descPar, par.withUserRestriction);
-//        for(SSServContainerI serv : SSServReg.inst.getServsHandlingDescribeEntity()){
-//          entity = ((SSDescribeEntityI) serv.getServImpl()).describeEntity(entity, par.descPar);
-//        }
+        entity = 
+          SSServReg.inst.describeEntity(
+            par, 
+            par.user, 
+            entity, 
+            par.descPar, 
+            par.withUserRestriction);
       }
       
       return entity;
@@ -913,7 +922,7 @@ implements
     
     try{
       
-        if(par.entity == null){
+      if(par.entity == null){
         throw SSErr.get(SSErrE.parameterMissing);
       }
       
@@ -949,17 +958,19 @@ implements
       
       dbSQL.startTrans(par, par.shouldCommit);
       
-      if(entity == null){
+      SSEntityE type = par.type;
+      
+      if(
+        entity == null &&
+        type   == null){
         
-        if(par.type == null){
-          par.type = SSEntityE.entity;
-        }
+        type = SSEntityE.entity;
       }
       
       sql.addEntityIfNotExists(
         par,
         par.entity,
-        par.type,
+        type,
         par.label,
         par.description,
         par.user,
@@ -3441,7 +3452,7 @@ implements
   }
   
   public static void addTags(
-    final SSServPar servPar,
+    final SSServPar       servPar,
     final SSUri           user,
     final List<String>    tags,
     final List<SSUri>     entities,

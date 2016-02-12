@@ -32,7 +32,7 @@ import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.util.*;
-import java.util.List;
+import java.util.*;
 
 public class SSFilerepoServ extends SSServContainerI{
   
@@ -89,27 +89,22 @@ public class SSFilerepoServ extends SSServContainerI{
       return;
     }
     
-    if(fileConf.executeScheduleAtStartUp){
-      
-      for(String scheduleOp : fileConf.scheduleOps){
-        
-        if(SSStrU.equals(scheduleOp, SSVarNames.filesDeleteNotRegistered)){
-          
-          SSServReg.regScheduler(
-            SSDateU.scheduleNow(
-              new SSFilesDeleteNotRegisteredTask (fileConf.filesDeleteNotRegisteredDirPath)));
-        }
-      }
-    }
+    Date startDate;
     
     for(int counter = 0; counter < fileConf.scheduleOps.size(); counter++){
       
       if(SSStrU.equals(fileConf.scheduleOps.get(counter), SSVarNames.filesDeleteNotRegistered)){
         
+        if(fileConf.executeScheduleAtStartUp){
+          startDate = new Date();
+        }else{
+          startDate = SSDateU.getDatePlusMinutes(fileConf.scheduleIntervals.get(counter));
+        }
+        
         SSServReg.regScheduler(
           SSDateU.scheduleWithFixedDelay(
             new SSFilesDeleteNotRegisteredTask(fileConf.filesDeleteNotRegisteredDirPath),
-            SSDateU.getDatePlusMinutes(fileConf.scheduleIntervals.get(counter)),
+            startDate,
             fileConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds));
       }
     }

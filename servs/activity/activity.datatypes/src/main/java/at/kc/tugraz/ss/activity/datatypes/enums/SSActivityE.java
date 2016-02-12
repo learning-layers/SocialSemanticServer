@@ -30,6 +30,9 @@ import io.swagger.annotations.*;
 @ApiModel
 public enum SSActivityE{
 
+  //old
+  setEntityPublic,
+  
   //friend
   friendAdd,
   

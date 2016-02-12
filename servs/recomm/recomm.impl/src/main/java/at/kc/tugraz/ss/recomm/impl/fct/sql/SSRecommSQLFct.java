@@ -82,8 +82,8 @@ public class SSRecommSQLFct extends SSCoreSQL{
 
   public void addUserRealm(
     final SSServPar servPar,
-    final SSUri  user, 
-    final String realm) throws SSErr{
+    final SSUri     user, 
+    final String    realm) throws SSErr{
     
     try{
       final Map<String, String> inserts =  new HashMap<>();

@@ -22,6 +22,7 @@ package at.tugraz.sss.adapter.rest.v3.recomm;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.util.*;
 import io.swagger.annotations.*;
 import java.util.List;
 
@@ -38,6 +39,9 @@ public class SSRecommUpdateRESTPar{
     value = "forUser")
   public SSUri       forUser     = null;
   
+  public String getForUser(){
+    return SSStrU.removeTrailingSlash(forUser);
+  }
   
   public void setForUser(final String forUser) throws SSErr{
     this.forUser = SSUri.get(forUser, SSConf.sssUri);
@@ -48,17 +52,18 @@ public class SSRecommUpdateRESTPar{
     value = "entity")
   public SSUri       entity     = null;
   
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
+  }
   
   public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity, SSConf.sssUri);
   }
   
-  
   @ApiModelProperty(
     required = false,
     value = "tags")
   public List<String>       tags     = null;
-  
   
   @ApiModelProperty(
     required = false,
