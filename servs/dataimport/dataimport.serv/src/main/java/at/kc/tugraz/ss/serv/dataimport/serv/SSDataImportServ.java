@@ -134,7 +134,7 @@ public class SSDataImportServ extends SSServContainerI{
           startDate = SSDateU.getDatePlusMinutes(conf.scheduleIntervals.get(scheduleOpsCounter));
         }
         
-        for(int counter = 0; counter < SSCoreConf.instGet().getEvernote().getAuthTokens().size(); counter++){
+        for(int counter = 0; counter < evernoteConf.getAuthTokens().size(); counter++){
           
           try{
             
@@ -154,7 +154,7 @@ public class SSDataImportServ extends SSServContainerI{
                     true, //withUserRestriction,
                     true)), //shouldCommit
                 startDate,
-                conf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds));
+                conf.scheduleIntervals.get(scheduleOpsCounter) * SSDateU.minuteInMilliSeconds));
             
           }catch(Exception error){
             SSLogU.err(error);
@@ -181,7 +181,7 @@ public class SSDataImportServ extends SSServContainerI{
                     true, //withUserRestriction,
                     true)), //shouldCommit
                 startDate,
-                conf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds));
+                conf.scheduleIntervals.get(scheduleOpsCounter) * SSDateU.minuteInMilliSeconds));
             
           }catch(Exception error){
             SSLogU.err(error);

@@ -102,7 +102,7 @@
               <!--<basePath>/bp.preparation/rest</basePath>-->
               
               <host>test-ll.know-center.tugraz.at</host>
-              <basePath>/internal/rest</basePath>
+              <basePath>/test/rest</basePath>
               
               <info>
                 <version>v3</version>
