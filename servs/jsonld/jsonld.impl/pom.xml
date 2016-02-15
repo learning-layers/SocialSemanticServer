@@ -18,7 +18,7 @@
   
   <dependencies>
   
-<dependency>
+    <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>common.impl</artifactId>
       <version>${project.version}</version>
@@ -42,48 +42,6 @@
       <version>${project.version}</version>
     </dependency>
     
-    <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>auth.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>coll.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>disc.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>filerepo.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>search.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>user.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>ue.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

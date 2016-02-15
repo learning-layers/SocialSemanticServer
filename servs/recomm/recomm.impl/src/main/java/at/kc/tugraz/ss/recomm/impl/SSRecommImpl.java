@@ -44,7 +44,6 @@ import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUsersPar;
 import at.kc.tugraz.ss.recomm.datatypes.ret.*;
 import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommResourcesFct;
 import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommUserRealmKeeper;
-import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportServerI;
@@ -93,8 +92,7 @@ implements
   SSRecommServerI{
   
   private final SSRecommConf                recommConf;
-  private final SSRecommSQLFct              sql;
-  private final SSEvalServerI               evalServ;
+  private final SSRecommSQL                 sql;
   private final SSUserCommons               userCommons;
   private final SSRecommUserRealmKeeper     userRealmKeeper;
   
@@ -103,8 +101,7 @@ implements
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
     this.recommConf       = ((SSRecommConf)conf);
-    this.sql              = new SSRecommSQLFct(dbSQL, SSConf.systemUserUri);
-    this.evalServ         = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+    this.sql              = new SSRecommSQL(dbSQL, SSConf.systemUserUri);
     this.userCommons      = new SSUserCommons();
     this.userRealmKeeper  = new SSRecommUserRealmKeeper(recommConf);
   }
@@ -1008,8 +1005,9 @@ implements
     
     try{
       
-      List<String> tags;
-      List<String> categories;
+      final SSDataExportServerI dataExportServ = (SSDataExportServerI) SSServReg.getServ(SSDataExportServerI.class);
+      List<String>              tags;
+      List<String>              categories;
       
       dbSQL.startTrans(par, par.shouldCommit);
       
@@ -1038,8 +1036,6 @@ implements
         throw new Exception("category list size differs from entity list size");
       }
       
-      final SSDataExportServerI dataExportServ = (SSDataExportServerI) SSServReg.getServ(SSDataExportServerI.class);
-        
       for(int counter = 0; counter < par.entities.size(); counter++){
 
         if(!par.tags.isEmpty()){
@@ -1106,7 +1102,8 @@ implements
     
     try{
      
-      final SSEvalLogPar evalLogPar =
+      final SSEvalServerI evalServ   = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalLogPar  evalLogPar =
         new SSEvalLogPar(
           par,
           par.user,
@@ -1167,8 +1164,8 @@ implements
     final boolean               shouldCommit) throws SSErr{
     
     try{
-     
-      final SSEvalLogPar evalLogPar =
+      final SSEvalServerI evalServ   = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalLogPar  evalLogPar =
         new SSEvalLogPar(
           par,
           par.user,

@@ -24,7 +24,6 @@ import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
-import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.entity.api.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.datatype.par.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
@@ -55,8 +54,6 @@ import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import at.tugraz.sss.serv.entity.api.SSUsersResourcesGathererI;
 import at.tugraz.sss.serv.datatype.par.SSEntityRemovePar;
-import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
-import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import at.tugraz.sss.servs.image.api.SSImageClientI;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.datatype.par.SSImageProfilePictureSetPar;
@@ -67,6 +64,8 @@ import at.tugraz.sss.servs.image.datatype.ret.SSImageAddRet;
 import at.tugraz.sss.servs.image.datatype.ret.SSImageProfilePictureSetRet;
 import at.tugraz.sss.servs.image.datatype.ret.SSImagesGetRet;
 import at.tugraz.sss.servs.image.impl.sql.SSImageSQLFct;
+import at.tugraz.sss.servs.file.api.*;
+import at.tugraz.sss.servs.file.datatype.par.*;
 import java.io.File;
 import java.util.Map;
 import javax.imageio.ImageIO;
@@ -269,7 +268,7 @@ implements
         return null;
       }
       
-      final SSFileRepoServerI fileServ = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
+      final SSFileServerI fileServ = (SSFileServerI) SSServReg.getServ(SSFileServerI.class);
       
       image = sql.getImage(par, par.image);
       
@@ -362,7 +361,7 @@ implements
         throw SSErr.get(SSErrE.parameterMissing);
       }
       
-      final SSFileRepoServerI fileServ = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
+      final SSFileServerI fileServ = (SSFileServerI) SSServReg.getServ(SSFileServerI.class);
       SSUri                   imageUri;
 
       if(par.uuid != null){

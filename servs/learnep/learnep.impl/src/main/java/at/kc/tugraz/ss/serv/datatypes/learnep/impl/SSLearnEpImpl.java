@@ -2448,7 +2448,7 @@ implements
 //
 //      SSEntity.addEntitiesDistinctWithoutNull(
 //        attachedEntities,
-//        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
+//        ((SSFileServerI) SSServReg.getServ(SSFileServerI.class)).filesGet(
 //          new SSEntityFilesGetPar(
 //            user,
 //            entity,

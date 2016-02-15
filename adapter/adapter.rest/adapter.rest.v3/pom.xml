@@ -325,7 +325,7 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>filerepo.serv</artifactId>
+      <artifactId>file.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     

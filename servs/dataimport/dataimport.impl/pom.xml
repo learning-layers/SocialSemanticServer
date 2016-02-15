@@ -56,7 +56,7 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>filerepo.api</artifactId>
+      <artifactId>file.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -92,7 +92,7 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>filerepo.conf</artifactId>
+      <artifactId>file.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     

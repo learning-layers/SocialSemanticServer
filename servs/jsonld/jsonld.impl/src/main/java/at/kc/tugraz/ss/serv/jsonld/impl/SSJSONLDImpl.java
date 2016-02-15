@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.serv.jsonld.impl;
 
-
 import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDClientI;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDServerI;
@@ -34,8 +33,6 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 
 public class SSJSONLDImpl 

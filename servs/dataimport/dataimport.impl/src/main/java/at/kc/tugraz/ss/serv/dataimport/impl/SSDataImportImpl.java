@@ -1,23 +1,23 @@
- /**
-  * Code contributed to the Learning Layers project
-  * http://www.learning-layers.eu
-  * Development is partly funded by the FP7 Programme of the European Commission under
-  * Grant Agreement FP7-ICT-318209.
-  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-  *
-  * Licensed under the Apache License, Version 2.0 (the "License");
-  * you may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at
-  *
-  * http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS,
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
-  */
+/**
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.kc.tugraz.ss.serv.dataimport.impl;
 
 import at.tugraz.sss.serv.util.SSFileU;
@@ -37,15 +37,8 @@ import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportMediaWikiUserP
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
 import at.kc.tugraz.ss.serv.dataimport.impl.bnp.SSDataImportBNPEvernoteImporter;
 import at.kc.tugraz.ss.serv.dataimport.impl.bnp.SSDataImportBNPMailImporter;
-import at.kc.tugraz.ss.serv.dataimport.impl.fct.sql.SSDataImportSQLFct;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
-import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
-import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
-import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
-import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.SSErr;
@@ -58,7 +51,6 @@ import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiProject;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgang;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgangEmployeeResource;
-import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.SSEvalLogEntry;
 
@@ -69,15 +61,15 @@ implements
   SSDataImportClientI,
   SSDataImportServerI{
   
-  private final SSDataImportConf   dataImportConf;
-  private final SSDataImportSQLFct sqlFct;
+  private final SSDataImportBNPEvernoteImporter  bnpEvernoteImporter = new SSDataImportBNPEvernoteImporter(); 
+  private final SSDataImportBNPMailImporter      bnpMailImporter     = new SSDataImportBNPMailImporter();
+  private final SSDataImportSQL                  sqlFct;
   
-  public SSDataImportImpl(final SSConfA conf) throws SSErr{
+  public SSDataImportImpl(final SSDataImportConf conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.dataImportConf  = (SSDataImportConf) conf;
-    this.sqlFct          = new SSDataImportSQLFct(dbSQL);
+    this.sqlFct = new SSDataImportSQL(dbSQL);
   }
   
   @Override
@@ -85,20 +77,14 @@ implements
     
     try{
       
-      final SSEntityServerI   entityServ      = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
-      final SSUEServerI       ueServ          = (SSUEServerI)       SSServReg.getServ(SSUEServerI.class);
-      final SSFileRepoServerI fileServ        = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
       final SSAuthServerI     authServ        = (SSAuthServerI)     SSServReg.getServ(SSAuthServerI.class);
-      final SSEvernoteServerI evernoteServ    = (SSEvernoteServerI) SSServReg.getServ(SSEvernoteServerI.class);
-      final SSTagServerI      tagServ         = (SSTagServerI)      SSServReg.getServ(SSTagServerI.class);
-      final SSEvalServerI     evalServ        = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
-      SSUri                   userUri         = null;
+      SSUri                   forUser         = null;
       
       try{
         
         dbSQL.startTrans(par, par.shouldCommit);
         
-        userUri =
+        forUser =
           authServ.authRegisterUser(
             new SSAuthRegisterUserPar(
               par,
@@ -132,16 +118,10 @@ implements
           
           dbSQL.startTrans(par, par.shouldCommit);
           
-          new SSDataImportBNPEvernoteImporter(
-            dataImportConf,
-            par,
-            entityServ,
-            fileServ,
-            evernoteServ,
-            ueServ,
-            tagServ,
-            evalServ,
-            userUri).handle(par);
+          bnpEvernoteImporter.handle(
+            par, 
+            conf.getLocalWorkPath(), 
+            forUser);
           
           dbSQL.commit(par, par.shouldCommit);
           
@@ -161,21 +141,16 @@ implements
       
       if(
         par.importEmails &&
-        userUri != null){
+        forUser != null){
         
         try{
           
           dbSQL.startTrans(par, par.shouldCommit);
           
-          new SSDataImportBNPMailImporter(
-            dataImportConf,
-            par,
-            entityServ,
-            fileServ,
-            evalServ,
-            ueServ,
-            evernoteServ,
-            userUri).handle(par);
+          bnpMailImporter.handle(
+            par, 
+            forUser, 
+            conf.getLocalWorkPath());
           
           dbSQL.commit(par, par.shouldCommit);
           
@@ -512,7 +487,7 @@ implements
         try{
           passwordPerUser.put(line[0].trim(), new SSKCProjWikiProject(line[0].trim()));
         }catch(Exception error){
-            SSLogU.warn(error);
+          SSLogU.warn(error);
         }
       }
       

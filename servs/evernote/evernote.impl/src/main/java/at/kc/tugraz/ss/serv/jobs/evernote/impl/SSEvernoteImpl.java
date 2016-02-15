@@ -42,8 +42,7 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceByHash
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUSNSetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUserAddPar;
-import at.kc.tugraz.ss.serv.jobs.evernote.impl.fct.sql.SSEvernoteSQLFct;
-import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
+import at.tugraz.sss.servs.file.api.SSFileServerI;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
@@ -76,13 +75,13 @@ implements
   SSEvernoteServerI,
   SSDescribeEntityI{
   
-  private final SSEvernoteSQLFct sqlFct;
+  private final SSEvernoteSQL sqlFct;
   
   public SSEvernoteImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sqlFct = new SSEvernoteSQLFct(dbSQL);
+    this.sqlFct = new SSEvernoteSQL(dbSQL);
   }
   
   @Override
@@ -108,7 +107,7 @@ implements
               entity);
           
           for(SSEntity file :
-            ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
+            ((SSFileServerI) SSServReg.getServ(SSFileServerI.class)).filesGet(
               new SSEntityFilesGetPar(
                 servPar,
                 par.user,
@@ -136,7 +135,7 @@ implements
               entity);
           
           for(SSEntity file :
-            ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
+            ((SSFileServerI) SSServReg.getServ(SSFileServerI.class)).filesGet(
               new SSEntityFilesGetPar(
                 servPar,
                 par.user,
@@ -567,108 +566,4 @@ implements
       return false;
     }
   }
-}  
-
-//    @Override
-//  public List<LinkedNotebook> evernoteNotebooksLinkedGet(SSServPar parA) throws SSErr{
-//
-//    try{
-//      SSEvernoteNotebooksLinkedGetPar par             = new SSEvernoteNotebooksLinkedGetPar(parA);
-//
-//			return par.noteStore.listLinkedNotebooks();
-//    }catch (Exception error){
-//			SSServErrReg.regErrThrow(error);
-//      return null;
-//		}
-//  }
-  
-  //  @Override
-//  public List<Notebook> evernoteNotebooksGet(SSServPar parA) throws SSErr {
-//
-//    try{
-//
-//      SSEvernoteNotebooksGetPar par       = new SSEvernoteNotebooksGetPar(parA);
-//
-//      return par.noteStore.listNotebooks();
-//    }catch (Exception error){
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }
-//  }
-  
-//  @Override
-//  public List<Note> evernoteNotesGet(SSServPar parA) throws SSErr {
-//
-//    try{
-//
-//      SSEvernoteNotesGetPar   par        = new SSEvernoteNotesGetPar(parA);
-//      List<Note>              notes      = new ArrayList<>();
-//      NotesMetadataResultSpec resultSpec = new NotesMetadataResultSpec();
-//      NoteFilter              noteFilter = new NoteFilter();
-//      NotesMetadataList       noteList;
-////    NoteCollectionCounts    noteCount;
-//
-//      resultSpec.setIncludeAttributes(true);
-//      resultSpec.setIncludeCreated(true);
-//      resultSpec.setIncludeDeleted(true);
-//      resultSpec.setIncludeNotebookGuid(true);
-//      resultSpec.setIncludeTitle(true);
-//      resultSpec.setIncludeUpdated(true);
-//
-//      noteFilter.setNotebookGuid(par.notebookGuid);
-//
-////      noteCount = par.noteStore.findNoteCounts    (noteFilter, false);
-//      noteList  = par.noteStore.findNotesMetadata (noteFilter, 0, 100, resultSpec);
-//
-//      for (NoteMetadata note : noteList.getNotes()) {
-//        notes.add(par.noteStore.getNote(note.getGuid(), true, true, false, false));
-//      }
-//
-//      return notes;
-//    }catch(Exception error){
-//
-//      if(
-//        error instanceof EDAMSystemException &&
-//        ((EDAMSystemException)error).getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
-//
-//        SSServErrReg.reset();
-//
-//        SSLogU.info("evernoteNotesGet goes to sleep for " + ((EDAMSystemException)error).getRateLimitDuration() + " seconds for RATE EXCEPTION");
-//
-//        Thread.sleep(((EDAMSystemException)error).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
-//
-//        return evernoteNotesGet (parA);
-//      }
-//
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }
-//  }
-//
-//  @Override
-//  public List<Note> evernoteNotesLinkedGet(final SSServPar parA) throws SSErr{
-//
-//    try{
-//      final SSEvernoteNotesLinkedGetPar par       = new SSEvernoteNotesLinkedGetPar(parA);
-//      final SyncChunk                   synChunk  = par.noteStore.getLinkedNotebookSyncChunk(par.linkedNotebook, 0, 256, true);
-//
-//      return synChunk.getNotes();
-//
-//    }catch (Exception error){
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }
-//  }
-// @Override
-//  public String evernoteUsersAuthTokenGet(final SSServPar parA) throws SSErr{
-//
-//    try{
-//      final SSEvernoteUsersAuthTokenGetPar par = new SSEvernoteUsersAuthTokenGetPar(parA);
-//
-//      return sqlFct.getAuthToken(par.user);
-//
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }
-//}
+}

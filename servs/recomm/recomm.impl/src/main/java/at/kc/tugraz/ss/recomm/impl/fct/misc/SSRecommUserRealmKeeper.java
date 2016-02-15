@@ -24,7 +24,7 @@ import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.recomm.datatypes.SSRecommUserRealmEngine;
-import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
+import at.kc.tugraz.ss.recomm.impl.SSRecommSQL;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
@@ -44,20 +44,15 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class SSRecommUserRealmKeeper{
   
-  private static final Map<String, List<SSRecommUserRealmEngine>> userRealmEngines   = new HashMap<>();
-  private static final ReentrantReadWriteLock                     engineLock         = new ReentrantReadWriteLock();  
-  
-  private final SSRecommConf conf;
+  private final Map<String, List<SSRecommUserRealmEngine>> userRealmEngines   = new HashMap<>();
+  private final ReentrantReadWriteLock                     engineLock         = new ReentrantReadWriteLock();  
+  private final SSRecommConf                               conf;
 
   public SSRecommUserRealmKeeper(
     final SSRecommConf conf){
     
     this.conf = conf;
   }
-  
-//  public static Collection<SSRecommUserRealmEngine> getUserRealmEngines(){
-//    return userRealmEngines.values();
-//  }
   
   public SSRecommUserRealmEngine checkAddAndGetUserRealmEngine(
     final SSServPar       servPar,
@@ -66,7 +61,7 @@ public class SSRecommUserRealmKeeper{
     String                realm,
     final boolean         checkForUpdate,
     final EngineInterface engine, 
-    final SSRecommSQLFct  sqlFct,
+    final SSRecommSQL  sqlFct,
     final boolean         storeToDB) throws SSErr{
     
     try{
@@ -311,4 +306,8 @@ public class SSRecommUserRealmKeeper{
 //        engineLock.writeLock().unlock();
 //      }
 //    }
+//  }
+
+//  public static Collection<SSRecommUserRealmEngine> getUserRealmEngines(){
+//    return userRealmEngines.values();
 //  }

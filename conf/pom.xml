@@ -199,7 +199,7 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>filerepo.conf</artifactId>
+      <artifactId>file.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     

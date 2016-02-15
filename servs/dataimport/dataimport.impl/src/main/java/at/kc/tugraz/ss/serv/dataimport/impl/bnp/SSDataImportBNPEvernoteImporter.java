@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.serv.dataimport.impl.bnp;
 
 import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportActAndLog;
-import at.kc.tugraz.ss.serv.dataimport.conf.*;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.util.SSLinkU;
 import at.tugraz.sss.serv.util.*;
@@ -31,7 +30,6 @@ import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
 import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteNoteContentHandler;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteGetPar;
@@ -42,7 +40,7 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotebooksShare
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUSNSetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUserAddPar;
-import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
+import at.tugraz.sss.servs.file.api.SSFileServerI;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
@@ -51,11 +49,10 @@ import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEsGetPar;
 import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.SSFileExtE;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.SSMimeTypeE;
-import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
@@ -65,70 +62,34 @@ import com.evernote.edam.type.SharedNotebook;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import sss.serv.eval.api.SSEvalServerI;
 
 public class SSDataImportBNPEvernoteImporter {
   
-  private final SSDataImportBitsAndPiecesPar     par;
-  private final SSFileRepoServerI                fileServ;
-  private final SSEvernoteServerI                evernoteServ;
-  private final SSUEServerI                      ueServ;
-  private final SSTagServerI                     tagServ;
-  private final SSUri                            userUri;
-  private final SSDataImportBNPCommon miscFct;
-  private final SSDataImportConf                 conf;
-  private final SSDataImportActAndLog         actAndLogFct;
-  private final List<String>                     sharedNotebookGuids      = new ArrayList<>();
-  private       SSEvernoteInfo                   evernoteInfo             = null;
-  private       List<SharedNotebook>             sharedNotebooks          = null;
+  private final SSDataImportBNPCommon                  common                     = new SSDataImportBNPCommon();
+  private final SSDataImportActAndLog                  actAndLog                  = new SSDataImportActAndLog();
+  private final SSDataImportEvernoteNoteContentHandler evernoteNoteContentHandler = new SSDataImportEvernoteNoteContentHandler();
+  private final List<String>                           sharedNotebookGuids        = new ArrayList<>();
+  private       SSEvernoteInfo                         evernoteInfo             = null;
+  private       List<SharedNotebook>                   sharedNotebooks          = null;
   
-  public SSDataImportBNPEvernoteImporter(
-    final SSDataImportConf             conf,
+  public void handle(
     final SSDataImportBitsAndPiecesPar par, 
-    final SSEntityServerI              entityServ,
-    final SSFileRepoServerI            fileServ,
-    final SSEvernoteServerI            evernoteServ,
-    final SSUEServerI                  ueServ,
-    final SSTagServerI                 tagServ,
-    final SSEvalServerI                evalServ,
-    final SSUri                        userUri) throws SSErr{
-    
-    this.conf            = conf;
-    this.par             = par;
-    this.fileServ        = fileServ;
-    this.evernoteServ    = evernoteServ;
-    this.ueServ          = ueServ;
-    this.tagServ         = tagServ;
-    this.userUri         = userUri;
-    
-    this.miscFct =
-      new SSDataImportBNPCommon(
-        entityServ,
-        evernoteServ,
-        ueServ,
-        evalServ,
-        userUri);
-    
-    this.actAndLogFct    =
-      new SSDataImportActAndLog(
-        evalServ);
-  }
-  
-  public void handle(final SSServPar servPar) throws SSErr{
+    final String                       localWorkPath,
+    final SSUri                        forUser) throws SSErr{
     
     try{
   
-      SSLogU.info("start B&P evernote import for " +  par.authEmail);
+      SSLogU.info("start B&P evernote import for " + par.authEmail);
       
-      setBasicEvernoteInfo  (servPar);
+      setBasicEvernoteInfo  (par, forUser);
       
-      handleLinkedNotebooks (servPar);
-      setSharedNotebooks    (servPar);
-      handleNotebooks       (servPar);
-      handleNotes           (servPar);
-      handleResources       (servPar);
+      handleLinkedNotebooks (par, forUser);
+      setSharedNotebooks    (par, forUser);
+      handleNotebooks       (par, forUser);
+      handleNotes           (par, localWorkPath, forUser);
+      handleResources       (par, forUser);
       
-      setUSN(servPar);
+      setUSN(par, forUser);
       
       SSLogU.info("end B&P evernote import for evernote account " + par.authEmail);
       
@@ -138,14 +99,17 @@ public class SSDataImportBNPEvernoteImporter {
     }
   }
   
-  private void setBasicEvernoteInfo(final SSServPar servPar) throws SSErr{
+  private void setBasicEvernoteInfo(
+    final SSDataImportBitsAndPiecesPar par, 
+    final SSUri                        forUser) throws SSErr{
     
     try{
+      final SSEvernoteServerI evernoteServ  = (SSEvernoteServerI) SSServReg.getServ(SSEvernoteServerI.class);
       
       evernoteInfo =
         evernoteServ.evernoteNoteStoreGet(
           new SSEvernoteNoteStoreGetPar(
-            servPar,
+            par,
             par.user,
             par.authToken,
             par.authEmail));
@@ -154,8 +118,8 @@ public class SSDataImportBNPEvernoteImporter {
       
       evernoteServ.evernoteUserAdd(
         new SSEvernoteUserAddPar(
-          servPar,
-          this.userUri,
+          par,
+          forUser,
           par.authToken,
           false));
       
@@ -164,144 +128,183 @@ public class SSDataImportBNPEvernoteImporter {
     }
   }
   
-  private void setUSN(final SSServPar servPar) throws SSErr{
+  private void setUSN(
+    final SSDataImportBitsAndPiecesPar par, 
+    final SSUri                        forUser) throws SSErr{
     
-    final Integer usn;
-    
-    if(evernoteInfo.noteStoreSyncChunk.isSetChunkHighUSN()){
-      usn = evernoteInfo.noteStoreSyncChunk.getChunkHighUSN();
-    }else{
-      if(evernoteInfo.noteStoreSyncChunk.isSetUpdateCount()){
-        usn = evernoteInfo.noteStoreSyncChunk.getUpdateCount();
+    try{
+      final SSEvernoteServerI evernoteServ  = (SSEvernoteServerI) SSServReg.getServ(SSEvernoteServerI.class);
+      
+      final Integer usn;
+      
+      if(evernoteInfo.noteStoreSyncChunk.isSetChunkHighUSN()){
+        usn = evernoteInfo.noteStoreSyncChunk.getChunkHighUSN();
       }else{
-        SSLogU.warn("couldnt set USN as Evernote didnt provide one", null);
-        usn = 0;
+        if(evernoteInfo.noteStoreSyncChunk.isSetUpdateCount()){
+          usn = evernoteInfo.noteStoreSyncChunk.getUpdateCount();
+        }else{
+          SSLogU.warn("couldnt set USN as Evernote didnt provide one", null);
+          usn = 0;
+        }
       }
+      
+      evernoteServ.evernoteUSNSet(
+        new SSEvernoteUSNSetPar(
+          par,
+          forUser,
+          evernoteInfo.authToken,
+          usn,
+          false));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
-    
-    evernoteServ.evernoteUSNSet(
-      new SSEvernoteUSNSetPar(
-        servPar,
-        this.userUri,
-        evernoteInfo.authToken,
-        usn,
-        false));
   }
   
-  private void setSharedNotebooks(final SSServPar servPar) throws SSErr{
+  private void setSharedNotebooks(
+    final SSDataImportBitsAndPiecesPar par, 
+    final SSUri                        forUser) throws SSErr{
     
-    sharedNotebooks     = 
-      evernoteServ.evernoteNotebooksSharedGet (
-        new SSEvernoteNotebooksSharedGetPar(
-          servPar,
-          userUri, 
-          evernoteInfo.noteStore));
-    
-    sharedNotebookGuids.clear();
-
-    if(sharedNotebooks == null){
-      return;
+    try{
+      
+      final SSEvernoteServerI evernoteServ = (SSEvernoteServerI) SSServReg.getServ(SSEvernoteServerI.class);
+      
+      sharedNotebooks =
+        evernoteServ.evernoteNotebooksSharedGet (
+          new SSEvernoteNotebooksSharedGetPar(
+            par,
+            forUser,
+            evernoteInfo.noteStore));
+      
+      sharedNotebookGuids.clear();
+      
+      if(sharedNotebooks == null){
+        return;
+      }
+      
+      sharedNotebooks.stream().forEach((sharedNotebook)->{
+        sharedNotebookGuids.add(sharedNotebook.getNotebookGuid());
+      });
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
-    
-    sharedNotebooks.stream().forEach((sharedNotebook)->{
-      sharedNotebookGuids.add(sharedNotebook.getNotebookGuid());
-    });
   }
   
-  private void handleNotebooks(final SSServPar servPar) throws SSErr{
+  private void handleNotebooks(
+    final SSDataImportBitsAndPiecesPar par, 
+    final SSUri                        forUser) throws SSErr{
     
-    final List<Notebook> notebooks      = evernoteInfo.noteStoreSyncChunk.getNotebooks();
-    SSUri                notebookUri;
-    SSLabel              notebookLabel;
-    
-    if(notebooks == null){
-      return;
-    }
-    
-    for(Notebook notebook : notebooks){
+    try{
+      final List<Notebook> notebooks      = evernoteInfo.noteStoreSyncChunk.getNotebooks();
+      SSUri                notebookUri;
+      SSLabel              notebookLabel;
       
-      notebookUri      = getNormalOrSharedNotebookUri         (evernoteInfo.userName,    notebook, sharedNotebookGuids);
-      notebookLabel    = getNormalOrSharedNotebookLabel       (notebook);
+      if(notebooks == null){
+        return;
+      }
       
-      miscFct.addNotebook(
-        servPar,
-        SSToolContextE.evernoteImport,
-        notebookUri,
-        notebookLabel,
-        notebook.getServiceCreated());
-      
-      addNotebookUEs(
-        servPar,
-        notebookUri,
-        notebook);
+      for(Notebook notebook : notebooks){
+        
+        notebookUri      = getNormalOrSharedNotebookUri         (evernoteInfo.userName,    notebook, sharedNotebookGuids);
+        notebookLabel    = getNormalOrSharedNotebookLabel       (notebook);
+        
+        common.addNotebook(
+          par,
+          forUser,
+          SSToolContextE.evernoteImport,
+          notebookUri,
+          notebookLabel,
+          notebook.getServiceCreated());
+        
+        addNotebookUEs(
+          par,
+          forUser,
+          notebookUri,
+          notebook);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   
   private void addNotebookUEs(
-    final SSServPar servPar,
-    final SSUri    notebookUri,
-    final Notebook notebook) throws SSErr{
+    final SSDataImportBitsAndPiecesPar par, 
+    final SSUri                        forUser,
+    final SSUri                        notebookUri,
+    final Notebook                     notebook) throws SSErr{
     
-    final List<SSEntity> existingCreationUEs =
-      ueServ.userEventsGet(
-        new SSUEsGetPar(
-          servPar,
-          userUri, //user 
-          null, //userEvents
-          userUri, //forUser
-          notebookUri, //entity
-          SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNotebookCreate), //types
-          null, //startTime,
-          null, //endTime, 
-          true, //withUserRestriction, 
-          false)); //invokeEntityHandlers
-    
-    if(existingCreationUEs.isEmpty()){
+    try{
       
-      ueServ.userEventAdd(
-        new SSUEAddPar(
-          servPar,
-          userUri,
-          notebookUri,
-          SSUEE.evernoteNotebookCreate,
-          SSStrU.empty,
-          notebook.getServiceCreated(),
-          true, 
-          false)); //shouldCommit
-    }
-    
-    final List<SSEntity> existingUpdatingUEs =
-      ueServ.userEventsGet(
-        new SSUEsGetPar(
-          servPar,
-          userUri, //user
-          null, //userEvents
-          userUri, //forUser
-          notebookUri, //entity
-          SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNotebookUpdate), //types
-          notebook.getServiceUpdated(),
-          notebook.getServiceUpdated(),
-          true, //withUserRestriction,
-          false)); //invokeEntityHandlers
-    
-    if(existingUpdatingUEs.isEmpty()){
+      final SSUEServerI ueServ = (SSUEServerI) SSServReg.getServ(SSUEServerI.class);
       
-      ueServ.userEventAdd(
-        new SSUEAddPar(
-          servPar,
-          userUri,
-          notebookUri,
-          SSUEE.evernoteNotebookUpdate,
-          SSStrU.empty,
-          notebook.getServiceUpdated(),
-          true,
-          false)); //shouldCommit
+      final List<SSEntity> existingCreationUEs =
+        ueServ.userEventsGet(
+          new SSUEsGetPar(
+            par,
+            forUser, //user
+            null, //userEvents
+            forUser, //forUser
+            notebookUri, //entity
+            SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNotebookCreate), //types
+            null, //startTime,
+            null, //endTime,
+            true, //withUserRestriction,
+            false)); //invokeEntityHandlers
+      
+      if(existingCreationUEs.isEmpty()){
+        
+        ueServ.userEventAdd(
+          new SSUEAddPar(
+            par,
+            forUser,
+            notebookUri,
+            SSUEE.evernoteNotebookCreate,
+            SSStrU.empty,
+            notebook.getServiceCreated(),
+            true,
+            false)); //shouldCommit
+      }
+      
+      final List<SSEntity> existingUpdatingUEs =
+        ueServ.userEventsGet(
+          new SSUEsGetPar(
+            par,
+            forUser, //user
+            null, //userEvents
+            forUser, //forUser
+            notebookUri, //entity
+            SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNotebookUpdate), //types
+            notebook.getServiceUpdated(),
+            notebook.getServiceUpdated(),
+            true, //withUserRestriction,
+            false)); //invokeEntityHandlers
+      
+      if(existingUpdatingUEs.isEmpty()){
+        
+        ueServ.userEventAdd(
+          new SSUEAddPar(
+            par,
+            forUser,
+            notebookUri,
+            SSUEE.evernoteNotebookUpdate,
+            SSStrU.empty,
+            notebook.getServiceUpdated(),
+            true,
+            false)); //shouldCommit
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   
-  private void handleLinkedNotebooks(final SSServPar servPar) throws SSErr{
+  private void handleLinkedNotebooks(
+    final SSDataImportBitsAndPiecesPar par, 
+    final SSUri                        forUser) throws SSErr{
     
     try{
+      
       final List<LinkedNotebook> linkedNotebooks = evernoteInfo.noteStoreSyncChunk.getLinkedNotebooks();
       int                        timeCounter     = 1;
       SSUri                      notebookUri;
@@ -317,15 +320,17 @@ public class SSDataImportBNPEvernoteImporter {
         creationTimeForLinkedNotebook = new Date().getTime() - (SSDateU.dayInMilliSeconds * timeCounter);
         timeCounter++;
         
-        miscFct.addNotebook(
-          servPar,
+        common.addNotebook(
+          par,
+          forUser,
           SSToolContextE.evernoteImport,
           notebookUri,
           getLinkedNotebookLabel(linkedNotebook),
           creationTimeForLinkedNotebook);
         
         addLinkedNotebookUEs(
-          servPar,
+          par,
+          forUser,
           notebookUri,
           creationTimeForLinkedNotebook);
       }
@@ -335,253 +340,282 @@ public class SSDataImportBNPEvernoteImporter {
   }
   
   private void addLinkedNotebookUEs(
-    final SSServPar servPar,
-    final SSUri notebookUri,
-    final Long  creationTimeForLinkedNotebook) throws SSErr {
+    final SSDataImportBitsAndPiecesPar par, 
+    final SSUri                        forUser,
+    final SSUri                        notebookUri,
+    final Long                         creationTimeForLinkedNotebook) throws SSErr {
     
-    final List<SSEntity> existingUEs =
-      ueServ.userEventsGet(
-        new SSUEsGetPar(
-          servPar,
-          userUri, //user
-          null, //userEvents
-          userUri, //forUser
-          notebookUri, //entity
-          SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNotebookFollow), //types
+    try{
+      final SSUEServerI ueServ = (SSUEServerI) SSServReg.getServ(SSUEServerI.class);
+      
+      final List<SSEntity> existingUEs =
+        ueServ.userEventsGet(
+          new SSUEsGetPar(
+            par,
+            forUser, //user
+            null, //userEvents
+            forUser, //forUser
+            notebookUri, //entity
+            SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNotebookFollow), //types
+            creationTimeForLinkedNotebook,
+            creationTimeForLinkedNotebook,
+            true, //withUserRestriction,
+            false)); //invokeEntityHandlers
+      
+      if(!existingUEs.isEmpty()){
+        return;
+      }
+      
+      ueServ.userEventAdd(
+        new SSUEAddPar(
+          par,
+          forUser,
+          notebookUri,
+          SSUEE.evernoteNotebookFollow,
+          SSStrU.empty,
           creationTimeForLinkedNotebook,
-          creationTimeForLinkedNotebook,
-          true, //withUserRestriction,
-          false)); //invokeEntityHandlers
-    
-    if(!existingUEs.isEmpty()){
-      return;
-    }
-    
-    ueServ.userEventAdd(
-      new SSUEAddPar(
-        servPar,
-        userUri,
-        notebookUri,
-        SSUEE.evernoteNotebookFollow,
-        SSStrU.empty,
-        creationTimeForLinkedNotebook,
-        true,
-        false)); //shouldCommit
-  }
-  
-  private void handleNotes(final SSServPar servPar) throws SSErr{
-    
-    final List<Note>     notes = evernoteInfo.noteStoreSyncChunk.getNotes();
-    Note                 noteWithContent;
-    Notebook             notebook;
-    SSUri                notebookUri;
-    SSUri                noteUri;
-    List<String>         noteTagNames;
-    SSLabel              noteLabel;
-    
-    if(notes == null){
-      return;
-    }
-    
-    for(Note note : notes){
-      
-      noteUri          = getNormalOrSharedNoteUri        (evernoteInfo,           note);
-      notebook         =
-        evernoteServ.evernoteNotebookGet(
-          new SSEvernoteNotebookGetPar(
-            servPar,
-            userUri,
-            evernoteInfo.noteStore,
-            note.getNotebookGuid()));
-        
-      noteWithContent  = 
-        evernoteServ.evernoteNoteGet(
-          new SSEvernoteNoteGetPar(
-            servPar,
-            userUri, 
-            evernoteInfo.noteStore, 
-            note.getGuid(),
-            true));
-      
-      notebookUri      =
-        getNormalOrSharedNotebookUri(
-          evernoteInfo.userName,
-          notebook,
-          sharedNotebookGuids);
-      
-      noteLabel = getNoteLabel(note);
-        
-      miscFct.addNote(
-        servPar,
-        SSToolContextE.evernoteImport,
-        noteUri,
-        noteLabel,
-        notebookUri,
-        note.getCreated());
-      
-      noteTagNames =
-        evernoteServ.evernoteNoteTagNamesGet(
-          new SSEvernoteNoteTagNamesGetPar(
-            servPar,
-            userUri,
-            evernoteInfo.noteStore,
-            note.getGuid()));
-      
-      tagServ.tagsAdd(
-        new SSTagsAddPar(
-          servPar,
-          userUri,
-          SSTagLabel.get(noteTagNames), //labels
-          SSUri.asListNotNull(noteUri), //entities
-          SSSpaceE.sharedSpace, //space
-          null, //circles
-          note.getUpdated(), //creationTime
-          true, //withUserRestriction
+          true,
           false)); //shouldCommit
       
-      for(String noteTag : noteTagNames){
-        
-        actAndLogFct.addTag(
-          servPar, 
-          SSToolContextE.evernoteImport, //toolContext
-          noteUri, //entity, 
-          noteTag, //content, 
-          SSUri.asListNotNull(notebookUri), //entities
-          note.getUpdated(), //creationTime
-          false); //shouldCommit);
-      }
-      
-      miscFct.addNoteUEs(
-         servPar,
-        note,
-        noteUri, 
-        note.getCreated(), 
-        note.getUpdated());
-      
-      new SSDataImportEvernoteNoteContentHandler(
-        conf,
-        fileServ,
-        evernoteServ,
-        userUri,
-        noteWithContent,
-        noteUri,
-        noteLabel,
-        evernoteInfo.noteStore).handleNoteContent(servPar);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   
-  private void handleResources(final SSServPar servPar) throws SSErr{
+  private void handleNotes(
+    final SSDataImportBitsAndPiecesPar par, 
+    final String                       localWorkPath,
+    final SSUri                        forUser) throws SSErr{
     
-    final List<Resource> resources = evernoteInfo.noteStoreSyncChunk.getResources();
-    Resource             resourceWithContent;
-    SSUri                resourceUri;
-    Note                 note;
-    SSUri                noteUri;
-    SSLabel              resourceLabel;
-    SSFileExtE           fileExt;
-    
-    if(resources == null){
-      return;
-    }
-    
-    for(Resource resource : resources){
+    try{
+      final SSEvernoteServerI evernoteServ = (SSEvernoteServerI) SSServReg.getServ(SSEvernoteServerI.class);
+      final SSTagServerI      tagServ      = (SSTagServerI)      SSServReg.getServ(SSTagServerI.class);
+      final List<Note>        notes        = evernoteInfo.noteStoreSyncChunk.getNotes();
+      Note                    noteWithContent;
+      Notebook                notebook;
+      SSUri                   notebookUri;
+      SSUri                   noteUri;
+      List<String>            noteTagNames;
+      SSLabel                 noteLabel;
       
-      resourceWithContent = 
-        evernoteServ.evernoteResourceGet(
-          new SSEvernoteResourceGetPar(
-            servPar,
-            userUri, 
-            evernoteInfo.noteStore, 
-            resource.getGuid(), 
-            false));
-        
-      try{
-        fileExt = SSMimeTypeE.fileExtForMimeType1(resourceWithContent.getMime());
-      }catch(Exception error){
-        SSLogU.warn("resource with mimetype " + resourceWithContent.getMime() + " not stored", error);
-        continue;
+      if(notes == null){
+        return;
       }
+      
+      for(Note note : notes){
         
-      try{
+        noteUri          = getNormalOrSharedNoteUri        (evernoteInfo,           note);
+        notebook         =
+          evernoteServ.evernoteNotebookGet(
+            new SSEvernoteNotebookGetPar(
+              par,
+              forUser,
+              evernoteInfo.noteStore,
+              note.getNotebookGuid()));
         
-        if(SSFileExtE.isImageFileExt(fileExt)){
+        noteWithContent  =
+          evernoteServ.evernoteNoteGet(
+            new SSEvernoteNoteGetPar(
+              par,
+              forUser,
+              evernoteInfo.noteStore,
+              note.getGuid(),
+              true));
+        
+        notebookUri      =
+          getNormalOrSharedNotebookUri(
+            evernoteInfo.userName,
+            notebook,
+            sharedNotebookGuids);
+        
+        noteLabel = getNoteLabel(note);
+        
+        common.addNote(
+          par,
+          forUser,
+          SSToolContextE.evernoteImport,
+          noteUri,
+          noteLabel,
+          notebookUri,
+          note.getCreated());
+        
+        noteTagNames =
+          evernoteServ.evernoteNoteTagNamesGet(
+            new SSEvernoteNoteTagNamesGetPar(
+              par,
+              forUser,
+              evernoteInfo.noteStore,
+              note.getGuid()));
+        
+        tagServ.tagsAdd(
+          new SSTagsAddPar(
+            par,
+            forUser,
+            SSTagLabel.get(noteTagNames), //labels
+            SSUri.asListNotNull(noteUri), //entities
+            SSSpaceE.sharedSpace, //space
+            null, //circles
+            note.getUpdated(), //creationTime
+            true, //withUserRestriction
+            false)); //shouldCommit
+        
+        for(String noteTag : noteTagNames){
           
-          if(
-            !resourceWithContent.isSetHeight() ||
-            !resourceWithContent.isSetWidth()){
+          actAndLog.addTag(
+            par,
+            SSToolContextE.evernoteImport, //toolContext
+            noteUri, //entity,
+            noteTag, //content,
+            SSUri.asListNotNull(notebookUri), //entities
+            note.getUpdated(), //creationTime
+            false); //shouldCommit);
+        }
+        
+        common.addNoteUEs(
+          par,
+          forUser,
+          note,
+          noteUri,
+          note.getCreated(),
+          note.getUpdated());
+        
+        evernoteNoteContentHandler.handleNoteContent(
+          par, 
+          evernoteInfo.noteStore,
+          forUser, 
+          localWorkPath, 
+          noteWithContent, 
+          noteUri, 
+          noteLabel);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  private void handleResources(
+    final SSDataImportBitsAndPiecesPar par, 
+    final SSUri                        forUser) throws SSErr{
+    
+    try{
+      final SSEvernoteServerI evernoteServ = (SSEvernoteServerI) SSServReg.getServ(SSEvernoteServerI.class);
+      final SSFileServerI fileServ     = (SSFileServerI) SSServReg.getServ(SSFileServerI.class);
+      final List<Resource>    resources    = evernoteInfo.noteStoreSyncChunk.getResources();
+      Resource                resourceWithContent;
+      SSUri                   resourceUri;
+      Note                    note;
+      SSUri                   noteUri;
+      SSLabel                 resourceLabel;
+      SSFileExtE              fileExt;
+      
+      if(resources == null){
+        return;
+      }
+      
+      for(Resource resource : resources){
+        
+        resourceWithContent =
+          evernoteServ.evernoteResourceGet(
+            new SSEvernoteResourceGetPar(
+              par,
+              forUser,
+              evernoteInfo.noteStore,
+              resource.getGuid(),
+              false));
+        
+        try{
+          fileExt = SSMimeTypeE.fileExtForMimeType1(resourceWithContent.getMime());
+        }catch(Exception error){
+          SSLogU.warn("resource with mimetype " + resourceWithContent.getMime() + " not stored", error);
+          continue;
+        }
+        
+        try{
+          
+          if(SSFileExtE.isImageFileExt(fileExt)){
             
+            if(
+              !resourceWithContent.isSetHeight() ||
+              !resourceWithContent.isSetWidth()){
+              
 //            SSLogU.info("evernote image resource height or width not set");
-            continue;
-          }
-             
-          if(
-            resourceWithContent.getWidth()  <= SSDataImportBNPCommon.bitsAndPiecesImageMinWidth ||
-            resourceWithContent.getHeight() <= SSDataImportBNPCommon.bitsAndPiecesImageMinHeight){
+              continue;
+            }
             
+            if(
+              resourceWithContent.getWidth()  <= SSDataImportBNPCommon.bitsAndPiecesImageMinWidth ||
+              resourceWithContent.getHeight() <= SSDataImportBNPCommon.bitsAndPiecesImageMinHeight){
+              
 //            SSLogU.info("evernote image resource height or width < " + SSDataImportBNPCommon.bitsAndPiecesImageMinWidth);
-            continue;
-          }
-          
+              continue;
+            }
+            
 //          if(resourceWithContent.getAttributes().isSetSourceURL()){
 ////            SSLogU.info("evernote image with source url ignored: " + resourceWithContent.getAttributes().getSourceURL());
 //              continue;
 //          }
+          }
+        }catch(Exception error){
+          SSLogU.warn(error);
         }
-      }catch(Exception error){
-        SSLogU.warn(error);
+        
+        resourceWithContent =
+          evernoteServ.evernoteResourceGet(
+            new SSEvernoteResourceGetPar(
+              par,
+              forUser,
+              evernoteInfo.noteStore,
+              resource.getGuid(),
+              true));
+        
+        resourceUri         = getResourceUri           (evernoteInfo, resource);
+        note                =
+          evernoteServ.evernoteNoteGet(
+            new SSEvernoteNoteGetPar(
+              par,
+              forUser,
+              evernoteInfo.noteStore,
+              resource.getNoteGuid(),
+              false));
+        
+        noteUri             = getNormalOrSharedNoteUri (evernoteInfo, note);
+        resourceLabel       = getResourceLabel(resource, note);
+        
+        common.addResource(
+          par,
+          forUser,
+          SSToolContextE.evernoteImport,
+          resourceUri,
+          resourceLabel,
+          note.getUpdated(),
+          noteUri);
+        
+        fileServ.fileAdd(
+          new SSEntityFileAddPar(
+            par,
+            forUser,
+            resourceWithContent.getData().getBody(), //fileBytes,
+            resourceWithContent.getData().getSize(), //fileLength
+            fileExt, //fileExt
+            null, //file
+            SSEntityE.file, //type,
+            resourceLabel, //label
+            resourceUri, //entity
+            true, //createThumb,
+            resourceUri, //entityToAddThumbTo
+            true, //removeExistingFilesForEntity
+            true, //withUserRestriction
+            false));//shouldCommit
+        
+        common.addResourceUEs(
+          par,
+          forUser,
+          resourceUri,
+          note.getUpdated());
       }
       
-      resourceWithContent = 
-        evernoteServ.evernoteResourceGet(
-          new SSEvernoteResourceGetPar(
-            servPar,
-            userUri,
-            evernoteInfo.noteStore,
-            resource.getGuid(),
-            true));
-      
-      resourceUri         = getResourceUri           (evernoteInfo, resource);
-      note                =
-        evernoteServ.evernoteNoteGet(
-          new SSEvernoteNoteGetPar(
-            servPar,
-            userUri,
-            evernoteInfo.noteStore,
-            resource.getNoteGuid(),
-            false));
-      
-      noteUri             = getNormalOrSharedNoteUri (evernoteInfo, note);
-      resourceLabel       = getResourceLabel(resource, note);
-      
-      miscFct.addResource(
-        servPar,
-        SSToolContextE.evernoteImport,
-        resourceUri,
-        resourceLabel,
-        note.getUpdated(),
-        noteUri);
-      
-      fileServ.fileAdd(
-        new SSEntityFileAddPar(
-          servPar,
-          userUri,
-          resourceWithContent.getData().getBody(), //fileBytes,
-          resourceWithContent.getData().getSize(), //fileLength
-          fileExt, //fileExt
-          null, //file
-          SSEntityE.file, //type,
-          resourceLabel, //label
-          resourceUri, //entity
-          true, //createThumb,
-          resourceUri, //entityToAddThumbTo
-          true, //removeExistingFilesForEntity
-          true, //withUserRestriction
-          false));//shouldCommit
-      
-      miscFct.addResourceUEs(
-        servPar,
-        resourceUri,
-        note.getUpdated());
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   

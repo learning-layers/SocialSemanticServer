@@ -26,8 +26,9 @@ import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
-import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileAddRet;
+import at.tugraz.sss.servs.file.api.*;
+import at.tugraz.sss.servs.file.datatype.par.*;
+import at.tugraz.sss.servs.file.datatype.ret.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
@@ -71,8 +72,6 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.entity.api.SSUsersResourcesGathererI;
-import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
-import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import at.tugraz.sss.servs.location.api.SSLocationServerI;
 import at.tugraz.sss.servs.location.datatype.par.SSLocationAddPar;
 import java.util.Map;
@@ -350,7 +349,7 @@ implements
         }
       }
       
-      final SSFileRepoServerI fileServ = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
+      final SSFileServerI fileServ = (SSFileServerI) SSServReg.getServ(SSFileServerI.class);
       
       dbSQL.startTrans(par, par.shouldCommit);
       
@@ -728,7 +727,7 @@ implements
         descPar = null;
       }
       
-      final SSFileRepoServerI fileServ = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
+      final SSFileServerI fileServ = (SSFileServerI) SSServReg.getServ(SSFileServerI.class);
       
       final SSEntity videoEntity =
         entityServ.entityGet(

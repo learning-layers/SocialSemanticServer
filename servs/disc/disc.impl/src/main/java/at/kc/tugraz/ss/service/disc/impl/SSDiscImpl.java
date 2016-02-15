@@ -20,7 +20,6 @@
   */
 package at.kc.tugraz.ss.service.disc.impl;
 
-import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.datatype.par.SSCircleAddEntitiesToCircleOfEntityPar;
 import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.serv.datatype.par.SSEntitySharePar;
@@ -80,7 +79,6 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
-import sss.serv.eval.api.SSEvalServerI;
 
 public class SSDiscImpl
 extends SSServImplWithDBA
@@ -95,26 +93,16 @@ implements
   SSUserRelationGathererI,
   SSUsersResourcesGathererI{
   
-  private final SSDiscSQLFct       sql;
-  private final SSEntityServerI    entityServ;
-  private final SSEntityServerI    circleServ;
-  private final SSDiscActAndLogFct actAndLogFct;
-  private final SSUserCommons      userCommons;
+  private final SSDiscActAndLog    actAndLog    = new SSDiscActAndLog();
+  private final SSUserCommons      userCommons  = new SSUserCommons();
+  private final SSDiscEntryAdd     discEntryAdd = new SSDiscEntryAdd();
+  private final SSDiscSQL          sql;
   
   public SSDiscImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql          = new SSDiscSQLFct(this, SSConf.systemUserUri);
-    this.entityServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
-    this.circleServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
-    
-    this.actAndLogFct =
-      new SSDiscActAndLogFct(
-        (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class),
-        (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class));
-    
-    this.userCommons = new SSUserCommons();
+    this.sql = new SSDiscSQL(this, SSConf.systemUserUri);
   }
   
   @Override
@@ -203,7 +191,8 @@ implements
     final Map<String, List<SSUri>> userRelations) throws SSErr{
     
     try{
-      SSCirclesGetPar circlesGetPar;
+      final SSEntityServerI entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
+      SSCirclesGetPar       circlesGetPar;
       
       SSUri userUri;
       
@@ -238,7 +227,7 @@ implements
           
           circlesGetPar.entity = disc.id;
           
-          for(SSEntity circle : circleServ.circlesGet(circlesGetPar)){
+          for(SSEntity circle : entityServ.circlesGet(circlesGetPar)){
             
             if(userRelations.containsKey(user)){
               userRelations.get(user).addAll(SSUri.getDistinctNotNullFromEntities(circle.users));
@@ -372,9 +361,9 @@ implements
   public List<SSEntity> addAffiliatedEntitiesToCircle(final SSServPar servPar, final SSAddAffiliatedEntitiesToCirclePar par) throws SSErr{
     
     try{
-      
-      final List<SSUri>    affiliatedURIs     = new ArrayList<>();
-      final List<SSEntity> affiliatedEntities = new ArrayList<>();
+      final SSEntityServerI entityServ         = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
+      final List<SSUri>     affiliatedURIs     = new ArrayList<>();
+      final List<SSEntity>  affiliatedEntities = new ArrayList<>();
       
       for(SSEntity entityAdded : par.entities){
         
@@ -445,7 +434,7 @@ implements
         return affiliatedEntities;
       }
       
-      circleServ.circleEntitiesAdd(
+      entityServ.circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
           servPar, 
           par.user,
@@ -509,8 +498,9 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSDiscEntryAddFromClientPar par = (SSDiscEntryAddFromClientPar) parA.getFromClient(clientType, parA, SSDiscEntryAddFromClientPar.class);
-      final SSDiscEntryAddRet           ret = discEntryAdd(par);
+      final SSEntityServerI             entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
+      final SSDiscEntryAddFromClientPar par        = (SSDiscEntryAddFromClientPar) parA.getFromClient(clientType, parA, SSDiscEntryAddFromClientPar.class);
+      final SSDiscEntryAddRet           ret        = discEntryAdd(par);
       
       if(par.addNewDisc){
         
@@ -543,8 +533,6 @@ implements
     
     try{
       SSUri discEntryUri = null;
-      
-      final SSDiscUserEntryAddFct discEntryAddFct = new SSDiscUserEntryAddFct(circleServ, entityServ);
       
       if(par.addNewDisc){
         
@@ -583,7 +571,7 @@ implements
       if(par.addNewDisc){
         
         par.disc =
-          discEntryAddFct.addDisc(
+          discEntryAdd.addDisc(
             par,
             sql,
             par.user,
@@ -625,7 +613,7 @@ implements
       if(par.entry != null){
         
         discEntryUri =
-          discEntryAddFct.addDiscEntry(
+          discEntryAdd.addDiscEntry(
             par,
             sql,
             par.user,
@@ -656,7 +644,7 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
-      actAndLogFct.addDiscEntry(
+      actAndLog.addDiscEntry(
         par,  
         par.user,
         par.addNewDisc,
@@ -721,8 +709,9 @@ implements
     
     try{
       
-      boolean           isAuthor = true;
-      SSEntityUpdatePar entityUpdatePar;
+      final SSEntityServerI entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
+      boolean               isAuthor   = true;
+      SSEntityUpdatePar     entityUpdatePar;
       
       if(par.withUserRestriction){
         
@@ -822,7 +811,7 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
-      actAndLogFct.updateDisc(par, par.shouldCommit);
+      actAndLog.updateDisc(par, par.shouldCommit);
       
       return SSDiscUpdateRet.get(par.disc);
       
@@ -922,7 +911,7 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
-      actAndLogFct.updateDiscEntry(par, par.shouldCommit);
+      actAndLog.updateDiscEntry(par, par.shouldCommit);
       
       return SSDiscEntryUpdateRet.get(
         discURI,
@@ -1074,7 +1063,8 @@ implements
     
     try{
       
-      SSDisc disc = sql.getDisc(par, par.disc, par.setEntries);
+      final SSEntityServerI entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
+      SSDisc                disc       = sql.getDisc(par, par.disc, par.setEntries);
       
       if(disc == null){
         return null;
@@ -1325,7 +1315,8 @@ implements
     
     try{
       
-      final SSEntity disc =
+      final SSEntityServerI entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
+      final SSEntity        disc       =
         sql.getEntityTest(
           par, 
           par.user,
@@ -1338,7 +1329,7 @@ implements
       
       dbSQL.startTrans(par, par.shouldCommit);
       
-      if(circleServ.circleIsEntityPrivate(
+      if(entityServ.circleIsEntityPrivate(
         new SSCircleIsEntityPrivatePar(
           par, 
           par.user,
@@ -1402,6 +1393,8 @@ implements
     
     try{
       
+      final SSEntityServerI entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
+      
       if(par.targets.isEmpty()){
         return null;
       }
@@ -1447,7 +1440,7 @@ implements
       
       sql.addDiscTargets(par, par.discussion, par.targets);
             
-      circleServ.circleAddEntitiesToCirclesOfEntity(
+      entityServ.circleAddEntitiesToCirclesOfEntity(
         new SSCircleAddEntitiesToCircleOfEntityPar(
           par, 
           par.user,
@@ -1459,7 +1452,7 @@ implements
       
       for(SSUri targetURI : par.targets){
         
-        circleServ.circleAddEntitiesToCirclesOfEntity(
+        entityServ.circleAddEntitiesToCirclesOfEntity(
           new SSCircleAddEntitiesToCircleOfEntityPar(
             par, 
             par.user,
@@ -1472,7 +1465,7 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
-      actAndLogFct.addDiscussionTargets(
+      actAndLog.addDiscussionTargets(
         par,
         par.shouldCommit);
        
@@ -1537,6 +1530,8 @@ implements
     final boolean       withUserRestriction) throws SSErr{
     
     try{
+      
+      final SSEntityServerI entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
       
       if(entitiesToAttach.isEmpty()){
         return entity;
@@ -1603,6 +1598,8 @@ implements
     final boolean     withUserRestriction) throws SSErr{
     
     try{
+
+      final SSEntityServerI entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
       
       if(entitiesToRemove.isEmpty()){
         return entity;

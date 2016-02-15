@@ -1,32 +1,29 @@
-/**
- * Code contributed to the Learning Layers project
- * http://www.learning-layers.eu
- * Development is partly funded by the FP7 Programme of the European Commission under
- * Grant Agreement FP7-ICT-318209.
- * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
- * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.serv.dataimport.impl.bnp;
 
-import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.tugraz.sss.conf.SSConf;
-import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
-import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
+import at.tugraz.sss.servs.file.api.SSFileServerI;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.enums.*;
@@ -45,46 +42,18 @@ import at.tugraz.sss.servs.mail.datatype.par.SSMailsReceivePar;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
-import sss.serv.eval.api.SSEvalServerI;
 
 public class SSDataImportBNPMailImporter {
   
-  private final SSDataImportConf                 conf;
-  private final SSDataImportBitsAndPiecesPar     par;
-  private final SSEntityServerI                  entityServ;
-  private final SSFileRepoServerI                fileServ;
-  private final SSUri                            userUri;
-  private final SSDataImportBNPCommon miscFct;
-
-  public SSDataImportBNPMailImporter(
-    final SSDataImportConf             conf,
-    final SSDataImportBitsAndPiecesPar par,
-    final SSEntityServerI              entityServ,
-    final SSFileRepoServerI            fileServ,
-    final SSEvalServerI                evalServ,
-    final SSUEServerI                  ueServ,
-    final SSEvernoteServerI            evernoteServ,
-    final SSUri                        userUri) throws SSErr{
-    
-    this.conf          = conf;
-    this.par           = par;
-    this.entityServ    = entityServ;
-    this.fileServ      = fileServ;
-    this.userUri       = userUri;
-    
-    this.miscFct = 
-      new SSDataImportBNPCommon(
-        entityServ, //entityServ
-        evernoteServ, //evernoteServ
-        ueServ, //ueServ
-        evalServ, //evalServ
-        userUri);
-  }
+  private final SSDataImportBNPCommon            common = new SSDataImportBNPCommon();
   
-  public void handle(final SSServPar servPar) throws SSErr{
-
+  public void handle(
+    final SSDataImportBitsAndPiecesPar par, 
+    final SSUri                        forUser,
+    final String                       localWorkPath) throws SSErr{
+    
     try{
-     
+      
       if(
         par.emailInUser     == null ||
         par.emailInPassword == null ||
@@ -95,27 +64,27 @@ public class SSDataImportBNPMailImporter {
       SSLogU.info("start B&P mail import for " +  par.authEmail);
       
       final SSMailServerI mailServ     = (SSMailServerI) SSServReg.getServ(SSMailServerI.class);
-      final SSUri         notebookUri  = handleEmailNotebook(servPar);
+      final SSUri         notebookUri  = handleEmailNotebook(par, forUser);
       SSMail              mail;
       SSUri               noteUri;
       
-      for(SSEntity mailEntity : 
+      for(SSEntity mailEntity :
         mailServ.mailsReceive(
           new SSMailsReceivePar(
-            servPar,
+            par,
             SSConf.systemUserUri,
             par.emailInUser,
             par.emailInPassword,
-            par.emailInEmail, 
+            par.emailInEmail,
             true,  //withUserRestriction
             false))){
         
         mail    = (SSMail) mailEntity;
         noteUri = SSConf.vocURICreate();
         
-        handleMailContent          (servPar, mail, notebookUri, noteUri);
-        handleMailContentMultimedia(servPar, mail, noteUri);
-        handleMailAttachments      (servPar, mail, noteUri);
+        handleMailContent          (par, forUser, localWorkPath, mail, notebookUri, noteUri);
+        handleMailContentMultimedia(par, forUser, localWorkPath, mail, noteUri);
+        handleMailAttachments      (par, forUser, localWorkPath, mail, noteUri);
       }
       
       SSLogU.info("end B&P mail import for " +  par.authEmail);
@@ -126,16 +95,19 @@ public class SSDataImportBNPMailImporter {
     }
   }
   
-  private SSUri handleEmailNotebook(final SSServPar servPar) throws SSErr{
+  private SSUri handleEmailNotebook(
+    final SSDataImportBitsAndPiecesPar par, 
+    final SSUri                        forUser) throws SSErr{
     
     try{
       
-      final SSUri notebookUri = SSUri.get(par.emailInUser + "_email_inbox", SSConf.sssUri);
+      final SSEntityServerI entityServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      final SSUri           notebookUri = SSUri.get(par.emailInUser + "_email_inbox", SSConf.sssUri);
       
       final SSEntity notebook =
         entityServ.entityGet(
           new SSEntityGetPar(
-            servPar, 
+            par,
             par.user,
             notebookUri,
             false,
@@ -143,8 +115,9 @@ public class SSDataImportBNPMailImporter {
       
       if(notebook == null){
         
-        miscFct.addNotebook(
-          servPar,
+        common.addNotebook(
+          par,
+          forUser,
           SSToolContextE.emailImport,
           notebookUri,
           SSLabel.get(par.emailInEmail + " inbox"),
@@ -158,12 +131,14 @@ public class SSDataImportBNPMailImporter {
       return null;
     }
   }
-
+  
   private void handleMailContent(
-    final SSServPar servPar,
-    final SSMail mail,
-    final SSUri  notebookUri,
-    final SSUri  noteUri) throws SSErr{
+    final SSServPar servPar, 
+    final SSUri     forUser,
+    final String    localWorkPath,
+    final SSMail    mail,
+    final SSUri     notebookUri,
+    final SSUri     noteUri) throws SSErr{
     
     String                    txtFilePath;
     SSUri                     pdfFileUri;
@@ -171,13 +146,15 @@ public class SSDataImportBNPMailImporter {
     
     try{
       
+      final SSFileServerI fileServ = (SSFileServerI) SSServReg.getServ(SSFileServerI.class);
+      
       if(mail.content == null){
         return;
       }
       
-      txtFilePath    = conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(SSConf.vocURICreate(SSFileExtE.txt));
+      txtFilePath    = localWorkPath + SSConf.fileIDFromSSSURI(SSConf.vocURICreate(SSFileExtE.txt));
       pdfFileUri     = SSConf.vocURICreate                  (SSFileExtE.pdf);
-      pdfFilePath    = conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI (pdfFileUri);
+      pdfFilePath    = localWorkPath + SSConf.fileIDFromSSSURI (pdfFileUri);
       
       SSFileU.writeStr(mail.content, txtFilePath);
       
@@ -198,25 +175,27 @@ public class SSDataImportBNPMailImporter {
         }
       }
       
-      miscFct.addNote(
+      common.addNote(
         servPar,
+        forUser,
         SSToolContextE.emailImport,
         noteUri, //noteUri
         SSLabel.get(mail.subject), //noteLabel
-        notebookUri, //notebookUri, 
+        notebookUri, //notebookUri,
         mail.creationTime);
       
-       miscFct.addNoteUEs(
-         servPar,
-         null, //note, 
-         noteUri, //noteUri,
-         mail.creationTime, //creationTime, 
-         mail.creationTime); //updateTime
+      common.addNoteUEs(
+        servPar,
+        forUser,
+        null, //note,
+        noteUri, //noteUri,
+        mail.creationTime, //creationTime,
+        mail.creationTime); //updateTime
       
       fileServ.fileAdd(
         new SSEntityFileAddPar(
-          servPar, 
-          userUri,
+          servPar,
+          forUser,
           null, //fileBytes
           null, //fileLength
           null, //fileExt
@@ -236,39 +215,44 @@ public class SSDataImportBNPMailImporter {
   }
   
   private void handleMailContentMultimedia(
-    final SSServPar servPar,
-    final SSMail mail,
-    final SSUri  noteUri) throws SSErr{
+    final SSServPar servPar, 
+    final SSUri     forUser,
+    final String    localWorkPath, 
+    final SSMail    mail,
+    final SSUri     noteUri) throws SSErr{
     
     try{
       
-      SSUri resourceUri;
+      final SSFileServerI fileServ = (SSFileServerI) SSServReg.getServ(SSFileServerI.class);
+      SSUri                   resourceUri;
       
       for(SSEntity attachment : mail.contentMultimedia){
-       
-        if(!areResourceDimensionsOk(attachment.id)){
+        
+        if(!areResourceDimensionsOk(localWorkPath, attachment.id)){
           continue;
         }
         
         resourceUri = SSConf.vocURICreate();
         
-        miscFct.addResource(
+        common.addResource(
           servPar,
+          forUser,
           SSToolContextE.emailImport,
           resourceUri,
           attachment.label,
           mail.creationTime,
           noteUri); //noteUri
         
-        miscFct.addResourceUEs(
+        common.addResourceUEs(
           servPar,
+          forUser,
           resourceUri,
           mail.creationTime);
         
         fileServ.fileAdd(
           new SSEntityFileAddPar(
-            servPar, 
-            userUri,
+            servPar,
+            forUser,
             null, //fileBytes
             null, //fileLength
             null, //fileExt
@@ -282,46 +266,50 @@ public class SSDataImportBNPMailImporter {
             true, //withUserRestriction
             false));//shouldCommit
       }
-    
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
-
+  
   private void handleMailAttachments(
-    final SSServPar servPar,
-    final SSMail mail, 
-    final SSUri  noteUri) throws SSErr{
+    final SSServPar servPar, 
+    final SSUri     forUser,
+    final String    localWorkPath,
+    final SSMail    mail,
+    final SSUri     noteUri) throws SSErr{
     
     try{
-      
-      SSUri resourceUri;
+      final SSFileServerI fileServ = (SSFileServerI) SSServReg.getServ(SSFileServerI.class);
+      SSUri                   resourceUri;
       
       for(SSEntity attachment : mail.attachments){
-       
-        if(!areResourceDimensionsOk(attachment.id)){
+        
+        if(!areResourceDimensionsOk(localWorkPath, attachment.id)){
           continue;
         }
         
         resourceUri = SSConf.vocURICreate();
         
-        miscFct.addResource(
+        common.addResource(
           servPar,
+          forUser,
           SSToolContextE.emailImport,
           resourceUri,
           attachment.label,
           mail.creationTime,
           noteUri); //noteUri
         
-        miscFct.addResourceUEs(
-         servPar,
-          resourceUri, 
+        common.addResourceUEs(
+          servPar,
+          forUser,
+          resourceUri,
           mail.creationTime);
         
         fileServ.fileAdd(
           new SSEntityFileAddPar(
-            servPar, 
-            userUri,
+            servPar,
+            forUser,
             null, //fileBytes
             null, //fileLength
             null, //fileExt
@@ -335,21 +323,23 @@ public class SSDataImportBNPMailImporter {
             true, //withUserRestriction
             false));//shouldCommit
       }
-    
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
-
-  private boolean areResourceDimensionsOk(final SSUri resource) throws SSErr{
+  
+  private boolean areResourceDimensionsOk(
+    final String localWorkPath,
+    final SSUri  resource) throws SSErr{
     
     try{
-
+      
       if(!SSFileExtE.isImageFileExt(SSFileExtE.getFromStrToFormat(SSStrU.toStr(resource)))){
         return true;
       }
-              
-      final BufferedImage image = ImageIO.read(new File(conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(resource)));
+      
+      final BufferedImage image = ImageIO.read(new File(localWorkPath + SSConf.fileIDFromSSSURI(resource)));
       
       if(
         image.getWidth()  <= SSDataImportBNPCommon.bitsAndPiecesImageMinWidth ||

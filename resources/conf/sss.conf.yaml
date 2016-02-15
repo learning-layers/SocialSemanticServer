@@ -54,7 +54,7 @@ message:
   use: true
 comment:
   use: true  
-filerepo: 
+file: 
   use: true
   filesDeleteNotRegisteredDirPath:
   schedule: false

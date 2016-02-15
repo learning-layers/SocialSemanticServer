@@ -24,7 +24,6 @@ import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.reg.*;
 
 public abstract class SSServImplWithDBA extends SSServImplA{
   

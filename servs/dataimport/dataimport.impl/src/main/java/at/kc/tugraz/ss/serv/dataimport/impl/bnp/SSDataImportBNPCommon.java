@@ -21,11 +21,10 @@
 package at.kc.tugraz.ss.serv.dataimport.impl.bnp;
 
 import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportActAndLog;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
+import at.kc.tugraz.ss.serv.jobs.evernote.api.*;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteAddPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceAddPar;
-import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
+import at.kc.tugraz.ss.service.userevent.api.*;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEsGetPar;
@@ -36,46 +35,30 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.entity.api.*;
+import at.tugraz.sss.serv.reg.*;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.NoteAttributes;
 import java.util.List;
-import sss.serv.eval.api.SSEvalServerI;
 
 public class SSDataImportBNPCommon {
   
   public static final Integer                 bitsAndPiecesImageMinWidth          = 250;
   public static final Integer                 bitsAndPiecesImageMinHeight         = 250;
-  
-  private final SSEntityServerI              entityServ;
-  private final SSEvernoteServerI            evernoteServ;
-  private final SSUEServerI                  ueServ;
-  private final SSUri                        userUri;
-  private final SSDataImportActAndLog     actAndLogFct;
-  
-  public SSDataImportBNPCommon(
-    final SSEntityServerI              entityServ,
-    final SSEvernoteServerI            evernoteServ,
-    final SSUEServerI                  ueServ,
-    final SSEvalServerI                evalServ,
-    final SSUri                        userUri) throws SSErr{
-    
-    this.entityServ      = entityServ;
-    this.evernoteServ    = evernoteServ;
-    this.ueServ          = ueServ;
-    this.userUri         = userUri;
-    this.actAndLogFct    = 
-      new SSDataImportActAndLog(
-        evalServ);
-  }
+
+  private final SSDataImportActAndLog actAndLog = new SSDataImportActAndLog();
   
   public void addNotebook(
     final SSServPar      servPar,
+    final SSUri          userUri,
     final SSToolContextE toolContext,
     final SSUri          notebookUri,
     final SSLabel        notebookLabel,
     final Long           notebookCreationTime) throws SSErr{
     
     try{
+      final SSEntityServerI entityServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
           servPar,
@@ -91,7 +74,7 @@ public class SSDataImportBNPCommon {
           true, //withUserRestriction
           false)); //shouldCommit)
       
-      actAndLogFct.addNotebook(
+      actAndLog.addNotebook(
         servPar, 
         userUri, //user
         toolContext, 
@@ -106,6 +89,7 @@ public class SSDataImportBNPCommon {
   
   public void addNote(
     final SSServPar      servPar,
+    final SSUri          userUri,
     final SSToolContextE toolContext,
     final SSUri          noteUri,
     final SSLabel        noteLabel,
@@ -113,6 +97,8 @@ public class SSDataImportBNPCommon {
     final Long           creationTime) throws SSErr{
     
     try{
+      final SSEntityServerI   entityServ    = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
+      final SSEvernoteServerI evernoteServ  = (SSEvernoteServerI) SSServReg.getServ(SSEvernoteServerI.class);
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
@@ -144,6 +130,7 @@ public class SSDataImportBNPCommon {
           
           addNotebook(
             servPar,
+            userUri,
             toolContext,
             notebookUri,
             null,
@@ -154,12 +141,12 @@ public class SSDataImportBNPCommon {
       evernoteServ.evernoteNoteAdd(
         new SSEvernoteNoteAddPar(
           servPar,
-          this.userUri,
+          userUri,
           notebookUri,
           noteUri,
           false)); //shouldCommit
       
-      actAndLogFct.addNote(
+      actAndLog.addNote(
         servPar, 
         userUri, 
         toolContext, 
@@ -175,12 +162,15 @@ public class SSDataImportBNPCommon {
   
   public void addNoteUEs(
     final SSServPar servPar,
-    final Note         note,
-    final SSUri        noteUri,
-    final Long         creationTime,
-    final Long         updateTime) throws SSErr {
+    final SSUri     userUri,
+    final Note      note,
+    final SSUri     noteUri,
+    final Long      creationTime,
+    final Long      updateTime) throws SSErr {
     
     try{
+      
+      final SSUEServerI     ueServ      = (SSUEServerI)     SSServReg.getServ(SSUEServerI.class);
       
       final List<SSEntity> existingCreationUEs =
         ueServ.userEventsGet(
@@ -377,12 +367,14 @@ public class SSDataImportBNPCommon {
   
   public void addResourceUEs(
     final SSServPar servPar,
-    final SSUri resourceUri,
-    final Long  resourceAddTime) throws SSErr{
+    final SSUri     userUri,
+    final SSUri     resourceUri,
+    final Long      resourceAddTime) throws SSErr{
     
     try{
       
-      final List<SSEntity> existingUEs =
+      final SSUEServerI     ueServ      = (SSUEServerI)     SSServReg.getServ(SSUEServerI.class);
+      final List<SSEntity>  existingUEs =
         ueServ.userEventsGet(
           new SSUEsGetPar(
             servPar,
@@ -416,6 +408,7 @@ public class SSDataImportBNPCommon {
   
   public void addResource(
     final SSServPar      servPar,
+    final SSUri          userUri,
     final SSToolContextE toolContext,
     final SSUri          resourceUri,
     final SSLabel        resourceLabel,
@@ -423,6 +416,9 @@ public class SSDataImportBNPCommon {
     final SSUri          noteUri) throws SSErr{
     
     try{
+      final SSEntityServerI   entityServ    = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
+      final SSEvernoteServerI evernoteServ  = (SSEvernoteServerI) SSServReg.getServ(SSEvernoteServerI.class);
+      
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
           servPar,
@@ -444,7 +440,7 @@ public class SSDataImportBNPCommon {
         evernoteServ.evernoteResourceAdd(
           new SSEvernoteResourceAddPar(
             servPar,
-            this.userUri,
+            userUri,
             noteUri,
             resourceUri,
             false)); //shouldCommit
@@ -470,13 +466,13 @@ public class SSDataImportBNPCommon {
         evernoteServ.evernoteResourceAdd(
           new SSEvernoteResourceAddPar(
             servPar,
-            this.userUri,
+            userUri,
             noteUri,
             resourceUri,
             false)); //shouldCommit
       }
       
-      actAndLogFct.addResource(
+      actAndLog.addResource(
         servPar, 
         userUri, 
         toolContext, 

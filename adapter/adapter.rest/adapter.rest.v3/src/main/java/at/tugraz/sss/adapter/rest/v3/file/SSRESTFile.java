@@ -20,11 +20,13 @@
  */
 package at.tugraz.sss.adapter.rest.v3.file;
 
-import at.kc.tugraz.ss.service.filerepo.api.*;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.*;
+import at.tugraz.sss.servs.file.datatype.ret.SSFileDownloadRet;
+import at.tugraz.sss.servs.file.datatype.ret.SSFileUploadRet;
+import at.tugraz.sss.servs.file.datatype.par.SSFileUploadPar;
+import at.tugraz.sss.servs.file.datatype.par.SSFileDownloadPar;
+import at.tugraz.sss.servs.file.api.SSFileClientI;
 import at.tugraz.sss.adapter.rest.v3.SSRestMain;
 import at.tugraz.sss.conf.SSConf;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
@@ -133,7 +135,7 @@ public class SSRESTFile{
       }
       
       try{
-        final SSFileRepoClientI fileServ = (SSFileRepoClientI) SSServReg.getClientServ(SSFileRepoClientI.class);
+        final SSFileClientI fileServ = (SSFileClientI) SSServReg.getClientServ(SSFileClientI.class);
         
         return Response.status(200).entity(fileServ.fileUpload(SSClientE.rest, par)).build();
         
@@ -201,7 +203,7 @@ public class SSRESTFile{
       }
       
       try{
-        final SSFileRepoClientI fileServ    = (SSFileRepoClientI) SSServReg.getClientServ(SSFileRepoClientI.class);
+        final SSFileClientI fileServ    = (SSFileClientI) SSServReg.getClientServ(SSFileClientI.class);
         final SSFileDownloadRet ret         = (SSFileDownloadRet) fileServ.fileDownload(SSClientE.rest, par);
         
         return Response.ok(ret.outputStream).
@@ -281,7 +283,7 @@ public class SSRESTFile{
       }
       
       try{
-        final SSFileRepoClientI fileServ    = (SSFileRepoClientI) SSServReg.getClientServ(SSFileRepoClientI.class);
+        final SSFileClientI fileServ    = (SSFileClientI) SSServReg.getClientServ(SSFileClientI.class);
         final SSFileDownloadRet ret         = (SSFileDownloadRet) fileServ.fileDownload(SSClientE.rest, par);
         
         return Response.ok(ret.outputStream).
@@ -350,7 +352,7 @@ public class SSRESTFile{
       }
       
       try{
-        final SSFileRepoClientI fileServ    = (SSFileRepoClientI) SSServReg.getClientServ(SSFileRepoClientI.class);
+        final SSFileClientI fileServ    = (SSFileClientI) SSServReg.getClientServ(SSFileClientI.class);
         final SSFileDownloadRet ret         = (SSFileDownloadRet) fileServ.fileDownload(SSClientE.rest, par);
         
         return Response.ok(ret.outputStream).

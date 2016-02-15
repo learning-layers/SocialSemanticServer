@@ -25,20 +25,13 @@ import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.reg.*;
 import java.util.*;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public class SSDataImportActAndLog {
-  
-  private final SSEvalServerI     evalServ;
-  
-  public SSDataImportActAndLog(
-    final SSEvalServerI     evalServ){
-    
-    this.evalServ     = evalServ;
-  }
   
   public void addTag(
     final SSServPar        servPar, 
@@ -51,6 +44,8 @@ public class SSDataImportActAndLog {
     
     try{
       
+      final SSEvalServerI     evalServ = (SSEvalServerI)      SSServReg.getServ(SSEvalServerI.class);
+    
       evalServ.evalLog(
         new SSEvalLogPar(
           servPar,
@@ -86,6 +81,8 @@ public class SSDataImportActAndLog {
     
     try{
       
+      final SSEvalServerI     evalServ = (SSEvalServerI)      SSServReg.getServ(SSEvalServerI.class);
+    
       evalServ.evalLog(
         new SSEvalLogPar(
           servPar,
@@ -122,6 +119,8 @@ public class SSDataImportActAndLog {
     
     try{
       
+      final SSEvalServerI     evalServ = (SSEvalServerI)      SSServReg.getServ(SSEvalServerI.class);
+    
       evalServ.evalLog(
         new SSEvalLogPar(
           servPar,
@@ -157,6 +156,8 @@ public class SSDataImportActAndLog {
     final boolean          shouldCommit) throws SSErr{
     
     try{
+      
+      final SSEvalServerI     evalServ = (SSEvalServerI)      SSServReg.getServ(SSEvalServerI.class);
       
       evalServ.evalLog(
         new SSEvalLogPar(

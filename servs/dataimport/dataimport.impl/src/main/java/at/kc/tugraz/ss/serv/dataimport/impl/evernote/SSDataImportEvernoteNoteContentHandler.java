@@ -20,11 +20,10 @@
   */
 package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
-import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceByHashGetPar;
 import at.tugraz.sss.conf.SSConf;
-import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
+import at.tugraz.sss.servs.file.api.SSFileServerI;
 import at.tugraz.sss.serv.util.SSFileExtE;
 import at.tugraz.sss.serv.util.SSFileU;
 import at.tugraz.sss.serv.util.SSLogU;
@@ -33,7 +32,7 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import com.evernote.clients.NoteStoreClient;
 import com.evernote.edam.type.Note;
@@ -42,54 +41,38 @@ import java.io.*;
 
 public class SSDataImportEvernoteNoteContentHandler{
   
-  private final SSUri             user;
-  private final SSUri             noteUri;
-  private final SSLabel           noteLabel;
-  private final Note              note;
-  private final NoteStoreClient   noteStore;
-  private final SSFileRepoServerI fileServ;
-  private final SSEvernoteServerI evernoteServ;
-  private final SSDataImportConf  conf;
-  
-  public SSDataImportEvernoteNoteContentHandler(
-    final SSDataImportConf  conf,
-    final SSFileRepoServerI fileServ,
-    final SSEvernoteServerI evernoteServ,
-    final SSUri             user,
-    final Note              note,
-    final SSUri             noteUri,
-    final SSLabel           noteLabel,
-    final NoteStoreClient   noteStore){
-    
-    this.conf          = conf;
-    this.fileServ      = fileServ;
-    this.evernoteServ  = evernoteServ;
-    this.user          = user;
-    this.note          = note;
-    this.noteUri       = noteUri;
-    this.noteLabel     = noteLabel;
-    this.noteStore     = noteStore;
-  }
-  
   public void handleNoteContent(
-    final SSServPar servPar) throws SSErr{
+    final SSServPar       servPar, 
+    final NoteStoreClient noteStore,
+    final SSUri           user,
+    final String          localWorkPath, 
+    final Note            note, 
+    final SSUri           noteURI,
+    final SSLabel         noteLabel) throws SSErr{
     
     String                    xhtmlFilePath;
     SSUri                     fileUri;
     String                    pdfFilePath;
     
     try{
+      final SSFileServerI fileServ = (SSFileServerI) SSServReg.getServ(SSFileServerI.class);
       
-      xhtmlFilePath    = conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(SSConf.vocURICreate(SSFileExtE.xhtml));
+      xhtmlFilePath    = localWorkPath + SSConf.fileIDFromSSSURI(SSConf.vocURICreate(SSFileExtE.xhtml));
       fileUri          = SSConf.vocURICreate                  (SSFileExtE.pdf);
-      pdfFilePath      = conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI (fileUri);
+      pdfFilePath      = localWorkPath+ SSConf.fileIDFromSSSURI (fileUri);
 
       SSFileU.writeStr(note.getContent(), xhtmlFilePath);
       
       try{
         
         SSFileU.writeStr(
-          downnloadNoteResourcesAndFillXHTMLWithLocalImageLinks(servPar, xhtmlFilePath),
+          downloadNoteResourcesAndFillXHTMLWithLocalImageLinks(
+            servPar, 
+            localWorkPath, 
+            noteStore, 
+            user, 
+            note, 
+            xhtmlFilePath),
           xhtmlFilePath);
         
         SSFileU.writePDFFromXHTML(
@@ -114,7 +97,13 @@ public class SSDataImportEvernoteNoteContentHandler{
           
           try{
             SSFileU.writeStr(
-              downnloadNoteResourcesAndFillXHTMLWithLocalImageLinks(servPar, xhtmlFilePath),
+              downloadNoteResourcesAndFillXHTMLWithLocalImageLinks(
+                servPar, 
+                localWorkPath, 
+                noteStore, 
+                user, 
+                note, 
+                xhtmlFilePath),
               xhtmlFilePath);
             
           }catch(Exception error1){
@@ -155,9 +144,9 @@ public class SSDataImportEvernoteNoteContentHandler{
           fileUri, //file
           SSEntityE.file, //type,
           noteLabel, //label
-          noteUri, //entity
+          noteURI, //entity
           true, //createThumb
-          noteUri, //entityToAddThumbTo
+          noteURI, //entityToAddThumbTo
           true, //removeExistingFilesForEntity
           true, //withUserRestriction
           false));//shouldCommit
@@ -296,9 +285,13 @@ public class SSDataImportEvernoteNoteContentHandler{
     }
   }
   
-  private String downnloadNoteResourcesAndFillXHTMLWithLocalImageLinks(
-    final SSServPar servPar,
-    final String path) throws SSErr{
+  private String downloadNoteResourcesAndFillXHTMLWithLocalImageLinks(
+    final SSServPar       servPar,
+    final String          localWorkPath,
+    final NoteStoreClient noteStore,
+    final SSUri           user,
+    final Note            note,
+    final String          path) throws SSErr{
     
     BufferedReader lineReader      = null;
     String         result          = SSStrU.empty;
@@ -318,6 +311,7 @@ public class SSDataImportEvernoteNoteContentHandler{
     int            hashEndIndex;
     
     try{
+      final SSEvernoteServerI evernoteServ = (SSEvernoteServerI) SSServReg.getServ(SSEvernoteServerI.class);
       
       lineReader = new BufferedReader(new FileReader(new File(path)));
       
@@ -548,7 +542,7 @@ public class SSDataImportEvernoteNoteContentHandler{
                   hash));
             
             SSFileU.writeFileBytes(
-              new FileOutputStream(conf.getLocalWorkPath() + fileID),
+              new FileOutputStream(localWorkPath + fileID),
               resource.getData().getBody(),
               resource.getData().getSize());
           }
@@ -588,7 +582,7 @@ public class SSDataImportEvernoteNoteContentHandler{
               "\" height=\"" +
               resource.getHeight() +
               "\" class=\"xmyImagex\" src=\"" +
-              conf.getLocalWorkPath() + fileID +
+              localWorkPath + fileID +
               "\"/>";
           }
           

@@ -45,7 +45,6 @@ import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSCircle;
 import at.tugraz.sss.serv.datatype.SSEntityContext;
-import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.reg.*;
 import au.com.bytecode.opencsv.CSVWriter;
 import java.io.FileOutputStream;

@@ -79,13 +79,10 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
-import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.serv.entity.api.SSUsersResourcesGathererI;
 import at.tugraz.sss.servs.common.impl.metadata.SSTagAndCategoryCommonMisc;
 import at.tugraz.sss.servs.common.impl.metadata.SSTagAndCategoryCommonSQL;
 import sss.serv.eval.api.SSEvalServerI;
-import sss.serv.eval.datatypes.SSEvalLogE;
-import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public class SSCategoryImpl
 extends SSServImplWithDBA

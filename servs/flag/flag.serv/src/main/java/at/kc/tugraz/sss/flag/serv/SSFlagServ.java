@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.sss.flag.serv;
 
-import at.kc.tugraz.ss.service.filerepo.conf.*;
 import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.reg.*;

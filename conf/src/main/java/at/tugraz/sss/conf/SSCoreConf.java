@@ -20,6 +20,7 @@
   */
 package at.tugraz.sss.conf;
 
+import at.tugraz.sss.servs.file.conf.SSFileConf;
 import sss.serv.eval.conf.SSEvalConf;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.activity.conf.SSActivityConf;
@@ -43,7 +44,6 @@ import at.kc.tugraz.ss.serv.search.conf.SSSearchConf;
 import at.kc.tugraz.ss.serv.tag.conf.SSTagConf;
 import at.kc.tugraz.ss.serv.ue.conf.SSUEConf;
 import at.kc.tugraz.ss.serv.user.conf.SSUserConf;
-import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.sss.app.conf.SSAppConf;
 import at.kc.tugraz.sss.appstacklayout.conf.SSAppStackLayoutConf;
 import at.kc.tugraz.sss.comment.conf.SSCommentConf;
@@ -68,7 +68,7 @@ public class SSCoreConf extends SSCoreConfA {
   private SSJSONLDConf jsonLD = null;
   private SSDBSQLConf dbSQL = null;
   private SSDBNoSQLConf dbNoSQL = null;
-  private SSFileRepoConf filerepo = null;
+  private SSFileConf file = null;
   private SSRecommConf recomm = null;
   private SSEvernoteConf evernote = null;
   private SSAuthConf auth = null;
@@ -146,7 +146,7 @@ public class SSCoreConf extends SSCoreConfA {
       copy.sss = SSConf.copy(inst.sss);
       copy.jsonLD = SSJSONLDConf.copy(inst.jsonLD);
       copy.dbSQL = SSDBSQLConf.copy(inst.dbSQL);
-      copy.filerepo = SSFileRepoConf.copy(inst.filerepo);
+      copy.file = SSFileConf.copy(inst.file);
       copy.recomm = SSRecommConf.copy(inst.recomm);
       copy.evernote = SSEvernoteConf.copy(inst.evernote);
       copy.auth = SSAuthConf.copy(inst.auth);
@@ -218,12 +218,12 @@ public class SSCoreConf extends SSCoreConfA {
     this.dbNoSQL = dbNoSQL;
   }
   
-  public SSFileRepoConf getFilerepo() {
-    return filerepo;
+  public SSFileConf getFile() {
+    return file;
   }
   
-  public void setFilerepo(SSFileRepoConf filerepo) {
-    this.filerepo = filerepo;
+  public void setFile(SSFileConf file) {
+    this.file = file;
   }
   
   public SSRecommConf getRecomm() {

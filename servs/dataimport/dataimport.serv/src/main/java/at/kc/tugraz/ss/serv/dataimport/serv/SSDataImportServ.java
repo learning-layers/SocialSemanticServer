@@ -69,7 +69,7 @@ public class SSDataImportServ extends SSServContainerI{
         return servImpl;
       }
       
-      servImpl = new SSDataImportImpl(conf);
+      servImpl = new SSDataImportImpl((SSDataImportConf)conf);
     }
     
     return servImpl;

@@ -20,6 +20,7 @@
  */
 package at.tugraz.sss.adapter.socket.v3;
 
+import at.tugraz.sss.servs.file.serv.SSFileServ;
 import at.kc.tugraz.ss.activity.serv.*;
 import at.kc.tugraz.ss.category.ss.category.serv.*;
 import at.kc.tugraz.ss.friend.serv.*;
@@ -35,7 +36,6 @@ import at.kc.tugraz.ss.serv.jobs.evernote.serv.*;
 import at.kc.tugraz.ss.serv.jsonld.serv.*;
 import at.kc.tugraz.ss.service.coll.service.*;
 import at.kc.tugraz.ss.service.disc.service.*;
-import at.kc.tugraz.ss.service.filerepo.service.*;
 import at.kc.tugraz.ss.service.rating.service.*;
 import at.kc.tugraz.ss.service.search.service.*;
 import at.kc.tugraz.ss.service.tag.service.*;
@@ -134,7 +134,7 @@ public class SSSocketMain extends SSServImplStartA{
         SSTagServ.inst.regServ             ();
         SSAuthServ.inst.regServ            ();
         SSEvernoteServ.inst.regServ        ();
-        SSFilerepoServ.inst.regServ        ();
+        SSFileServ.inst.regServ        ();
         SSDataImportServ.inst.regServ      ();
         SSJSONLD.inst.regServ              ();
         SSRatingServ.inst.regServ          ();
@@ -183,7 +183,7 @@ public class SSSocketMain extends SSServImplStartA{
         SSRecommServ.inst.schedule         ();
         SSKCProjWikiServ.inst.schedule     ();
         SSEvalServ.inst.schedule           ();
-        SSFilerepoServ.inst.schedule       ();
+        SSFileServ.inst.schedule       ();
       }catch(Exception error){
         SSServErrReg.regErrThrow(error);
       }

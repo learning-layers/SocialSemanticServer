@@ -19,7 +19,7 @@
    
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>filerepo.api</artifactId>
+      <artifactId>file.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     

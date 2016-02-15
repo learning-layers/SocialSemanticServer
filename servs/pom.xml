@@ -13,7 +13,6 @@
   <name>servs</name>
   <modules>
     <module>jsonld</module>
-    <module>filerepo</module>
     <module>search</module>
     <module>auth</module>
     <module>dataimport</module>
@@ -47,5 +46,6 @@
     <module>mail</module>
     <module>kcprojwiki</module>
     <module>db</module>
+    <module>file</module>
   </modules>
 </project>
