@@ -18,9 +18,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.kc.tugraz.ss.serv.dataimport.impl.bitsandpieces;
+package at.kc.tugraz.ss.serv.dataimport.impl.bnp;
 
-import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
+import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportActAndLog;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteAddPar;
@@ -40,35 +40,31 @@ import com.evernote.edam.type.Note;
 import com.evernote.edam.type.NoteAttributes;
 import java.util.List;
 import sss.serv.eval.api.SSEvalServerI;
-import sss.serv.eval.datatypes.SSEvalLogE;
-import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
-public class SSDataImportBitsAndPiecesMiscFct {
+public class SSDataImportBNPCommon {
   
-  private final SSDataImportBitsAndPiecesPar par;
+  public static final Integer                 bitsAndPiecesImageMinWidth          = 250;
+  public static final Integer                 bitsAndPiecesImageMinHeight         = 250;
+  
   private final SSEntityServerI              entityServ;
   private final SSEvernoteServerI            evernoteServ;
   private final SSUEServerI                  ueServ;
-  private final SSEvalServerI                evalServ;
   private final SSUri                        userUri;
-  private final SSDataImportActAndLogFct     actAndLogFct;
+  private final SSDataImportActAndLog     actAndLogFct;
   
-  public SSDataImportBitsAndPiecesMiscFct(
-    final SSDataImportBitsAndPiecesPar par,
+  public SSDataImportBNPCommon(
     final SSEntityServerI              entityServ,
     final SSEvernoteServerI            evernoteServ,
     final SSUEServerI                  ueServ,
     final SSEvalServerI                evalServ,
     final SSUri                        userUri) throws SSErr{
     
-    this.par             = par;
     this.entityServ      = entityServ;
     this.evernoteServ    = evernoteServ;
     this.ueServ          = ueServ;
-    this.evalServ        = evalServ;
     this.userUri         = userUri;
     this.actAndLogFct    = 
-      new SSDataImportActAndLogFct(
+      new SSDataImportActAndLog(
         evalServ);
   }
   

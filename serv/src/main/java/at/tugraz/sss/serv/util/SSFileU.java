@@ -22,6 +22,7 @@ package at.tugraz.sss.serv.util;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.reg.*;
+import au.com.bytecode.opencsv.*;
 import com.lowagie.text.Document;
 import com.lowagie.text.Paragraph;
 import java.io.*;
@@ -684,6 +685,69 @@ public class SSFileU{
       }
       
       return "data:image/png;base64," + DatatypeConverter.printBase64Binary(ArrayUtils.toPrimitive(bytes.toArray(new Byte[bytes.size()])));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  public static List<String[]> readAllFromCSV(
+    final String filePath) throws SSErr{
+    
+    FileInputStream                    in          = null;
+    InputStreamReader                  reader      = null;
+    CSVReader                          csvReader   = null;
+    
+    try{
+      
+      try{
+        in = SSFileU.openFileForRead (filePath);
+      }catch(Exception error){
+        throw new Exception("csv file to read users from not found at: " + filePath);
+      }
+      
+      reader    = new InputStreamReader   (in,     Charset.forName(SSEncodingU.utf8.toString()));
+      csvReader = new CSVReader           (reader, SSStrU.semiColon.charAt(0));
+      
+      return csvReader.readAll();
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      
+      if(in != null){
+        try {
+          in.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
+      }
+      
+      if(reader != null){
+        try {
+          reader.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
+      }
+      
+      if(csvReader != null){
+        try {
+          csvReader.close();
+        } catch (IOException ex) {
+          SSLogU.err(ex);
+        }
+      }
+    }
+  }
+    
+  public static List<String[]> readAllFromCSV(
+    final String path,
+    final String fileName) throws SSErr{
+    
+    try{
+      return readAllFromCSV(SSFileU.correctDirPath(path) + fileName);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

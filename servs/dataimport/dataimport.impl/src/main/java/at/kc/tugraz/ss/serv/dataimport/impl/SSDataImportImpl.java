@@ -35,9 +35,8 @@ import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiProj
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiVorgaengePar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportMediaWikiUserPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
-import at.kc.tugraz.ss.serv.dataimport.impl.bitsandpieces.SSDataImportBitsAndPiecesEvernoteImporter;
-import at.kc.tugraz.ss.serv.dataimport.impl.bitsandpieces.SSDataImportBitsAndPiecesMailImporter;
-import at.kc.tugraz.ss.serv.dataimport.impl.fct.reader.SSDataImportReaderFct;
+import at.kc.tugraz.ss.serv.dataimport.impl.bnp.SSDataImportBNPEvernoteImporter;
+import at.kc.tugraz.ss.serv.dataimport.impl.bnp.SSDataImportBNPMailImporter;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.sql.SSDataImportSQLFct;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
@@ -69,10 +68,6 @@ extends
 implements
   SSDataImportClientI,
   SSDataImportServerI{
-  
-  public  static final Integer                 bitsAndPiecesImageMinWidth          = 250;
-  public  static final Integer                 bitsAndPiecesImageMinHeight         = 250;
-  
   
   private final SSDataImportConf   dataImportConf;
   private final SSDataImportSQLFct sqlFct;
@@ -137,7 +132,7 @@ implements
           
           dbSQL.startTrans(par, par.shouldCommit);
           
-          new SSDataImportBitsAndPiecesEvernoteImporter(
+          new SSDataImportBNPEvernoteImporter(
             dataImportConf,
             par,
             entityServ,
@@ -172,7 +167,7 @@ implements
           
           dbSQL.startTrans(par, par.shouldCommit);
           
-          new SSDataImportBitsAndPiecesMailImporter(
+          new SSDataImportBNPMailImporter(
             dataImportConf,
             par,
             entityServ,
@@ -210,7 +205,7 @@ implements
   public Map<String, String> dataImportSSSUsersFromCSVFile(final SSDataImportSSSUsersFromCSVFilePar par) throws SSErr{
     
     try{
-      final List<String[]>                     lines           = SSDataImportReaderFct.readAllFromCSV(par.filePath);
+      final List<String[]>                     lines           = SSFileU.readAllFromCSV(par.filePath);
       final Map<String, String>                passwordPerUser = new HashMap<>();
       
       for(String[] line : lines){
@@ -234,7 +229,7 @@ implements
     
     try{
       
-      final List<String[]> lines = SSDataImportReaderFct.readAllFromCSV(conf.getSssWorkDirDataCsv(), ((SSDataImportConf)conf).fileName);
+      final List<String[]> lines = SSFileU.readAllFromCSV(conf.getSssWorkDirDataCsv(), ((SSDataImportConf)conf).fileName);
       String firstName;
       String familyName;
       String password;
@@ -306,7 +301,7 @@ implements
       Float                                  usedResources;
       SSKCProjWikiVorgangEmployeeResource    employeeResource;
       
-      lines = SSDataImportReaderFct.readAllFromCSV(par.filePath);
+      lines = SSFileU.readAllFromCSV(par.filePath);
       
 //      Projekt;WP;Mitarbeiter;ZusArt ;SAnfang;SEnde;Plan-Std VG;verbrauchte Std. VG;Plan-Std. MA;Sum-h MA;
       for(Integer lineCounter = 1; lineCounter < lines.size(); lineCounter++){
@@ -397,7 +392,7 @@ implements
       SSEvalLogEntry                         entry;
       
       //timestamp;tool context;user label;log type;entity;entity type;entity label;content;tag type;entities' ids;entities' labels;users' labels;episodespace;selected bits measure;not selected entities' ids;not selected entities' labels
-      lines = SSDataImportReaderFct.readAllFromCSV(par.filePath);
+      lines = SSFileU.readAllFromCSV(par.filePath);
       
       for(Integer lineCounter = 1; lineCounter < lines.size(); lineCounter++){
         
@@ -510,7 +505,7 @@ implements
       final List<String[]>      lines;
       final Map<String, SSKCProjWikiProject> passwordPerUser = new HashMap<>();
       
-      lines = SSDataImportReaderFct.readAllFromCSV(SSFileU.dirWorking(), par.fileName);
+      lines = SSFileU.readAllFromCSV(SSFileU.dirWorking(), par.fileName);
       
       for(String[] line : lines){
         

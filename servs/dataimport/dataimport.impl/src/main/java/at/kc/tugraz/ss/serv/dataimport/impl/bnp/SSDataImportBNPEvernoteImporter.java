@@ -18,8 +18,9 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-package at.kc.tugraz.ss.serv.dataimport.impl.bitsandpieces;
+package at.kc.tugraz.ss.serv.dataimport.impl.bnp;
 
+import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportActAndLog;
 import at.kc.tugraz.ss.serv.dataimport.conf.*;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.util.SSLinkU;
@@ -29,7 +30,6 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
-import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportImpl;
 import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteNoteContentHandler;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
@@ -66,26 +66,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import sss.serv.eval.api.SSEvalServerI;
-import sss.serv.eval.datatypes.SSEvalLogE;
-import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
-public class SSDataImportBitsAndPiecesEvernoteImporter {
+public class SSDataImportBNPEvernoteImporter {
   
   private final SSDataImportBitsAndPiecesPar     par;
   private final SSFileRepoServerI                fileServ;
   private final SSEvernoteServerI                evernoteServ;
   private final SSUEServerI                      ueServ;
   private final SSTagServerI                     tagServ;
-  private final SSEvalServerI                    evalServ;
   private final SSUri                            userUri;
-  private final SSDataImportBitsAndPiecesMiscFct miscFct;
+  private final SSDataImportBNPCommon miscFct;
   private final SSDataImportConf                 conf;
-  private final SSDataImportActAndLogFct         actAndLogFct;
+  private final SSDataImportActAndLog         actAndLogFct;
   private final List<String>                     sharedNotebookGuids      = new ArrayList<>();
   private       SSEvernoteInfo                   evernoteInfo             = null;
   private       List<SharedNotebook>             sharedNotebooks          = null;
   
-  public SSDataImportBitsAndPiecesEvernoteImporter(
+  public SSDataImportBNPEvernoteImporter(
     final SSDataImportConf             conf,
     final SSDataImportBitsAndPiecesPar par, 
     final SSEntityServerI              entityServ,
@@ -102,12 +99,10 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     this.evernoteServ    = evernoteServ;
     this.ueServ          = ueServ;
     this.tagServ         = tagServ;
-    this.evalServ        = evalServ;
     this.userUri         = userUri;
     
     this.miscFct =
-      new SSDataImportBitsAndPiecesMiscFct(
-        par,
+      new SSDataImportBNPCommon(
         entityServ,
         evernoteServ,
         ueServ,
@@ -115,7 +110,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         userUri);
     
     this.actAndLogFct    =
-      new SSDataImportActAndLogFct(
+      new SSDataImportActAndLog(
         evalServ);
   }
   
@@ -520,10 +515,10 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
           }
              
           if(
-            resourceWithContent.getWidth()  <= SSDataImportImpl.bitsAndPiecesImageMinWidth ||
-            resourceWithContent.getHeight() <= SSDataImportImpl.bitsAndPiecesImageMinHeight){
+            resourceWithContent.getWidth()  <= SSDataImportBNPCommon.bitsAndPiecesImageMinWidth ||
+            resourceWithContent.getHeight() <= SSDataImportBNPCommon.bitsAndPiecesImageMinHeight){
             
-//            SSLogU.info("evernote image resource height or width < " + SSDataImportImpl.bitsAndPiecesImageMinWidth);
+//            SSLogU.info("evernote image resource height or width < " + SSDataImportBNPCommon.bitsAndPiecesImageMinWidth);
             continue;
           }
           
@@ -712,53 +707,3 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     return SSLabel.get("no label");
   }
 }
-
-
-//  public boolean isSharedNootebook(SSUri notebookUri, SSLabel userName, Notebook notebook) {
-//    return uriHelper.isSharedNotebookUri(userName, notebook, notebookUri);
-//  }
-
-
-
-//  public String getUserEmail(final SSEvernoteInfo evernoteInfo) throws SSErr{
-//    return evernoteInfo.userStore.getUser().getEmail();
-//  }
-
-//  private static SSLabel getLinkedNoteLabel(
-//    final Note  note) throws SSErr {
-//
-//    try{
-//      final SSLabel tmpLabel = SSLabel.get(note.getTitle());
-//
-//      if(tmpLabel == null){
-//        return getDefaultLabel();
-//      }else{
-//        return tmpLabel;
-//      }
-//    }catch(Exception error){
-//      return getDefaultLabel();
-//    }
-//  }
-
-//private static SSUri getLinkedNoteUri(LinkedNotebook linkedNotebook, Note note) throws SSErr{
-//    return SSUri.get(linkedNotebook.getWebApiUrlPrefix() + "share/view/" + linkedNotebook.getShareKey() + "?#n=" + note.getGuid());
-//  }
-//
-//  private static boolean isSharedNotebookUri(SSLabel userName, Notebook notebook, SSUri notebookUri){
-//
-//    String sharedNotebookUriStr;
-//
-//    try{
-//      sharedNotebookUriStr = createSharedNotebookUriStr(userName, notebook);
-//    }catch(Exception error){
-//      return false;
-//    }
-//
-//    if(
-//      notebookUri == null ||
-//      SSStrU.isEmpty(notebookUri.toString())){
-//      return false;
-//    }
-//
-//    return notebookUri.toString().equals(sharedNotebookUriStr);
-//  }

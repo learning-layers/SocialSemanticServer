@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.kc.tugraz.ss.serv.dataimport.impl.bitsandpieces;
+package at.kc.tugraz.ss.serv.dataimport.impl;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.SSLogU;
@@ -30,11 +30,11 @@ import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
-public class SSDataImportActAndLogFct {
+public class SSDataImportActAndLog {
   
   private final SSEvalServerI     evalServ;
   
-  public SSDataImportActAndLogFct(
+  public SSDataImportActAndLog(
     final SSEvalServerI     evalServ){
     
     this.evalServ     = evalServ;

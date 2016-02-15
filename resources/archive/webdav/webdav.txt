@@ -1,3 +1,8 @@
+<!--    <dependency>
+      <groupId>com.googlecode.sardine</groupId>
+      <artifactId>sardine</artifactId>
+      <version>146</version>
+    </dependency>-->
 
 //  private boolean evernoteNoteUploadPNGToWebDav(String pngFilePath, String pngFileID){
 //

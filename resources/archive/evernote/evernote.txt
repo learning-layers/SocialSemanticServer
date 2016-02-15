@@ -1,0 +1,46 @@
+//  public boolean isSharedNootebook(SSUri notebookUri, SSLabel userName, Notebook notebook) {
+//    return uriHelper.isSharedNotebookUri(userName, notebook, notebookUri);
+//  }
+
+//  public String getUserEmail(final SSEvernoteInfo evernoteInfo) throws SSErr{
+//    return evernoteInfo.userStore.getUser().getEmail();
+//  }
+
+//  private static SSLabel getLinkedNoteLabel(
+//    final Note  note) throws SSErr {
+//
+//    try{
+//      final SSLabel tmpLabel = SSLabel.get(note.getTitle());
+//
+//      if(tmpLabel == null){
+//        return getDefaultLabel();
+//      }else{
+//        return tmpLabel;
+//      }
+//    }catch(Exception error){
+//      return getDefaultLabel();
+//    }
+//  }
+
+//private static SSUri getLinkedNoteUri(LinkedNotebook linkedNotebook, Note note) throws SSErr{
+//    return SSUri.get(linkedNotebook.getWebApiUrlPrefix() + "share/view/" + linkedNotebook.getShareKey() + "?#n=" + note.getGuid());
+//  }
+//
+//  private static boolean isSharedNotebookUri(SSLabel userName, Notebook notebook, SSUri notebookUri){
+//
+//    String sharedNotebookUriStr;
+//
+//    try{
+//      sharedNotebookUriStr = createSharedNotebookUriStr(userName, notebook);
+//    }catch(Exception error){
+//      return false;
+//    }
+//
+//    if(
+//      notebookUri == null ||
+//      SSStrU.isEmpty(notebookUri.toString())){
+//      return false;
+//    }
+//
+//    return notebookUri.toString().equals(sharedNotebookUriStr);
+//  }

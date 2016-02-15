@@ -18,11 +18,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.kc.tugraz.ss.serv.dataimport.impl.bitsandpieces;
+package at.kc.tugraz.ss.serv.dataimport.impl.bnp;
 
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
-import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportImpl;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.tugraz.sss.conf.SSConf;
@@ -48,16 +47,16 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import sss.serv.eval.api.SSEvalServerI;
 
-public class SSDataImportBitsAndPiecesMailImporter {
+public class SSDataImportBNPMailImporter {
   
   private final SSDataImportConf                 conf;
   private final SSDataImportBitsAndPiecesPar     par;
   private final SSEntityServerI                  entityServ;
   private final SSFileRepoServerI                fileServ;
   private final SSUri                            userUri;
-  private final SSDataImportBitsAndPiecesMiscFct miscFct;
+  private final SSDataImportBNPCommon miscFct;
 
-  public SSDataImportBitsAndPiecesMailImporter(
+  public SSDataImportBNPMailImporter(
     final SSDataImportConf             conf,
     final SSDataImportBitsAndPiecesPar par,
     final SSEntityServerI              entityServ,
@@ -74,8 +73,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
     this.userUri       = userUri;
     
     this.miscFct = 
-      new SSDataImportBitsAndPiecesMiscFct(
-        par,
+      new SSDataImportBNPCommon(
         entityServ, //entityServ
         evernoteServ, //evernoteServ
         ueServ, //ueServ
@@ -354,10 +352,10 @@ public class SSDataImportBitsAndPiecesMailImporter {
       final BufferedImage image = ImageIO.read(new File(conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(resource)));
       
       if(
-        image.getWidth()  <= SSDataImportImpl.bitsAndPiecesImageMinWidth ||
-        image.getHeight() <= SSDataImportImpl.bitsAndPiecesImageMinHeight){
+        image.getWidth()  <= SSDataImportBNPCommon.bitsAndPiecesImageMinWidth ||
+        image.getHeight() <= SSDataImportBNPCommon.bitsAndPiecesImageMinHeight){
         
-        SSLogU.info("mail attachment height or width < " + SSDataImportImpl.bitsAndPiecesImageMinWidth);
+        SSLogU.info("mail attachment height or width < " + SSDataImportBNPCommon.bitsAndPiecesImageMinWidth);
         return false;
       }
       
