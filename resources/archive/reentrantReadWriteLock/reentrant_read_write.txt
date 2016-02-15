@@ -1,0 +1,101 @@
+//  private static final ReentrantReadWriteLock  bitsAndPiecesEvernoteImportsLock    = new ReentrantReadWriteLock();
+//  private static final Map<Thread, String>     bitsAndPiecesEvernoteImports        = new HashMap<>();
+//  private static final ReentrantReadWriteLock  bitsAndPiecesEmailsImportsLock      = new ReentrantReadWriteLock();
+//  private static final Map<Thread, String>     bitsAndPiecesEmailsImports          = new HashMap<>();
+//  private boolean addBitsAndPiecesEvernoteImport(
+//    final String authToken,
+//    final String authEmail) throws SSErr{
+//    
+//    try{
+//      
+//      if(!bitsAndPiecesEvernoteImportsLock.isWriteLockedByCurrentThread()){
+//        bitsAndPiecesEvernoteImportsLock.writeLock().lock();
+//      }
+//      
+//      if(bitsAndPiecesEvernoteImports.containsValue(authToken)){
+//        SSLogU.warn("attempted to start B&P evernote import concurrently for " + authEmail, null);
+//        return false;
+//      }
+//      
+//      bitsAndPiecesEvernoteImports.put(Thread.currentThread(), authToken);
+//      
+//      return true;
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return false;
+//    }finally{
+//      
+//      if(bitsAndPiecesEvernoteImportsLock.isWriteLockedByCurrentThread()){
+//        bitsAndPiecesEvernoteImportsLock.writeLock().unlock();
+//      }
+//    }
+//  }
+//  
+//  private void removeBitsAndPiecesEvernoteImport(final String authToken) throws SSErr{
+//    
+//    try{
+//      bitsAndPiecesEvernoteImportsLock.writeLock().lock();
+//      
+//      if(authToken != null){
+//        bitsAndPiecesEvernoteImports.remove(Thread.currentThread());
+//      }
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }finally{
+//      
+//      if(bitsAndPiecesEvernoteImportsLock.isWriteLockedByCurrentThread()){
+//        bitsAndPiecesEvernoteImportsLock.writeLock().unlock();
+//      }
+//    }
+//  }
+//  
+//  private boolean addBitsAndPiecesEmailImport(
+//    final String authToken,
+//    final String authEmail) throws SSErr{
+//    
+//    try{
+//      
+//      if(!bitsAndPiecesEmailsImportsLock.isWriteLockedByCurrentThread()){
+//        bitsAndPiecesEmailsImportsLock.writeLock().lock();
+//      }
+//      
+//      if(bitsAndPiecesEmailsImports.containsValue(authToken)){
+//        SSLogU.warn("attempted to start B&P evernote import concurrently for " + authEmail, null);
+//        return false;
+//      }
+//      
+//      bitsAndPiecesEmailsImports.put(Thread.currentThread(), authToken);
+//      
+//      return true;
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return false;
+//    }finally{
+//      
+//      if(bitsAndPiecesEmailsImportsLock.isWriteLockedByCurrentThread()){
+//        bitsAndPiecesEmailsImportsLock.writeLock().unlock();
+//      }
+//    }
+//  }
+//  
+//  private void removeBitsAndPiecesEmailImport(final String authToken) throws SSErr{
+//    
+//    try{
+//      bitsAndPiecesEmailsImportsLock.writeLock().lock();
+//      
+//      if(authToken != null){
+//        bitsAndPiecesEmailsImports.remove(Thread.currentThread());
+//      }
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }finally{
+//      
+//      if(bitsAndPiecesEmailsImportsLock.isWriteLockedByCurrentThread()){
+//        bitsAndPiecesEmailsImportsLock.writeLock().unlock();
+//      }
+//    }
+//  }

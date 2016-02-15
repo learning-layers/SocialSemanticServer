@@ -1,0 +1,28 @@
+
+//  private boolean evernoteNoteUploadPNGToWebDav(String pngFilePath, String pngFileID){
+//
+//    FileInputStream in = null;
+//
+//    try{
+//      SSFileU.openFileForRead(pngFilePath);
+//
+//      SardineFactory.begin("wduza", "w!123a").put("http://kedemo.know-center.tugraz.at:80/webdav/knowBrainWeb/" + pngFileID, in);
+//
+//      return true;
+//
+//    }catch(Exception error){
+//      SSLogU.logError(error, "couldnt upload note png to webdav");
+//      return false;
+//    }finally{
+//
+//      if(in != null){
+//
+//        try {
+//          in.close();
+//        } catch (IOException error2) {
+//          SSLogU.logError(error2, "couldnt close note png input stream for webdav");
+//          return false;
+//        }
+//      }
+//    }
+//  }
