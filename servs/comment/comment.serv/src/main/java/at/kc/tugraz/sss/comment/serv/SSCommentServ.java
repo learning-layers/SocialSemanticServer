@@ -56,10 +56,6 @@ public class SSCommentServ extends SSServContainerI{
     
     synchronized(this){
       
-      if(servImpl != null){
-        return servImpl;
-      }
-      
       servImpl = new SSCommentImpl(conf);
     }
     

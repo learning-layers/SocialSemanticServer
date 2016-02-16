@@ -53,10 +53,9 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
   
   public SSTagAndCategoryCommonSQL(
     final SSDBSQLI    dbSQL,
-    final SSUri       systemUserURI,
     final SSEntityE   metadataType){
     
-    super(dbSQL, systemUserURI);
+    super(dbSQL);
     
     this.metadataType = metadataType;
     

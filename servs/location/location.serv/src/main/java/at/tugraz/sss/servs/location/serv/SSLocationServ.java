@@ -56,10 +56,6 @@ public class SSLocationServ extends SSServContainerI{
     
     synchronized(this){
       
-      if(servImpl != null){
-        return servImpl;
-      }
-      
       servImpl = new SSLocationImpl(conf);
     }
     

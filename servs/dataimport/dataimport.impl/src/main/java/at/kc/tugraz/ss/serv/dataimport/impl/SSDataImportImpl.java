@@ -234,27 +234,14 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-        
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-          }
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }

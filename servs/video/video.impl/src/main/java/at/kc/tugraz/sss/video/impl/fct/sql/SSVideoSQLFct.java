@@ -39,10 +39,9 @@ import at.tugraz.sss.serv.db.api.SSCoreSQL;
 public class SSVideoSQLFct extends SSCoreSQL{
 
   public SSVideoSQLFct(
-    final SSDBSQLI dbSQL,
-    final SSUri    systemUserURI){
+    final SSDBSQLI dbSQL){
     
-    super(dbSQL, systemUserURI);
+    super(dbSQL);
   }
   
   public void addVideoToUser(

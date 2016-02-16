@@ -25,6 +25,7 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
+import at.tugraz.sss.conf.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.par.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.datatype.enums.*;
@@ -42,10 +43,9 @@ import at.tugraz.sss.serv.db.api.SSCoreSQL;
 public class SSUESQLFct extends SSCoreSQL{
 
   public SSUESQLFct(
-    final SSDBSQLI dbSQL,
-    final SSUri    systemUserURI){
+    final SSDBSQLI dbSQL){
     
-    super(dbSQL, systemUserURI);
+    super(dbSQL);
   }
 
   public SSUE getUE(
@@ -101,7 +101,7 @@ public class SSUESQLFct extends SSCoreSQL{
         bindingStrToLabel            (resultSet, SSSQLVarNames.label),
         bindingStrToTextComment      (resultSet, SSSQLVarNames.description),
         bindingStrToLong             (resultSet, SSSQLVarNames.creationTime),
-        getEntityTest                (servPar, null, bindingStrToUri(resultSet, SSSQLVarNames.author), false),
+        getAuthorEntityFromResult    (servPar, resultSet, SSConf.systemUserUri),
         bindingStrToEntity           (resultSet, SSSQLVarNames.userId,   SSEntityE.user), 
         SSUEE.get(bindingStr         (resultSet, SSSQLVarNames.eventType)),
         bindingStrToEntity           (resultSet, SSSQLVarNames.entityId, SSEntityE.entity), 

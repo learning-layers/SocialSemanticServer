@@ -112,7 +112,7 @@ implements
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql         = new SSCollSQLFct(dbSQL, SSConf.systemUserUri);
+    this.sql         = new SSCollSQLFct(dbSQL);
     this.entityServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
     this.circleServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
     this.userCommons = new SSUserCommons();
@@ -149,6 +149,7 @@ implements
               collEntity =
                 sql.getEntityTest(
                   servPar, 
+                  SSConf.systemUserUri,
                   par.user,
                   coll.id,
                   par.withUserRestriction);
@@ -787,6 +788,7 @@ implements
         final SSEntity coll =
           sql.getEntityTest(
             par, 
+            SSConf.systemUserUri,
             par.user,
             par.coll,
             par.withUserRestriction);
@@ -880,6 +882,7 @@ implements
         final SSEntity entity =
           sql.getEntityTest(
             par, 
+            SSConf.systemUserUri,
             par.user,
             par.entity,
             par.withUserRestriction);
@@ -986,29 +989,14 @@ implements
       dbSQL.commit(par, par.shouldCommit);
       
       return true;
-    }catch(SSErr error){
+   }catch(Exception error){
       
-      switch(error.code){
-
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-            return false;
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-            return false;
-          }
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          return false;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }
@@ -1047,6 +1035,7 @@ implements
         final SSEntity coll =
           sql.getEntityTest(
             par, 
+            SSConf.systemUserUri,
             par.user,
             par.coll,
             par.withUserRestriction);
@@ -1057,7 +1046,8 @@ implements
         
         final SSEntity entry =
           sql.getEntityTest(
-            par, 
+            par,
+            SSConf.systemUserUri,
             par.user,
             par.coll,
             par.withUserRestriction);
@@ -1128,29 +1118,14 @@ implements
       
       return par.entry;
       
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-            return null;
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-            return null;
-          }
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1208,29 +1183,14 @@ implements
       dbSQL.commit(par, par.shouldCommit);
       
       return addedEntries;
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-            return null;
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-            return null;
-          }
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1250,6 +1210,7 @@ implements
         final SSEntity coll =
           sql.getEntityTest(
             par, 
+            SSConf.systemUserUri,
             par.user,
             par.coll,
             par.withUserRestriction);
@@ -1275,29 +1236,14 @@ implements
       dbSQL.commit(par, par.shouldCommit);
       
       return par.entry;
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-            return null;
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-            return null;
-          }
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1352,29 +1298,14 @@ implements
       
       return deletedEntries;
       
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-            return null;
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-            return null;
-          }
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1411,6 +1342,7 @@ implements
         final SSEntity coll =
           sql.getEntityTest(
             par, 
+            SSConf.systemUserUri,
             par.user,
             par.coll,
             par.withUserRestriction);

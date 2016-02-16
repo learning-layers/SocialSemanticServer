@@ -40,10 +40,9 @@ import at.tugraz.sss.serv.db.api.SSCoreSQL;
 public class SSCollSQLFct extends SSCoreSQL{
 
   public SSCollSQLFct(
-    final SSDBSQLI dbSQL,
-    final SSUri    systemUserURI){
+    final SSDBSQLI dbSQL){
     
-    super(dbSQL, systemUserURI);
+    super(dbSQL);
   }
   
   public SSUri addColl(

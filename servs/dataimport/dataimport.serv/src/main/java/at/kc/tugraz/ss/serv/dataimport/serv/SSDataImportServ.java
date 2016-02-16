@@ -65,10 +65,6 @@ public class SSDataImportServ extends SSServContainerI{
     
     synchronized(this){
       
-      if(servImpl != null){
-        return servImpl;
-      }
-      
       servImpl = new SSDataImportImpl((SSDataImportConf)conf);
     }
     

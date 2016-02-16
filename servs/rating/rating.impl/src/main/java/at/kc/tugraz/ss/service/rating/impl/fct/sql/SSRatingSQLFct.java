@@ -44,10 +44,9 @@ import at.tugraz.sss.serv.db.api.SSCoreSQL;
 public class SSRatingSQLFct extends SSCoreSQL{
 
   public SSRatingSQLFct(
-    final SSDBSQLI dbSQL, 
-    final SSUri    systemUserURI){
+    final SSDBSQLI dbSQL){
     
-    super(dbSQL, systemUserURI);
+    super(dbSQL);
   }
   
   public boolean hasUserRatedEntity(

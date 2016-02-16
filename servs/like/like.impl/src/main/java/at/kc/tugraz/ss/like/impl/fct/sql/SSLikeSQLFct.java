@@ -36,10 +36,9 @@ import at.tugraz.sss.serv.db.api.SSCoreSQL;
 public class SSLikeSQLFct extends SSCoreSQL{
 
   public SSLikeSQLFct(
-    final SSDBSQLI dbSQL,
-    final SSUri    systemUserURI){
+    final SSDBSQLI dbSQL){
     
-    super(dbSQL, systemUserURI);
+    super(dbSQL);
   }
   
   public SSLikes getLikes(

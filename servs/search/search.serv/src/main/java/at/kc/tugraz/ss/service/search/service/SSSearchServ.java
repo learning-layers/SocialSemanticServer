@@ -39,13 +39,13 @@ public class SSSearchServ extends SSServContainerI{
   public static final SSSearchServ inst = new SSSearchServ(SSSearchClientI.class, SSSearchServerI.class);
   
   protected SSSearchServ(
-    final Class servImplClientInteraceClass, 
+    final Class servImplClientInteraceClass,
     final Class servImplServerInteraceClass){
     
     super(servImplClientInteraceClass, servImplServerInteraceClass);
   }
   
-    @Override
+  @Override
   public SSServImplA getServImpl() throws SSErr{
     
     if(!conf.use){
@@ -57,23 +57,18 @@ public class SSSearchServ extends SSServContainerI{
     }
     
     synchronized(this){
-      
-      if(servImpl != null){
-        return servImpl;
-      }
-      
       servImpl = new SSSearchImpl(conf);
     }
     
     return servImpl;
-  }  
+  }
   
-    @Override
+  @Override
   public SSServContainerI regServ() throws SSErr{
     
     this.conf = SSCoreConf.instGet().getSearch();
     
-      SSServReg.inst.regServ(this);
+    SSServReg.inst.regServ(this);
     
     return this;
   }

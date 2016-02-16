@@ -101,7 +101,7 @@ implements
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
     this.recommConf       = ((SSRecommConf)conf);
-    this.sql              = new SSRecommSQL(dbSQL, SSConf.systemUserUri);
+    this.sql              = new SSRecommSQL(dbSQL);
     this.userCommons      = new SSUserCommons();
     this.userRealmKeeper  = new SSRecommUserRealmKeeper(recommConf);
   }
@@ -152,6 +152,7 @@ implements
             final SSEntity entity =
               sql.getEntityTest(
                 par,
+                SSConf.systemUserUri,
                 par.user,
                 par.entity,
                 par.withUserRestriction);
@@ -310,6 +311,7 @@ implements
             final SSEntity entity =
               sql.getEntityTest(
                 par,
+                SSConf.systemUserUri,
                 par.user,
                 par.entity,
                 par.withUserRestriction);
@@ -422,6 +424,7 @@ implements
             final SSEntity entity =
               sql.getEntityTest(
                 par,
+                SSConf.systemUserUri,
                 par.user,
                 par.entity,
                 par.withUserRestriction);
@@ -644,29 +647,14 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-          }
-          
-          break;
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
@@ -751,29 +739,14 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-          }
-          
-          break;
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
@@ -878,29 +851,14 @@ implements
         }
       }
       
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-          }
-          
-          break;
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
@@ -956,29 +914,14 @@ implements
       dbSQL.commit(par, par.shouldCommit);
       
       return true;
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-            return false;
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-            return false;
-          }
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          return false;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }
@@ -1066,29 +1009,14 @@ implements
       dbSQL.commit(par, par.shouldCommit);
       
       return true;
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-            return false;
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-            return false;
-          }
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          return false;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }

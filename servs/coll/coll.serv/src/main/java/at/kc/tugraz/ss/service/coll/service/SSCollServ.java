@@ -57,10 +57,6 @@ public class SSCollServ extends SSServContainerI{
     
     synchronized(this){
       
-      if(servImpl != null){
-        return servImpl;
-      }
-      
       servImpl = new SSCollImpl(conf);
     }
     

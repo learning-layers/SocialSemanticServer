@@ -56,10 +56,6 @@ public class SSEvernoteServ extends SSServContainerI{
     
     synchronized(this){
       
-      if(servImpl != null){
-        return servImpl;
-      }
-      
       servImpl = new SSEvernoteImpl(conf);
     }
     

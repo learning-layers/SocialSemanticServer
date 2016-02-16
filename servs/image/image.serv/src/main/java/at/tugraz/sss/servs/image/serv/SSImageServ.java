@@ -56,10 +56,6 @@ public class SSImageServ extends SSServContainerI{
     
     synchronized(this){
       
-      if(servImpl != null){
-        return servImpl;
-      }
-      
       servImpl = new SSImageImpl(conf);
     }
     

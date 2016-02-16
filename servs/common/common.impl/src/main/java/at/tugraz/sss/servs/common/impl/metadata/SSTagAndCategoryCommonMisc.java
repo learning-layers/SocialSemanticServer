@@ -53,7 +53,7 @@ public class SSTagAndCategoryCommonMisc {
     final SSEntityE        metadataType){
     
     this.metadataType = metadataType;
-    this.sql          = new SSTagAndCategoryCommonSQL(dbSQL, SSConf.systemUserUri, metadataType);
+    this.sql          = new SSTagAndCategoryCommonSQL(dbSQL, metadataType);
   }
   
   public List<SSEntity> getMetadata(
@@ -278,6 +278,7 @@ public class SSTagAndCategoryCommonMisc {
             entity =
               sql.getEntityTest(
                 servPar,
+                SSConf.systemUserUri,
                 user,
                 ((SSTag) meta).entity,
                 withUserRestriction);
@@ -291,6 +292,7 @@ public class SSTagAndCategoryCommonMisc {
               circle =
                 sql.getEntityTest(
                   servPar,
+                  SSConf.systemUserUri,
                   user,
                   ((SSTag) meta).circle,
                   withUserRestriction);
@@ -309,6 +311,7 @@ public class SSTagAndCategoryCommonMisc {
             entity =
               sql.getEntityTest(
                 servPar,
+                SSConf.systemUserUri,
                 user,
                 ((SSCategory) meta).entity,
                 withUserRestriction);

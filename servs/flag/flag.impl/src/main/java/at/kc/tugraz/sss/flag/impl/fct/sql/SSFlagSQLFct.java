@@ -44,10 +44,9 @@ import at.tugraz.sss.serv.db.api.SSCoreSQL;
 public class SSFlagSQLFct extends SSCoreSQL{
 
   public SSFlagSQLFct(
-    final SSDBSQLI dbSQL,
-    final SSUri    systemUserURI){
+    final SSDBSQLI dbSQL){
     
-    super(dbSQL, systemUserURI);
+    super(dbSQL);
   }
   
   public SSFlag getFlag(

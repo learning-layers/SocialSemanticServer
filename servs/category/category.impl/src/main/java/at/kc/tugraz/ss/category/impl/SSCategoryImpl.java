@@ -21,8 +21,6 @@
 package at.kc.tugraz.ss.category.impl;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
-import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.category.api.SSCategoryClientI;
 import at.kc.tugraz.ss.category.api.SSCategoryServerI;
@@ -107,7 +105,7 @@ implements
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql           = new SSTagAndCategoryCommonSQL (dbSQL, SSConf.systemUserUri, SSEntityE.category);
+    this.sql           = new SSTagAndCategoryCommonSQL (dbSQL, SSEntityE.category);
     this.commonMiscFct = new SSTagAndCategoryCommonMisc(dbSQL, SSEntityE.category);
     
     this.activityServ  = (SSActivityServerI) SSServReg.getServ (SSActivityServerI.class);
@@ -360,29 +358,14 @@ implements
       }
       
       return categories;
-    }catch(SSErr error){
+   }catch(Exception error){
       
-      switch(error.code){
-
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-            return null;
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-            return null;
-          }
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -443,6 +426,7 @@ implements
           final SSEntity circle =
             sql.getEntityTest(
               par, 
+              SSConf.systemUserUri,
               par.user,
               par.circle,
               par.withUserRestriction);
@@ -529,29 +513,14 @@ implements
       
       return categoryUri;
       
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-            return null;
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-            return null;
-          }
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -587,6 +556,7 @@ implements
         final SSEntity entity =
           sql.getEntityTest(
             par, 
+            SSConf.systemUserUri,
             par.user,
             par.entity,
             par.withUserRestriction);
@@ -607,6 +577,7 @@ implements
           final SSEntity circle =
             sql.getEntityTest(
               par, 
+              SSConf.systemUserUri,
               par.user,
               par.circle,
               par.withUserRestriction);
@@ -726,29 +697,14 @@ implements
       
       throw SSErr.get(SSErrE.codeUnreachable);
       
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-            return false;
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-            return false;
-          }
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          return false;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }
@@ -837,29 +793,14 @@ implements
       dbSQL.commit(par, par.shouldCommit);
       return true;
       
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-            return false;
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-            return false;
-          }
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          return false;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }

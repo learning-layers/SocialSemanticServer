@@ -98,7 +98,7 @@ implements
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql          = new SSVideoSQLFct(dbSQL, SSConf.systemUserUri);
+    this.sql          = new SSVideoSQLFct(dbSQL);
     this.entityServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
     this.circleServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
     this.locationServ = (SSLocationServerI) SSServReg.getServ(SSLocationServerI.class);
@@ -449,29 +449,14 @@ implements
       
       return video;
       
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-        
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-            return null;
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-            return null;
-          }
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -530,7 +515,7 @@ implements
         
         for(SSUri annotation : sql.getAnnotations(par, par.video)){
           
-          if(!sql.isUserAuthor(par, par.user, annotation, par.withUserRestriction)){
+          if(!sql.isUserAuthor(par, SSConf.systemUserUri, par.user, annotation, par.withUserRestriction)){
             continue;
           }
           
@@ -565,29 +550,14 @@ implements
       
       return annotations;
       
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-        
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-            return null;
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-            return null;
-          }
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -676,29 +646,14 @@ implements
       
       return annotation;
       
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-        
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-            return null;
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-            return null;
-          }
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -785,6 +740,7 @@ implements
       final SSEntity annotationEntity =
         sql.getEntityTest(
           par,
+          SSConf.systemUserUri,
           par.user,
           par.annotation,
           par.withUserRestriction);
@@ -815,6 +771,7 @@ implements
       final SSEntity video =
         sql.getEntityTest(
           par,
+          SSConf.systemUserUri,
           par.user,
           par.video,
           par.withUserRestriction);
@@ -878,6 +835,7 @@ implements
           final SSEntity forEntity =
             sql.getEntityTest(
               par,
+              SSConf.systemUserUri,
               par.user,
               par.forEntity,
               par.withUserRestriction);

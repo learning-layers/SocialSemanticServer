@@ -56,10 +56,6 @@ public class SSMessageServ extends SSServContainerI{
     
     synchronized(this){
       
-      if(servImpl != null){
-        return servImpl;
-      }
-      
       servImpl = new SSMessageImpl(conf);
     }
     

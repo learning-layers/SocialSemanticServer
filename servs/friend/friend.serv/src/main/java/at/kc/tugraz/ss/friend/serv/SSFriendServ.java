@@ -56,10 +56,6 @@ public class SSFriendServ extends SSServContainerI{
     
     synchronized(this){
       
-      if(servImpl != null){
-        return servImpl;
-      }
-      
       servImpl = new SSFriendImpl(conf);
     }
     

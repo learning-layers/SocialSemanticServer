@@ -57,10 +57,6 @@ public class SSUserServ extends SSServContainerI{
     
     synchronized(this){
       
-      if(servImpl != null){
-        return servImpl;
-      }
-      
       servImpl = new SSUserImpl(conf);
     }
     

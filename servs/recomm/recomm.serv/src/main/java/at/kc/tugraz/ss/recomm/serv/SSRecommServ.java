@@ -66,10 +66,6 @@ public class SSRecommServ extends SSServContainerI{
     
     synchronized(this){
       
-      if(servImpl != null){
-        return servImpl;
-      }
-      
       servImpl = new SSRecommImpl(conf);
     }
     

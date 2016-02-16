@@ -25,7 +25,6 @@ import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.datatypes.SSResourceLikelihood;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
-import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.rating.api.SSRatingServerI;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingEntityURIsGetPar;
 import at.tugraz.sss.serv.util.SSDateU;
@@ -72,14 +71,14 @@ implements
   private final SSUserCommons                    userCommons            = new SSUserCommons();
   private final Map<String, SSEntityResultPages> searchResultPagesCache = new HashMap<>();
   private final SSCoreSQL                        sql;
-  private final SSSearchNoSQL                    noSQLFct;
+  private final SSSearchNoSQL                    noSQL;
   
   public SSSearchImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql         = new SSCoreSQL     (dbSQL, SSConf.systemUserUri);
-    this.noSQLFct    = new SSSearchNoSQL (dbNoSQL);
+    this.sql      = new SSCoreSQL     (dbSQL);
+    this.noSQL    = new SSSearchNoSQL (dbNoSQL);
   }
   
   @Override
@@ -764,7 +763,7 @@ implements
         return new ArrayList<>();
       }
       
-      return noSQLFct.search(
+      return noSQL.search(
         par.globalSearchOp,
         par.localSearchOp,
         par.documentContentsToSearchFor);

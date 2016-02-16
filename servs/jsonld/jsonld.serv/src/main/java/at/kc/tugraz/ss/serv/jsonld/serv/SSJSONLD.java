@@ -57,10 +57,6 @@ public class SSJSONLD extends SSServContainerI{
     
     synchronized(this){
       
-      if(servImpl != null){
-        return servImpl;
-      }
-      
       servImpl = new SSJSONLDImpl((SSJSONLDConf) conf);
     }
     

@@ -26,6 +26,7 @@ import at.kc.tugraz.ss.activity.datatypes.SSActivity;
 import at.kc.tugraz.ss.activity.datatypes.SSActivityContent;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityContentE;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.tugraz.sss.conf.*;
 import at.tugraz.sss.serv.datatype.SSAuthor;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
@@ -44,10 +45,9 @@ import at.tugraz.sss.serv.db.api.SSCoreSQL;
 public class SSActivitySQLFct extends SSCoreSQL{
 
   public SSActivitySQLFct(
-    final SSDBSQLI dbSQL,
-    final SSUri    systemUserURI){
+    final SSDBSQLI dbSQL){
     
-    super(dbSQL, systemUserURI);
+    super(dbSQL);
   }
   
   public void addActivityContent(
@@ -466,7 +466,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
         bindingStrToLabel         (resultSet, SSSQLVarNames.label),
         bindingStrToTextComment   (resultSet, SSSQLVarNames.description),
         bindingStrToLong          (resultSet, SSSQLVarNames.creationTime),
-        getEntityTest             (servPar, null,      bindingStrToUri(resultSet, SSSQLVarNames.author), false),
+        getAuthorEntityFromResult (servPar, resultSet, SSConf.systemUserUri),
         SSActivityE.get           (bindingStr(resultSet, SSSQLVarNames.activityType)),
         getEntityFromResult       (resultSet, SSSQLVarNames.entityId),
         null); //contents

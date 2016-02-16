@@ -56,10 +56,6 @@ public class SSDBNoSQL extends SSServContainerI{
     
     synchronized(this){
       
-      if(servImpl != null){
-        return servImpl;
-      }
-      
       servImpl = new SSDBNoSQLSolrImpl((SSDBNoSQLConf) conf);
     }
     

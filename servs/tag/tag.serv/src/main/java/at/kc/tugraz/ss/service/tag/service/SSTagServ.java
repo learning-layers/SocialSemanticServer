@@ -58,10 +58,6 @@ public class SSTagServ extends SSServContainerI{
     
     synchronized(this){
       
-      if(servImpl != null){
-        return servImpl;
-      }
-      
       servImpl = new SSTagImpl(conf);
     }
     

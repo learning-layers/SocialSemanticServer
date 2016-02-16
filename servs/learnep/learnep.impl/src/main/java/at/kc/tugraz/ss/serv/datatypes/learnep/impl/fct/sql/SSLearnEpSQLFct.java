@@ -25,6 +25,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpCircle;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
+import at.tugraz.sss.conf.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
@@ -41,8 +42,8 @@ import javax.ws.rs.core.MultivaluedMap;
 
 public class SSLearnEpSQLFct extends SSCoreSQL{
   
-  public SSLearnEpSQLFct(final SSDBSQLI dbSQL, final SSUri systemUserUri){
-    super(dbSQL, systemUserUri);
+  public SSLearnEpSQLFct(final SSDBSQLI dbSQL){
+    super(dbSQL);
   }
   
   public SSLearnEp getLearnEp(
@@ -341,7 +342,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
             bindingStrToLabel        (resultSet, SSSQLVarNames.label),
             bindingStrToTextComment  (resultSet, SSSQLVarNames.description),
             bindingStrToLong         (resultSet, SSSQLVarNames.creationTime),
-            getEntityTest            (servPar, null, bindingStrToUri(resultSet, SSSQLVarNames.author), false),
+            getAuthorEntityFromResult(servPar, resultSet, SSConf.systemUserUri),
             bindingStrToFloat        (resultSet, SSSQLVarNames.xLabel),
             bindingStrToFloat        (resultSet, SSSQLVarNames.yLabel),
             bindingStrToFloat        (resultSet, SSSQLVarNames.xR),

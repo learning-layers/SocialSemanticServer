@@ -56,10 +56,6 @@ public class SSActivityServ extends SSServContainerI{
     
     synchronized(this){
       
-      if(servImpl != null){
-        return servImpl;
-      }
-      
       servImpl = new SSActivityImpl(conf);
     }
     

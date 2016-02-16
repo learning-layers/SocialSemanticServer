@@ -29,6 +29,7 @@ import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.mail.SSMailClientI;
 import at.tugraz.sss.servs.mail.SSMailServerI;
 import at.tugraz.sss.servs.mail.conf.SSMailConf;
@@ -79,29 +80,14 @@ implements
     
       return true;
       
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-            return false;
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-            return false;
-          }
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          return false;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }
@@ -147,29 +133,14 @@ implements
       
       return mails;
       
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-            return null;
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-            return null;
-          }
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

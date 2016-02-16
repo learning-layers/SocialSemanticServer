@@ -75,7 +75,7 @@ implements
 
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
 
-    this.sql         = new SSFlagSQLFct  (dbSQL, SSConf.systemUserUri);
+    this.sql         = new SSFlagSQLFct  (dbSQL);
     this.entityServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
     this.userCommons = new SSUserCommons();
   }
@@ -296,29 +296,14 @@ implements
       
       return true;
       
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-            return false;
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-            return false;
-          }
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          return false;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return false;
     }
@@ -406,6 +391,7 @@ implements
           enityEntity = 
             sql.getEntityTest(
               par,
+              SSConf.systemUserUri,
               par.user, 
               entity, 
               par.withUserRestriction);

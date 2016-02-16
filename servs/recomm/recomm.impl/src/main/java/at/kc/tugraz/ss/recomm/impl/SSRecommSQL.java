@@ -35,10 +35,9 @@ import at.tugraz.sss.serv.db.api.SSCoreSQL;
 public class SSRecommSQL extends SSCoreSQL{
   
   public SSRecommSQL(
-    final SSDBSQLI dbSQL,
-    final SSUri    systemUserURI) {
+    final SSDBSQLI dbSQL) {
     
-    super(dbSQL, systemUserURI);
+    super(dbSQL);
   }
   
   public Map<String, List<String>> getUserRealms(

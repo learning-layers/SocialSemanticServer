@@ -50,6 +50,7 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -69,7 +70,7 @@ implements
 
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
 
-    this.sql         = new SSCommentSQLFct(dbSQL, SSConf.systemUserUri);
+    this.sql         = new SSCommentSQLFct(dbSQL);
     this.userCommons = new SSUserCommons();
   }
   
@@ -206,29 +207,14 @@ implements
       dbSQL.commit(par, par.shouldCommit);
       
       return par.entity;
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-            return null;
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-            return null;
-          }
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -265,6 +251,7 @@ implements
         final SSEntity entity = 
           sql.getEntityTest(
             par,
+            SSConf.systemUserUri,
             par.user, 
             par.entity, 
             par.withUserRestriction);

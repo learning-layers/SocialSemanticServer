@@ -46,16 +46,30 @@ import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
 public class SSCoreSQL extends SSDBSQLFctA{
-
-  protected final SSUri systemUserURI;
   
-  public SSCoreSQL(
-    final SSDBSQLI     dbSQL,
-    final SSUri        systemUserURI){
+  public SSCoreSQL(final SSDBSQLI dbSQL){
     
     super(dbSQL);
+  }
+  
+  public SSEntity getAuthorEntityFromResult(
+    final SSServPar servPar,
+    final ResultSet resultSet,
+    final SSUri     systemUserURI) throws SSErr {
     
-    this.systemUserURI = systemUserURI;
+    try{
+      
+      return getEntityTest(
+        servPar,
+        systemUserURI,
+        null, //user
+        bindingStrToUri(resultSet, SSSQLVarNames.author),
+        false); //withUserRestriction
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
   public List<SSEntity> getEntities(
@@ -703,9 +717,10 @@ public class SSCoreSQL extends SSDBSQLFctA{
   
   public SSEntity getEntityTest(
     final SSServPar       servPar,
-    final SSUri   user,
-    final SSUri   entity,
-    final boolean withUserRestriction) throws SSErr{
+    final SSUri           systemUserURI,
+    final SSUri           user,
+    final SSUri           entity,
+    final boolean         withUserRestriction) throws SSErr{
     
     ResultSet resultSet  = null;
     
@@ -768,10 +783,11 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
   
   public boolean isUserAuthor(
-    final SSServPar       servPar,
-    final SSUri   user, 
-    final SSUri   entityURI,
-    final boolean withUserRestriction) throws SSErr{
+    final SSServPar   servPar,
+    final SSUri       systemUserURI,
+    final SSUri       user, 
+    final SSUri       entityURI,
+    final boolean     withUserRestriction) throws SSErr{
     
     try{
       
@@ -781,7 +797,8 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       final SSEntity entity =
         getEntityTest(
-          servPar, 
+          servPar,
+          systemUserURI,
           user, 
           entityURI, 
           withUserRestriction);
@@ -801,6 +818,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   
   public List<SSUri> getAccessibleURIs(
     final SSServPar       servPar,
+    final SSUri           systemUserURI,
     final SSUri           user,
     final List<SSEntityE> types,
     final List<SSUri>     authors,

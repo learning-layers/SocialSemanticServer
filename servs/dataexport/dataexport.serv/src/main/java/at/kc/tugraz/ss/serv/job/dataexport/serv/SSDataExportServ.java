@@ -56,10 +56,6 @@ public class SSDataExportServ extends SSServContainerI{
     
     synchronized(this){
       
-      if(servImpl != null){
-        return servImpl;
-      }
-      
       servImpl = new SSDataExportImpl(conf);
     }
     

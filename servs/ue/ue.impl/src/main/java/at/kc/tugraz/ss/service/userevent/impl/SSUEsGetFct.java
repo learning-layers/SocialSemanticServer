@@ -24,6 +24,7 @@ import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEsGetPar;
 import at.kc.tugraz.ss.service.userevent.impl.fct.sql.SSUESQLFct;
+import at.tugraz.sss.conf.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.misc.SSEntityFiller;
@@ -144,6 +145,7 @@ public class SSUEsGetFct {
           final SSEntity entity =
             sqlFct.getEntityTest(
               par,
+              SSConf.systemUserUri,
               par.user,
               par.entity,
               par.withUserRestriction);

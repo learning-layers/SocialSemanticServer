@@ -42,10 +42,9 @@ import at.tugraz.sss.serv.db.api.SSCoreSQL;
 public class SSDiscSQL extends SSCoreSQL {
 
   public SSDiscSQL(
-    final SSServImplWithDBA serv,
-    final SSUri             systemUserURI){
+    final SSServImplWithDBA serv){
     
-    super(serv.dbSQL, systemUserURI);
+    super(serv.dbSQL);
   }
 
   public List<SSUri> getDiscUserURIs(

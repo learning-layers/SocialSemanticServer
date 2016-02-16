@@ -79,7 +79,7 @@ implements
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql         = new SSActivitySQLFct(dbSQL, SSConf.systemUserUri);
+    this.sql         = new SSActivitySQLFct(dbSQL);
     this.userCommons = new SSUserCommons();
   }
   
@@ -493,29 +493,16 @@ implements
       dbSQL.commit(par, par.shouldCommit);
       
       return activity;
-    }catch(SSErr error){
-      
-      switch(error.code){
 
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-            return null;
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-            return null;
-          }
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
+    }catch(Exception error){
+      
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+        return null;
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -529,6 +516,7 @@ implements
       final SSEntity activity =
         sql.getEntityTest(
           par, 
+          SSConf.systemUserUri,
           par.user,
           par.activity,
           false); //withUserRestriction
@@ -544,29 +532,14 @@ implements
         par.content);
       
       return activity.id;
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-            return null;
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-            return null;
-          }
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -593,29 +566,14 @@ implements
         activityContentAdd(activityContentAddPar);
       }
       
-    }catch(SSErr error){
+    }catch(Exception error){
       
-      switch(error.code){
-
-        case sqlDeadLock:{
-          
-          try{
-            dbSQL.rollBack(par, par.shouldCommit);
-            SSServErrReg.regErrThrow(error);
-          }catch(Exception error2){
-            SSServErrReg.regErrThrow(error2);
-          }
-          
-          break;
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
       }
       
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }

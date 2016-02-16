@@ -38,10 +38,9 @@ import at.tugraz.sss.serv.db.api.SSCoreSQL;
 public class SSCommentSQLFct extends SSCoreSQL{
   
   public SSCommentSQLFct(
-    final SSDBSQLI dbSQL,
-    final SSUri    systemUserURI){
+    final SSDBSQLI dbSQL){
     
-    super(dbSQL, systemUserURI);
+    super(dbSQL);
   }
   
   public List<SSUri> getEntityURIsCommented(

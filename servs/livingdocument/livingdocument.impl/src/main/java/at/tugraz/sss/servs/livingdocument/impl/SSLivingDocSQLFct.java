@@ -25,6 +25,7 @@ import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.servs.livingdocument.datatype.SSLivingDocument;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -35,10 +36,9 @@ import java.util.Map;
 public class SSLivingDocSQLFct extends SSCoreSQL{
 
   public SSLivingDocSQLFct(
-    final SSLivingDocImpl serv,
-    final SSUri           systemUserURI) {
+    final SSDBSQLI dbSQL) {
     
-    super(serv.dbSQL, systemUserURI);
+    super(dbSQL);
   }
   
   public SSLivingDocument getLivingDoc(

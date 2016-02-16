@@ -348,6 +348,13 @@ implements
       return message;
       
     }catch(Exception error){
+      
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+      
       SSServErrReg.regErrThrow(error);
       return null;
     }
