@@ -93,7 +93,7 @@ implements
           if(vorgang.totalResources == 0){
             vorgang.progress = 0F;
           }else{
-            vorgang.progress       = (vorgang.usedResources / vorgang.totalResources) * 100;
+            vorgang.progress = (vorgang.usedResources / vorgang.totalResources) * 100;
           }
           
           importFct.updateVorgangBasics            (vorgang);
@@ -103,12 +103,7 @@ implements
         }
         
       }catch(Exception error){
-        
-        if(vorgang != null){
-          SSLogU.warn("import for vorgang (" + vorgang.title + ", " + vorgang.vorgangNumber + ") failed", error);
-        }else{
-          SSLogU.warn("import for unknown vorgang failed", error);
-        }
+        SSLogU.warn("import for vorgang (" + vorgang.title + ", " + vorgang.vorgangNumber + ") failed", error);
       }
       
       importFct.end();

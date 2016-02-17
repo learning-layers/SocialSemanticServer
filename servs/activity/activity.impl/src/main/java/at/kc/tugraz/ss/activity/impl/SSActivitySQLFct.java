@@ -136,7 +136,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
         
       for(SSUri user : users){
 
-        if(SSStrU.equals(author, user)){
+        if(SSStrU.isEqual(author, user)){
           continue;
         }
         
@@ -155,7 +155,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
       
       for(SSUri entityUri : entityUris){
 
-        if(SSStrU.equals(entity, entityUri)){
+        if(SSStrU.isEqual(entity, entityUri)){
           continue;
         }
         

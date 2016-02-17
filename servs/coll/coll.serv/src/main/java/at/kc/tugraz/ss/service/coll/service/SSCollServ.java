@@ -20,9 +20,9 @@
   */
 package at.kc.tugraz.ss.service.coll.service;
 
+import at.tugraz.sss.servs.coll.impl.SSCollImpl;
 import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
-import at.kc.tugraz.ss.service.coll.impl.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.kc.tugraz.ss.service.coll.api.SSCollClientI;

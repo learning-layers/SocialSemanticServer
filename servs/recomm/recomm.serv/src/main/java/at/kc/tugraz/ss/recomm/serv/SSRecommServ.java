@@ -29,7 +29,7 @@ import at.kc.tugraz.ss.recomm.api.SSRecommClientI;
 import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommLoadUserRealmsPar;
-import at.kc.tugraz.ss.recomm.impl.SSRecommImpl;
+import at.tugraz.sss.servs.recomm.impl.SSRecommImpl;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkTask;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.SSErr;
@@ -143,7 +143,7 @@ public class SSRecommServ extends SSServContainerI{
     
     for(int counter = 0; counter < recommConf.scheduleOps.size(); counter++){
       
-      if(SSStrU.equals(recommConf.scheduleOps.get(counter), SSVarNames.recommUpdate)){
+      if(SSStrU.isEqual(recommConf.scheduleOps.get(counter), SSVarNames.recommUpdate)){
         
         if(recommConf.executeScheduleAtStartUp){
           startDate = new java.util.Date();

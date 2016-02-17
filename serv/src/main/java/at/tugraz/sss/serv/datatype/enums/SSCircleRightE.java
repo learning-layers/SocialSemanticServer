@@ -20,7 +20,6 @@
 */
 package at.tugraz.sss.serv.datatype.enums;
 
-import at.tugraz.sss.serv.util.*;
 import java.util.*;
 
 public enum SSCircleRightE{
@@ -42,39 +41,6 @@ public enum SSCircleRightE{
   
   public static SSCircleRightE get(final String value){
     return SSCircleRightE.valueOf(value);
-  }
-  
-  public static String toStr(final SSCircleRightE accessRight){
-    return SSStrU.toStr(accessRight);
-  }
-  
-  public static boolean equals(
-    final SSCircleRightE right1,
-    final SSCircleRightE right2){
-    
-    if(SSObjU.isNull(right1, right2)){
-      return false;
-    }
-    
-    return right1.toString().equals(right2.toString());
-  }
-  
-  public static boolean contains(
-    final List<SSCircleRightE> rights, 
-    final SSCircleRightE       certainRight){
-    
-    if(SSObjU.isNull(rights)){
-      return false;
-    }
-    
-    for(SSCircleRightE right : rights){
-      
-      if(equals(right, certainRight)){
-        return true;
-      }
-    } 
-    
-    return false;
   }
   
   private SSCircleRightE(){/* Do nothing because of only JSON Jackson needs this */ }

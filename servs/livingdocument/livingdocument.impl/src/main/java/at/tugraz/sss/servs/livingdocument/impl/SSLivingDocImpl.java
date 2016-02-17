@@ -521,7 +521,7 @@ implements
       
       if(par.withUserRestriction){
         
-        if(!SSStrU.equals(par.forUser, par.user)){
+        if(!SSStrU.isEqual(par.forUser, par.user)){
           par.forUser = par.user;
         }
       }

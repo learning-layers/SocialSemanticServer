@@ -34,7 +34,7 @@ import java.util.List;
 import sss.serv.eval.api.SSEvalClientI;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.conf.SSEvalConf;
-import sss.serv.eval.impl.SSEvalImpl;
+import at.tugraz.sss.servs.eval.impl.SSEvalImpl;
 
 public class SSEvalServ extends SSServContainerI{
   
@@ -133,7 +133,7 @@ public class SSEvalServ extends SSServContainerI{
       
       for(String scheduleOp : evalConf.scheduleOps){
         
-        if(SSStrU.equals(scheduleOp, SSVarNames.evalAnalyze)){
+        if(SSStrU.isEqual(scheduleOp, SSVarNames.evalAnalyze)){
           
           SSServReg.regScheduler(
             SSDateU.scheduleNow(

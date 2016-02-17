@@ -24,7 +24,7 @@ import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteClientI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
-import at.kc.tugraz.ss.serv.jobs.evernote.impl.SSEvernoteImpl;
+import at.tugraz.sss.servs.evernote.impl.SSEvernoteImpl;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;

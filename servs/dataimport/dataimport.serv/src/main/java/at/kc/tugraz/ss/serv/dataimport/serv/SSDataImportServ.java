@@ -29,7 +29,7 @@ import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportClientI;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.*;
-import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportImpl;
+import at.tugraz.sss.servs.dataimport.impl.SSDataImportImpl;
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.*;
 import at.tugraz.sss.conf.*;
 import at.tugraz.sss.serv.datatype.SSErr;
@@ -122,7 +122,7 @@ public class SSDataImportServ extends SSServContainerI{
     
     for(int scheduleOpsCounter = 0; scheduleOpsCounter < dataImportConf.scheduleOps.size(); scheduleOpsCounter++){
       
-      if(SSStrU.equals(dataImportConf.scheduleOps.get(scheduleOpsCounter), SSVarNames.dataImportBitsAndPieces)){
+      if(SSStrU.isEqual(dataImportConf.scheduleOps.get(scheduleOpsCounter), SSVarNames.dataImportBitsAndPieces)){
         
         if(dataImportConf.executeScheduleAtStartUp){
           startDate = new Date();

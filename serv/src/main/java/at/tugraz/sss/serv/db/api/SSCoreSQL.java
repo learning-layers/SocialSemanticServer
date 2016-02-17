@@ -747,7 +747,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       if(
         withUserRestriction &&
-        !SSStrU.equals(userStr, systemUserURI)){
+        !SSStrU.isEqual(userStr, systemUserURI)){
         
         query = "select DISTINCT id, type, label, description, author, creationTime from entity where ";
         query += "(id = '" + entityStr + "' AND type  = 'entity') OR ";
@@ -809,7 +809,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
         
       if(
         entity == null ||
-        !SSStrU.equals(user, entity.author)){
+        !SSStrU.isEqual(user, entity.author)){
         return false;
       }
       
@@ -835,7 +835,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       if(
         user == null ||
-        SSStrU.equals(user, systemUserURI)){
+        SSStrU.isEqual(user, systemUserURI)){
         
         throw SSErr.get(SSErrE.parameterMissing);
       }

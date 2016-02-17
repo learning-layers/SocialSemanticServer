@@ -26,7 +26,6 @@
     <module>coll</module> 
     <module>disc</module> 
     <module>user</module>
-    <module>ue</module>
     <module>tag</module>
     <module>rating</module>
     <module>learnep</module>

@@ -44,12 +44,6 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>ue.api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.servs</groupId>
       <artifactId>entity.api</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -93,12 +87,6 @@
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>file.conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>ue.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     

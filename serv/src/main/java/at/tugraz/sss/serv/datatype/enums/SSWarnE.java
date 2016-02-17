@@ -22,6 +22,9 @@ package at.tugraz.sss.serv.datatype.enums;
 
 public enum SSWarnE{
 
+  //eval
+  evalLogFailed,
+  
   //scheduling
   scheduleConfigInvalid,
   

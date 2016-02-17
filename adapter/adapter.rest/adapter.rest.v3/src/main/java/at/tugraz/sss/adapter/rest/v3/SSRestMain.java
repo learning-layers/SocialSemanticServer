@@ -39,7 +39,6 @@ import at.tugraz.sss.adapter.rest.v3.rating.SSRESTRating;
 import at.tugraz.sss.adapter.rest.v3.recomm.SSRESTRecomm;
 import at.tugraz.sss.adapter.rest.v3.search.SSRESTSearch;
 import at.tugraz.sss.adapter.rest.v3.tag.SSRESTTag;
-import at.tugraz.sss.adapter.rest.v3.ue.SSRESTUE;
 import at.tugraz.sss.adapter.rest.v3.user.SSRESTUser;
 import at.tugraz.sss.adapter.rest.v3.video.SSRESTVideo;
 import at.tugraz.sss.adapter.rest.v3.appstacklayout.SSRESTAppStackLayout;
@@ -89,7 +88,6 @@ public class SSRestMain extends ResourceConfig{
       SSRESTRecomm.class,
       SSRESTSearch.class,
       SSRESTTag.class,
-      SSRESTUE.class,
       SSRESTUser.class,
       SSRESTVideo.class);
     

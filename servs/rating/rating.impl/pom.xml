@@ -38,12 +38,6 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>ue.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.servs</groupId>
       <artifactId>rating.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>

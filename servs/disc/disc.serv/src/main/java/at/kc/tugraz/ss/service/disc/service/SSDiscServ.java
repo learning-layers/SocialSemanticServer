@@ -20,9 +20,9 @@
 */
  package at.kc.tugraz.ss.service.disc.service;
 
+import at.tugraz.sss.servs.disc.impl.SSDiscImpl;
 import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
-import at.kc.tugraz.ss.service.disc.impl.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.kc.tugraz.ss.service.disc.api.SSDiscClientI;

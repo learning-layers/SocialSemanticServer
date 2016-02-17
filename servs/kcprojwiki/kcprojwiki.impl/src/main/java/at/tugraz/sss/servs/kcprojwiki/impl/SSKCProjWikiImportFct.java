@@ -32,7 +32,6 @@ import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgangEmployeeResour
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.*;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -74,7 +73,7 @@ public class SSKCProjWikiImportFct {
   private static final String valueSessionId                        = "sessionid";
   private static final String valueToken                            = "token";
   private static final String valueLgname                           = "lgname";
-  private static final String valueLgpassword                       = "lgpassword";
+  private static final String valueLgpass                           = "lgpassword";
   private static final String valueLgdomain                         = "lgdomain";
   private static final String valueLgtoken                          = "lgtoken";
   private static final String valueFormatJson                       = "format=json";
@@ -161,7 +160,7 @@ public class SSKCProjWikiImportFct {
       parseUpdateResponse(response, vorgang);
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("updating vorgang basics failed"));
+      SSServErrReg.regErrThrow(error);
     }
   }
   
@@ -207,7 +206,7 @@ public class SSKCProjWikiImportFct {
       parseUpdateResponse(response, vorgang);
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("updating vorgang employee resources failed"));
+      SSServErrReg.regErrThrow(error);
     }
   }
   
@@ -250,7 +249,7 @@ public class SSKCProjWikiImportFct {
       return (String) title.get(valueMUrlform);
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("retrieving vorgang page title from vorgang number failed"));
+      SSServErrReg.regErrThrow(error);
       return null;
     }finally{
       
@@ -296,7 +295,7 @@ public class SSKCProjWikiImportFct {
       return (String) title.get(valueMUrlform);
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("retrieving vorgang title from project number failed"));
+      SSServErrReg.regErrThrow(error);
       return null;
     }finally{
       
@@ -342,7 +341,7 @@ public class SSKCProjWikiImportFct {
       return (String) title.get(valueMUrlform);
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("retrieving project page title from project number failed"));
+      SSServErrReg.regErrThrow(error);
       return null;
     }finally{
       
@@ -378,7 +377,7 @@ public class SSKCProjWikiImportFct {
       token    = ((JSONObject)json.get(valueLogin)).get(valueToken).toString();
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("first login failed"));
+      SSServErrReg.regErrThrow(error);
     }finally{
       if(in != null){
         try {
@@ -412,7 +411,7 @@ public class SSKCProjWikiImportFct {
       sessionID = ((JSONObject)json.get(valueLogin)).get(valueSessionId).toString();
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("second login failed"));
+      SSServErrReg.regErrThrow(error);
     }finally{
       if(in != null){
         try {
@@ -480,7 +479,7 @@ public class SSKCProjWikiImportFct {
       
       return content;
     }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("content retrieval failed"));
+      SSServErrReg.regErrThrow(error);
       return null;
     }finally{
       if(in != null){
@@ -530,7 +529,7 @@ public class SSKCProjWikiImportFct {
       return firstPage.get(valueEditToken).toString();
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("edit token retrieval failed"));
+      SSServErrReg.regErrThrow(error);
       return null;
     }finally{
       
@@ -569,12 +568,12 @@ public class SSKCProjWikiImportFct {
       final List<BasicNameValuePair> params = new ArrayList<>();
       
       params.add(new BasicNameValuePair(valueLgname,     conf.userName));
-      params.add(new BasicNameValuePair(valueLgpassword, conf.password));
+      params.add(new BasicNameValuePair(valueLgpass,     conf.password));
       params.add(new BasicNameValuePair(valueLgdomain,   conf.domain));
       
       return params;
     }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("first login failed"));
+      SSServErrReg.regErrThrow(error);
       return null;
     }
   }
@@ -589,7 +588,7 @@ public class SSKCProjWikiImportFct {
       return params;
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("second login failed"));
+      SSServErrReg.regErrThrow(error);
       return null;
     }
   }
@@ -616,7 +615,7 @@ public class SSKCProjWikiImportFct {
       
       return result.trim();
     }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("second login failed"));
+      SSServErrReg.regErrThrow(error);
       return null;
     }
   }
@@ -652,12 +651,12 @@ public class SSKCProjWikiImportFct {
       
       strResult = (String) edit.get          (valueResult);
       
-      if(!SSStrU.equals(strResult, valueSuccess)){
+      if(!SSStrU.isEqual(strResult, valueSuccess)){
         SSLogU.warn("vorgang import for " + vorgang.title + ", " + vorgang.vorgangNumber + " failed with result value " + strResult, null);
       }
 
     }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("parsing update response failed"));
+      SSServErrReg.regErrThrow(error);
     }finally{
       if(in != null){
         try {

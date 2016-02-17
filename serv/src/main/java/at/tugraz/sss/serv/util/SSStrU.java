@@ -284,7 +284,7 @@ public class SSStrU{
     
     for(Object object : objects){
      
-      if(equals(object, objectToContain)){
+      if(isEqual(object, objectToContain)){
         return true;
       }
     }
@@ -315,7 +315,7 @@ public class SSStrU{
       
       for(Object object : objects) {
         
-        if(equals(object, objectToRemove)){
+        if(isEqual(object, objectToRemove)){
           
           objects.remove   (object);
           remove           (objects, objectToRemove);
@@ -576,7 +576,7 @@ public class SSStrU{
     return false;
   }
   
-  public static boolean equals(
+  public static boolean isEqual(
     final Object object1,
     final Object object2) {
     
@@ -601,7 +601,7 @@ public class SSStrU{
     
     for(Object object : objects){
       
-      if(equals(object1, object)){
+      if(isEqual(object1, object)){
         return true;
       }
     }

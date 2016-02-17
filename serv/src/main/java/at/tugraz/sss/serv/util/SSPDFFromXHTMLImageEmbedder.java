@@ -93,12 +93,15 @@ public class SSPDFFromXHTMLImageEmbedder implements ReplacedElementFactory {
       return new ITextImageElement(fsImage);
     }catch(Exception error){
       
+      SSLogU.debug(error);
+      
       return superFactory.createReplacedElement(
         layoutContext, 
         blockBox, 
         uac, 
         cssWidth, 
         cssHeight);
+      
     } finally {
       IOUtils.closeQuietly(in);
     }

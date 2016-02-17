@@ -72,10 +72,22 @@ public enum SSMimeTypeE {
   audioMpeg                                                  ("audio/mpeg"),
   audioWav                                                   ("audio/wav");
   
-  public static Map<String, SSMimeTypeE>       mimeTypes           = new HashMap<>();
-  public static Map<SSMimeTypeE, SSFileExtE>   fileExtPerMimeType  = new EnumMap<>(SSMimeTypeE.class);
-  public static Map<SSFileExtE,  SSMimeTypeE>  mimeTypePerFileExt  = new EnumMap<>(SSFileExtE.class);
+  protected static final Map<String,      SSMimeTypeE>  mimeTypes           = new HashMap<>();
+  protected static final Map<SSMimeTypeE, SSFileExtE>   fileExtPerMimeType  = new EnumMap<>(SSMimeTypeE.class);
+  protected static final Map<SSFileExtE,  SSMimeTypeE>  mimeTypePerFileExt  = new EnumMap<>(SSFileExtE.class);
   private final String                         value;
+  
+  public static Map<String, SSMimeTypeE> getMimeTypes(){
+    return mimeTypes;
+  }
+  
+  public static Map<SSMimeTypeE, SSFileExtE> getFileExtPerMimeType(){
+    return fileExtPerMimeType;
+  }
+  
+  public static Map<SSFileExtE, SSMimeTypeE> getMimeTypePerFileExt(){
+    return mimeTypePerFileExt;
+  }
   
   private SSMimeTypeE(final String newValue) {
     value = newValue;

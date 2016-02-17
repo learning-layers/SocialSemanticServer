@@ -53,7 +53,7 @@ public class SSLearnEpAccessController{
       
       if(
         lockedLearnEps.containsKey(SSStrU.toStr(learnEp)) &&
-        SSStrU.equals(lockedLearnEps.get(SSStrU.toStr(learnEp)), SSStrU.toStr(user))){
+        SSStrU.isEqual(lockedLearnEps.get(SSStrU.toStr(learnEp)), SSStrU.toStr(user))){
         return true;
       }
       
@@ -129,7 +129,7 @@ public class SSLearnEpAccessController{
       
       if(
         lockedLearnEps.containsKey(SSStrU.toStr(learnEp)) &&
-        SSStrU.equals(lockedLearnEps.get(SSStrU.toStr(learnEp)), SSStrU.toStr(user))){
+        SSStrU.isEqual(lockedLearnEps.get(SSStrU.toStr(learnEp)), SSStrU.toStr(user))){
         return true;
       }
       

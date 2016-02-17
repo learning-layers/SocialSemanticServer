@@ -24,7 +24,7 @@ import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.like.api.SSLikeClientI;
 import at.kc.tugraz.ss.like.api.SSLikeServerI;
-import at.kc.tugraz.ss.like.impl.SSLikeImpl;
+import at.tugraz.sss.servs.like.impl.SSLikeImpl;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;

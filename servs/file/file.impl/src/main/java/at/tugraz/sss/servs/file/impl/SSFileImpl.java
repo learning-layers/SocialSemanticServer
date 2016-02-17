@@ -123,7 +123,7 @@ implements
         case uploadedFile:
         case file:{
           
-          if(SSStrU.equals(entity, par.recursiveEntity)){
+          if(SSStrU.isEqual(entity, par.recursiveEntity)){
             return entity;
           }
           
@@ -1018,7 +1018,7 @@ implements
 
 //  private void removeFileFromLocalWorkFolder() throws SSErr{
 //    
-//    if(SSStrU.equals(localWorkPath, fileConf.getPath())){
+//    if(SSStrU.isEqual(localWorkPath, fileConf.getPath())){
 //      return;
 //    }
 //    
@@ -1031,7 +1031,7 @@ implements
   
 //  private void moveFileToLocalRepo() throws SSErr{
 //    
-//    if(SSStrU.equals(localWorkPath, fileConf.getPath())){
+//    if(SSStrU.isEqual(localWorkPath, fileConf.getPath())){
 //      return;
 //    }
 //    

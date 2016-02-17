@@ -587,7 +587,7 @@ implements
           }
         }
         
-        if(!SSStrU.equals(par.space, SSSpaceE.circleSpace)){
+        if(!SSStrU.isEqual(par.space, SSSpaceE.circleSpace)){
           par.circle = null;
         }
       }
@@ -876,7 +876,7 @@ implements
         
         if(
           par.forUser != null &&
-          !SSStrU.equals(par.user, par.forUser)){
+          !SSStrU.isEqual(par.user, par.forUser)){
           throw SSErr.get(SSErrE.userNotAllowedToRetrieveForOtherUser);
         }
       }

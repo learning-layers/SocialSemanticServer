@@ -49,12 +49,6 @@
     </dependency> 
     
     <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>ue.api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
        <groupId>sss.servs</groupId>
        <artifactId>disc.datatypes</artifactId>
        <version>${project.version}</version>

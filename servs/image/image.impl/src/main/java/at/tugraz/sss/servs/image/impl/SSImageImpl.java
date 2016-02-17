@@ -174,7 +174,7 @@ implements
         
         case image:{
           
-          if(SSStrU.equals(entity, par.recursiveEntity)){
+          if(SSStrU.isEqual(entity, par.recursiveEntity)){
             break;
           }
           
@@ -820,7 +820,7 @@ implements
       final SSUri       thumbFileURI      = SSConf.vocURICreate(SSFileExtE.png);
       final String      thumbnailPath     = conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(thumbFileURI);
 
-      if(SSStrU.contains(SSFileExtE.imageFileExts, fileExt)){
+      if(SSStrU.contains(SSFileExtE.getImageFileExts(), fileExt)){
         SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), thumbnailPath, width, width);
         return thumbFileURI;
       }

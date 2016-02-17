@@ -165,7 +165,6 @@ public class SSTagAndCategoryCommonMisc {
       }
       
       return filterMetadataRegardingLabelSearchOp(
-        servPar,
         metadata, //metadata
         labels.size(),  //differentTagCount
         labelSearchOp); //labelSearchOp
@@ -264,7 +263,7 @@ public class SSTagAndCategoryCommonMisc {
     
     if(
       withUserRestriction &&
-      !SSStrU.equals(user, forUser)){
+      !SSStrU.isEqual(user, forUser)){
       
       SSEntity entity;
       SSEntity circle;
@@ -344,7 +343,6 @@ public class SSTagAndCategoryCommonMisc {
   }
   
   private List<SSEntity> filterMetadataRegardingLabelSearchOp(
-    final SSServPar      servPar,
     final List<SSEntity> metadata,
     final Integer        differentMetadataLabelCount,
     final SSSearchOpE    labelSearchOp) throws SSErr{
@@ -355,8 +353,6 @@ public class SSTagAndCategoryCommonMisc {
         return metadata;
       }
       
-      final List<SSEntity> result = new ArrayList<>();
-      
       switch(labelSearchOp){
         
         case or:{
@@ -364,59 +360,76 @@ public class SSTagAndCategoryCommonMisc {
         }
         
         case and:{
+          return filterMetadataRegardingLabelSearchOpForAnd(
+            metadata,
+            differentMetadataLabelCount);
+        }
+        
+        default:{
+          throw new UnsupportedOperationException();
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  private List<SSEntity> filterMetadataRegardingLabelSearchOpForAnd(
+    final List<SSEntity> metadata,
+    final Integer        differentMetadataLabelCount) throws SSErr{
+    
+    try{
+      final Map<String, List<SSEntity>> metadataForEntities = new HashMap<>();
+      final List<SSEntity>              result              = new ArrayList<>();
+      
+      switch(metadataType){
+        
+        case tag:{
           
-          final Map<String, List<SSEntity>> metadataForEntities = new HashMap<>();
-          
-          switch(metadataType){
+          for(SSEntity tag : metadata){
             
-            case tag:{
-              
-              for(SSEntity tag : metadata){
-                
-                if(!metadataForEntities.containsKey(((SSTag) tag).entity.toString())){
-                  metadataForEntities.put(((SSTag) tag).entity.toString(), new ArrayList<>());
-                }
-                
-                SSEntity.addEntitiesDistinctWithoutNull(metadataForEntities.get(((SSTag) tag).entity.toString()), tag);
-              }
-              
-              for(Map.Entry<String, List<SSEntity>> metadataForEntity : metadataForEntities.entrySet()){
-                
-                if(metadataForEntity.getValue().size() != differentMetadataLabelCount){
-                  continue;
-                }
-                
-                result.addAll(metadataForEntity.getValue());
-              }
-              
-              return result;
+            if(!metadataForEntities.containsKey(((SSTag) tag).entity.toString())){
+              metadataForEntities.put(((SSTag) tag).entity.toString(), new ArrayList<>());
             }
             
-            case category:{
-              
-              for(SSEntity category : metadata){
-                
-                if(!metadataForEntities.containsKey(((SSCategory) category).entity.toString())){
-                  metadataForEntities.put(((SSCategory) category).entity.toString(), new ArrayList<>());
-                }
-                
-                SSEntity.addEntitiesDistinctWithoutNull(metadataForEntities.get(((SSCategory) category).entity.toString()), category);
-              }
-              
-              for(Map.Entry<String, List<SSEntity>> metadataForEntity : metadataForEntities.entrySet()){
-                
-                if(metadataForEntity.getValue().size() != differentMetadataLabelCount){
-                  continue;
-                }
-                
-                result.addAll(metadataForEntity.getValue());
-              }
-              
-              return result;
-            }
-            
-            default: throw new UnsupportedOperationException();
+            SSEntity.addEntitiesDistinctWithoutNull(metadataForEntities.get(((SSTag) tag).entity.toString()), tag);
           }
+          
+          for(Map.Entry<String, List<SSEntity>> metadataForEntity : metadataForEntities.entrySet()){
+            
+            if(metadataForEntity.getValue().size() != differentMetadataLabelCount){
+              continue;
+            }
+            
+            result.addAll(metadataForEntity.getValue());
+          }
+          
+          return result;
+        }
+        
+        case category:{
+          
+          for(SSEntity category : metadata){
+            
+            if(!metadataForEntities.containsKey(((SSCategory) category).entity.toString())){
+              metadataForEntities.put(((SSCategory) category).entity.toString(), new ArrayList<>());
+            }
+            
+            SSEntity.addEntitiesDistinctWithoutNull(metadataForEntities.get(((SSCategory) category).entity.toString()), category);
+          }
+          
+          for(Map.Entry<String, List<SSEntity>> metadataForEntity : metadataForEntities.entrySet()){
+            
+            if(metadataForEntity.getValue().size() != differentMetadataLabelCount){
+              continue;
+            }
+            
+            result.addAll(metadataForEntity.getValue());
+          }
+          
+          return result;
         }
         
         default: throw new UnsupportedOperationException();
@@ -428,7 +441,6 @@ public class SSTagAndCategoryCommonMisc {
     }
   }
 }
-
 //public static List<SSUri> getEntitiesForTagsIfSpaceSet(
 //    final SSTagSQLFct                               sqlFct,
 //    final SSTagEntitiesForTagsGetPar            par,
@@ -842,7 +854,7 @@ public class SSTagAndCategoryCommonMisc {
 //
 //    return entities;
 //  }
-
+    
 //    final List<SSTagFrequ> outList = new ArrayList<>(counterPerTags.size());
 //
 //    for(Map.Entry<String, Integer> entry : counterPerTags.entrySet()){
@@ -854,7 +866,7 @@ public class SSTagAndCategoryCommonMisc {
 //          counterPerTags.get(entry.getKey())));
 //    }
 //
-
+    
 //  private void saveUETagAdd(SSServPar parA) throws SSErr {
 //
 //    Map<String, Object> opPars = new HashMap<>();
@@ -882,7 +894,7 @@ public class SSTagAndCategoryCommonMisc {
 //
 //    SSServReg.callServServer(new SSServPar(SSVarNames.uEAdd, opPars));
 //  }
-
+    
 //  private void saveUETagDelete(SSServPar parA) throws SSErr{
 //
 //    Map<String, Object> opPars = new HashMap<>();
@@ -928,7 +940,7 @@ public class SSTagAndCategoryCommonMisc {
 //
 //    return outString;
 //  }
-
+    
 //  public static Map<String, Long> getCreationTimePerTagFromTags(final List<SSTag> tags) throws SSErr{
 //
 //    final Map<String, Long> creationTimesPerTag = new HashMap<>();
@@ -939,7 +951,7 @@ public class SSTagAndCategoryCommonMisc {
 //
 //    return creationTimesPerTag;
 //  }
-
+    
 //public List<SSUri> getEntitiesForMetadataIfSpaceSet(
 //    final SSUri        user,
 //    final List<String> labels,
@@ -1040,7 +1052,7 @@ public class SSTagAndCategoryCommonMisc {
 //
 //    return entities;
 //  }
-
+    
 //public List<SSUri> filterEntitiesUserCanAccess(
 //    final List<SSUri> entityURIs,
 //    final boolean     withUserRestriction,
@@ -1053,7 +1065,7 @@ public class SSTagAndCategoryCommonMisc {
 //    //but not that he necessarly can read the entities another user tagged
 //    if(
 //      withUserRestriction &&
-//      !SSStrU.equals(user,  forUser)){
+//      !SSStrU.isEqual(user,  forUser)){
 //
 //      for(SSUri entityURI : entityURIs){
 //

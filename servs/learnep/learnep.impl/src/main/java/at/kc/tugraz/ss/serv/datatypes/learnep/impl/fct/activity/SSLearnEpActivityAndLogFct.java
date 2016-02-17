@@ -524,7 +524,7 @@ public class SSLearnEpActivityAndLogFct{
       
       if(
         label != null &&
-        !SSStrU.equals(circleEntity.label, label)){
+        !SSStrU.isEqual(circleEntity.label, label)){
         
         final SSUri activity =
           activityServ.activityAdd(
@@ -555,7 +555,7 @@ public class SSLearnEpActivityAndLogFct{
       
       if(
         description != null &&
-        !SSStrU.equals(circleEntity.description, description)){
+        !SSStrU.isEqual(circleEntity.description, description)){
         
         activityServ.activityAdd(
           new SSActivityAddPar(

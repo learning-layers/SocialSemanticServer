@@ -56,12 +56,12 @@ public class SSMailSenderGMXSMTP {
       props.put("mail.smtp.host",             sendingHost);
       props.put("mail.smtp.port",             sendingPort);
       props.put("mail.smtp.user",             mailConf.sendUserName);
-      props.put("mail.smtp.password",         mailConf.sendPassword);
+      props.put("mail.smtp.password",         mailConf.sendPass);
       props.put("mail.smtp.auth",             "true");
       props.put("mail.smtp.starttls.enable",  "true");
         //    props.put("mail.smtp.ssl.enable",  "true");
       
-      final SSMailGMXSMTPAuthenticator auth           = new SSMailGMXSMTPAuthenticator(mailConf.sendUserName, mailConf.sendPassword);
+      final SSMailGMXSMTPAuthenticator auth           = new SSMailGMXSMTPAuthenticator(mailConf.sendUserName, mailConf.sendPass);
       final InternetAddress            fromAddress    = new InternetAddress(fromEmail);
       final InternetAddress            toAddress      = new InternetAddress(toEmail);
       final Session                    session        = Session.getDefaultInstance(props, auth); //    session.setDebug(true);

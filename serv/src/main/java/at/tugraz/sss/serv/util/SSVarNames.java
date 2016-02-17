@@ -253,7 +253,7 @@ public class SSVarNames{
   public static final String remainingTime                                  = "remainingTime";
   public static final String locked                                         = "locked";
   public static final String lockedByUser                                   = "lockedByUser";
-  public static final String updatePassword                                 = "updatePassword";
+  public static final String updatePass                                     = "updatePass";
   public static final String invokeEntityHandlers                           = "invokeEntityHandlers";
   public static final String withUserRestriction                            = "withUserRestriction";
   public static final String logErr                                         = "logErr";
@@ -346,7 +346,7 @@ public class SSVarNames{
   public static final String comment                                        = "comment";
   public static final String comments                                       = "comments";
   public static final String username                                       = "username";
-  public static final String password                                       = "password";
+  public static final String pass                                           = "pass";
   public static final String fileExt                                        = "fileExt";
   public static final String getOverallRating                               = "getOverallRating";
   public static final String getDiscs                                       = "getDiscs";
@@ -536,8 +536,8 @@ public class SSVarNames{
   public static final String xsd                                            = "xsd";
   public static final String set                                            = "set";
   public static final String desc                                           = "desc";
-  public static String graphName                                            = "graphName";
-  public static String graphCreationType                                    = "graphCreationType";
-  public static String graphInputFormat                                     = "graphInputFormat";
-  public static String doMakeUndirected                                     = "doMakeUndirected";
+  public static final String graphName                                      = "graphName";
+  public static final String graphCreationType                              = "graphCreationType";
+  public static final String graphInputFormat                               = "graphInputFormat";
+  public static final String doMakeUndirected                               = "doMakeUndirected";
 }

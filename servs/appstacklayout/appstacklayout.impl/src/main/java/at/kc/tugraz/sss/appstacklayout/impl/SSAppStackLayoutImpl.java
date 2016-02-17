@@ -92,7 +92,7 @@ implements
       
       case appStackLayout:{
       
-        if(SSStrU.equals(entity, par.recursiveEntity)){
+        if(SSStrU.isEqual(entity, par.recursiveEntity)){
           return entity;
         }
         

@@ -29,7 +29,7 @@ public class SSMailConf extends SSCoreServConfA{
   public SSMailSendE    sendProvider    = null;
   public SSMailReceiveE receiveProvider = null;
   public String         sendUserName    = "xxxx@xx.at";
-  public String         sendPassword    = "xxxx";
+  public String         sendPass        = "xxxx";
   
   public static SSMailConf copy(final SSMailConf orig){
 
@@ -37,7 +37,7 @@ public class SSMailConf extends SSCoreServConfA{
     
     copy.sendProvider      = orig.sendProvider;
     copy.sendUserName      = orig.sendUserName;
-    copy.sendPassword      = orig.sendPassword;
+    copy.sendPass          = orig.sendPass;
     copy.receiveProvider   = orig.receiveProvider;
     
     return copy;

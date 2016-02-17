@@ -223,7 +223,7 @@ implements
         
         case activity:{
           
-          if(SSStrU.equals(entity, par.recursiveEntity)){
+          if(SSStrU.isEqual(entity, par.recursiveEntity)){
             return entity;
           }
           
@@ -634,7 +634,7 @@ implements
 //
 //        for(SSEntity desc : descs){
 //
-//          if(SSStrU.equals(activitiesEntity.get(activityID), desc)){
+//          if(SSStrU.isEqual(activitiesEntity.get(activityID), desc)){
 //            activity.entity = desc;
 //            continue;
 //          }

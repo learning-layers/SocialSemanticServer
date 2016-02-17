@@ -163,7 +163,7 @@ public class SSServPar{
 //      
 //    for (int counter = 0; counter < parsJSON.length(); counter++){
 //      
-//      if(SSStrU.equals(parsJSON.getString(counter), SSStrU.valueNull)){
+//      if(SSStrU.isEqual(parsJSON.getString(counter), SSStrU.valueNull)){
 //        pars.add(null);
 //        continue;
 //      }
@@ -219,18 +219,18 @@ public class SSServPar{
 //        
 //        jValue = jp.getText();
 //        
-//        if(SSStrU.equals(jKey, SSVarU.op)){
+//        if(SSStrU.isEqual(jKey, SSVarU.op)){
 //          op = SSVarNames.get(jValue);
 //          continue;
 //        }
 //        
-//        if(SSStrU.equals(jKey, SSVarU.user)){
+//        if(SSStrU.isEqual(jKey, SSVarU.user)){
 //          user = SSUri.get(jValue);
 //          clientPars.put(jKey, jValue);
 //          continue;
 //        }
 //        
-//        if(SSStrU.equals(jKey, SSVarU.key)){
+//        if(SSStrU.isEqual(jKey, SSVarU.key)){
 //          key         = jValue;
 //          clientPars.put(jKey, jValue);
 //          continue;

@@ -168,8 +168,23 @@ public class SSLogU{
       log.trace(error.getMessage());
     }
   }
+
+  public static void debug(
+    final Exception error){
+    
+    log.debug(getMsg(error));
+  }
   
-  public static void debug(final String logText){
+  public static void debug(
+    final Exception error, 
+    final String    logText){
+    
+    log.debug(getMsg(error, logText));
+  }
+    
+  public static void debug(
+    final String logText){
+    
     log.debug(getMsg(logText));
   }
   

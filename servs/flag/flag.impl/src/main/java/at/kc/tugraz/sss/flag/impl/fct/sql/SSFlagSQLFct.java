@@ -87,13 +87,13 @@ public class SSFlagSQLFct extends SSCoreSQL{
       try{
         endTimeForFlag = bindingStrToLong(resultSet, SSSQLVarNames.endTime);
       }catch(Exception error){
-        SSLogU.debug(error.toString());
+        SSLogU.debug(error);
       }
       
       try{
         value = bindingStrToInteger(resultSet, SSSQLVarNames.value);
       }catch(Exception error){
-        SSLogU.debug(error.toString());
+        SSLogU.debug(error);
       }
       
       return SSFlag.get(

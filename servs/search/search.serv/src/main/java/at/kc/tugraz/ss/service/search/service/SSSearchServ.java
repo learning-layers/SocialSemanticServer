@@ -20,6 +20,7 @@
 */
  package at.kc.tugraz.ss.service.search.service;
 
+import at.tugraz.sss.servs.search.impl.SSSearchImpl;
 import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
@@ -31,7 +32,6 @@ import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.search.impl.*;
 import java.util.List;
 
 public class SSSearchServ extends SSServContainerI{

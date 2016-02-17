@@ -88,7 +88,7 @@ public class SSFileServ extends SSServContainerI{
     
     for(int counter = 0; counter < fileConf.scheduleOps.size(); counter++){
       
-      if(SSStrU.equals(fileConf.scheduleOps.get(counter), SSVarNames.filesDeleteNotRegistered)){
+      if(SSStrU.isEqual(fileConf.scheduleOps.get(counter), SSVarNames.filesDeleteNotRegistered)){
         
         if(fileConf.executeScheduleAtStartUp){
           startDate = new Date();

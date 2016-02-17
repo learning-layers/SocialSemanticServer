@@ -65,13 +65,13 @@ public enum SSSpaceE{
   public static boolean isShared(
     final SSSpaceE space){
     
-    return SSStrU.equals(space, SSSpaceE.sharedSpace);
+    return SSStrU.isEqual(space, SSSpaceE.sharedSpace);
   }
   
   public static boolean isPrivate(
     final SSSpaceE space) {
     
-    return SSStrU.equals(space, SSSpaceE.privateSpace);
+    return SSStrU.isEqual(space, SSSpaceE.privateSpace);
   }
   
   public static boolean isPrivateOrShared(

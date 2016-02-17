@@ -85,10 +85,26 @@ public enum SSFileExtE{
   rar,
   zip;
   
-  public final static List<SSFileExtE> videoFileExts = new ArrayList<>();
-  public final static List<SSFileExtE> audioFileExts = new ArrayList<>();
-  public final static List<SSFileExtE> imageFileExts = new ArrayList<>();
-  public final static List<SSFileExtE> zipFileExts   = new ArrayList<>();
+  protected static final List<SSFileExtE> videoFileExts = new ArrayList<>();
+  protected static final List<SSFileExtE> audioFileExts = new ArrayList<>();
+  protected static final List<SSFileExtE> imageFileExts = new ArrayList<>();
+  protected static final List<SSFileExtE> zipFileExts   = new ArrayList<>();
+  
+  public static List<SSFileExtE> getVideoFileExts(){
+    return videoFileExts;
+  }
+  
+  public static List<SSFileExtE> getAudioFileExts(){
+    return audioFileExts;
+  }
+  
+  public static List<SSFileExtE> getImageFileExts(){
+    return imageFileExts;
+  }
+  
+  public static List<SSFileExtE> getZipFileExts(){
+    return zipFileExts;
+  }
   
   public static void init(){
     

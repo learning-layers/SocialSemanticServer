@@ -26,7 +26,7 @@ import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
-import at.kc.tugraz.ss.serv.auth.impl.SSAuthImpl;
+import at.tugraz.sss.servs.auth.impl.SSAuthImpl;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
 import at.tugraz.sss.serv.reg.*;

@@ -20,13 +20,13 @@
 */
 package at.kc.tugraz.ss.service.user.service;
 
+import at.tugraz.sss.servs.user.impl.SSUserImpl;
 import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.kc.tugraz.ss.service.user.api.SSUserClientI;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
-import at.kc.tugraz.ss.service.user.impl.*;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;

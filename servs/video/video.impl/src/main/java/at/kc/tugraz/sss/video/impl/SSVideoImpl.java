@@ -274,7 +274,7 @@ implements
         
         case video:{
           
-          if(SSStrU.equals(entity, par.recursiveEntity)){
+          if(SSStrU.isEqual(entity, par.recursiveEntity)){
             return entity;
           }
           

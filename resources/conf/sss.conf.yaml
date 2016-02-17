@@ -30,9 +30,7 @@ entity:
 jsonLD:
   use: true
 eval:
-  tools: #- leave empty for no tool usage to be traced
-    #- bnp
-    #- knowbrain
+  ignoredUserLabels:
   schedule: false
   executeScheduleAtStartUp: false
   scheduleOps:
@@ -69,8 +67,6 @@ dataExport:
 user:
   use: true
 coll:
-  use: true
-ue:
   use: true
 rating:
   use: true
@@ -183,7 +179,7 @@ mail:
   use: false
   sendProvider:
   sendUserName:
-  sendPassword:
+  sendPass:
   receiveProvider:
 kcprojwiki:
   use: false  

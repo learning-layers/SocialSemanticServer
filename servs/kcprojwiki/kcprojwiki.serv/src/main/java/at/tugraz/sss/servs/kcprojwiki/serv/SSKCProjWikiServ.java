@@ -114,7 +114,7 @@ public class SSKCProjWikiServ extends SSServContainerI{
       
       for(String scheduleOp : projWikiConf.scheduleOps){
         
-        if(SSStrU.equals(scheduleOp, SSVarNames.kcprojwikiImport)){
+        if(SSStrU.isEqual(scheduleOp, SSVarNames.kcprojwikiImport)){
           
           SSServReg.regScheduler(
             SSDateU.scheduleNow(

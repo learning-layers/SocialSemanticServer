@@ -47,7 +47,8 @@ public class SSUri extends SSEntityA{
     }
     
     try{
-      new URL(string);
+      
+      final URL url = new URL(string);
       
       java.net.URI.create (string);
       
@@ -112,6 +113,7 @@ public class SSUri extends SSEntityA{
       decodedURI = SSEncodingU.decode(string, SSEncodingU.utf8);
     }catch(Exception error){
       decodedURI = string;
+      SSLogU.debug(error);
     }
     
     if(isURI(decodedURI)){

@@ -320,7 +320,7 @@ implements
     
     try{
       
-      if(!SSStrU.equals(entity.type, SSEntityE.learnEp)){
+      if(!SSStrU.isEqual(entity.type, SSEntityE.learnEp)){
         return;
       }
       
@@ -475,7 +475,7 @@ implements
       
       if(par.withUserRestriction){
         
-        if(!SSStrU.equals(par.forUser, par.user)){
+        if(!SSStrU.isEqual(par.forUser, par.user)){
           par.forUser = par.user;
         }
       }
@@ -957,7 +957,7 @@ implements
         
         for(SSEntity circle : versionCirclesBefore){
           
-          if(!SSStrU.equals(newCircle, circle)){
+          if(!SSStrU.isEqual(newCircle, circle)){
             continue;
           }
           
@@ -966,7 +966,7 @@ implements
         
         for(SSEntity circle : versionCirclesAfter){
           
-          if(!SSStrU.equals(newCircle, circle)){
+          if(!SSStrU.isEqual(newCircle, circle)){
             continue;
           }
           
@@ -1579,7 +1579,7 @@ implements
         
         for(SSEntity circle : versionCirclesBefore){
           
-          if(!SSStrU.equals(par.learnEpCircle, circle)){
+          if(!SSStrU.isEqual(par.learnEpCircle, circle)){
             continue;
           }
           

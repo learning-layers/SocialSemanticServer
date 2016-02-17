@@ -40,7 +40,6 @@ import at.kc.tugraz.ss.service.rating.service.*;
 import at.kc.tugraz.ss.service.search.service.*;
 import at.kc.tugraz.ss.service.tag.service.*;
 import at.kc.tugraz.ss.service.user.service.*;
-import at.kc.tugraz.ss.service.userevent.service.*;
 import at.kc.tugraz.sss.app.serv.*;
 import at.kc.tugraz.sss.appstacklayout.serv.*;
 import at.kc.tugraz.sss.comment.serv.*;
@@ -130,7 +129,6 @@ public class SSInitializer extends SSServImplStartA implements ServletContextLis
         SSEntityServ.inst.regServ          ();
         SSUserServ.inst.regServ            ();
         SSCollServ.inst.regServ            ();
-        SSUEServ.inst.regServ              ();
         SSTagServ.inst.regServ             ();
         SSAuthServ.inst.regServ            ();
         SSEvernoteServ.inst.regServ        ();

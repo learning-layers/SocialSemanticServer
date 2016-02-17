@@ -21,23 +21,19 @@
 package sss.serv.eval.conf;
 
 import at.tugraz.sss.serv.conf.api.SSCoreServConfA;
-import at.tugraz.sss.serv.datatype.enums.SSToolE;
+import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSEvalConf extends SSCoreServConfA{
   
-  public List<SSToolE> tools           = new ArrayList<>();
+  public List<String> ignoredUserLabels = new ArrayList<>();
   
   public static SSEvalConf copy(final SSEvalConf orig){
     
     final SSEvalConf copy = (SSEvalConf) SSCoreServConfA.copy(orig, new SSEvalConf());
     
-    if(orig.tools == null){
-      copy.tools = new ArrayList<>();
-    }else{
-      copy.tools.addAll(orig.tools);
-    }
+    SSStrU.addDistinctNotNull(copy.ignoredUserLabels, orig.ignoredUserLabels);
     
     return copy;
   }

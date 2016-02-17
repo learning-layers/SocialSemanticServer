@@ -246,7 +246,7 @@ public class SSServReg{
       try{
         servImplClientInteraceClass.getMethod(SSStrU.toStr(maxRequestPerOp.getKey()), SSClientE.class, SSServPar.class);
       }catch(Exception error){
-        SSServErrReg.regErrThrow(new Exception("client operation to register not available for this service"));
+        SSServErrReg.regErrThrow(error);
         return;
       }
       

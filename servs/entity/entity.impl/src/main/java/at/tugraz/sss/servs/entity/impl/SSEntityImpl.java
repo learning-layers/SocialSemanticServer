@@ -39,7 +39,6 @@ import at.tugraz.sss.servs.entity.datatypes.ret.SSEntitiesGetRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityCopyRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityGetRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUpdateRet;
-import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.datatype.*;
@@ -51,8 +50,6 @@ import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.entity.api.SSUserRelationGathererI;
 import at.tugraz.sss.serv.entity.api.SSUsersResourcesGathererI;
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
-import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
-import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.tugraz.sss.serv.entity.api.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.datatype.par.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.datatype.enums.SSCircleE;
@@ -364,7 +361,7 @@ implements
       
       case circle:{
         
-        if(SSStrU.equals(entity, par.recursiveEntity)){
+        if(SSStrU.isEqual(entity, par.recursiveEntity)){
           return entity;
         }
         
@@ -533,7 +530,8 @@ implements
       try{
         page = pages.pages.get(par.pageNumber - 1);
       }catch(Exception error){
-        throw SSErr.get(SSErrE.queryPageInvalid);
+        SSServErrReg.regErrThrow(SSErrE.queryPageInvalid, error);
+        return null;
       }
       
       return SSEntitiesAccessibleGetRet.get(
@@ -886,17 +884,6 @@ implements
           par.user,
           par.entity, 
           par.shouldCommit);
-        
-        ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
-          new SSUEAddPar(
-            par,
-            par.user,
-            par.entity,
-            SSUEE.bnpPlaceholderAdd,
-            null, //content
-            par.creationTime,
-            par.withUserRestriction,
-            par.shouldCommit)); //shouldCommit
       }
       
       return ret;
@@ -2231,7 +2218,7 @@ implements
         return false;
       }
       
-      return SSStrU.equals(circleTypes.get(0), SSCircleE.priv);
+      return SSStrU.isEqual(circleTypes.get(0), SSCircleE.priv);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -2314,7 +2301,7 @@ implements
         
         if(
           sql.isSystemCircle(par, par.circle) &&
-          !SSStrU.equals(par.circle, pubCircleUri)){
+          !SSStrU.isEqual(par.circle, pubCircleUri)){
           
           SSLogU.warn(SSErrE.userNotAllowToAccessSystemCircle, null);
           return null;
@@ -3418,7 +3405,7 @@ implements
 //        return;
 //      }
 //
-//      if(SSStrU.equals(par.user, SSConf.systemUserUri)){
+//      if(SSStrU.isEqual(par.user, SSConf.systemUserUri)){
 //        return;
 //      }
 //

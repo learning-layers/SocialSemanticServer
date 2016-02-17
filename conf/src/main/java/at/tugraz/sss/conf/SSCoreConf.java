@@ -42,7 +42,6 @@ import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;
 import at.kc.tugraz.ss.serv.rating.conf.SSRatingConf;
 import at.kc.tugraz.ss.serv.search.conf.SSSearchConf;
 import at.kc.tugraz.ss.serv.tag.conf.SSTagConf;
-import at.kc.tugraz.ss.serv.ue.conf.SSUEConf;
 import at.kc.tugraz.ss.serv.user.conf.SSUserConf;
 import at.kc.tugraz.sss.app.conf.SSAppConf;
 import at.kc.tugraz.sss.appstacklayout.conf.SSAppStackLayoutConf;
@@ -78,7 +77,6 @@ public class SSCoreConf extends SSCoreConfA {
   private SSEntityConf entity = null;
   private SSCollConf coll = null;
   private SSActivityConf activity = null;
-  private SSUEConf ue = null;
   private SSRatingConf rating = null;
   private SSTagConf tag = null;
   private SSSearchConf search = null;
@@ -156,7 +154,6 @@ public class SSCoreConf extends SSCoreConfA {
       copy.entity = SSEntityConf.copy(inst.entity);
       copy.coll = SSCollConf.copy(inst.coll);
       copy.activity = SSActivityConf.copy(inst.activity);
-      copy.ue = SSUEConf.copy(inst.ue);
       copy.rating = SSRatingConf.copy(inst.rating);
       copy.tag = SSTagConf.copy(inst.tag);
       copy.search = SSSearchConf.copy(inst.search);
@@ -296,14 +293,6 @@ public class SSCoreConf extends SSCoreConfA {
   
   public void setActivity(SSActivityConf activity) {
     this.activity = activity;
-  }
-  
-  public SSUEConf getUe() {
-    return ue;
-  }
-  
-  public void setUe(SSUEConf ue) {
-    this.ue = ue;
   }
   
   public SSRatingConf getRating() {

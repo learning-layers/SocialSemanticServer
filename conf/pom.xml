@@ -169,12 +169,6 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>ue.conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.servs</groupId>
       <artifactId>coll.conf</artifactId>
       <version>${project.version}</version>
     </dependency>

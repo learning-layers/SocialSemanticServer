@@ -25,7 +25,7 @@ import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDClientI;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDServerI;
 import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;
-import at.kc.tugraz.ss.serv.jsonld.impl.SSJSONLDImpl;
+import at.tugraz.sss.servs.jsonld.impl.SSJSONLDImpl;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;

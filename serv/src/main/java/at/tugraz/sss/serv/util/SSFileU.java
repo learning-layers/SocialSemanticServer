@@ -705,7 +705,8 @@ public class SSFileU{
       try{
         in = SSFileU.openFileForRead (filePath);
       }catch(Exception error){
-        throw new Exception("csv file to read users from not found at: " + filePath);
+        SSServErrReg.regErrThrow(error);
+        return null;
       }
       
       reader    = new InputStreamReader   (in,     Charset.forName(SSEncodingU.utf8.toString()));

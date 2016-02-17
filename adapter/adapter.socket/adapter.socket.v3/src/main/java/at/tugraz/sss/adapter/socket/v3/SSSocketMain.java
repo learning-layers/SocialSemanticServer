@@ -40,7 +40,6 @@ import at.kc.tugraz.ss.service.rating.service.*;
 import at.kc.tugraz.ss.service.search.service.*;
 import at.kc.tugraz.ss.service.tag.service.*;
 import at.kc.tugraz.ss.service.user.service.*;
-import at.kc.tugraz.ss.service.userevent.service.*;
 import at.kc.tugraz.sss.app.serv.*;
 import at.kc.tugraz.sss.appstacklayout.serv.*;
 import at.kc.tugraz.sss.comment.serv.*;
@@ -130,7 +129,6 @@ public class SSSocketMain extends SSServImplStartA{
         SSEntityServ.inst.regServ          ();
         SSUserServ.inst.regServ            ();
         SSCollServ.inst.regServ            ();
-        SSUEServ.inst.regServ              ();
         SSTagServ.inst.regServ             ();
         SSAuthServ.inst.regServ            ();
         SSEvernoteServ.inst.regServ        ();
@@ -337,7 +335,7 @@ public class SSSocketMain extends SSServImplStartA{
 
 //  private void checkAndExecScaffServTests(String[] args) throws SSErr{
 //
-//    if(SSStrU.equals(args[0], SSVarNames.scaffRecommTags)){
+//    if(SSStrU.isEqual(args[0], SSVarNames.scaffRecommTags)){
 //
 //      SSUri user;
 //      SSUri resource;
@@ -359,7 +357,7 @@ public class SSSocketMain extends SSServImplStartA{
 //
 //  private void checkAndExecDataImportServTests(String[] args) throws SSErr{
 //
-//    if(SSStrU.equals(args[0], SSVarNames.dataImportUserResourceTagFromWikipedia)){
+//    if(SSStrU.isEqual(args[0], SSVarNames.dataImportUserResourceTagFromWikipedia)){
 //
 //      opPars = new HashMap<>();
 //
@@ -369,7 +367,7 @@ public class SSSocketMain extends SSServImplStartA{
 //
 //  private void checkAndExecLomExtractFromDirServTests(String[] args) throws SSErr{
 //
-//    if(SSStrU.equals(args[0], SSVarNames.lomExtractFromDir)){
+//    if(SSStrU.isEqual(args[0], SSVarNames.lomExtractFromDir)){
 //
 //      opPars = new HashMap<>();
 //
@@ -379,7 +377,7 @@ public class SSSocketMain extends SSServImplStartA{
 //
 //  private void checkAndExecSolrServTests(String[] args) throws SSErr{
 //
-//    if(SSStrU.equals(args[0], SSVarNames.solrRemoveDocsAll)){
+//    if(SSStrU.isEqual(args[0], SSVarNames.solrRemoveDocsAll)){
 //
 //      opPars = new HashMap<>();
 //
