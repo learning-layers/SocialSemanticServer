@@ -62,7 +62,6 @@ public enum SSErrE{
   
   //entity
   uriInvalid,
-  entityCreationFailedOnNull,
   spaceInvalid,
   entityTypeInvalid,
   entityDoesNotExist,

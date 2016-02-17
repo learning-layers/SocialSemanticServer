@@ -28,27 +28,17 @@ public class SSConf extends SSCoreServConfA{
   
   public static final String sssUri                         = "http://sss.eu/";
   public static final String systemUserLabel                = "system";
+  public static final SSUri  systemUserUri                  = SSUri.getUnchecked(sssUri + systemUserLabel);
   public static final String systemEmailPostFix             = "know-center.at";
-  public static final String systemUserEmail                = systemUserLabel + "@" + systemEmailPostFix;
+  public static final String systemUserEmail                = systemUserLabel + SSStrU.at + systemEmailPostFix;
   public static final String serverNameLocalhost            = "localhost";
   public static final String restAPIResourceFile            = "files/";
   public static final String restAPIPathFileDownloadPublic  = "download/public/";
-  
-  public static SSUri  systemUserUri     = null;
   
   public  String    host           = null;
   public  Integer   port           = null;
   public  String    version        = null;
   public  String    restAPIPath    = null;
-  
-  public SSConf(){
-    
-    try{
-      SSConf.systemUserUri     = SSUri.get(vocURIPrefixGet() + systemUserLabel);
-    }catch(SSErr error){
-      SSLogU.err(error);
-    }
-  }
   
   public static SSConf copy(final SSConf orig){
     

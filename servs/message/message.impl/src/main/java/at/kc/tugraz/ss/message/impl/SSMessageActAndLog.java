@@ -18,7 +18,7 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-package at.kc.tugraz.ss.message.impl.fct.activity;
+package at.kc.tugraz.ss.message.impl;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.util.SSLogU;
@@ -34,9 +34,9 @@ import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.par.*;
 
-public class SSMessageActivityFct{
+public class SSMessageActAndLog{
   
-  public static void messageSend(
+  public void messageSend(
     final SSServPar servPar,
     final SSUri           user,
     final SSUri           forUser,
@@ -46,8 +46,10 @@ public class SSMessageActivityFct{
     
     try{
       
+      final SSActivityServerI actServ = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+        
       final SSUri activity =
-        ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        actServ.activityAdd(
           new SSActivityAddPar(
             servPar,
             user,
@@ -59,7 +61,7 @@ public class SSMessageActivityFct{
             null,
             shouldCommit));
         
-      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityContentAdd(
+      actServ.activityContentAdd(
         new SSActivityContentAddPar(
           servPar,
           user, 

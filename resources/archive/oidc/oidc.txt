@@ -1,0 +1,29 @@
+//  private static JSONObject fetchOidcProviderConfig() throws SSErr{
+//
+//		JSONObject result = new JSONObject();
+//
+//		//send Open ID Provider Config request
+//		//(cf. http://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig)
+//    URL         pConfigDocUri  = new URL(SSCoreConf.instGet().getI5CloudConf().oidcConfURI); //"http://api.learning-layers.eu/o/oauth2".trim() + "/.well-known/openid-configuration"
+//		HTTPRequest pConfigRequest = new HTTPRequest(HTTPRequest.Method.GET, pConfigDocUri);
+//
+//		// parse JSON result
+//		String     configStr = pConfigRequest.send().getContent();
+//		JSONObject config    = (JSONObject) JSONValue.parseWithException(configStr);
+//
+//		// put JSON result in result table
+//		result.put("config", config);
+//
+//		return result;
+//	}
+
+      //      String sub  = (String) ujson.get("sub");
+      //      String mail = (String) ujson.get("mail");
+      //      String name = (String) ujson.get("name");
+      
+      //      long oidcAgentId   = hash(sub);
+      //      username           = oidcAgentId + "";
+      //      password           = sub;
+      //      toUnlockPrivateKey = ujson.get("sub").toString();
+      //      email              = (String) ujson.get("email");
+      //      loginName          = (String) ujson.get("preferred_username");

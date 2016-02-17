@@ -160,18 +160,21 @@ public class SSUE extends SSEntity {
     return result;
   }
   
-	public static boolean isRatingContentCorrect(final SSUE event) {
+	public static boolean isRatingContentCorrect(final SSUE event){
 	
-    if(SSStrU.equals(event.content, SSStrU.valueNA)){
+    if(
+      SSStrU.isEmpty (event)         ||
+      SSStrU.isEmpty (event.content) ||
+      SSStrU.equals  (event.content, SSStrU.valueNA)){
       return false;
     }
     
-    try{
-      Integer.parseInt(event.content);
-    }catch(Exception error){
-      return false;
+    final int value = Integer.parseInt(event.content);
+
+    if(value >=0 && value <= 5){
+      return true;
     }
     
-    return true;
+    return false;
 	}
 }

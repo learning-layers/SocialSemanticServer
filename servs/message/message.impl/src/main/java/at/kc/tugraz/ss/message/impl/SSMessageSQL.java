@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.message.impl.fct.sql;
+package at.kc.tugraz.ss.message.impl;
 
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.util.*;
@@ -42,9 +42,9 @@ import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-public class SSMessageSQLFct extends SSDBSQLFctA{
+public class SSMessageSQL extends SSDBSQLFctA{
 
-  public SSMessageSQLFct(final SSDBSQLI dbSQL) {
+  public SSMessageSQL(final SSDBSQLI dbSQL) {
     super(dbSQL);
   }
 

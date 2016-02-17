@@ -154,33 +154,12 @@ implements
       SSServErrReg.regErrThrow(error);
     }finally{
       
-      if(fileWriter != null){
+      if(out != null){
         
         try{
-          fileWriter.close();
-        }catch(IOException ioError) {
+          out.close();
+        }catch(IOException ioError){
           SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
-        }
-        
-      }else{
-        
-        if(writer != null){
-          
-          try {
-            writer.close();
-          } catch (IOException ioError) {
-            SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
-          }
-        }else{
-          
-          if(out != null){
-            
-            try {
-              out.close();
-            } catch (IOException ioError) {
-              SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
-            }
-          }
         }
       }
     }
@@ -284,33 +263,12 @@ implements
       SSServErrReg.regErrThrow(error);
     }finally{
       
-      if(fileWriter != null){
+      if(out != null){
         
         try{
-          fileWriter.close();
-        }catch(IOException ioError) {
+          out.close();
+        }catch(IOException ioError){
           SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
-        }
-        
-      }else{
-        
-        if(writer != null){
-          
-          try {
-            writer.close();
-          } catch (IOException ioError) {
-            SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
-          }
-        }else{
-          
-          if(out != null){
-            
-            try {
-              out.close();
-            } catch (IOException ioError) {
-              SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
-            }
-          }
         }
       }
     }
@@ -352,33 +310,12 @@ implements
       SSServErrReg.regErrThrow(error);
     }finally{
       
-      if(fileWriter != null){
+      if(out != null){
         
         try{
-          fileWriter.close();
-        }catch(IOException ioError) {
+          out.close();
+        }catch(IOException ioError){
           SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
-        }
-        
-      }else{
-        
-        if(writer != null){
-          
-          try {
-            writer.close();
-          } catch (IOException ioError) {
-            SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
-          }
-        }else{
-          
-          if(out != null){
-            
-            try {
-              out.close();
-            } catch (IOException ioError) {
-              SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
-            }
-          }
         }
       }
     }

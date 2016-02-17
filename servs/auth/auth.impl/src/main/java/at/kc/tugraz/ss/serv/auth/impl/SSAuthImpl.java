@@ -26,9 +26,6 @@ import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
-import at.kc.tugraz.ss.serv.auth.impl.fct.csv.SSAuthMiscFct;
-import at.kc.tugraz.ss.serv.auth.impl.fct.oidc.SSAuthOIDC;
-import at.kc.tugraz.ss.serv.auth.impl.fct.sql.SSAuthSQLFct;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
@@ -47,6 +44,7 @@ import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
+import at.tugraz.sss.conf.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import java.util.ArrayList;
@@ -58,6 +56,12 @@ import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import com.nimbusds.oauth2.sdk.*;
+import com.nimbusds.oauth2.sdk.http.*;
+import com.nimbusds.openid.connect.sdk.*;
+import java.io.*;
+import java.net.*;
+import java.security.*;
 
 public class SSAuthImpl 
 extends 
@@ -66,10 +70,8 @@ implements
   SSAuthClientI, 
   SSAuthServerI{
   
-  private final SSAuthSQLFct    sqlFct;
   private final List<String>    csvFileAuthKeys = new ArrayList<>();
-  private final SSUserServerI   userServ;
-  private final SSCollServerI   collServ;
+  private final SSAuthSQL       sql;
   
   private static final Map<String, String> oidcAuthTokens = new HashMap<>();
   
@@ -77,11 +79,7 @@ implements
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sqlFct   = new SSAuthSQLFct(dbSQL);
-    this.userServ = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
-    this.collServ = (SSCollServerI) SSServReg.getServ(SSCollServerI.class);
-      
-//    wikiauth  = new SSAuthWiki();
+    this.sql = new SSAuthSQL(dbSQL);
   }
   
   @Override
@@ -117,7 +115,7 @@ implements
       
       for(Map.Entry<String, String> passwordForUser : passwordsForUsersFromCSVFile.entrySet()){
 
-        if(passwordForUser.getKey().contains("@")){
+        if(passwordForUser.getKey().contains(SSStrU.at)){
           email = passwordForUser.getKey();
         }else{
           email = passwordForUser.getKey() + SSStrU.at + SSConf.systemEmailPostFix;
@@ -160,6 +158,7 @@ implements
   public SSUri authRegisterUser(final SSAuthRegisterUserPar par) throws SSErr{
     
     try{
+      final SSUserServerI userServ = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
       
       if(par.email == null){
         throw SSErr.get(SSErrE.parameterMissing);
@@ -190,12 +189,12 @@ implements
               par.isSystemUser, 
               false));
         
-        sqlFct.removeKey(par, userUri);
+        sql.removeKey(par, userUri);
         
-        sqlFct.addKey(
+        sql.addKey(
           par,
           userUri,
-          SSAuthMiscFct.genKey(par.email, par.password));
+          genKey(par.email, par.password));
         
       }else{
         
@@ -208,34 +207,16 @@ implements
         
         if(par.updatePassword){
           
-          sqlFct.removeKey(par, userUri);
+          sql.removeKey(par, userUri);
           
-          sqlFct.addKey(
+          sql.addKey(
             par,
             userUri,
-            SSAuthMiscFct.genKey(par.email, par.password));
+            genKey(par.email, par.password));
         }
       }
       
-      try{
-        
-        collServ.collRootAdd(
-          new SSCollUserRootAddPar(
-            par,
-            SSConf.systemUserUri,
-            userUri, 
-            false));
-        
-      }catch(SSErr error){
-        
-        switch(error.code){
-          case servInvalid: SSLogU.warn(error); break;
-          default: {
-            SSServErrReg.regErrThrow(error);
-            break;
-          }
-        }
-      }
+      addRootColl(par, userUri);
       
       dbSQL.commit(par, par.shouldCommit);
       
@@ -267,63 +248,9 @@ implements
     
     try{
 
+      final SSUserServerI userServ = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
+      
       switch(((SSAuthConf)conf).authType){
-
-//        case noAuth:{
-//
-//          final String email = SSStrU.toStr(par.label) + SSStrU.at + SSConf.systemEmailPostFix;
-//          final SSUri  userUri;
-//          
-//          if(!userServ.userExists(
-//            new SSUserExistsPar(
-//              null,
-//              null,
-//              SSConf.systemUserUri,
-//              email))){
-//                
-//            userUri =
-//              userServ.userAdd(
-//                new SSUserAddPar(
-//                  null, 
-//                  null, 
-//                  SSConf.systemUserUri, 
-//                  true, 
-//                  par.label, 
-//                  email, 
-//                  false, //isSystemUser
-//                  false)); //withUserRestriction
-//            
-//            try{
-//              
-//              collServ.collRootAdd(
-//                new SSCollUserRootAddPar(
-//                  SSConf.systemUserUri,
-//                  userUri,
-//                  true));
-//              
-//            }catch(SSErr error){
-//              
-//              switch(error.code){
-//                case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-//                default: SSServErrReg.regErrThrow(error);
-//              }
-//            }
-//          }else{
-//            
-//           userUri = 
-//             userServ.userURIGet(
-//               new SSUserURIGetPar(
-//                 null, 
-//                 null, 
-//                 SSConf.systemUserUri, 
-//                 email));
-//          }
-//          
-//          return SSAuthCheckCredRet.get(
-//            SSAuthConf.noAuthKey,
-//            userUri,
-//            SSVarNames.authCheckCred);
-//        }
 
         case csvFileAuth:{
 
@@ -331,7 +258,7 @@ implements
           
           if(par.key != null){
             
-            userUri = sqlFct.getUserForKey(par, par.key);
+            userUri = sql.getUserForKey(par, par.key);
             
             return new SSAuthCheckCredRet(
               par.key,
@@ -362,9 +289,8 @@ implements
                   email));
             
             return new SSAuthCheckCredRet(
-              SSAuthMiscFct.checkAndGetKey(
+              checkAndGetKey(
                 par,
-                sqlFct,
                 userUri,
                 email,
                 par.password),
@@ -374,13 +300,13 @@ implements
         
         case oidc:{
           
-          SSUri        userUri;
+          SSUri userUri;
           
           if(oidcAuthTokens.containsKey(par.key)){
             userUri = SSUri.get(oidcAuthTokens.get(par.key));
           }else{
           
-            final String email = SSAuthOIDC.getOIDCUserEmail(par.key);
+            final String email = getOIDCUserEmail(par.key);
           
             if(!userServ.userExists(
               new SSUserExistsPar(
@@ -400,23 +326,8 @@ implements
                     false, //isSystemUser
                     false)); //withUserRestriction
 
-              try{
-                collServ.collRootAdd(
-                  new SSCollUserRootAddPar(
-                    par,
-                    SSConf.systemUserUri,
-                    userUri,
-                    true));
-              }catch(SSErr error){
-
-                switch(error.code){
-                  case servInvalid: SSLogU.warn(error); break;
-                  default: {
-                    SSServErrReg.regErrThrow(error);
-                    break;
-                  }
-                }
-              }
+              addRootColl(par, userUri);
+              
             }else{
 
               userUri = 
@@ -448,26 +359,10 @@ implements
             userUri);
         }
 
-        default: 
+        default:{
           throw new UnsupportedOperationException();
-        
-//      case wikiAuth:{
-//        // TODO get SSAuthWikiConf
-//        boolean authUser = wikiauth.authUser(par.user, par.pass, new SSAuthWikiConf());
-//
-//        if (authUser) {
-//
-//          if (SSStrU.containsNot(keylist, alternateKeys[0])) {
-//            keylist.add(alternateKeys[0]);
-//          }
-//
-//          return alternateKeys[0];
-//        }else{
-//          Exception ile = new Exception();
-//
-//          throw ile;
-//        }
-//      }
+        }
+
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -487,7 +382,7 @@ implements
         case csvFileAuth:{
           
           if(csvFileAuthKeys != null){
-            csvFileAuthKeys.addAll(sqlFct.getKeys(par));
+            csvFileAuthKeys.addAll(sql.getKeys(par));
           }
           
           if(!csvFileAuthKeys.contains(par.key)){
@@ -508,192 +403,150 @@ implements
       return null;
     }
   }
+  
+  private String getOIDCUserEmail(final String authToken) throws SSErr{
+    
+    // send request to OpenID Connect user info endpoint to retrieve complete user information
+    // in exchange for access token.
+    final HTTPRequest      hrq;
+    final HTTPResponse     hrs;
+    final UserInfoResponse userInfoResponse;
+    
+    try{
+      try{
+        //      URI userinfoEndpointUri = new URI((String)((JSONObject) fetchOidcProviderConfig().get("config")).get("userinfo_endpoint"));
+        hrq                     = new HTTPRequest(HTTPRequest.Method.GET, new URL(SSCoreConf.instGet().getAuth().oidcUserEndPointURI));  //userinfoEndpointUri.toURL()
+        hrq.setAuthorization("Bearer "+ authToken);
+        
+        //TODO: process all error cases that can happen (in particular invalid tokens)
+        hrs = hrq.send();
+        
+      } catch (IOException error) {
+        SSServErrReg.regErrThrow(SSErrE.authCouldntConnectToOIDC, error);
+        return null;
+      }
+      
+      // process response from OpenID Connect user info endpoint
+      
+      try {
+        userInfoResponse = UserInfoResponse.parse(hrs);
+      } catch (ParseException error) {
+        SSServErrReg.regErrThrow(SSErrE.authCouldntParseOIDCUserInfoResponse, error);
+        return null;
+      }
+      
+      // failed request for OpenID Connect user info will result in no agent being returned.
+      if (userInfoResponse instanceof UserInfoErrorResponse) {
+        
+        if(
+          ((UserInfoErrorResponse) userInfoResponse).getErrorObject()                  != null &&
+          ((UserInfoErrorResponse) userInfoResponse).getErrorObject().getDescription() != null){
+          
+          throw SSErr.get(SSErrE.authOIDCUserInfoRequestFailed); // "Cause: " + ((UserInfoErrorResponse) userInfoResponse).getErrorObject().getDescription());
+        }else{
+          throw SSErr.get(SSErrE.authOIDCUserInfoRequestFailed);
+        }
+      }
+      
+      return (String) ((UserInfoSuccessResponse)userInfoResponse).getUserInfo().toJSONObject().get(SSVarNames.email);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  private void addRootColl(
+    final SSServPar servPar,
+    final SSUri     userURI) throws SSErr {
+    
+    try{
+      
+      final SSCollServerI collServ = (SSCollServerI) SSServReg.getServ(SSCollServerI.class);
+      
+      collServ.collRootAdd(
+        new SSCollUserRootAddPar(
+          servPar,
+          SSConf.systemUserUri,
+          userURI,
+          false));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        
+        case servInvalid:{
+          SSLogU.warn(error);
+          return;
+        }
+      }
+      
+      SSServErrReg.regErrThrow(error);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  private String genKey(
+    final String email, 
+    final String password) throws SSErr{
+    
+    try{
+      
+      if(email == null){
+        SSServErrReg.regErrThrow(SSErrE.parameterMissing);
+        return null;
+      }
+      
+      final String toDigest = email.toLowerCase() + password;
+      
+      if(SSStrU.isEmpty(toDigest)){
+        throw new Exception("to digest string not valid");
+      }
+      
+      final MessageDigest digest = MessageDigest.getInstance(SSEncodingU.md5.toString());
+      
+      byte[] hash = digest.digest(toDigest.getBytes());
+      
+      //converting byte array to Hexadecimal String
+      final StringBuilder sb = new StringBuilder(2 * hash.length);
+      
+      for(byte b : hash){
+        sb.append(String.format("%02x", b&0xff));
+      }
+      
+      return sb.toString();
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  private String checkAndGetKey(
+    final SSServPar    servPar, 
+    final SSUri        userUri,
+    final String       email,
+    final String       pass) throws SSErr{
+    
+    try{
+      
+      if(
+        !sql.hasKey(servPar, userUri)){
+        throw SSErr.get(SSErrE.userNotRegistered);
+      }
+       
+      final String key = sql.getKey(servPar, userUri);
+      
+      if(!key.equals(genKey(email, pass))){
+        throw SSErr.get(SSErrE.userKeyWrong);
+      }
+      
+      return key;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
 }
-
-
-//  @Override
-//  public List<String> authKeyList(SSServerPar par) throws SSErr {
-//    return keylist;
-//  }
-//
-//  @Override
-//  public SSAuthEnum authAuthType(SSServerPar par) throws SSErr {
-//    return conf.getAuthTypeEnum();
-//  }
-
-
-//private static String key;
-//private static Date keyDate;
-//private static Map<String, String> passwords = new HashMap<>();
-//private static String credPath = "/home/nweber/workspace/Dem1Files/";
-//private MessageDigest md5;
-//  @Deprecated
-//  private void createKey() {
-//    Date date = new Date();
-//
-//    /* Berechnung */
-//    try {
-//      md5 = MessageDigest.getInstance("MD5");
-//    } catch (NoSuchAlgorithmException e) {
-//      log.error(e.getMessage(), e);
-//    }
-//    md5.reset();
-//    md5.update(date.toGMTString().getBytes());
-//    byte[] result = md5.digest();
-//
-//    /* Ausgabe */
-//    StringBuilder hexString = new StringBuilder();
-//    for (int i = 0; i < result.length; i++) {
-//      hexString.append(Integer.toHexString(0xFF & result[i]));
-//    }
-//    if (log.isDebugEnabled()) {
-//      log.debug("MD5: " + hexString.toString());
-//    }
-//    this.key = hexString.toString();
-//    this.keyDate = date;
-//
-//  }
-//
-//  @Deprecated
-//  private static void initPasswords() {
-//    String[] userpass;
-//    List outList = new ArrayList();
-//    try {
-//
-//      boolean exists = (new File(credPath + "passwords.txt")).exists();
-//      BufferedReader in = null;
-//      if (exists) {
-//        in = new BufferedReader(new FileReader(credPath + "passwords.txt"));
-//      } else {
-//        log.error("ERROR: PASSWORD FILE MISSING !!!!");
-//      }
-//
-//      if (in == null) {
-//        return;
-//      }
-//
-//      String str;
-//      while ((str = in.readLine()) != null) {
-//        userpass = str.split(":");
-//        passwords.put(userpass[0], userpass[1]);
-//      }
-//      in.close();
-//
-//    } catch (IOException e) {
-//      log.error(e.getMessage(), e);
-//    }
-//  }
-//
-//	public String addUserCred(String user, String pass, String token)
-//	{
-//		if(checkToken(token))
-//		{
-//			try {
-//			    BufferedWriter out = new BufferedWriter(new FileWriter(credPath+"passwords.txt",true));
-//			    	out.newLine();
-//			    	out.write(user+":"+pass);
-//			    			    		    
-//			    out.close();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//			return getKey();
-//		}
-//		return null;
-//	}
-
-//  private boolean checkToken(String token) {
-//    boolean found = false;
-//    List<String> tokenList = new ArrayList<>();
-//    try {
-//
-//      boolean exists = (new File(credPath + "tokens.txt")).exists();
-//      BufferedReader in = null;
-//      if (exists) {
-//        in = new BufferedReader(new FileReader(credPath + "tokens.txt"));
-//      } else {
-//        log.error("ERROR: TOKEN FILE MISSING !!!!");
-//      }
-//
-//      if (in == null) {
-//        return false;
-//      }
-//
-//      String str;
-//      while ((str = in.readLine()) != null) {
-//        tokenList.add(str);
-//      }
-//      in.close();
-//
-//    } catch (IOException e) {
-//      log.error(e.getMessage(), e);
-//    }
-//
-//    if (tokenList.contains(token)) {
-//      if (log.isDebugEnabled()) {
-//        log.debug("TOKEN FOUND");
-//      }
-//      found = true;
-//      tokenList.remove(token);
-//    }
-//    try {
-//      BufferedWriter out = new BufferedWriter(new FileWriter(credPath + "tokens.txt"));
-//      for (String tokenString : tokenList) {
-//        out.write(tokenString);
-//        out.newLine();
-//
-//      }
-//
-//      out.close();
-//    } catch (IOException e) {
-//      log.error(e.getMessage(), e);
-//    }
-//
-//    return found;
-//  }
-
-//  public void createTokenFile(int number, int length) {
-//    try {
-//      BufferedWriter out = new BufferedWriter(new FileWriter(credPath + "tokens.txt"));
-//      for (int i = 0; i < number; i++) {
-//        out.write(getToken(length));
-//        out.newLine();
-//      }
-//      out.close();
-//    } catch (IOException e) {
-//      log.error(e.getMessage(), e);
-//    }
-//  }
-
-//  private String getToken(int length) {
-//    Random random = new Random();
-//    int intRand = random.nextInt();
-//    Date date = new Date();
-//    long time = date.getTime();
-//
-//    long seed = intRand + time;
-//
-//
-//    try {
-//      md5 = MessageDigest.getInstance("MD5");
-//    } catch (NoSuchAlgorithmException e) {
-//      log.error(e.getMessage(), e);
-//    }
-//    md5.reset();
-//    md5.update(String.valueOf(seed).getBytes());
-//    byte[] result = md5.digest();
-//
-//    /* Ausgabe */
-//    StringBuilder hexString = new StringBuilder();
-//    for (int i = 0; i < result.length; i++) {
-//      hexString.append(Integer.toHexString(0xFF & result[i]));
-//    }
-//    if (log.isDebugEnabled()) {
-//      log.debug("MD5: " + hexString.toString());
-//    }
-//    this.key = hexString.toString();
-//    return key.substring(2, 2 + length);
-//  }
-
-//  private static final String DEFAULT_AGENT_KEY                        = "d4ed2b76cfcf9bad374ef96c9c7ab3b";
-  //  private SSAuthWiki              wikiauth      = null;

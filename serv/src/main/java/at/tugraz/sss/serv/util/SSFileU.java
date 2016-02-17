@@ -347,6 +347,7 @@ public class SSFileU{
     try{
 //    final byte[]        bytes      = text.getBytes();
       
+      fileOut =
         new OutputStreamWriter(
           openOrCreateFileWithPathForWrite(
             file.getAbsolutePath()),
@@ -360,10 +361,11 @@ public class SSFileU{
     }finally{
       
       if(fileOut != null){
-        try {
+        
+        try{
           fileOut.close();
-        } catch (IOException ex) {
-          SSLogU.err(ex);
+        }catch(IOException error){
+          SSLogU.err(error);
         }
       }
     }

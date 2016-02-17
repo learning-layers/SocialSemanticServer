@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.auth.impl.fct.sql;
+package at.kc.tugraz.ss.serv.auth.impl;
 
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.datatype.*;
@@ -32,9 +32,9 @@ import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 
-public class SSAuthSQLFct extends SSDBSQLFctA{
+public class SSAuthSQL extends SSDBSQLFctA{
   
-  public SSAuthSQLFct(final SSDBSQLI dbSQL){
+  public SSAuthSQL(final SSDBSQLI dbSQL){
     super(dbSQL);
   }
 

@@ -32,8 +32,6 @@ import at.kc.tugraz.ss.message.datatypes.par.SSMessageSendPar;
 import at.kc.tugraz.ss.message.datatypes.par.SSMessagesGetPar;
 import at.kc.tugraz.ss.message.datatypes.ret.SSMessageSendRet;
 import at.kc.tugraz.ss.message.datatypes.ret.SSMessagesGetRet;
-import at.kc.tugraz.ss.message.impl.fct.activity.SSMessageActivityFct;
-import at.kc.tugraz.ss.message.impl.fct.sql.SSMessageSQLFct;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
@@ -66,16 +64,15 @@ implements
   SSMessageServerI,
   SSDescribeEntityI{
   
-  private final SSMessageSQLFct  sqlFct;
-  private final SSEntityServerI  entityServ;
-  private final SSUserCommons userCommons;
+  private final SSUserCommons      userCommons = new SSUserCommons();
+  private final SSMessageActAndLog actAndLog   = new SSMessageActAndLog();
+  private final SSMessageSQL       sql;
   
   public SSMessageImpl(final SSConfA conf) throws SSErr{
+    
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sqlFct      = new SSMessageSQLFct(dbSQL);
-    this.entityServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-    this.userCommons = new SSUserCommons();
+    this.sql      = new SSMessageSQL(dbSQL);
   }
   
   @Override
@@ -135,7 +132,8 @@ implements
     
     try{
       
-      SSMessage message = sqlFct.getMessage(par, par.message);
+      final SSEntityServerI entityServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      SSMessage             message     = sql.getMessage(par, par.message);
       
       if(message == null){
         return null;
@@ -233,7 +231,7 @@ implements
       final List<SSEntity>   result      = new ArrayList<>();
       final List<SSEntity>   messages    = new ArrayList<>();
       
-      final List<SSUri>     messageURIs   = sqlFct.getMessageURIs(par, par.forUser, par.startTime);
+      final List<SSUri>     messageURIs   = sql.getMessageURIs(par, par.forUser, par.startTime);
       final SSMessageGetPar messageGetPar =
         new SSMessageGetPar(
           par,
@@ -281,7 +279,7 @@ implements
       
       final SSMessageSendRet ret = SSMessageSendRet.get(messageURI);
       
-      SSMessageActivityFct.messageSend(
+      actAndLog.messageSend(
         par,
         par.user,
         par.forUser,
@@ -300,6 +298,8 @@ implements
   public SSUri messageSend(final SSMessageSendPar par) throws SSErr{
     
     try{
+      
+      final SSEntityServerI entityServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       
       dbSQL.startTrans(par, par.shouldCommit);
       
@@ -324,7 +324,7 @@ implements
         return null;
       }
       
-      sqlFct.sendMessage(
+      sql.sendMessage(
         par, 
         message,
         par.user,

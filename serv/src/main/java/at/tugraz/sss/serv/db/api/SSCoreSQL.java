@@ -553,6 +553,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
     }
     
     try{
+      
       final List<String>        columns          = new ArrayList<>();
       final List<String>        tables           = new ArrayList<>();
       final Map<String, String> wheres           = new HashMap<>();
@@ -577,7 +578,10 @@ public class SSCoreSQL extends SSDBSQLFctA{
     }finally{
       
       try{
-        dbSQL.closeStmt(resultSet);
+        
+        if(resultSet != null){
+          dbSQL.closeStmt(resultSet);
+        }
       }catch(Exception sqlError){
         SSServErrReg.regErrThrow(sqlError);
       }

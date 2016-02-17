@@ -51,7 +51,7 @@ public class SSFlagSQLFct extends SSCoreSQL{
   
   public SSFlag getFlag(
     final SSServPar servPar,
-    final SSUri flag) throws SSErr {
+    final SSUri     flag) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -86,11 +86,15 @@ public class SSFlagSQLFct extends SSCoreSQL{
       
       try{
         endTimeForFlag = bindingStrToLong(resultSet, SSSQLVarNames.endTime);
-      }catch(Exception error){/* Do nothing because of only JSON Jackson needs this */ }
+      }catch(Exception error){
+        SSLogU.debug(error.toString());
+      }
       
       try{
         value = bindingStrToInteger(resultSet, SSSQLVarNames.value);
-      }catch(Exception error){/* Do nothing because of only JSON Jackson needs this */ }
+      }catch(Exception error){
+        SSLogU.debug(error.toString());
+      }
       
       return SSFlag.get(
         bindingStrToUri     (resultSet, SSSQLVarNames.flagId),

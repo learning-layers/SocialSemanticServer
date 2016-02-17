@@ -21,12 +21,10 @@
  package at.kc.tugraz.ss.serv.ss.auth.datatypes.enums;
 
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
 
 public enum SSAuthEnum {
   
   wikiAuth, 
-//  noAuth,
   csvFileAuth,
   oidc;
 

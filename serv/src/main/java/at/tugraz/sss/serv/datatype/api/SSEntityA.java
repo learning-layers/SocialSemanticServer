@@ -20,9 +20,8 @@
 */
 package at.tugraz.sss.serv.datatype.api;
 
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.jsonld.*;
+import at.tugraz.sss.serv.util.*;
 import io.swagger.annotations.*;
 
 @ApiModel
@@ -43,13 +42,8 @@ public class SSEntityA implements SSJSONLDPropI{
   
   public SSEntityA(){/* Do nothing because of only JSON Jackson needs this */ }
   
-  protected SSEntityA(final Object value) throws SSErr{
-    
-    if(value == null){
-      throw SSErr.get(SSErrE.entityCreationFailedOnNull);
-    }
-    
-    this.val = value.toString();
+  protected SSEntityA(final Object value){
+    val = SSStrU.toStr(value);
   }
 }
 

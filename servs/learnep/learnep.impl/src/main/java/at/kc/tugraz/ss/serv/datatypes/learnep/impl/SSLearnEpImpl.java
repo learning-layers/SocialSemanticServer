@@ -1845,6 +1845,7 @@ implements
       SSLearnEpEntity entity;
       
       double first, firstDivisor, second, secondDivisor, firstResult, secondResult, result;
+      double zeroDouble = 0.0;
       
       for(SSEntity circleEntity : version.learnEpCircles){
         
@@ -1861,7 +1862,9 @@ implements
           second        = Math.pow(Math.subtractExact(entity.y.longValue() + 25, circle.yC.longValue()), 2);
           secondDivisor = Math.pow(circle.yR.longValue(), 2);
           
-          if(firstDivisor == 0 || secondDivisor == 0){
+          if(
+            Double.doubleToRawLongBits(firstDivisor)  == 0 || 
+            Double.doubleToRawLongBits(secondDivisor) == 0){
             continue;
           }
           

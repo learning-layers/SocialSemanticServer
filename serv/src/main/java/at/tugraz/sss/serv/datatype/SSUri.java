@@ -24,7 +24,6 @@ import at.tugraz.sss.serv.util.SSEncodingU;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.datatype.enums.SSWarnE;
 import at.tugraz.sss.serv.datatype.api.SSEntityA;
 import at.tugraz.sss.serv.reg.*;
 import io.swagger.annotations.*;
@@ -140,6 +139,17 @@ public class SSUri extends SSEntityA{
     }
     
     return new SSUri(uri.toString() + append);
+  }
+  
+  public static SSUri getUnchecked(
+    final String value){
+    
+    try{
+      return new SSUri(value);
+    }catch(Exception error){
+      SSLogU.err(error);
+      return null;
+    }
   }
   
   public static List<SSUri> getDistinctNotNullFromEntities(final List<? extends SSEntity> entities){
@@ -261,7 +271,7 @@ public class SSUri extends SSEntityA{
 
   public SSUri(){/* Do nothing because of only JSON Jackson needs this */ }
   
-  private SSUri(final String string) throws SSErr{
+  private SSUri(final String  string) throws SSErr{
     
     super(SSStrU.addTrailingSlash(string));
     

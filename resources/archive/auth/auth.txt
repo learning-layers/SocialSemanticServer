@@ -1,0 +1,223 @@
+  public SSAuthCheckCredRet authCheckCred(final SSAuthCheckCredPar par) throws SSErr {
+    
+    try{
+
+      final SSUserServerI userServ = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
+      
+      switch(((SSAuthConf)conf).authType){
+//      case wikiAuth:{
+//        // TODO get SSAuthWikiConf
+//        boolean authUser = wikiauth.authUser(par.user, par.pass, new SSAuthWikiConf());
+//
+//        if (authUser) {
+//
+//          if (SSStrU.containsNot(keylist, alternateKeys[0])) {
+//            keylist.add(alternateKeys[0]);
+//          }
+//
+//          return alternateKeys[0];
+//        }else{
+//          Exception ile = new Exception();
+//
+//          throw ile;
+//        }
+//      }
+
+//        case noAuth:{
+//
+//          final String email = SSStrU.toStr(par.label) + SSStrU.at + SSConf.systemEmailPostFix;
+//          final SSUri  userUri;
+//          
+//          if(!userServ.userExists(
+//            new SSUserExistsPar(
+//              null,
+//              null,
+//              SSConf.systemUserUri,
+//              email))){
+//                
+//            userUri =
+//              userServ.userAdd(
+//                new SSUserAddPar(
+//                  null, 
+//                  null, 
+//                  SSConf.systemUserUri, 
+//                  true, 
+//                  par.label, 
+//                  email, 
+//                  false, //isSystemUser
+//                  false)); //withUserRestriction
+//            
+//            try{
+//              
+//              collServ.collRootAdd(
+//                new SSCollUserRootAddPar(
+//                  SSConf.systemUserUri,
+//                  userUri,
+//                  true));
+//              
+//            }catch(SSErr error){
+//              
+//              switch(error.code){
+//                case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+//                default: SSServErrReg.regErrThrow(error);
+//              }
+//            }
+//          }else{
+//            
+//           userUri = 
+//             userServ.userURIGet(
+//               new SSUserURIGetPar(
+//                 null, 
+//                 null, 
+//                 SSConf.systemUserUri, 
+//                 email));
+//          }
+//          
+//          return SSAuthCheckCredRet.get(
+//            SSAuthConf.noAuthKey,
+//            userUri,
+//            SSVarNames.authCheckCred);
+//        }
+
+//  private boolean checkToken(String token) {
+//    boolean found = false;
+//    List<String> tokenList = new ArrayList<>();
+//    try {
+//
+//      boolean exists = (new File(credPath + "tokens.txt")).exists();
+//      BufferedReader in = null;
+//      if (exists) {
+//        in = new BufferedReader(new FileReader(credPath + "tokens.txt"));
+//      } else {
+//        log.error("ERROR: TOKEN FILE MISSING !!!!");
+//      }
+//
+//      if (in == null) {
+//        return false;
+//      }
+//
+//      String str;
+//      while ((str = in.readLine()) != null) {
+//        tokenList.add(str);
+//      }
+//      in.close();
+//
+//    } catch (IOException e) {
+//      log.error(e.getMessage(), e);
+//    }
+//
+//    if (tokenList.contains(token)) {
+//      if (log.isDebugEnabled()) {
+//        log.debug("TOKEN FOUND");
+//      }
+//      found = true;
+//      tokenList.remove(token);
+//    }
+//    try {
+//      BufferedWriter out = new BufferedWriter(new FileWriter(credPath + "tokens.txt"));
+//      for (String tokenString : tokenList) {
+//        out.write(tokenString);
+//        out.newLine();
+//
+//      }
+//
+//      out.close();
+//    } catch (IOException e) {
+//      log.error(e.getMessage(), e);
+//    }
+//
+//    return found;
+//  }
+
+//  private String getToken(int length) {
+//    Random random = new Random();
+//    int intRand = random.nextInt();
+//    Date date = new Date();
+//    long time = date.getTime();
+//
+//    long seed = intRand + time;
+//
+//
+//    try {
+//      md5 = MessageDigest.getInstance("MD5");
+//    } catch (NoSuchAlgorithmException e) {
+//      log.error(e.getMessage(), e);
+//    }
+//    md5.reset();
+//    md5.update(String.valueOf(seed).getBytes());
+//    byte[] result = md5.digest();
+//
+//    /* Ausgabe */
+//    StringBuilder hexString = new StringBuilder();
+//    for (int i = 0; i < result.length; i++) {
+//      hexString.append(Integer.toHexString(0xFF & result[i]));
+//    }
+//    if (log.isDebugEnabled()) {
+//      log.debug("MD5: " + hexString.toString());
+//    }
+//    this.key = hexString.toString();
+//    return key.substring(2, 2 + length);
+//  }
+
+//private static String key;
+//private static Date keyDate;
+//private static Map<String, String> passwords = new HashMap<>();
+//private static String credPath = "/home/nweber/workspace/Dem1Files/";
+//private MessageDigest md5;
+//  @Deprecated
+//  private void createKey() {
+//    Date date = new Date();
+//
+//    /* Berechnung */
+//    try {
+//      md5 = MessageDigest.getInstance("MD5");
+//    } catch (NoSuchAlgorithmException e) {
+//      log.error(e.getMessage(), e);
+//    }
+//    md5.reset();
+//    md5.update(date.toGMTString().getBytes());
+//    byte[] result = md5.digest();
+//
+//    /* Ausgabe */
+//    StringBuilder hexString = new StringBuilder();
+//    for (int i = 0; i < result.length; i++) {
+//      hexString.append(Integer.toHexString(0xFF & result[i]));
+//    }
+//    if (log.isDebugEnabled()) {
+//      log.debug("MD5: " + hexString.toString());
+//    }
+//    this.key = hexString.toString();
+//    this.keyDate = date;
+//  }
+
+
+//
+//  @Deprecated
+//  private static void initPasswords() {
+//    String[] userpass;
+//    List outList = new ArrayList();
+//    try {
+//
+//      boolean exists = (new File(credPath + "passwords.txt")).exists();
+//      BufferedReader in = null;
+//      if (exists) {
+//        in = new BufferedReader(new FileReader(credPath + "passwords.txt"));
+//      } else {
+//        log.error("ERROR: PASSWORD FILE MISSING !!!!");
+//      }
+//
+//      if (in == null) {
+//        return;
+//      }
+//
+//      String str;
+//      while ((str = in.readLine()) != null) {
+//        userpass = str.split(":");
+//        passwords.put(userpass[0], userpass[1]);
+//      }
+//      in.close();
+//
+//    } catch (IOException e) {
+//      log.error(e.getMessage(), e);
+//    }
+//  }
