@@ -22,10 +22,9 @@ package at.tugraz.sss.servs.image.datatype.par;
 
 import at.tugraz.sss.serv.datatype.enums.SSImageE;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import java.sql.*;
 
 public class SSImagesGetPar extends SSServPar{
   

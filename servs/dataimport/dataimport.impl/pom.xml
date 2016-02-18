@@ -20,6 +20,12 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>user.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>mail.api</artifactId>
       <version>${project.version}</version>
     </dependency>

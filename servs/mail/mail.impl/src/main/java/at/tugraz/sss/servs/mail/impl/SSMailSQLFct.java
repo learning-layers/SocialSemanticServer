@@ -29,6 +29,7 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.servs.mail.datatype.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,7 +78,7 @@ public class SSMailSQLFct extends SSDBSQLFctA{
       resultSet = 
         dbSQL.select(
           servPar,
-          SSSQLVarNames.mailTable, 
+          SSMailSQLTableE.mail, 
           columns, 
           where, 
           null, 
@@ -118,7 +119,7 @@ public class SSMailSQLFct extends SSDBSQLFctA{
         insert(inserts, SSSQLVarNames.hash, hash);
       }
       
-      dbSQL.insert(servPar, SSSQLVarNames.mailTable, inserts);
+      dbSQL.insert(servPar, SSMailSQLTableE.mail, inserts);
     }else{
       
       if(mail == null){
@@ -143,7 +144,7 @@ public class SSMailSQLFct extends SSDBSQLFctA{
           return;
         }
         
-        dbSQL.update(servPar, SSSQLVarNames.mailTable, wheres, updates);
+        dbSQL.update(servPar, SSMailSQLTableE.mail, wheres, updates);
         
       }catch(Exception error){
         SSServErrReg.regErrThrow(error);

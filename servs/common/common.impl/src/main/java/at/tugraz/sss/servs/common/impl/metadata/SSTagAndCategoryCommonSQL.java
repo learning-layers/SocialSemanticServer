@@ -20,10 +20,8 @@
  */
 package at.tugraz.sss.servs.common.impl.metadata;
 
-import at.kc.tugraz.ss.category.datatypes.SSCategory;
-import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.category.datatypes.*;
+import at.kc.tugraz.ss.service.tag.datatypes.*;
 import at.tugraz.sss.serv.db.api.SSCoreSQL;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.par.SSDBSQLSelectPar;
@@ -35,6 +33,7 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,8 +47,8 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
   private final SSEntityE        metadataType;
   private final String           metadataIdSQLName;
   private final String           metadataSpaceSQLName;
-  private final String           metadataSQLTableName;
-  private final String           metadataAssSQLTableName;
+  private final SSSQLTableI      metadataSQLTableName;
+  private final SSSQLTableI      metadataAssSQLTableName;
   
   public SSTagAndCategoryCommonSQL(
     final SSDBSQLI    dbSQL,
@@ -64,7 +63,7 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
       case tag:{
         metadataIdSQLName       = SSSQLVarNames.tagId;
         metadataSpaceSQLName    = SSSQLVarNames.tagSpace;
-        metadataAssSQLTableName = SSSQLVarNames.tagsTable;
+        metadataAssSQLTableName = SSTagSQLTableE.tags;
         metadataSQLTableName    = null;
         break;
       }
@@ -72,8 +71,8 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
       case category:{
         metadataIdSQLName       = SSSQLVarNames.categoryId;
         metadataSpaceSQLName    = SSSQLVarNames.categorySpace;
-        metadataAssSQLTableName = SSSQLVarNames.categoriesTable;
-        metadataSQLTableName    = SSSQLVarNames.categoryTable;
+        metadataAssSQLTableName = SSCategorySQLTableE.categories;
+        metadataSQLTableName    = SSCategorySQLTableE.category;
         break;
       }
       
@@ -93,17 +92,17 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
       
       final List<String>        columns   = new ArrayList<>();
       final Map<String, String> wheres    = new HashMap<>();
-      final List<String>        tables    = new ArrayList<>();
+      final List<SSSQLTableI>  tables    = new ArrayList<>();
       final List<String>        tableCons = new ArrayList<>();
       
       column(columns, SSSQLVarNames.label);
       
       table(tables, metadataSQLTableName);
-      table(tables, SSSQLVarNames.entityTable);
+      table(tables, SSEntitySQLTableE.entity);
       
       where(wheres, SSSQLVarNames.isPredefined, isPredefined);
       
-      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, metadataSQLTableName, metadataIdSQLName);
+      tableCon(tableCons, SSEntitySQLTableE.entity, SSSQLVarNames.id, metadataSQLTableName, metadataIdSQLName);
       
       resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
@@ -131,7 +130,7 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
       
       final List<MultivaluedMap<String, String>> orWheres       = new ArrayList<>();
       final List<SSEntity>                       metadataAsss   = new ArrayList<>();
-      final List<String>                         tables         = new ArrayList<>();
+      final List<SSSQLTableI>                    tables         = new ArrayList<>();
       final List<String>                         columns        = new ArrayList<>();
       final List<String>                         tableCons      = new ArrayList<>();
       
@@ -144,9 +143,9 @@ public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
       column   (columns,   SSSQLVarNames.circleId);
       
       table    (tables,   metadataAssSQLTableName);
-      table    (tables,   SSSQLVarNames.entityTable);
+      table    (tables,   SSEntitySQLTableE.entity);
       
-      tableCon (tableCons, metadataAssSQLTableName, metadataIdSQLName, SSSQLVarNames.entityTable, SSSQLVarNames.id);
+      tableCon (tableCons, metadataAssSQLTableName, metadataIdSQLName, SSEntitySQLTableE.entity, SSSQLVarNames.id);
       
       if(
         users != null &&

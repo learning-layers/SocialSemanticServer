@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.servs.auth.impl;
 
+import at.kc.tugraz.ss.serv.ss.auth.datatypes.enums.*;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
@@ -52,7 +53,7 @@ public class SSAuthSQL extends SSDBSQLFctA{
       
       where(wheres, SSSQLVarNames.userId, userUri);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.authTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSAuthSQLTableE.auth, columns, wheres, null, null, null);
       
       return existsFirstResult(resultSet);
       
@@ -78,7 +79,7 @@ public class SSAuthSQL extends SSDBSQLFctA{
       
       where(wheres, SSSQLVarNames.userId, userUri);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.authTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSAuthSQLTableE.auth, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -108,7 +109,7 @@ public class SSAuthSQL extends SSDBSQLFctA{
       
       where(wheres, SSSQLVarNames.authKey, key);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.authTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSAuthSQLTableE.auth, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -135,7 +136,7 @@ public class SSAuthSQL extends SSDBSQLFctA{
       insert(inserts, SSSQLVarNames.userId,  userUri);
       insert(inserts, SSSQLVarNames.authKey, authKey);
       
-      dbSQL.insert(servPar, SSSQLVarNames.authTable, inserts);
+      dbSQL.insert(servPar, SSAuthSQLTableE.auth, inserts);
       
       return authKey;
     }catch(Exception error){
@@ -153,7 +154,7 @@ public class SSAuthSQL extends SSDBSQLFctA{
     
     try{
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.authTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSAuthSQLTableE.auth, columns, wheres, null, null, null);
       
       return getStringsFromResult(resultSet, SSSQLVarNames.authKey);
       
@@ -174,7 +175,7 @@ public class SSAuthSQL extends SSDBSQLFctA{
       
       where(wheres, SSSQLVarNames.userId, user);
       
-      dbSQL.deleteIgnore(servPar, SSSQLVarNames.authTable, wheres);
+      dbSQL.deleteIgnore(servPar, SSAuthSQLTableE.auth, wheres);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

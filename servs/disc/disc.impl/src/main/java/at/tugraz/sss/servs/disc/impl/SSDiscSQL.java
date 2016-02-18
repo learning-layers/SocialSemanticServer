@@ -20,24 +20,24 @@
 */
 package at.tugraz.sss.servs.disc.impl;
 
+import at.kc.tugraz.ss.service.disc.datatypes.*;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
-import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
-import at.kc.tugraz.ss.service.disc.datatypes.SSDiscEntry;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.util.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import at.tugraz.sss.serv.db.api.SSCoreSQL;
 
 public class SSDiscSQL extends SSCoreSQL {
 
@@ -62,7 +62,7 @@ public class SSDiscSQL extends SSCoreSQL {
       
       where(wheres, SSSQLVarNames.discId, disc);
     
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.discUserTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSDiscSQLTableE.discuser, columns, wheres, null, null, null);
 
       return getURIsFromResult(resultSet, SSSQLVarNames.userId);
     }catch(Exception error){
@@ -88,9 +88,9 @@ public class SSDiscSQL extends SSCoreSQL {
       if(userUri != null){
         where(wheres, SSSQLVarNames.userId, userUri);
       
-        resultSet = dbSQL.select(servPar, SSSQLVarNames.discUserTable, columns, wheres, null, null, null);
+        resultSet = dbSQL.select(servPar, SSDiscSQLTableE.discuser, columns, wheres, null, null, null);
       }else{
-        resultSet = dbSQL.select(servPar, SSSQLVarNames.discTable,     columns, wheres, null, null, null);
+        resultSet = dbSQL.select(servPar, SSDiscSQLTableE.disc,     columns, wheres, null, null, null);
       }
       
       return getURIsFromResult(resultSet, SSSQLVarNames.discId);
@@ -117,25 +117,25 @@ public class SSDiscSQL extends SSCoreSQL {
       
       final Map<String, String> wheres    = new HashMap<>();
       final List<String>        columns   = new ArrayList<>();
-      final List<String>        tables    = new ArrayList<>();
+      final List<SSSQLTableI>   tables    = new ArrayList<>();
       final List<String>        tableCons = new ArrayList<>();      
       
-      column    (columns,   SSSQLVarNames.discTable,      SSSQLVarNames.discId);
+      column    (columns,   SSDiscSQLTableE.disc,      SSSQLVarNames.discId);
       
-      table(tables, SSSQLVarNames.discTable);
-      table(tables, SSSQLVarNames.discTargetsTable);
+      table(tables, SSDiscSQLTableE.disc);
+      table(tables, SSDiscSQLTableE.disctargets);
       
-      where     (wheres,    SSSQLVarNames.discTargetsTable, SSSQLVarNames.targetId, target);
+      where     (wheres,    SSDiscSQLTableE.disctargets, SSSQLVarNames.targetId, target);
       
-      tableCon  (tableCons, SSSQLVarNames.discTable, SSSQLVarNames.discId, SSSQLVarNames.discTargetsTable, SSSQLVarNames.discId);
+      tableCon  (tableCons, SSDiscSQLTableE.disc, SSSQLVarNames.discId, SSDiscSQLTableE.disctargets, SSSQLVarNames.discId);
       
       if(forUser != null){
 
-        table     (tables,    SSSQLVarNames.discUserTable);
+        table     (tables,    SSDiscSQLTableE.discuser);
         
         where     (wheres,    SSSQLVarNames.userId,   forUser);
         
-        tableCon  (tableCons, SSSQLVarNames.discTable, SSSQLVarNames.discId, SSSQLVarNames.discUserTable, SSSQLVarNames.discId);
+        tableCon  (tableCons, SSDiscSQLTableE.disc, SSSQLVarNames.discId, SSDiscSQLTableE.discuser, SSSQLVarNames.discId);
       }
       
       resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
@@ -159,7 +159,7 @@ public class SSDiscSQL extends SSCoreSQL {
       
       insert(inserts, SSSQLVarNames.discId,      disc);
       
-      dbSQL.insert(servPar, SSSQLVarNames.discTable, inserts);
+      dbSQL.insert(servPar, SSDiscSQLTableE.disc, inserts);
       
       addDisc(servPar, disc, user);
 
@@ -189,7 +189,7 @@ public class SSDiscSQL extends SSCoreSQL {
         uniqueKey(uniqueKeys, SSSQLVarNames.discId,     disc);
         uniqueKey(uniqueKeys, SSSQLVarNames.targetId,   target);
       
-        dbSQL.insertIfNotExists(servPar, SSSQLVarNames.discTargetsTable, inserts, uniqueKeys);
+        dbSQL.insertIfNotExists(servPar, SSDiscSQLTableE.disctargets, inserts, uniqueKeys);
       }
       
     }catch(Exception error){
@@ -208,7 +208,7 @@ public class SSDiscSQL extends SSCoreSQL {
       insert(inserts, SSSQLVarNames.discId,   disc);
       insert(inserts, SSSQLVarNames.userId,   user);
       
-      dbSQL.insert(servPar, SSSQLVarNames.discUserTable, inserts);
+      dbSQL.insert(servPar, SSDiscSQLTableE.discuser, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -229,7 +229,7 @@ public class SSDiscSQL extends SSCoreSQL {
       insert(inserts, SSSQLVarNames.discEntryContent, content);
       insert(inserts, SSSQLVarNames.accepted,         false);
       
-      dbSQL.insert(servPar, SSSQLVarNames.discEntryTable, inserts);
+      dbSQL.insert(servPar, SSDiscSQLTableE.discentry, inserts);
       
       discEntryCount = getDiscEntryCount(servPar, discUri);
       discEntryCount++;
@@ -240,7 +240,7 @@ public class SSDiscSQL extends SSCoreSQL {
       insert(inserts, SSSQLVarNames.discEntryId, discEntryUri);
       insert(inserts, SSSQLVarNames.pos,         discEntryCount);
       
-      dbSQL.insert(servPar, SSSQLVarNames.discEntriesTable, inserts);
+      dbSQL.insert(servPar, SSDiscSQLTableE.discentries, inserts);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -260,7 +260,7 @@ public class SSDiscSQL extends SSCoreSQL {
       
       where(wheres, SSSQLVarNames.discId, discUri);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.discEntriesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSDiscSQLTableE.discentries, columns, wheres, null, null, null);
       
       resultSet.last();
       
@@ -281,18 +281,18 @@ public class SSDiscSQL extends SSCoreSQL {
     ResultSet resultSet   = null;
     
     try{
-      final List<String>        tables    = new ArrayList<>();
+      final List<SSSQLTableI>   tables    = new ArrayList<>();
       final Map<String, String> wheres    = new HashMap<>();
       final List<String>        columns   = new ArrayList<>();
       final List<String>        tableCons = new ArrayList<>();
       
-      table     (tables,    SSSQLVarNames.entityTable);
-      table     (tables,    SSSQLVarNames.discTable);      
+      table     (tables,    SSEntitySQLTableE.entity);
+      table     (tables,    SSDiscSQLTableE.disc);      
       column    (columns,   SSSQLVarNames.discId);
       column    (columns,   SSSQLVarNames.type);
       where     (wheres,    SSSQLVarNames.discId, entityUri);
       where     (wheres,    SSSQLVarNames.type,   discType);
-      tableCon  (tableCons, SSSQLVarNames.discTable,        SSSQLVarNames.discId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
+      tableCon  (tableCons, SSDiscSQLTableE.disc, SSSQLVarNames.discId, SSEntitySQLTableE.entity, SSSQLVarNames.id);
       
       resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
@@ -320,7 +320,7 @@ public class SSDiscSQL extends SSCoreSQL {
       
       where(wheres, SSSQLVarNames.discId, entityUri);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.discTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSDiscSQLTableE.disc, columns, wheres, null, null, null);
       
       return resultSet.first();
       
@@ -346,7 +346,7 @@ public class SSDiscSQL extends SSCoreSQL {
       
       where(wheres, SSSQLVarNames.discEntryId, entityUri);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.discEntriesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSDiscSQLTableE.discentries, columns, wheres, null, null, null);
       
       return resultSet.first();
       
@@ -365,7 +365,7 @@ public class SSDiscSQL extends SSCoreSQL {
     ResultSet resultSet = null;
     
     try{
-      final List<String>        tables     = new ArrayList<>();
+      final List<SSSQLTableI>   tables     = new ArrayList<>();
       final List<String>        columns    = new ArrayList<>();
       final List<String>        tableCons  = new ArrayList<>();
       final Map<String, String> wheres     = new HashMap<>();
@@ -374,12 +374,12 @@ public class SSDiscSQL extends SSCoreSQL {
       column    (columns,   SSSQLVarNames.discId);
       column    (columns,   SSSQLVarNames.type);
 
-      table     (tables, SSSQLVarNames.entityTable);
-      table     (tables, SSSQLVarNames.discTable);
+      table     (tables, SSEntitySQLTableE.entity);
+      table     (tables, SSDiscSQLTableE.disc);
       
       where     (wheres,    SSSQLVarNames.discId, discUri);
       
-      tableCon  (tableCons, SSSQLVarNames.discTable,        SSSQLVarNames.discId, SSSQLVarNames.entityTable, SSSQLVarNames.id);      
+      tableCon  (tableCons, SSDiscSQLTableE.disc,        SSSQLVarNames.discId, SSEntitySQLTableE.entity, SSSQLVarNames.id);      
       
       resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
@@ -417,7 +417,7 @@ public class SSDiscSQL extends SSCoreSQL {
       
       where(wheres, SSSQLVarNames.discId, discUri);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.discTargetsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSDiscSQLTableE.disctargets, columns, wheres, null, null, null);
       
       return getEntitiesFromResult(resultSet, SSSQLVarNames.targetId);
       
@@ -438,7 +438,7 @@ public class SSDiscSQL extends SSCoreSQL {
       
       where(wheres, SSSQLVarNames.discId, discUri);
       
-      dbSQL.delete(servPar, SSSQLVarNames.discTable, wheres);
+      dbSQL.delete(servPar, SSDiscSQLTableE.disc, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -455,7 +455,7 @@ public class SSDiscSQL extends SSCoreSQL {
       where(wheres, SSSQLVarNames.userId, userUri);
       where(wheres, SSSQLVarNames.discId, discUri);
       
-      dbSQL.delete(servPar, SSSQLVarNames.discUserTable, wheres);
+      dbSQL.delete(servPar, SSDiscSQLTableE.discuser, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -476,7 +476,7 @@ public class SSDiscSQL extends SSCoreSQL {
       
       where(wheres, SSSQLVarNames.discId, disc);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.discEntriesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSDiscSQLTableE.discentries, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.discEntryId);
       
@@ -503,7 +503,7 @@ public class SSDiscSQL extends SSCoreSQL {
         return disc;
       }
       
-      final List<String>        tables        = new ArrayList<>();
+      final List<SSSQLTableI>   tables        = new ArrayList<>();
       final List<String>        columns       = new ArrayList<>();
       final List<String>        tableCons     = new ArrayList<>();
       final Map<String, String> wheres        = new HashMap<>();
@@ -512,16 +512,16 @@ public class SSDiscSQL extends SSCoreSQL {
       column(columns, SSSQLVarNames.pos);
       column(columns, SSSQLVarNames.type);
       column(columns, SSSQLVarNames.accepted);
-      column(columns, SSSQLVarNames.discEntriesTable, SSSQLVarNames.discEntryId);
+      column(columns, SSDiscSQLTableE.discentries, SSSQLVarNames.discEntryId);
       
-      table(tables, SSSQLVarNames.entityTable);
-      table(tables, SSSQLVarNames.discEntriesTable);
-      table(tables, SSSQLVarNames.discEntryTable);
+      table(tables, SSEntitySQLTableE.entity);
+      table(tables, SSDiscSQLTableE.discentries);
+      table(tables, SSDiscSQLTableE.discentry);
       
       where(wheres, SSSQLVarNames.discId, discUri);
       
-      tableCon(tableCons, SSSQLVarNames.discEntriesTable,     SSSQLVarNames.discEntryId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
-      tableCon(tableCons, SSSQLVarNames.discEntryTable,       SSSQLVarNames.discEntryId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
+      tableCon(tableCons, SSDiscSQLTableE.discentries,     SSSQLVarNames.discEntryId, SSEntitySQLTableE.entity, SSSQLVarNames.id);
+      tableCon(tableCons, SSDiscSQLTableE.discentry,       SSSQLVarNames.discEntryId, SSEntitySQLTableE.entity, SSSQLVarNames.id);
       
       resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
@@ -562,7 +562,7 @@ public class SSDiscSQL extends SSCoreSQL {
       where(wheres, SSSQLVarNames.userId, user);
       where(wheres, SSSQLVarNames.discId, disc);
     
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.discUserTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSDiscSQLTableE.discuser, columns, wheres, null, null, null);
 
       return resultSet.first();
     }catch(Exception error){
@@ -585,7 +585,7 @@ public class SSDiscSQL extends SSCoreSQL {
       
       update (updates, SSSQLVarNames.accepted, true);
       
-      dbSQL.update(servPar, SSSQLVarNames.discEntryTable, wheres, updates);
+      dbSQL.update(servPar, SSDiscSQLTableE.discentry, wheres, updates);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -606,7 +606,7 @@ public class SSDiscSQL extends SSCoreSQL {
       
       where(wheres, SSSQLVarNames.discEntryId, entry);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.discEntriesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSDiscSQLTableE.discentries, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -635,7 +635,7 @@ public class SSDiscSQL extends SSCoreSQL {
       
       update (updates, SSSQLVarNames.discEntryContent, content);
       
-      dbSQL.update(servPar, SSSQLVarNames.discEntryTable, wheres, updates);
+      dbSQL.update(servPar, SSDiscSQLTableE.discentry, wheres, updates);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -643,7 +643,7 @@ public class SSDiscSQL extends SSCoreSQL {
   }
 
   public void updateDiscContent(
-    final SSServPar servPar,
+    final SSServPar     servPar,
     final SSUri         disc, 
     final SSTextComment content) throws SSErr{
     
@@ -653,9 +653,9 @@ public class SSDiscSQL extends SSCoreSQL {
       
       where(wheres, SSSQLVarNames.discId, disc);
       
-      update (updates, SSSQLVarNames.discTable, content);
+      update (updates, SSDiscSQLTableE.disc.toString(), content);
       
-      dbSQL.update(servPar, SSSQLVarNames.discTable, wheres, updates);
+      dbSQL.update(servPar, SSDiscSQLTableE.disc, wheres, updates);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -668,7 +668,7 @@ public class SSDiscSQL extends SSCoreSQL {
 //    ResultSet resultSet = null;
 //
 //    try{
-//      resultSet = dbSQL.select(discTable);
+//      resultSet = dbSQL.select(disc);
 //
 //      return getURIsFromResult(resultSet, SSSQLVarU.discId);
 //    }catch(Exception error){
@@ -689,7 +689,7 @@ public class SSDiscSQL extends SSCoreSQL {
 //      
 //      where(wheres, SSSQLVarU.target, targetUri);
 //      
-//      resultSet = dbSQL.select(discTable, wheres);
+//      resultSet = dbSQL.select(disc, wheres);
 //      
 //      return getURIsFromResult(resultSet, SSSQLVarU.discId);
 //    }catch(Exception error){

@@ -20,6 +20,7 @@
   */
 package at.kc.tugraz.sss.comment.impl.fct.sql;
 
+import at.kc.tugraz.sss.comment.datatypes.par.*;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
@@ -27,13 +28,13 @@ import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import at.tugraz.sss.serv.db.api.SSCoreSQL;
 
 public class SSCommentSQLFct extends SSCoreSQL{
   
@@ -55,19 +56,19 @@ public class SSCommentSQLFct extends SSCoreSQL{
         throw SSErr.get(SSErrE.parameterMissing);
       }
       
-      final List<String>        tables            = new ArrayList<>();
+      final List<SSSQLTableI>   tables            = new ArrayList<>();
       final List<String>        columns           = new ArrayList<>();
       final List<String>        tableCons         = new ArrayList<>();
       final Map<String, String> wheres            = new HashMap<>();
       
-      column(columns, SSSQLVarNames.commentsTable, SSSQLVarNames.entityId);
+      column(columns, SSCommentSQLTableE.comments, SSSQLVarNames.entityId);
       
-      table (tables, SSSQLVarNames.commentsTable);
-      table (tables, SSSQLVarNames.entityTable);
+      table (tables, SSCommentSQLTableE.comments);
+      table (tables, SSEntitySQLTableE.entity);
       
-      where   (wheres, SSSQLVarNames.entityTable, SSSQLVarNames.author, forUser);
+      where   (wheres, SSEntitySQLTableE.entity, SSSQLVarNames.author, forUser);
       
-      tableCon(tableCons, SSSQLVarNames.entityTable,  SSSQLVarNames.id, SSSQLVarNames.commentsTable,  SSSQLVarNames.commentId);
+      tableCon(tableCons, SSEntitySQLTableE.entity,  SSSQLVarNames.id, SSCommentSQLTableE.comments,  SSSQLVarNames.commentId);
       
       resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
@@ -89,29 +90,29 @@ public class SSCommentSQLFct extends SSCoreSQL{
     ResultSet resultSet = null;
     
     try{
-      final List<String>        tables            = new ArrayList<>();
+      final List<SSSQLTableI>   tables            = new ArrayList<>();
       final List<String>        columns           = new ArrayList<>();
       final List<String>        tableCons         = new ArrayList<>();
       final Map<String, String> wheres            = new HashMap<>();
       
       column(columns, SSSQLVarNames.commentContent);
       
-      table(tables, SSSQLVarNames.commentTable);
-      table(tables, SSSQLVarNames.commentsTable);
+      table(tables, SSCommentSQLTableE.comment);
+      table(tables, SSCommentSQLTableE.comments);
       
       if(entity != null){
-        where(wheres, SSSQLVarNames.commentsTable, SSSQLVarNames.entityId, entity);
+        where(wheres, SSCommentSQLTableE.comments, SSSQLVarNames.entityId, entity);
       }
       
       if(forUser != null){
         
-        column  (columns,   SSSQLVarNames.author);
-        where   (wheres, SSSQLVarNames.entityTable, SSSQLVarNames.author, forUser);
-        table   (tables, SSSQLVarNames.entityTable);
-        tableCon(tableCons, SSSQLVarNames.entityTable,  SSSQLVarNames.id, SSSQLVarNames.commentTable,  SSSQLVarNames.commentId);
+        column   (columns,   SSSQLVarNames.author);
+        where    (wheres,    SSEntitySQLTableE.entity, SSSQLVarNames.author, forUser);
+        table    (tables,    SSEntitySQLTableE.entity);
+        tableCon (tableCons, SSEntitySQLTableE.entity,  SSSQLVarNames.id, SSCommentSQLTableE.comment,  SSSQLVarNames.commentId);
       }
       
-      tableCon(tableCons, SSSQLVarNames.commentTable, SSSQLVarNames.commentId, SSSQLVarNames.commentsTable, SSSQLVarNames.commentId);
+      tableCon(tableCons, SSCommentSQLTableE.comment, SSSQLVarNames.commentId, SSCommentSQLTableE.comments, SSSQLVarNames.commentId);
       
       resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
@@ -136,7 +137,7 @@ public class SSCommentSQLFct extends SSCoreSQL{
       insert(inserts, SSSQLVarNames.entityId,  entity);
       insert(inserts, SSSQLVarNames.commentId, commentUri);
       
-      dbSQL.insert(servPar, SSSQLVarNames.commentsTable, inserts);
+      dbSQL.insert(servPar, SSCommentSQLTableE.comments, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -154,7 +155,7 @@ public class SSCommentSQLFct extends SSCoreSQL{
       insert(inserts, SSSQLVarNames.commentId,      commentUri);
       insert(inserts, SSSQLVarNames.commentContent, content);
       
-      dbSQL.insert(servPar, SSSQLVarNames.commentTable, inserts);
+      dbSQL.insert(servPar, SSCommentSQLTableE.comment, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

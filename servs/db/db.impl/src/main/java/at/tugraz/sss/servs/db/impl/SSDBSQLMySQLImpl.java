@@ -32,12 +32,9 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplDBA;
 import at.tugraz.sss.serv.datatype.enums.SSWarnE;
 import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLTransactionRollbackException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -304,7 +301,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       
       query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
       
-      for(String tableName : par.tables){
+      for(SSSQLTableI tableName : par.tables){
         query += tableName + SSStrU.comma;
       }
       
@@ -495,7 +492,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   @Override
   public ResultSet select(
     final SSServPar           servPar,
-    final List<String>        tables,
+    final List<SSSQLTableI>   tables,
     final List<String>        columns,
     final Map<String, String> wheres,
     final List<String>        tableCons,
@@ -522,7 +519,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       
       query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
       
-      for(String tableName : tables){
+      for(SSSQLTableI tableName : tables){
         query += tableName + SSStrU.comma;
       }
       
@@ -586,8 +583,8 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public ResultSet select(
-    final SSServPar          servPar,
-    final String              table,
+    final SSServPar           servPar,
+    final SSSQLTableI         table,
     final List<String>        columns,
     final Map<String, String> wheres,
     final String              orderByColumn,
@@ -665,7 +662,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   @Override
   public ResultSet selectLike(
     final SSServPar                            servPar,
-    final List<String>                         tables,
+    final List<SSSQLTableI>                    tables,
     final List<String>                         columns,
     final List<MultivaluedMap<String, String>> likes,
     final List<String>                         tableCons,
@@ -693,7 +690,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       
       query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
       
-      for(String tableName : tables){
+      for(SSSQLTableI tableName : tables){
         query += tableName + SSStrU.comma;
       }
       
@@ -777,8 +774,8 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public void insertIfNotExists(
-    final SSServPar          servPar,
-    final String              table,
+    final SSServPar           servPar,
+    final SSSQLTableI         table,
     final Map<String, String> inserts,
     final Map<String, String> uniqueKeys) throws SSErr{
     
@@ -849,7 +846,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   @Override
   public void delete(
     final SSServPar          servPar,
-    final String             table) throws SSErr{
+    final SSSQLTableI        table) throws SSErr{
     
     PreparedStatement   stmt  = null;
     
@@ -857,9 +854,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       
       int counter = 1;
       
-      stmt = servPar.sqlCon.prepareStatement("DELETE FROM " + SSStrU.questionMark);
-      
-      stmt.setObject(counter++, table);
+      stmt = servPar.sqlCon.prepareStatement("DELETE FROM " + table);
       
       stmt.executeUpdate();
       
@@ -883,14 +878,14 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   @Override
   public void updateIgnore(
     final SSServPar           servPar,
-    final String              table,
+    final SSSQLTableI         table,
     final Map<String, String> wheres,
     final Map<String, String> values) throws SSErr{
     
     PreparedStatement stmt    = null;
     
     try{
-      String                              query    = "UPDATE IGNORE " + SSStrU.questionMark + " SET ";
+      String                              query    = "UPDATE IGNORE " + table + " SET ";
       int                                 counter  = 1;
       Iterator<Map.Entry<String, String>> iterator = values.entrySet().iterator();
       
@@ -908,8 +903,6 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       query          = SSStrU.removeTrailingString(query, " AND ");
       stmt           = servPar.sqlCon.prepareStatement(query);
       iterator       = values.entrySet().iterator();
-      
-      stmt.setObject(counter++, table);
       
       while(iterator.hasNext()){
         stmt.setObject(counter++, iterator.next().getValue());
@@ -943,14 +936,14 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   @Override
   public void update(
     final SSServPar           servPar,
-    final String              table,
+    final SSSQLTableI         table,
     final Map<String, String> wheres,
     final Map<String, String> updates) throws SSErr{
     
     PreparedStatement stmt    = null;
     
     try{
-      String                              query   = "UPDATE " + SSStrU.questionMark + " SET ";
+      String                              query   = "UPDATE " + table + " SET ";
       int                                 counter = 1;
       Iterator<Map.Entry<String, String>> iterator = updates.entrySet().iterator();
       
@@ -968,8 +961,6 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       query          = SSStrU.removeTrailingString(query, " AND ");
       stmt           = servPar.sqlCon.prepareStatement(query);
       iterator       = updates.entrySet().iterator();
-      
-      stmt.setObject(counter++, table);
       
       while(iterator.hasNext()){
         stmt.setObject(counter++, iterator.next().getValue());
@@ -1002,14 +993,14 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public void insert(
-    final SSServPar          servPar,
-    final String              table,
+    final SSServPar           servPar,
+    final SSSQLTableI         table,
     final Map<String, String> inserts) throws SSErr{
     
     PreparedStatement stmt    = null;
     
     try{
-      String                              query    = "INSERT INTO " + SSStrU.questionMark + SSStrU.bracketOpen;
+      String                              query    = "INSERT INTO " + table + SSStrU.bracketOpen;
       int                                 counter  = 1;
       Iterator<Map.Entry<String, String>> iterator = inserts.entrySet().iterator();
       
@@ -1028,8 +1019,6 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       query          = SSStrU.removeTrailingString(query, SSStrU.comma) + SSStrU.bracketClose;
       stmt           = servPar.sqlCon.prepareStatement(query);
       iterator       = inserts.entrySet().iterator();
-      
-      stmt.setObject(counter++, table);
       
       while(iterator.hasNext()){
         stmt.setObject(counter++, iterator.next().getValue());
@@ -1056,13 +1045,13 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   @Override
   public void delete(
     final SSServPar           servPar,
-    final String              table,
+    final SSSQLTableI         table,
     final Map<String, String> wheres) throws SSErr{
     
     PreparedStatement stmt    = null;
     
     try{
-      String                              query    = "DELETE FROM " + SSStrU.questionMark + " WHERE ";
+      String                              query    = "DELETE FROM " + table + " WHERE ";
       int                                 counter  = 1;
       Iterator<Map.Entry<String, String>> iterator = wheres.entrySet().iterator();
       
@@ -1073,8 +1062,6 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       query          = SSStrU.removeTrailingString(query, " AND ");
       stmt           = servPar.sqlCon.prepareStatement(query);
       iterator       = wheres.entrySet().iterator();
-      
-      stmt.setObject(counter++, table);
       
       while(iterator.hasNext()){
         stmt.setObject(counter++, iterator.next().getValue());
@@ -1102,13 +1089,13 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   @Override
   public void deleteIgnore(
     final SSServPar           servPar,
-    final String              table,
+    final SSSQLTableI         table,
     final Map<String, String> deletes) throws SSErr{
     
     PreparedStatement stmt = null;
     
     try{
-      String                              query    = "DELETE IGNORE FROM " + SSStrU.questionMark + " WHERE ";
+      String                              query    = "DELETE IGNORE FROM " + table + " WHERE ";
       Iterator<Map.Entry<String, String>> iterator = deletes.entrySet().iterator();
       int                                 counter  = 1;
       
@@ -1119,8 +1106,6 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       query          = SSStrU.removeTrailingString(query, " AND ");
       stmt           = servPar.sqlCon.prepareStatement(query);
       iterator       = deletes.entrySet().iterator();
-      
-      stmt.setObject(counter++, table);
       
       while(iterator.hasNext()){
         stmt.setObject(counter++, iterator.next().getValue());
@@ -1147,14 +1132,14 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public void deleteIgnore(
-    final SSServPar          servPar,
-    final String                               table,
+    final SSServPar                            servPar,
+    final SSSQLTableI                          table,
     final List<MultivaluedMap<String, String>> wheres) throws SSErr{
     
     PreparedStatement stmt = null;
     
     try{
-      String                                    query   = "DELETE IGNORE FROM " + SSStrU.questionMark + " WHERE ";
+      String                                    query   = "DELETE IGNORE FROM " + table + " WHERE ";
       int                                       counter = 1;
       Iterator<Map.Entry<String, List<String>>> iteratorMultiValue;
       Map.Entry<String, List<String>>           entrySet;
@@ -1183,8 +1168,6 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       
       query = SSStrU.removeTrailingString(query, " AND ");
       stmt  = servPar.sqlCon.prepareStatement(query);
-      
-      stmt.setObject(counter++, table);
       
       for(MultivaluedMap<String, String> where : wheres){
         

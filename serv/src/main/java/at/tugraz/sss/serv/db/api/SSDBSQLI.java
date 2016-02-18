@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.serv.db.api;
 
-import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import java.sql.*;
 import java.util.List;
@@ -48,8 +48,8 @@ public interface SSDBSQLI{
     final SSDBSQLSelectPar par) throws SSErr;
   
   public ResultSet select(
-    final SSServPar servPar,
-    final List<String>        tables, 
+    final SSServPar           servPar,
+    final List<SSSQLTableI>   tables, 
     final List<String>        columns, 
     final Map<String, String> wheres,
     final List<String>        tableCons,
@@ -58,8 +58,8 @@ public interface SSDBSQLI{
     final Integer             limit) throws SSErr;
   
   public ResultSet select(
-    final SSServPar servPar,
-    final String              table, 
+    final SSServPar           servPar,
+    final SSSQLTableI         table, 
     final List<String>        columns, 
     final Map<String, String> wheres,
     final String              orderByColumn, 
@@ -68,7 +68,7 @@ public interface SSDBSQLI{
   
   public ResultSet selectLike(
     final SSServPar servPar,
-    final List<String>                         tables,
+    final List<SSSQLTableI>                    tables,
     final List<String>                         columns,
     final List<MultivaluedMap<String, String>> likes,
     final List<String>                         tableCons,
@@ -78,43 +78,43 @@ public interface SSDBSQLI{
   
   public void insert(
     final SSServPar servPar,
-    final String              table, 
+    final SSSQLTableI              table, 
     final Map<String, String> inserts) throws SSErr;
   
   public void insertIfNotExists(
     final SSServPar servPar,
-    final String              table, 
+    final SSSQLTableI              table, 
     final Map<String, String> inserts,
     final Map<String, String> uniqueKeys) throws SSErr;
   
   public void delete(
-    final SSServPar servPar,
-    final String table) throws SSErr;
+    final SSServPar   servPar,
+    final SSSQLTableI table) throws SSErr;
   
   public void delete(
     final SSServPar servPar,
-    final String              table, 
+    final SSSQLTableI              table, 
     final Map<String, String> wheres) throws SSErr;
   
   public void deleteIgnore(
-    final SSServPar servPar,
-    final String              table, 
+    final SSServPar           servPar,
+    final SSSQLTableI         table, 
     final Map<String, String> wheres) throws SSErr;
 
   public void deleteIgnore(
-    final SSServPar servPar,
-    final String                               table, 
+    final SSServPar                            servPar,
+    final SSSQLTableI                          table, 
     final List<MultivaluedMap<String, String>> wheres) throws SSErr;
   
   public void update(
     final SSServPar servPar,
-    final String              table, 
+    final SSSQLTableI              table, 
     final Map<String, String> wheres, 
     final Map<String, String> updates) throws SSErr;
   
   public void updateIgnore(
     final SSServPar servPar,
-    final String              table, 
+    final SSSQLTableI              table, 
     final Map<String, String> wheres, 
     final Map<String, String> updates) throws SSErr;
   

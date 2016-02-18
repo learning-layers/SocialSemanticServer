@@ -146,7 +146,7 @@ public abstract class SSDBSQLFctA extends SSDBFctA{
   
   protected static void where(
     final Map<String, String> wheres,
-    final String              table,
+    final SSSQLTableI         table,
     final String              key,
     final SSEntityA           value) throws SSErr{
     
@@ -155,7 +155,7 @@ public abstract class SSDBSQLFctA extends SSDBFctA{
   
   protected static void where(
     final Map<String, String> wheres,
-    final String              table,
+    final SSSQLTableI         table,
     final String              key,
     final Object              value) throws SSErr{
     
@@ -172,7 +172,7 @@ public abstract class SSDBSQLFctA extends SSDBFctA{
   
   protected static void where(
     final Map<String, String> wheres,
-    final String              table,
+    final SSSQLTableI         table,
     final String              key,
     final Enum                value) throws SSErr{
     
@@ -181,7 +181,7 @@ public abstract class SSDBSQLFctA extends SSDBFctA{
   
   protected static void where(
     final MultivaluedMap<String, String> wheres,
-    final String                         table,
+    final SSSQLTableI                         table,
     final String                         key,
     final Object                         value) throws SSErr{
     
@@ -189,8 +189,8 @@ public abstract class SSDBSQLFctA extends SSDBFctA{
   }
   
   protected static void table(
-    final List<String> tables,
-    final String       table) throws SSErr{
+    final List<SSSQLTableI> tables,
+    final SSSQLTableI       table) throws SSErr{
     
     tables.add(table);
   }
@@ -204,18 +204,18 @@ public abstract class SSDBSQLFctA extends SSDBFctA{
   
   protected static void column(
     final List<String> columns,
-    final String       table,
+    final SSSQLTableI  table,
     final String       key) throws SSErr{
     
     columns.add(table + SSStrU.dot + key);
   }
   
   protected static void tableCon(
-    final List<String> tableCons,
-    final String       table1,
-    final String       key1,
-    final String       table2,
-    final String       key2) throws SSErr{
+    final List<String>      tableCons,
+    final SSSQLTableI       table1,
+    final String            key1,
+    final SSSQLTableI       table2,
+    final String            key2) throws SSErr{
     
     tableCons.add(table1 + SSStrU.dot + key1 + SSStrU.equal + table2 + SSStrU.dot + key2);
   }

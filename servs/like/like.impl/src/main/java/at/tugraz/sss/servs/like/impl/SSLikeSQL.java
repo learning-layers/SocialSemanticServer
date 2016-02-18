@@ -20,9 +20,9 @@
 */
 package at.tugraz.sss.servs.like.impl;
 
+import at.kc.tugraz.ss.like.datatypes.*;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.datatype.*;
-import at.kc.tugraz.ss.like.datatypes.SSLikes;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.reg.SSServErrReg;
@@ -66,7 +66,7 @@ public class SSLikeSQL extends SSCoreSQL{
       
       where (wheres,    SSSQLVarNames.entityId, entity);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.likesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSLikeSQLTableE.likes, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         
@@ -120,7 +120,7 @@ public class SSLikeSQL extends SSCoreSQL{
         insert(inserts, SSSQLVarNames.entityId,    entity);
         insert(inserts, SSSQLVarNames.value,       value);
         
-        dbSQL.insert(servPar, SSSQLVarNames.likesTable, inserts);
+        dbSQL.insert(servPar, SSLikeSQLTableE.likes, inserts);
       }else{
         
         final Map<String, String> updates     = new HashMap<>();
@@ -131,7 +131,7 @@ public class SSLikeSQL extends SSCoreSQL{
         where(wheres, SSSQLVarNames.userId,   user);
         where(wheres, SSSQLVarNames.entityId, entity);
         
-        dbSQL.update(servPar, SSSQLVarNames.likesTable, wheres, updates);
+        dbSQL.update(servPar, SSLikeSQLTableE.likes, wheres, updates);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -156,7 +156,7 @@ public class SSLikeSQL extends SSCoreSQL{
       where     (wheres,    SSSQLVarNames.entityId, entity);
       where     (wheres,    SSSQLVarNames.userId,   user);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.likesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSLikeSQLTableE.likes, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         return bindingStrToInteger(resultSet, SSSQLVarNames.value);

@@ -20,12 +20,12 @@
   */
 package at.tugraz.sss.servs.user.impl;
 
+import at.kc.tugraz.ss.service.user.datatypes.*;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -34,7 +34,6 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
-import at.tugraz.sss.serv.db.api.SSCoreSQL;
 
 public class SSUserSQL extends SSCoreSQL{
   
@@ -52,19 +51,19 @@ public class SSUserSQL extends SSCoreSQL{
     
     try{
       final List<String>        columns          = new ArrayList<>();
-      final List<String>        tables           = new ArrayList<>();
+      final List<SSSQLTableI>   tables           = new ArrayList<>();
       final Map<String, String> wheres           = new HashMap<>();
       final List<String>        tableCons        = new ArrayList<>();
       
       column(columns, SSSQLVarNames.id);
       
-      table(tables, SSSQLVarNames.entityTable);
-      table(tables, SSSQLVarNames.userTable);
+      table(tables, SSEntitySQLTableE.entity);
+      table(tables, SSUserSQLTableE.user);
       
-      where(wheres, SSSQLVarNames.entityTable, SSSQLVarNames.type,  SSEntityE.user);
-      where(wheres, SSSQLVarNames.userTable,   SSSQLVarNames.email, email);
+      where(wheres, SSEntitySQLTableE.entity, SSSQLVarNames.type,  SSEntityE.user);
+      where(wheres, SSUserSQLTableE.user,     SSSQLVarNames.email, email);
       
-      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.userTable, SSSQLVarNames.userId);
+      tableCon(tableCons, SSEntitySQLTableE.entity, SSSQLVarNames.id, SSUserSQLTableE.user, SSSQLVarNames.userId);
       
       resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
@@ -87,18 +86,18 @@ public class SSUserSQL extends SSCoreSQL{
     try{
       
       final List<String>        columns          = new ArrayList<>();
-      final List<String>        tables           = new ArrayList<>();
+      final List<SSSQLTableI>   tables           = new ArrayList<>();
       final Map<String, String> wheres           = new HashMap<>();
       final List<String>        tableCons        = new ArrayList<>();
       
       column(columns, SSSQLVarNames.id);
       
-      table(tables, SSSQLVarNames.entityTable);
-      table(tables, SSSQLVarNames.userTable);
+      table(tables, SSEntitySQLTableE.entity);
+      table(tables, SSUserSQLTableE.user);
       
-      where(wheres, SSSQLVarNames.userTable,   SSSQLVarNames.email, email);
+      where(wheres, SSUserSQLTableE.user,   SSSQLVarNames.email, email);
       
-      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.userTable, SSSQLVarNames.userId);
+      tableCon(tableCons, SSEntitySQLTableE.entity, SSSQLVarNames.id, SSUserSQLTableE.user, SSSQLVarNames.userId);
       
       resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
@@ -124,19 +123,19 @@ public class SSUserSQL extends SSCoreSQL{
     
     try{
       final List<String>        columns          = new ArrayList<>();
-      final List<String>        tables           = new ArrayList<>();
+      final List<SSSQLTableI>   tables           = new ArrayList<>();
       final Map<String, String> wheres           = new HashMap<>();
       final List<String>        tableCons        = new ArrayList<>();
       
       column(columns, SSSQLVarNames.id);
       column(columns, SSSQLVarNames.email);
       
-      table(tables, SSSQLVarNames.entityTable);
-      table(tables, SSSQLVarNames.userTable);
+      table(tables, SSEntitySQLTableE.entity);
+      table(tables, SSUserSQLTableE.user);
       
-      where(wheres, SSSQLVarNames.entityTable, SSSQLVarNames.id, user);
+      where(wheres, SSEntitySQLTableE.entity, SSSQLVarNames.id, user);
       
-      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.userTable, SSSQLVarNames.userId);
+      tableCon(tableCons, SSEntitySQLTableE.entity, SSSQLVarNames.id, SSUserSQLTableE.user, SSSQLVarNames.userId);
       
       resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
@@ -164,16 +163,16 @@ public class SSUserSQL extends SSCoreSQL{
     
     try{
       final List<String>                         columns          = new ArrayList<>();
-      final List<String>                         tables           = new ArrayList<>();
+      final List<SSSQLTableI>                    tables           = new ArrayList<>();
       final List<MultivaluedMap<String, String>> wheres           = new ArrayList<>();
       final List<String>                         tableCons        = new ArrayList<>();
       
       column(columns, SSSQLVarNames.id);
       
-      table(tables, SSSQLVarNames.entityTable);
-      table(tables, SSSQLVarNames.userTable);
+      table(tables, SSEntitySQLTableE.entity);
+      table(tables, SSUserSQLTableE.user);
       
-      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.userTable, SSSQLVarNames.userId);
+      tableCon(tableCons, SSEntitySQLTableE.entity, SSSQLVarNames.id, SSUserSQLTableE.user, SSSQLVarNames.userId);
       
       if(
         userURIs != null &&
@@ -182,7 +181,7 @@ public class SSUserSQL extends SSCoreSQL{
         final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
         
         for(SSUri userURI : userURIs){
-          where(whereUsers, SSSQLVarNames.entityTable, SSSQLVarNames.id, userURI);
+          where(whereUsers, SSEntitySQLTableE.entity, SSSQLVarNames.id, userURI);
         }
         
         wheres.add(whereUsers);
@@ -223,7 +222,7 @@ public class SSUserSQL extends SSCoreSQL{
       
       uniqueKey(uniqueKeys, SSSQLVarNames.userId, user);
       
-      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.userTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSUserSQLTableE.user, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

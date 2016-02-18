@@ -20,13 +20,13 @@
 */
 package at.kc.tugraz.sss.app.impl.fct.sql;
 
+import at.kc.tugraz.sss.app.datatypes.*;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLFctA;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.sss.app.datatypes.SSApp;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.datatype.par.*;
@@ -69,7 +69,7 @@ public class SSAppSQLFct extends SSDBSQLFctA{
       
       where(wheres, SSSQLVarNames.appId, app);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.appTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSAppSQLTableE.app, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -104,7 +104,7 @@ public class SSAppSQLFct extends SSDBSQLFctA{
       
       column(columns, SSSQLVarNames.appId);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.appTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSAppSQLTableE.app, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.appId);
       
@@ -177,7 +177,7 @@ public class SSAppSQLFct extends SSDBSQLFctA{
       
       uniqueKey (uniqueKeys, SSSQLVarNames.appId,    app);
       
-      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.appTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSAppSQLTableE.app, inserts, uniqueKeys);
      }catch(Exception error){
        SSServErrReg.regErrThrow(error);
      }
@@ -196,7 +196,7 @@ public class SSAppSQLFct extends SSDBSQLFctA{
         
         where(wheres, SSSQLVarNames.appId, app);
       
-        dbSQL.deleteIgnore(servPar, SSSQLVarNames.appTable, wheres);
+        dbSQL.deleteIgnore(servPar, SSAppSQLTableE.app, wheres);
       }
       
      }catch(Exception error){

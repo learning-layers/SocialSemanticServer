@@ -102,7 +102,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       resultSet = 
         dbSQL.select(
           servPar,
-          SSSQLVarNames.entityTable, 
+          SSEntitySQLTableE.entity, 
           columns, 
           where, 
           null, 
@@ -157,13 +157,13 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       final List<MultivaluedMap<String, String>>                   wheres         = new ArrayList<>();
       final MultivaluedMap<String, MultivaluedMap<String, String>> wheresNumeric  = new MultivaluedHashMap<>();
-      final List<String>                                           tables         = new ArrayList<>();
+      final List<SSSQLTableI>                                      tables         = new ArrayList<>();
       final List<String>                                           columns        = new ArrayList<>();
       final List<String>                                           tableCons      = new ArrayList<>();
       
-      column(columns, SSSQLVarNames.entityTable, SSSQLVarNames.id);
+      column(columns, SSEntitySQLTableE.entity, SSSQLVarNames.id);
       
-      table (tables, SSSQLVarNames.entityTable);
+      table (tables, SSEntitySQLTableE.entity);
       
       if(
         types != null &&
@@ -172,7 +172,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
         final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
         
         for(SSEntityE type : types){
-          where(whereTypes, SSSQLVarNames.entityTable, SSSQLVarNames.type, type);
+          where(whereTypes, SSEntitySQLTableE.entity, SSSQLVarNames.type, type);
         }
         
         wheres.add(whereTypes);
@@ -185,7 +185,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
         final MultivaluedMap<String, String> whereEntities = new MultivaluedHashMap<>();
         
         for(SSUri entity : entities){
-          where(whereEntities, SSSQLVarNames.entityTable, SSSQLVarNames.id, entity);
+          where(whereEntities, SSEntitySQLTableE.entity, SSSQLVarNames.id, entity);
         }
         
         wheres.add(whereEntities);
@@ -198,7 +198,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
         final MultivaluedMap<String, String> whereAuthors = new MultivaluedHashMap<>();
         
         for(SSUri author : authors){
-          where(whereAuthors, SSSQLVarNames.entityTable, SSSQLVarNames.author, author);
+          where(whereAuthors, SSEntitySQLTableE.entity, SSSQLVarNames.author, author);
         }
         
         wheres.add(whereAuthors);
@@ -213,7 +213,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
         
         wheresNumeric.put(SSStrU.greaterThan, greaterWheres);
         
-        where(whereNumbericStartTimes, SSSQLVarNames.entityTable, SSSQLVarNames.creationTime, startTime);
+        where(whereNumbericStartTimes, SSEntitySQLTableE.entity, SSSQLVarNames.creationTime, startTime);
         
         greaterWheres.add(whereNumbericStartTimes);
       }
@@ -227,7 +227,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
         
         wheresNumeric.put(SSStrU.lessThan, lessWheres);
         
-        where(whereNumbericEndTimes, SSSQLVarNames.entityTable, SSSQLVarNames.creationTime, endTime);
+        where(whereNumbericEndTimes, SSEntitySQLTableE.entity, SSSQLVarNames.creationTime, endTime);
         
         lessWheres.add(whereNumbericEndTimes);
       }
@@ -274,7 +274,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       }
       
       final List<String>                         columns    = new ArrayList<>();
-      final List<String>                         tables     = new ArrayList<>();
+      final List<SSSQLTableI>                    tables     = new ArrayList<>();
       final List<String>                         tableCons  = new ArrayList<>();
       final List<MultivaluedMap<String, String>> wheres     = new ArrayList<>();
       final List<SSEntity>                       entities   = new ArrayList<>();
@@ -287,7 +287,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       column (columns, SSSQLVarNames.author);
       column (columns, SSSQLVarNames.description);
       
-      table  (tables, SSSQLVarNames.entityTable);
+      table  (tables, SSEntitySQLTableE.entity);
       
       if(
         entityURIs != null &&
@@ -296,7 +296,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
         final MultivaluedMap<String, String> whereEntities = new MultivaluedHashMap<>();
         
         for(SSUri entityURI : entityURIs){
-          where(whereEntities, SSSQLVarNames.entityTable, SSSQLVarNames.id, entityURI);
+          where(whereEntities, SSEntitySQLTableE.entity, SSSQLVarNames.id, entityURI);
         }
         
         wheres.add(whereEntities);
@@ -309,7 +309,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
         final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
         
         for(SSEntityE type : types){
-          where(whereTypes, SSSQLVarNames.entityTable, SSSQLVarNames.type, type);
+          where(whereTypes, SSEntitySQLTableE.entity, SSSQLVarNames.type, type);
         }
         
         wheres.add(whereTypes);
@@ -357,8 +357,8 @@ public class SSCoreSQL extends SSDBSQLFctA{
   
   public void addEntityToCircleIfNotExists(
     final SSServPar       servPar,
-    final SSUri circleUri,
-    final SSUri entityUri) throws SSErr{
+    final SSUri           circleUri,
+    final SSUri           entityUri) throws SSErr{
     
     try{
       
@@ -371,7 +371,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       uniqueKey(uniqueKeys, SSSQLVarNames.circleId, circleUri);
       uniqueKey(uniqueKeys, SSSQLVarNames.entityId, entityUri);
       
-      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.circleEntitiesTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSEntitySQLTableE.circleentities, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -427,7 +427,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
           insert(inserts, SSSQLVarNames.description, description);
         }
         
-        dbSQL.insert(servPar, SSSQLVarNames.entityTable, inserts);
+        dbSQL.insert(servPar, SSEntitySQLTableE.entity, inserts);
       }else{
         
         final Map<String, String>  wheres   = new HashMap<>();
@@ -453,7 +453,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
           return;
         }
         
-        dbSQL.update(servPar, SSSQLVarNames.entityTable, wheres, updates);
+        dbSQL.update(servPar, SSEntitySQLTableE.entity, wheres, updates);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -469,7 +469,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       where(wheres, SSSQLVarNames.id, entityUri);
       
-      dbSQL.deleteIgnore(servPar, SSSQLVarNames.entityTable, wheres);
+      dbSQL.deleteIgnore(servPar, SSEntitySQLTableE.entity, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -479,7 +479,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
     final SSServPar       servPar) throws SSErr {
     
     try{
-      dbSQL.delete(servPar, SSSQLVarNames.entityTable);
+      dbSQL.delete(servPar, SSEntitySQLTableE.entity);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -496,17 +496,17 @@ public class SSCoreSQL extends SSDBSQLFctA{
       final MultivaluedMap<String, String>       whereEntity           = new MultivaluedHashMap<>();
       final MultivaluedMap<String, String>       whereAttachedEntities = new MultivaluedHashMap<>();
       
-      where(whereEntity, SSSQLVarNames.entityAttachedEntitiesTable, SSSQLVarNames.entityId, entity);
+      where(whereEntity, SSEntitySQLTableE.entityattachedentities, SSSQLVarNames.entityId, entity);
         
       wheres.add(whereEntity);
       
       for(SSUri attachment : attachments){
-        where(whereAttachedEntities, SSSQLVarNames.entityAttachedEntitiesTable, SSSQLVarNames.attachedEntityId, attachment);
+        where(whereAttachedEntities, SSEntitySQLTableE.entityattachedentities, SSSQLVarNames.attachedEntityId, attachment);
       }
 
       wheres.add(whereAttachedEntities);
       
-      dbSQL.deleteIgnore(servPar, SSSQLVarNames.entityAttachedEntitiesTable, wheres);
+      dbSQL.deleteIgnore(servPar, SSEntitySQLTableE.entityattachedentities, wheres);
         
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -534,7 +534,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
         uniqueKey(uniqueKeys, SSSQLVarNames.entityId,          entity);
         uniqueKey(uniqueKeys, SSSQLVarNames.attachedEntityId,  entityToAttach);
 
-        dbSQL.insertIfNotExists(servPar, SSSQLVarNames.entityAttachedEntitiesTable, inserts, uniqueKeys);
+        dbSQL.insertIfNotExists(servPar, SSEntitySQLTableE.entityattachedentities, inserts, uniqueKeys);
       }
       
     }catch(Exception error){
@@ -555,18 +555,18 @@ public class SSCoreSQL extends SSDBSQLFctA{
     try{
       
       final List<String>        columns          = new ArrayList<>();
-      final List<String>        tables           = new ArrayList<>();
+      final List<SSSQLTableI>   tables           = new ArrayList<>();
       final Map<String, String> wheres           = new HashMap<>();
       final List<String>        tableCons        = new ArrayList<>();
       
       column(columns, SSSQLVarNames.id);
 
-      table(tables, SSSQLVarNames.entityTable);
-      table(tables, SSSQLVarNames.entityAttachedEntitiesTable);
+      table(tables, SSEntitySQLTableE.entity);
+      table(tables, SSEntitySQLTableE.entityattachedentities);
       
-      where(wheres, SSSQLVarNames.entityAttachedEntitiesTable, SSSQLVarNames.entityId, entity);
+      where(wheres, SSEntitySQLTableE.entityattachedentities, SSSQLVarNames.entityId, entity);
       
-      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.entityAttachedEntitiesTable, SSSQLVarNames.attachedEntityId);
+      tableCon(tableCons, SSEntitySQLTableE.entity, SSSQLVarNames.id, SSEntitySQLTableE.entityattachedentities, SSSQLVarNames.attachedEntityId);
       
       resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
@@ -601,7 +601,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       where(wheres, SSSQLVarNames.userId,   user);
       where(wheres, SSSQLVarNames.entityId, entity);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.entityReadsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSEntitySQLTableE.entityreads, columns, wheres, null, null, null);
       
       return resultSet.first();
       
@@ -641,14 +641,14 @@ public class SSCoreSQL extends SSDBSQLFctA{
         uniqueKey(uniqueKeys, SSSQLVarNames.userId,   user);
         uniqueKey(uniqueKeys, SSSQLVarNames.entityId, entity);
 
-        dbSQL.insertIfNotExists(servPar, SSSQLVarNames.entityReadsTable, inserts, uniqueKeys);
+        dbSQL.insertIfNotExists(servPar, SSEntitySQLTableE.entityreads, inserts, uniqueKeys);
       }else{
         final Map<String, String> wheres = new HashMap<>();
         
         where(wheres, SSSQLVarNames.userId,   user);
         where(wheres, SSSQLVarNames.entityId, entity);
         
-        dbSQL.deleteIgnore(servPar, SSSQLVarNames.entityReadsTable, wheres);
+        dbSQL.deleteIgnore(servPar, SSEntitySQLTableE.entityreads, wheres);
       }
       
     }catch(Exception error){
@@ -677,7 +677,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
         uniqueKey(uniqueKeys, SSSQLVarNames.entityId,    entity);
         uniqueKey(uniqueKeys, SSSQLVarNames.downloadId,  download);
         
-        dbSQL.insertIfNotExists(servPar, SSSQLVarNames.entityDownloadsTable, inserts, uniqueKeys);
+        dbSQL.insertIfNotExists(servPar, SSEntitySQLTableE.entitydownloads, inserts, uniqueKeys);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -699,7 +699,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       where(wheres, SSSQLVarNames.entityId, entity);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.entityDownloadsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSEntitySQLTableE.entitydownloads, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.downloadId);
       
@@ -950,22 +950,22 @@ public class SSCoreSQL extends SSDBSQLFctA{
     final List<String> columns) throws SSErr{
     
     try{
-      column(columns, SSSQLVarNames.entityTable, SSSQLVarNames.id);
-      column(columns, SSSQLVarNames.entityTable, SSSQLVarNames.type);
-      column(columns, SSSQLVarNames.entityTable, SSSQLVarNames.label);
-      column(columns, SSSQLVarNames.entityTable, SSSQLVarNames.creationTime);
-      column(columns, SSSQLVarNames.entityTable, SSSQLVarNames.author);
-      column(columns, SSSQLVarNames.entityTable, SSSQLVarNames.description);
+      column(columns, SSEntitySQLTableE.entity, SSSQLVarNames.id);
+      column(columns, SSEntitySQLTableE.entity, SSSQLVarNames.type);
+      column(columns, SSEntitySQLTableE.entity, SSSQLVarNames.label);
+      column(columns, SSEntitySQLTableE.entity, SSSQLVarNames.creationTime);
+      column(columns, SSEntitySQLTableE.entity, SSSQLVarNames.author);
+      column(columns, SSEntitySQLTableE.entity, SSSQLVarNames.description);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
   public void setEntityTable(
-    final List<String> tables) throws SSErr{
+    final List<SSSQLTableI> tables) throws SSErr{
     
     try{
-      table(tables, SSSQLVarNames.entityTable);
+      table(tables, SSEntitySQLTableE.entity);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -989,7 +989,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       resultSet = 
         dbSQL.select(
           servPar, 
-          SSSQLVarNames.entityTable, 
+          SSEntitySQLTableE.entity, 
           columns, 
           where, 
           null, 
@@ -1023,7 +1023,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       final List<SSEntity>                       entities  = new ArrayList<>();
       final List<MultivaluedMap<String, String>> likes     = new ArrayList<>();
       final List<String>                         columns   = new ArrayList<>();
-      final List<String>                         tables    = new ArrayList<>();
+      final List<SSSQLTableI>                    tables    = new ArrayList<>();
       final List<String>                         tableCons  = new ArrayList<>();
       SSEntity                                   entityObj;
       
@@ -1032,7 +1032,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       column (columns, SSSQLVarNames.type);
       column (columns, SSSQLVarNames.description);
       
-      table(tables, SSSQLVarNames.entityTable);
+      table(tables, SSEntitySQLTableE.entity);
       
       if(searchOp == null){
         throw new Exception("search for labels search operation null");
@@ -1049,7 +1049,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
             !labelStrings.isEmpty()){
             
             for(String labelString : labelStrings){
-              where(likeContents, SSSQLVarNames.entityTable, SSSQLVarNames.label, labelString);
+              where(likeContents, SSEntitySQLTableE.entity, SSSQLVarNames.label, labelString);
             }
           }
           
@@ -1058,7 +1058,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
             !descStrings.isEmpty()){
             
             for(String descString : descStrings){
-              where(likeContents, SSSQLVarNames.entityTable, SSSQLVarNames.description, descString);
+              where(likeContents, SSEntitySQLTableE.entity, SSSQLVarNames.description, descString);
             }
           }
           
@@ -1072,7 +1072,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
             
             likeContents = new MultivaluedHashMap<>();
             
-            where(likeContents, SSSQLVarNames.entityTable, SSSQLVarNames.label, labelString);
+            where(likeContents, SSEntitySQLTableE.entity, SSSQLVarNames.label, labelString);
             
             likes.add(likeContents);
           }
@@ -1081,7 +1081,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
             
             likeContents = new MultivaluedHashMap<>();
             
-            where(likeContents, SSSQLVarNames.entityTable, SSSQLVarNames.description, descString);
+            where(likeContents, SSEntitySQLTableE.entity, SSSQLVarNames.description, descString);
             
             likes.add(likeContents);
           }
@@ -1137,16 +1137,16 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       final List<MultivaluedMap<String, String>> likes        = new ArrayList<>();
       final List<String>                         columns      = new ArrayList<>();
-      final List<String>                         tables       = new ArrayList<>();
+      final List<SSSQLTableI>                    tables       = new ArrayList<>();
       final List<String>                         tableCons    = new ArrayList<>();
       final MultivaluedMap<String, String>       likeContents = new MultivaluedHashMap<>();
       
       column (columns, SSSQLVarNames.id);
       
-      table(tables, SSSQLVarNames.entityTable);
+      table(tables, SSEntitySQLTableE.entity);
       
       for(String label : labels){
-        where(likeContents, SSSQLVarNames.entityTable, SSSQLVarNames.label, label);
+        where(likeContents, SSEntitySQLTableE.entity, SSSQLVarNames.label, label);
       }
       
       likes.add(likeContents);
@@ -1194,16 +1194,16 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       final List<MultivaluedMap<String, String>> likes        = new ArrayList<>();
       final List<String>                         columns      = new ArrayList<>();
-      final List<String>                         tables       = new ArrayList<>();
+      final List<SSSQLTableI>                    tables       = new ArrayList<>();
       final List<String>                         tableCons    = new ArrayList<>();
       final MultivaluedMap<String, String>       likeContents = new MultivaluedHashMap<>();
       
       column (columns, SSSQLVarNames.id);
       
-      table(tables, SSSQLVarNames.entityTable);
+      table(tables, SSEntitySQLTableE.entity);
       
       for(String desc : descs){
-        where(likeContents, SSSQLVarNames.entityTable, SSSQLVarNames.description, desc);
+        where(likeContents, SSEntitySQLTableE.entity, SSSQLVarNames.description, desc);
       }
       
       likes.add(likeContents);
@@ -1245,21 +1245,21 @@ public class SSCoreSQL extends SSDBSQLFctA{
     
     try{
       final List<String>                         columns   = new ArrayList<>();
-      final List<String>                         tables    = new ArrayList<>();
+      final List<SSSQLTableI>                    tables    = new ArrayList<>();
       final List<MultivaluedMap<String, String>> wheres    = new ArrayList<>();
       final List<String>                         matches   = new ArrayList<>();
       final List<String>                         tableCons = new ArrayList<>();
       
       column (columns, SSSQLVarNames.id);
       
-      table(tables, SSSQLVarNames.entityTable);
+      table(tables, SSEntitySQLTableE.entity);
       
       if(!entities.isEmpty()){
         
         final MultivaluedMap<String, String> whereEntities = new MultivaluedHashMap<>();
         
         for(SSUri entity : entities){
-          where(whereEntities, SSSQLVarNames.entityTable, SSSQLVarNames.id, entity);
+          where(whereEntities, SSEntitySQLTableE.entity, SSSQLVarNames.id, entity);
         }
         
         wheres.add(whereEntities);
@@ -1300,7 +1300,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
   }
   
   public List<SSUri> getEntitiesForDescriptionsWithMatch(
-    final SSServPar       servPar,
+    final SSServPar    servPar,
     final List<SSUri>  entities,
     final List<String> requireds,
     final List<String> absents,
@@ -1310,21 +1310,21 @@ public class SSCoreSQL extends SSDBSQLFctA{
     
     try{
       final List<String>                         columns   = new ArrayList<>();
-      final List<String>                         tables    = new ArrayList<>();
+      final List<SSSQLTableI>                    tables    = new ArrayList<>();
       final List<MultivaluedMap<String, String>> wheres    = new ArrayList<>();
       final List<String>                         matches   = new ArrayList<>();
       final List<String>                         tableCons = new ArrayList<>();
       
       column (columns, SSSQLVarNames.id);
       
-      table(tables, SSSQLVarNames.entityTable);
+      table(tables, SSEntitySQLTableE.entity);
       
       if(!entities.isEmpty()){
         
         final MultivaluedMap<String, String> whereEntities = new MultivaluedHashMap<>();
         
         for(SSUri entity : entities){
-          where(whereEntities, SSSQLVarNames.entityTable, SSSQLVarNames.id, entity);
+          where(whereEntities, SSEntitySQLTableE.entity, SSSQLVarNames.id, entity);
         }
         
         wheres.add(whereEntities);
@@ -1378,7 +1378,7 @@ public List<SSUri> getCircleURIs(
       
       where(wheres, SSSQLVarNames.isSystemCircle, withSystemCircles);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.circleTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSEntitySQLTableE.circle, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.circleId);
       
@@ -1409,7 +1409,7 @@ public List<SSUri> getCircleURIs(
       insert(inserts, SSSQLVarNames.circleType,     circleType);
       insert(inserts, SSSQLVarNames.isSystemCircle, isSystemCircle);
       
-      dbSQL.insert(servPar, SSSQLVarNames.circleTable, inserts);
+      dbSQL.insert(servPar, SSEntitySQLTableE.circle, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -1432,7 +1432,7 @@ public List<SSUri> getCircleURIs(
       insert(inserts, SSSQLVarNames.circleId, circleUri);
       insert(inserts, SSSQLVarNames.userId,   userUri);
       
-      dbSQL.insert(servPar, SSSQLVarNames.circleUsersTable, inserts);
+      dbSQL.insert(servPar, SSEntitySQLTableE.circleusers, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -1467,7 +1467,7 @@ public List<SSUri> getCircleURIs(
       
       where(wheres, SSSQLVarNames.circleId, circleUri);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.circleUsersTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSEntitySQLTableE.circleusers, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.userId);
       
@@ -1492,16 +1492,16 @@ public List<SSUri> getCircleURIs(
     
     try{
       
-      final List<String>              tables            = new ArrayList<>();
+      final List<SSSQLTableI>         tables            = new ArrayList<>();
       final Map<String, String>       wheres            = new HashMap<>();
       final List<String>              columns           = new ArrayList<>();
       final List<String>              tableCons         = new ArrayList<>();
       
-      table    (tables,    SSSQLVarNames.circleEntitiesTable);
-      table    (tables,    SSSQLVarNames.circleTable);
+      table    (tables,    SSEntitySQLTableE.circleentities);
+      table    (tables,    SSEntitySQLTableE.circle);
       column   (columns,   SSSQLVarNames.circleType);
       where    (wheres,    SSSQLVarNames.entityId, entityUri);
-      tableCon (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.circleId);
+      tableCon (tableCons, SSEntitySQLTableE.circle, SSSQLVarNames.circleId, SSEntitySQLTableE.circleentities, SSSQLVarNames.circleId);
       
       resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
@@ -1537,22 +1537,22 @@ public List<SSUri> getCircleURIs(
         throw SSErr.get(SSErrE.parameterMissing);
       }
       
-      final List<String>              tables       = new ArrayList<>();
+      final List<SSSQLTableI>         tables       = new ArrayList<>();
       final Map<String, String>       wheres       = new HashMap<>();
       final List<String>              columns      = new ArrayList<>();
       final List<String>              tableCons    = new ArrayList<>();
       
-      table    (tables, SSSQLVarNames.circleTable);
-      table    (tables, SSSQLVarNames.circleEntitiesTable);
-      table    (tables, SSSQLVarNames.circleUsersTable);
+      table    (tables, SSEntitySQLTableE.circle);
+      table    (tables, SSEntitySQLTableE.circleentities);
+      table    (tables, SSEntitySQLTableE.circleusers);
       
-      column   (columns,   SSSQLVarNames.circleTable, SSSQLVarNames.circleId);
+      column   (columns,   SSEntitySQLTableE.circle, SSSQLVarNames.circleId);
       
       where    (wheres,    SSSQLVarNames.entityId, entityUri);
       where    (wheres,    SSSQLVarNames.userId,   userUri);
       
-      tableCon (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.circleId);
-      tableCon (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleUsersTable,    SSSQLVarNames.circleId);
+      tableCon (tableCons, SSEntitySQLTableE.circle, SSSQLVarNames.circleId, SSEntitySQLTableE.circleentities, SSSQLVarNames.circleId);
+      tableCon (tableCons, SSEntitySQLTableE.circle, SSSQLVarNames.circleId, SSEntitySQLTableE.circleusers,    SSSQLVarNames.circleId);
       
       resultSet =
         dbSQL.select(
@@ -1589,22 +1589,22 @@ public List<SSUri> getCircleURIs(
     
     try{
       
-      final List<String>              tables       = new ArrayList<>();
+      final List<SSSQLTableI>         tables       = new ArrayList<>();
       final Map<String, String>       wheres       = new HashMap<>();
       final List<String>              columns      = new ArrayList<>();
       final List<String>              tableCons    = new ArrayList<>();
       
-      table    (tables, SSSQLVarNames.circleUsersTable);
-      table    (tables, SSSQLVarNames.circleEntitiesTable);
-      table    (tables, SSSQLVarNames.circleTable);
+      table    (tables, SSEntitySQLTableE.circleusers);
+      table    (tables, SSEntitySQLTableE.circleentities);
+      table    (tables, SSEntitySQLTableE.circle);
       
       column   (columns,   SSSQLVarNames.circleType);
       
       where    (wheres,    SSSQLVarNames.entityId, entityUri);
       where    (wheres,    SSSQLVarNames.userId,   userUri);
       
-      tableCon (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.circleId);
-      tableCon (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleUsersTable,    SSSQLVarNames.circleId);
+      tableCon (tableCons, SSEntitySQLTableE.circle, SSSQLVarNames.circleId, SSEntitySQLTableE.circleentities, SSSQLVarNames.circleId);
+      tableCon (tableCons, SSEntitySQLTableE.circle, SSSQLVarNames.circleId, SSEntitySQLTableE.circleusers,    SSSQLVarNames.circleId);
       
       resultSet =
         dbSQL.select(
@@ -1642,28 +1642,28 @@ public List<SSUri> getCircleURIs(
     
     try{
       
-      final List<String>              tables     = new ArrayList<>();
+      final List<SSSQLTableI>         tables     = new ArrayList<>();
       final Map<String, String>       wheres     = new HashMap<>();
       final List<String>              columns    = new ArrayList<>();
       final List<String>              tableCons  = new ArrayList<>();
       
-      column    (columns, SSSQLVarNames.circleTable,        SSSQLVarNames.circleId);
+      column    (columns, SSEntitySQLTableE.circle,        SSSQLVarNames.circleId);
       
-      table     (tables,  SSSQLVarNames.circleUsersTable);
-      table     (tables,  SSSQLVarNames.circleEntitiesTable);
-      table     (tables,  SSSQLVarNames.circleTable);
-      table     (tables,  SSSQLVarNames.entityTable);
+      table     (tables,  SSEntitySQLTableE.circleusers);
+      table     (tables,  SSEntitySQLTableE.circleentities);
+      table     (tables,  SSEntitySQLTableE.circle);
+      table     (tables,  SSEntitySQLTableE.entity);
       
       where     (wheres,  SSSQLVarNames.entityId, entityUri);
       where     (wheres,  SSSQLVarNames.userId,   userUri);
       
       if(!withSystemCircles){
-        where     (wheres, SSSQLVarNames.circleTable, SSSQLVarNames.isSystemCircle, false);
+        where     (wheres, SSEntitySQLTableE.circle, SSSQLVarNames.isSystemCircle, false);
       }
       
-      tableCon  (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.circleId);
-      tableCon  (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleUsersTable,    SSSQLVarNames.circleId);
-      tableCon  (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.entityTable,         SSSQLVarNames.id);
+      tableCon  (tableCons, SSEntitySQLTableE.circle, SSSQLVarNames.circleId, SSEntitySQLTableE.circleentities, SSSQLVarNames.circleId);
+      tableCon  (tableCons, SSEntitySQLTableE.circle, SSSQLVarNames.circleId, SSEntitySQLTableE.circleusers,    SSSQLVarNames.circleId);
+      tableCon  (tableCons, SSEntitySQLTableE.circle, SSSQLVarNames.circleId, SSEntitySQLTableE.entity,         SSSQLVarNames.id);
       
       resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
@@ -1697,7 +1697,7 @@ public List<SSUri> getCircleURIs(
       
       where (wheres,    SSSQLVarNames.circleId, circleUri);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.circleTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSEntitySQLTableE.circle, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return false;
@@ -1718,7 +1718,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public SSCircle getCircle(
-    final SSServPar       servPar,
+    final SSServPar            servPar,
     final SSUri                circleUri,
     final boolean              withUsers,
     final boolean              withEntities,
@@ -1729,22 +1729,22 @@ public List<SSUri> getCircleURIs(
     
     try{
       
-      final List<String>        tables            = new ArrayList<>();
+      final List<SSSQLTableI>   tables            = new ArrayList<>();
       final List<String>        columns           = new ArrayList<>();
       final List<String>        tableCons         = new ArrayList<>();
       final Map<String, String> wheres            = new HashMap<>();
-      final SSCircle      circleObj;
+      final SSCircle            circleObj;
       
       column   (columns,   SSSQLVarNames.circleId);
       column   (columns,   SSSQLVarNames.circleType);
       column   (columns,   SSSQLVarNames.isSystemCircle);
       
-      table    (tables,    SSSQLVarNames.circleTable);
-      table    (tables,    SSSQLVarNames.entityTable);
+      table    (tables,    SSEntitySQLTableE.circle);
+      table    (tables,    SSEntitySQLTableE.entity);
       
       where    (wheres,    SSSQLVarNames.circleId,     circleUri);
       
-      tableCon (tableCons, SSSQLVarNames.circleTable,  SSSQLVarNames.circleId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
+      tableCon (tableCons, SSEntitySQLTableE.circle,  SSSQLVarNames.circleId, SSEntitySQLTableE.entity, SSSQLVarNames.id);
       
       resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
@@ -1807,7 +1807,7 @@ public List<SSUri> getCircleURIs(
       column (columns, SSSQLVarNames.circleId);
       where  (wheres,  SSSQLVarNames.entityId, entityUri);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.circleEntitiesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSEntitySQLTableE.circleentities, columns, wheres, null, null, null);
       
       tmpCircleUris = getURIsFromResult(resultSet, SSSQLVarNames.circleId);
       
@@ -1854,7 +1854,7 @@ public List<SSUri> getCircleURIs(
       
       where(wheres, SSSQLVarNames.circleId, circleUri);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.circleTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSEntitySQLTableE.circle, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -1905,7 +1905,7 @@ public List<SSUri> getCircleURIs(
       where(wheres, SSSQLVarNames.circleId, circleUri);
       where(wheres, SSSQLVarNames.userId,   userUri);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.circleUsersTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSEntitySQLTableE.circleusers, columns, wheres, null, null, null);
       
       return resultSet.first();
       
@@ -1929,20 +1929,20 @@ public List<SSUri> getCircleURIs(
     ResultSet resultSet = null;
     
     try{
-      final List<String>        tables            = new ArrayList<>();
+      final List<SSSQLTableI>   tables            = new ArrayList<>();
       final List<String>        columns           = new ArrayList<>();
       final Map<String, String> wheres            = new HashMap<>();
       final List<String>        tableCons         = new ArrayList<>();
       
-      column   (columns,   SSSQLVarNames.circleTable, SSSQLVarNames.circleId);
+      column   (columns,   SSEntitySQLTableE.circle, SSSQLVarNames.circleId);
       
-      table    (tables,    SSSQLVarNames.circleTable);
-      table    (tables,    SSSQLVarNames.circleUsersTable);
+      table    (tables,    SSEntitySQLTableE.circle);
+      table    (tables,    SSEntitySQLTableE.circleusers);
       
       where(wheres, SSSQLVarNames.circleType, SSCircleE.priv);
       where(wheres, SSSQLVarNames.userId,     user);
       
-      tableCon (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleUsersTable, SSSQLVarNames.circleId);
+      tableCon (tableCons, SSEntitySQLTableE.circle, SSSQLVarNames.circleId, SSEntitySQLTableE.circleusers, SSSQLVarNames.circleId);
       
       resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
@@ -1979,7 +1979,7 @@ public List<SSUri> getCircleURIs(
       
       where(wheres, SSSQLVarNames.circleType, SSCircleE.pub);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.circleTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSEntitySQLTableE.circle, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -2012,7 +2012,7 @@ public List<SSUri> getCircleURIs(
       where(wheres, SSSQLVarNames.circleId, circle);
       where(wheres, SSSQLVarNames.userId, user);
       
-      dbSQL.delete(servPar, SSSQLVarNames.circleUsersTable, wheres);
+      dbSQL.delete(servPar, SSEntitySQLTableE.circleusers, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -2028,7 +2028,7 @@ public List<SSUri> getCircleURIs(
       
       where(wheres, SSSQLVarNames.circleId, circle);
       
-      dbSQL.delete(servPar, SSSQLVarNames.circleTable, wheres);
+      dbSQL.delete(servPar, SSEntitySQLTableE.circle, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -2052,7 +2052,7 @@ public List<SSUri> getCircleURIs(
       
       where(wheres, SSSQLVarNames.userId, userUri);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.circleUsersTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSEntitySQLTableE.circleusers, columns, wheres, null, null, null);
       
       tmpCircleUris = getURIsFromResult(resultSet, SSSQLVarNames.circleId);
       
@@ -2097,20 +2097,20 @@ public List<SSUri> getCircleURIs(
       }
       
       final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
-      final List<String>                         tables         = new ArrayList<>();
+      final List<SSSQLTableI>                    tables         = new ArrayList<>();
       final List<String>                         columns        = new ArrayList<>();
       final List<String>                         tableCons      = new ArrayList<>();
       
-      column(columns, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.entityId);
+      column(columns, SSEntitySQLTableE.circleentities, SSSQLVarNames.entityId);
       
-      table    (tables, SSSQLVarNames.entityTable);
-      table    (tables, SSSQLVarNames.circleEntitiesTable);
+      table    (tables, SSEntitySQLTableE.entity);
+      table    (tables, SSEntitySQLTableE.circleentities);
       
-      tableCon (tableCons, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.entityId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
+      tableCon (tableCons, SSEntitySQLTableE.circleentities, SSSQLVarNames.entityId, SSEntitySQLTableE.entity, SSSQLVarNames.id);
       
       final MultivaluedMap<String, String> whereCircles = new MultivaluedHashMap<>();
       
-      where(whereCircles, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.circleId, circleUri);
+      where(whereCircles, SSEntitySQLTableE.circleentities, SSSQLVarNames.circleId, circleUri);
       
       wheres.add(whereCircles);
       
@@ -2121,7 +2121,7 @@ public List<SSUri> getCircleURIs(
         final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
         
         for(SSEntityE type : types){
-          where(whereTypes, SSSQLVarNames.entityTable, SSSQLVarNames.type, type);
+          where(whereTypes, SSEntitySQLTableE.entity, SSSQLVarNames.type, type);
         }
         
         wheres.add(whereTypes);
@@ -2174,7 +2174,7 @@ public List<SSUri> getCircleURIs(
         uniqueKey(uniqueKeys, SSSQLVarNames.circleId,   circle);
         uniqueKey(uniqueKeys, SSSQLVarNames.inviteeId,  email);
         
-        dbSQL.insertIfNotExists(servPar, SSSQLVarNames.circleInviteesTable, inserts, uniqueKeys);
+        dbSQL.insertIfNotExists(servPar, SSEntitySQLTableE.circleinvitees, inserts, uniqueKeys);
       }
 //    }catch(Exception sqlError){
 //      SSServErrReg.regErrThrow(sqlError);
@@ -2196,7 +2196,7 @@ public List<SSUri> getCircleURIs(
       
       where(wheres, SSSQLVarNames.circleId, circle);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.circleInviteesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSEntitySQLTableE.circleinvitees, columns, wheres, null, null, null);
       
       return getStringsFromResult(resultSet, SSSQLVarNames.inviteeId);
       
@@ -2232,7 +2232,7 @@ public List<SSUri> getCircleURIs(
         return;
       }
       
-      dbSQL.update(servPar, SSSQLVarNames.circleTable, wheres, updates);
+      dbSQL.update(servPar, SSEntitySQLTableE.circle, wheres, updates);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -2251,7 +2251,7 @@ public List<SSUri> getCircleURIs(
       where(wheres, SSSQLVarNames.circleId, circle);
       where(wheres, SSSQLVarNames.entityId, entity);
       
-      dbSQL.delete(servPar, SSSQLVarNames.circleEntitiesTable, wheres);
+      dbSQL.delete(servPar, SSEntitySQLTableE.circleentities, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -2448,10 +2448,10 @@ public List<SSUri> getCircleURIs(
 //      
 //      table    (tables, SSSQLVarNames.circleUsersTable);
 //      table    (tables, SSSQLVarNames.circleEntitiesTable);
-//      table    (tables, SSSQLVarNames.entityTable);
+//      table    (tables, SSEntitySQLTableE.entity);
 //      
 //      tableCon (tableCons, SSSQLVarNames.circleUsersTable,    SSSQLVarNames.circleId, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.circleId);
-//      tableCon (tableCons, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.entityId, SSSQLVarNames.entityTable,         SSSQLVarNames.id);
+//      tableCon (tableCons, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.entityId, SSEntitySQLTableE.entity,         SSSQLVarNames.id);
 //      
 //      final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
 //      
@@ -2480,7 +2480,7 @@ public List<SSUri> getCircleURIs(
 //        final MultivaluedMap<String, String> whereEntities = new MultivaluedHashMap<>();
 //        
 //        for(SSUri entity : entities){
-//          where(whereEntities, SSSQLVarNames.entityTable, SSSQLVarNames.id, entity);
+//          where(whereEntities, SSEntitySQLTableE.entity, SSSQLVarNames.id, entity);
 //        }
 //        
 //        wheres.add(whereEntities);
@@ -2493,7 +2493,7 @@ public List<SSUri> getCircleURIs(
 //        final MultivaluedMap<String, String> whereAuthors = new MultivaluedHashMap<>();
 //        
 //        for(SSUri author : authors){
-//          where(whereAuthors, SSSQLVarNames.entityTable, SSSQLVarNames.author, author);
+//          where(whereAuthors, SSEntitySQLTableE.entity, SSSQLVarNames.author, author);
 //        }
 //        
 //        wheres.add(whereAuthors);
@@ -2506,7 +2506,7 @@ public List<SSUri> getCircleURIs(
 //        final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
 //        
 //        for(SSEntityE type : types){
-//          where(whereTypes, SSSQLVarNames.entityTable, SSSQLVarNames.type, type);
+//          where(whereTypes, SSEntitySQLTableE.entity, SSSQLVarNames.type, type);
 //        }
 //        
 //        wheres.add(whereTypes);
@@ -2559,7 +2559,7 @@ public List<SSUri> getCircleURIs(
 //    
 //    insert(inserts, SSSQLVarNames.description, SSStrU.empty);
 //    
-//    dbSQL.insert(SSSQLVarNames.entityTable, inserts);
+//    dbSQL.insert(SSEntitySQLTableE.entity, inserts);
 //  }
 
 //  public List<SSEntity> getEntitiesForCircle(
@@ -2610,7 +2610,7 @@ public List<SSUri> getCircleURIs(
 //      match  (matches, SSSQLVarNames.label);
 //      match  (matches, SSSQLVarNames.description);
 //      
-//      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, matches, requireds, absents, eithers);
+//      resultSet = dbSQL.select(SSEntitySQLTableE.entity, columns, matches, requireds, absents, eithers);
 //      
 //      while(resultSet.next()){
 //      

@@ -22,7 +22,7 @@ package at.tugraz.sss.serv.datatype.par;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import java.sql.*;
+import at.tugraz.sss.serv.db.api.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.core.MultivaluedHashMap;
@@ -31,7 +31,7 @@ import javax.ws.rs.core.MultivaluedMap;
 public class SSDBSQLSelectPar {
   
   public SSServPar                                              servPar                   = null;
-  public List<String>                                           tables                    = new ArrayList<>();
+  public List<SSSQLTableI>                                      tables                    = new ArrayList<>();
   public List<String>                                           columns                   = new ArrayList<>();
   public List<MultivaluedMap<String, String>>                   orWheres                  = new ArrayList<>();
   public List<MultivaluedMap<String, String>>                   andWheres                 = new ArrayList<>();
@@ -48,7 +48,7 @@ public class SSDBSQLSelectPar {
   
   public SSDBSQLSelectPar(
     final SSServPar                                              servPar,
-    final List<String>                                           tables,
+    final List<SSSQLTableI>                                      tables,
     final List<String>                                           columns,
     final List<MultivaluedMap<String, String>>                   orWheres,
     final List<MultivaluedMap<String, String>>                   andWheres,

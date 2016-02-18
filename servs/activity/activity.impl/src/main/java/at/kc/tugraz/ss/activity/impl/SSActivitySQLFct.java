@@ -20,10 +20,9 @@
 */
 package at.kc.tugraz.ss.activity.impl;
 
+import at.kc.tugraz.ss.activity.datatypes.*;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.util.*;
-import at.kc.tugraz.ss.activity.datatypes.SSActivity;
-import at.kc.tugraz.ss.activity.datatypes.SSActivityContent;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityContentE;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.tugraz.sss.conf.*;
@@ -31,7 +30,7 @@ import at.tugraz.sss.serv.datatype.SSAuthor;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -40,7 +39,6 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
-import at.tugraz.sss.serv.db.api.SSCoreSQL;
 
 public class SSActivitySQLFct extends SSCoreSQL{
 
@@ -64,7 +62,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
       insert(inserts, SSSQLVarNames.contentType,    contentType);
       insert(inserts, SSSQLVarNames.content,        content);
       
-      dbSQL.insert(servPar, SSSQLVarNames.activityContentsTable, inserts);
+      dbSQL.insert(servPar, SSActivitySQLTableE.activitycontents, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -86,7 +84,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.activityId, activity);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.activityContentsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSActivitySQLTableE.activitycontents, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         contents.add(SSActivityContent.get(bindingStr(resultSet, SSSQLVarNames.content)));
@@ -126,13 +124,13 @@ public class SSActivitySQLFct extends SSCoreSQL{
         insert(inserts, SSSQLVarNames.textComment,   SSStrU.empty);
       }
       
-      dbSQL.insert(servPar, SSSQLVarNames.activityTable, inserts);
+      dbSQL.insert(servPar, SSActivitySQLTableE.activity, inserts);
       
       inserts.clear();
       insert(inserts, SSSQLVarNames.activityId,     activity);
       insert(inserts, SSSQLVarNames.userId,         author);
       
-      dbSQL.insert(servPar, SSSQLVarNames.activityUsersTable, inserts);
+      dbSQL.insert(servPar, SSActivitySQLTableE.activityusers, inserts);
         
       for(SSUri user : users){
 
@@ -144,14 +142,14 @@ public class SSActivitySQLFct extends SSCoreSQL{
         insert(inserts, SSSQLVarNames.activityId,     activity);
         insert(inserts, SSSQLVarNames.userId,         user);
         
-        dbSQL.insert(servPar, SSSQLVarNames.activityUsersTable, inserts);
+        dbSQL.insert(servPar, SSActivitySQLTableE.activityusers, inserts);
       }
       
       inserts.clear();
       insert(inserts, SSSQLVarNames.activityId,     activity);
       insert(inserts, SSSQLVarNames.entityId,       entity);
       
-      dbSQL.insert(servPar, SSSQLVarNames.activityEntitiesTable, inserts);
+      dbSQL.insert(servPar, SSActivitySQLTableE.activityentities, inserts);
       
       for(SSUri entityUri : entityUris){
 
@@ -163,7 +161,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
         insert(inserts, SSSQLVarNames.activityId,     activity);
         insert(inserts, SSSQLVarNames.entityId,       entityUri);
         
-        dbSQL.insert(servPar, SSSQLVarNames.activityEntitiesTable, inserts);
+        dbSQL.insert(servPar, SSActivitySQLTableE.activityentities, inserts);
       }
       
     }catch(Exception error){
@@ -188,35 +186,35 @@ public class SSActivitySQLFct extends SSCoreSQL{
       final List<SSUri>                                            result         = new ArrayList<>();
       final List<MultivaluedMap<String, String>>                   wheres         = new ArrayList<>();
       final MultivaluedMap<String, MultivaluedMap<String, String>> wheresNumeric  = new MultivaluedHashMap<>();
-      final List<String>                                           tables         = new ArrayList<>();
+      final List<SSSQLTableI>                                      tables         = new ArrayList<>();
       final List<String>                                           columns        = new ArrayList<>();
       final List<String>                                           tableCons      = new ArrayList<>();
       final SSDBSQLSelectPar                                       selectPar;
 
       setEntityTable(tables);
-      table    (tables, SSSQLVarNames.activityTable);
+      table    (tables, SSActivitySQLTableE.activity);
       
-      column   (columns, SSSQLVarNames.entityTable,   SSSQLVarNames.id);
-      column   (columns, SSSQLVarNames.entityTable,   SSSQLVarNames.author);
-      column   (columns, SSSQLVarNames.entityTable,   SSSQLVarNames.creationTime);
+      column   (columns, SSEntitySQLTableE.entity,   SSSQLVarNames.id);
+      column   (columns, SSEntitySQLTableE.entity,   SSSQLVarNames.author);
+      column   (columns, SSEntitySQLTableE.entity,   SSSQLVarNames.creationTime);
       
-      column   (columns, SSSQLVarNames.activityTable, SSSQLVarNames.activityType);
-      column   (columns, SSSQLVarNames.activityTable, SSSQLVarNames.entityId);
-      column   (columns, SSSQLVarNames.activityTable, SSSQLVarNames.textComment);
+      column   (columns, SSActivitySQLTableE.activity, SSSQLVarNames.activityType);
+      column   (columns, SSActivitySQLTableE.activity, SSSQLVarNames.entityId);
+      column   (columns, SSActivitySQLTableE.activity, SSSQLVarNames.textComment);
 
-      tableCon (tableCons, SSSQLVarNames.activityTable, SSSQLVarNames.activityId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
+      tableCon (tableCons, SSActivitySQLTableE.activity, SSSQLVarNames.activityId, SSEntitySQLTableE.entity, SSSQLVarNames.id);
       
       if(
         users != null &&
         !users.isEmpty()){
         
-        table    (tables, SSSQLVarNames.activityUsersTable);
-        tableCon (tableCons, SSSQLVarNames.activityUsersTable,    SSSQLVarNames.activityId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
+        table    (tables, SSActivitySQLTableE.activityusers);
+        tableCon (tableCons, SSActivitySQLTableE.activityusers,    SSSQLVarNames.activityId, SSEntitySQLTableE.entity, SSSQLVarNames.id);
         
         final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
         
         for(SSUri user : users){
-          where(whereUsers, SSSQLVarNames.activityUsersTable, SSSQLVarNames.userId, user);
+          where(whereUsers, SSActivitySQLTableE.activityusers, SSSQLVarNames.userId, user);
         }
         
         wheres.add(whereUsers);
@@ -226,13 +224,13 @@ public class SSActivitySQLFct extends SSCoreSQL{
         entities != null &&
         !entities.isEmpty()){
 
-        table    (tables, SSSQLVarNames.activityEntitiesTable);
-        tableCon (tableCons, SSSQLVarNames.activityEntitiesTable, SSSQLVarNames.activityId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
+        table    (tables, SSActivitySQLTableE.activityentities);
+        tableCon (tableCons, SSActivitySQLTableE.activityentities, SSSQLVarNames.activityId, SSEntitySQLTableE.entity, SSSQLVarNames.id);
       
         final MultivaluedMap<String, String> whereEntities = new MultivaluedHashMap<>();
         
         for(SSUri entity : entities){
-          where(whereEntities, SSSQLVarNames.activityEntitiesTable, SSSQLVarNames.entityId, entity);
+          where(whereEntities, SSActivitySQLTableE.activityentities, SSSQLVarNames.entityId, entity);
         }
         
         wheres.add(whereEntities);
@@ -245,7 +243,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
         final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
         
         for(SSActivityE type : types){
-          where(whereTypes, SSSQLVarNames.activityTable, SSSQLVarNames.activityType, type);
+          where(whereTypes, SSActivitySQLTableE.activity, SSSQLVarNames.activityType, type);
         }
         
         wheres.add(whereTypes);
@@ -260,7 +258,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
         
         wheresNumeric.put(SSStrU.greaterThan, greaterWheres);
         
-        where(whereNumbericStartTimes, SSSQLVarNames.entityTable, SSSQLVarNames.creationTime, startTime);
+        where(whereNumbericStartTimes, SSEntitySQLTableE.entity, SSSQLVarNames.creationTime, startTime);
         
         greaterWheres.add(whereNumbericStartTimes);
       }
@@ -274,7 +272,7 @@ public class SSActivitySQLFct extends SSCoreSQL{
         
         wheresNumeric.put(SSStrU.lessThan,    lessWheres);
         
-        where(whereNumbericEndTimes, SSSQLVarNames.entityTable, SSSQLVarNames.creationTime, endTime);
+        where(whereNumbericEndTimes, SSEntitySQLTableE.entity, SSSQLVarNames.creationTime, endTime);
         
         lessWheres.add(whereNumbericEndTimes);
       }
@@ -347,19 +345,19 @@ public class SSActivitySQLFct extends SSCoreSQL{
     
     try{
     
-      final List<String>              tables         = new ArrayList<>();
+      final List<SSSQLTableI>         tables         = new ArrayList<>();
       final List<String>              columns        = new ArrayList<>();
       final Map<String, String>       wheres         = new HashMap<>();
       final List<String>              tableCons      = new ArrayList<>();
       
       column   (columns,   SSSQLVarNames.userId);
       
-      table    (tables, SSSQLVarNames.activityTable);
-      table    (tables, SSSQLVarNames.activityUsersTable);
+      table    (tables, SSActivitySQLTableE.activity);
+      table    (tables, SSActivitySQLTableE.activityusers);
       
-      where    (wheres, SSSQLVarNames.activityTable, SSSQLVarNames.activityId, activity);
+      where    (wheres, SSActivitySQLTableE.activity, SSSQLVarNames.activityId, activity);
       
-      tableCon (tableCons, SSSQLVarNames.activityTable, SSSQLVarNames.activityId, SSSQLVarNames.activityUsersTable, SSSQLVarNames.activityId);
+      tableCon (tableCons, SSActivitySQLTableE.activity, SSSQLVarNames.activityId, SSActivitySQLTableE.activityusers, SSSQLVarNames.activityId);
       
       resultSet =
         dbSQL.select(
@@ -389,19 +387,19 @@ public class SSActivitySQLFct extends SSCoreSQL{
     
     try{
     
-      final List<String>              tables         = new ArrayList<>();
+      final List<SSSQLTableI>         tables         = new ArrayList<>();
       final List<String>              columns        = new ArrayList<>();
       final Map<String, String>       wheres         = new HashMap<>();
       final List<String>              tableCons      = new ArrayList<>();
       
-      column   (columns, SSSQLVarNames.activityEntitiesTable,  SSSQLVarNames.entityId);
+      column   (columns, SSActivitySQLTableE.activityentities,  SSSQLVarNames.entityId);
 
-      table    (tables, SSSQLVarNames.activityTable);
-      table    (tables, SSSQLVarNames.activityEntitiesTable);
+      table    (tables, SSActivitySQLTableE.activity);
+      table    (tables, SSActivitySQLTableE.activityentities);
       
-      where    (wheres, SSSQLVarNames.activityTable, SSSQLVarNames.activityId, activity);
+      where    (wheres, SSActivitySQLTableE.activity, SSSQLVarNames.activityId, activity);
       
-      tableCon (tableCons, SSSQLVarNames.activityTable, SSSQLVarNames.activityId, SSSQLVarNames.activityEntitiesTable, SSSQLVarNames.activityId);
+      tableCon (tableCons, SSActivitySQLTableE.activity, SSSQLVarNames.activityId, SSActivitySQLTableE.activityentities, SSSQLVarNames.activityId);
       
       resultSet = 
         dbSQL.select(
@@ -431,20 +429,20 @@ public class SSActivitySQLFct extends SSCoreSQL{
       
     try{
       final Map<String, String>                  wheres         = new HashMap<>();
-      final List<String>                         tables         = new ArrayList<>();
+      final List<SSSQLTableI>                    tables         = new ArrayList<>();
       final List<String>                         columns        = new ArrayList<>();
       final List<String>                         tableCons      = new ArrayList<>();
       
       setEntityColumns(columns);
-      column(columns, SSSQLVarNames.activityTable, SSSQLVarNames.activityType);
-      column(columns, SSSQLVarNames.activityTable, SSSQLVarNames.entityId);
+      column(columns, SSActivitySQLTableE.activity, SSSQLVarNames.activityType);
+      column(columns, SSActivitySQLTableE.activity, SSSQLVarNames.entityId);
 
       setEntityTable(tables);
-      table(tables, SSSQLVarNames.activityTable);
+      table(tables, SSActivitySQLTableE.activity);
       
       where(wheres, SSSQLVarNames.activityId, activity);
       
-      tableCon(tableCons, SSSQLVarNames.activityTable, SSSQLVarNames.activityId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
+      tableCon(tableCons, SSActivitySQLTableE.activity, SSSQLVarNames.activityId, SSEntitySQLTableE.entity, SSSQLVarNames.id);
       
       resultSet = 
         dbSQL.select(

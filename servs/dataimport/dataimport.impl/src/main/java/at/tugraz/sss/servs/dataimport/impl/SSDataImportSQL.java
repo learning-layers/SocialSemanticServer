@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.servs.dataimport.impl;
 
+import at.kc.tugraz.ss.service.user.datatypes.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLFctA;
@@ -57,7 +58,7 @@ public class SSDataImportSQL extends SSDBSQLFctA{
       
       where(wheres, "user_name", userName);
       
-      resultSet = dbSQL.select(servPar, "user", columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSUserSQLTableE.user, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return;

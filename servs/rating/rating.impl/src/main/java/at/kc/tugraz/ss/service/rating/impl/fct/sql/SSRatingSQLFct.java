@@ -20,17 +20,17 @@
 */
 package at.kc.tugraz.ss.service.rating.impl.fct.sql;
 
+import at.kc.tugraz.ss.service.rating.datatypes.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.datatype.*;
-import at.kc.tugraz.ss.service.rating.datatypes.SSRating;
-import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.par.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -39,7 +39,6 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
-import at.tugraz.sss.serv.db.api.SSCoreSQL;
 
 public class SSRatingSQLFct extends SSCoreSQL{
 
@@ -73,7 +72,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
       resultSet = 
         dbSQL.select(
           servPar, 
-          SSSQLVarNames.ratingsTable, 
+          SSRatingSQLTableE.ratings, 
           columns, 
           wheres, 
           null, 
@@ -108,7 +107,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.userId, user);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.ratingsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSRatingSQLTableE.ratings, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
       
@@ -137,9 +136,9 @@ public class SSRatingSQLFct extends SSCoreSQL{
       }
 
       if(wheres.isEmpty()){
-        dbSQL.delete(servPar, SSSQLVarNames.ratingsTable);
+        dbSQL.delete(servPar, SSRatingSQLTableE.ratings);
       }else{
-        dbSQL.delete(servPar, SSSQLVarNames.ratingsTable, wheres);
+        dbSQL.delete(servPar, SSRatingSQLTableE.ratings, wheres);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -164,7 +163,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
       
       update(updates, SSSQLVarNames.ratingValue, ratingValue);
       
-      dbSQL.update(servPar, SSSQLVarNames.ratingsTable, wheres, updates);
+      dbSQL.update(servPar, SSRatingSQLTableE.ratings, wheres, updates);
     }else{
     
       final Map<String, String> inserts= new HashMap<>();
@@ -174,7 +173,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
       insert(inserts, SSSQLVarNames.entityId,     entityUri);
       insert(inserts, SSSQLVarNames.ratingValue,  ratingValue);
 
-      dbSQL.insert(servPar, SSSQLVarNames.ratingsTable, inserts);
+      dbSQL.insert(servPar, SSRatingSQLTableE.ratings, inserts);
     }
   }
   
@@ -202,7 +201,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
     where   (wheres, SSSQLVarNames.entityId, entityUri);
     
     try{
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.ratingsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSRatingSQLTableE.ratings, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         ratingValue += bindingStrToInteger(resultSet, SSSQLVarNames.ratingValue);
@@ -245,7 +244,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.entityId, entityUri);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.ratingsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSRatingSQLTableE.ratings, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         ratingValue += bindingStrToInteger(resultSet, SSSQLVarNames.ratingValue);
@@ -283,7 +282,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
       
       final List<MultivaluedMap<String, String>> orWheres       = new ArrayList<>();
       final List<SSEntity>                       ratingAsss     = new ArrayList<>();
-      final List<String>                         tables         = new ArrayList<>();
+      final List<SSSQLTableI>                    tables         = new ArrayList<>();
       final List<String>                         columns        = new ArrayList<>();
       final List<String>                         tableCons      = new ArrayList<>();
       
@@ -292,7 +291,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
       column   (columns,   SSSQLVarNames.entityId);
       column   (columns,   SSSQLVarNames.ratingValue);
       
-      table    (tables,   SSSQLVarNames.ratingsTable);
+      table    (tables,   SSRatingSQLTableE.ratings);
       
       if(
         users != null &&
@@ -301,7 +300,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
         final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
         
         for(SSUri user : users){
-          where(whereUsers, SSSQLVarNames.ratingsTable, SSSQLVarNames.userId, user);
+          where(whereUsers, SSRatingSQLTableE.ratings, SSSQLVarNames.userId, user);
         }
         
         orWheres.add(whereUsers);
@@ -314,7 +313,7 @@ public class SSRatingSQLFct extends SSCoreSQL{
         final MultivaluedMap<String, String> whereEntities = new MultivaluedHashMap<>();
         
         for(SSUri entity : entities){
-          where(whereEntities, SSSQLVarNames.ratingsTable, SSSQLVarNames.entityId, entity);
+          where(whereEntities, SSRatingSQLTableE.ratings, SSSQLVarNames.entityId, entity);
         }
         
         orWheres.add(whereEntities);

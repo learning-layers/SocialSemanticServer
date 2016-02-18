@@ -20,11 +20,11 @@
 */
 package at.tugraz.sss.servs.message.impl;
 
+import at.kc.tugraz.ss.message.datatypes.*;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
-import at.kc.tugraz.ss.message.datatypes.SSMessage;
 import at.tugraz.sss.serv.db.api.SSDBSQLFctA;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.par.SSDBSQLSelectPar;
@@ -33,6 +33,7 @@ import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class SSMessageSQL extends SSDBSQLFctA{
       insert(inserts, SSSQLVarNames.forEntityId,    forUser);
       insert(inserts, SSSQLVarNames.messageContent, messageContent);
       
-      dbSQL.insert(servPar, SSSQLVarNames.messageTable, inserts);
+      dbSQL.insert(servPar, SSMessageSQLTableE.message, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -85,14 +86,14 @@ public class SSMessageSQL extends SSDBSQLFctA{
       final Map<String, String>                                    wheres         = new HashMap<>();
       final List<String>                                           columns        = new ArrayList<>();
       
-      column    (columns, SSSQLVarNames.messageTable,       SSSQLVarNames.userId);
-      column    (columns, SSSQLVarNames.messageTable,       SSSQLVarNames.messageId);
-      column    (columns, SSSQLVarNames.messageTable,       SSSQLVarNames.messageContent);
-      column    (columns, SSSQLVarNames.messageTable,       SSSQLVarNames.forEntityId);
+      column    (columns, SSMessageSQLTableE.message,       SSSQLVarNames.userId);
+      column    (columns, SSMessageSQLTableE.message,       SSSQLVarNames.messageId);
+      column    (columns, SSMessageSQLTableE.message,       SSSQLVarNames.messageContent);
+      column    (columns, SSMessageSQLTableE.message,       SSSQLVarNames.forEntityId);
 
-      where(wheres, SSSQLVarNames.messageTable, SSSQLVarNames.messageId, messageURI);
+      where(wheres, SSMessageSQLTableE.message, SSSQLVarNames.messageId, messageURI);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.messageTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSMessageSQLTableE.message, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -121,24 +122,24 @@ public class SSMessageSQL extends SSDBSQLFctA{
     
     try{
       
-      final List<String>                                           tables         = new ArrayList<>();
+      final List<SSSQLTableI>                                      tables         = new ArrayList<>();
       final List<MultivaluedMap<String, String>>                   wheres         = new ArrayList<>();
       final MultivaluedMap<String, MultivaluedMap<String, String>> wheresNumeric  = new MultivaluedHashMap<>();
       final List<String>                                           columns        = new ArrayList<>();
       final List<String>                                           tableCons      = new ArrayList<>();
       
-      column    (columns, SSSQLVarNames.messageTable,       SSSQLVarNames.messageId);
+      column    (columns, SSMessageSQLTableE.message,       SSSQLVarNames.messageId);
 
-      table     (tables, SSSQLVarNames.messageTable);
-      table     (tables, SSSQLVarNames.entityTable);     
+      table     (tables, SSMessageSQLTableE.message);
+      table     (tables, SSEntitySQLTableE.entity);     
       
-      tableCon  (tableCons, SSSQLVarNames.messageTable, SSSQLVarNames.messageId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
+      tableCon  (tableCons, SSMessageSQLTableE.message, SSSQLVarNames.messageId, SSEntitySQLTableE.entity, SSSQLVarNames.id);
        
       if(targetUserURI != null){
 
         final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
         
-        where(whereUsers, SSSQLVarNames.messageTable, SSSQLVarNames.forEntityId, targetUserURI);
+        where(whereUsers, SSMessageSQLTableE.message, SSSQLVarNames.forEntityId, targetUserURI);
         
         wheres.add(whereUsers);
       }
@@ -152,7 +153,7 @@ public class SSMessageSQL extends SSDBSQLFctA{
 
         wheresNumeric.put(SSStrU.greaterThan, greaterWheres);
         
-        where(whereNumbericStartTimes, SSSQLVarNames.entityTable, SSSQLVarNames.creationTime, startTime);
+        where(whereNumbericStartTimes, SSEntitySQLTableE.entity, SSSQLVarNames.creationTime, startTime);
         
         greaterWheres.add(whereNumbericStartTimes);
       }

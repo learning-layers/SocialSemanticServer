@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.servs.recomm.impl;
 
+import at.kc.tugraz.ss.recomm.datatypes.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.reg.SSServErrReg;
@@ -53,7 +54,7 @@ public class SSRecommSQL extends SSCoreSQL{
       column(columns, SSSQLVarNames.userId);
       column(columns, SSSQLVarNames.realm);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.recommUserRealmsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSRecommSQLTableE.recommuserrealms, columns, wheres, null, null, null);
 
       while(resultSet.next()){
         
@@ -90,7 +91,7 @@ public class SSRecommSQL extends SSCoreSQL{
       insert(inserts, SSSQLVarNames.userId,   user);
       insert(inserts, SSSQLVarNames.realm,    realm);
       
-      dbSQL.insert(servPar, SSSQLVarNames.recommUserRealmsTable, inserts);
+      dbSQL.insert(servPar, SSRecommSQLTableE.recommuserrealms, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

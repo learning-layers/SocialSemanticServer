@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.friend.impl;
 
-import at.kc.tugraz.ss.friend.datatypes.SSFriend;
+import at.kc.tugraz.ss.friend.datatypes.*;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLFctA;
@@ -56,7 +56,7 @@ public class SSFriendSQL extends SSDBSQLFctA{
       uniqueKey(uniqueKeys, SSSQLVarNames.userId,   user);
       uniqueKey(uniqueKeys, SSSQLVarNames.friendId, friend);
       
-      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.friendsTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSFriendSQLTableE.friends, inserts, uniqueKeys);
       
       inserts.clear();
       uniqueKeys.clear();
@@ -67,7 +67,7 @@ public class SSFriendSQL extends SSDBSQLFctA{
       uniqueKey(uniqueKeys, SSSQLVarNames.userId,   friend);
       uniqueKey(uniqueKeys, SSSQLVarNames.friendId, user);
       
-      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.friendsTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSFriendSQLTableE.friends, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -93,7 +93,7 @@ public class SSFriendSQL extends SSDBSQLFctA{
 
       where     (wheres,    SSSQLVarNames.id, friend);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.entityTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSEntitySQLTableE.entity, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -130,7 +130,7 @@ public class SSFriendSQL extends SSDBSQLFctA{
       
       where     (wheres,    SSSQLVarNames.userId, user);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.friendsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSFriendSQLTableE.friends, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.friendId);
         

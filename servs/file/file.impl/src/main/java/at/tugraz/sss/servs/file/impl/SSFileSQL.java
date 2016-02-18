@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.db.api.SSCoreSQL;
+import at.tugraz.sss.servs.file.datatype.*;
 
 public class SSFileSQL extends SSCoreSQL{
 
@@ -60,7 +61,7 @@ public class SSFileSQL extends SSCoreSQL{
       insert    (inserts,    SSSQLVarNames.fileId,   file);
       uniqueKey (uniqueKeys, SSSQLVarNames.fileId,   file);
       
-      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.fileTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSFileSQLTableE.file, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -82,7 +83,7 @@ public class SSFileSQL extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.entityId, entity);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.entityFilesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSEntitySQLTableE.entityfiles, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.fileId);
       
@@ -110,7 +111,7 @@ public class SSFileSQL extends SSCoreSQL{
       uniqueKey(uniqueKeys, SSSQLVarNames.entityId, entity);
       uniqueKey(uniqueKeys, SSSQLVarNames.fileId,   file);
       
-      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.entityFilesTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSEntitySQLTableE.entityfiles, inserts, uniqueKeys);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -131,7 +132,7 @@ public class SSFileSQL extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.id, file);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.entityTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSEntitySQLTableE.entity, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;

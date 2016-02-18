@@ -27,12 +27,13 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import at.tugraz.sss.serv.db.api.SSCoreSQL;
+import at.tugraz.sss.servs.location.datatype.*;
 
 public class SSLocationSQLFct extends SSCoreSQL{
   
@@ -62,14 +63,14 @@ public class SSLocationSQLFct extends SSCoreSQL{
         insert(inserts, SSSQLVarNames.accuracy,         location.accuracy);
       }
       
-      dbSQL.insert(servPar, SSSQLVarNames.locationTable, inserts);
+      dbSQL.insert(servPar, SSLocationSQLTableE.location, inserts);
       
       inserts.clear();
       
       insert(inserts, SSSQLVarNames.entityId,           entity);
       insert(inserts, SSSQLVarNames.locationId,         locationURI);
       
-      dbSQL.insert(servPar, SSSQLVarNames.entityLocationsTable, inserts);
+      dbSQL.insert(servPar, SSEntitySQLTableE.entitylocations, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -86,12 +87,12 @@ public class SSLocationSQLFct extends SSCoreSQL{
       final List<String>         columns    = new ArrayList<>();              
       final Map<String, String>  wheres     = new HashMap<>();
       
-      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.locationId);
-      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.latitude);
-      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.longitude);
-      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.accuracy);
+      column(columns, SSLocationSQLTableE.location, SSSQLVarNames.locationId);
+      column(columns, SSLocationSQLTableE.location, SSSQLVarNames.latitude);
+      column(columns, SSLocationSQLTableE.location, SSSQLVarNames.longitude);
+      column(columns, SSLocationSQLTableE.location, SSSQLVarNames.accuracy);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.locationTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSLocationSQLTableE.location, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -121,23 +122,23 @@ public class SSLocationSQLFct extends SSCoreSQL{
       final List<String>         columns    = new ArrayList<>();              
       final Map<String, String>  wheres     = new HashMap<>();
 
-      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.locationId);
+      column(columns, SSLocationSQLTableE.location, SSSQLVarNames.locationId);
         
       if(forEntity != null){
         
-        final List<String>         tables     = new ArrayList<>();
+        final List<SSSQLTableI>    tables     = new ArrayList<>();
         final List<String>         tableCons  = new ArrayList<>();
       
-        table(tables, SSSQLVarNames.locationTable);
-        table(tables, SSSQLVarNames.entityLocationsTable);
+        table(tables, SSLocationSQLTableE.location);
+        table(tables, SSEntitySQLTableE.entitylocations);
         
         where(wheres, SSSQLVarNames.entityId, forEntity);
         
-        tableCon(tableCons, SSSQLVarNames.locationTable, SSSQLVarNames.locationId, SSSQLVarNames.entityLocationsTable, SSSQLVarNames.locationId);
+        tableCon(tableCons, SSLocationSQLTableE.location, SSSQLVarNames.locationId, SSEntitySQLTableE.entitylocations, SSSQLVarNames.locationId);
         
         resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       }else{
-        resultSet = dbSQL.select(servPar, SSSQLVarNames.locationTable, columns, wheres, null, null, null);
+        resultSet = dbSQL.select(servPar, SSLocationSQLTableE.location, columns, wheres, null, null, null);
       }
       
       return getURIsFromResult(resultSet, SSSQLVarNames.locationId);

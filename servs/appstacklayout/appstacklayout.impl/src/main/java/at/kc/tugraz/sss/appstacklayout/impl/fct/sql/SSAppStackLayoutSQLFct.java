@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.sss.appstacklayout.impl.fct.sql;
 
+import at.kc.tugraz.sss.appstacklayout.datatypes.*;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.sss.appstacklayout.datatypes.SSAppStackLayout;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.datatype.par.*;
@@ -64,7 +64,7 @@ public class SSAppStackLayoutSQLFct extends SSCoreSQL{
         
       where(wheres, SSSQLVarNames.stackId, stack);
       
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.appStackLayoutTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSAppStackLayoutSQLTableE.appstacklayout, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -93,7 +93,7 @@ public class SSAppStackLayoutSQLFct extends SSCoreSQL{
       
       column(columns, SSSQLVarNames.stackId);
         
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.appStackLayoutTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSAppStackLayoutSQLTableE.appstacklayout, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.stackId);
       
@@ -121,7 +121,7 @@ public class SSAppStackLayoutSQLFct extends SSCoreSQL{
       
       insert    (inserts,    SSSQLVarNames.stackId,     stack);
       
-      dbSQL.insert(servPar, SSSQLVarNames.appStackLayoutTable, inserts);
+      dbSQL.insert(servPar, SSAppStackLayoutSQLTableE.appstacklayout, inserts);
      }catch(Exception error){
        SSServErrReg.regErrThrow(error);
      }
@@ -136,7 +136,7 @@ public class SSAppStackLayoutSQLFct extends SSCoreSQL{
       
       where(wheres, SSSQLVarNames.stackId, stack);
       
-      dbSQL.delete(servPar, SSSQLVarNames.appStackLayoutTable, wheres);
+      dbSQL.delete(servPar, SSAppStackLayoutSQLTableE.appstacklayout, wheres);
       
      }catch(Exception error){
        SSServErrReg.regErrThrow(error);
@@ -158,7 +158,7 @@ public class SSAppStackLayoutSQLFct extends SSCoreSQL{
         update(updates,    SSSQLVarNames.app,     app);
       }
       
-      dbSQL.updateIgnore(servPar, SSSQLVarNames.appStackLayoutTable, wheres, updates);
+      dbSQL.updateIgnore(servPar, SSAppStackLayoutSQLTableE.appstacklayout, wheres, updates);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -20,17 +20,17 @@
 */
 package at.kc.tugraz.sss.flag.impl.fct.sql;
 
+import at.kc.tugraz.sss.flag.datatypes.*;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.sss.flag.datatypes.SSFlag;
-import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
 import at.tugraz.sss.serv.datatype.par.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -39,7 +39,6 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
-import at.tugraz.sss.serv.db.api.SSCoreSQL;
 
 public class SSFlagSQLFct extends SSCoreSQL{
 
@@ -58,25 +57,25 @@ public class SSFlagSQLFct extends SSCoreSQL{
     try{
       
       final List<String>        columns        = new ArrayList<>();
-      final List<String>        tables         = new ArrayList<>();
+      final List<SSSQLTableI>   tables         = new ArrayList<>();
       final Map<String, String> wheres         = new HashMap<>();
       final List<String>        tableCons      = new ArrayList<>();
       Long                      endTimeForFlag = null;
       Integer                   value          = null;
       
-      column   (columns, SSSQLVarNames.flagTable,      SSSQLVarNames.flagId);
-      column   (columns, SSSQLVarNames.flagTable,      SSSQLVarNames.type);
-      column   (columns, SSSQLVarNames.flagTable,      SSSQLVarNames.value);
-      column   (columns, SSSQLVarNames.flagTable,      SSSQLVarNames.endTime);
-      column   (columns, SSSQLVarNames.flagsTable,     SSSQLVarNames.userId);
-      column   (columns, SSSQLVarNames.flagsTable,     SSSQLVarNames.entityId);
+      column   (columns, SSFlagSQLTableE.flag,      SSSQLVarNames.flagId);
+      column   (columns, SSFlagSQLTableE.flag,      SSSQLVarNames.type);
+      column   (columns, SSFlagSQLTableE.flag,      SSSQLVarNames.value);
+      column   (columns, SSFlagSQLTableE.flag,      SSSQLVarNames.endTime);
+      column   (columns, SSFlagSQLTableE.flags,     SSSQLVarNames.userId);
+      column   (columns, SSFlagSQLTableE.flags,     SSSQLVarNames.entityId);
       
-      table(tables, SSSQLVarNames.flagTable);
-      table(tables, SSSQLVarNames.flagsTable);
+      table(tables, SSFlagSQLTableE.flag);
+      table(tables, SSFlagSQLTableE.flags);
       
-      where(wheres, SSSQLVarNames.flagTable, SSSQLVarNames.flagId, flag);
+      where(wheres, SSFlagSQLTableE.flag, SSSQLVarNames.flagId, flag);
       
-      tableCon (tableCons, SSSQLVarNames.flagTable,  SSSQLVarNames.flagId, SSSQLVarNames.flagsTable, SSSQLVarNames.flagId);
+      tableCon (tableCons, SSFlagSQLTableE.flag,  SSSQLVarNames.flagId, SSFlagSQLTableE.flags, SSSQLVarNames.flagId);
       
       resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
@@ -125,23 +124,23 @@ public class SSFlagSQLFct extends SSCoreSQL{
     try{
       final List<SSUri>                          flagURIs       = new ArrayList<>();
       final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
-      final List<String>                         tables         = new ArrayList<>();
+      final List<SSSQLTableI>                    tables         = new ArrayList<>();
       final List<String>                         columns        = new ArrayList<>();
       final List<String>                         tableCons      = new ArrayList<>();
       Long                                       timestamp;
 
-      table    (tables, SSSQLVarNames.flagTable);
-      table    (tables, SSSQLVarNames.flagsTable);
-      table    (tables, SSSQLVarNames.entityTable);
+      table    (tables, SSFlagSQLTableE.flag);
+      table    (tables, SSFlagSQLTableE.flags);
+      table    (tables, SSEntitySQLTableE.entity);
       
-      column   (columns, SSSQLVarNames.entityTable,   SSSQLVarNames.creationTime);
-      column   (columns, SSSQLVarNames.flagTable,     SSSQLVarNames.type);
-      column   (columns, SSSQLVarNames.flagsTable,    SSSQLVarNames.userId);
-      column   (columns, SSSQLVarNames.flagsTable,    SSSQLVarNames.entityId);
-      column   (columns, SSSQLVarNames.flagTable,     SSSQLVarNames.flagId);
+      column   (columns, SSEntitySQLTableE.entity, SSSQLVarNames.creationTime);
+      column   (columns, SSFlagSQLTableE.flag,     SSSQLVarNames.type);
+      column   (columns, SSFlagSQLTableE.flags,    SSSQLVarNames.userId);
+      column   (columns, SSFlagSQLTableE.flags,    SSSQLVarNames.entityId);
+      column   (columns, SSFlagSQLTableE.flag,     SSSQLVarNames.flagId);
 
-      tableCon (tableCons, SSSQLVarNames.flagTable,  SSSQLVarNames.flagId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
-      tableCon (tableCons, SSSQLVarNames.flagsTable, SSSQLVarNames.flagId, SSSQLVarNames.flagTable,   SSSQLVarNames.flagId);
+      tableCon (tableCons, SSFlagSQLTableE.flag,  SSSQLVarNames.flagId, SSEntitySQLTableE.entity, SSSQLVarNames.id);
+      tableCon (tableCons, SSFlagSQLTableE.flags, SSSQLVarNames.flagId, SSFlagSQLTableE.flag,      SSSQLVarNames.flagId);
       
       if(
         users != null &&
@@ -150,7 +149,7 @@ public class SSFlagSQLFct extends SSCoreSQL{
         final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
         
         for(SSUri user : users){
-          where(whereUsers, SSSQLVarNames.flagsTable, SSSQLVarNames.userId, user);
+          where(whereUsers, SSFlagSQLTableE.flags, SSSQLVarNames.userId, user);
         }
         
         wheres.add(whereUsers);
@@ -163,7 +162,7 @@ public class SSFlagSQLFct extends SSCoreSQL{
         final MultivaluedMap<String, String> whereEntities = new MultivaluedHashMap<>();
         
         for(SSUri entity : entities){
-          where(whereEntities, SSSQLVarNames.flagsTable, SSSQLVarNames.entityId, entity);
+          where(whereEntities, SSFlagSQLTableE.flags, SSSQLVarNames.entityId, entity);
         }
         
         wheres.add(whereEntities);
@@ -176,7 +175,7 @@ public class SSFlagSQLFct extends SSCoreSQL{
         final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
         
         for(SSFlagE type : types){
-          where(whereTypes, SSSQLVarNames.flagTable, SSSQLVarNames.type, type);
+          where(whereTypes, SSFlagSQLTableE.flag, SSSQLVarNames.type, type);
         }
         
         wheres.add(whereTypes);
@@ -250,7 +249,7 @@ public class SSFlagSQLFct extends SSCoreSQL{
       
       uniqueKey (uniqueKeys, SSSQLVarNames.flagId,    flag);
       
-      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.flagTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSFlagSQLTableE.flag, inserts, uniqueKeys);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -273,7 +272,7 @@ public class SSFlagSQLFct extends SSCoreSQL{
       uniqueKey (uniqueKeys, SSSQLVarNames.entityId,  entity);
       uniqueKey (uniqueKeys, SSSQLVarNames.flagId,    flag);
       
-      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.flagsTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSFlagSQLTableE.flags, inserts, uniqueKeys);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -310,7 +309,7 @@ public class SSFlagSQLFct extends SSCoreSQL{
         return;
       }
       
-      dbSQL.deleteIgnore(servPar, SSSQLVarNames.flagsTable, wheres);
+      dbSQL.deleteIgnore(servPar, SSFlagSQLTableE.flags, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

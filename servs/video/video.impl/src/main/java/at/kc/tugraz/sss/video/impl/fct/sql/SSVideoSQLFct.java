@@ -20,21 +20,19 @@
 */
 package at.kc.tugraz.sss.video.impl.fct.sql;
 
+import at.kc.tugraz.sss.video.datatypes.*;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.kc.tugraz.sss.video.datatypes.SSVideo;
-import at.kc.tugraz.sss.video.datatypes.SSVideoAnnotation;
-import at.kc.tugraz.sss.video.datatypes.SSVideoE;
 import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import at.tugraz.sss.serv.db.api.SSCoreSQL;
 
 public class SSVideoSQLFct extends SSCoreSQL{
 
@@ -59,7 +57,7 @@ public class SSVideoSQLFct extends SSCoreSQL{
       uniqueKey(uniqueKeys, SSSQLVarNames.userId,  user);
       uniqueKey(uniqueKeys, SSSQLVarNames.videoId, video);
       
-      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.videoUsersTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSVideoSQLTableE.videousers, inserts, uniqueKeys);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -98,7 +96,7 @@ public class SSVideoSQLFct extends SSCoreSQL{
       
       uniqueKey (uniqueKeys, SSSQLVarNames.videoId, video);
         
-      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.videoTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSVideoSQLTableE.video, inserts, uniqueKeys);
       
      }catch(Exception error){
        SSServErrReg.regErrThrow(error);
@@ -114,7 +112,7 @@ public class SSVideoSQLFct extends SSCoreSQL{
       
       where(wheres,    SSSQLVarNames.videoAnnotationId,   annotation);
       
-      dbSQL.delete(servPar, SSSQLVarNames.videoAnnotationTable, wheres);
+      dbSQL.delete(servPar, SSVideoSQLTableE.videoannotation, wheres);
       
      }catch(Exception error){
        SSServErrReg.regErrThrow(error);
@@ -152,14 +150,14 @@ public class SSVideoSQLFct extends SSCoreSQL{
       
       insert    (inserts,    SSSQLVarNames.videoAnnotationId,  videoAnnotation);
       
-      dbSQL.insert(servPar, SSSQLVarNames.videoAnnotationTable, inserts);
+      dbSQL.insert(servPar, SSVideoSQLTableE.videoannotation, inserts);
       
       inserts.clear();
       
       insert    (inserts,    SSSQLVarNames.videoId,            video);
       insert    (inserts,    SSSQLVarNames.videoAnnotationId,  videoAnnotation);
       
-      dbSQL.insert(servPar, SSSQLVarNames.videoAnnotationsTable, inserts);
+      dbSQL.insert(servPar, SSVideoSQLTableE.videoannotations, inserts);
       
      }catch(Exception error){
        SSServErrReg.regErrThrow(error);
@@ -174,21 +172,21 @@ public class SSVideoSQLFct extends SSCoreSQL{
       
     try{
       final List<String>          columns     = new ArrayList<>();
-      final List<String>          tables      = new ArrayList<>();
+      final List<SSSQLTableI>     tables      = new ArrayList<>();
       final Map<String, String>   wheres      = new HashMap<>();
       final List<String>          tableCons   = new ArrayList<>();
       
       final SSVideo video;
       
-      column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.videoId);
-      column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.genre);
-      column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.link);
-      column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.videoType);
+      column(columns, SSVideoSQLTableE.video,          SSSQLVarNames.videoId);
+      column(columns, SSVideoSQLTableE.video,          SSSQLVarNames.genre);
+      column(columns, SSVideoSQLTableE.video,          SSSQLVarNames.link);
+      column(columns, SSVideoSQLTableE.video,          SSSQLVarNames.videoType);
 
-      where(wheres, SSSQLVarNames.videoTable, SSSQLVarNames.videoId, videoUri);
+      where(wheres, SSVideoSQLTableE.video, SSSQLVarNames.videoId, videoUri);
       
 //      table(tables, SSSQLVarNames.entityTable);
-      table(tables, SSSQLVarNames.videoTable);
+      table(tables, SSVideoSQLTableE.video);
       
 //      if(user != null){
 //        where    (wheres, SSSQLVarNames.videoUsersTable, SSSQLVarNames.userId, user);
@@ -239,30 +237,30 @@ public class SSVideoSQLFct extends SSCoreSQL{
       
     try{
       final List<String>          columns     = new ArrayList<>();
-      final List<String>          tables      = new ArrayList<>();
+      final List<SSSQLTableI>     tables      = new ArrayList<>();
       final Map<String, String>   wheres      = new HashMap<>();
       final List<String>          tableCons   = new ArrayList<>();
       
-      column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.videoId);
-      column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.genre);
-      column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.link);
+      column(columns, SSVideoSQLTableE.video,          SSSQLVarNames.videoId);
+      column(columns, SSVideoSQLTableE.video,          SSSQLVarNames.genre);
+      column(columns, SSVideoSQLTableE.video,          SSSQLVarNames.link);
 
-      table(tables, SSSQLVarNames.entityTable);
-      table(tables, SSSQLVarNames.videoTable);
+      table(tables, SSEntitySQLTableE.entity);
+      table(tables, SSVideoSQLTableE.video);
       
       if(forUser != null){
-        where    (wheres, SSSQLVarNames.videoUsersTable, SSSQLVarNames.userId, forUser);
-        table    (tables, SSSQLVarNames.videoUsersTable);
-        tableCon (tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.videoUsersTable, SSSQLVarNames.videoId);
+        where    (wheres, SSVideoSQLTableE.videousers, SSSQLVarNames.userId, forUser);
+        table    (tables, SSVideoSQLTableE.videousers);
+        tableCon (tableCons, SSEntitySQLTableE.entity, SSSQLVarNames.id, SSVideoSQLTableE.videousers, SSSQLVarNames.videoId);
       }
       
       if(forEntity != null){
-        where    (wheres, SSSQLVarNames.entityVideosTable, SSSQLVarNames.entityId, forEntity);
-        table    (tables, SSSQLVarNames.entityVideosTable);
-        tableCon (tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.entityVideosTable, SSSQLVarNames.videoId);
+        where    (wheres, SSEntitySQLTableE.entityvideos, SSSQLVarNames.entityId, forEntity);
+        table    (tables, SSEntitySQLTableE.entityvideos);
+        tableCon (tableCons, SSEntitySQLTableE.entity, SSSQLVarNames.id, SSEntitySQLTableE.entityvideos, SSSQLVarNames.videoId);
       }
       
-      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.videoTable,      SSSQLVarNames.videoId);
+      tableCon(tableCons, SSEntitySQLTableE.entity, SSSQLVarNames.id, SSVideoSQLTableE.video,      SSSQLVarNames.videoId);
       
       resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
 
@@ -285,14 +283,14 @@ public class SSVideoSQLFct extends SSCoreSQL{
       final List<String>              columns     = new ArrayList<>();
       final Map<String, String>       wheres      = new HashMap<>();
       
-      column(columns, SSSQLVarNames.videoAnnotationTable, SSSQLVarNames.videoAnnotationId);
-      column(columns, SSSQLVarNames.videoAnnotationTable, SSSQLVarNames.x);
-      column(columns, SSSQLVarNames.videoAnnotationTable, SSSQLVarNames.y);
-      column(columns, SSSQLVarNames.videoAnnotationTable, SSSQLVarNames.timePoint);
+      column(columns, SSVideoSQLTableE.videoannotation, SSSQLVarNames.videoAnnotationId);
+      column(columns, SSVideoSQLTableE.videoannotation, SSSQLVarNames.x);
+      column(columns, SSVideoSQLTableE.videoannotation, SSSQLVarNames.y);
+      column(columns, SSVideoSQLTableE.videoannotation, SSSQLVarNames.timePoint);
       
-      where(wheres, SSSQLVarNames.videoAnnotationTable, SSSQLVarNames.videoAnnotationId, annotation);
+      where(wheres, SSVideoSQLTableE.videoannotation, SSSQLVarNames.videoAnnotationId, annotation);
 
-      resultSet = dbSQL.select(servPar, SSSQLVarNames.videoAnnotationTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(servPar, SSVideoSQLTableE.videoannotation, columns, wheres, null, null, null);
       
       if(!existsFirstResult(resultSet)){
         return null;
@@ -321,18 +319,18 @@ public class SSVideoSQLFct extends SSCoreSQL{
     
     try{
       final List<String>              columns     = new ArrayList<>();
-      final List<String>              tables      = new ArrayList<>();
+      final List<SSSQLTableI>         tables      = new ArrayList<>();
       final Map<String, String>       wheres      = new HashMap<>();
       final List<String>              tableCons   = new ArrayList<>();
       
-      column(columns, SSSQLVarNames.videoAnnotationTable, SSSQLVarNames.videoAnnotationId);
+      column(columns, SSVideoSQLTableE.videoannotation, SSSQLVarNames.videoAnnotationId);
       
-      table(tables, SSSQLVarNames.videoAnnotationTable);
-      table(tables, SSSQLVarNames.videoAnnotationsTable);
+      table(tables, SSVideoSQLTableE.videoannotation);
+      table(tables, SSVideoSQLTableE.videoannotations);
       
-      where(wheres, SSSQLVarNames.videoAnnotationsTable, SSSQLVarNames.videoId, video);
+      where(wheres, SSVideoSQLTableE.videoannotations, SSSQLVarNames.videoId, video);
       
-      tableCon(tableCons, SSSQLVarNames.videoAnnotationsTable, SSSQLVarNames.videoAnnotationId, SSSQLVarNames.videoAnnotationTable,  SSSQLVarNames.videoAnnotationId);
+      tableCon(tableCons, SSVideoSQLTableE.videoannotations, SSSQLVarNames.videoAnnotationId, SSVideoSQLTableE.videoannotation,  SSSQLVarNames.videoAnnotationId);
 
       resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
@@ -362,7 +360,7 @@ public class SSVideoSQLFct extends SSCoreSQL{
       uniqueKey(uniqueKeys, SSSQLVarNames.entityId, entity);
       uniqueKey(uniqueKeys, SSSQLVarNames.videoId,  video);
       
-      dbSQL.insertIfNotExists(servPar, SSSQLVarNames.entityVideosTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(servPar, SSEntitySQLTableE.entityvideos, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
