@@ -25,13 +25,13 @@ import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import java.sql.*;
 
 public class SSLearnEpGetPar extends SSServPar{
   
   public SSUri   learnEp              = null;
   public boolean setRead              = false;
   public boolean setCircleTypes       = false;
+  public boolean setAttachedEntities  = false;
   
   public void setLearnEp(final String learnEp) throws SSErr{
     this.learnEp = SSUri.get(learnEp);
@@ -44,7 +44,7 @@ public class SSLearnEpGetPar extends SSServPar{
   public SSLearnEpGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSLearnEpGetPar(
-    final SSServPar servPar,
+    final SSServPar     servPar,
     final SSUri         user,
     final SSUri         learnEp, 
     final boolean       withUserRestriction,

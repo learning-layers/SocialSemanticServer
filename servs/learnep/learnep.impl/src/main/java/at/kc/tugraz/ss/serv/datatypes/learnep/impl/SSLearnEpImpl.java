@@ -497,8 +497,9 @@ implements
           par.withUserRestriction, //withUserRestriction,
           par.invokeEntityHandlers);
       
-      learnEpGetPar.setRead        = par.setRead;
-      learnEpGetPar.setCircleTypes = par.setCircleTypes;
+      learnEpGetPar.setRead             = par.setRead;
+      learnEpGetPar.setCircleTypes      = par.setCircleTypes;
+      learnEpGetPar.setAttachedEntities = par.setAttachedEntities;
       
       for(SSUri learnEpURI : learnEpURIs){
         
@@ -530,9 +531,10 @@ implements
       SSEntityDescriberPar descPar;
       
       if(par.invokeEntityHandlers){
-        descPar                  = new SSEntityDescriberPar(par.learnEp);
-        descPar.setRead          = par.setRead;
-        descPar.setCircleTypes   = par.setCircleTypes;
+        descPar                     = new SSEntityDescriberPar(par.learnEp);
+        descPar.setRead             = par.setRead;
+        descPar.setCircleTypes      = par.setCircleTypes;
+        descPar.setAttachedEntities = par.setAttachedEntities;
       }else{
         descPar = null;
       }

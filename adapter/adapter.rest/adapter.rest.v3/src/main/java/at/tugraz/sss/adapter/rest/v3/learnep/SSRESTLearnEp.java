@@ -105,7 +105,7 @@ public class SSRESTLearnEp{
     @Context
     final HttpHeaders headers){
     
-    final SSLearnEpsGetPar par;
+    final SSLearnEpsGetPar   par;
     Connection               sqlCon = null;
     
     try{
@@ -121,12 +121,13 @@ public class SSRESTLearnEp{
         par =
           new SSLearnEpsGetPar(
             new SSServPar(sqlCon),
-            null,
+            null, //user
             null, //forUser
-            true,
-            true);
+            true, //withUserRestriction
+            true); //invokeEntityHandlers
         
-        par.setCircleTypes = true;
+        par.setCircleTypes      = true;
+        par.setAttachedEntities = true;
         
       }catch(Exception error){
         return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();

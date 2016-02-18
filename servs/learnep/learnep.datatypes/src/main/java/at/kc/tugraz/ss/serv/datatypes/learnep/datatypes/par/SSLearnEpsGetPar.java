@@ -23,13 +23,13 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import java.sql.*;
 
 public class SSLearnEpsGetPar extends SSServPar{
 
   public SSUri   forUser              = null;
   public boolean setRead              = false;
   public boolean setCircleTypes       = false;
+  public boolean setAttachedEntities  = false;
 
   public String getForUser() {
     return SSStrU.removeTrailingSlash(forUser);
@@ -42,7 +42,7 @@ public class SSLearnEpsGetPar extends SSServPar{
   public SSLearnEpsGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSLearnEpsGetPar(
-    final SSServPar servPar,
+    final SSServPar     servPar,
     final SSUri         user,
     final SSUri         forUser,
     final boolean       withUserRestriction, 
