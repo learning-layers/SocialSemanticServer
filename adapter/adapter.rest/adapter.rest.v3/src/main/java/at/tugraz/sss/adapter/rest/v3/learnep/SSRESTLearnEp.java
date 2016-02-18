@@ -107,7 +107,7 @@ public class SSRESTLearnEp{
       try{
         final SSLearnEpClientI learnEpServ = (SSLearnEpClientI) SSServReg.getClientServ(SSLearnEpClientI.class);
         
-        return Response.status(200).entity(learnEpServ.learnEpsGet(SSClientE.rest, par)).build();
+        return Response.status(200).entity(learnEpServ.learnEpCircleEntityStructureGet(SSClientE.rest, par)).build();
         
       }catch(Exception error){
         return SSRestMain.prepareErrorResponse(error);
