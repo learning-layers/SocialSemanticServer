@@ -217,6 +217,22 @@ public class SSLogU{
   
   public static void err(
     final Exception error,
+    final String    logText, 
+    final boolean   provideRuntimeInfo){
+    
+    if(error == null){
+      return;
+    }
+    
+    if(provideRuntimeInfo){
+      err(error, logText);
+    }else{
+      log.error(logText);
+    }
+  }
+  
+  public static void err(
+    final Exception error,
     final String    logText){
     
     if(error == null){

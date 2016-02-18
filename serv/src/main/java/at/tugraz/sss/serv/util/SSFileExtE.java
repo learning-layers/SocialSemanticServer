@@ -168,7 +168,7 @@ public enum SSFileExtE{
       return get(fileStr.substring(fileStr.lastIndexOf(SSStrU.dot) + 1));
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(SSErrE.fileExtInvalid);
+      SSServErrReg.regErrThrow(SSErrE.fileExtInvalid, error);
       return null;
     }
   }

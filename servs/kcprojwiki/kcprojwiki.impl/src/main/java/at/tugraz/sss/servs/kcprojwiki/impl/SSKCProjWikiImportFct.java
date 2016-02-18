@@ -238,7 +238,7 @@ public class SSKCProjWikiImportFct {
       try{
         results  = (JSONObject) ask.get       (valueResults);
       }catch(Exception error){
-        System.out.println("vorgang for vorgang number " + vorgangNumber + " not available; vorgang wont be imported");
+        SSLogU.err(error, "vorgang for vorgang number " + vorgangNumber + " not available; vorgang wont be imported", false);
         return null;
       }
       
@@ -638,6 +638,8 @@ public class SSKCProjWikiImportFct {
       try{
         edit = (JSONObject)             json.get          (valueEdit);
       }catch(Exception error){
+        
+        SSLogU.debug(error);
         
         JSONObject  jsonResult = (JSONObject)             json.get          (valueResult);
         Integer     code       = Integer.valueOf((String) jsonResult.get    (valueCode));

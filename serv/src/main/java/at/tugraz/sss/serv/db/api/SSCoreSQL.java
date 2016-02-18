@@ -578,10 +578,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
     }finally{
       
       try{
-        
-        if(resultSet != null){
-          dbSQL.closeStmt(resultSet);
-        }
+        dbSQL.closeStmt(resultSet);
       }catch(Exception sqlError){
         SSServErrReg.regErrThrow(sqlError);
       }
