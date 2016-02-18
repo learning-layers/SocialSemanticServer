@@ -25,15 +25,18 @@ import io.swagger.annotations.*;
 @ApiModel
 public class SSLivingDocsGetRESTPar {
  
-  
   @ApiModelProperty(
     required = false,
     value = "")
   public boolean setUsers       = false;
   
-  
   @ApiModelProperty(
     required = false,
     value = "")
   public boolean setDiscs       = false;
+  
+  @ApiModelProperty(
+    required = false,
+    value = "")
+  public boolean setAttachedEntities = false;
 }

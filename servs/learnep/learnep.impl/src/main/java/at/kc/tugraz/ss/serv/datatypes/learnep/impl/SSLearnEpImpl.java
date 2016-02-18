@@ -114,7 +114,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
-    final SSServPar servPar,
+    final SSServPar            servPar,
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws SSErr{
     

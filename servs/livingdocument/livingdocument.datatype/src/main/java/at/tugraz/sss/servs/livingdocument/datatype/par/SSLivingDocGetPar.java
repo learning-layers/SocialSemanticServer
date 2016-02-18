@@ -23,13 +23,13 @@ package at.tugraz.sss.servs.livingdocument.datatype.par;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import java.sql.*;
 
 public class SSLivingDocGetPar extends SSServPar{
   
   public SSUri   livingDoc            = null;
   public boolean setUsers             = false;
   public boolean setDiscs             = false;
+  public boolean setAttachedEntities  = false;
   
   public void setLivingDoc(final String livingDoc) throws SSErr{
     this.livingDoc = SSUri.get(livingDoc);

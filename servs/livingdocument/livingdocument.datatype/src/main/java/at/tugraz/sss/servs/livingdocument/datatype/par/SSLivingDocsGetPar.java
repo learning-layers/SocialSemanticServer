@@ -23,13 +23,13 @@ package at.tugraz.sss.servs.livingdocument.datatype.par;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import java.sql.*;
 
 public class SSLivingDocsGetPar extends SSServPar{
   
   public SSUri   forUser              = null;
   public boolean setUsers             = false;
   public boolean setDiscs             = false;
+  public boolean setAttachedEntities  = false;
 
   public String getForUser(){
     return SSStrU.removeTrailingSlash(forUser);

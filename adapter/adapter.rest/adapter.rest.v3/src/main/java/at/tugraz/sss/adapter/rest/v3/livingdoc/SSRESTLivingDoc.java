@@ -145,7 +145,7 @@ public class SSRESTLivingDoc{
     
     final SSLivingDocsGetRESTPar input){
     
-    final SSLivingDocGetPar par;
+    final SSLivingDocGetPar  par;
     Connection               sqlCon = null;
     
     try{
@@ -166,8 +166,9 @@ public class SSRESTLivingDoc{
             true,  //withUserRestriction
             true); //invokeEntityHandlers
         
-        par.setUsers = input.setUsers;
-        par.setDiscs = input.setDiscs;
+        par.setUsers             = input.setUsers;
+        par.setDiscs             = input.setDiscs;
+        par.setAttachedEntities  = input.setAttachedEntities;
         
       }catch(Exception error){
         return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
@@ -234,8 +235,9 @@ public class SSRESTLivingDoc{
             true,  //withUserRestriction
             true); //invokeEntityHandlers
         
-        par.setUsers = input.setUsers;
-        par.setDiscs = input.setDiscs;
+        par.setUsers            = input.setUsers;
+        par.setDiscs            = input.setDiscs;
+        par.setAttachedEntities = input.setAttachedEntities;
         
       }catch(Exception error){
         return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();

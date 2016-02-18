@@ -441,7 +441,7 @@ implements
 
     try{
       
-      SSLivingDocument       livingDoc        = sql.getLivingDoc(par, par.livingDoc);
+      SSLivingDocument livingDoc = sql.getLivingDoc(par, par.livingDoc);
       
       if(livingDoc == null){
         return null;
@@ -452,7 +452,8 @@ implements
       if(par.invokeEntityHandlers){
         descPar = new SSEntityDescriberPar(par.livingDoc);
         
-        descPar.setDiscs = par.setDiscs;
+        descPar.setDiscs             = par.setDiscs;
+        descPar.setAttachedEntities  = par.setAttachedEntities;
       }else{
         descPar = null;
       }
@@ -490,7 +491,7 @@ implements
             par,
             par.user,
             userURIs, //entities
-            descPar, //descpar
+            descPar, //descPar
             par.withUserRestriction)));
       
       return livingDoc;
@@ -543,8 +544,9 @@ implements
           par.withUserRestriction,
           par.invokeEntityHandlers);
       
-      livingDocGetPar.setUsers = par.setUsers;
-      livingDocGetPar.setDiscs = par.setDiscs;
+      livingDocGetPar.setUsers            = par.setUsers;
+      livingDocGetPar.setDiscs            = par.setDiscs;
+      livingDocGetPar.setAttachedEntities = par.setAttachedEntities;
       
       for(SSUri livingDocUri : livinDocURIs){
       
