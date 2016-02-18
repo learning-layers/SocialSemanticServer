@@ -156,6 +156,8 @@ implements
         }
         
         fileWriter.writeNext((String[]) lineParts.toArray(new String[lineParts.size()]));
+        
+        fileWriter.flush();
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -264,6 +266,8 @@ implements
           lineParts.add(SSStrU.toStr(entity.context));
           
           fileWriter.writeNext((String[]) lineParts.toArray(new String[lineParts.size()]));
+          
+          fileWriter.flush();
         }
       }
     }catch(Exception error){
@@ -313,6 +317,8 @@ implements
       }
       
       fileWriter.writeNext((String[]) lineParts.toArray(new String[lineParts.size()]));
+      
+      fileWriter.flush();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }finally{
@@ -391,6 +397,8 @@ implements
         lineParts.add(StringUtils.join(users, SSStrU.comma));
         
         fileWriter.writeNext((String[]) lineParts.toArray(new String[lineParts.size()]));
+        
+        fileWriter.flush();
       }
       
     }catch(Exception error){
