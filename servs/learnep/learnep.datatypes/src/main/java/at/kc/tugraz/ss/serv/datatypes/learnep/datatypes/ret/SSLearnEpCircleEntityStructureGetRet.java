@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2016, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,25 +20,21 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
-import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSLearnEpsGetRet extends SSServRetI{
+public class SSLearnEpCircleEntityStructureGetRet extends SSServRetI{
 
-  public List<SSEntity> learnEps = new ArrayList<>();
+  public List<SSEntity> circles = new ArrayList<>();
 
-  public static SSLearnEpsGetRet get(final List<SSEntity> learnEp){
-    return new SSLearnEpsGetRet(learnEp);
-  }
-  
-  private SSLearnEpsGetRet(
-    final List<SSEntity> learnEps){
+  public SSLearnEpCircleEntityStructureGetRet(
+    final List<SSEntity> circles){
     
-    super(SSVarNames.learnEpsGet);
+    super(SSVarNames.learnEpCircleEntityStructureGet);
     
-    SSEntity.addEntitiesDistinctWithoutNull(this.learnEps, learnEps);
+    SSEntity.addEntitiesDistinctWithoutNull(this.circles, circles);
   }
 }

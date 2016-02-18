@@ -24,10 +24,10 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.util.*;
 
 public interface SSLearnEpClientI {
 
+  public SSServRetI learnEpCircleEntityStructureGet     (final SSClientE clientType, final SSServPar parA) throws SSErr;
   public SSServRetI learnEpRemove                       (final SSClientE clientType, final SSServPar parA) throws SSErr;
   public SSServRetI learnEpsGet                         (final SSClientE clientType, final SSServPar parA) throws SSErr;
   public SSServRetI learnEpVersionsGet                  (final SSClientE clientType, final SSServPar parA) throws SSErr;

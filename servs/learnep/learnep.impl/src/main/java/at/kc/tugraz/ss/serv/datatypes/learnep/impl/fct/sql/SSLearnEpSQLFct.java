@@ -272,7 +272,7 @@ public class SSLearnEpSQLFct extends SSCoreSQL{
   
   public List<SSUri> getLearnEpVersionURIs(
     final SSServPar servPar,
-    final SSUri learnEpUri) throws SSErr {
+    final SSUri     learnEpUri) throws SSErr {
     
     ResultSet resultSet       = null;
 

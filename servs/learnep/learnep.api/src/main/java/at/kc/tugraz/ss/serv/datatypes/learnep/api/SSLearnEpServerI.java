@@ -33,6 +33,7 @@ import java.util.List;
 
 public interface SSLearnEpServerI extends SSServServerI{
   
+  public List<SSEntity>               learnEpCircleEntityStructureGet      (final SSLearnEpCircleEntityStructureGetPar     par) throws SSErr;
   public SSLearnEp                    learnEpGet                           (final SSLearnEpGetPar                          par) throws SSErr;
   public List<SSEntity>               learnEpsGet                          (final SSLearnEpsGetPar                         par) throws SSErr;
   public List<SSEntity>               learnEpVersionsGet                   (final SSLearnEpVersionsGetPar                  par) throws SSErr;

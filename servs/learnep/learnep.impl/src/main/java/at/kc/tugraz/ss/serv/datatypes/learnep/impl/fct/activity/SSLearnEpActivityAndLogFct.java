@@ -62,7 +62,7 @@ public class SSLearnEpActivityAndLogFct{
     final SSUri                        circle,
     final SSUri                        learnEp,
     final boolean                      shouldCommit) throws SSErr{
-    
+
     try{
       
       activityServ.activityAdd(

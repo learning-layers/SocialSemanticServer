@@ -728,6 +728,55 @@ implements
   }
   
   @Override
+  public SSServRetI learnEpCircleEntityStructureGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
+    
+     try{
+      
+      userCommons.checkKeyAndSetUser(parA);
+      
+      final SSLearnEpCircleEntityStructureGetPar par = (SSLearnEpCircleEntityStructureGetPar) parA.getFromClient(clientType, parA, SSLearnEpCircleEntityStructureGetPar.class);
+      
+      return new SSLearnEpCircleEntityStructureGetRet(learnEpCircleEntityStructureGet(par));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSEntity> learnEpCircleEntityStructureGet(final SSLearnEpCircleEntityStructureGetPar par) throws SSErr{
+    
+    try{
+      
+      final List<SSUri> versions = sql.getLearnEpVersionURIs(par, par.learnEp);
+
+      if(versions.isEmpty()){
+        return new ArrayList<>();
+      }
+      
+      return learnEpVersionCirclesWithEntriesGet(
+        new SSLearnEpVersionCirclesWithEntriesGetPar(
+          par,
+          par.user,
+          versions.get(0),
+          par.withUserRestriction,
+          par.invokeEntityHandlers));
+      
+    }catch(Exception error){
+      
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+      
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
   public SSServRetI learnEpRemove(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{

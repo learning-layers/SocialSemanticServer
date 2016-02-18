@@ -2055,6 +2055,30 @@
         }
       }
     },
+    "/learneps/{learnEp}/structure/circles/entities" : {
+      "get" : {
+        "tags" : [ "learneps" ],
+        "summary" : "retrieve the circle bit structure for episode",
+        "description" : "",
+        "operationId" : "learnEpCircleEntityStructureGet",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "learnEp",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLearnEpCircleEntityStructureGetRet"
+            }
+          }
+        }
+      }
+    },
     "/learneps/{learnEp}/versions" : {
       "get" : {
         "tags" : [ "learneps" ],
@@ -4440,6 +4464,21 @@
         },
         "user" : {
           "type" : "string"
+        }
+      }
+    },
+    "SSLearnEpCircleEntityStructureGetRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "circles" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
         }
       }
     },
