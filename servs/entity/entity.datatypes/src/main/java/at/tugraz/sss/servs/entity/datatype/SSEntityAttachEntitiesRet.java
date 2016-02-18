@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2016, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,24 +20,22 @@
 */
 package at.tugraz.sss.servs.entity.datatype;
 
+import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 
-public class SSEntityGetRet extends SSServRetI{
+public class SSEntityAttachEntitiesRet extends SSServRetI{
 
-  public SSEntity entity = null;
-
-  public static SSEntityGetRet get(
-    final SSEntity     entity){
-    
-    return new SSEntityGetRet(entity);
-  }
+  public SSUri entity = null;
   
-  private SSEntityGetRet(
-    final SSEntity     entity){
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
+  }
+
+  public SSEntityAttachEntitiesRet(
+    final SSUri     entity){
     
-    super(SSVarNames.entityGet);
+    super(SSVarNames.entityAttachEntities);
     
     this.entity = entity;
   }

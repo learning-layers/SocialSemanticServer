@@ -37,7 +37,6 @@ import at.tugraz.sss.serv.datatype.par.SSEntityCopyPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityFromTypeAndLabelGetPar;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntitiesGetRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityCopyRet;
-import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityGetRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUpdateRet;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
@@ -1041,6 +1040,22 @@ implements
         SSLogU.err(error2);
       }
       
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public SSServRetI entityEntitiesAttach(final SSClientE clientType, final SSServPar parA) throws SSErr {
+    
+    try{
+      userCommons.checkKeyAndSetUser(parA);
+      
+      final SSEntityAttachEntitiesPar par = (SSEntityAttachEntitiesPar) parA.getFromClient(clientType, parA, SSEntityAttachEntitiesPar.class);
+      
+      return new SSEntityAttachEntitiesRet(entityEntitiesAttach(par));
+      
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

@@ -35,7 +35,8 @@ public interface SSEntityClientI {
   public SSServRetI entityShare           (final SSClientE clientType, final SSServPar parA) throws SSErr;
   public SSServRetI entityUnpublicize     (final SSClientE clientType, final SSServPar parA) throws SSErr;
   public SSServRetI entitiesAccessibleGet (final SSClientE clientType, final SSServPar parA) throws SSErr;
-  
+  public SSServRetI entityEntitiesAttach  (final SSClientE clientType, final SSServPar parA) throws SSErr;
+    
   public SSServRetI circleGet             (final SSClientE clientType, final SSServPar parA) throws SSErr;
   public SSServRetI circleEntitiesAdd     (final SSClientE clientType, final SSServPar parA) throws SSErr;
   public SSServRetI circleUsersAdd        (final SSClientE clientType, final SSServPar parA) throws SSErr;

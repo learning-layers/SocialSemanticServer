@@ -21,12 +21,9 @@
 package at.tugraz.sss.serv.datatype.par;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import java.util.ArrayList;
 import java.util.List;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
-import java.sql.*;
 
 public class SSEntityAttachEntitiesPar extends SSServPar{
 
@@ -52,7 +49,7 @@ public class SSEntityAttachEntitiesPar extends SSServPar{
   public SSEntityAttachEntitiesPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSEntityAttachEntitiesPar(
-    final SSServPar servPar,
+    final SSServPar           servPar,
     final SSUri               user,
     final SSUri               entity,
     final List<SSUri>         entities,

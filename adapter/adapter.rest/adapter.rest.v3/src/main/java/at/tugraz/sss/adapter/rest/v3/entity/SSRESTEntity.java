@@ -35,6 +35,7 @@ import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.servs.entity.datatype.*;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntitiesGetRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityCopyRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityShareRet;
@@ -43,6 +44,7 @@ import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUnpublicizeRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUpdateRet;
 import io.swagger.annotations.*;
 import java.sql.*;
+import java.util.*;
 import javax.annotation.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -116,6 +118,76 @@ public class SSRESTEntity{
         final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
         
         return Response.status(200).entity(entityServ.entitiesAccessibleGet(SSClientE.rest, par)).build();
+        
+      }catch(Exception error){
+        return SSRestMain.prepareErrorResponse(error);
+      }
+    }finally{
+      
+      try{
+        
+        if(sqlCon != null){
+          sqlCon.close();  
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
+    }
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/{entity}/attach/entities/{entities}")
+  @ApiOperation(
+    value = "attach entities",
+    response = SSEntityAttachEntitiesRet.class)
+  public Response entitiesAttachPost(
+    @Context
+    final HttpHeaders headers,
+    
+    @PathParam(SSVarNames.entity)
+    final String entity,
+      
+    @PathParam(SSVarNames.entities)
+    final String entities){
+    
+    final SSEntityAttachEntitiesPar par;
+    Connection                      sqlCon = null;
+    
+    try{
+      
+      try{
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+      }catch(Exception error){
+        return SSRestMain.prepareErrorResponse(error);
+      }
+      
+      try{
+        
+        par =
+          new SSEntityAttachEntitiesPar(
+            new SSServPar(sqlCon),
+            null, //user
+            SSUri.get(entity, SSConf.sssUri), //entity
+            SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSConf.sssUri), //entities
+            true, //withUserRestriction
+            true); //shouldCommit
+        
+      }catch(Exception error){
+        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
+      }
+      
+      try{
+        par.key = SSRestMain.getBearer(headers);
+      }catch(Exception error){
+        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
+      }
+      
+      try{
+        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
+        return Response.status(200).entity(entityServ.entityEntitiesAttach(SSClientE.rest, par)).build();
         
       }catch(Exception error){
         return SSRestMain.prepareErrorResponse(error);

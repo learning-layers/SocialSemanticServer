@@ -1270,6 +1270,35 @@
         }
       }
     },
+    "/entities/{entity}/attach/entities/{entities}" : {
+      "post" : {
+        "tags" : [ "entities" ],
+        "summary" : "attach entities",
+        "description" : "",
+        "operationId" : "entitiesAttachPost",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entity",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "entities",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSEntityAttachEntitiesRet"
+            }
+          }
+        }
+      }
+    },
     "/entities/{entity}/comments" : {
       "post" : {
         "tags" : [ "entities" ],
@@ -4242,6 +4271,18 @@
     },
     "SSEntityA" : {
       "type" : "object"
+    },
+    "SSEntityAttachEntitiesRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "entity" : {
+          "type" : "string"
+        }
+      }
     },
     "SSEntityCopyRet" : {
       "type" : "object",
