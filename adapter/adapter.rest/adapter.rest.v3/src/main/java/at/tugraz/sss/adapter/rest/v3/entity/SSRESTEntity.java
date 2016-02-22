@@ -372,16 +372,17 @@ public class SSRESTEntity{
       
       try{
         
-        descPar.circle            = input.circle;
-        descPar.space             = input.tagSpace;
-        descPar.setTags           = input.setTags;
-        descPar.setOverallRating  = input.setOverallRating;
-        descPar.setDiscs          = input.setDiscs;
-        descPar.setUEs            = input.setUEs;
-        descPar.setThumb          = input.setThumb;
-        descPar.setFlags          = input.setFlags;
-        descPar.setCircles        = input.setCircles;
-        descPar.setProfilePicture = input.setProfilePicture;
+        descPar.circle              = input.circle;
+        descPar.space               = input.tagSpace;
+        descPar.setTags             = input.setTags;
+        descPar.setOverallRating    = input.setOverallRating;
+        descPar.setDiscs            = input.setDiscs;
+        descPar.setUEs              = input.setUEs;
+        descPar.setThumb            = input.setThumb;
+        descPar.setFlags            = input.setFlags;
+        descPar.setCircles          = input.setCircles;
+        descPar.setProfilePicture   = input.setProfilePicture;
+        descPar.setAttachedEntities = input.setAttachedEntities;
         
         par =
           new SSEntitiesGetPar(

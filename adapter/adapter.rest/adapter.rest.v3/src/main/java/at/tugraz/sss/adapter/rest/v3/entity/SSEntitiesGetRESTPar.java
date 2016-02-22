@@ -92,9 +92,14 @@ public class SSEntitiesGetRESTPar{
   
   
   @ApiModelProperty( 
-    required = false, 
+    required = false,
     value = "")
   public boolean     setProfilePicture   = false;
+  
+  @ApiModelProperty(
+    required = false,
+    value = "")
+  public boolean     setAttachedEntities   = false;
   
   public SSEntitiesGetRESTPar(){/* Do nothing because of only JSON Jackson needs this */ }
 }

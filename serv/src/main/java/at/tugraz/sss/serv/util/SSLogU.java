@@ -38,7 +38,7 @@ public class SSLogU{
     p.setProperty("log4j.appender.console", "org.apache.log4j.ConsoleAppender");
     p.setProperty("log4j.appender.console.layout", "org.apache.log4j.PatternLayout");
     p.setProperty("log4j.appender.console.layout.ConversionPattern", "%d %5p - %m%n");
-    p.setProperty("log4j.appender.console.threshold", "DEBUG");
+    p.setProperty("log4j.appender.console.threshold", "INFO");
     
     p.setProperty("log4j.appender.file", "org.apache.log4j.RollingFileAppender");
     p.setProperty("log4j.appender.file.File", workDirPath + SSFileU.fileNameSSSLog);
