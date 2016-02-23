@@ -318,7 +318,7 @@ public class SSRESTLivingDoc{
       try{
         final SSLivingDocClientI ldServ = (SSLivingDocClientI) SSServReg.getClientServ(SSLivingDocClientI.class);
         
-        return Response.status(200).entity(ldServ.livingDocsGet(SSClientE.rest, par)).build();
+        return Response.status(200).entity(ldServ.livingDocGet(SSClientE.rest, par)).build();
         
       }catch(Exception error){
         return SSRestMain.prepareErrorResponse(error);

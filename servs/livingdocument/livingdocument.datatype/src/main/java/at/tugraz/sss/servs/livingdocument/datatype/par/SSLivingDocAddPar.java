@@ -25,7 +25,6 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
-import java.sql.*;
 
 public class SSLivingDocAddPar extends SSServPar{
   
