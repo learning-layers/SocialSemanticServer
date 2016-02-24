@@ -18,13 +18,12 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-package at.kc.tugraz.ss.serv.datatypes.learnep.impl;
+package at.tugraz.sss.servs.learnep.impl;
 
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionsGetPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.misc.SSEntityFiller;
@@ -37,11 +36,11 @@ public class SSLearnEpVersionsGetFct {
 
   private final SSEntityFiller        entityFiller =  new SSEntityFiller();
   private final SSEntityServerI       entityServ;
-  private final SSLearnEpSQLFct       sqlFct;
+  private final SSLearnEpSQL       sqlFct;
   
   public SSLearnEpVersionsGetFct(
     final SSEntityServerI  entityServ, 
-    final SSLearnEpSQLFct  sqlFct){
+    final SSLearnEpSQL  sqlFct){
     
     this.entityServ = entityServ;
     this.sqlFct     = sqlFct;

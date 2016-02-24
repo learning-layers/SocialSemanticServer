@@ -18,16 +18,14 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.activity;
+package at.tugraz.sss.servs.learnep.impl;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.activity.datatypes.*;
 import at.kc.tugraz.ss.activity.datatypes.enums.*;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.par.*;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.*;
-import at.kc.tugraz.ss.serv.datatypes.learnep.impl.SSLearnEpImpl;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import java.util.List;
@@ -37,23 +35,13 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.reg.*;
 import java.util.ArrayList;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
-public class SSLearnEpActivityAndLogFct{
-  
-  private final SSActivityServerI activityServ;
-  private final SSEvalServerI     evalServ;
-  
-  public SSLearnEpActivityAndLogFct(
-    final SSActivityServerI activityServ,
-    final SSEvalServerI     evalServ){
-    
-    this.activityServ = activityServ;
-    this.evalServ     = evalServ;
-  }
+public class SSLearnEpActAndLog{
   
   public void addCircleToLearnEpVersion(
     final SSServPar servPar,
@@ -64,7 +52,8 @@ public class SSLearnEpActivityAndLogFct{
     final boolean                      shouldCommit) throws SSErr{
 
     try{
-      
+      final SSActivityServerI activityServ = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+       
       activityServ.activityAdd(
         new SSActivityAddPar(
           servPar,
@@ -90,6 +79,8 @@ public class SSLearnEpActivityAndLogFct{
     
     try{
       
+      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+        
       evalServ.evalLog(
         new SSEvalLogPar(
           servPar,
@@ -115,7 +106,7 @@ public class SSLearnEpActivityAndLogFct{
     }
   }
   
-  public void addEntityToLearnEpVersion(
+  public void addLearnEpEntity(
     final SSServPar servPar,
     final SSUri                        user,
     final SSUri                        learnEpVersion,
@@ -125,6 +116,8 @@ public class SSLearnEpActivityAndLogFct{
     final boolean                      shouldCommit) throws SSErr{
     
     try{
+      
+      final SSActivityServerI activityServ = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
       
       activityServ.activityAdd(
         new SSActivityAddPar(
@@ -150,6 +143,8 @@ public class SSLearnEpActivityAndLogFct{
     }
     
     try{
+      
+      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -186,6 +181,8 @@ public class SSLearnEpActivityAndLogFct{
     
     try{
       
+      final SSActivityServerI activityServ = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+      
       activityServ.activityAdd(
         new SSActivityAddPar(
           servPar,
@@ -210,6 +207,8 @@ public class SSLearnEpActivityAndLogFct{
     }
     
     try{
+      
+      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -237,16 +236,17 @@ public class SSLearnEpActivityAndLogFct{
   }
   
   public void handleRemoveLearnEpVersionCircleWithEntities(
-    final SSServPar servPar,
+    final SSServPar                       servPar,
     final SSUri                           user,
     final SSUri                           learnEpVersion,
     final SSUri                           learnEp,
     final SSEntity                        learnEpCircle,
+    final List<SSUri>                     entities,
     final boolean                         shouldCommit) throws SSErr{
     
     try{
       
-      if(learnEpCircle.entries.isEmpty()){
+      if(entities.isEmpty()){
         
         removeLearnEpVersionCircle(
           servPar,
@@ -264,6 +264,7 @@ public class SSLearnEpActivityAndLogFct{
           learnEpVersion,
           learnEp,
           learnEpCircle,
+          entities,
           shouldCommit);
       }
       
@@ -280,30 +281,31 @@ public class SSLearnEpActivityAndLogFct{
   }
   
   public void removeLearnEpVersionCircleWithEntities(
-    final SSServPar servPar,
+    final SSServPar                       servPar,
     final SSUri                           user,
     final SSUri                           learnEpVersion,
     final SSUri                           learnEp,
     final SSEntity                        learnEpCircle,
+    final List<SSUri>                     entities,
     final boolean                         shouldCommit) throws SSErr{
     
-    final List<SSUri> uris = new ArrayList<>();
+    final List<SSUri>       entitiesForActAndLog = new ArrayList<>();
     
-    uris.add(learnEpCircle.id);
-    uris.add(learnEp);
+    SSUri.addDistinctWithoutNull(
+      entitiesForActAndLog,
+      learnEp);
     
-    for(SSEntity learnEpEntity : learnEpCircle.entries){
-      
-      if(((SSLearnEpEntity) learnEpEntity).entity == null){
-        continue;
-      }
-      
-      SSUri.addDistinctWithoutNull(
-        uris,
-        ((SSLearnEpEntity) learnEpEntity).entity.id);
-    }
+    SSUri.addDistinctWithoutNull(
+      entitiesForActAndLog,
+      learnEpCircle.id);
+    
+    SSUri.addDistinctWithoutNull(
+      entitiesForActAndLog,
+      entities);
     
     try{
+      
+      final SSActivityServerI activityServ         = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
       
       activityServ.activityAdd(
         new SSActivityAddPar(
@@ -312,7 +314,7 @@ public class SSLearnEpActivityAndLogFct{
           SSActivityE.removeLearnEpVersionCircleWithEntitites,
           learnEpVersion, //entitiy
           null,
-          uris, //entities
+          entitiesForActAndLog, //entities
           null,
           null,
           shouldCommit));
@@ -330,6 +332,8 @@ public class SSLearnEpActivityAndLogFct{
     
     try{
       
+      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      
       evalServ.evalLog(
         new SSEvalLogPar(
           servPar,
@@ -338,7 +342,7 @@ public class SSLearnEpActivityAndLogFct{
           SSEvalLogE.removeLearnEpVersionCircleWithEntitites,
           learnEpCircle.id,
           null, //content
-          uris, //entities
+          entitiesForActAndLog, //entities
           null, //users
           null, //creationTime
           shouldCommit));
@@ -355,7 +359,7 @@ public class SSLearnEpActivityAndLogFct{
     }
   }
   
-  public void removeLearnEpVersionEntity(
+  public void removeLearnEpEntity(
     final SSServPar servPar,
     final SSUri                           user,
     final SSUri                           learnEpVersion,
@@ -365,6 +369,8 @@ public class SSLearnEpActivityAndLogFct{
     final boolean                         shouldCommit) throws SSErr{
     
     try{
+      
+      final SSActivityServerI activityServ         = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
       
       activityServ.activityAdd(
         new SSActivityAddPar(
@@ -390,6 +396,8 @@ public class SSLearnEpActivityAndLogFct{
     }
     
     try{
+      
+      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -425,6 +433,8 @@ public class SSLearnEpActivityAndLogFct{
     
     try{
       
+      final SSActivityServerI activityServ         = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+      
       activityServ.activityAdd(
         new SSActivityAddPar(
           servPar,
@@ -459,6 +469,8 @@ public class SSLearnEpActivityAndLogFct{
     
     try{
       
+      final SSActivityServerI activityServ         = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+      
       activityServ.activityAdd(
         new SSActivityAddPar(
           servPar,
@@ -483,6 +495,8 @@ public class SSLearnEpActivityAndLogFct{
     }
     
     try{
+      
+      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -522,6 +536,8 @@ public class SSLearnEpActivityAndLogFct{
     
     try{
       
+      final SSActivityServerI activityServ = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+        
       if(
         label != null &&
         !SSStrU.isEqual(circleEntity.label, label)){
@@ -582,7 +598,7 @@ public class SSLearnEpActivityAndLogFct{
     }
   }
   
-  public void removeEntityFromLearnEpCircle(
+  private void removeLearnEpEntityFromCircle(
     final SSServPar servPar,
     final SSUri   user,
     final SSUri   learnEp,
@@ -593,6 +609,8 @@ public class SSLearnEpActivityAndLogFct{
     final boolean shouldCommit) throws SSErr{
     
     try{
+      
+      final SSActivityServerI activityServ         = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
       
       activityServ.activityAdd(
         new SSActivityAddPar(
@@ -619,6 +637,8 @@ public class SSLearnEpActivityAndLogFct{
     
     try{
       
+      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      
       evalServ.evalLog(
         new SSEvalLogPar(
           servPar,
@@ -644,17 +664,18 @@ public class SSLearnEpActivityAndLogFct{
     }
   }
   
-  public void addEntityToLearnEpCircle(
+  public void addLearnEpEntityToCircle(
     final SSServPar servPar,
-    final SSUri   user,
-    final SSUri   learnEp,
-    final SSUri   learnEpVersion,
-    final SSUri   learnEpEntity,
-    final SSUri   entity,
-    final SSUri   circle,
-    final boolean shouldCommit) throws SSErr{
+    final SSUri     user,
+    final SSUri     learnEp,
+    final SSUri     learnEpVersion,
+    final SSUri     entity,
+    final SSUri     learnEpCircle,
+    final boolean   shouldCommit) throws SSErr{
     
     try{
+      
+      final SSActivityServerI activityServ         = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
       
       activityServ.activityAdd(
         new SSActivityAddPar(
@@ -663,7 +684,7 @@ public class SSLearnEpActivityAndLogFct{
           SSActivityE.addEntityToLearnEpCircle, //type
           learnEpVersion, //entity
           null, //users
-          SSUri.asListNotNull(circle, entity, learnEp), //entities
+          SSUri.asListNotNull(learnEpCircle, entity, learnEp), //entities
           null, //comments
           null, //creationTime
           shouldCommit));
@@ -681,15 +702,17 @@ public class SSLearnEpActivityAndLogFct{
     
     try{
       
+      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      
       evalServ.evalLog(
         new SSEvalLogPar(
           servPar,
           user,
           SSToolContextE.organizeArea,
           SSEvalLogE.addEntityToLearnEpCircle,
-          entity,
+          entity, //entity
           null, //content
-          SSUri.asListNotNull(learnEp, circle), //entities
+          SSUri.asListNotNull(learnEp, learnEpCircle), //entities
           null, //users
           null, //creationTime
           shouldCommit));
@@ -706,73 +729,45 @@ public class SSLearnEpActivityAndLogFct{
     }
   }
   
-  public void handleEntityAddToOrRemoveFromLearnEpCircle(
-    final SSServPar servPar,
-    final SSLearnEpImpl  learnEpServ,
-    final SSUri          user,
-    final SSUri          learnEp,
-    final SSUri          learnEpVersion,
-    final SSUri          learnEpEntity,
-    final SSUri          entity,
-    final List<SSEntity> versionCirclesBefore,
-    final boolean        calledFromRemove,
-    final boolean        calledFromAdd,
-    final boolean        shouldCommit) throws SSErr{
+  public void handleRemoveLearnEpEntity(
+    final SSServPar   servPar,
+    final SSUri       user, 
+    final SSUri       learnEp,
+    final SSUri       learnEpVersion,
+    final SSUri       learnEpEntity,
+    final SSUri       entity,
+    final List<SSUri> learnEpEntityCircleURIsBefore, 
+    final List<SSUri> learnEpEntityCircleURIsAfter, 
+    final boolean     calledFromRemove,
+    final boolean     shouldCommit) throws SSErr{
     
     try{
-      
-      final List<SSEntity> versionCirclesAfter     = new ArrayList<>();
-      final List<SSUri>    entityCircleUrisBefore  = new ArrayList<>();
-      final List<SSUri>    entityCircleUrisAfter   = new ArrayList<>();
-      
-      versionCirclesAfter.addAll(
-        learnEpServ.learnEpVersionCirclesWithEntriesGet(
-          new SSLearnEpVersionCirclesWithEntriesGetPar(
-            servPar,
-            user,
-            learnEpVersion,
-            false, //withUserRestriction
-            false))); //invokeEntityHandlers
-      
-      for(SSEntity circle : versionCirclesBefore){
-        
-        if(SSStrU.contains(circle.entries, learnEpEntity)){
-          SSUri.addDistinctWithoutNull(entityCircleUrisBefore, circle.id);
-        }
-      }
-      
-      for(SSEntity circle : versionCirclesAfter){
-        
-        if(SSStrU.contains(circle.entries, learnEpEntity)){
-          SSUri.addDistinctWithoutNull(entityCircleUrisAfter, circle.id);
-        }
-      }
-      
       boolean entityRemovedFromCircle = false;
       
-      for(SSUri circle : entityCircleUrisBefore){
+      for(SSUri circle : learnEpEntityCircleURIsBefore){
         
-        if(!SSStrU.contains(entityCircleUrisAfter, circle)){
-          
-          removeEntityFromLearnEpCircle(
-            servPar,
-            user,
-            learnEp,
-            learnEpVersion,
-            learnEpEntity,
-            entity,
-            circle,
-            shouldCommit);
-          
-          entityRemovedFromCircle = true;
+        if(SSStrU.contains(learnEpEntityCircleURIsAfter, circle)){
+          continue;
         }
+        
+        removeLearnEpEntityFromCircle(
+          servPar,
+          user,
+          learnEp,
+          learnEpVersion,
+          learnEpEntity,
+          entity,
+          circle,
+          shouldCommit);
+        
+        entityRemovedFromCircle = true;
       }
       
       if(
         !entityRemovedFromCircle &&
         calledFromRemove){
         
-        removeLearnEpVersionEntity(
+        removeLearnEpEntity(
           servPar,
           user,
           learnEpVersion,
@@ -782,31 +777,50 @@ public class SSLearnEpActivityAndLogFct{
           shouldCommit);
       }
       
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void handleAddLearnEpEntity(
+    final SSServPar   servPar,
+    final SSUri       user,
+    final SSUri       learnEp,
+    final SSUri       learnEpVersion,
+    final SSUri       learnEpEntity,
+    final SSUri       entity,
+    final List<SSUri> learnEpEntityCircleURIsBefore,
+    final List<SSUri> learnEpEntityCircleURIsAfter,
+    final boolean     calledFromAdd,
+    final boolean     shouldCommit) throws SSErr{
+    
+    try{
+      
       boolean entityAddToCircle = false;
       
-      for(SSUri circle : entityCircleUrisAfter){
+      for(SSUri learnEpCircleAfter : learnEpEntityCircleURIsAfter){
         
-        if(!SSStrU.contains(entityCircleUrisBefore, circle)){
-          
-          addEntityToLearnEpCircle(
-            servPar,
-            user,
-            learnEp,
-            learnEpVersion,
-            learnEpEntity,
-            entity,
-            circle,
-            shouldCommit);
-          
-          entityAddToCircle = true;
+        if(SSStrU.contains(learnEpEntityCircleURIsBefore, learnEpCircleAfter)){
+          continue;
         }
+        
+        addLearnEpEntityToCircle(
+          servPar,
+          user,
+          learnEp, //learnEp
+          learnEpVersion, //learnEpVersion
+          entity, //entity
+          learnEpCircleAfter, //learnEpCircle
+          shouldCommit);
+        
+        entityAddToCircle = true;
       }
       
       if(
         !entityAddToCircle &&
         calledFromAdd){
         
-        addEntityToLearnEpVersion(
+        addLearnEpEntity(
           servPar,
           user,
           learnEpVersion,
@@ -815,6 +829,7 @@ public class SSLearnEpActivityAndLogFct{
           learnEp,
           shouldCommit);
       }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -825,6 +840,8 @@ public class SSLearnEpActivityAndLogFct{
     final boolean            shouldCommit) throws SSErr{
     
     try{
+      
+      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -857,6 +874,8 @@ public class SSLearnEpActivityAndLogFct{
     final boolean            shouldCommit) throws SSErr{
     
     try{
+      
+      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
       
       evalServ.evalLog(
         new SSEvalLogPar(

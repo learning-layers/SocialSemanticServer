@@ -72,7 +72,7 @@ public class SSRestClient {
       
       caller.auth();
       
-      caller.getLivingDoc("http://178.62.62.23:9000/document/99999/");
+//      caller.getLivingDoc("http://178.62.62.23:9000/document/99999/");
       
 //      caller.updateRecomm(
 //        "dieter",  //realm

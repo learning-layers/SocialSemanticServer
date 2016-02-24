@@ -24,8 +24,6 @@ import at.tugraz.sss.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpClientI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
-import at.kc.tugraz.ss.serv.datatypes.learnep.impl.SSLearnEpImpl;
-import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access.SSLearnEpRemainingTimeTask;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.datatype.SSErr;
@@ -33,6 +31,7 @@ import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
+import at.tugraz.sss.servs.learnep.impl.*;
 import java.util.List;
 
 public class SSLearnEpServ extends SSServContainerI{

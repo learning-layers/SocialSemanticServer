@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access;
+package at.tugraz.sss.servs.learnep.impl;
 
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;

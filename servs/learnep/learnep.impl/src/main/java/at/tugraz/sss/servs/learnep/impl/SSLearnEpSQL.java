@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql;
+package at.tugraz.sss.servs.learnep.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.*;
 import at.tugraz.sss.conf.*;
@@ -36,9 +36,9 @@ import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-public class SSLearnEpSQLFct extends SSCoreSQL{
+public class SSLearnEpSQL extends SSCoreSQL{
   
-  public SSLearnEpSQLFct(final SSDBSQLI dbSQL){
+  public SSLearnEpSQL(final SSDBSQLI dbSQL){
     super(dbSQL);
   }
   
