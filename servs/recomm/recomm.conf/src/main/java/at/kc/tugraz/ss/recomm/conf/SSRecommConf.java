@@ -31,6 +31,7 @@ public class SSRecommConf extends SSServConfA{
   public Algorithm     recommResourceAlgorithm                = null;
   public Algorithm     recommUserAlgorithm                    = null;
   public List<String>  recommTagsRandomAlgos                  = new ArrayList<>();
+  public List<String>  recommTagsAlgoPerUser                  = new ArrayList<>();
   public List<String>  recommTagsUserPerRealm                 = new ArrayList<>();
   public List<String>  recommTagsUsersToSetRealmsFromCircles  = new ArrayList<>();
   
@@ -44,6 +45,10 @@ public class SSRecommConf extends SSServConfA{
     
     if(orig.recommTagsRandomAlgos != null){
       copy.recommTagsRandomAlgos.addAll(orig.recommTagsRandomAlgos);
+    }
+    
+    if(orig.recommTagsAlgoPerUser != null){
+      copy.recommTagsAlgoPerUser.addAll(orig.recommTagsAlgoPerUser);
     }
     
     if(orig.recommTagsUserPerRealm != null){

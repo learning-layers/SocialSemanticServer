@@ -48,7 +48,7 @@ public class SSEntityShareWithUsers {
   }
   
   public void handle(
-    final SSServPar servPar,
+    final SSServPar   servPar,
     final SSUri       user,
     final SSCircleE   circleType,
     final SSEntity    entity,

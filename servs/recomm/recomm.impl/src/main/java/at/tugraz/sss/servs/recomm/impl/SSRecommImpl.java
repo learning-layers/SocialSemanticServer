@@ -52,7 +52,8 @@ import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLikelihood;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
+import at.kc.tugraz.ss.service.user.datatypes.*;
+import at.kc.tugraz.ss.service.user.datatypes.pars.*;
 import at.tugraz.sss.adapter.socket.*;
 import at.tugraz.sss.serv.datatype.par.SSCirclesGetPar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
@@ -90,6 +91,7 @@ implements
   SSRecommServerI{
   
   private final SSUserCommons               userCommons     = new SSUserCommons();
+  private final SSRecommCommons             commons         = new SSRecommCommons();
   private final SSRecommUserRealmKeeper     userRealmKeeper = new SSRecommUserRealmKeeper();
   private final SSRecommSQL                 sql;
   
@@ -247,6 +249,7 @@ implements
     }
   }
   
+  
   @Override
   public List<SSTagLikelihood> recommTags(final SSRecommTagsPar par) throws SSErr{
     
@@ -317,16 +320,23 @@ implements
         }
       }
       
-      final List<SSTagLikelihood>  tags  = new ArrayList<>();
-      Algorithm                    algo = null;
-
-      if(
-        ((SSRecommConf) conf).recommTagsRandomAlgos != null &&
-        !((SSRecommConf) conf).recommTagsRandomAlgos.isEmpty()){
-        
-        algo = Algorithm.valueOf(((SSRecommConf) conf).recommTagsRandomAlgos.get(new Random().nextInt(((SSRecommConf) conf).recommTagsRandomAlgos.size())));
+      final SSUserServerI          userServ = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
+      final List<SSTagLikelihood>  tags    = new ArrayList<>();
+      final List<SSEntity>         users   = 
+        userServ.usersGet(
+        new SSUsersGetPar(
+          par,
+          par.user, 
+          SSUri.asListNotNull(par.user), //users
+          false)); //invokeEntityHandlers
+      
+      if(users.isEmpty()){
+        SSServErrReg.regErrThrow(SSErrE.userNotRegistered);
+        return null;
       }
       
+      final Algorithm algo = commons.getRecommTagsAlgo((SSRecommConf) conf, (SSUser) users.get(0));
+
       //Tags for user and resource: getEntitiesWithLikelihood(forUser,  entity,  null, 10, false, null, EntityType.TAG);  // BLLac+MPr
       //Tags for user:              getEntitiesWithLikelihood(forUser,  null,    null, 10, false, null, EntityType.TAG);  // BLL
       //Tags for resource:          getEntitiesWithLikelihood(null,     entity,  null, 10, false, null, EntityType.TAG);  // MPr

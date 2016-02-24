@@ -97,6 +97,9 @@ recomm: #files have to be provided in sss's_working_dir/data/csv/
     #- BLLcoll
     #- MP
     #- THREEL
+  recommTagsAlgoPerUser:
+    #- bn-testuser7@know-center.at:MPur
+    #- bn-testuser8@know-center.at:BLLacMPr
   recommTagsUserPerRealm:
     #- circle1:userEmail1
     #- circle1:userEmail2
