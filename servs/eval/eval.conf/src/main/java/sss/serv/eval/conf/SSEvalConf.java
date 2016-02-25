@@ -27,7 +27,6 @@ import java.util.List;
 
 public class SSEvalConf extends SSCoreServConfA{
   
-  public boolean      useOIDCSubForUserLabel = false;
   public List<String> ignoredUserLabels      = new ArrayList<>();
   
   public static SSEvalConf copy(final SSEvalConf orig){
@@ -35,8 +34,6 @@ public class SSEvalConf extends SSCoreServConfA{
     final SSEvalConf copy = (SSEvalConf) SSCoreServConfA.copy(orig, new SSEvalConf());
     
     SSStrU.addDistinctNotNull(copy.ignoredUserLabels, orig.ignoredUserLabels);
-    
-    copy.useOIDCSubForUserLabel = orig.useOIDCSubForUserLabel;
     
     return copy;
   }

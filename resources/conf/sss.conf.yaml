@@ -30,7 +30,6 @@ entity:
 jsonLD:
   use: true
 eval:
-  useOIDCSubForUserLabel:
   ignoredUserLabels:
   schedule: false
   executeScheduleAtStartUp: false

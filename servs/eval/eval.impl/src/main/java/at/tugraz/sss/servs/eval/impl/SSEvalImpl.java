@@ -394,7 +394,7 @@ implements
         logText      += par.query;
         blankLogText += par.query;
       }else{
-        logText    = SSStrU.empty;
+        logText      += SSStrU.empty;
         blankLogText += SSStrU.empty;
       }
       
@@ -621,19 +621,15 @@ implements
         return null;
       }
       
-      final SSUser originUser = (SSUser) originUsers.get(0);
+      final SSUser        originUser = (SSUser) originUsers.get(0);
+      final SSAuthServerI authServ   = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
       
-      if(((SSEvalConf) conf).useOIDCSubForUserLabel){
-        
-        final SSAuthServerI authServ = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
-        
-        originUser.oidcSub =
-            authServ.authUserOIDCSubGet(
-              new SSAuthUserOIDCSubGetPar(
-                par,
-                originUser.email));
-      }
-        
+      originUser.oidcSub =
+        authServ.authUserOIDCSubGet(
+          new SSAuthUserOIDCSubGetPar(
+            par,
+            originUser.email));
+      
       return originUser;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -688,20 +684,17 @@ implements
         return targetUsers;
       }
       
-      if(((SSEvalConf) conf).useOIDCSubForUserLabel){
+      final SSAuthServerI authServ = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
+      
+      for(SSEntity targetUser : targetUsers){
         
-        final SSAuthServerI authServ = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
-        
-        for(SSEntity targetUser : targetUsers){
-          
-          ((SSUser)targetUser).oidcSub =
-              authServ.authUserOIDCSubGet(
-                new SSAuthUserOIDCSubGetPar(
-                  par,
-                  ((SSUser)targetUser).email));
-        }
+        ((SSUser)targetUser).oidcSub =
+          authServ.authUserOIDCSubGet(
+            new SSAuthUserOIDCSubGetPar(
+              par,
+              ((SSUser)targetUser).email));
       }
-
+      
       return targetUsers;
       
     }catch(Exception error){
