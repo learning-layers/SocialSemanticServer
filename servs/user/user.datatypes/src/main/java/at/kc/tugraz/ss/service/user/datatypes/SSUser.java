@@ -39,6 +39,9 @@ public class SSUser extends SSEntity{
   @ApiModelProperty
   public String         email          = null;
   
+  @ApiModelProperty
+  public String         oidcSub        = null;
+  
   public static SSUser get(
     final SSEntity       entity) throws SSErr{
     
@@ -112,6 +115,6 @@ public class SSUser extends SSEntity{
     
     super(id, SSEntityE.user);
     
-    this.email = email;
+    this.email   = email;
   }
 }

@@ -18,27 +18,27 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.serv.ss.auth.datatypes.enums;
+ package at.tugraz.sss.servs.auth.datatype;
 
 import at.tugraz.sss.serv.util.*;
 
-public enum SSAuthEnum {
+public enum SSAuthE {
   
   wikiAuth, 
   csvFileAuth,
   oidc;
 
-  public static String toStr(final SSAuthEnum value) {
+  public static String toStr(final SSAuthE value) {
     return SSStrU.toStr(value);
   }
   
-  public static SSAuthEnum get(final String type) {
-    return SSAuthEnum.valueOf(type);
+  public static SSAuthE get(final String type) {
+    return SSAuthE.valueOf(type);
   }
     
   public static boolean isSame(
-    final SSAuthEnum type1, 
-    final SSAuthEnum type2){
+    final SSAuthE type1, 
+    final SSAuthE type2){
     
     if(SSObjU.isNull(type1, type2)){
       return false;

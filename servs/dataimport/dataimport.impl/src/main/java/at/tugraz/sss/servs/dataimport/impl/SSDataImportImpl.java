@@ -37,7 +37,7 @@ import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportMediaWikiUserP
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
 import at.tugraz.sss.servs.dataimport.impl.bnp.SSDataImportBNPEvernoteImporter;
 import at.tugraz.sss.servs.dataimport.impl.bnp.SSDataImportBNPMailImporter;
-import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
+import at.tugraz.sss.servs.auth.datatype.par.SSAuthRegisterUserPar;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.datatype.enums.*;
@@ -51,6 +51,7 @@ import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiProject;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgang;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgangEmployeeResource;
+import java.io.*;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.SSEvalLogEntry;
 
@@ -362,7 +363,7 @@ implements
           
           line  = lines.get(lineCounter);
           entry = new SSEvalLogEntry();
-          
+
           entry.timestamp                 = Long.valueOf      (line[0].trim());
           
           if(par.startTime > entry.timestamp){

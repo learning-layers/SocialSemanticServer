@@ -261,7 +261,7 @@ implements
   
   @Override
   public void entityCopied(
-    final SSServPar servPar, 
+    final SSServPar         servPar, 
     final SSEntityCopiedPar par) throws SSErr{
     
     try{

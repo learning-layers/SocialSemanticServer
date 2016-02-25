@@ -60,6 +60,7 @@ public class SSFileU{
   public static final String fileNameRunitSh                = "runit.sh";
   public static final String fileNameRunitBat               = "runit.bat";
   public static final String fileNameSSSEvalLog             = "sss.eval.log";
+  public static final String fileNameSSSEvalBlankLog        = "sss.eval.blank.log";
   public static final String fileNameSSSLog                 = "sss.log";
   
   private SSFileU(){/* Do nothing because of only JSON Jackson needs this */ }

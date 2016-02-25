@@ -31,12 +31,12 @@ import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCS
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
-import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
-import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckKeyPar;
-import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
-import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
-import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
-import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthRegisterUserRet;
+import at.tugraz.sss.servs.auth.datatype.par.SSAuthCheckCredPar;
+import at.tugraz.sss.servs.auth.datatype.par.SSAuthCheckKeyPar;
+import at.tugraz.sss.servs.auth.datatype.par.SSAuthRegisterUserPar;
+import at.tugraz.sss.servs.auth.datatype.par.SSAuthUsersFromCSVFileAddPar;
+import at.tugraz.sss.servs.auth.datatype.ret.SSAuthCheckCredRet;
+import at.tugraz.sss.servs.auth.datatype.ret.SSAuthRegisterUserRet;
 import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.coll.api.SSCollServerI;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootAddPar;
@@ -56,12 +56,14 @@ import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import at.tugraz.sss.servs.auth.datatype.par.*;
 import com.nimbusds.oauth2.sdk.*;
 import com.nimbusds.oauth2.sdk.http.*;
 import com.nimbusds.openid.connect.sdk.*;
 import java.io.*;
 import java.net.*;
 import java.security.*;
+import net.minidev.json.*;
 
 public class SSAuthImpl 
 extends 
@@ -70,16 +72,29 @@ implements
   SSAuthClientI, 
   SSAuthServerI{
   
-  private final List<String>    csvFileAuthKeys = new ArrayList<>();
-  private final SSAuthSQL       sql;
-  
-  private static final Map<String, String> oidcAuthTokens = new HashMap<>();
+  private final List<String>        csvFileAuthKeys = new ArrayList<>();
+  private final Map<String, String> oidcUserSubs    = new HashMap<>();
+  private final Map<String, String> oidcAuthTokens  = new HashMap<>();
+  private final SSAuthSQL           sql;
   
   public SSAuthImpl(final SSAuthConf conf) throws SSErr {
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
     this.sql = new SSAuthSQL(dbSQL);
+  }
+  
+  @Override
+  public String authUserOIDCSubGet(final SSAuthUserOIDCSubGetPar par) throws SSErr{
+    
+    try{
+      
+      return oidcUserSubs.get(par.email);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
   @Override
@@ -306,7 +321,7 @@ implements
             userUri = SSUri.get(oidcAuthTokens.get(par.key));
           }else{
           
-            final String email = getOIDCUserEmail(par.key);
+            final String email = setOIDCUser(par.key);
           
             if(!userServ.userExists(
               new SSUserExistsPar(
@@ -404,7 +419,7 @@ implements
     }
   }
   
-  private String getOIDCUserEmail(final String authToken) throws SSErr{
+  private String setOIDCUser(final String authToken) throws SSErr{
     
     // send request to OpenID Connect user info endpoint to retrieve complete user information
     // in exchange for access token.
@@ -448,7 +463,14 @@ implements
         }
       }
       
-      return (String) ((UserInfoSuccessResponse)userInfoResponse).getUserInfo().toJSONObject().get(SSVarNames.email);
+      final JSONObject userInfo = ((UserInfoSuccessResponse)userInfoResponse).getUserInfo().toJSONObject();
+      final String     email    = (String) userInfo.get(SSVarNames.email);
+        
+      if(!oidcUserSubs.containsKey(email)){
+        oidcUserSubs.put(email, (String) userInfo.get(SSVarNames.sub));
+      }
+      
+      return email;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

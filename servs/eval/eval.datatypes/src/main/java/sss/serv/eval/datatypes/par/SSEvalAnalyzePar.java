@@ -29,7 +29,7 @@ public class SSEvalAnalyzePar extends SSServPar{
   public SSEvalAnalyzePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSEvalAnalyzePar(
-    final SSServPar servPar,
+    final SSServPar      servPar,
     final SSUri          user){
     
     super(SSVarNames.evalAnalyze, null, user, servPar.sqlCon);

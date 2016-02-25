@@ -21,12 +21,12 @@
  package at.kc.tugraz.ss.serv.auth.conf;
 
 import at.tugraz.sss.serv.conf.api.SSCoreServConfA;
-import at.kc.tugraz.ss.serv.ss.auth.datatypes.enums.SSAuthEnum;
+import at.tugraz.sss.servs.auth.datatype.*;
 
 public class SSAuthConf extends SSCoreServConfA{
   
 //  public static final String   noAuthKey              = "1234";
-  public SSAuthEnum            authType               = null;
+  public SSAuthE               authType               = null;
   public String                oidcUserEndPointURI    = null;
   public String                oidcConfURI            = null;
   public String                systemUserPassword     = null;
@@ -35,7 +35,7 @@ public class SSAuthConf extends SSCoreServConfA{
     
     final SSAuthConf copy = (SSAuthConf) SSCoreServConfA.copy(orig, new SSAuthConf());
     
-    copy.authType               = SSAuthEnum.get(SSAuthEnum.toStr(orig.authType));
+    copy.authType               = SSAuthE.get(SSAuthE.toStr(orig.authType));
     copy.oidcUserEndPointURI    = orig.oidcUserEndPointURI;
     copy.oidcConfURI            = orig.oidcConfURI;
     copy.systemUserPassword     = orig.systemUserPassword;

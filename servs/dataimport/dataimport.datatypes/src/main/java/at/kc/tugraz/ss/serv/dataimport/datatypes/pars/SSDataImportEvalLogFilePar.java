@@ -23,24 +23,23 @@ package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import java.sql.*;
 
 public class SSDataImportEvalLogFilePar extends SSServPar{
 
-  public String filePath  = null;
-  public Long   startTime = null;
+  public String  filePath          = null;
+  public Long    startTime         = null;
   
   public SSDataImportEvalLogFilePar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSDataImportEvalLogFilePar(
     final SSServPar servPar,
-    final SSUri   user,
-    final String  filePath, 
-    final Long    startTime){
+    final SSUri     user,
+    final String    filePath, 
+    final Long      startTime){
     
     super(SSVarNames.dataImportEvalLogFile, null, user, servPar.sqlCon);
     
-    this.filePath  = filePath;
-    this.startTime = startTime;
+    this.filePath          = filePath;
+    this.startTime         = startTime;
   }
 }

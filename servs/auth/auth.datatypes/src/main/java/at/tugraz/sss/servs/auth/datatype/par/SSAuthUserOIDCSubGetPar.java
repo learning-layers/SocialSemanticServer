@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2016, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,42 +18,24 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.ss.auth.datatypes.pars;
+package at.tugraz.sss.servs.auth.datatype.par;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 
-public class SSAuthCheckCredPar extends SSServPar{
+public class SSAuthUserOIDCSubGetPar extends SSServPar{
 
-  public SSLabel label    = null;
-  public String  password = null;
+  public String  email = null;
   
-  public void setLabel(String label) throws SSErr{
-    this.label = SSLabel.get(label);
-  }
-  
-  public String getLabel(){
-    return SSStrU.toStr(label);
-  }
-
-  public SSAuthCheckCredPar(){/* Do nothing because of only JSON Jackson needs this */ }
+  public SSAuthUserOIDCSubGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
-  public SSAuthCheckCredPar(
+  public SSAuthUserOIDCSubGetPar(
     final SSServPar servPar,
-    final SSLabel   label, 
-    final String    password){
+    final String    email){
     
-    super(SSVarNames.authCheckCred, null, null, servPar.sqlCon);
+    super(SSVarNames.authUserOIDCSubGet, null, null, servPar.sqlCon);
     
-    this.label    = label;
-    this.password = password;
-  }
-  
-  public SSAuthCheckCredPar(
-    final SSServPar servPar,
-    final String   key){
-    
-    super(SSVarNames.authCheckCred, key, null, servPar.sqlCon);
+    this.email    = email;
   }
 }

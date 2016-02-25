@@ -36,9 +36,6 @@ import java.util.List;
 import java.util.Map;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.SSEvalLogEntry;
-import at.tugraz.sss.servs.eval.impl.analyze.SSEvalEpisodeShareInfo;
-import at.tugraz.sss.servs.eval.impl.analyze.SSEvalUserInfo;
-import at.tugraz.sss.servs.eval.impl.analyze.SSEvalWorkedOnReceivedSharedEpisodeInfo;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.*;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
@@ -51,17 +48,6 @@ import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocServerI;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocsGetPar;
 import sss.serv.eval.datatypes.par.*;
-import at.tugraz.sss.servs.eval.impl.analyze.SSEvalEpisodeCreationInfo;
-import at.tugraz.sss.servs.eval.impl.analyze.SSEvalActionInfo;
-import at.tugraz.sss.servs.eval.impl.analyze.SSEvalImportInfo;
-import at.tugraz.sss.servs.eval.impl.analyze.SSEvalLDInfo;
-import at.tugraz.sss.servs.eval.impl.analyze.SSEvalStartDiscussionInfo;
-import at.tugraz.sss.servs.eval.impl.analyze.SSEvalWorkedOnBitInfo;
-import at.tugraz.sss.servs.eval.impl.analyze.SSEvalWorkedOnEpisodeInfo;
-import at.tugraz.sss.servs.eval.impl.analyze.SSEvalWorkedOnOwnBitInfo;
-import at.tugraz.sss.servs.eval.impl.analyze.SSEvalWorkedOnOwnEpisodeInfo;
-import at.tugraz.sss.servs.eval.impl.analyze.SSEvalWorkedOnReceivedDiscussionInfo;
-import at.tugraz.sss.servs.eval.impl.analyze.SSEvalWorkedOnReceivedSharedBitInfo;
 
 //&lt; --> < 
 //&amp; --> &
@@ -112,8 +98,8 @@ public class SSEvalLogAnalyzer {
     
     try{
       
-      final SSLivingDocServerI    ldServ   = (SSLivingDocServerI) SSServReg.getServ(SSLivingDocServerI.class);
-      final SSDiscServerI         discServ = (SSDiscServerI)      SSServReg.getServ(SSDiscServerI.class);
+      final SSLivingDocServerI        ldServ   = (SSLivingDocServerI) SSServReg.getServ(SSLivingDocServerI.class);
+      final SSDiscServerI             discServ = (SSDiscServerI)      SSServReg.getServ(SSDiscServerI.class);
       final Map<String, SSEvalLDInfo> ldInfos  = new HashMap<>();
       
       final SSLivingDocsGetPar ldDocsGetPar =

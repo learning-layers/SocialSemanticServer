@@ -22,7 +22,7 @@ package at.tugraz.sss.servs.common.impl.user;
 
 import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
-import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckKeyPar;
+import at.tugraz.sss.servs.auth.datatype.par.SSAuthCheckKeyPar;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.tugraz.sss.serv.datatype.SSEntity;

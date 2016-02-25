@@ -18,12 +18,11 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-package at.kc.tugraz.ss.serv.ss.auth.datatypes.pars;
+package at.tugraz.sss.servs.auth.datatype.par;
 
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import java.sql.*;
 
 public class SSAuthUsersFromCSVFileAddPar extends SSServPar{
   

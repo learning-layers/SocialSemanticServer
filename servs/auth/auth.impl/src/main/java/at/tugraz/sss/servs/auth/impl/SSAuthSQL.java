@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.auth.impl;
 
-import at.kc.tugraz.ss.serv.ss.auth.datatypes.enums.*;
+import at.tugraz.sss.servs.auth.datatype.SSAuthSQLTableE;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;

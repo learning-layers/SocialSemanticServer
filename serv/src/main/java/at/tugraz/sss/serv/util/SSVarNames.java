@@ -24,6 +24,8 @@ public class SSVarNames{
   
   private SSVarNames(){/* Do nothing because of only JSON Jackson needs this */ }
 
+  public static final String authUserOIDCSubGet                          = "authUserOIDCSubGet";
+  public static final String sub                                         = "sub";
   public static final String learnEpCircleEntityStructureGet             = "learnEpCircleEntityStructureGet";
   public static final String entityAttachEntities                        = "entityAttachEntities";
   public static final String filesDeleteNotRegistered                    = "filesDeleteNotRegistered";

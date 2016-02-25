@@ -18,26 +18,42 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package sss.serv.eval.conf;
+package at.tugraz.sss.servs.auth.datatype.par;
 
-import at.tugraz.sss.serv.conf.api.SSCoreServConfA;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
-import java.util.ArrayList;
-import java.util.List;
 
-public class SSEvalConf extends SSCoreServConfA{
+public class SSAuthCheckCredPar extends SSServPar{
+
+  public SSLabel label    = null;
+  public String  password = null;
   
-  public boolean      useOIDCSubForUserLabel = false;
-  public List<String> ignoredUserLabels      = new ArrayList<>();
+  public void setLabel(String label) throws SSErr{
+    this.label = SSLabel.get(label);
+  }
   
-  public static SSEvalConf copy(final SSEvalConf orig){
+  public String getLabel(){
+    return SSStrU.toStr(label);
+  }
+
+  public SSAuthCheckCredPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
-    final SSEvalConf copy = (SSEvalConf) SSCoreServConfA.copy(orig, new SSEvalConf());
+  public SSAuthCheckCredPar(
+    final SSServPar servPar,
+    final SSLabel   label, 
+    final String    password){
     
-    SSStrU.addDistinctNotNull(copy.ignoredUserLabels, orig.ignoredUserLabels);
+    super(SSVarNames.authCheckCred, null, null, servPar.sqlCon);
     
-    copy.useOIDCSubForUserLabel = orig.useOIDCSubForUserLabel;
+    this.label    = label;
+    this.password = password;
+  }
+  
+  public SSAuthCheckCredPar(
+    final SSServPar servPar,
+    final String   key){
     
-    return copy;
+    super(SSVarNames.authCheckCred, key, null, servPar.sqlCon);
   }
 }

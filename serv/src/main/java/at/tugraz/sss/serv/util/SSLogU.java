@@ -27,7 +27,9 @@ import org.apache.log4j.*;
 
 public class SSLogU{
   
-  private static Logger log = null;
+  private static Logger log          = null;
+  private static Logger evalLog      = null;
+  private static Logger evalBlankLog = null;
   
   public static void init(final String workDirPath) throws FileNotFoundException, IOException{
     
@@ -58,9 +60,30 @@ public class SSLogU{
     p.setProperty("log4j.appender.eval.filter.1.levelToMatch", "TRACE");
     p.setProperty("log4j.appender.eval.filter.2", "org.apache.log4j.varia.DenyAllFilter");
     
+    p.setProperty("log4j.appender.evalBlank", "org.apache.log4j.RollingFileAppender");
+    p.setProperty("log4j.appender.evalBlank.File", workDirPath + SSFileU.fileNameSSSEvalBlankLog);
+    p.setProperty("log4j.appender.evalBlank.MaxFileSize", "10000KB");
+    p.setProperty("log4j.appender.evalBlank.MaxBackupIndex", "1000");
+    p.setProperty("log4j.appender.evalBlank.layout", "org.apache.log4j.PatternLayout");
+    p.setProperty("log4j.appender.evalBlank.layout.ConversionPattern", "%m%n");
+    p.setProperty("log4j.appender.evalBlank.filter.1", "org.apache.log4j.varia.LevelMatchFilter");
+    p.setProperty("log4j.appender.evalBlank.filter.1.levelToMatch", "TRACE");
+    p.setProperty("log4j.appender.evalBlank.filter.2", "org.apache.log4j.varia.DenyAllFilter");
+    
+    p.setProperty("log4j.category.fileLogger" , "INFO, file");
+    p.setProperty("log4j.additivity.fileLogger", "false");
+
+    p.setProperty("log4j.category.evalLogger", "TRACE, eval");
+    p.setProperty("log4j.additivity.evalLogger", "false");
+  
+    p.setProperty("log4j.category.evalBlankLogger", "TRACE, evalBlank");
+    p.setProperty("log4j.additivity.evalBlankLogger", "false");
+    
     PropertyConfigurator.configure(p);
     
-    log = Logger.getLogger(SSStrU.empty);
+    log           = Logger.getLogger("fileLogger");
+    evalLog       = Logger.getLogger("evalLogger");
+    evalBlankLog  = Logger.getLogger("evalBlankLogger");
   }
   
   private SSLogU(){/* Do nothing because of only JSON Jackson needs this */ }
@@ -169,6 +192,18 @@ public class SSLogU{
     }
   }
 
+  public static void evalTrace(
+    final String  logText){
+    
+    evalLog.trace(logText);
+  }
+  
+  public static void evalBlankTrace(
+    final String  logText){
+    
+    evalBlankLog.trace(logText);
+  }
+  
   public static void debug(
     final Exception error){
     

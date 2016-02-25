@@ -20,8 +20,8 @@
   */
 package at.tugraz.sss.adapter.rest.v3;
 
-import at.kc.tugraz.ss.serv.ss.auth.datatypes.enums.*;
-import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.*;
+import at.tugraz.sss.servs.auth.datatype.SSAuthE;
+import at.tugraz.sss.servs.auth.datatype.ret.SSAuthCheckCredRet;
 import at.tugraz.sss.adapter.rest.v3.app.*;
 import at.tugraz.sss.adapter.rest.v3.disc.*;
 import at.tugraz.sss.adapter.rest.v3.entity.*;
@@ -48,7 +48,7 @@ public class SSRestClient {
     public static final  String host      = "http://test-ll.know-center.tugraz.at/";
     public static final  String restPath  = "test/rest/";
   
-  public static final SSAuthEnum  authMethod = SSAuthEnum.oidc;
+  public static final SSAuthE  authMethod = SSAuthE.oidc;
 //  public static final SSAuthEnum  authMethod = SSAuthEnum.csvFileAuth;
   
   private final String oidcToken = "eyJhbGciOiJSUzI1NiJ9.eyJleHAiOjE0NTYyNTgwMzgsImF1ZCI6WyIwM2Q3ZGQwOS1lOTllLTQzZWEtYmQ5My1kMDY2NjE0MjZjOTUiXSwiaXNzIjoiaHR0cHM6XC9cL2FwaS5sZWFybmluZy1sYXllcnMuZXVcL29cL29hdXRoMlwvIiwianRpIjoiNGE4ZDBkOGMtNmE2OC00M2JlLWI3NjUtNTRjODIxMmNhYWFhIiwiaWF0IjoxNDU2MjQwMDM4fQ.JYVTo8wZiJ9OfBxjB2eEN0FUOf0iZYNBQlEcIumfMqbcCBdS3XuBQQH7wGSbocq5LWuB--htzpSEISzIlpnyKViEMHWdv15U_Rez9gF0P-wIcbEPUONRpzeQa22W12gpW9nQur3-R0kv4BcRqEa0IbGrPxkpDVprf7tMhJPTo0Y";

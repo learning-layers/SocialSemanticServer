@@ -24,6 +24,7 @@ import at.tugraz.sss.servs.eval.impl.analyze.SSEvalLogAnalyzer;
 import at.kc.tugraz.ss.activity.api.*;
 import at.kc.tugraz.ss.activity.datatypes.*;
 import at.kc.tugraz.ss.activity.datatypes.par.*;
+import at.kc.tugraz.ss.serv.auth.api.*;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvalLogFilePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.*;
@@ -58,6 +59,7 @@ import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.auth.datatype.par.*;
 import java.util.Date;
 import sss.serv.eval.conf.*;
 
@@ -176,6 +178,7 @@ implements
       final List<SSCircleE>  episodeSpaces       = new ArrayList<>();
       final String           selectedBitsMeasure;
       String                 logText             = SSStrU.empty;
+      String                 blankLogText        = SSStrU.empty;
       
       prepareEpisodeSpaces(
         par,
@@ -196,63 +199,77 @@ implements
       
       //time stamp
       if(par.creationTime != null){
-        logText += par.creationTime;
+        logText       += par.creationTime;
+        blankLogText  += par.creationTime;
       }else{
-        logText += SSDateU.dateAsLong();
+        logText      += SSDateU.dateAsLong();
+        blankLogText += SSDateU.dateAsLong();
       }
       
-      logText += SSStrU.semiColon;
+      logText      += SSStrU.semiColon;
+      blankLogText += SSStrU.semiColon;
       
       //tool context
       if(par.toolContext != null){
-        logText += par.toolContext;
+        logText      += par.toolContext;
+        blankLogText += par.toolContext;
       }
       
-      logText += SSStrU.semiColon;
+      logText      += SSStrU.semiColon;
+      blankLogText += SSStrU.semiColon;
       
       //user label
-      logText += SSStrU.escapeColonSemiColonComma(originUser.label);
-      logText += SSStrU.semiColon;
-      
-      //user email
-      logText += SSStrU.escapeColonSemiColonComma(originUser.email);
-      logText += SSStrU.semiColon;
+      logText      += SSStrU.escapeColonSemiColonComma(originUser.label);
+      logText      += SSStrU.semiColon;
+      blankLogText += SSStrU.escapeColonSemiColonComma(originUser.oidcSub);
+      blankLogText += SSStrU.semiColon;
       
       //log type
-      logText += par.type;
-      logText += SSStrU.semiColon;
+      logText      += par.type;
+      blankLogText += par.type;
+      logText      += SSStrU.semiColon;
+      blankLogText += SSStrU.semiColon;
       
       // entity
       if(targetEntity != null){
-        logText += targetEntity.id;
+        logText      += targetEntity.id;
+        blankLogText += targetEntity.id;
       }
       
-      logText += SSStrU.semiColon;
+      logText      += SSStrU.semiColon;
+      blankLogText += SSStrU.semiColon;
       
       //  entity type
       if(targetEntity != null){
-        logText += targetEntity.type;
+        logText      += targetEntity.type;
+        blankLogText += targetEntity.type;
       }
       
-      logText += SSStrU.semiColon;
+      logText      += SSStrU.semiColon;
+      blankLogText += SSStrU.semiColon;
       
       //  entity label
       if(targetEntity != null){
-        logText += SSStrU.escapeColonSemiColonComma(targetEntity.label);
+        logText      += SSStrU.escapeColonSemiColonComma(targetEntity.label);
+        blankLogText += SSStrU.escapeColonSemiColonComma(targetEntity.label);
       }
       
-      logText += SSStrU.semiColon;
+      logText      += SSStrU.semiColon;
+      blankLogText += SSStrU.semiColon;
       
       //content
       if(par.content != null){
-        logText += SSStrU.escapeColonSemiColonComma(par.content);
+        logText      += SSStrU.escapeColonSemiColonComma(par.content);
+        blankLogText += SSStrU.escapeColonSemiColonComma(par.content);
       }else{
         if(activity != null){
-          logText += activity.activityType;
+          logText      += activity.activityType;
+          blankLogText += activity.activityType;
         }
       }
       
-      logText += SSStrU.semiColon;
+      logText      += SSStrU.semiColon;
+      blankLogText += SSStrU.semiColon;
       
       // tag type
       switch(par.type){
@@ -262,9 +279,11 @@ implements
           if(par.content != null){
             
             if(par.content.startsWith("*")){
-              logText += 2;
+              logText      += 2;
+              blankLogText += 2;
             }else{
-              logText += 1;
+              logText      += 1;
+              blankLogText += 1;
             }
           }
           
@@ -272,13 +291,16 @@ implements
         }
       }
       
-      logText += SSStrU.semiColon;
+      logText      += SSStrU.semiColon;
+      blankLogText += SSStrU.semiColon;
       
       //  entities' ids
       for(SSEntity entity : targetEntities){
         
-        logText += entity.id;
-        logText += SSStrU.comma;
+        logText      += entity.id;
+        blankLogText += entity.id;
+        logText      += SSStrU.comma;
+        blankLogText += SSStrU.comma;
         
         if(!episodeSpaces.isEmpty()){
           continue;
@@ -291,82 +313,111 @@ implements
           episodeSpaces);
       }
       
-      logText += SSStrU.semiColon;
+      logText      += SSStrU.semiColon;
+      blankLogText += SSStrU.semiColon;
       
       // entity labels
       for(SSEntity entity : targetEntities){
-        logText += SSStrU.escapeColonSemiColonComma(entity.label);
-        logText += SSStrU.comma;
+        logText      += SSStrU.escapeColonSemiColonComma(entity.label);
+        blankLogText += SSStrU.escapeColonSemiColonComma(entity.label);
+        logText      += SSStrU.comma;
+        blankLogText += SSStrU.comma;
       }
       
-      logText += SSStrU.semiColon;
+      logText      += SSStrU.semiColon;
+      blankLogText += SSStrU.semiColon;
       
       // user labels
       for(SSEntity user : targetUsers){
-        logText += SSStrU.escapeColonSemiColonComma(user.label);
-        logText += SSStrU.comma;
+        logText      += SSStrU.escapeColonSemiColonComma(user.label);
+        blankLogText += SSStrU.escapeColonSemiColonComma(((SSUser) user).oidcSub);
+        logText      += SSStrU.comma;
+        blankLogText += SSStrU.comma;
       }
       
-      logText += SSStrU.semiColon;
+      logText      += SSStrU.semiColon;
+      blankLogText += SSStrU.semiColon;
       
       // episode space
       for(SSCircleE space : episodeSpaces){
-        logText += space.toString();
-        logText += SSStrU.comma;
+        logText      += space.toString();
+        blankLogText += space.toString();
+        logText      += SSStrU.comma;
+        blankLogText += SSStrU.comma;
       }
       
-      logText += SSStrU.semiColon;
+      logText      += SSStrU.semiColon;
+      blankLogText += SSStrU.semiColon;
       
       //selected bits measure
-      logText += selectedBitsMeasure;
-      logText += SSStrU.semiColon;
+      logText      += selectedBitsMeasure;
+      blankLogText += selectedBitsMeasure;
+      logText      += SSStrU.semiColon;
+      blankLogText += SSStrU.semiColon;
       
       //not selected entities' ids
       for(SSEntity entity : notSelectedEntities){
-        logText += entity.id;
-        logText += SSStrU.comma;
+        logText      += entity.id;
+        blankLogText += entity.id;
+        logText      += SSStrU.comma;
+        blankLogText += SSStrU.comma;
       }
       
-      logText += SSStrU.semiColon;
+      logText      += SSStrU.semiColon;
+      blankLogText += SSStrU.semiColon;
       
       //not selected entities' labels
       for(SSEntity entity : notSelectedEntities){
-        logText += entity.id;
-        logText += SSStrU.comma;
+        logText      += entity.id;
+        blankLogText += entity.id;
+        logText      += SSStrU.comma;
+        blankLogText += SSStrU.comma;
       }
       
-      logText += SSStrU.semiColon;
+      logText      += SSStrU.semiColon;
+      blankLogText += SSStrU.semiColon;
       
       //circleType
       if(circle != null){
-        logText += circle.circleType;
+        logText      += circle.circleType;
+        blankLogText += circle.circleType;
       }else{
-        logText += SSStrU.empty;
+        logText      += SSStrU.empty;
+        blankLogText += SSStrU.empty;
       }
       
-      logText += SSStrU.semiColon;
+      logText      += SSStrU.semiColon;
+      blankLogText += SSStrU.semiColon;
       
       //query
       if(par.query != null){
-        logText += par.query;
+        logText      += par.query;
+        blankLogText += par.query;
       }else{
-        logText += SSStrU.empty;
+        logText    = SSStrU.empty;
+        blankLogText += SSStrU.empty;
       }
       
-      logText += SSStrU.semiColon;
+      logText      += SSStrU.semiColon;
+      blankLogText += SSStrU.semiColon;
       
       //result
       if(par.result != null){
-        logText += par.result;
+        logText      += par.result;
+        blankLogText += par.result;
       }else{
-        logText += SSStrU.empty;
+        logText      += SSStrU.empty;
+        blankLogText += SSStrU.empty;
       }
       
-      logText += SSStrU.semiColon;
+      logText      += SSStrU.semiColon;
+      blankLogText += SSStrU.semiColon;
       
-      logText = SSStrU.replaceAllLineFeedsWithTextualRepr(logText);
+      logText      = SSStrU.replaceAllLineFeedsWithTextualRepr(logText);
+      blankLogText = SSStrU.replaceAllLineFeedsWithTextualRepr(blankLogText);
       
-      SSLogU.trace(logText, false);
+      SSLogU.evalTrace      (logText);
+      SSLogU.evalBlankTrace (blankLogText);
       
       return true;
     }catch(Exception error){
@@ -570,7 +621,20 @@ implements
         return null;
       }
       
-      return (SSUser) originUsers.get(0);
+      final SSUser originUser = (SSUser) originUsers.get(0);
+      
+      if(((SSEvalConf) conf).useOIDCSubForUserLabel){
+        
+        final SSAuthServerI authServ = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
+        
+        originUser.oidcSub =
+            authServ.authUserOIDCSubGet(
+              new SSAuthUserOIDCSubGetPar(
+                par,
+                originUser.email));
+      }
+        
+      return originUser;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -606,20 +670,39 @@ implements
     final SSEvalLogPar par) throws SSErr{
     
     try{
-      
-      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      final SSUserServerI  userServ    = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
       
       if(par.users.isEmpty()){
         return new ArrayList<>();
       }
       
-      return entityServ.entitiesGet(
-        new SSEntitiesGetPar(
-          par,
-          par.user,
-          par.users,  //entities
-          null,  //descPar
-          false)); //withUserRestriction
+      final List<SSEntity> targetUsers =
+        userServ.usersGet(
+          new SSUsersGetPar(
+            par,
+            par.user,
+            par.users,
+            false)); //invokeEntityHandlers
+      
+      if(targetUsers.isEmpty()){
+        return targetUsers;
+      }
+      
+      if(((SSEvalConf) conf).useOIDCSubForUserLabel){
+        
+        final SSAuthServerI authServ = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
+        
+        for(SSEntity targetUser : targetUsers){
+          
+          ((SSUser)targetUser).oidcSub =
+              authServ.authUserOIDCSubGet(
+                new SSAuthUserOIDCSubGetPar(
+                  par,
+                  ((SSUser)targetUser).email));
+        }
+      }
+
+      return targetUsers;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
