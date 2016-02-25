@@ -57,9 +57,10 @@ public class SSUser extends SSEntity{
   
   public static SSUser get(
     final SSUri    id,
-    final String   email) throws SSErr{
+    final String   email, 
+    final String   oidcSub) throws SSErr{
     
-    return new SSUser(id, email);
+    return new SSUser(id, email, oidcSub);
   }
   
   public SSUser(){/* Do nothing because of only JSON Jackson needs this */ }
@@ -73,6 +74,7 @@ public class SSUser extends SSEntity{
       
       this.email          = ((SSUser)entity).email;
       this.friend         = ((SSUser)entity).friend;
+      this.oidcSub        = ((SSUser)entity).oidcSub;
       
       SSEntity.addEntitiesDistinctWithoutNull(this.friends, ((SSUser) entity).friends);
     }
@@ -102,6 +104,15 @@ public class SSUser extends SSEntity{
       }
     }
     
+    if(user.oidcSub != null){
+      this.oidcSub = user.oidcSub;
+    }else{
+      
+      if(entity instanceof SSUser){
+        this.oidcSub  = ((SSUser) entity).oidcSub;
+      }
+    }
+    
     SSEntity.addEntitiesDistinctWithoutNull(this.friends, user.friends);
     
     if(entity instanceof SSUser){
@@ -111,10 +122,12 @@ public class SSUser extends SSEntity{
   
   protected SSUser(
     final SSUri   id,
-    final String  email) throws SSErr{
+    final String  email, 
+    final String  oidcSub) throws SSErr{
     
     super(id, SSEntityE.user);
     
-    this.email   = email;
+    this.email     = email;
+    this.oidcSub   = oidcSub;
   }
 }

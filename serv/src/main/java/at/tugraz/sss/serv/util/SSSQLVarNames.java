@@ -22,6 +22,7 @@ package at.tugraz.sss.serv.util;
 
 public class SSSQLVarNames{
 
+  public static final String oidcSub                                        = "oidcSub";
   public static final String videoType                                      = "videoType";
   public static final String livingDocId                                    = "livingDocId";
   public static final String attachedEntityId                               = "attachedEntityId";

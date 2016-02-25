@@ -41,9 +41,7 @@ import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.coll.api.SSCollServerI;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootAddPar;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.*;
 import at.tugraz.sss.conf.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
@@ -56,7 +54,7 @@ import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.servs.auth.datatype.par.*;
+import at.tugraz.sss.servs.auth.datatype.*;
 import com.nimbusds.oauth2.sdk.*;
 import com.nimbusds.oauth2.sdk.http.*;
 import com.nimbusds.openid.connect.sdk.*;
@@ -73,7 +71,6 @@ implements
   SSAuthServerI{
   
   private final List<String>        csvFileAuthKeys = new ArrayList<>();
-  private final Map<String, String> oidcUserSubs    = new HashMap<>();
   private final Map<String, String> oidcAuthTokens  = new HashMap<>();
   private final SSAuthSQL           sql;
   
@@ -82,19 +79,6 @@ implements
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
     this.sql = new SSAuthSQL(dbSQL);
-  }
-  
-  @Override
-  public String authUserOIDCSubGet(final SSAuthUserOIDCSubGetPar par) throws SSErr{
-    
-    try{
-      
-      return oidcUserSubs.get(par.email);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
   
   @Override
@@ -201,6 +185,7 @@ implements
               false,
               par.label,
               par.email,
+              null, //oidcSub
               par.isSystemUser, 
               false));
         
@@ -321,13 +306,13 @@ implements
             userUri = SSUri.get(oidcAuthTokens.get(par.key));
           }else{
           
-            final String email = setOIDCUser(par.key);
+            final SSAuthOIDCUser oidcUser = getOIDCUser(par.key);
           
             if(!userServ.userExists(
               new SSUserExistsPar(
                 par,
                 SSConf.systemUserUri,
-                email))){
+                oidcUser.email))){
 
               //TODO use authRegisterUser
               userUri = 
@@ -336,8 +321,9 @@ implements
                     par,
                     SSConf.systemUserUri, 
                     true, 
-                    SSLabel.get(email), 
-                    email, 
+                    SSLabel.get(oidcUser.email), 
+                    oidcUser.email, 
+                    oidcUser.oidcSub, 
                     false, //isSystemUser
                     false)); //withUserRestriction
 
@@ -345,12 +331,19 @@ implements
               
             }else{
 
-              userUri = 
-               userServ.userURIGet(
-                 new SSUserURIGetPar(
-                   par,
-                   SSConf.systemUserUri, 
-                   email));
+              userUri =
+                userServ.userURIGet(
+                  new SSUserURIGetPar(
+                    par,
+                    SSConf.systemUserUri,
+                    oidcUser.email));
+              
+              userServ.userUpdate(
+                new SSUserUpdatePar(
+                  par,
+                  SSConf.systemUserUri,
+                  userUri,
+                  oidcUser.oidcSub));
             }
             
             final String userStr = SSStrU.toStr(userUri);
@@ -419,7 +412,7 @@ implements
     }
   }
   
-  private String setOIDCUser(final String authToken) throws SSErr{
+  private SSAuthOIDCUser getOIDCUser(final String authToken) throws SSErr{
     
     // send request to OpenID Connect user info endpoint to retrieve complete user information
     // in exchange for access token.
@@ -463,14 +456,13 @@ implements
         }
       }
       
-      final JSONObject userInfo = ((UserInfoSuccessResponse)userInfoResponse).getUserInfo().toJSONObject();
-      final String     email    = (String) userInfo.get(SSVarNames.email);
-        
-      if(!oidcUserSubs.containsKey(email)){
-        oidcUserSubs.put(email, (String) userInfo.get(SSVarNames.sub));
-      }
+      final JSONObject     userInfo = ((UserInfoSuccessResponse)userInfoResponse).getUserInfo().toJSONObject();
+      final SSAuthOIDCUser oidcUser = new SSAuthOIDCUser();
       
-      return email;
+      oidcUser.email    = (String) userInfo.get(SSVarNames.email);
+      oidcUser.oidcSub  = (String) userInfo.get(SSVarNames.sub);
+
+      return oidcUser;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

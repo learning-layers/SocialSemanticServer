@@ -725,7 +725,7 @@ implements
       
       final SSLearnEpCircleEntityStructureGetPar par = (SSLearnEpCircleEntityStructureGetPar) parA.getFromClient(clientType, parA, SSLearnEpCircleEntityStructureGetPar.class);
       
-      return new SSLearnEpCircleEntityStructureGetRet(learnEpCircleEntityStructureGet(par));
+      return learnEpCircleEntityStructureGet(par);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -734,23 +734,28 @@ implements
   }
   
   @Override
-  public List<SSEntity> learnEpCircleEntityStructureGet(final SSLearnEpCircleEntityStructureGetPar par) throws SSErr{
+  public SSLearnEpCircleEntityStructureGetRet learnEpCircleEntityStructureGet(final SSLearnEpCircleEntityStructureGetPar par) throws SSErr{
     
     try{
       
       final List<SSUri> versions = sql.getLearnEpVersionURIs(par, par.learnEp);
 
       if(versions.isEmpty()){
-        return new ArrayList<>();
+        return new SSLearnEpCircleEntityStructureGetRet(new ArrayList<>(), new ArrayList<>());
       }
       
-      return learnEpVersionCirclesWithEntriesGet(
-        new SSLearnEpVersionCirclesWithEntriesGetPar(
-          par,
-          par.user,
-          versions.get(0),
-          par.withUserRestriction,
-          par.invokeEntityHandlers));
+      final SSLearnEpCirclesWithEntriesGetRet circlesAndOrphans =
+        learnEpVersionCirclesWithEntriesGet(
+          new SSLearnEpVersionCirclesWithEntriesGetPar(
+            par,
+            par.user,
+            versions.get(0),
+            par.withUserRestriction,
+            par.invokeEntityHandlers));
+      
+      return new SSLearnEpCircleEntityStructureGetRet(
+        circlesAndOrphans.circles, 
+        circlesAndOrphans.orphans);
       
     }catch(Exception error){
       
@@ -953,7 +958,7 @@ implements
         learnEp,
         par.shouldCommit);
       
-      final List<SSEntity> learnEpCirclesAfter = commons.getLearnEpCircles (this, par, par.user, par.learnEpVersion);
+      final List<SSEntity> learnEpCirclesAfter = commons.getLearnEpCirclesWithEntries (this, par, par.user, par.learnEpVersion);
       List<SSUri>          entityURIs;
       
       for(SSEntity learnEpCircleAfter : learnEpCirclesAfter){
@@ -1088,7 +1093,7 @@ implements
         par.user,
         learnEp);
       
-      final List<SSEntity>               learnEpCirclesBefore          = commons.getLearnEpCircles  (this, par, par.user, par.learnEpVersion);
+      final List<SSEntity>               learnEpCirclesBefore          = commons.getLearnEpCirclesWithEntries  (this, par, par.user, par.learnEpVersion);
       final SSUri                        learnEpEntity                 = learnEpVersionEntityAdd    (par);
       final SSLearnEpVersionEntityAddRet ret                           = SSLearnEpVersionEntityAddRet.get(learnEpEntity);
       
@@ -1096,7 +1101,7 @@ implements
         return ret;
       }
       
-      final List<SSEntity> learnEpCirclesAfter           = commons.getLearnEpCircles            (this, par, par.user, par.learnEpVersion);
+      final List<SSEntity> learnEpCirclesAfter           = commons.getLearnEpCirclesWithEntries            (this, par, par.user, par.learnEpVersion);
       final List<SSUri>    learnEpEntityCircleURIsBefore = commons.getCircleURIsForLearnEpEntity(learnEpCirclesBefore, learnEpEntity);
       final List<SSUri>    learnEpEntityCircleURIsAfter  = commons.getCircleURIsForLearnEpEntity(learnEpCirclesAfter,  learnEpEntity);
       
@@ -1347,7 +1352,7 @@ implements
         par.user,
         learnEp);
       
-      final List<SSEntity>                  learnEpCirclesBefore = commons.getLearnEpCircles  (this, par, par.user, learnEpVersion);
+      final List<SSEntity>                  learnEpCirclesBefore = commons.getLearnEpCirclesWithEntries  (this, par, par.user, learnEpVersion);
       final boolean                         worked               = learnEpVersionCircleUpdate(par);
       final SSLearnEpVersionCircleUpdateRet ret                  = SSLearnEpVersionCircleUpdateRet.get(worked);
       
@@ -1355,7 +1360,7 @@ implements
         return ret;
       }
       
-      final List<SSEntity> learnEpCirclesAfter = commons.getLearnEpCircles  (this, par, par.user, learnEpVersion);
+      final List<SSEntity> learnEpCirclesAfter = commons.getLearnEpCirclesWithEntries  (this, par, par.user, learnEpVersion);
       
       cat.handleLearnEpCircleLabelUpdate(
         par, 
@@ -1572,7 +1577,7 @@ implements
         par.user,
         learnEp);
       
-      final List<SSEntity>                  learnEpCirclesBefore          = commons.getLearnEpCircles  (this, par, par.user, learnEpVersion);
+      final List<SSEntity>                  learnEpCirclesBefore          = commons.getLearnEpCirclesWithEntries  (this, par, par.user, learnEpVersion);
       final List<SSUri>                     learnEpEntityCircleURIsBefore = commons.getCircleURIsForLearnEpEntity(learnEpCirclesBefore, par.learnEpEntity);
       final boolean                         worked                        = learnEpVersionEntityUpdate (par);
       final SSLearnEpVersionEntityUpdateRet ret                           = SSLearnEpVersionEntityUpdateRet.get(worked);
@@ -1581,7 +1586,7 @@ implements
         return ret;
       }
       
-      final List<SSEntity> learnEpCirclesAfter           = commons.getLearnEpCircles            (this, par, par.user, learnEpVersion);
+      final List<SSEntity> learnEpCirclesAfter           = commons.getLearnEpCirclesWithEntries            (this, par, par.user, learnEpVersion);
       final List<SSUri>    learnEpEntityCircleURIsAfter  = commons.getCircleURIsForLearnEpEntity(learnEpCirclesAfter,  par.learnEpEntity);
       
       cat.handleRemoveLearnEpEntity(
@@ -1689,7 +1694,7 @@ implements
         par.user,
         learnEp);
       
-      final List<SSEntity>                  learnEpCirclesBefore = commons.getLearnEpCircles  (this, par, par.user, learnEpVersion);
+      final List<SSEntity>                  learnEpCirclesBefore = commons.getLearnEpCirclesWithEntries  (this, par, par.user, learnEpVersion);
       final boolean                         worked               = learnEpVersionCircleRemove(par);
       final SSLearnEpVersionCircleRemoveRet ret                  = SSLearnEpVersionCircleRemoveRet.get(worked);
       
@@ -1787,7 +1792,7 @@ implements
         par.user,
         learnEp);
       
-      final List<SSEntity>                   learnEpCirclesBefore          = commons.getLearnEpCircles(this, par, par.user, learnEpVersion);
+      final List<SSEntity>                   learnEpCirclesBefore          = commons.getLearnEpCirclesWithEntries(this, par, par.user, learnEpVersion);
       final List<SSUri>                      learnEpEntityCircleURIsBefore = commons.getCircleURIsForLearnEpEntity(learnEpCirclesBefore, par.learnEpEntity);
       final boolean                          worked                        = learnEpVersionEntityRemove(par);
       final SSLearnEpVersionEntityRemoveRet  ret                           = SSLearnEpVersionEntityRemoveRet.get(worked);
@@ -1796,7 +1801,7 @@ implements
         return ret;
       }
       
-      final List<SSEntity> learnEpCirclesAfter          = commons.getLearnEpCircles            (this, par, par.user, learnEpVersion);
+      final List<SSEntity> learnEpCirclesAfter          = commons.getLearnEpCirclesWithEntries            (this, par, par.user, learnEpVersion);
       final List<SSUri>    learnEpEntityCircleURIsAfter = commons.getCircleURIsForLearnEpEntity(learnEpCirclesAfter, par.learnEpEntity);
       
       cat.handleRemoveLearnEpEntity(
@@ -1955,11 +1960,14 @@ implements
   }
   
   @Override
-  public List<SSEntity> learnEpVersionCirclesWithEntriesGet(final SSLearnEpVersionCirclesWithEntriesGetPar par) throws SSErr{
+  public SSLearnEpCirclesWithEntriesGetRet learnEpVersionCirclesWithEntriesGet(final SSLearnEpVersionCirclesWithEntriesGetPar par) throws SSErr{
     
     try{
       
-      final List<SSEntity>   circles = new ArrayList<>();
+      final List<SSEntity>   entitiesInCircles = new ArrayList<>();
+      final List<SSEntity>   allEntities       = new ArrayList<>();
+      final List<SSEntity>   circles           = new ArrayList<>();
+      final List<SSEntity>   orphans           = new ArrayList<>();
       final SSLearnEpVersion version =
         learnEpVersionGet(
           new SSLearnEpVersionGetPar(
@@ -1970,7 +1978,7 @@ implements
             false)); //invokeEntityHandlers
       
       if(version == null){
-        return circles;
+        return new SSLearnEpCirclesWithEntriesGetRet(circles, orphans);
       }
       
       SSLearnEpCircle circle;
@@ -1986,6 +1994,10 @@ implements
         for(SSEntity entityEntity : version.learnEpEntities){
           
           entity = (SSLearnEpEntity) entityEntity;
+          
+          SSEntity.addEntitiesDistinctWithoutNull(
+            allEntities, 
+            entity);
           
           //(xEntity - xCircle)^2 / rxCircle^2 + same for y <= 1 then the entiy is wihtin the circle
           
@@ -2009,6 +2021,10 @@ implements
           }
           
           SSEntity.addEntitiesDistinctWithoutNull(
+            entitiesInCircles, 
+            entity);
+            
+          SSEntity.addEntitiesDistinctWithoutNull(
             circle.entries,
             entity);
         }
@@ -2018,7 +2034,16 @@ implements
         circles,
         version.learnEpCircles);
       
-      return circles;
+      for(SSEntity entityFromAll : allEntities){
+        
+        if(SSStrU.contains(entitiesInCircles, entityFromAll)){
+          continue;
+        }
+        
+        SSEntity.addEntitiesDistinctWithoutNull(orphans, entityFromAll);
+      }
+      
+      return new SSLearnEpCirclesWithEntriesGetRet(circles, orphans);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

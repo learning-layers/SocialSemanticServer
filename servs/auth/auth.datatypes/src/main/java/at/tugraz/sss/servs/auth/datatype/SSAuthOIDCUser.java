@@ -20,11 +20,8 @@
   */
 package at.tugraz.sss.servs.auth.datatype;
 
-import at.tugraz.sss.serv.datatype.*;
-
 public class SSAuthOIDCUser {
   
-  public String authToken = null;
-  public SSUri  userURI   = null;
-  public String sub       = null;
+  public String email     = null;
+  public String oidcSub   = null;
 }

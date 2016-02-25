@@ -27,7 +27,9 @@ import at.tugraz.sss.adapter.rest.v3.disc.*;
 import at.tugraz.sss.adapter.rest.v3.entity.*;
 import at.tugraz.sss.adapter.rest.v3.recomm.*;
 import at.tugraz.sss.serv.util.*;
+import com.nimbusds.oauth2.sdk.http.*;
 import java.io.*;
+import java.net.*;
 import java.util.*;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.*;
@@ -36,8 +38,8 @@ import org.glassfish.jersey.media.multipart.file.*;
 
 public class SSRestClient {
   
-//  public static final  String host      = "http://localhost:8080/";
-//  public static final  String restPath  = "sss.adapter.rest.v3/rest/";
+  public static final  String host      = "http://localhost:8080/";
+  public static final  String restPath  = "sss.adapter.rest.v3/rest/";
   
 //  public static final  String host      = "http://test-ll.know-center.tugraz.at/";
 //  public static final  String restPath  = "bp.preparation/rest/";
@@ -45,13 +47,13 @@ public class SSRestClient {
 //  public static final  String host      = "http://test-ll.know-center.tugraz.at/";
 //  public static final  String restPath  = "eval/rest/";
   
-    public static final  String host      = "http://test-ll.know-center.tugraz.at/";
-    public static final  String restPath  = "test/rest/";
+//    public static final  String host      = "http://test-ll.know-center.tugraz.at/";
+//    public static final  String restPath  = "test/rest/";
   
   public static final SSAuthE  authMethod = SSAuthE.oidc;
 //  public static final SSAuthEnum  authMethod = SSAuthEnum.csvFileAuth;
   
-  private final String oidcToken = "eyJhbGciOiJSUzI1NiJ9.eyJleHAiOjE0NTYyNTgwMzgsImF1ZCI6WyIwM2Q3ZGQwOS1lOTllLTQzZWEtYmQ5My1kMDY2NjE0MjZjOTUiXSwiaXNzIjoiaHR0cHM6XC9cL2FwaS5sZWFybmluZy1sYXllcnMuZXVcL29cL29hdXRoMlwvIiwianRpIjoiNGE4ZDBkOGMtNmE2OC00M2JlLWI3NjUtNTRjODIxMmNhYWFhIiwiaWF0IjoxNDU2MjQwMDM4fQ.JYVTo8wZiJ9OfBxjB2eEN0FUOf0iZYNBQlEcIumfMqbcCBdS3XuBQQH7wGSbocq5LWuB--htzpSEISzIlpnyKViEMHWdv15U_Rez9gF0P-wIcbEPUONRpzeQa22W12gpW9nQur3-R0kv4BcRqEa0IbGrPxkpDVprf7tMhJPTo0Y";
+  private final String oidcToken = "eyJhbGciOiJSUzI1NiJ9.eyJleHAiOjE0NTY0MTI3NjgsImF1ZCI6WyIwM2Q3ZGQwOS1lOTllLTQzZWEtYmQ5My1kMDY2NjE0MjZjOTUiXSwiaXNzIjoiaHR0cHM6XC9cL2FwaS5sZWFybmluZy1sYXllcnMuZXVcL29cL29hdXRoMlwvIiwianRpIjoiODQwMGU0ZDgtYjEwZS00ZGJhLTgwYjItYTQyOWY3NDY3MWRkIiwiaWF0IjoxNDU2Mzk0NzY4fQ.cAh12NG-8H4LCRfFgEM-C5syO6bgpVN-OuWsdnxWuempl74rW3cxGsXpqYmfYJ2fYUeqeC_az_Gl-lhywSKT101d2KAi524L3sShMSRUaDH7RwkgAHrelXlXDGwUiRAulgkDdmZNstK4uEnWpYYDF-YDCYZs-sJjTIqvO0nqJo4";
   private final Client client;
   
   private String key = null;
@@ -61,7 +63,7 @@ public class SSRestClient {
     this.client = client;
   }
   
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception {
     
     try{
       
@@ -72,7 +74,7 @@ public class SSRestClient {
       
       caller.auth();
       
-//      caller.getLivingDoc("http://178.62.62.23:9000/document/99999/");
+      caller.getLivingDoc(URLEncoder.encode("65548/", SSEncodingU.utf8.toString())); //URLEncoder.encode("https://test.learnenv.com/document/65548/", SSEncodingU.utf8.toString()));
       
 //      caller.updateRecomm(
 //        "dieter",  //realm
@@ -96,19 +98,29 @@ public class SSRestClient {
     }
   }
   
-  public void getLivingDoc(final String livingDocID){
+  public void getLivingDoc(final String livingDocID) throws Exception{
     
     try{
-      final WebTarget target = client.target(host + restPath + "livingdocs/" + livingDocID);
-      final Invocation.Builder builder = target.request(MediaType.APPLICATION_JSON_TYPE);
-          
-      builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + key);
-        
-      final String response       = builder.get(String.class);
+      
+      final HTTPRequest      hrq;
+      final HTTPResponse     hrs;
+      
+      hrq                     = new HTTPRequest(HTTPRequest.Method.GET, new URL(host + restPath + "livingdocs/" + URLEncoder.encode("65548", SSEncodingU.utf8.toString())));
+      hrq.setAuthorization("Bearer " + key);
+      
+      hrs = hrq.send();
+      
+      System.out.println(hrs);
+//      final WebTarget target = client.target(host + restPath + "livingdocs/https%2F");
+//      final Invocation.Builder builder = target.request(MediaType.APPLICATION_JSON_TYPE);
+//          
+//      builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + key);
+//        
+//      final String response       = builder.get(String.class);
  
       System.out.println("living doc)");
       System.out.println("----------");
-      System.out.println(response);
+//      System.out.println(response);
     }catch (Exception error) {
       System.err.println(error);
       throw error;

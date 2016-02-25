@@ -28,6 +28,7 @@ public class SSUserAddPar extends SSServPar{
   
   public SSLabel    label        = null;
   public String     email        = null;
+  public String     oidcSub      = null;
   public boolean    isSystemUser = false;
 
   public String getLabel(){
@@ -46,6 +47,7 @@ public class SSUserAddPar extends SSServPar{
     final boolean   shouldCommit,
     final SSLabel   label,
     final String    email, 
+    final String    oidcSub,
     final boolean   isSystemUser,
     final boolean   withUserRestriction){
     
@@ -54,6 +56,7 @@ public class SSUserAddPar extends SSServPar{
     this.shouldCommit        = shouldCommit;
     this.label               = label;
     this.email               = email;
+    this.oidcSub             = oidcSub;
     this.isSystemUser        = isSystemUser;
     this.withUserRestriction = withUserRestriction;
   }

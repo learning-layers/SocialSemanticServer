@@ -273,7 +273,7 @@ public class SSRESTLivingDoc{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{livingDoc}")
+  @Path    ("/{livingDoc}/")
   @ApiOperation(
     value = "retrieve a living doc",
     response = SSLivingDocGetRet.class)

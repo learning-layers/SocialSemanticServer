@@ -35,12 +35,7 @@ import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserEntityUsersGetPar;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIsGetPar;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.*;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserEntityUsersGetRet;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUsersGetRet;
 import at.tugraz.sss.serv.datatype.par.SSCirclePubURIGetPar;
@@ -55,6 +50,7 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import at.tugraz.sss.servs.auth.datatype.par.*;
 
 public class SSUserImpl
 extends SSServImplWithDBA
@@ -72,6 +68,8 @@ implements
     
     this.sql          = new SSUserSQL(dbSQL);
   }
+  
+    
   
   @Override
   public SSEntity describeEntity(
@@ -284,6 +282,35 @@ implements
   }
   
   @Override
+  public SSUri userUpdate (final SSUserUpdatePar par) throws SSErr{
+    
+    try{
+      
+      dbSQL.startTrans(par, par.shouldCommit);
+      
+      sql.updateUser(
+        par, 
+        par.forUser, 
+        par.oidcSub);
+      
+      dbSQL.commit(par, par.shouldCommit);
+      
+      return par.forUser;
+    }catch(Exception error){
+      
+      try{
+        dbSQL.rollBack(par, par.shouldCommit);
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
+      
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+    
+  }
+    
+  @Override
   public SSUri userAdd(final SSUserAddPar par) throws SSErr{
     
     try{
@@ -291,6 +318,7 @@ implements
       if(par.withUserRestriction){
         throw SSErr.get(SSErrE.userCannotAddUser);
       }
+      
       final SSEntityServerI entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
       final SSLabel         tmpLabel;
       final String          tmpEmail;
@@ -342,7 +370,11 @@ implements
         return null;
       }
       
-      sql.addUser(par, userUri, tmpEmail.toLowerCase());
+      sql.addUser(
+        par, 
+        userUri, 
+        tmpEmail.toLowerCase(), 
+        par.oidcSub);
       
       publicCircleURI =
         entityServ.circleUsersAdd(

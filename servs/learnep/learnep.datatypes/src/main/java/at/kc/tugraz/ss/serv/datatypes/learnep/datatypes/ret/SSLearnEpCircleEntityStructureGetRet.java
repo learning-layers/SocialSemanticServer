@@ -29,12 +29,15 @@ import java.util.List;
 public class SSLearnEpCircleEntityStructureGetRet extends SSServRetI{
 
   public List<SSEntity> circles = new ArrayList<>();
+  public List<SSEntity> orphans = new ArrayList<>();
 
   public SSLearnEpCircleEntityStructureGetRet(
-    final List<SSEntity> circles){
+    final List<SSEntity> circles, 
+    final List<SSEntity> orphans){
     
     super(SSVarNames.learnEpCircleEntityStructureGet);
     
     SSEntity.addEntitiesDistinctWithoutNull(this.circles, circles);
+    SSEntity.addEntitiesDistinctWithoutNull(this.orphans, orphans);
   }
 }

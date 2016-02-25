@@ -20,13 +20,8 @@
 */
  package at.kc.tugraz.ss.service.user.api;
 
+import at.kc.tugraz.ss.service.user.datatypes.pars.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserEntityUsersGetPar;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIsGetPar;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.impl.api.SSServServerI;
@@ -40,4 +35,5 @@ public interface SSUserServerI extends SSServServerI{
   public List<SSUri>    userURIsGet           (final SSUserURIsGetPar           par) throws SSErr;
   public SSUri          userAdd               (final SSUserAddPar               par) throws SSErr;
   public List<SSEntity> userEntityUsersGet    (final SSUserEntityUsersGetPar    par) throws SSErr;
+  public SSUri          userUpdate            (final SSUserUpdatePar            par) throws SSErr;
 }

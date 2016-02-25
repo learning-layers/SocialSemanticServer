@@ -56,7 +56,7 @@ public class SSLearnEpCommons {
     }
   }
   
-  public List<SSEntity> getLearnEpCircles(
+  public List<SSEntity> getLearnEpCirclesWithEntries(
     final SSLearnEpServerI learnEpServ,
     final SSServPar        servPar, 
     final SSUri            user,
@@ -70,7 +70,7 @@ public class SSLearnEpCommons {
           user,
           learnEpVersion,
           false, //withUserRestriction
-          false)); //invokeEntityHandlers
+          false)).circles; //invokeEntityHandlers
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2016, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,24 +18,25 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.servs.auth.datatype.par;
+package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; 
+import at.tugraz.sss.serv.datatype.ret.*;
 import at.tugraz.sss.serv.util.*;
+import java.util.*;
 
-public class SSAuthUserOIDCSubGetPar extends SSServPar{
+public class SSLearnEpCirclesWithEntriesGetRet extends SSServRetI{
 
-  public String  email = null;
-  
-  public SSAuthUserOIDCSubGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
+  public List<SSEntity> circles       = new ArrayList<>();
+  public List<SSEntity> orphans       = new ArrayList<>();
+
+  public SSLearnEpCirclesWithEntriesGetRet(
+    final List<SSEntity>   circles,
+    final List<SSEntity>   orphans){
     
-  public SSAuthUserOIDCSubGetPar(
-    final SSServPar servPar,
-    final String    email){
+    super(SSVarNames.learnEpVersionCirclesWithEntriesGet);
     
-    super(SSVarNames.authUserOIDCSubGet, null, null, servPar.sqlCon);
-    
-    this.email    = email;
+    SSEntity.addEntitiesDistinctWithoutNull(this.circles, circles);
+    SSEntity.addEntitiesDistinctWithoutNull(this.orphans, orphans);
   }
 }

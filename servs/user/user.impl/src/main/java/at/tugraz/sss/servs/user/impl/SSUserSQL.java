@@ -129,6 +129,7 @@ public class SSUserSQL extends SSCoreSQL{
       
       column(columns, SSSQLVarNames.id);
       column(columns, SSSQLVarNames.email);
+      column(columns, SSSQLVarNames.oidcSub);
       
       table(tables, SSEntitySQLTableE.entity);
       table(tables, SSUserSQLTableE.user);
@@ -145,7 +146,8 @@ public class SSUserSQL extends SSCoreSQL{
       
       return SSUser.get(
         user,
-        bindingStr(resultSet, SSSQLVarNames.email));
+        bindingStr(resultSet, SSSQLVarNames.email), 
+        bindingStr(resultSet, SSSQLVarNames.oidcSub));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -211,7 +213,8 @@ public class SSUserSQL extends SSCoreSQL{
   public void addUser(
     final SSServPar servPar, 
     final SSUri  user,
-    final String email) throws SSErr{
+    final String email,
+    final String oidcSub) throws SSErr{
     
     try{
       final Map<String, String> inserts    = new HashMap<>();
@@ -219,11 +222,38 @@ public class SSUserSQL extends SSCoreSQL{
       
       insert(inserts, SSSQLVarNames.userId,     user);
       insert(inserts, SSSQLVarNames.email,      email);
+      insert(inserts, SSSQLVarNames.oidcSub,    oidcSub);
       
       uniqueKey(uniqueKeys, SSSQLVarNames.userId, user);
       
       dbSQL.insertIfNotExists(servPar, SSUserSQLTableE.user, inserts, uniqueKeys);
       
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public void updateUser(
+    final SSServPar servPar,
+    final SSUri     forUser,
+    final String    oidcSub) throws SSErr{
+    
+    try{
+      
+      final Map<String, String>  wheres   = new HashMap<>();
+      final Map<String, String>  updates  = new HashMap<>();
+      
+      where(wheres, SSSQLVarNames.userId, forUser);
+      
+      if(oidcSub != null){
+        update (updates, SSSQLVarNames.oidcSub, oidcSub);
+      }
+      
+      if(updates.isEmpty()){
+        return;
+      }
+      
+      dbSQL.update(servPar, SSUserSQLTableE.user, wheres, updates);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

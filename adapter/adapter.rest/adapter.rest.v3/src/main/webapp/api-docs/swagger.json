@@ -4479,6 +4479,12 @@
           "items" : {
             "$ref" : "#/definitions/SSEntity"
           }
+        },
+        "orphans" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
         }
       }
     },

@@ -621,16 +621,7 @@ implements
         return null;
       }
       
-      final SSUser        originUser = (SSUser) originUsers.get(0);
-      final SSAuthServerI authServ   = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
-      
-      originUser.oidcSub =
-        authServ.authUserOIDCSubGet(
-          new SSAuthUserOIDCSubGetPar(
-            par,
-            originUser.email));
-      
-      return originUser;
+      return (SSUser) originUsers.get(0);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -672,30 +663,12 @@ implements
         return new ArrayList<>();
       }
       
-      final List<SSEntity> targetUsers =
-        userServ.usersGet(
-          new SSUsersGetPar(
-            par,
-            par.user,
-            par.users,
-            false)); //invokeEntityHandlers
-      
-      if(targetUsers.isEmpty()){
-        return targetUsers;
-      }
-      
-      final SSAuthServerI authServ = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
-      
-      for(SSEntity targetUser : targetUsers){
-        
-        ((SSUser)targetUser).oidcSub =
-          authServ.authUserOIDCSubGet(
-            new SSAuthUserOIDCSubGetPar(
-              par,
-              ((SSUser)targetUser).email));
-      }
-      
-      return targetUsers;
+      return userServ.usersGet(
+        new SSUsersGetPar(
+          par,
+          par.user,
+          par.users,
+          false)); //invokeEntityHandlers
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
