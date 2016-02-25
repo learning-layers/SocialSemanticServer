@@ -383,19 +383,20 @@ implements
           }
           
           entry.userLabel                 = SSLabel.get       (line[2].trim());
+          entry.userEmail                 = SSLabel.get       (line[3].trim());
           
           try{
-            entry.logType                 = SSEvalLogE.get    (line[3].trim());
+            entry.logType                 = SSEvalLogE.get    (line[4].trim());
           }catch(Exception error){
             SSLogU.warn(error);
           }
           
           try{
             
-            if(SSStrU.isEmpty(line[4].trim())){
+            if(SSStrU.isEmpty(line[5].trim())){
               entry.entity = null;
             }else{
-              entry.entity = SSUri.get (line[4].trim());
+              entry.entity = SSUri.get (line[5].trim());
             }
             
           }catch(Exception error){
@@ -403,50 +404,48 @@ implements
           }
           
           try{
-            if(SSStrU.isEmpty(line[5].trim())){
+            if(SSStrU.isEmpty(line[6].trim())){
               entry.entityType = null;
             }else{
-              entry.entityType = SSEntityE.get(line[5].trim());
+              entry.entityType = SSEntityE.get(line[6].trim());
             }
             
           }catch(Exception error){
             SSLogU.warn(error);
           }
           
-          entry.entityLabel               = SSLabel.get       (line[6].trim());
-          entry.content                   = line[7].trim();
-          entry.tagType                   = line[8].trim();
+          entry.entityLabel               = SSLabel.get       (line[7].trim());
+          entry.content                   = line[8].trim();
+          entry.tagType                   = line[9].trim();
           
           try{
-            entry.entityIDs.addAll            (SSUri.get  (SSStrU.splitDistinctWithoutEmptyAndNull(line[9].trim(), SSStrU.comma)));
+            entry.entityIDs.addAll            (SSUri.get  (SSStrU.splitDistinctWithoutEmptyAndNull(line[10].trim(), SSStrU.comma)));
           }catch(Exception error){
             SSLogU.warn(error);
           }
           
-          entry.entityLabels.addAll         (SSLabel.get(SSStrU.splitDistinctWithoutEmptyAndNull(line[10].trim(), SSStrU.comma)));
-          entry.userLabels.addAll           (SSLabel.get(SSStrU.splitDistinctWithoutEmptyAndNull(line[11].trim(), SSStrU.comma)));
+          entry.entityLabels.addAll         (SSLabel.get(SSStrU.splitDistinctWithoutEmptyAndNull(line[11].trim(), SSStrU.comma)));
+          entry.userLabels.addAll           (SSLabel.get(SSStrU.splitDistinctWithoutEmptyAndNull(line[12].trim(), SSStrU.comma)));
           
           try{
             
-            if(SSStrU.isEmpty(line[12].trim())){
-              entry.circleType = null;
-            }else{
-              entry.circleType              = SSCircleE.get(line[12].trim());
+            if(!SSStrU.isEmpty(line[13].trim())){
+              entry.circleTypes.addAll(SSCircleE.get(SSStrU.splitDistinctWithoutEmptyAndNull(line[13].trim(), SSStrU.comma)));
             }
             
           }catch(Exception error){
             SSLogU.warn(error);
           }
           
-          entry.selectedBitsMeasure       = line[13].trim();
+          entry.selectedBitsMeasure       = line[14].trim();
           
           try{
-            entry.notSelectedEntityIds.addAll   (SSUri.get  (SSStrU.splitDistinctWithoutEmptyAndNull(line[14].trim(), SSStrU.comma)));
+            entry.notSelectedEntityIds.addAll   (SSUri.get  (SSStrU.splitDistinctWithoutEmptyAndNull(line[15].trim(), SSStrU.comma)));
           }catch(Exception error){
             SSLogU.warn(error);
           }
           
-          entry.notSelectedEntityLabels.addAll(SSLabel.get(SSStrU.splitDistinctWithoutEmptyAndNull(line[15].trim(), SSStrU.comma)));
+          entry.notSelectedEntityLabels.addAll(SSLabel.get(SSStrU.splitDistinctWithoutEmptyAndNull(line[16].trim(), SSStrU.comma)));
           
           logEntries.add(entry);
         }catch(Exception error){

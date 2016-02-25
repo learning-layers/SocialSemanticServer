@@ -27,7 +27,6 @@ import at.tugraz.sss.servs.auth.datatype.par.SSAuthUsersFromCSVFileAddPar;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.impl.api.SSServServerI;
-import at.tugraz.sss.servs.auth.datatype.par.*;
 import at.tugraz.sss.servs.auth.datatype.ret.*;
 
 public interface SSAuthServerI extends SSServServerI{
@@ -36,5 +35,4 @@ public interface SSAuthServerI extends SSServServerI{
   public SSUri               authCheckKey            (final SSAuthCheckKeyPar            par) throws SSErr;
   public SSUri               authRegisterUser        (final SSAuthRegisterUserPar        par) throws SSErr;
   public void                authUsersFromCSVFileAdd (final SSAuthUsersFromCSVFileAddPar par) throws SSErr;
-  public String              authUserOIDCSubGet      (final SSAuthUserOIDCSubGetPar      par) throws SSErr;
 }

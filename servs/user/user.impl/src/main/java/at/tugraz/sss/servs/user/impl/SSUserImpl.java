@@ -50,7 +50,6 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.servs.auth.datatype.par.*;
 
 public class SSUserImpl
 extends SSServImplWithDBA
@@ -89,6 +88,7 @@ implements
                 servPar,
                 par.user,
                 SSUri.asListNotNull(entity.author.id),
+                null, //emails
                 false)); //invokeEntityHandlers))
           
           if(!authors.isEmpty()){
@@ -111,6 +111,7 @@ implements
                 servPar,
                 par.user,
                 SSUri.asListNotNull(entity.id),
+                null, //emails
                 false)); //invokeEntityHandlers))
           
           if(!users.isEmpty()){
@@ -215,11 +216,28 @@ implements
     
     try{
       final SSEntityServerI entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
-      final List<SSUri>     userURIs   = sql.getUserURIs(par, par.users);
       final List<SSEntity>  users      = new ArrayList<>();
+      final List<SSUri>     userURIs   = new ArrayList<>();
       SSUser                userToGet;
       SSEntity              userEntityToGet;
       SSEntityDescriberPar  descPar;
+      
+      for(String email : par.emails){
+        
+        SSUri.addDistinctWithoutNull(
+          userURIs,
+          sql.getUserURIForEmail(par, email));
+      }
+      
+      if(!par.users.isEmpty()){
+        
+        for(SSUri userURI : sql.getUserURIs(par, par.users)){
+
+          SSUri.addDistinctWithoutNull(
+            userURIs,
+            userURI);
+        }
+      }
       
       for(SSUri userURI : userURIs){
         
@@ -459,6 +477,7 @@ implements
             par,
             par.user,
             null, //users
+            null, //emails
             false))){ //invokeEntityHandlers
         
         entity =

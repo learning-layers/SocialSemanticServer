@@ -85,6 +85,7 @@ public class SSRESTUser{
             new SSServPar(sqlCon),
             null,
             null, //users
+            null, //emails
             true); //invokeEntityHandlers
         
       }catch(Exception error){
@@ -150,6 +151,7 @@ public class SSRESTUser{
             new SSServPar(sqlCon),
             null,
             SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma), SSConf.sssUri), //users
+            null, //emails
             true); //invokeEntityHandlers
         
       }catch(Exception error){
@@ -217,6 +219,7 @@ public class SSRESTUser{
             new SSServPar(sqlCon),
             null,
             SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma), SSConf.sssUri), //users
+            null, //emails
             true); //invokeEntityHandlers
         
         par.setFriends        = input.setFriends;

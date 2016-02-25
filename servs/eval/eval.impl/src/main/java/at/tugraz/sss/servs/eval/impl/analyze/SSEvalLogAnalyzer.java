@@ -45,6 +45,7 @@ import at.kc.tugraz.ss.service.tag.api.*;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.servs.eval.impl.*;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocServerI;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocsGetPar;
 import sss.serv.eval.datatypes.par.*;
@@ -89,6 +90,7 @@ public class SSEvalLogAnalyzer {
   
 //  private final Long                   timeBeginStudy this.timeBeginStudy = timeBeginStudy;
   private final Map<String, SSEntity>  episodes     = new HashMap<>();
+  private final SSEvalCommons          commons      = new SSEvalCommons();
   
   public void analyzeLDs(
     final SSServPar            servPar,
@@ -298,7 +300,7 @@ public class SSEvalLogAnalyzer {
         SSLabel.addDistinctNotNull(distinctUsers, logEntry.userLabel);
       }
       
-      for(SSLabel distinctUser : distinctUsers){
+      for(String distinctUser : commons.getOIDCSubForEmail(par, distinctUsers)){
         System.out.println(distinctUser);
       }
       
@@ -737,7 +739,7 @@ public class SSEvalLogAnalyzer {
         
         SSStrU.addDistinctNotNull(differentAuthors, SSStrU.toStr(authorsForDisc.getValue()));
         
-        System.out.println(authorsForDisc.getKey() + ": " + authorsForDisc.getValue().size() + " " + authorsForDisc.getValue());
+        System.out.println(authorsForDisc.getKey() + ": " + authorsForDisc.getValue().size() + " " + commons.getOIDCSubForEmail(par, authorsForDisc.getValue()));
       }
       
       System.out.println("total number of different authors in discussions:" + differentAuthors.size());

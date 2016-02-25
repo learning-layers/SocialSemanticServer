@@ -70,7 +70,7 @@ public class SSLogU{
     p.setProperty("log4j.appender.evalBlank.filter.1.levelToMatch", "TRACE");
     p.setProperty("log4j.appender.evalBlank.filter.2", "org.apache.log4j.varia.DenyAllFilter");
     
-    p.setProperty("log4j.category.fileLogger" , "INFO, file");
+    p.setProperty("log4j.category.fileLogger" , "INFO, file, console");
     p.setProperty("log4j.additivity.fileLogger", "false");
 
     p.setProperty("log4j.category.evalLogger", "TRACE, eval");

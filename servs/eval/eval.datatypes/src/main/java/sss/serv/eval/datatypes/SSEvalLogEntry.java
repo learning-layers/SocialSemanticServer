@@ -31,13 +31,14 @@ public class SSEvalLogEntry {
   public Long                                   timestamp                 = null;
   public SSToolContextE                         toolContext               = null;
   public SSLabel                                userLabel                 = null;
+  public SSLabel                                userEmail                 = null;
   public SSEvalLogE                             logType                   = null;
   public SSUri                                  entity                    = null;
   public SSEntityE                              entityType                = null;
   public SSLabel                                entityLabel               = null;
   public String                                 content                   = null;
   public String                                 tagType                   = null;
-  public SSCircleE                              circleType                = null;
+  public List<SSCircleE>                        circleTypes               = new ArrayList<>();
   public String                                 selectedBitsMeasure       = null;
   public List<SSUri>                            entityIDs                 = new ArrayList<>();
   public List<SSLabel>                          entityLabels              = new ArrayList<>();

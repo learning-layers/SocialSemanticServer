@@ -23,22 +23,22 @@
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
  import at.tugraz.sss.serv.util.*;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSUsersGetPar extends SSServPar{
   
-  public List<SSUri> users                = new ArrayList<>();
-  public boolean     setProfilePicture    = false;
-  public boolean     setFriends           = false;
-  public boolean     setThumb             = false;
-  public boolean     setMessages          = false;
-  public boolean     setActivities        = false;
-  public boolean     setCircles           = false;
-  public boolean     setDiscs             = false;
-  public boolean     setColls             = false;
-  public boolean     setTags              = false;
+  public List<SSUri>  users                = new ArrayList<>();
+  public List<String> emails               = new ArrayList<>();
+  public boolean      setProfilePicture    = false;
+  public boolean      setFriends           = false;
+  public boolean      setThumb             = false;
+  public boolean      setMessages          = false;
+  public boolean      setActivities        = false;
+  public boolean      setCircles           = false;
+  public boolean      setDiscs             = false;
+  public boolean      setColls             = false;
+  public boolean      setTags              = false;
 
   public List<String> getUsers() throws SSErr{
     return SSStrU.removeTrailingSlash(users);
@@ -51,14 +51,16 @@ public class SSUsersGetPar extends SSServPar{
   public SSUsersGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSUsersGetPar(
-    final SSServPar servPar,
-    final SSUri       user,
-    final List<SSUri> users, 
-    final boolean     invokeEntityHandlers){
+    final SSServPar    servPar,
+    final SSUri        user,
+    final List<SSUri>  users, 
+    final List<String> emails,
+    final boolean      invokeEntityHandlers){
    
     super(SSVarNames.usersGet, null, user, servPar.sqlCon);
     
-    SSUri.addDistinctWithoutNull(this.users, users);
+    SSUri.addDistinctWithoutNull (this.users, users);
+    SSStrU.addDistinctNotNull    (this.emails, emails);
     
     this.invokeEntityHandlers = invokeEntityHandlers;
   }

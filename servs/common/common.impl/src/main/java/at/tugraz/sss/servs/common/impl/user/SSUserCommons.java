@@ -77,6 +77,7 @@ public class SSUserCommons {
             servPar,
             SSConf.systemUserUri, 
             userURIs,  //userURIs
+            null, //emails
             false)); //invokeEntityHandlers
       
       return users.size() == userURIs.size();

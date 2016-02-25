@@ -117,7 +117,7 @@ public class SSUserSQL extends SSCoreSQL{
   
   public SSUser getUser(
     final SSServPar servPar, 
-    final SSUri user) throws SSErr{
+    final SSUri     user) throws SSErr{
     
     ResultSet resultSet  = null;
     
@@ -158,7 +158,7 @@ public class SSUserSQL extends SSCoreSQL{
   }
   
   public List<SSUri> getUserURIs(
-    final SSServPar servPar, 
+    final SSServPar   servPar, 
     final List<SSUri> userURIs) throws SSErr{
     
     ResultSet resultSet  = null;

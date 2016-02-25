@@ -203,6 +203,7 @@ implements
                   par,
                   par.user, //user
                   null, //users
+                  null, //emals
                   false))); //invokeEntityHandlers
           
           SSStrU.remove(allUsers, SSConf.systemUserUri);
@@ -356,6 +357,7 @@ implements
                 par,
                 null, //user
                 null, //users
+                null, //emals
                 false))); //invokeEntityHandlers
         
       }catch(SSErr error){

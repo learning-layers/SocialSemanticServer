@@ -224,6 +224,12 @@ implements
       blankLogText += SSStrU.escapeColonSemiColonComma(originUser.oidcSub);
       blankLogText += SSStrU.semiColon;
       
+      //user label
+      logText      += SSStrU.escapeColonSemiColonComma(originUser.email);
+      logText      += SSStrU.semiColon;
+      blankLogText += SSStrU.escapeColonSemiColonComma(originUser.oidcSub);
+      blankLogText += SSStrU.semiColon;
+      
       //log type
       logText      += par.type;
       blankLogText += par.type;
@@ -614,6 +620,7 @@ implements
             par,
             par.user,
             SSUri.asListNotNull(par.user),
+            null, //emails
             false)); //invokeEntityHandlers
       
       if(originUsers.isEmpty()){
@@ -668,6 +675,7 @@ implements
           par,
           par.user,
           par.users,
+          null, //emails
           false)); //invokeEntityHandlers
       
     }catch(Exception error){
