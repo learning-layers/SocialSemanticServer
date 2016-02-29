@@ -107,6 +107,10 @@ implements
       
       case learnEp:{
         
+        if(SSStrU.isEqual(entity, par.recursiveEntity)){
+          return entity;
+        }
+        
         return SSLearnEp.get(
           learnEpGet(
             new SSLearnEpGetPar(
@@ -697,7 +701,7 @@ implements
       final List<SSEntity> learnEpVersions =
         learnEpVersionsGet(
           new SSLearnEpVersionsGetPar(
-            par, 
+            par,
             par.user,
             null, //learnEp
             SSUri.asListNotNull(par.learnEpVersion), //learnEpVersions

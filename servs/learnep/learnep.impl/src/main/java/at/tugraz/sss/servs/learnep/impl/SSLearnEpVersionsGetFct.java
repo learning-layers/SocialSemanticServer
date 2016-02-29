@@ -36,7 +36,7 @@ public class SSLearnEpVersionsGetFct {
 
   private final SSEntityFiller        entityFiller =  new SSEntityFiller();
   private final SSEntityServerI       entityServ;
-  private final SSLearnEpSQL       sqlFct;
+  private final SSLearnEpSQL          sqlFct;
   
   public SSLearnEpVersionsGetFct(
     final SSEntityServerI  entityServ, 

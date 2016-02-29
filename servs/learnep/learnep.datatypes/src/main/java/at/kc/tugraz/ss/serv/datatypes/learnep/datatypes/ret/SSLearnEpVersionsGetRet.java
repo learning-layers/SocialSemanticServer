@@ -20,17 +20,11 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.SSJSONLDU;
-
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SSLearnEpVersionsGetRet extends SSServRetI{
 

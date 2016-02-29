@@ -23,7 +23,6 @@ package at.tugraz.sss.servs.file.datatype.par;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
-import java.sql.*;
 
 public class SSEntityFilesGetPar extends SSServPar{
   
