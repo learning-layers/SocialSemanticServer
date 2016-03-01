@@ -250,7 +250,7 @@ public class SSTagAndCategoryCommonMisc {
   }
   
   public List<SSEntity> filterMetadataByEntitiesUserCanAccess(
-    final SSServPar      servPar,
+    final SSServPar        servPar,
     final List<SSEntity>   metadata,
     final boolean          withUserRestriction,
     final SSUri            user,

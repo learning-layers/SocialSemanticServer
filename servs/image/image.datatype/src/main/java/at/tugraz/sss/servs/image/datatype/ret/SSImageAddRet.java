@@ -20,11 +20,9 @@
 */
  package at.tugraz.sss.servs.image.datatype.ret;
 
-
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.datatype.*;
-import java.util.Map;
 
 public class SSImageAddRet extends SSServRetI{
   

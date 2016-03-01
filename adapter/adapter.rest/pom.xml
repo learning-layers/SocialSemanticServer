@@ -11,5 +11,6 @@
   <packaging>pom</packaging>
   <modules>
     <module>adapter.rest.v3</module>
+    <module>adapter.rest.v3.dropwizard</module>
   </modules>
 </project>

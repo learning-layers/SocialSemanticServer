@@ -26,8 +26,7 @@ import at.tugraz.sss.serv.datatype.enums.SSSearchOpE;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
-import java.sql.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import java.util.ArrayList;
 import java.util.List;
 

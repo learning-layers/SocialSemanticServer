@@ -20,48 +20,39 @@
 */
 package at.tugraz.sss.servs.recomm.impl;
 
-import at.kc.tugraz.ss.recomm.conf.*;
+import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.*;
+import at.kc.tugraz.ss.service.user.datatypes.pars.*;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.*;
-import at.tugraz.sss.serv.util.*;
-import engine.*;
 import java.util.*;
 
 public class SSRecommCommons {
   
-  public Algorithm getRecommTagsAlgo(
-    final SSRecommConf conf, 
-    final SSUser       user) throws SSErr{
+  public SSUser getUser(
+    final SSServPar servPar, 
+    final SSUri     user) throws SSErr{
     
     try{
       
-      if(
-        conf.recommTagsAlgoPerUser != null &&
-        !conf.recommTagsAlgoPerUser.isEmpty()){
-        
-        String userEmail;
-        String algo;
-        
-        for(String userAndAlgo : conf.recommTagsAlgoPerUser){
-          
-          userEmail  = SSStrU.split(userAndAlgo, SSStrU.colon).get(0);
-          algo       = SSStrU.split(userAndAlgo, SSStrU.colon).get(1);
-          
-          if(SSStrU.isEqual(user.email, userEmail)){
-            return Algorithm.valueOf(algo);
-          }
-        }
+      final SSUserServerI  userServ = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
+      final List<SSEntity> users    =
+        userServ.usersGet(
+          new SSUsersGetPar(
+            servPar,
+            user,
+            SSUri.asListNotNull(user), //users
+            null, //emals
+            false)); //invokeEntityHandlers
+      
+      if(users.isEmpty()){
+        SSServErrReg.regErrThrow(SSErrE.userNotRegistered);
+        return null;
       }
       
-      if(
-        conf.recommTagsRandomAlgos != null &&
-        !conf.recommTagsRandomAlgos.isEmpty()){
-        
-        return Algorithm.valueOf(((SSRecommConf) conf).recommTagsRandomAlgos.get(new Random().nextInt(conf.recommTagsRandomAlgos.size())));
-      }
-      
-      throw new UnsupportedOperationException();
+      return (SSUser) users.get(0);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -90,9 +90,10 @@ implements
   SSRecommClientI, 
   SSRecommServerI{
   
-  private final SSUserCommons               userCommons     = new SSUserCommons();
-  private final SSRecommCommons             commons         = new SSRecommCommons();
-  private final SSRecommUserRealmKeeper     userRealmKeeper = new SSRecommUserRealmKeeper();
+  private final SSUserCommons               userCommons      = new SSUserCommons();
+  private final SSRecommCommons             recommCommons    = new SSRecommCommons();
+  private final SSRecommTagCommons          recommTagCommons = new SSRecommTagCommons();
+  private final SSRecommUserRealmKeeper     userRealmKeeper  = new SSRecommUserRealmKeeper();
   private final SSRecommSQL                 sql;
   
   public SSRecommImpl(final SSConfA conf) throws SSErr{
@@ -320,34 +321,28 @@ implements
         }
       }
       
-      final SSUserServerI          userServ = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
-      final List<SSTagLikelihood>  tags    = new ArrayList<>();
-      final List<SSEntity>         users   = 
-        userServ.usersGet(
-        new SSUsersGetPar(
-          par,
-          par.user, 
-          SSUri.asListNotNull(par.user), //users
-          null, //emals
-          false)); //invokeEntityHandlers
+      final List<SSTagLikelihood>  tags = new ArrayList<>();
       
-      if(users.isEmpty()){
-        SSServErrReg.regErrThrow(SSErrE.userNotRegistered);
-        return null;
-      }
+      final SSUser user = 
+        recommCommons.getUser(
+          par, 
+          par.user);
       
-      final Algorithm algo = commons.getRecommTagsAlgo((SSRecommConf) conf, (SSUser) users.get(0));
-
-      //Tags for user and resource: getEntitiesWithLikelihood(forUser,  entity,  null, 10, false, null, EntityType.TAG);  // BLLac+MPr
-      //Tags for user:              getEntitiesWithLikelihood(forUser,  null,    null, 10, false, null, EntityType.TAG);  // BLL
-      //Tags for resource:          getEntitiesWithLikelihood(null,     entity,  null, 10, false, null, EntityType.TAG);  // MPr
-      //Tags MostPopular:           getEntitiesWithLikelihood(null,     null,    null, 10, false, null, EntityType.TAG);  // MP
+      final Algorithm algo = 
+        recommTagCommons.getRecommTagsAlgo((
+          SSRecommConf) conf, 
+          user);
+      
+      final List<String> categories = 
+        recommTagCommons.provideCategoryInputForRecommTags(
+          par, 
+          algo);
       
       final Map<String, Double> tagsWithLikelihood =
         userRealmEngine.engine.getEntitiesWithLikelihood(
           SSStrU.toStr(par.forUser),
           SSStrU.toStr(par.entity),
-          par.categories,
+          categories,
           par.maxTags,
           !par.includeOwn, //filterOwn
           algo,
@@ -1155,20 +1150,25 @@ implements
   }
   
   private boolean checkEntityType(
-    final SSRecommResourcesPar par, 
-    final SSEntity             entity){
-
-    //be very specific what to recommend; dont recommend entities without type
-    switch(entity.type){
-      case entity: return false;
-    }
+    final SSRecommResourcesPar par,
+    final SSEntity             entity) throws SSErr{
     
-    if(
-      !par.typesToRecommOnly.isEmpty() &&
-      !SSStrU.contains(par.typesToRecommOnly, entity.type)){
+    try{
+      //be very specific what to recommend; dont recommend entities without type
+      switch(entity.type){
+        case entity: return false;
+      }
+      
+      if(
+        !par.typesToRecommOnly.isEmpty() &&
+        !SSStrU.contains(par.typesToRecommOnly, entity.type)){
+        return false;
+      }
+      
+      return true;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
       return false;
     }
-    
-    return true;
   }
 }
