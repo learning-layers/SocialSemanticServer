@@ -239,6 +239,16 @@ implements
         }
       }
       
+      if(userURIs.isEmpty()){
+        
+        for(SSUri userURI : sql.getUserURIs(par, userURIs)){
+
+          SSUri.addDistinctWithoutNull(
+            userURIs,
+            userURI);
+        }
+      }
+      
       for(SSUri userURI : userURIs){
         
         userToGet = sql.getUser(par, userURI);

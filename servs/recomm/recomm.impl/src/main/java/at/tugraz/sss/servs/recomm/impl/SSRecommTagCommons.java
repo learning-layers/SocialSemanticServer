@@ -21,7 +21,6 @@
 package at.tugraz.sss.servs.recomm.impl;
 
 import at.kc.tugraz.ss.category.api.*;
-import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.category.datatypes.par.*;
 import at.kc.tugraz.ss.recomm.conf.*;
 import at.kc.tugraz.ss.recomm.datatypes.par.*;

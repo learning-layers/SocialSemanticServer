@@ -1943,10 +1943,12 @@ implements
           par.circle,
           false); //withUserRestriction
       
-      if(circle == null){
+      if(
+        circle == null ||
+        par.users.isEmpty()){
         return null;
       }
-      
+       
       if(par.withUserRestriction){
         
         circle =
@@ -1959,8 +1961,8 @@ implements
         
         if(circle == null){
           
-          final List<String>   invitedUsers = sql.getInvitedUsers(par, par.circle);
-          final SSUserServerI  userServ     = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
+          final List<String>   invitedUsers  = sql.getInvitedUsers(par, par.circle);
+          final SSUserServerI  userServ      = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
           final SSUsersGetPar  usersGetPar   =
             new SSUsersGetPar(
               par,
