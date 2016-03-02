@@ -88,7 +88,7 @@ implements
   private final SSUserCommons              userCommons  = new SSUserCommons(); 
   private final SSLearnEpCat               cat          = new SSLearnEpCat();          
   private final SSLearnEpCommons           commons      = new SSLearnEpCommons();     
-  private final SSLearnEpSQL            sql;
+  private final SSLearnEpSQL               sql;
   
   public SSLearnEpImpl(final SSConfA conf) throws SSErr{
     
@@ -1979,7 +1979,7 @@ implements
             par.user,
             par.learnEpVersion,
             false, //withUserRestriction
-            false)); //invokeEntityHandlers
+            par.invokeEntityHandlers)); //invokeEntityHandlers
       
       if(version == null){
         return new SSLearnEpCirclesWithEntriesGetRet(circles, orphans);
@@ -1989,7 +1989,6 @@ implements
       SSLearnEpEntity entity;
       
       double first, firstDivisor, second, secondDivisor, firstResult, secondResult, result;
-      double zeroDouble = 0.0;
       
       for(SSEntity circleEntity : version.learnEpCircles){
         

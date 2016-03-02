@@ -360,6 +360,7 @@ implements
         par, 
         tags, 
         algo, 
+        categories,
         par.shouldCommit);
       
       return tags;
@@ -1092,6 +1093,7 @@ implements
     final SSRecommTagsPar       par, 
     final List<SSTagLikelihood> tags,
     final Algorithm             algo,
+    final List<String>          categories,
     final boolean               shouldCommit) throws SSErr{
     
     try{
@@ -1112,9 +1114,9 @@ implements
       evalLogPar.query  = SSStrU.empty;
       evalLogPar.result = SSStrU.empty;
       
-      final String categories = 
+      final String formattedCategories = 
         SSStrU.toCommaSeparatedStrNotNull(
-          SSStrU.escapeColonSemiColonComma(par.categories));
+          SSStrU.escapeColonSemiColonComma(categories));
       
       final String realm = 
         SSStrU.escapeColonSemiColonComma(par.realm);
@@ -1122,7 +1124,7 @@ implements
       evalLogPar.query += SSVarNames.algo                              + SSStrU.colon + algo                                                   + evalLogPar.creationTime;
       evalLogPar.query += SSVarNames.forEntity                         + SSStrU.colon + par.entity                                             + evalLogPar.creationTime;
       evalLogPar.query += SSVarNames.forUser                           + SSStrU.colon + par.forUser                                            + evalLogPar.creationTime;
-      evalLogPar.query += SSVarNames.categories                        + SSStrU.colon + categories                                             + evalLogPar.creationTime;
+      evalLogPar.query += SSVarNames.categories                        + SSStrU.colon + formattedCategories                                    + evalLogPar.creationTime;
       evalLogPar.query += SSVarNames.includeOwn                        + SSStrU.colon + par.includeOwn                                         + evalLogPar.creationTime;
       evalLogPar.query += SSVarNames.maxTags                           + SSStrU.colon + par.maxTags                                            + evalLogPar.creationTime;
       evalLogPar.query += SSVarNames.realm                             + SSStrU.colon + realm                                                  + evalLogPar.creationTime;

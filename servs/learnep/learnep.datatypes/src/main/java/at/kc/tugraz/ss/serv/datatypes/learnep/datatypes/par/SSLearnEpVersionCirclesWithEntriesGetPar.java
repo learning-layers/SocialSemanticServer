@@ -39,7 +39,7 @@ public class SSLearnEpVersionCirclesWithEntriesGetPar extends SSServPar{
   public SSLearnEpVersionCirclesWithEntriesGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSLearnEpVersionCirclesWithEntriesGetPar(
-    final SSServPar servPar,
+    final SSServPar     servPar,
     final SSUri         user,
     final SSUri         learnEpVersion,
     final boolean       withUserRestriction,
