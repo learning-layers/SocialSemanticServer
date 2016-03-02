@@ -222,7 +222,10 @@ public class SSUserSQL extends SSCoreSQL{
       
       insert(inserts, SSSQLVarNames.userId,     user);
       insert(inserts, SSSQLVarNames.email,      email);
-      insert(inserts, SSSQLVarNames.oidcSub,    oidcSub);
+      
+      if(oidcSub != null){
+        insert(inserts, SSSQLVarNames.oidcSub,    oidcSub);
+      }
       
       uniqueKey(uniqueKeys, SSSQLVarNames.userId, user);
       

@@ -50,8 +50,8 @@ public class SSRestClient {
 //    public static final  String host      = "http://test-ll.know-center.tugraz.at/";
 //    public static final  String restPath  = "test/rest/";
   
-  public static final SSAuthE  authMethod = SSAuthE.oidc;
-//  public static final SSAuthEnum  authMethod = SSAuthEnum.csvFileAuth;
+//  public static final SSAuthE  authMethod = SSAuthE.oidc;
+  public static final SSAuthE  authMethod = SSAuthE.csvFileAuth;
   
   private final String oidcToken = "eyJhbGciOiJSUzI1NiJ9.eyJleHAiOjE0NTY0MTI3NjgsImF1ZCI6WyIwM2Q3ZGQwOS1lOTllLTQzZWEtYmQ5My1kMDY2NjE0MjZjOTUiXSwiaXNzIjoiaHR0cHM6XC9cL2FwaS5sZWFybmluZy1sYXllcnMuZXVcL29cL29hdXRoMlwvIiwianRpIjoiODQwMGU0ZDgtYjEwZS00ZGJhLTgwYjItYTQyOWY3NDY3MWRkIiwiaWF0IjoxNDU2Mzk0NzY4fQ.cAh12NG-8H4LCRfFgEM-C5syO6bgpVN-OuWsdnxWuempl74rW3cxGsXpqYmfYJ2fYUeqeC_az_Gl-lhywSKT101d2KAi524L3sShMSRUaDH7RwkgAHrelXlXDGwUiRAulgkDdmZNstK4uEnWpYYDF-YDCYZs-sJjTIqvO0nqJo4";
   private final Client client;
@@ -74,7 +74,8 @@ public class SSRestClient {
       
       caller.auth();
       
-      caller.getLivingDoc(URLEncoder.encode("65548/", SSEncodingU.utf8.toString())); //URLEncoder.encode("https://test.learnenv.com/document/65548/", SSEncodingU.utf8.toString()));
+      caller.getLearnEpCircleEntityStructure("918879364224283841");
+//      caller.getLivingDoc(URLEncoder.encode("65548/", SSEncodingU.utf8.toString())); //URLEncoder.encode("https://test.learnenv.com/document/65548/", SSEncodingU.utf8.toString()));
       
 //      caller.updateRecomm(
 //        "dieter",  //realm
@@ -98,6 +99,34 @@ public class SSRestClient {
     }
   }
   
+  public void getLearnEpCircleEntityStructure(final String episodeID) throws Exception{
+    
+    try{
+      
+      final HTTPRequest      hrq;
+      final HTTPResponse     hrs;
+
+      hrq = new HTTPRequest(HTTPRequest.Method.GET, new URL(host + restPath + "learneps/" + URLEncoder.encode(episodeID, SSEncodingU.utf8.toString()) + "/structure/circles/entities"));
+      hrq.setAuthorization("Bearer " + key);
+      
+      hrs = hrq.send();
+      
+      System.out.println(hrs);
+//      final WebTarget target = client.target(host + restPath + "livingdocs/https%2F");
+//      final Invocation.Builder builder = target.request(MediaType.APPLICATION_JSON_TYPE);
+//          
+//      builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + key);
+//        
+//      final String response       = builder.get(String.class);
+ 
+      System.out.println("learn ep circle entity structure)");
+      System.out.println("----------");
+      System.out.println(hrs.getContent());
+    }catch (Exception error) {
+      System.err.println(error);
+      throw error;
+    }
+  }
   public void getLivingDoc(final String livingDocID) throws Exception{
     
     try{

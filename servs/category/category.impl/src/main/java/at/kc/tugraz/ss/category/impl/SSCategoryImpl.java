@@ -82,6 +82,7 @@ import at.tugraz.sss.servs.common.impl.metadata.SSTagAndCategoryCommonMisc;
 import at.tugraz.sss.servs.common.impl.metadata.SSTagAndCategoryCommonSQL;
 import sss.serv.eval.api.SSEvalServerI;
 
+
 public class SSCategoryImpl
 extends SSServImplWithDBA
 implements
@@ -592,7 +593,7 @@ implements
         }
       }
       
-      SSUri categoryUri = null;
+      final List<SSUri> categoryURIs = new ArrayList<>();
       
       if(par.label != null){
         
@@ -608,7 +609,7 @@ implements
         if(categoryEntities.isEmpty()){
           return true;
         }else{
-          categoryUri = categoryEntities.get(0).id;
+          categoryURIs.addAll(SSUri.getDistinctNotNullFromEntities(categoryEntities));
         }
       }
       
@@ -616,13 +617,16 @@ implements
         
         dbSQL.startTrans(par, par.shouldCommit);
         
-        sql.removeMetadataAsss(
-          par, 
-          par.forUser,
-          par.entity,
-          categoryUri,
-          par.space,
-          par.circle);
+        for(SSUri categoryURI: categoryURIs){
+          
+          sql.removeMetadataAsss(
+            par,
+            par.forUser,
+            par.entity,
+            categoryURI,
+            par.space,
+            par.circle);
+        }
         
         dbSQL.commit(par, par.shouldCommit);
         
@@ -637,9 +641,12 @@ implements
         
         dbSQL.startTrans(par, par.shouldCommit);
         
-        sql.removeMetadataAsss(par, par.user, null, categoryUri, SSSpaceE.privateSpace, par.circle);
-        sql.removeMetadataAsss(par, par.user, null, categoryUri, SSSpaceE.sharedSpace,  par.circle);
-        sql.removeMetadataAsss(par, par.user, null, categoryUri, SSSpaceE.circleSpace,  par.circle);
+        for(SSUri categoryURI: categoryURIs){
+         
+          sql.removeMetadataAsss(par, par.user, null, categoryURI, SSSpaceE.privateSpace, par.circle);
+          sql.removeMetadataAsss(par, par.user, null, categoryURI, SSSpaceE.sharedSpace,  par.circle);
+          sql.removeMetadataAsss(par, par.user, null, categoryURI, SSSpaceE.circleSpace,  par.circle);
+        }
         
         dbSQL.commit(par, par.shouldCommit);
         
@@ -654,7 +661,9 @@ implements
         
         dbSQL.startTrans(par, par.shouldCommit);
         
-        sql.removeMetadataAsss(par, par.user, null, categoryUri, par.space, par.circle);
+        for(SSUri categoryURI: categoryURIs){
+          sql.removeMetadataAsss(par, par.user, null, categoryURI, par.space, par.circle);
+        }
         
         dbSQL.commit(par, par.shouldCommit);
         
@@ -669,9 +678,12 @@ implements
         
         dbSQL.startTrans(par, par.shouldCommit);
         
-        sql.removeMetadataAsss (par, par.user, par.entity, categoryUri, SSSpaceE.privateSpace, par.circle);
-        sql.removeMetadataAsss (par, null,     par.entity, categoryUri, SSSpaceE.sharedSpace,  par.circle);
-        sql.removeMetadataAsss (par, null,     par.entity, categoryUri, SSSpaceE.circleSpace,  par.circle);
+        for(SSUri categoryURI: categoryURIs){
+          
+          sql.removeMetadataAsss (par, par.user, par.entity, categoryURI, SSSpaceE.privateSpace, par.circle);
+          sql.removeMetadataAsss (par, null,     par.entity, categoryURI, SSSpaceE.sharedSpace,  par.circle);
+          sql.removeMetadataAsss (par, null,     par.entity, categoryURI, SSSpaceE.circleSpace,  par.circle);
+        }
         
         dbSQL.commit(par, par.shouldCommit);
         
@@ -686,7 +698,9 @@ implements
         
         dbSQL.startTrans(par, par.shouldCommit);
         
-        sql.removeMetadataAsss(par, null, par.entity, categoryUri, par.space, par.circle);
+        for(SSUri categoryURI: categoryURIs){
+          sql.removeMetadataAsss(par, null, par.entity, categoryURI, par.space, par.circle);
+        }
         
         dbSQL.commit(par, par.shouldCommit);
         
