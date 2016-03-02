@@ -603,7 +603,7 @@ implements
         }
       }
       
-      SSUri tagUri = null;
+      final List<SSUri> tagURIs = new ArrayList<>();
       
       if(par.label != null){
         
@@ -619,7 +619,7 @@ implements
         if(tagEntities.isEmpty()){
           return true;
         }else{
-          tagUri = tagEntities.get(0).id;
+          tagURIs.addAll(SSUri.getDistinctNotNullFromEntities(tagEntities));
         }
       }
       
@@ -627,13 +627,16 @@ implements
         
         dbSQL.startTrans(par, par.shouldCommit);
         
-        sql.removeMetadataAsss(
-          par,
-          par.forUser,
-          par.entity,
-          tagUri,
-          par.space,
-          par.circle);
+        for(SSUri tagURI : tagURIs){
+        
+          sql.removeMetadataAsss(
+            par,
+            par.forUser,
+            par.entity,
+            tagURI,
+            par.space,
+            par.circle);
+        }
         
         dbSQL.commit(par, par.shouldCommit);
         
@@ -653,9 +656,12 @@ implements
         
         dbSQL.startTrans(par, par.shouldCommit);
         
-        sql.removeMetadataAsss(par, par.user, null, tagUri, SSSpaceE.privateSpace, par.circle);
-        sql.removeMetadataAsss(par, par.user, null, tagUri, SSSpaceE.sharedSpace,  par.circle);
-        sql.removeMetadataAsss(par, par.user, null, tagUri, SSSpaceE.circleSpace,  par.circle);
+        for(SSUri tagURI : tagURIs){
+        
+          sql.removeMetadataAsss(par, par.user, null, tagURI, SSSpaceE.privateSpace, par.circle);
+          sql.removeMetadataAsss(par, par.user, null, tagURI, SSSpaceE.sharedSpace,  par.circle);
+          sql.removeMetadataAsss(par, par.user, null, tagURI, SSSpaceE.circleSpace,  par.circle);
+        }
         
         dbSQL.commit(par, par.shouldCommit);
         
@@ -675,7 +681,9 @@ implements
         
         dbSQL.startTrans(par, par.shouldCommit);
         
-        sql.removeMetadataAsss(par, par.user, null, tagUri, par.space, par.circle);
+        for(SSUri tagURI : tagURIs){
+          sql.removeMetadataAsss(par, par.user, null, tagURI, par.space, par.circle);
+        }
         
         dbSQL.commit(par, par.shouldCommit);
         
@@ -695,9 +703,11 @@ implements
         
         dbSQL.startTrans(par, par.shouldCommit);
         
-        sql.removeMetadataAsss (par, par.user, par.entity, tagUri, SSSpaceE.privateSpace, par.circle);
-        sql.removeMetadataAsss (par, null,     par.entity, tagUri, SSSpaceE.sharedSpace,  par.circle);
-        sql.removeMetadataAsss (par, null,     par.entity, tagUri, SSSpaceE.circleSpace,  par.circle);
+        for(SSUri tagURI : tagURIs){
+          sql.removeMetadataAsss (par, par.user, par.entity, tagURI, SSSpaceE.privateSpace, par.circle);
+          sql.removeMetadataAsss (par, null,     par.entity, tagURI, SSSpaceE.sharedSpace,  par.circle);
+          sql.removeMetadataAsss (par, null,     par.entity, tagURI, SSSpaceE.circleSpace,  par.circle);
+        }
         
         dbSQL.commit(par, par.shouldCommit);
         
@@ -717,7 +727,9 @@ implements
         
         dbSQL.startTrans(par, par.shouldCommit);
         
-        sql.removeMetadataAsss(par, null, par.entity, tagUri, par.space, par.circle);
+        for(SSUri tagURI : tagURIs){
+          sql.removeMetadataAsss(par, null, par.entity, tagURI, par.space, par.circle);
+        }
         
         dbSQL.commit(par, par.shouldCommit);
         
