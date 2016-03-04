@@ -1,23 +1,23 @@
-/**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.serv.datatypes.learnep.serv;
 
 import at.tugraz.sss.conf.SSCoreConf;
@@ -39,13 +39,13 @@ public class SSLearnEpServ extends SSServContainerI{
   public static final SSLearnEpServ inst = new SSLearnEpServ(SSLearnEpClientI.class, SSLearnEpServerI.class);
   
   protected SSLearnEpServ(
-    final Class servImplClientInteraceClass, 
+    final Class servImplClientInteraceClass,
     final Class servImplServerInteraceClass){
     
     super(servImplClientInteraceClass, servImplServerInteraceClass);
   }
   
-    @Override
+  @Override
   public SSServImplA getServImpl() throws SSErr{
     
     if(!conf.use){
@@ -80,13 +80,13 @@ public class SSLearnEpServ extends SSServContainerI{
     
     
 //    final Map<SSServOpE, Integer> maxRequestsForOps = new EnumMap<>(SSVarNames.class);
-//    
+//
 //    maxRequestsForOps.put(SSVarNames.learnEpVersionTimelineStateGet, 10);
 //    maxRequestsForOps.put(SSVarNames.learnEpVersionTimelineStateSet, 10);
-//    
+//
 //    SSServReg.inst.regClientRequestLimit(servImplClientInteraceClass, maxRequestsForOps);
-    
-    return this;
+
+return this;
   }
   
   @Override
@@ -99,7 +99,7 @@ public class SSLearnEpServ extends SSServContainerI{
   
   @Override
   public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA, 
+    final SSCoreConfA coreConfA,
     final List<Class> configuredServs) throws SSErr{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
@@ -107,16 +107,24 @@ public class SSLearnEpServ extends SSServContainerI{
   @Override
   public void schedule() throws SSErr{
     
-    if(conf.use){
+    if(!conf.use){
+      return;
+    }
+    
+    if(((SSLearnEpConf) conf).useEpisodeLocking){
       
-      if(((SSLearnEpConf)conf).useEpisodeLocking){
-        
-        SSServReg.regScheduler(
-          SSDateU.scheduleWithFixedDelay(
-            new SSLearnEpRemainingTimeTask(),
-            SSDateU.getDateForNextHalfMinute(),
-            SSDateU.minuteInMilliSeconds / 2));
-      }
+      SSServReg.regScheduler(
+        SSDateU.scheduleWithFixedDelay(
+          new SSLearnEpRemainingTimeTask(),
+          SSDateU.getDateForNextHalfMinute(),
+          SSDateU.minuteInMilliSeconds / 2));
+    }
+    
+    if(((SSLearnEpConf) conf).sendMailNotifications){
+     
+      SSServReg.regScheduler(
+        SSDateU.scheduleNow(
+          new SSLearnEpMailNotificationTask()));
     }
   }
 }

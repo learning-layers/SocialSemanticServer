@@ -20,6 +20,10 @@
   */
 package at.tugraz.sss.servs.learnep.impl;
 
+import at.kc.tugraz.ss.activity.api.SSActivityServerI;
+import at.kc.tugraz.ss.activity.datatypes.SSActivity;
+import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesGetPar;
 import at.kc.tugraz.ss.category.datatypes.*;
 import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
@@ -31,6 +35,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.*;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpCircle;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpDailySummary;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
@@ -84,10 +89,11 @@ implements
   SSCopyEntityI,
   SSUsersResourcesGathererI{
   
-  private final SSLearnEpActAndLog         actAndLog    = new SSLearnEpActAndLog();
-  private final SSUserCommons              userCommons  = new SSUserCommons(); 
-  private final SSLearnEpCat               cat          = new SSLearnEpCat();          
-  private final SSLearnEpCommons           commons      = new SSLearnEpCommons();     
+  private final SSLearnEpActAndLog         actAndLog      = new SSLearnEpActAndLog();
+  private final SSUserCommons              userCommons    = new SSUserCommons(); 
+  private final SSLearnEpCat               cat            = new SSLearnEpCat();          
+  private final SSLearnEpCommons           commons        = new SSLearnEpCommons();     
+  private final SSLearnEpSummaryCommons    summaryCommons = new SSLearnEpSummaryCommons();
   private final SSLearnEpSQL               sql;
   
   public SSLearnEpImpl(final SSConfA conf) throws SSErr{
@@ -714,6 +720,65 @@ implements
       
       return (SSLearnEpVersion) learnEpVersions.get(0);
       
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public SSLearnEpDailySummaryGetRet learnEpDailySummaryGet(final SSLearnEpDailySummaryGetPar par) throws SSErr{
+    
+    try{
+      final SSActivityServerI           activityServ = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+      final SSLearnEpDailySummaryGetRet result       = new SSLearnEpDailySummaryGetRet();
+      final List<SSActivityE>           actTypes     = new ArrayList<>();
+      final List<SSEntity>              acts         = new ArrayList<>();
+      
+      actTypes.add(SSActivityE.shareLearnEpWithUser);
+      actTypes.add(SSActivityE.copyLearnEpForUsers);
+      
+      acts.addAll(
+        activityServ.activitiesGet(
+          new SSActivitiesGetPar(
+            par,
+            par.user,
+            null, //activities,
+            actTypes, //types,
+            null, //users,
+            null, //entities,
+            null, //circles,
+            par.startTime, //startTime,
+            null, //endTime,
+            false, //includeOnlyLastActivities,
+            false, //withUserRestriction,
+            false))); //invokeEntityHandlers
+      
+      SSActivity            act;
+      SSLearnEpDailySummary dailySummary;
+      
+      for(SSEntity actEntity : acts){
+        
+        act = (SSActivity) actEntity;
+        
+        switch(act.activityType){
+          
+          case shareLearnEpWithUser:{
+            
+            summaryCommons.shareLearnEpWithUser(act, result.summaries);
+            break;
+          }
+          
+          case copyLearnEpForUsers:{
+            
+            summaryCommons.copyLearnEpForUser(act, result.summaries);
+            break;
+          }
+        }
+      }
+
+      return result;
+
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

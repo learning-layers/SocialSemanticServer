@@ -37,6 +37,7 @@ import at.tugraz.sss.servs.mail.datatype.par.SSMailSendPar;
 import at.tugraz.sss.servs.mail.datatype.par.SSMailsReceivePar;
 import at.tugraz.sss.servs.mail.impl.gmx.SSMailSenderGMXSMTP;
 import at.tugraz.sss.servs.mail.impl.gmail.SSMailReceiverGMAILIMAP;
+import at.tugraz.sss.servs.mail.impl.kc.SSMailSenderKCDavSMTP;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,18 +65,31 @@ implements
       
       switch(mailConf.sendProvider){
         
-        case gmxSMTP:{
+        case kcDavMailSMTP:{
           
-          final SSMailSenderGMXSMTP gmxMailSend = new SSMailSenderGMXSMTP(mailConf);
-          
-          gmxMailSend.sendMail(
-            par.fromEmail, 
-            par.toEmail, 
-            par.subject, 
+          new SSMailSenderKCDavSMTP().sendMail(
+            mailConf,
+            par.fromEmail,
+            par.toEmail,
+            par.subject,
             par.content);
           
           break;
         }
+        
+        case gmxSMTP:{
+          
+          new SSMailSenderGMXSMTP().sendMail(
+            mailConf,
+            par.fromEmail,
+            par.toEmail,
+            par.subject,
+            par.content);
+          
+          break;
+        }
+        
+        default: throw new UnsupportedOperationException();
       }
     
       return true;

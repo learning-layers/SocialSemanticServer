@@ -91,8 +91,8 @@ public class SSEntityShareWithUsers {
         return;
       }
       
-      usersToUse.addAll(users);
-      usersToUse.addAll(groupUsers);
+      SSUri.addDistinctWithoutNull(usersToUse, users);
+      SSUri.addDistinctWithoutNull(usersToUse, groupUsers);
       
       if(groupUser != null){
         SSStrU.remove(usersToUse, groupUser);

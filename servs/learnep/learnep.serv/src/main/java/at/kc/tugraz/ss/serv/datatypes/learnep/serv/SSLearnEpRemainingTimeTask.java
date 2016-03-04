@@ -18,7 +18,7 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-package at.tugraz.sss.servs.learnep.impl;
+package at.kc.tugraz.ss.serv.datatypes.learnep.serv;
 
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.*;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockRemovePar;
@@ -28,6 +28,7 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.servs.learnep.impl.SSLearnEpAccessController;
 import java.sql.*;
 
 public class SSLearnEpRemainingTimeTask implements Runnable{

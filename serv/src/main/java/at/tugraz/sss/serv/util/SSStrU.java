@@ -238,6 +238,25 @@ public class SSStrU{
     return result;
   }
   
+  public static String removeEmailHost(final Object object){
+    
+    if(object == null){
+      return null;
+    }
+    
+    if(object.toString().isEmpty()){
+      return empty;
+    }
+    
+    if(
+      object.toString().lastIndexOf(at) == object.toString().length() ||
+      object.toString().lastIndexOf(at) == -1){
+      return object.toString();
+    }
+    
+    return object.toString().substring(0, object.toString().lastIndexOf(at));
+  }
+  
   public static String removeTrailingString(
     final Object object,
     final String trail) {

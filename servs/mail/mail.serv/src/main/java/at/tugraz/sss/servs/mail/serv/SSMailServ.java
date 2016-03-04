@@ -27,8 +27,14 @@ import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
+import at.tugraz.sss.serv.util.SSDateU;
+import at.tugraz.sss.serv.util.SSLogU;
+import at.tugraz.sss.serv.util.SSObjU;
+import at.tugraz.sss.serv.util.SSStrU;
+import at.tugraz.sss.serv.util.SSVarNames;
 import at.tugraz.sss.servs.mail.SSMailClientI;
 import at.tugraz.sss.servs.mail.SSMailServerI;
+import at.tugraz.sss.servs.mail.conf.SSMailConf;
 import at.tugraz.sss.servs.mail.impl.SSMailImpl;
 import java.util.List;
 
@@ -74,6 +80,40 @@ public class SSMailServ extends SSServContainerI{
   }
   
   @Override
+  public void schedule() throws SSErr{
+    
+    final SSMailConf mailConf = (SSMailConf)conf;
+    
+    if(
+      !mailConf.use ||
+      !mailConf.schedule){
+      return;
+    }
+    
+    if(
+      SSObjU.isNull(mailConf.scheduleOps, mailConf.scheduleIntervals)   ||
+      mailConf.scheduleOps.isEmpty()                                        ||
+      mailConf.scheduleIntervals.isEmpty()                                  ||
+      mailConf.scheduleOps.size() != mailConf.scheduleIntervals.size()){
+      
+      SSLogU.warn(SSWarnE.scheduleConfigInvalid, null);
+      return;
+    }
+    
+    if(mailConf.executeScheduleAtStartUp){
+      
+      for(String scheduleOp : mailConf.scheduleOps){
+        
+        if(SSStrU.isEqual(scheduleOp, SSVarNames.mailSend)){
+          
+          SSServReg.regScheduler(
+            SSDateU.scheduleNow(
+              new SSMailSendTask()));
+        }
+      }
+    }
+  }
+  @Override
   public void initServ() throws SSErr{
   }
   
@@ -82,10 +122,5 @@ public class SSMailServ extends SSServContainerI{
     final SSCoreConfA coreConfA, 
     final List<Class> configuredServs) throws SSErr{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-  
-  @Override
-  public void schedule() throws SSErr{
-    
   }
 }

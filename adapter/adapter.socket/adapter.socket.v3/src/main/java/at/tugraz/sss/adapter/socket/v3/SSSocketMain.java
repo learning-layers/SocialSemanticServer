@@ -181,7 +181,8 @@ public class SSSocketMain extends SSServImplStartA{
         SSRecommServ.inst.schedule         ();
         SSKCProjWikiServ.inst.schedule     ();
         SSEvalServ.inst.schedule           ();
-        SSFileServ.inst.schedule       ();
+        SSFileServ.inst.schedule           ();
+        SSMailServ.inst.schedule           ();
       }catch(Exception error){
         SSServErrReg.regErrThrow(error);
       }

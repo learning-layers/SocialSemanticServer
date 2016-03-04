@@ -34,19 +34,13 @@ public class SSMailSenderGMXSMTP {
   
   private static final String     sendingHost    = "mail.gmx.net";
   private static final String     sendingPort    = "587";
-  private final        SSMailConf mailConf;
-  
-  public SSMailSenderGMXSMTP(
-    final SSMailConf mailConf){
-    
-    this.mailConf = mailConf;
-  }
   
   public void sendMail(
-    final String fromEmail, 
-    final String toEmail,
-    final String subject,
-    final String content) throws SSErr {
+    final SSMailConf mailConf,
+    final String     fromEmail, 
+    final String     toEmail,
+    final String     subject,
+    final String     content) throws SSErr {
     
     try{
 
