@@ -66,6 +66,8 @@ dataExport:
   fileNameForUserRelationsExport: userRelations.txt
 user:
   use: true
+  usersPerGroup:
+   #- internal.app@know-center.at:bn-testuser7@know-center.at
 coll:
   use: true
 rating:

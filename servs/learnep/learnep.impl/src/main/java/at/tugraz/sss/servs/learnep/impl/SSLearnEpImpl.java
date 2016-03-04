@@ -255,7 +255,7 @@ implements
   
   @Override
   public void pushEntitiesToUsers(
-    final SSServPar servPar,
+    final SSServPar                servPar,
     final SSPushEntitiesToUsersPar par) throws SSErr {
     
     try{

@@ -20,6 +20,7 @@
   */
 package at.tugraz.sss.servs.user.impl;
 
+import at.kc.tugraz.ss.serv.user.conf.SSUserConf;
 import at.tugraz.sss.serv.datatype.par.SSCircleUsersAddPar;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
@@ -303,6 +304,48 @@ implements
       }
       
       return users;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSUri> usersPredefinedGet(final SSUsersPredefinedGetPar par) throws SSErr{
+    
+    try{
+      
+      if(par.group == null){
+        return new ArrayList<>();
+      }
+            
+      if(((SSUserConf) conf).usersPerGroup.isEmpty()){
+        return new ArrayList<>();
+      }
+      
+      final List<String> emails   = new ArrayList<>();
+      final List<SSUri>  userURIs = new ArrayList<>();
+      String             groupStr;
+      String             userStr;
+      
+      for(String usersForGroup :((SSUserConf) conf).usersPerGroup){
+        
+        groupStr     = SSStrU.split(usersForGroup, SSStrU.colon).get(0);
+        userStr     = SSStrU.split(usersForGroup, SSStrU.colon).get(1);
+        
+        if(!SSStrU.isEqual(par.group, groupStr)){
+          continue;
+        }
+        
+        emails.clear();
+        emails.addAll(SSStrU.splitDistinctWithoutEmptyAndNull(userStr, SSStrU.comma));
+        
+        for(String email : emails){
+          SSUri.addDistinctWithoutNull(userURIs, sql.getUserURIForEmail(par, email));
+        }
+      }
+      
+      return userURIs;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

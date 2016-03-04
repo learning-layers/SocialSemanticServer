@@ -20,6 +20,9 @@
   */
 package at.tugraz.sss.servs.entity.impl;
 
+import at.kc.tugraz.ss.service.user.api.SSUserServerI;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersPredefinedGetPar;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSCircleCreatePar;
 import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
@@ -35,6 +38,7 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SSEntityShareWithUsers {
@@ -61,10 +65,37 @@ public class SSEntityShareWithUsers {
         throw SSErr.get(SSErrE.userCannotShareWithHimself);
       }
       
+      final SSUserServerI userServ   = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
+      final List<SSUri>   usersToUse = new ArrayList<>();
+      final List<SSUri>   groupUsers = new ArrayList<>();
+      final SSUri         groupUser =
+        userServ.userURIGet(
+          new SSUserURIGetPar(
+            servPar,
+            user,
+            "internal.app@know-center.at"));
+      
+      if(SSStrU.contains(users, groupUser)){
+        
+        groupUsers.addAll(
+          userServ.usersPredefinedGet(
+            new SSUsersPredefinedGetPar(
+              servPar,
+              user,
+              "internal.app@know-center.at")));
+      }
+      
       if(
         SSStrU.isEmpty(users) ||
         !userCommons.areUsersUsers(servPar, users)){
         return;
+      }
+      
+      usersToUse.addAll(users);
+      usersToUse.addAll(groupUsers);
+      
+      if(groupUser != null){
+        SSStrU.remove(usersToUse, groupUser);
       }
       
       final SSUri circleUri =
@@ -84,7 +115,7 @@ public class SSEntityShareWithUsers {
           servPar,
           user,
           circleUri, //circle
-          users, //users
+          usersToUse, //users
           false, //withUserRestriction
           false)); //shouldCommit
       

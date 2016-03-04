@@ -36,4 +36,5 @@ public interface SSUserServerI extends SSServServerI{
   public SSUri          userAdd               (final SSUserAddPar               par) throws SSErr;
   public List<SSEntity> userEntityUsersGet    (final SSUserEntityUsersGetPar    par) throws SSErr;
   public SSUri          userUpdate            (final SSUserUpdatePar            par) throws SSErr;
+  public List<SSUri>    usersPredefinedGet    (final SSUsersPredefinedGetPar    par) throws SSErr;
 }

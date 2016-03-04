@@ -462,13 +462,14 @@ implements
   
   @Override
   public void pushEntitiesToUsers(
-    final SSServPar servPar, 
+    final SSServPar                servPar, 
     final SSPushEntitiesToUsersPar par) throws SSErr {
     
     try{
       for(SSEntity entityToPush : par.entities){
         
         switch(entityToPush.type){
+          
           case qa:
           case disc:
           case chat: {
@@ -479,7 +480,10 @@ implements
                 continue;
               }
               
-              sql.addDisc(servPar, entityToPush.id, userToPushTo);
+              sql.addDisc(
+                servPar, 
+                entityToPush.id, //disc
+                userToPushTo); //user
             }
             
             break;
