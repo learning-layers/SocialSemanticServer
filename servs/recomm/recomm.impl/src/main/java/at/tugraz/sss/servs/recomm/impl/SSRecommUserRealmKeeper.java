@@ -81,7 +81,13 @@ public class SSRecommUserRealmKeeper{
       }else{
         
         if(SSStrU.isEqual(realm, conf.fileNameForRec)){
+          
           final List<SSRecommUserRealmEngine> systemUserRealmEngines = userRealmEngines.get(SSStrU.toStr(SSConf.systemUserUri));
+          
+          if(SSStrU.isEmpty(systemUserRealmEngines)){
+            SSServErrReg.regErrThrow(SSErrE.recommSystemRealmNotLoaded);
+            return null;
+          }
           
           return systemUserRealmEngines.get(0);
         }

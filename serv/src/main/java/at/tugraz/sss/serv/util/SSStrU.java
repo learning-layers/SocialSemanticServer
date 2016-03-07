@@ -579,6 +579,17 @@ public class SSStrU{
     return object == null || object.toString().trim().isEmpty();
   }
   
+  public static boolean isEmpty(final List<? extends Object> objects){
+    
+    if(
+      objects == null  ||
+      objects.isEmpty()){
+      return true;
+    }
+    
+    return false;
+  }
+  
   public static boolean isEmpty(final Object... objects) {
     
     if(objects == null){

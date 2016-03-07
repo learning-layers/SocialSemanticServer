@@ -34,7 +34,6 @@ import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.util.SSStrU;
-import at.tugraz.sss.serv.util.SSSystemU;
 import at.tugraz.sss.servs.mail.SSMailServerI;
 import at.tugraz.sss.servs.mail.datatype.par.SSMailSendPar;
 import java.sql.*;
