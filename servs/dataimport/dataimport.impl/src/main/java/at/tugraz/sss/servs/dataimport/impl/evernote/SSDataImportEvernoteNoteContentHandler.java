@@ -350,6 +350,12 @@ public class SSDataImportEvernoteNoteContentHandler{
           mimeType = null;
           
           if(
+            tmpLine.contains("type=\"" + SSMimeTypeE.videoMp4 + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.videoMp4  + "\"")){
+            mimeType = SSMimeTypeE.videoMp4;
+          }
+          
+          if(
             tmpLine.contains("type=\"" + SSMimeTypeE.applicationZip + "\"")  &&
             endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.applicationZip  + "\"")){
             mimeType = SSMimeTypeE.applicationZip;
