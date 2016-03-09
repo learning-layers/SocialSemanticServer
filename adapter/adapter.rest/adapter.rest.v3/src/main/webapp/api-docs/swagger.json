@@ -48,6 +48,8 @@
   }, {
     "name" : "likes"
   }, {
+    "name" : "links"
+  }, {
     "name" : "livingdocs"
   }, {
     "name" : "messages"
@@ -2150,6 +2152,24 @@
             "description" : "successful operation",
             "schema" : {
               "$ref" : "#/definitions/SSLikeUserSetRet"
+            }
+          }
+        }
+      }
+    },
+    "/links" : {
+      "post" : {
+        "tags" : [ "links" ],
+        "summary" : "create a link",
+        "description" : "",
+        "operationId" : "linkAdd",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SSLinkAddRet"
             }
           }
         }
@@ -5049,6 +5069,18 @@
           "type" : "string"
         },
         "entity" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SSLinkAddRet" : {
+      "type" : "object",
+      "required" : [ "op" ],
+      "properties" : {
+        "op" : {
+          "type" : "string"
+        },
+        "link" : {
           "type" : "string"
         }
       }

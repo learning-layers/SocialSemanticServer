@@ -44,6 +44,7 @@ import at.tugraz.sss.adapter.rest.v3.video.SSRESTVideo;
 import at.tugraz.sss.adapter.rest.v3.appstacklayout.SSRESTAppStackLayout;
 import at.tugraz.sss.adapter.rest.v3.app.SSRESTApp;
 import at.tugraz.sss.adapter.rest.v3.activity.SSRESTActivity;
+import at.tugraz.sss.adapter.rest.v3.link.SSRESTLink;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.SSJSONU;
 import at.tugraz.sss.serv.util.*;
@@ -89,7 +90,8 @@ public class SSRestMain extends ResourceConfig{
       SSRESTSearch.class,
       SSRESTTag.class,
       SSRESTUser.class,
-      SSRESTVideo.class);
+      SSRESTVideo.class, 
+      SSRESTLink.class);
     
 //    SwaggerConfig swaggerConfig = new SwaggerConfig( );
 //    ConfigFactory.setConfig( swaggerConfig );

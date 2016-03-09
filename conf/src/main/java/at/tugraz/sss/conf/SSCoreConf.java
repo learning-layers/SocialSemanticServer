@@ -1,23 +1,23 @@
- /**
-  * Code contributed to the Learning Layers project http://www.learning-layers.eu
-  * Development is partly funded by the FP7 Programme of the European Commission
-  * under Grant Agreement FP7-ICT-318209. Copyright (c) 2014, Graz University of
-  * Technology - KTI (Knowledge Technologies Institute). For a list of
-  * contributors see the AUTHORS file at the top-level directory of this
-  * distribution.
-  *
-  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
-  * use this file except in compliance with the License. You may obtain a copy of
-  * the License at
-  *
-  * http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-  * License for the specific language governing permissions and limitations under
-  * the License.
-  */
+/**
+ * Code contributed to the Learning Layers project http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission
+ * under Grant Agreement FP7-ICT-318209. Copyright (c) 2014, Graz University of
+ * Technology - KTI (Knowledge Technologies Institute). For a list of
+ * contributors see the AUTHORS file at the top-level directory of this
+ * distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 package at.tugraz.sss.conf;
 
 import at.tugraz.sss.servs.file.conf.SSFileConf;
@@ -55,6 +55,7 @@ import at.tugraz.sss.servs.location.conf.SSLocationConf;
 import at.tugraz.sss.servs.ocd.conf.SSOCDConf;
 import at.tugraz.sss.servs.image.conf.SSImageConf;
 import at.tugraz.sss.servs.kcprojwiki.conf.SSKCProjWikiConf;
+import at.tugraz.sss.servs.link.conf.SSLinkConf;
 import at.tugraz.sss.servs.livingdocument.conf.SSLivingDocConf;
 import at.tugraz.sss.servs.mail.conf.SSMailConf;
 
@@ -98,6 +99,7 @@ public class SSCoreConf extends SSCoreConfA {
   private SSLivingDocConf  livingDocument = null;
   private SSMailConf  mail = null;
   private SSKCProjWikiConf kcprojwiki = null;
+  private SSLinkConf link = null;
   
   public static synchronized SSCoreConf instSet(final String pathToFile) throws SSErr {
     
@@ -175,6 +177,7 @@ public class SSCoreConf extends SSCoreConfA {
       copy.livingDocument = SSLivingDocConf.copy(inst.livingDocument);
       copy.mail = SSMailConf.copy(inst.mail);
       copy.kcprojwiki = SSKCProjWikiConf.copy(inst.kcprojwiki);
+      copy.link = SSLinkConf.copy(inst.link);
       
       return copy;
     } catch (Exception error) {
@@ -458,9 +461,17 @@ public class SSCoreConf extends SSCoreConfA {
   public SSKCProjWikiConf getKcprojwiki() {
     return kcprojwiki;
   }
-
+  
   public void setKcprojwiki(SSKCProjWikiConf kcprojwiki) {
     this.kcprojwiki = kcprojwiki;
+  }
+  
+  public SSLinkConf getLink() {
+    return link;
+  }
+  
+  public void setLink(SSLinkConf link) {
+    this.link = link;
   }
 }
 

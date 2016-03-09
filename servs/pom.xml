@@ -46,5 +46,6 @@
     <module>kcprojwiki</module>
     <module>db</module>
     <module>file</module>
+    <module>link</module>
   </modules>
 </project>

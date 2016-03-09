@@ -32,6 +32,7 @@ public enum SSEvalLogE{
   tagAdd,
   shareLearnEpWithUser,
 
+  addLink,
   search,
   changeDiscContent,
   changeDiscEntryContent,

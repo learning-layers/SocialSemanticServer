@@ -63,6 +63,7 @@ import at.tugraz.sss.serv.db.serv.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.image.serv.*;
 import at.tugraz.sss.servs.kcprojwiki.serv.*;
+import at.tugraz.sss.servs.link.serv.SSLinkServ;
 import at.tugraz.sss.servs.livingdocument.serv.*;
 import at.tugraz.sss.servs.location.serv.*;
 import at.tugraz.sss.servs.mail.serv.*;
@@ -158,6 +159,7 @@ public class SSSocketMain extends SSServImplStartA{
         SSLivingDocServ.inst.regServ       ();
         SSMailServ.inst.regServ            ();
         SSKCProjWikiServ.inst.regServ      ();
+        SSLinkServ.inst.regServ            ();
         
       }catch(Exception error){
         SSServErrReg.regErrThrow(error);

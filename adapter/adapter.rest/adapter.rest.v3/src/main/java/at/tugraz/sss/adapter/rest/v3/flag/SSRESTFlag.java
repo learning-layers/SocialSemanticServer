@@ -82,8 +82,7 @@ public class SSRESTFlag{
         
         par =
           new SSFlagsSetPar(
-            new SSServPar
-      (((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection()),
+            new SSServPar(((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection()),
             null,
             input.entities,
             input.types,

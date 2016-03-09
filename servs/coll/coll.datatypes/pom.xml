@@ -36,11 +36,11 @@
       <version>${project.version}</version>
     </dependency>
 
-    <dependency>
+<!--    <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>serv</artifactId>
       <version>${project.version}</version>
-    </dependency>
+    </dependency>-->
     
     <dependency>
       <groupId>sss</groupId>

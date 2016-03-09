@@ -239,7 +239,7 @@ public class SSRecommTagCommons {
         if(!evalLogPar.entities.isEmpty()){
           evalLogPar.query += SSVarNames.forEntity + SSStrU.colon + SSStrU.toCommaSeparatedStrNotNull(evalLogPar.entities) + evalLogPar.creationTime;
         }else{
-          evalLogPar.query += SSVarNames.forEntity + SSStrU.colon + SSStrU.blank + evalLogPar.creationTime;
+          evalLogPar.query += SSVarNames.forEntity + SSStrU.colon + SSStrU.empty + evalLogPar.creationTime;
         } 
       }
       

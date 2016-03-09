@@ -893,6 +893,7 @@ implements
         final List<SSEntityE> types =
           SSEntityE.asListNotNull(
             SSEntityE.entity,
+            SSEntityE.link,
             SSEntityE.uploadedFile,
             SSEntityE.evernoteResource,
             SSEntityE.evernoteNote,
