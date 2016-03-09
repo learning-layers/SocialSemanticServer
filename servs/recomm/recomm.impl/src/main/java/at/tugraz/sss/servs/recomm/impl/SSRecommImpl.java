@@ -75,7 +75,6 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
-import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
 import engine.EntityRecommenderEngine;
 import engine.TagRecommenderEvalEngine;
 import java.io.*;
@@ -334,6 +333,7 @@ implements
             algo,
             EntityType.TAG)); //entity type to recommend
       }
+      
       
       for(Map<String, Double> tagsWithLikelihood : tagsPerEntity){
         

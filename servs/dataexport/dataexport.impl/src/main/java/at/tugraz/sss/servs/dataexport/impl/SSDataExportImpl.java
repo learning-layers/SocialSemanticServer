@@ -251,13 +251,20 @@ implements
           //content
           switch(entity.context){
             
-            case category:
-            case tag:{
+            case category:{
+              lineParts.add(SSStrU.empty);
               lineParts.add(entity.content);
               break;
             }
             
+            case tag:{
+              lineParts.add(entity.content);
+              lineParts.add(SSStrU.empty);
+              break;
+            }
+            
             default:{
+              lineParts.add(SSStrU.empty);
               lineParts.add(SSStrU.empty);
               break;
             }
