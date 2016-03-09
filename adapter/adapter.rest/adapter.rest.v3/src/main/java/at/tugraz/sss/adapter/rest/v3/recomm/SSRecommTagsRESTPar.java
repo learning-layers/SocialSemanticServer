@@ -44,16 +44,25 @@ public class SSRecommTagsRESTPar{
     this.forUser = SSUri.get(forUser, SSConf.sssUri);
   }
   
+  @Deprecated
   @ApiModelProperty( 
     required = false, 
     value = "resource to be considered to retrieve recommendations for")
   public SSUri         entity     = null;
   
-  
+  @Deprecated
   public void setEntity(final String entity) throws SSErr{
     this.entity = SSUri.get(entity, SSConf.sssUri);
   }
   
+  @ApiModelProperty( 
+    required = false, 
+    value = "resources to be considered to retrieve recommendations for")
+  public List<SSUri>         entities     = null;
+  
+  public void setEntities(final List<String> entities) throws SSErr{
+    this.entities = SSUri.get(entities, SSConf.sssUri);
+  }
   
   @ApiModelProperty( 
     required = false, 

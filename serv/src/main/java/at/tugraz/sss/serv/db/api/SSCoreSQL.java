@@ -716,107 +716,6 @@ public class SSCoreSQL extends SSDBSQLFctA{
     }
   }
   
-  public SSEntity getEntityTest(
-    final SSServPar       servPar,
-    final SSUri           systemUserURI,
-    final SSUri           user,
-    final SSUri           entity,
-    final boolean         withUserRestriction) throws SSErr{
-    
-    ResultSet resultSet  = null;
-    
-    try{
-      
-      if(
-        user == null &&
-        withUserRestriction){
-        
-        throw SSErr.get(SSErrE.parameterMissing);
-      }
-      
-      if(entity == null){
-        throw SSErr.get(SSErrE.parameterMissing);
-      }
-      
-      final String entityStr = entity.toString();
-      final String userStr   = SSStrU.toStr(user);
-      String       query;
-      
-      if(
-        withUserRestriction &&
-        !SSStrU.isEqual(userStr, systemUserURI)){
-        
-        query = "select DISTINCT id, type, label, description, author, creationTime from entity where ";
-        query += "(id = '" + entityStr + "' AND type  = 'entity') OR ";
-        query += "(id = '" + entityStr + "' AND type  = 'circle' AND id = (select DISTINCT circleId from circle where circleId = '" + entityStr + "' and (circleType = 'pub' or circleType = 'pubCircle'))) OR ";
-        query += "(id = '" + entityStr + "' AND type  = 'circle' AND id = (select DISTINCT circle.circleId from circle, circleusers where circle.circleId = '" + entityStr + "' and circleusers.userId = '" + userStr + "' and circle.circleId = circleusers.circleId)) OR ";
-        query += "(id = '" + entityStr + "' AND type != 'entity' AND type != 'circle' AND id = (select DISTINCT circleentities.entityId from circle, circleentities, circleusers where entityId = '" + entityStr + "' and userId = '" + userStr + "' and circle.circleId = circleentities.circleId and circle.circleId = circleusers.circleId))";
-  
-      }else{
-        query = "select DISTINCT id, type, label, description, author, creationTime from entity where entity.id ='" + entityStr + "'";
-      }
-      
-      resultSet = dbSQL.select(servPar, query);
-      
-      if(!existsFirstResult(resultSet)){
-        return null;
-      }
-      
-      return SSEntity.get(
-        bindingStrToUri        (resultSet, SSSQLVarNames.id),
-        bindingStrToEntityType (resultSet, SSSQLVarNames.type),
-        bindingStrToLabel      (resultSet, SSSQLVarNames.label),
-        bindingStrToTextComment(resultSet, SSSQLVarNames.description),
-        bindingStrToLong       (resultSet, SSSQLVarNames.creationTime),
-        bindingStrToAuthor     (resultSet, SSSQLVarNames.author));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      
-      try{
-        dbSQL.closeStmt(resultSet);
-      }catch(Exception sqlError){
-        SSServErrReg.regErrThrow(sqlError);
-      }
-    }
-  }
-  
-  public boolean isUserAuthor(
-    final SSServPar   servPar,
-    final SSUri       systemUserURI,
-    final SSUri       user, 
-    final SSUri       entityURI,
-    final boolean     withUserRestriction) throws SSErr{
-    
-    try{
-      
-      if(SSObjU.isNull(user, entityURI)){
-        return false;
-      }
-      
-      final SSEntity entity =
-        getEntityTest(
-          servPar,
-          systemUserURI,
-          user, 
-          entityURI, 
-          withUserRestriction);
-        
-      if(
-        entity == null ||
-        !SSStrU.isEqual(user, entity.author)){
-        return false;
-      }
-      
-      return true;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return false;
-    }
-  }
-  
   public List<SSUri> getAccessibleURIs(
     final SSServPar       servPar,
     final SSUri           systemUserURI,
@@ -943,6 +842,107 @@ public class SSCoreSQL extends SSDBSQLFctA{
       }catch(Exception sqlError){
         SSServErrReg.regErrThrow(sqlError);
       }
+    }
+  }
+  
+  public SSEntity getEntityTest(
+    final SSServPar       servPar,
+    final SSUri           systemUserURI,
+    final SSUri           user,
+    final SSUri           entity,
+    final boolean         withUserRestriction) throws SSErr{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      
+      if(
+        user == null &&
+        withUserRestriction){
+        
+        throw SSErr.get(SSErrE.parameterMissing);
+      }
+      
+      if(entity == null){
+        throw SSErr.get(SSErrE.parameterMissing);
+      }
+      
+      final String entityStr = entity.toString();
+      final String userStr   = SSStrU.toStr(user);
+      String       query;
+      
+      if(
+        withUserRestriction &&
+        !SSStrU.isEqual(userStr, systemUserURI)){
+        
+        query = "select DISTINCT id, type, label, description, author, creationTime from entity where ";
+        query += "(id = '" + entityStr + "' AND type  = 'entity') OR ";
+        query += "(id = '" + entityStr + "' AND type  = 'circle' AND id = (select DISTINCT circleId from circle where circleId = '" + entityStr + "' and (circleType = 'pub' or circleType = 'pubCircle'))) OR ";
+        query += "(id = '" + entityStr + "' AND type  = 'circle' AND id = (select DISTINCT circle.circleId from circle, circleusers where circle.circleId = '" + entityStr + "' and circleusers.userId = '" + userStr + "' and circle.circleId = circleusers.circleId)) OR ";
+        query += "(id = '" + entityStr + "' AND type != 'entity' AND type != 'circle' AND id = (select DISTINCT circleentities.entityId from circle, circleentities, circleusers where entityId = '" + entityStr + "' and userId = '" + userStr + "' and circle.circleId = circleentities.circleId and circle.circleId = circleusers.circleId))";
+  
+      }else{
+        query = "select DISTINCT id, type, label, description, author, creationTime from entity where entity.id ='" + entityStr + "'";
+      }
+      
+      resultSet = dbSQL.select(servPar, query);
+      
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
+      
+      return SSEntity.get(
+        bindingStrToUri        (resultSet, SSSQLVarNames.id),
+        bindingStrToEntityType (resultSet, SSSQLVarNames.type),
+        bindingStrToLabel      (resultSet, SSSQLVarNames.label),
+        bindingStrToTextComment(resultSet, SSSQLVarNames.description),
+        bindingStrToLong       (resultSet, SSSQLVarNames.creationTime),
+        bindingStrToAuthor     (resultSet, SSSQLVarNames.author));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
+    }
+  }
+  
+  public boolean isUserAuthor(
+    final SSServPar   servPar,
+    final SSUri       systemUserURI,
+    final SSUri       user, 
+    final SSUri       entityURI,
+    final boolean     withUserRestriction) throws SSErr{
+    
+    try{
+      
+      if(SSObjU.isNull(user, entityURI)){
+        return false;
+      }
+      
+      final SSEntity entity =
+        getEntityTest(
+          servPar,
+          systemUserURI,
+          user, 
+          entityURI, 
+          withUserRestriction);
+        
+      if(
+        entity == null ||
+        !SSStrU.isEqual(user, entity.author)){
+        return false;
+      }
+      
+      return true;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return false;
     }
   }
   

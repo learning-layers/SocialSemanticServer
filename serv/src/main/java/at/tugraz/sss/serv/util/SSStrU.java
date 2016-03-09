@@ -499,7 +499,7 @@ public class SSStrU{
   }
   
   public static List<String> escapeColonSemiColonComma(
-    final List<? extends Object> objects) throws SSErr{
+    final Collection<? extends Object> objects) throws SSErr{
     
     try{
       

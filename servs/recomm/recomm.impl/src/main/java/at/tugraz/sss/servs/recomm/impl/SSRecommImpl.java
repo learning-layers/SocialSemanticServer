@@ -75,6 +75,7 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
+import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
 import engine.EntityRecommenderEngine;
 import engine.TagRecommenderEvalEngine;
 import java.io.*;
@@ -251,6 +252,8 @@ implements
   }
   
   
+  
+  
   @Override
   public List<SSTagLikelihood> recommTags(final SSRecommTagsPar par) throws SSErr{
     
@@ -287,68 +290,64 @@ implements
           sql, //sqlFct
           false); //storeToDB
       
-      if(par.ignoreAccessRights){
+      if(!recommTagCommons.checkAccessRights(par, (SSRecommConf) conf, realmToUse)){
+        return new ArrayList<>();
+      }
+      
+      final List<Map<String, Double>>    tagsPerEntity             = new ArrayList<>();
+      final Map<String, Double>          tagsWithSummedLikelihoods = new HashMap<>();
+      final List<SSTagLikelihood>        tags                      = new ArrayList<>();
+      final Set<String>                  entitiesCategories        = new HashSet<>();
+      final SSUser                       user;
+      final Algorithm                    algo;
+      List<String>                       entityCategories;
+      
+      user             = recommCommons.getUser(par, par.user);
+      algo             = recommTagCommons.getRecommTagsAlgo((SSRecommConf) conf, user);
+      
+      if(par.entities.isEmpty()){
         
-        if(SSStrU.isEqual(realmToUse, ((SSRecommConf)conf).fileNameForRec)){
-          throw SSErr.get(SSErrE.parameterMissing);
+        tagsWithSummedLikelihoods.putAll(
+          userRealmEngine.engine.getEntitiesWithLikelihood(
+            SSStrU.toStr(par.forUser),
+            null, //entity
+            null, //categories,
+            par.maxTags,
+            !par.includeOwn, //filterOwn
+            algo,
+            EntityType.TAG)); //entity type to recommend
+      }
+      
+      for(SSUri entity : par.entities){
+        
+        entityCategories = recommTagCommons.provideCategoryInputForRecommTags(par, entity, algo);
+        
+        entitiesCategories.addAll(entityCategories);
+        
+        tagsPerEntity.add(
+          userRealmEngine.engine.getEntitiesWithLikelihood(
+            SSStrU.toStr(par.forUser),
+            SSStrU.toStr(entity),
+            entityCategories,
+            par.maxTags,
+            !par.includeOwn, //filterOwn
+            algo,
+            EntityType.TAG)); //entity type to recommend
+      }
+      
+      for(Map<String, Double> tagsWithLikelihood : tagsPerEntity){
+        
+        for(Map.Entry<String, Double> tag : tagsWithLikelihood.entrySet()){
+          
+          if(tagsWithSummedLikelihoods.containsKey(tag.getKey())){
+            tagsWithSummedLikelihoods.put(tag.getKey(), tagsWithSummedLikelihoods.get(tag.getKey()) + tag.getValue());
+          }else{
+            tagsWithSummedLikelihoods.put(tag.getKey(), tag.getValue());
+          }
         }
       }
       
-      if(!par.ignoreAccessRights){
-        
-        if(par.withUserRestriction){
-          
-          if(
-            par.forUser != null &&
-            !SSStrU.isEqual(par.user, par.forUser)){
-            throw SSErr.get(SSErrE.userNotAllowedToRetrieveForOtherUser);
-          }
-          
-          if(par.entity != null){
-            
-            final SSEntity entity =
-              sql.getEntityTest(
-                par,
-                SSConf.systemUserUri,
-                par.user,
-                par.entity,
-                par.withUserRestriction);
-            
-            if(entity == null){
-              return new ArrayList<>();
-            }
-          }
-        }
-      }
-      
-      final List<SSTagLikelihood>  tags = new ArrayList<>();
-      
-      final SSUser user = 
-        recommCommons.getUser(
-          par, 
-          par.user);
-      
-      final Algorithm algo = 
-        recommTagCommons.getRecommTagsAlgo((
-          SSRecommConf) conf, 
-          user);
-      
-      final List<String> categories = 
-        recommTagCommons.provideCategoryInputForRecommTags(
-          par, 
-          algo);
-      
-      final Map<String, Double> tagsWithLikelihood =
-        userRealmEngine.engine.getEntitiesWithLikelihood(
-          SSStrU.toStr(par.forUser),
-          SSStrU.toStr(par.entity),
-          categories,
-          par.maxTags,
-          !par.includeOwn, //filterOwn
-          algo,
-          EntityType.TAG); //entity type to recommend
-      
-      for(Map.Entry<String, Double> tag : tagsWithLikelihood.entrySet()){
+      for(Map.Entry<String, Double> tag : tagsWithSummedLikelihoods.entrySet()){
         
         tags.add(
           SSTagLikelihood.get(
@@ -356,11 +355,11 @@ implements
             tag.getValue()));
       }
       
-      evalLogTags(
-        par, 
-        tags, 
-        algo, 
-        categories,
+      recommTagCommons.evalLog(
+        par,
+        tags,
+        algo,
+        entitiesCategories,
         par.shouldCommit);
       
       return tags;
@@ -1070,68 +1069,6 @@ implements
       
       for(SSResourceLikelihood resource : resources){
         evalLogPar.result += SSStrU.escapeColonSemiColonComma(resource.resource.label) + SSStrU.colon + resource.likelihood + SSStrU.comma;
-      }
-      
-      evalServ.evalLog(evalLogPar);
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  private void evalLogTags(
-    final SSRecommTagsPar       par, 
-    final List<SSTagLikelihood> tags,
-    final Algorithm             algo,
-    final List<String>          categories,
-    final boolean               shouldCommit) throws SSErr{
-    
-    try{
-      final SSEvalServerI evalServ   = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
-      final SSEvalLogPar  evalLogPar =
-        new SSEvalLogPar(
-          par,
-          par.user,
-          SSToolContextE.sss,
-          SSEvalLogE.recommTags,
-          par.entity, // entity
-          null, //content
-          null, //entities
-          SSUri.asListNotNull(par.forUser), //users
-          new Date().getTime(), //creationTime
-          shouldCommit);
-      
-      evalLogPar.query  = SSStrU.empty;
-      evalLogPar.result = SSStrU.empty;
-      
-      final String formattedCategories = 
-        SSStrU.toCommaSeparatedStrNotNull(
-          SSStrU.escapeColonSemiColonComma(categories));
-      
-      final String realm = 
-        SSStrU.escapeColonSemiColonComma(par.realm);
-      
-      evalLogPar.query += SSVarNames.algo                              + SSStrU.colon + algo                                                   + evalLogPar.creationTime;
-      evalLogPar.query += SSVarNames.forEntity                         + SSStrU.colon + par.entity                                             + evalLogPar.creationTime;
-      evalLogPar.query += SSVarNames.forUser                           + SSStrU.colon + par.forUser                                            + evalLogPar.creationTime;
-      evalLogPar.query += SSVarNames.categories                        + SSStrU.colon + formattedCategories                                    + evalLogPar.creationTime;
-      evalLogPar.query += SSVarNames.includeOwn                        + SSStrU.colon + par.includeOwn                                         + evalLogPar.creationTime;
-      evalLogPar.query += SSVarNames.maxTags                           + SSStrU.colon + par.maxTags                                            + evalLogPar.creationTime;
-      evalLogPar.query += SSVarNames.realm                             + SSStrU.colon + realm                                                  + evalLogPar.creationTime;
-      evalLogPar.query += SSVarNames.ignoreAccessRights                + SSStrU.colon + par.ignoreAccessRights                                 + evalLogPar.creationTime;
-      
-      for(SSTagLikelihood tag : tags){
-        evalLogPar.result += SSStrU.escapeColonSemiColonComma(tag.getLabel()) + SSStrU.colon + tag.getLikelihood() + SSStrU.comma;
       }
       
       evalServ.evalLog(evalLogPar);

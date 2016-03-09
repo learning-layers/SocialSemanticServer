@@ -1314,12 +1314,15 @@ public class SSRESTRecomm{
             null,
             input.realm,  //realm
             input.forUser,  //forUser
-            input.entity,  //entity
+            null,  //entities
             input.categories,  //categories
             input.maxTags,    //maxTags
             input.includeOwn, //includeOwn
             input.ignoreAccessRights, //ignoreAccessRights
             true); //withUserRestriction
+        
+        SSUri.addDistinctWithoutNull(par.entities, input.entity);
+        SSUri.addDistinctWithoutNull(par.entities, input.entities);
         
       }catch(Exception error){
         return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();

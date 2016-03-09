@@ -30,26 +30,26 @@ public class SSRecommTagsPar extends SSServPar{
   
   public String         realm                = null;
   public SSUri          forUser              = null;
-  public SSUri          entity               = null;
+  public List<SSUri>    entities             = new ArrayList<>();
   public List<String>   categories           = new ArrayList<>();
   public Integer        maxTags              = 10;
   public boolean        includeOwn           = true;
   public boolean        ignoreAccessRights   = false;
   
-  public void setForUser(final String forUser) throws SSErr{
-    this.forUser = SSUri.get(forUser);
+  public void setEntities(final List<String> entities) throws SSErr{
+    this.entities.addAll(SSUri.get(entities));
   }
   
-  public void setEntity(final String entity) throws SSErr{
-    this.entity = SSUri.get(entity);
+  public List<String> getEntities(){
+    return SSStrU.removeTrailingSlash(entities);
   }
   
   public String getForUser(){
     return SSStrU.removeTrailingSlash(forUser);
   }
 
-  public String getEntity(){
-    return SSStrU.removeTrailingSlash(entity);
+  public void setForUser(final String forUser) throws SSErr{
+    this.forUser = SSUri.get(forUser);
   }
   
   public SSRecommTagsPar(){/* Do nothing because of only JSON Jackson needs this */ }
@@ -59,7 +59,7 @@ public class SSRecommTagsPar extends SSServPar{
     final SSUri         user,
     final String        realm,
     final SSUri         forUser, 
-    final SSUri         entity, 
+    final List<SSUri>   entities, 
     final List<String>  categories, 
     final Integer       maxTags, 
     final boolean       includeOwn, 
@@ -70,11 +70,10 @@ public class SSRecommTagsPar extends SSServPar{
     
     this.realm   = realm;
     this.forUser = forUser;
-    this.entity  = entity;
     
-    if(categories != null){
-      this.categories.addAll(categories);
-    }
+    SSUri.addDistinctWithoutNull(this.entities,   entities);
+    SSStrU.addDistinctNotNull   (this.categories, categories);
+    
     this.maxTags              = maxTags;
     this.includeOwn           = includeOwn;
     this.ignoreAccessRights   = ignoreAccessRights;
