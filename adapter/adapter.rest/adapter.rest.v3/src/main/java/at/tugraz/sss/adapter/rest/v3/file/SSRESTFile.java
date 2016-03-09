@@ -89,14 +89,11 @@ public class SSRESTFile{
     @FormDataParam(SSVarNames.mimeType)
     final String mimeType,
     
-//    @FormDataParam("file") InputStream file,
-//    @FormDataParam("file") FormDataContentDisposition fileDisposition){
-
-    @ApiParam(
-      value = "file data",
-      required = true)
+//    @ApiParam(
+//      value = "file data",
+//      required = true)
     @FormDataParam("file")
-    final InputStream file){ //@FormDataParam("my_file") FormDataBodyPart body Then you can use body.getMediaType()
+    final InputStream file){ //@FormDataParam("my_file") FormDataBodyPart body Then you can use body.getMediaType() //    @FormDataParam("file") FormDataContentDisposition fileDisposition){
     
     final SSFileUploadPar  par;
     Connection               sqlCon = null;

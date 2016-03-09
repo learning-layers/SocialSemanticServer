@@ -144,9 +144,9 @@ public class SSRESTRecomm{
     @PathParam(SSVarNames.realm)
     final String realm,
     
-    @ApiParam(
-      value = "data file containing: user1;entity1;;tag1,tag2;cat1,cat2;",
-      required = true)
+//    @ApiParam(
+//      value = "data file containing: user1;entity1;;tag1,tag2;cat1,cat2;",
+//      required = true)
     @FormDataParam("file")
     final InputStream file){
     

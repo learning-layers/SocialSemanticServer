@@ -207,3 +207,5 @@ kcprojwiki:
     #- kcprojwikiImport
   scheduleIntervals:
     #- 0
+link:
+  use: true    

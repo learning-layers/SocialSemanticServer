@@ -1511,14 +1511,6 @@
           "schema" : {
             "type" : "string"
           }
-        }, {
-          "in" : "body",
-          "name" : "body",
-          "description" : "file data",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/InputStream"
-          }
         } ],
         "responses" : {
           "200" : {
@@ -2494,14 +2486,6 @@
           "description" : "recomm realm the user wants to query",
           "required" : true,
           "type" : "string"
-        }, {
-          "in" : "body",
-          "name" : "body",
-          "description" : "data file containing: user1;entity1;;tag1,tag2;cat1,cat2;",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/InputStream"
-          }
         } ],
         "responses" : {
           "200" : {
@@ -3180,9 +3164,6 @@
     }
   },
   "definitions" : {
-    "InputStream" : {
-      "type" : "object"
-    },
     "SSActivitiesGetRet" : {
       "type" : "object",
       "required" : [ "op" ],
