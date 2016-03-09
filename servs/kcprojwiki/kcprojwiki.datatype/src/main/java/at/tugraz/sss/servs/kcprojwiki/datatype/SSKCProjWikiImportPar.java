@@ -23,17 +23,13 @@ package at.tugraz.sss.servs.kcprojwiki.datatype;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import java.sql.*;
 
 public class SSKCProjWikiImportPar extends SSServPar{
 
-  public boolean setRead              = false;
-  public boolean setCircleTypes       = false;
-  
   public SSKCProjWikiImportPar(){/* Do nothing because of only JSON Jackson needs this */ }
     
   public SSKCProjWikiImportPar(
-    final SSServPar servPar,
+    final SSServPar     servPar,
     final SSUri         user){
     
     super(SSVarNames.kcprojwikiImport, null, user, servPar.sqlCon);

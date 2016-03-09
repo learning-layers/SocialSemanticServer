@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.kcprojwiki.conf.SSKCProjWikiConf;
+import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiImportPar;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgang;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgangEmployeeResource;
 import java.io.*;
@@ -44,10 +45,11 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class SSKCProjWikiImportFct {
+public class SSKCProjWikiImportCommons {
 
   private static final String valueProjektVorgangsebene             = "Projekt-Vorgangsebene";
   private static final String valueWorksInVorgang                   = "{{Works In Vorgang";
+  
   private static final String propertyCategoryProjektVorgangsebene  = "[[Category:Projekt-Vorgangsebene]]";
   private static final String propertyCategoryProjekt               = "[[Category:Projekt]]";
   private static final String propertyStartProjectNumber            = "[[Project%20Number::";
@@ -100,18 +102,93 @@ public class SSKCProjWikiImportFct {
   private static final String valueSuccess                          = "Success";
   private static final String valueCode                             = "code";
   
-  private final SSKCProjWikiConf conf;
   private final HttpClient       httpclient;
   private String                 token;
   private String                 sessionID;
   
-  public SSKCProjWikiImportFct(final SSKCProjWikiConf conf){
-    
-    this.conf          = conf;
+  public SSKCProjWikiImportCommons(){
     this.httpclient    = HttpClients.createDefault();
   }
   
-  public void updateVorgangBasics(final SSKCProjWikiVorgang vorgang) throws SSErr{
+  public boolean createVorgang(
+    final SSKCProjWikiConf      conf, 
+    final SSKCProjWikiVorgang   vorgang) throws SSErr{
+    
+    try{
+      
+      if(!conf.createVorgaenge){
+        return true;
+      }
+      
+      final String              editToken             = getWikiPageEditToken  (conf, "newTitle");
+      final List<NameValuePair> postPars              = new ArrayList<>();
+      final HttpResponse        response;
+      final HttpPost            httpPost              = 
+        new HttpPost(
+          conf.wikiURI 
+            + pathActionEdit 
+            + SSStrU.ampersand + valueFormatJson);
+
+      String content = SSStrU.empty;
+
+      httpPost.addHeader(valueCookie, sessionID);
+        
+      content +=
+        SSStrU.curlyBracketOpen
+        + SSStrU.curlyBracketOpen
+        + valueProjektVorgangsebene
+        + System.lineSeparator() 
+        + SSStrU.pipe
+        + "Vorgang Number=xyz"
+        + System.lineSeparator() 
+        + SSStrU.pipe
+        + "Vorgang Name=xyz"
+        + System.lineSeparator() 
+        + SSStrU.pipe
+        + "Project Number=xyz"
+        + System.lineSeparator() 
+        + "|Real Project Start=2015/01/01"
+        + System.lineSeparator() 
+        + "|Real Project End=2015/12/31"
+        + System.lineSeparator() 
+        + "|Area=KD"
+        + System.lineSeparator() 
+        + "|Responsible TL=Roman Kern"
+        + System.lineSeparator() 
+        + "|Responsible PM=Michael Wittmayer"
+        + System.lineSeparator() 
+        + "|Total Project Resources=100.0"
+        + System.lineSeparator() 
+        + "|Resources Used Month End=242.6"
+        + System.lineSeparator() 
+        + "|Project Progress=242.6"
+        + System.lineSeparator() 
+        + "|Export Date=2016/03/09"
+        + System.lineSeparator()
+        + SSStrU.curlyBracketClose
+        + SSStrU.curlyBracketClose
+        + System.lineSeparator();
+
+      postPars.add(new BasicNameValuePair(valueTitle, "newTitle"));
+      postPars.add(new BasicNameValuePair(valueText,  content.trim()));
+      postPars.add(new BasicNameValuePair(valueToken, editToken));
+      
+      httpPost.setEntity(new UrlEncodedFormEntity(postPars));
+      
+      response = httpclient.execute(httpPost);
+      
+      parseUpdateResponse(response, vorgang);
+      
+      return true;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return false;
+    }
+  }
+  
+  public void updateVorgangBasics(
+    final SSKCProjWikiConf    conf, 
+    final SSKCProjWikiVorgang vorgang) throws SSErr{
     
     try{
       
@@ -164,11 +241,13 @@ public class SSKCProjWikiImportFct {
     }
   }
   
-  public void updateVorgangEmployeeResources(final SSKCProjWikiVorgang vorgang) throws SSErr{
+  public void updateVorgangEmployeeResources(
+    final SSKCProjWikiConf    conf,
+    final SSKCProjWikiVorgang vorgang) throws SSErr{
     
     try{
-      final String              editToken             = getWikiPageEditToken      (vorgang.title);
-      final String              vorgangPageContent    = getWikiPageContent(vorgang.title);
+      final String              editToken             = getWikiPageEditToken  (conf, vorgang.title);
+      final String              vorgangPageContent    = getWikiPageContent    (conf, vorgang.title);
       final List<NameValuePair> postPars              = new ArrayList<>();
       final HttpResponse        response;
       final HttpPost            httpPost              = 
@@ -210,7 +289,9 @@ public class SSKCProjWikiImportFct {
     }
   }
   
-  public String getVorgangPageTitleByVorgangNumber(final String vorgangNumber) throws SSErr{
+  public String getVorgangPageTitleByVorgangNumber(
+    final SSKCProjWikiConf    conf,
+    final String              vorgangNumber) throws SSErr{
     
     InputStream in = null;
     
@@ -238,7 +319,7 @@ public class SSKCProjWikiImportFct {
       try{
         results  = (JSONObject) ask.get       (valueResults);
       }catch(Exception error){
-        SSLogU.err(error, "vorgang for vorgang number " + vorgangNumber + " not available; vorgang wont be imported", false);
+        SSLogU.info("vorgang for vorgang number " + vorgangNumber + " not available", error);
         return null;
       }
       
@@ -263,7 +344,9 @@ public class SSKCProjWikiImportFct {
     }
   }
   
-  public String getVorgangPageTitleByProjectNumber(final String projectNumber) throws SSErr{
+  public String getVorgangPageTitleByProjectNumber(
+    final SSKCProjWikiConf    conf,
+    final String              projectNumber) throws SSErr{
     
     InputStream in = null;
     
@@ -309,7 +392,9 @@ public class SSKCProjWikiImportFct {
     }
   }
   
-  public String getProjectPageTitleByProjectNumber(final Integer projectNumber) throws SSErr{
+  public String getProjectPageTitleByProjectNumber(
+    final SSKCProjWikiConf    conf,
+    final Integer             projectNumber) throws SSErr{
     
     InputStream in = null;
     
@@ -355,7 +440,8 @@ public class SSKCProjWikiImportFct {
     }
   }
   
-  private void loginFirstTime() throws SSErr{
+  private void loginFirstTime(
+    final SSKCProjWikiConf    conf) throws SSErr{
     
     InputStream in = null;
     
@@ -369,7 +455,7 @@ public class SSKCProjWikiImportFct {
             + pathActionLogin 
             + SSStrU.ampersand + valueFormatJson);
       
-      post.setEntity(new UrlEncodedFormEntity(getFirstLoginParams(), SSEncodingU.utf8.toString()));
+      post.setEntity(new UrlEncodedFormEntity(getFirstLoginParams(conf), SSEncodingU.utf8.toString()));
       
       response = httpclient.execute(post);
       in       = response.getEntity().getContent();
@@ -389,7 +475,8 @@ public class SSKCProjWikiImportFct {
     }
   }
     
-  private void loginSecondTime() throws SSErr{
+  private void loginSecondTime(
+    final SSKCProjWikiConf    conf) throws SSErr{
     
     InputStream in  = null;
     
@@ -403,7 +490,7 @@ public class SSKCProjWikiImportFct {
             + pathActionLogin
             + SSStrU.ampersand + valueFormatJson);
       
-      post.setEntity(new UrlEncodedFormEntity(getSecondLoginParams(), SSEncodingU.utf8.toString()));
+      post.setEntity(new UrlEncodedFormEntity(getSecondLoginParams(conf), SSEncodingU.utf8.toString()));
       
       response  = httpclient.execute(post);
       in        = response.getEntity().getContent();
@@ -423,7 +510,8 @@ public class SSKCProjWikiImportFct {
     }
   }
   
-  private void logout() throws SSErr{
+  private void logout(
+    final SSKCProjWikiConf conf) throws SSErr{
 
     try{
       httpclient.execute(
@@ -437,7 +525,9 @@ public class SSKCProjWikiImportFct {
     }
   }
   
-  private String getWikiPageContent(final String title) throws SSErr{
+  private String getWikiPageContent(
+    final SSKCProjWikiConf    conf,
+    final String              title) throws SSErr{
 
     InputStream in = null;
     
@@ -492,7 +582,9 @@ public class SSKCProjWikiImportFct {
     }
   }
   
-  private String getWikiPageEditToken(final String title) throws SSErr{
+  private String getWikiPageEditToken(
+    final SSKCProjWikiConf    conf,
+    final String              title) throws SSErr{
     
     InputStream in = null;
     
@@ -543,26 +635,27 @@ public class SSKCProjWikiImportFct {
     }
   }
 
-  public void start() throws SSErr{
+  public void start(final SSKCProjWikiConf    conf) throws SSErr{
     
     try{
-      loginFirstTime  ();
-      loginSecondTime ();
+      loginFirstTime  (conf);
+      loginSecondTime (conf);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  public void end() throws SSErr{
+  public void end(final SSKCProjWikiConf    conf) throws SSErr{
     
     try{
-      logout();
+      logout(conf);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  private List<BasicNameValuePair> getFirstLoginParams() throws SSErr{
+  private List<BasicNameValuePair> getFirstLoginParams(
+    final SSKCProjWikiConf    conf) throws SSErr{
     
     try{
       final List<BasicNameValuePair> params = new ArrayList<>();
@@ -578,10 +671,11 @@ public class SSKCProjWikiImportFct {
     }
   }
   
-  private List<BasicNameValuePair> getSecondLoginParams() throws SSErr{
+  private List<BasicNameValuePair> getSecondLoginParams(
+  final SSKCProjWikiConf    conf) throws SSErr{
     
     try{
-      final List<BasicNameValuePair> params = getFirstLoginParams();
+      final List<BasicNameValuePair> params = getFirstLoginParams(conf);
       
       params.add(new BasicNameValuePair(valueLgtoken,    token));
       

@@ -29,7 +29,7 @@ public class SSKCProjWikiConf extends SSServConfA{
   public String     password          = null;
   public String     domain            = null;
   public String     vorgaengeFilePath = null;
-  public String     projectsFilePath  = null;
+  public boolean    createVorgaenge   = false;
   
   public static SSKCProjWikiConf copy(final SSKCProjWikiConf orig){
     
@@ -40,7 +40,7 @@ public class SSKCProjWikiConf extends SSServConfA{
     copy.password          = orig.password;
     copy.domain            = orig.domain;
     copy.vorgaengeFilePath = orig.vorgaengeFilePath;
-    copy.projectsFilePath  = orig.projectsFilePath;
+    copy.createVorgaenge   = orig.createVorgaenge;
            
     return copy;
   }

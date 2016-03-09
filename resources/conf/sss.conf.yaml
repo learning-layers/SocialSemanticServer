@@ -200,7 +200,7 @@ kcprojwiki:
   password: 
   domain: 
   vorgaengeFilePath: vorgaenge.csv
-  projectsFilePath: projects.csv
+  createVorgaenge: false
   schedule: false
   executeScheduleAtStartUp: false
   scheduleOps:
