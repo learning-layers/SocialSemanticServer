@@ -82,7 +82,7 @@ public class SSLearnEpMailNotificationTask implements Runnable{
           new SSLearnEpDailySummaryGetPar(
             servPar,
             SSConf.systemUserUri,
-            new java.util.Date().getTime() - SSDateU.dayInMilliSeconds * 2));
+            new java.util.Date().getTime() - SSDateU.dayInMilliSeconds * 1));
       
       for(Map.Entry<String, SSLearnEpDailySummary> userSummary : dailySummary.summaries.entrySet()){
         

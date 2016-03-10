@@ -121,10 +121,11 @@ return this;
     }
     
     if(((SSLearnEpConf) conf).sendMailNotifications){
-     
-      SSServReg.regScheduler(
-        SSDateU.scheduleNow(
-          new SSLearnEpMailNotificationTask()));
+      
+      SSDateU.scheduleWithFixedDelay(
+        new SSLearnEpMailNotificationTask(),
+        SSDateU.getDateForTomorrowMorning(),
+        SSDateU.dayInMilliSeconds);
     }
   }
 }
