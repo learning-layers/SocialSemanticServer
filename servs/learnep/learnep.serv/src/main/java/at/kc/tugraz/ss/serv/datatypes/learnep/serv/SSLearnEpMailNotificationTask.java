@@ -100,14 +100,14 @@ public class SSLearnEpMailNotificationTask implements Runnable{
           new SSLearnEpDailySummaryGetPar(
             servPar,
             SSConf.systemUserUri,
-            new java.util.Date().getTime() - SSDateU.dayInMilliSeconds * 20));
+            new java.util.Date().getTime() - SSDateU.dayInMilliSeconds * 1));
       
       dailyDiscSummary = 
         discServ.discDailySummaryGet(
           new SSDiscDailySummaryGetPar(
             servPar,
             SSConf.systemUserUri,
-            new java.util.Date().getTime() - SSDateU.dayInMilliSeconds * 20));
+            new java.util.Date().getTime() - SSDateU.dayInMilliSeconds * 1));
       
       SSStrU.addDistinctNotNull(usersInSummaries, dailyLearnEpSummary.summaries.keySet());
       SSStrU.addDistinctNotNull(usersInSummaries, dailyDiscSummary.summaries.keySet());
