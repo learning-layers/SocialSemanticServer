@@ -14,6 +14,18 @@
      
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>activity.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>eval.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>auth.api</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -48,6 +60,12 @@
       <version>${project.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>mail.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
     <dependency>
       <groupId>sss</groupId>
       <artifactId>serv</artifactId>

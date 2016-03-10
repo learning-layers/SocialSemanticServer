@@ -27,13 +27,19 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpDailySummaryEnt
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpDailySummaryShareLearnEpEntry;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpDailySummaryGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpDailySummaryGetRet;
+import at.kc.tugraz.ss.service.user.api.SSUserServerI;
+import at.kc.tugraz.ss.service.user.datatypes.SSUser;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.SSUri;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.util.SSStrU;
+import at.tugraz.sss.servs.common.impl.serv.SSServCommons;
 import at.tugraz.sss.servs.mail.SSMailServerI;
 import at.tugraz.sss.servs.mail.datatype.par.SSMailSendPar;
 import java.sql.*;
@@ -41,14 +47,22 @@ import java.util.Map;
 
 public class SSLearnEpMailNotificationTask implements Runnable{
   
+  private final SSServCommons servCommons = new SSServCommons();
+  
   @Override
   public void run() {
     
     Connection sqlCon = null;
     
     try{
-      final SSMailServerI               mailServ                   = ((SSMailServerI)    SSServReg.getServ(SSMailServerI.class));
+      final SSMailServerI mailServ = servCommons.getMailServ();
+      
+      if(mailServ == null){
+        return;
+      }
+      
       final SSLearnEpServerI            learnEpServ                = ((SSLearnEpServerI) SSServReg.getServ(SSLearnEpServerI.class));
+      final SSUserServerI               userServ                   = ((SSUserServerI)    SSServReg.getServ(SSUserServerI.class));
       final SSServPar                   servPar                    = new SSServPar(null);
       final SSLearnEpDailySummaryGetRet dailySummary;
       String                            shareLearnEpMailSummary;
@@ -56,6 +70,8 @@ public class SSLearnEpMailNotificationTask implements Runnable{
       boolean                           sharingExists;
       boolean                           copyingExists;
       String                            mailSummary;
+      String                            userEmail;
+      SSEntity                          user;
       
       sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       
@@ -66,20 +82,30 @@ public class SSLearnEpMailNotificationTask implements Runnable{
           new SSLearnEpDailySummaryGetPar(
             servPar,
             SSConf.systemUserUri,
-            new java.util.Date().getTime() - SSDateU.dayInMilliSeconds * 10));
+            new java.util.Date().getTime() - SSDateU.dayInMilliSeconds * 2));
       
       for(Map.Entry<String, SSLearnEpDailySummary> userSummary : dailySummary.summaries.entrySet()){
         
         mailSummary   = SSStrU.empty;
+        user          =
+          userServ.usersGet(
+            new SSUsersGetPar(
+              servPar,
+              SSConf.systemUserUri,
+              SSUri.asListNotNull(SSUri.get(userSummary.getKey())), //users
+              null, //emails
+              false)).get(0); //invokeEntityHandlers
+        
+        userEmail     = ((SSUser) user).email;
         sharingExists = false;
         copyingExists = false;
           
-        shareLearnEpMailSummary = "Shared Learning Episodes" + SSStrU.backslashRBackslashN;
-        shareLearnEpMailSummary += "-----------------------" + SSStrU.backslashRBackslashN;
+        shareLearnEpMailSummary  = "Shared Learning Episodes" + SSStrU.backslashRBackslashN;
+        shareLearnEpMailSummary += "------------------------"  + SSStrU.backslashRBackslashN;
         shareLearnEpMailSummary += SSStrU.backslashRBackslashN;
         
-        copyLearnEpMailSummary = "Copied Learning Episodes" + SSStrU.backslashRBackslashN;
-        copyLearnEpMailSummary += "-----------------------" + SSStrU.backslashRBackslashN;
+        copyLearnEpMailSummary  = "Copied Learning Episodes" + SSStrU.backslashRBackslashN;
+        copyLearnEpMailSummary += "------------------------"  + SSStrU.backslashRBackslashN;
         copyLearnEpMailSummary += SSStrU.backslashRBackslashN;
         
         for(SSLearnEpDailySummaryEntry summary : userSummary.getValue().userSummaries){
@@ -111,7 +137,7 @@ public class SSLearnEpMailNotificationTask implements Runnable{
             servPar,
             SSConf.systemUserUri,
             "dtheiler@know-center.at", //fromEmail,
-            "the_didz@gmx.at", //toEmail,
+            userEmail, //toEmail,
             "Bits and Pieces Daily Update", //subject,
             mailSummary, //content,
             true, //withUserRestriction,

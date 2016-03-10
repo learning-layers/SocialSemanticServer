@@ -35,6 +35,7 @@ import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.common.impl.serv.SSServCommons;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.mail.SSMailServerI;
 import at.tugraz.sss.servs.mail.datatype.SSMail;
@@ -45,7 +46,8 @@ import javax.imageio.ImageIO;
 
 public class SSDataImportBNPMailImporter {
   
-  private final SSDataImportBNPCommon            common = new SSDataImportBNPCommon();
+  private final SSDataImportBNPCommon  common      = new SSDataImportBNPCommon();
+  private final SSServCommons          servCommons = new SSServCommons();
   
   public void handle(
     final SSDataImportBitsAndPiecesPar par, 
@@ -61,9 +63,14 @@ public class SSDataImportBNPMailImporter {
         return;
       }
       
+      final SSMailServerI mailServ = servCommons.getMailServ();
+      
+      if(mailServ == null){
+        return;
+      }
+      
       SSLogU.info("start B&P mail import for " +  par.authEmail);
       
-      final SSMailServerI mailServ     = (SSMailServerI) SSServReg.getServ(SSMailServerI.class);
       final SSUri         notebookUri  = handleEmailNotebook(par, forUser);
       SSMail              mail;
       SSUri               noteUri;

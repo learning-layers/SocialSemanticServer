@@ -99,7 +99,7 @@ public class SSKCProjWikiImpl
           kcProjWikiImportCommons.updateVorgangBasics            (((SSKCProjWikiConf) conf), vorgang);
           kcProjWikiImportCommons.updateVorgangEmployeeResources (((SSKCProjWikiConf) conf), vorgang);
           
-          System.out.println("vorgang " + vorgang.title + " updated");
+          SSLogU.info("vorgang " + vorgang.title + " updated", false);
         }
         
       }catch(Exception error){

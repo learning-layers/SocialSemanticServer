@@ -159,10 +159,33 @@ public class SSLogU{
   }
   
   public static void info(
-    final String    logText, 
+    final String  logText,
+    final boolean provideRuntimeInfo){
+    
+    if(provideRuntimeInfo){
+      log.trace(getMsg(logText));
+    }else{
+      log.trace(logText);
+    }
+  }
+  
+  public static void info(
+    final String    logText,
     final Exception error){
     
     log.info(getMsg(error, logText));
+  }
+  
+  public static void info(
+    final String    logText,
+    final Exception error,
+    final boolean   provideRuntimeInfo){
+    
+    if(provideRuntimeInfo){
+      log.info(getMsg(error, logText));
+    }else{
+      log.info(error.getMessage() + SSStrU.blank + logText);
+    }
   }
   
   public static void trace(

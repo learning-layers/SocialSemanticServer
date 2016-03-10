@@ -754,8 +754,7 @@ implements
             false, //withUserRestriction,
             false))); //invokeEntityHandlers
       
-      SSActivity            act;
-      SSLearnEpDailySummary dailySummary;
+      SSActivity act;
       
       for(SSEntity actEntity : acts){
         

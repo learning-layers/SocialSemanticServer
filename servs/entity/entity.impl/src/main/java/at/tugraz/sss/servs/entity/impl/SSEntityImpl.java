@@ -20,7 +20,6 @@
   */
 package at.tugraz.sss.servs.entity.impl;
 
-import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.category.api.SSCategoryServerI;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddPar;
@@ -76,7 +75,6 @@ import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityTypesGetRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUnpublicizeRet;
 import java.util.Arrays;
 import java.util.HashMap;
-import sss.serv.eval.api.SSEvalServerI;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSCircleAddEntitiesToCircleOfEntityPar;
 import at.tugraz.sss.serv.datatype.par.SSCircleCreateFromClientPar;
@@ -138,27 +136,16 @@ implements
   
   protected static final Map<String, SSEntityResultPages> accessibleEntitiesPagesCache = new HashMap<>();
   
-  private static SSUri                pubCircleUri = null;
-  private final  SSCoreSQL            sql;
-  private final  SSActivityServerI    activityServ;
-  private final  SSEvalServerI        evalServ;
-  private final  SSEntityActAndLogFct actAndLogFct;
-  private final  SSUserCommons        userCommons;
+  private static SSUri             pubCircleUri = null;
+  private final  SSEntityActAndLog actAndLog    = new SSEntityActAndLog();
+  private final  SSUserCommons     userCommons  = new SSUserCommons();
+  private final  SSCoreSQL         sql;
   
   public SSEntityImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql          = new SSCoreSQL(dbSQL);
-    this.activityServ = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
-    this.evalServ     = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
-    
-    this.actAndLogFct =
-      new SSEntityActAndLogFct(
-        activityServ,
-        evalServ);
-    
-    this.userCommons = new SSUserCommons();
+    this.sql = new SSCoreSQL(dbSQL);
   }
   
   @Override
@@ -490,7 +477,7 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
-      actAndLogFct.copyEntity(
+      actAndLog.copyEntity(
         par,
         par.user,
         par.entity,
@@ -878,7 +865,7 @@ implements
       
       if(isPlaceholderAdd){
         
-        actAndLogFct.createPlaceHolder(
+        actAndLog.createPlaceHolder(
           par,
           par.user,
           par.entity, 
@@ -1120,7 +1107,7 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
-      actAndLogFct.attachEntities(
+      actAndLog.attachEntities(
         par,
         par.user,
         par.entity,
@@ -1164,7 +1151,7 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
-      actAndLogFct.removeEntities(
+      actAndLog.removeEntities(
         par,
         par.user,
         par.entity,
@@ -1381,14 +1368,14 @@ implements
       
       if(!par.users.isEmpty()){
         
-        actAndLogFct.shareEntityWithUsers(
+        actAndLog.shareEntityWithUsers(
           par, 
           par.shouldCommit);
       }
       
       if(!par.circles.isEmpty()){
         
-        actAndLogFct.shareEntityWithCircles(
+        actAndLog.shareEntityWithCircles(
           par, 
           par.shouldCommit);
       }
@@ -1573,7 +1560,7 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
-      actAndLogFct.removeEntitiesFromCircle(
+      actAndLog.removeEntitiesFromCircle(
         par, 
         isPrivPubOrSystemGroupCircle(par, par.circle),
         par.shouldCommit);
@@ -1640,7 +1627,7 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
-      actAndLogFct.removeUsersFromCircle(
+      actAndLog.removeUsersFromCircle(
         par, 
         isPrivPubOrSystemGroupCircle(par, par.circle),
         par.shouldCommit);
@@ -1787,7 +1774,7 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
-      actAndLogFct.createCircle(
+      actAndLog.createCircle(
         par, 
         isPrivPubOrSystemGroupCircle(par, circleUri),
         circleUri, 
@@ -1867,7 +1854,7 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
-      actAndLogFct.removeCircle(
+      actAndLog.removeCircle(
         par, 
         isPrivPubOrSystemGroupCircle(par, par.circle),
         par.shouldCommit);
@@ -1994,7 +1981,7 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
-      actAndLogFct.addUsersToCircle(
+      actAndLog.addUsersToCircle(
         par, 
         isPrivPubOrSystemGroupCircle(par, par.circle),
         par.shouldCommit);
@@ -2162,7 +2149,7 @@ implements
       
       dbSQL.commit(par, par.shouldCommit);
       
-      actAndLogFct.addEntitiesToCircle(
+      actAndLog.addEntitiesToCircle(
         par, 
         isPrivPubOrSystemGroupCircle(par, par.circle),
         par.shouldCommit);

@@ -315,7 +315,7 @@ public class SSKCProjWikiImportCommons {
       try{
         results  = (JSONObject) ask.get       (SSMediaWikiLangE.results.toString());
       }catch(Exception error){
-        SSLogU.info("vorgang for vorgang number " + vorgangNumber + " not available", error);
+        SSLogU.info("vorgang for vorgang number " + vorgangNumber + " not available", error, false);
         return null;
       }
       
