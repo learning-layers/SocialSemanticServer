@@ -32,7 +32,6 @@ import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.util.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -20,6 +20,10 @@
   */
 package at.tugraz.sss.servs.disc.impl;
 
+import at.kc.tugraz.ss.activity.api.SSActivityServerI;
+import at.kc.tugraz.ss.activity.datatypes.SSActivity;
+import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesGetPar;
 import at.tugraz.sss.serv.datatype.par.SSCircleAddEntitiesToCircleOfEntityPar;
 import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.serv.datatype.par.SSEntitySharePar;
@@ -38,6 +42,7 @@ import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.disc.api.*;
 import at.kc.tugraz.ss.service.disc.datatypes.*;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscDailySummaryGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAcceptPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddFromClientPar;
 import at.tugraz.sss.serv.datatype.SSEntity;
@@ -49,6 +54,7 @@ import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryUpdatePar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscRemovePar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscTargetsAddPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUpdatePar;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscDailySummaryGetRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAcceptRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryUpdateRet;
@@ -93,9 +99,10 @@ implements
   SSUserRelationGathererI,
   SSUsersResourcesGathererI{
   
-  private final SSDiscActAndLog    actAndLog    = new SSDiscActAndLog();
-  private final SSUserCommons      userCommons  = new SSUserCommons();
-  private final SSDiscSQL          sql;
+  private final SSDiscActAndLog      actAndLog       = new SSDiscActAndLog();
+  private final SSUserCommons        userCommons     = new SSUserCommons();
+  private final SSDiscSummaryCommons summaryCommons  = new SSDiscSummaryCommons();
+  private final SSDiscSQL            sql;
   
   public SSDiscImpl(final SSConfA conf) throws SSErr{
     
@@ -492,6 +499,73 @@ implements
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
+  public SSDiscDailySummaryGetRet discDailySummaryGet(final SSDiscDailySummaryGetPar par) throws SSErr{
+    
+    try{
+      final SSActivityServerI           activityServ = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+      final SSDiscDailySummaryGetRet    result       = new SSDiscDailySummaryGetRet();
+      final List<SSActivityE>           actTypes     = new ArrayList<>();
+      final List<SSEntity>              acts         = new ArrayList<>();
+      
+      actTypes.add(SSActivityE.addDiscEntry);
+      actTypes.add(SSActivityE.discussEntity);
+      
+      acts.addAll(
+        activityServ.activitiesGet(
+          new SSActivitiesGetPar(
+            par,
+            par.user,
+            null, //activities,
+            actTypes, //types,
+            null, //users,
+            null, //entities,
+            null, //circles,
+            par.startTime, //startTime,
+            null, //endTime,
+            false, //includeOnlyLastActivities,
+            false, //withUserRestriction,
+            false))); //invokeEntityHandlers
+      
+      SSActivity act;
+      
+      for(SSEntity actEntity : acts){
+        
+        act = (SSActivity) actEntity;
+        
+        switch(act.activityType){
+          
+          case addDiscEntry:{
+            
+            summaryCommons.addDiscEntry(
+              this,
+              par, 
+              sql, 
+              act, 
+              result.summaries);
+            break;
+          }
+          
+          case discussEntity:{
+            
+            summaryCommons.discEntity(
+              par, 
+              sql, 
+              act, 
+              result.summaries);
+            break;
+          }
+        }
+      }
+
+      return result;
+
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

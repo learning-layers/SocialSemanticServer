@@ -122,6 +122,8 @@ return this;
     
     if(((SSLearnEpConf) conf).sendMailNotifications){
       
+//      SSDateU.scheduleNow(new SSLearnEpMailNotificationTask());
+      
       SSDateU.scheduleWithFixedDelay(
         new SSLearnEpMailNotificationTask(),
         SSDateU.getDateForTomorrowMorning(),

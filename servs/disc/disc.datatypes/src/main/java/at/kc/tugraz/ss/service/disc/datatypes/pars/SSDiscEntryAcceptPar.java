@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.service.disc.datatypes.pars;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import java.sql.*;
 
 public class SSDiscEntryAcceptPar extends SSServPar{
   

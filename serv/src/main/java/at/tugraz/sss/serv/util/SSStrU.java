@@ -26,6 +26,26 @@ import java.util.*;
 
 public class SSStrU{
 
+   public static void addDistinctNotNull(
+    final List<String>                  strings, 
+    final Collection<? extends  Object> objectsToAdd){
+    
+     if(SSObjU.isNull(strings, objectsToAdd)){
+      return;
+    }
+    
+    for(Object object : objectsToAdd){
+      
+      if(
+        object == null ||
+        strings.contains(object.toString())){
+        continue;
+      }
+
+      strings.add(object.toString());
+    }
+  }
+   
   public static void addDistinctNotNull(
     final List<String> strings, 
     final List<String> stringsToAdd){
@@ -46,7 +66,9 @@ public class SSStrU{
     }
   }
 
-  public static void addDistinctNotNull(final List<String> strings, final Object toAdd){
+  public static void addDistinctNotNull(
+    final List<String> strings, 
+    final Object       toAdd){
     
     if(
       SSObjU.isNull(strings, toAdd) ||

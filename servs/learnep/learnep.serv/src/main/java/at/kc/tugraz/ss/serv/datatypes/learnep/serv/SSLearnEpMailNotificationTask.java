@@ -27,6 +27,13 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpDailySummaryEnt
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpDailySummaryShareLearnEpEntry;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpDailySummaryGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpDailySummaryGetRet;
+import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
+import at.kc.tugraz.ss.service.disc.datatypes.SSDiscDailySummary;
+import at.kc.tugraz.ss.service.disc.datatypes.SSDiscDailySummaryAddDiscEntryEntry;
+import at.kc.tugraz.ss.service.disc.datatypes.SSDiscDailySummaryDiscEntityEntry;
+import at.kc.tugraz.ss.service.disc.datatypes.SSDiscDailySummaryEntry;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscDailySummaryGetPar;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscDailySummaryGetRet;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
@@ -43,6 +50,8 @@ import at.tugraz.sss.servs.common.impl.serv.SSServCommons;
 import at.tugraz.sss.servs.mail.SSMailServerI;
 import at.tugraz.sss.servs.mail.datatype.par.SSMailSendPar;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class SSLearnEpMailNotificationTask implements Runnable{
@@ -61,30 +70,49 @@ public class SSLearnEpMailNotificationTask implements Runnable{
         return;
       }
       
+      final SSDiscServerI               discServ                   = ((SSDiscServerI)    SSServReg.getServ(SSDiscServerI.class));
       final SSLearnEpServerI            learnEpServ                = ((SSLearnEpServerI) SSServReg.getServ(SSLearnEpServerI.class));
       final SSUserServerI               userServ                   = ((SSUserServerI)    SSServReg.getServ(SSUserServerI.class));
       final SSServPar                   servPar                    = new SSServPar(null);
-      final SSLearnEpDailySummaryGetRet dailySummary;
+      final List<String>                usersInSummaries           = new ArrayList<>();
+      final SSLearnEpDailySummaryGetRet dailyLearnEpSummary;
+      final SSDiscDailySummaryGetRet    dailyDiscSummary;
       String                            shareLearnEpMailSummary;
       String                            copyLearnEpMailSummary;
+      String                            addDiscEntryMailSummary;
+      String                            discEntityMailSummary;
       boolean                           sharingExists;
       boolean                           copyingExists;
+      boolean                           addDiscEntryExists;
+      boolean                           discEntityExists;
       String                            mailSummary;
       String                            userEmail;
       SSEntity                          user;
+      SSLearnEpDailySummary             learnEpDailySummary;
+      SSDiscDailySummary                discDailySummary;
       
       sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       
       servPar.sqlCon = sqlCon;
       
-      dailySummary =
+      dailyLearnEpSummary =
         learnEpServ.learnEpDailySummaryGet(
           new SSLearnEpDailySummaryGetPar(
             servPar,
             SSConf.systemUserUri,
-            new java.util.Date().getTime() - SSDateU.dayInMilliSeconds * 1));
+            new java.util.Date().getTime() - SSDateU.dayInMilliSeconds * 20));
       
-      for(Map.Entry<String, SSLearnEpDailySummary> userSummary : dailySummary.summaries.entrySet()){
+      dailyDiscSummary = 
+        discServ.discDailySummaryGet(
+          new SSDiscDailySummaryGetPar(
+            servPar,
+            SSConf.systemUserUri,
+            new java.util.Date().getTime() - SSDateU.dayInMilliSeconds * 20));
+      
+      SSStrU.addDistinctNotNull(usersInSummaries, dailyLearnEpSummary.summaries.keySet());
+      SSStrU.addDistinctNotNull(usersInSummaries, dailyDiscSummary.summaries.keySet());
+      
+      for(String userKey : usersInSummaries){
         
         mailSummary   = SSStrU.empty;
         user          =
@@ -92,45 +120,114 @@ public class SSLearnEpMailNotificationTask implements Runnable{
             new SSUsersGetPar(
               servPar,
               SSConf.systemUserUri,
-              SSUri.asListNotNull(SSUri.get(userSummary.getKey())), //users
+              SSUri.asListNotNull(SSUri.get(userKey)), //users
               null, //emails
               false)).get(0); //invokeEntityHandlers
         
-        userEmail     = ((SSUser) user).email;
-        sharingExists = false;
-        copyingExists = false;
-          
-        shareLearnEpMailSummary  = "Shared Learning Episodes" + SSStrU.backslashRBackslashN;
-        shareLearnEpMailSummary += "------------------------"  + SSStrU.backslashRBackslashN;
-        shareLearnEpMailSummary += SSStrU.backslashRBackslashN;
+        userEmail          = ((SSUser) user).email;
+        sharingExists      = false;
+        copyingExists      = false;
+        discEntityExists   = false;
+        addDiscEntryExists = false;
         
-        copyLearnEpMailSummary  = "Copied Learning Episodes" + SSStrU.backslashRBackslashN;
-        copyLearnEpMailSummary += "------------------------"  + SSStrU.backslashRBackslashN;
-        copyLearnEpMailSummary += SSStrU.backslashRBackslashN;
+        learnEpDailySummary = dailyLearnEpSummary.summaries.get(userKey);
         
-        for(SSLearnEpDailySummaryEntry summary : userSummary.getValue().userSummaries){
+        if(learnEpDailySummary != null){
           
-          if(summary instanceof SSLearnEpDailySummaryShareLearnEpEntry){
+          shareLearnEpMailSummary  = "Shared Learning Episodes" + SSStrU.backslashRBackslashN;
+          shareLearnEpMailSummary += "------------------------"  + SSStrU.backslashRBackslashN;
+          shareLearnEpMailSummary += SSStrU.backslashRBackslashN;
+          
+          copyLearnEpMailSummary  = "Copied Learning Episodes" + SSStrU.backslashRBackslashN;
+          copyLearnEpMailSummary += "------------------------"  + SSStrU.backslashRBackslashN;
+          copyLearnEpMailSummary += SSStrU.backslashRBackslashN;
+          
+          for(SSLearnEpDailySummaryEntry summary : learnEpDailySummary.userSummaries){
             
-            shareLearnEpMailSummary += "* " + summary.originUserLabel + " shared " + summary.targetEntityLabel + " with me" + SSStrU.backslashRBackslashN;
-            sharingExists            = true;
-            continue;
+            if(summary instanceof SSLearnEpDailySummaryShareLearnEpEntry){
+              
+              shareLearnEpMailSummary += "* " + summary.originUserLabel + " shared " + summary.targetEntityLabel + " with me" + SSStrU.backslashRBackslashN;
+              sharingExists            = true;
+              continue;
+            }
+            
+            if(summary instanceof SSLearnEpDailySummaryCopyLearnEpEntry){
+              copyLearnEpMailSummary += "* " + summary.originUserLabel + " copied " + summary.targetEntityLabel + " for me" + SSStrU.backslashRBackslashN;
+              sharingExists           = copyingExists;
+              continue;
+            }
           }
           
-          if(summary instanceof SSLearnEpDailySummaryCopyLearnEpEntry){
-            copyLearnEpMailSummary += "* " + summary.originUserLabel + " copied " + summary.targetEntityLabel + " for me" + SSStrU.backslashRBackslashN;
-            sharingExists           = copyingExists;
-            continue;
+          if(sharingExists){
+            mailSummary += shareLearnEpMailSummary + SSStrU.backslashRBackslashN;
+          }
+          
+          if(copyingExists){
+            mailSummary += copyLearnEpMailSummary;
           }
         }
-
-        if(sharingExists){
-          mailSummary += shareLearnEpMailSummary + SSStrU.backslashRBackslashN;
-        }
         
-        if(copyingExists){
-          mailSummary += copyLearnEpMailSummary;
-        }        
+        discDailySummary = dailyDiscSummary.summaries.get(userKey);
+        
+        if(discDailySummary != null){
+        
+          discEntityMailSummary  = "New Discussions" + SSStrU.backslashRBackslashN;
+          discEntityMailSummary += "---------------" + SSStrU.backslashRBackslashN;
+          discEntityMailSummary += SSStrU.backslashRBackslashN;
+          
+          addDiscEntryMailSummary  = "New Discussions Answers" + SSStrU.backslashRBackslashN;
+          addDiscEntryMailSummary += "-----------------------" + SSStrU.backslashRBackslashN;
+          addDiscEntryMailSummary += SSStrU.backslashRBackslashN;
+          
+          for(SSDiscDailySummaryEntry summary : discDailySummary.userSummaries){
+            
+            if(summary instanceof SSDiscDailySummaryDiscEntityEntry){
+              
+              switch(((SSDiscDailySummaryDiscEntityEntry) summary).targetEntity.type){
+                
+                case learnEp:{
+                  discEntityMailSummary += "* " + summary.originUserLabel + " created " + ((SSDiscDailySummaryDiscEntityEntry) summary).discLabel + " for episode " + summary.targetEntity.label + SSStrU.backslashRBackslashN;
+                  discEntityExists       = true;
+                  break;
+                }
+                
+                default:{
+                  continue;
+                }
+              }
+            }
+            
+            if(summary instanceof SSDiscDailySummaryAddDiscEntryEntry){
+              
+              for(SSEntity discTarget : ((SSDiscDailySummaryAddDiscEntryEntry) summary).discTargets){
+                
+                switch(discTarget.type){
+                  
+                  case learnEp:{
+                    addDiscEntryMailSummary += "* " + summary.originUserLabel + " added a new answer to " + summary.targetEntity.label + " for episode " + discTarget.label + SSStrU.backslashRBackslashN;
+                    addDiscEntryExists       = true;
+                    break;
+                  }
+                  
+                  default:{
+                    continue;
+                  }
+                }
+              }
+            }
+          }
+          
+           if(discEntityExists){
+            mailSummary += discEntityMailSummary + SSStrU.backslashRBackslashN;
+          }
+           
+          if(addDiscEntryExists){
+            mailSummary += addDiscEntryMailSummary + SSStrU.backslashRBackslashN;
+          }
+          
+          System.out.println(userEmail + ":");
+          System.out.println(mailSummary);
+        }
         
         mailServ.mailSend(
           new SSMailSendPar(

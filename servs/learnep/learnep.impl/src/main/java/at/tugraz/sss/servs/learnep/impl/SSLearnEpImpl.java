@@ -35,7 +35,6 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.*;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpCircle;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpDailySummary;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
@@ -738,6 +737,14 @@ implements
       actTypes.add(SSActivityE.shareLearnEpWithUser);
       actTypes.add(SSActivityE.copyLearnEpForUsers);
       
+      actTypes.add(SSActivityE.addCircleToLearnEpVersion);
+      actTypes.add(SSActivityE.addEntityToLearnEpCircle);
+      actTypes.add(SSActivityE.addEntityToLearnEpVersion);
+      actTypes.add(SSActivityE.changeLearnEpVersionCircleLabel);
+      actTypes.add(SSActivityE.removeLearnEpVersionEntity);
+      actTypes.add(SSActivityE.removeLearnEpVersionCircle);
+      actTypes.add(SSActivityE.removeLearnEpVersionCircleWithEntitites);
+      
       acts.addAll(
         activityServ.activitiesGet(
           new SSActivitiesGetPar(
@@ -772,6 +779,10 @@ implements
             
             summaryCommons.copyLearnEpForUser(act, result.summaries);
             break;
+          }
+          
+          default:{
+            continue;
           }
         }
       }
