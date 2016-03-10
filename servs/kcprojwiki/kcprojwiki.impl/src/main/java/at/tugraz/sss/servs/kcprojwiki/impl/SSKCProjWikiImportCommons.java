@@ -1,23 +1,23 @@
-/**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.tugraz.sss.servs.kcprojwiki.impl;
 
 import at.tugraz.sss.serv.datatype.*;
@@ -27,7 +27,6 @@ import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.kcprojwiki.conf.SSKCProjWikiConf;
-import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiImportPar;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgang;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgangEmployeeResource;
 import java.io.*;
@@ -46,61 +45,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class SSKCProjWikiImportCommons {
-
-  private static final String valueProjektVorgangsebene             = "Projekt-Vorgangsebene";
-  private static final String valueWorksInVorgang                   = "{{Works In Vorgang";
-  
-  private static final String propertyCategoryProjektVorgangsebene  = "[[Category:Projekt-Vorgangsebene]]";
-  private static final String propertyCategoryProjekt               = "[[Category:Projekt]]";
-  private static final String propertyStartProjectNumber            = "[[Project%20Number::";
-  private static final String propertyStartVorgangNumber            = "[[Vorgang%20Number::";
-  private static final String propertyTotalProjectResources         = "Total%20Project%20Resources";
-  private static final String propertyResourcesUsedMonthEnd         = "Resources%20Used%20Month%20End";
-  private static final String propertyExportDate                    = "Export%20Date";
-  private static final String propertyProjectProgress               = "Project%20Progress";
-  private static final String valueCookie                           = "Cookie";
-  private static final String pathActionQuery                       = "api.php?action=query";
-  private static final String pathActionLogin                       = "api.php?action=login";
-  private static final String pathActionLogout                      = "api.php?action=logout";
-  private static final String pathActionEdit                        = "api.php?action=edit";
-  private static final String pathActionSFAutoEdit                  = "api.php?action=sfautoedit";
-  private static final String pathActionAsk                         = "api.php?action=ask";
-  private static final String valueForm                             = "form=";
-  private static final String valueTarget                           = "target=";
-  private static final String valueChangesBMD                       = "Changes%20BMD";
-  private static final String valueTitle                            = "title";
-  private static final String valueMUrlform                         = "mUrlform";
-  private static final String valueText                             = "text";
-  private static final String valueLogin                            = "login";
-  private static final String valueSessionId                        = "sessionid";
-  private static final String valueToken                            = "token";
-  private static final String valueLgname                           = "lgname";
-  private static final String valueLgpass                           = "lgpassword";
-  private static final String valueLgdomain                         = "lgdomain";
-  private static final String valueLgtoken                          = "lgtoken";
-  private static final String valueFormatJson                       = "format=json";
-  private static final String valueIndexPageIds                     = "indexpageids";
-  private static final String valueProp                             = "prop";
-  private static final String valueRevisions                        = "revisions";
-  private static final String valueRvlimit                          = "rvlimit";
-  private static final String valueRvprop                           = "rvprop";
-  private static final String valueContent                          = "content";
-  private static final String valueTitles                           = "titles";
-  private static final String valueQuery                            = "query";
-  private static final String valuePageIds                          = "pageids";
-  private static final String valueResults                          = "results";
-  private static final String valueAsk                              = "ask";
-  private static final String valueItems                            = "items";
-  private static final String valuePages                            = "pages";
-  private static final String valueEditToken                        = "edittoken";
-  private static final String valueTimestamp                        = "timestamp";
-  private static final String valueIntoken                          = "intoken";
-  private static final String valueEdit                             = "edit";
-  private static final String valueInfo                             = "info";
-  private static final String valueQ                                = "q";
-  private static final String valueResult                           = "result";
-  private static final String valueSuccess                          = "Success";
-  private static final String valueCode                             = "code";
   
   private final HttpClient       httpclient;
   private String                 token;
@@ -110,8 +54,18 @@ public class SSKCProjWikiImportCommons {
     this.httpclient    = HttpClients.createDefault();
   }
   
+  public void setVorgangTitle(
+    final SSKCProjWikiVorgang   vorgang) throws SSErr{
+    
+    try{
+      vorgang.title = "vorgangTitle";
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   public boolean createVorgang(
-    final SSKCProjWikiConf      conf, 
+    final SSKCProjWikiConf      conf,
     final SSKCProjWikiVorgang   vorgang) throws SSErr{
     
     try{
@@ -120,58 +74,91 @@ public class SSKCProjWikiImportCommons {
         return true;
       }
       
-      final String              editToken             = getWikiPageEditToken  (conf, "newTitle");
+      setVorgangTitle  (vorgang);
+      
+      final String              editToken             = getWikiPageEditToken(conf, vorgang.title);
       final List<NameValuePair> postPars              = new ArrayList<>();
       final HttpResponse        response;
-      final HttpPost            httpPost              = 
+      final HttpPost            httpPost              =
         new HttpPost(
-          conf.wikiURI 
-            + pathActionEdit 
-            + SSStrU.ampersand + valueFormatJson);
-
+          conf.wikiURI
+            + SSMediaWikiLangE.apiActionEdit
+            + SSStrU.ampersand
+            + SSMediaWikiLangE.formatEqualsJson);
+      
       String content = SSStrU.empty;
-
-      httpPost.addHeader(valueCookie, sessionID);
-        
+      
+      httpPost.addHeader(SSMediaWikiLangE.Cookie.toString(), sessionID);
+      
       content +=
-        SSStrU.curlyBracketOpen
-        + SSStrU.curlyBracketOpen
-        + valueProjektVorgangsebene
-        + System.lineSeparator() 
-        + SSStrU.pipe
-        + "Vorgang Number=xyz"
-        + System.lineSeparator() 
-        + SSStrU.pipe
-        + "Vorgang Name=xyz"
-        + System.lineSeparator() 
-        + SSStrU.pipe
-        + "Project Number=xyz"
-        + System.lineSeparator() 
-        + "|Real Project Start=2015/01/01"
-        + System.lineSeparator() 
-        + "|Real Project End=2015/12/31"
-        + System.lineSeparator() 
-        + "|Area=KD"
-        + System.lineSeparator() 
-        + "|Responsible TL=Roman Kern"
-        + System.lineSeparator() 
-        + "|Responsible PM=Michael Wittmayer"
-        + System.lineSeparator() 
-        + "|Total Project Resources=100.0"
-        + System.lineSeparator() 
-        + "|Resources Used Month End=242.6"
-        + System.lineSeparator() 
-        + "|Project Progress=242.6"
-        + System.lineSeparator() 
-        + "|Export Date=2016/03/09"
+        SSStrU.doubleCurlyBracketOpen
+        + SSMediaWikiLangE.ProjektVorgangsebene
         + System.lineSeparator()
-        + SSStrU.curlyBracketClose
-        + SSStrU.curlyBracketClose
-        + System.lineSeparator();
-
-      postPars.add(new BasicNameValuePair(valueTitle, "newTitle"));
-      postPars.add(new BasicNameValuePair(valueText,  content.trim()));
-      postPars.add(new BasicNameValuePair(valueToken, editToken));
+        + SSStrU.pipe
+        + SSMediaWikiLangE.VorgangBlankNumber
+        + SSStrU.equal
+        + vorgang.vorgangNumber
+        + System.lineSeparator()
+        + SSStrU.pipe
+        + SSMediaWikiLangE.VorgangBlankName
+        + SSStrU.equal
+        + vorgang.title
+        + System.lineSeparator()
+        + SSStrU.pipe
+        + SSMediaWikiLangE.ProjectBlankNumber
+        + SSStrU.equal
+        + vorgang.projectNumber
+        + System.lineSeparator()
+        + SSStrU.doubleCurlyBracketClose
+        + System.lineSeparator()
+        + "= '''Management & Resources''' =\n" 
+        + "== <span style=\"color:NAVY\"> '''Which changes in the BMD Data are necessary?''' ==\n"
+        + "-enter text here- \n" 
+        + "== <span style=\"color:NAVY\"> '''Is a shortage of resources (time or personnel) to be expected? If yes: what, when, for how long.''' ==\n" 
+        + "== <span style=\"color:ROYALBLUE\"> '''---> Any other comments concerning the resource status?''' ==\n" 
+        + "-enter text here-\n" 
+        + "== <span style=\"color:NAVY\"> '''Changes concerning participating partners?''' ==\n" 
+        + "-enter text here-\n" 
+        + "== <span style=\"color:NAVY\"> '''Changes concerning project content?'''==\n"
+        + "-enter text here-\n" 
+        + "== <span style=\"color: ROYALBLUE\"> '''---> Any other comments concerning management issues?'''==\n" 
+        + "-enter text here-\n" 
+        + "= '''Motivation''' =\n" 
+        + "== <span style=\"color:NAVY\"> '''Are there issues within the KC-team (co-operation, communication, motivation) that should be addressed?''' ==\n" 
+        + "-enter text here-\n" 
+        + "== <span style=\"color:NAVY\"> '''What are the reasons and what could be done to solve the issues?''' ==\n" 
+        + "-enter text here-\n" 
+        + "== <span style=\"color:ROYALBLUE\"> ''' ---> Any other comments concerning the motivation within KC?''' ==\n" 
+        + "-enter text here-\n" 
+        + "== <span style=\"color:NAVY\"> '''Are there issues concerning the communication with the partners that should be addressed?''' ==\n" 
+        + "-enter text here-\n" 
+        + "== <span style=\"color:NAVY\"> '''Are there issues concerning the co-operation (data exchange, work done by partners, ...) with the partners that should be addressed?'''==\n" 
+        + "-enter text here-\n" 
+        + "== <span style=\"color:ROYALBLUE\"> '''---> Any other comments concerning the motivation of the project partners?''' ==\n" 
+        + "-enter text here-\n" 
+        + "= '''Project results''' =\n" 
+        + "== <span style=\"color:NAVY\"> '''What has happened within the project?'''==\n" 
+        + "-enter text here-\n" 
+        + "== <span style=\"color:NAVY\"> '''Have any important goals, milestones, etc. been reached?'''==\n" 
+        + "<span style=\"color:FORESTGREEN\"> Please add the '''month''' in which they were reached! </span>\n" 
+        + "-enter text here-\n" 
+        + "== <span style=\"color:NAVY\"> '''Did any special results and achievements take place (e.g. highlights, prototypes, products, ...)''' ==\n" 
+        + "<span style=\"color:FORESTGREEN\"> Please add the '''month''' in which they took place! </span>\n" 
+        + "-enter text here-\n" 
+        + "== <span style=\"color:NAVY\"> '''Were any important workshops or meetings organised?''' ==\n" 
+        + "<span style=\"color:FORESTGREEN\"> Please add the '''month''' in which they took place! </span>\n" 
+        + "-enter text here-\n" 
+        + "== <span style=\"color:NAVY\"> '''Check with defined risks: Is attention needed anywhere?''' ==\n" 
+        + "<span style=\"color:FORESTGREEN\"> Please add the relevant '''month'''! </span>\n" 
+        + "-enter text here-\n" 
+        + "== <span style=\"color:NAVY\"> '''---> Any other comments concerning project results?''' ==\n" 
+        + "-enter text here-\n" 
+        + "<headertabs />\n" 
+        + "__NOTOC__";
+      
+      postPars.add(new BasicNameValuePair(SSMediaWikiLangE.title.toString(), vorgang.title));
+      postPars.add(new BasicNameValuePair(SSMediaWikiLangE.text.toString(),  content.trim()));
+      postPars.add(new BasicNameValuePair(SSMediaWikiLangE.token.toString(), editToken));
       
       httpPost.setEntity(new UrlEncodedFormEntity(postPars));
       
@@ -187,7 +174,7 @@ public class SSKCProjWikiImportCommons {
   }
   
   public void updateVorgangBasics(
-    final SSKCProjWikiConf    conf, 
+    final SSKCProjWikiConf    conf,
     final SSKCProjWikiVorgang vorgang) throws SSErr{
     
     try{
@@ -196,14 +183,14 @@ public class SSKCProjWikiImportCommons {
       final HttpGet      httpGet =
         new HttpGet(
           conf.wikiURI
-            + pathActionSFAutoEdit
-            + SSStrU.ampersand + valueForm                 + valueProjektVorgangsebene
-            + SSStrU.ampersand + valueTarget               + vorgang.title
-            + SSStrU.ampersand + valueProjektVorgangsebene + SSStrU.squareBracketOpen + propertyTotalProjectResources + SSStrU.squareBracketClose + SSStrU.equal + vorgang.totalResources
-            + SSStrU.ampersand + valueProjektVorgangsebene + SSStrU.squareBracketOpen + propertyResourcesUsedMonthEnd + SSStrU.squareBracketClose + SSStrU.equal + vorgang.usedResources
-            + SSStrU.ampersand + valueProjektVorgangsebene + SSStrU.squareBracketOpen + propertyExportDate            + SSStrU.squareBracketClose + SSStrU.equal + vorgang.exportDate
-            + SSStrU.ampersand + valueProjektVorgangsebene + SSStrU.squareBracketOpen + propertyProjectProgress       + SSStrU.squareBracketClose + SSStrU.equal + vorgang.progress
-            + SSStrU.ampersand + valueFormatJson 
+            + SSMediaWikiLangE.apiActionSfautoedit
+            + SSStrU.ampersand + SSMediaWikiLangE.formEquals                 + SSMediaWikiLangE.ProjektVorgangsebene
+            + SSStrU.ampersand + SSMediaWikiLangE.targetEquals               + vorgang.title
+            + SSStrU.ampersand + SSMediaWikiLangE.ProjektVorgangsebene + SSStrU.squareBracketOpen + SSMediaWikiLangE.TotalProjectResources + SSStrU.squareBracketClose + SSStrU.equal + vorgang.totalResources
+            + SSStrU.ampersand + SSMediaWikiLangE.ProjektVorgangsebene + SSStrU.squareBracketOpen + SSMediaWikiLangE.ResourcesUsedMonthEnd + SSStrU.squareBracketClose + SSStrU.equal + vorgang.usedResources
+            + SSStrU.ampersand + SSMediaWikiLangE.ProjektVorgangsebene + SSStrU.squareBracketOpen + SSMediaWikiLangE.ExportDate            + SSStrU.squareBracketClose + SSStrU.equal + vorgang.exportDate
+            + SSStrU.ampersand + SSMediaWikiLangE.ProjektVorgangsebene + SSStrU.squareBracketOpen + SSMediaWikiLangE.ProjectProgress       + SSStrU.squareBracketClose + SSStrU.equal + vorgang.progress
+            + SSStrU.ampersand + SSMediaWikiLangE.formatEqualsJson
           
           //            + SSStrU.ampersand + valueProjektVorgangsebene + SSStrU.squareBracketOpen + valueChangesBMD + SSStrU.squareBracketClose + SSStrU.equal + "No"
           
@@ -230,10 +217,10 @@ public class SSKCProjWikiImportCommons {
 //        + "&Projekt-Vorgangsebene[Reisekosten%20Verbraucht]="           + "30"
         );
       
-      httpGet.addHeader(valueCookie, sessionID);
+      httpGet.addHeader(SSMediaWikiLangE.Cookie.toString(), sessionID);
       
       response = httpclient.execute(httpGet);
-
+      
       parseUpdateResponse(response, vorgang);
       
     }catch(Exception error){
@@ -250,33 +237,35 @@ public class SSKCProjWikiImportCommons {
       final String              vorgangPageContent    = getWikiPageContent    (conf, vorgang.title);
       final List<NameValuePair> postPars              = new ArrayList<>();
       final HttpResponse        response;
-      final HttpPost            httpPost              = 
+      final HttpPost            httpPost              =
         new HttpPost(
-          conf.wikiURI 
-            + pathActionEdit 
-            + SSStrU.ampersand + valueFormatJson);
+          conf.wikiURI
+            + SSMediaWikiLangE.apiActionEdit
+            + SSStrU.ampersand
+            + SSMediaWikiLangE.formatEqualsJson);
       
       String content = removeEmployeeResourcesFromVorgangContent(vorgangPageContent) + System.lineSeparator();
       
-      httpPost.addHeader(valueCookie, sessionID);
-        
+      httpPost.addHeader(SSMediaWikiLangE.Cookie.toString(), sessionID);
+      
       for(SSKCProjWikiVorgangEmployeeResource employeeResource : vorgang.employeeResources.values()){
-       
-        content += 
-          valueWorksInVorgang 
+        
+        content +=
+          SSStrU.doubleCurlyBracketOpen
+          + SSMediaWikiLangE.WorksInVorgang
           + SSStrU.pipe
           + employeeResource.employee
-          + SSStrU.pipe 
+          + SSStrU.pipe
           + employeeResource.used.toString()
-          + SSStrU.pipe 
+          + SSStrU.pipe
           + employeeResource.total.toString()
-          + SSStrU.curlyBracketClose + SSStrU.curlyBracketClose 
+          + SSStrU.doubleCurlyBracketClose
           + System.lineSeparator();
       }
       
-      postPars.add(new BasicNameValuePair(valueTitle, vorgang.title));
-      postPars.add(new BasicNameValuePair(valueText,  content.trim()));
-      postPars.add(new BasicNameValuePair(valueToken, editToken));
+      postPars.add(new BasicNameValuePair(SSMediaWikiLangE.title.toString(), vorgang.title));
+      postPars.add(new BasicNameValuePair(SSMediaWikiLangE.text.toString(),  content.trim()));
+      postPars.add(new BasicNameValuePair(SSMediaWikiLangE.token.toString(), editToken));
       
       httpPost.setEntity(new UrlEncodedFormEntity(postPars));
       
@@ -300,34 +289,41 @@ public class SSKCProjWikiImportCommons {
       //      http://mint/projwiki_dieter/api.php?action=ask&q=[[Category:Projekt-Vorgangsebene]][[Project%20Number::20143516]]
       final JSONObject json, results, ask, item, title;
       final JSONArray items;
-        
+      
       final HttpGet httpget =
         new HttpGet(
           conf.wikiURI
-            + pathActionAsk
-            + SSStrU.ampersand + valueQ + SSStrU.equal
-            + propertyCategoryProjektVorgangsebene
-            + propertyStartVorgangNumber + vorgangNumber + SSStrU.squareBracketClose + SSStrU.squareBracketClose 
-            + SSStrU.ampersand + valueFormatJson);
+            + SSMediaWikiLangE.apiActionAsk
+            + SSStrU.ampersand
+            + SSMediaWikiLangE.q
+            + SSStrU.equal
+            + SSMediaWikiLangE.CategoryProjektVorgangsebene
+            + SSStrU.doubleSquareBracketOpen
+            + SSMediaWikiLangE.VorgangNumber
+            + SSStrU.doubleColon
+            + vorgangNumber
+            + SSStrU.doubleSquareBracketClose
+            + SSStrU.ampersand
+            + SSMediaWikiLangE.formatEqualsJson);
       
-      httpget.addHeader(valueCookie, sessionID);
+      httpget.addHeader(SSMediaWikiLangE.Cookie.toString(), sessionID);
       
       in       = httpclient.execute(httpget).getEntity().getContent();
       json     = new JSONObject(SSFileU.readStreamText(in));
-      ask      = (JSONObject) json.get      (valueAsk);
+      ask      = (JSONObject) json.get      (SSMediaWikiLangE.ask.toString());
       
       try{
-        results  = (JSONObject) ask.get       (valueResults);
+        results  = (JSONObject) ask.get       (SSMediaWikiLangE.results.toString());
       }catch(Exception error){
         SSLogU.info("vorgang for vorgang number " + vorgangNumber + " not available", error);
         return null;
       }
       
-      items    = (JSONArray)  results.get   (valueItems);
+      items    = (JSONArray)  results.get   (SSMediaWikiLangE.items.toString());
       item     = (JSONObject) items.get(0);
-      title    = (JSONObject) item.get      (valueTitle);
+      title    = (JSONObject) item.get      (SSMediaWikiLangE.title.toString());
       
-      return (String) title.get(valueMUrlform);
+      return (String) title.get(SSMediaWikiLangE.mUrlform.toString());
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -355,27 +351,34 @@ public class SSKCProjWikiImportCommons {
       //      http://mint/projwiki_dieter/api.php?action=ask&q=[[Category:Projekt-Vorgangsebene]][[Project%20Number::20143516]]
       final JSONObject json, results, ask, item, title;
       final JSONArray items;
-        
+      
       final HttpGet httpget =
         new HttpGet(
           conf.wikiURI
-            + pathActionAsk
-            + SSStrU.ampersand + valueQ + SSStrU.equal
-            + propertyCategoryProjektVorgangsebene
-            + propertyStartProjectNumber + projectNumber + SSStrU.squareBracketClose + SSStrU.squareBracketClose 
-            + SSStrU.ampersand + valueFormatJson);
+            + SSMediaWikiLangE.apiActionAsk
+            + SSStrU.ampersand
+            + SSMediaWikiLangE.q
+            + SSStrU.equal
+            + SSMediaWikiLangE.CategoryProjektVorgangsebene
+            + SSStrU.doubleSquareBracketOpen
+            + SSMediaWikiLangE.ProjectNumber
+            + SSStrU.doubleColon
+            + projectNumber
+            + SSStrU.doubleSquareBracketClose
+            + SSStrU.ampersand
+            + SSMediaWikiLangE.formatEqualsJson);
       
-      httpget.addHeader(valueCookie, sessionID);
+      httpget.addHeader(SSMediaWikiLangE.Cookie.toString(), sessionID);
       
       in       = httpclient.execute(httpget).getEntity().getContent();
       json     = new JSONObject(SSFileU.readStreamText(in));
-      ask      = (JSONObject) json.get      (valueAsk);
-      results  = (JSONObject) ask.get       (valueResults);
-      items    = (JSONArray)  results.get   (valueItems);
+      ask      = (JSONObject) json.get      (SSMediaWikiLangE.ask.toString());
+      results  = (JSONObject) ask.get       (SSMediaWikiLangE.results.toString());
+      items    = (JSONArray)  results.get   (SSMediaWikiLangE.items.toString());
       item     = (JSONObject) items.get(0);
-      title    = (JSONObject) item.get      (valueTitle);
+      title    = (JSONObject) item.get      (SSMediaWikiLangE.title.toString());
       
-      return (String) title.get(valueMUrlform);
+      return (String) title.get(SSMediaWikiLangE.mUrlform.toString());
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -403,27 +406,34 @@ public class SSKCProjWikiImportCommons {
       //      http://mint/projwiki_dieter/api.php?action=ask&q=[[Category:Projekt]][[Project%20Number::20143516]]
       final JSONObject json, results, ask, item, title;
       final JSONArray items;
-        
+      
       final HttpGet httpget =
         new HttpGet(
           conf.wikiURI
-            + pathActionAsk
-            + SSStrU.ampersand + valueQ + SSStrU.equal
-            + propertyCategoryProjekt
-            + propertyStartProjectNumber + projectNumber + SSStrU.squareBracketClose + SSStrU.squareBracketClose 
-            + SSStrU.ampersand + valueFormatJson);
+            + SSMediaWikiLangE.apiActionAsk
+            + SSStrU.ampersand
+            + SSMediaWikiLangE.q
+            + SSStrU.equal
+            + SSMediaWikiLangE.CategoryProjekt
+            + SSStrU.doubleSquareBracketOpen
+            + SSMediaWikiLangE.ProjectNumber
+            + SSStrU.doubleColon
+            + projectNumber
+            + SSStrU.doubleSquareBracketClose
+            + SSStrU.ampersand
+            + SSMediaWikiLangE.formatEqualsJson);
       
-      httpget.addHeader(valueCookie, sessionID);
+      httpget.addHeader(SSMediaWikiLangE.Cookie.toString(), sessionID);
       
       in       = httpclient.execute(httpget).getEntity().getContent();
       json     = new JSONObject(SSFileU.readStreamText(in));
-      ask      = (JSONObject) json.get     (valueAsk);
-      results  = (JSONObject) ask.get      (valueResults);
-      items    = (JSONArray)  results.get  (valueItems);
+      ask      = (JSONObject) json.get     (SSMediaWikiLangE.ask.toString());
+      results  = (JSONObject) ask.get      (SSMediaWikiLangE.results.toString());
+      items    = (JSONArray)  results.get  (SSMediaWikiLangE.items.toString());
       item     = (JSONObject) items.get(0);
-      title    = (JSONObject) item.get     (valueTitle);
+      title    = (JSONObject) item.get     (SSMediaWikiLangE.title.toString());
       
-      return (String) title.get(valueMUrlform);
+      return (String) title.get(SSMediaWikiLangE.mUrlform.toString());
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -449,18 +459,19 @@ public class SSKCProjWikiImportCommons {
       
       final HttpResponse response;
       final JSONObject   json;
-      final HttpPost     post = 
+      final HttpPost     post =
         new HttpPost(
-          conf.wikiURI 
-            + pathActionLogin 
-            + SSStrU.ampersand + valueFormatJson);
+          conf.wikiURI
+            + SSMediaWikiLangE.apiActionLogin
+            + SSStrU.ampersand
+            + SSMediaWikiLangE.formatEqualsJson);
       
       post.setEntity(new UrlEncodedFormEntity(getFirstLoginParams(conf), SSEncodingU.utf8.toString()));
       
       response = httpclient.execute(post);
       in       = response.getEntity().getContent();
       json     = new JSONObject(SSFileU.readStreamText(in));
-      token    = ((JSONObject)json.get(valueLogin)).get(valueToken).toString();
+      token    = ((JSONObject)json.get(SSMediaWikiLangE.login.toString())).get(SSMediaWikiLangE.token.toString()).toString();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -474,7 +485,7 @@ public class SSKCProjWikiImportCommons {
       }
     }
   }
-    
+  
   private void loginSecondTime(
     final SSKCProjWikiConf    conf) throws SSErr{
     
@@ -487,15 +498,16 @@ public class SSKCProjWikiImportCommons {
       final HttpPost     post =
         new HttpPost(
           conf.wikiURI
-            + pathActionLogin
-            + SSStrU.ampersand + valueFormatJson);
+            + SSMediaWikiLangE.apiActionLogin
+            + SSStrU.ampersand
+            + SSMediaWikiLangE.formatEqualsJson);
       
       post.setEntity(new UrlEncodedFormEntity(getSecondLoginParams(conf), SSEncodingU.utf8.toString()));
       
       response  = httpclient.execute(post);
       in        = response.getEntity().getContent();
       json      = new JSONObject(SSFileU.readStreamText(in));
-      sessionID = ((JSONObject)json.get(valueLogin)).get(valueSessionId).toString();
+      sessionID = ((JSONObject)json.get(SSMediaWikiLangE.login.toString())).get(SSMediaWikiLangE.sessionid.toString()).toString();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -512,13 +524,14 @@ public class SSKCProjWikiImportCommons {
   
   private void logout(
     final SSKCProjWikiConf conf) throws SSErr{
-
+    
     try{
       httpclient.execute(
         new HttpGet(
           conf.wikiURI
-          + pathActionLogout 
-          + SSStrU.ampersand + valueFormatJson));
+            + SSMediaWikiLangE.apiActionLogout
+            + SSStrU.ampersand
+            + SSMediaWikiLangE.formatEqualsJson));
       
     }catch(Exception error){
       SSLogU.warn("logout failed", error);
@@ -528,46 +541,46 @@ public class SSKCProjWikiImportCommons {
   private String getWikiPageContent(
     final SSKCProjWikiConf    conf,
     final String              title) throws SSErr{
-
+    
     InputStream in = null;
     
     try{
-//            &&prop=revisions&rvlimit=1&rvprop=content&format=json&titles=" + title);      
-      
-      final HttpGet httpget = 
-        new HttpGet(
-          conf.wikiURI 
-            + pathActionQuery
-            + SSStrU.ampersand + valueIndexPageIds
-            + SSStrU.ampersand + valueProp    + SSStrU.equal   + valueRevisions
-            + SSStrU.ampersand + valueRvlimit + SSStrU.equal   + "1"
-            + SSStrU.ampersand + valueRvprop  + SSStrU.equal   + valueContent
-            + SSStrU.ampersand + valueTitles  + SSStrU.equal   + title
-            + SSStrU.ampersand + valueFormatJson);
-      
-      httpget.addHeader(valueCookie, sessionID);
-      
-      final HttpResponse response   = httpclient.execute(httpget);
-      final JSONObject   json;
-      final JSONObject   query;
-      final JSONObject   pages;
-      final JSONObject   firstPage;
-      final JSONArray    revisions;
-      final JSONArray    pageids;
-      final String       content;
-      final String       pageID;
-      
-      in        = response.getEntity().getContent();
-      json      = new JSONObject(SSFileU.readStreamText(in));
-      query     = (JSONObject)  json.get(valueQuery);
-      pageids   = (JSONArray)   query.get(valuePageIds);
-      pageID    = pageids.get(0).toString();
-      pages     = (JSONObject)  query.get(valuePages);
-      firstPage = (JSONObject)  pages.get(pageID);
-      revisions = (JSONArray)   firstPage.get(valueRevisions);
-      content   = ((JSONObject) revisions.get(0)).get("*").toString();
-      
-      return content;
+//            &&prop=revisions&rvlimit=1&rvprop=content&format=json&titles=" + title);
+
+final HttpGet httpget =
+  new HttpGet(
+    conf.wikiURI
+      + SSMediaWikiLangE.apiActionQuery
+      + SSStrU.ampersand + SSMediaWikiLangE.indexpageids
+      + SSStrU.ampersand + SSMediaWikiLangE.prop    + SSStrU.equal   + SSMediaWikiLangE.revisions
+      + SSStrU.ampersand + SSMediaWikiLangE.rvlimit + SSStrU.equal   + "1"
+      + SSStrU.ampersand + SSMediaWikiLangE.rvprop  + SSStrU.equal   + SSMediaWikiLangE.content
+      + SSStrU.ampersand + SSMediaWikiLangE.titles  + SSStrU.equal   + title
+      + SSStrU.ampersand + SSMediaWikiLangE.formatEqualsJson);
+
+httpget.addHeader(SSMediaWikiLangE.Cookie.toString(), sessionID);
+
+final HttpResponse response   = httpclient.execute(httpget);
+final JSONObject   json;
+final JSONObject   query;
+final JSONObject   pages;
+final JSONObject   firstPage;
+final JSONArray    revisions;
+final JSONArray    pageids;
+final String       content;
+final String       pageID;
+
+in        = response.getEntity().getContent();
+json      = new JSONObject(SSFileU.readStreamText(in));
+query     = (JSONObject)  json.get(SSMediaWikiLangE.query.toString());
+pageids   = (JSONArray)   query.get(SSMediaWikiLangE.pageids.toString());
+pageID    = pageids.get(0).toString();
+pages     = (JSONObject)  query.get(SSMediaWikiLangE.pages.toString());
+firstPage = (JSONObject)  pages.get(pageID);
+revisions = (JSONArray)   firstPage.get(SSMediaWikiLangE.revisions.toString());
+content   = ((JSONObject) revisions.get(0)).get("*").toString();
+
+return content;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -593,13 +606,13 @@ public class SSKCProjWikiImportCommons {
       final HttpGet httpget =
         new HttpGet(
           conf.wikiURI
-            + pathActionQuery
-            + SSStrU.ampersand + valueIndexPageIds
-            + SSStrU.ampersand + valueProp    + SSStrU.equal + valueInfo
-            + SSStrU.ampersand + valueIntoken + SSStrU.equal + valueEdit
-            + SSStrU.ampersand + valueRvprop  + SSStrU.equal + valueTimestamp//"&rvprp=timestamp"
-            + SSStrU.ampersand + valueTitles  + SSStrU.equal + title
-            + SSStrU.ampersand + valueFormatJson);
+            + SSMediaWikiLangE.apiActionQuery
+            + SSStrU.ampersand + SSMediaWikiLangE.indexpageids
+            + SSStrU.ampersand + SSMediaWikiLangE.prop    + SSStrU.equal + SSMediaWikiLangE.info
+            + SSStrU.ampersand + SSMediaWikiLangE.intoken + SSStrU.equal + SSMediaWikiLangE.edit
+            + SSStrU.ampersand + SSMediaWikiLangE.rvprop  + SSStrU.equal + SSMediaWikiLangE.timestamp//"&rvprp=timestamp"
+            + SSStrU.ampersand + SSMediaWikiLangE.titles  + SSStrU.equal + title
+            + SSStrU.ampersand + SSMediaWikiLangE.formatEqualsJson);
       
       final HttpResponse response   = httpclient.execute(httpget);
       final HttpEntity   entity     = response.getEntity();
@@ -612,13 +625,13 @@ public class SSKCProjWikiImportCommons {
       
       in        = entity.getContent();
       json      = new JSONObject(SSFileU.readStreamText(in));
-      query     = (JSONObject) json.get(valueQuery);
-      pageids   = (JSONArray)  query.get(valuePageIds);
+      query     = (JSONObject) json.get(SSMediaWikiLangE.query.toString());
+      pageids   = (JSONArray)  query.get(SSMediaWikiLangE.pageids.toString());
       pageID    = pageids.get(0).toString();
-      pages     = (JSONObject) query.get(valuePages);
+      pages     = (JSONObject) query.get(SSMediaWikiLangE.pages.toString());
       firstPage = (JSONObject) pages.get(pageID);
       
-      return firstPage.get(valueEditToken).toString();
+      return firstPage.get(SSMediaWikiLangE.edittoken.toString()).toString();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -634,7 +647,7 @@ public class SSKCProjWikiImportCommons {
       }
     }
   }
-
+  
   public void start(final SSKCProjWikiConf    conf) throws SSErr{
     
     try{
@@ -660,9 +673,9 @@ public class SSKCProjWikiImportCommons {
     try{
       final List<BasicNameValuePair> params = new ArrayList<>();
       
-      params.add(new BasicNameValuePair(valueLgname,     conf.userName));
-      params.add(new BasicNameValuePair(valueLgpass,     conf.password));
-      params.add(new BasicNameValuePair(valueLgdomain,   conf.domain));
+      params.add(new BasicNameValuePair(SSMediaWikiLangE.lgname.toString(),      conf.userName));
+      params.add(new BasicNameValuePair(SSMediaWikiLangE.lgpassword.toString(),  conf.password));
+      params.add(new BasicNameValuePair(SSMediaWikiLangE.lgdomain.toString(),    conf.domain));
       
       return params;
     }catch(Exception error){
@@ -672,12 +685,12 @@ public class SSKCProjWikiImportCommons {
   }
   
   private List<BasicNameValuePair> getSecondLoginParams(
-  final SSKCProjWikiConf    conf) throws SSErr{
+    final SSKCProjWikiConf    conf) throws SSErr{
     
     try{
       final List<BasicNameValuePair> params = getFirstLoginParams(conf);
       
-      params.add(new BasicNameValuePair(valueLgtoken,    token));
+      params.add(new BasicNameValuePair(SSMediaWikiLangE.lgtoken.toString(),    token));
       
       return params;
       
@@ -686,7 +699,7 @@ public class SSKCProjWikiImportCommons {
       return null;
     }
   }
-
+  
   private String removeEmployeeResourcesFromVorgangContent(
     final String content) throws SSErr{
     
@@ -695,9 +708,9 @@ public class SSKCProjWikiImportCommons {
       Integer                   firstIndex;
       Integer                   secondIndex;
       
-      while(result.contains(valueWorksInVorgang)){
+      while(result.contains(SSStrU.doubleCurlyBracketOpen + SSMediaWikiLangE.WorksInVorgang)){
         
-        firstIndex = result.indexOf(valueWorksInVorgang);
+        firstIndex = result.indexOf(SSStrU.doubleCurlyBracketOpen + SSMediaWikiLangE.WorksInVorgang);
         
         if(firstIndex == -1){
           continue;
@@ -725,18 +738,18 @@ public class SSKCProjWikiImportCommons {
       JSONObject  json;
       JSONObject  edit;
       String      strResult;
-
+      
       in     = response.getEntity().getContent();
       json   = new JSONObject(SSFileU.readStreamText(in));
       
       try{
-        edit = (JSONObject)             json.get          (valueEdit);
+        edit = (JSONObject)             json.get          (SSMediaWikiLangE.edit.toString());
       }catch(Exception error){
         
         SSLogU.debug(error);
         
-        JSONObject  jsonResult = (JSONObject)             json.get          (valueResult);
-        Integer     code       = Integer.valueOf((String) jsonResult.get    (valueCode));
+        JSONObject  jsonResult = (JSONObject)             json.get          (SSMediaWikiLangE.result.toString());
+        Integer     code       = Integer.valueOf((String) jsonResult.get    (SSMediaWikiLangE.code.toString()));
         
         if(code.compareTo(200) != 0){
           SSLogU.warn("vorgang import for " + vorgang.title + ", " + vorgang.vorgangNumber + " failed with http code " + code, null);
@@ -745,12 +758,12 @@ public class SSKCProjWikiImportCommons {
         return;
       }
       
-      strResult = (String) edit.get          (valueResult);
+      strResult = (String) edit.get          (SSMediaWikiLangE.result.toString());
       
-      if(!SSStrU.isEqual(strResult, valueSuccess)){
+      if(!SSStrU.isEqual(strResult, SSMediaWikiLangE.Success.toString())){
         SSLogU.warn("vorgang import for " + vorgang.title + ", " + vorgang.vorgangNumber + " failed with result value " + strResult, null);
       }
-
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }finally{

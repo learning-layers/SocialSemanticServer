@@ -85,6 +85,7 @@ public class SSStrU{
   public  static final String five                                            = "5";
   public  static final String at                                              = "@";
   public  static final String colon                                           = ":";
+  public  static final String doubleColon                                     = "::";
   public  static final String comma                                           = ",";
   public  static final String semiColon                                       = ";";
   public  static final String pipe                                            = "|";
@@ -96,9 +97,13 @@ public class SSStrU{
   public  static final String bracketOpen                                     = "(";
   public  static final String bracketClose                                    = ")";
   public  static final String curlyBracketOpen                                = "{";
+  public  static final String doubleCurlyBracketOpen                          = "{{";
   public  static final String curlyBracketClose                               = "}";
+  public  static final String doubleCurlyBracketClose                         = "}}";
   public  static final String squareBracketOpen                               = "[";
+  public  static final String doubleSquareBracketOpen                         = "[[";
   public  static final String squareBracketClose                              = "]";
+  public  static final String doubleSquareBracketClose                        = "]]";
   public  static final String lessThan                                        = "<";
   public  static final String greaterThan                                     = ">";
   public  static final String blank                                           = " ";
