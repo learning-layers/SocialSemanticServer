@@ -20,6 +20,7 @@
   */
 package at.kc.tugraz.ss.serv.datatypes.entity.serv;
 
+import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
@@ -33,6 +34,7 @@ import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
+import at.tugraz.sss.serv.entity.conf.SSEntityConf;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.entity.impl.SSEntityImpl;
@@ -95,17 +97,20 @@ public class SSEntityServ extends SSServContainerI{
     
     try{
       
-      final SSServPar servPar = new SSServPar(null);
+      if(conf.initAtStartUp){
       
-      sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
-      
-      servPar.sqlCon = sqlCon;
-      
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circlePubURIGet(
-        new SSCirclePubURIGetPar(
-          servPar,
-          SSConf.systemUserUri,
-          true));
+        final SSServPar servPar = new SSServPar(null);
+
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+
+        servPar.sqlCon = sqlCon;
+
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circlePubURIGet(
+          new SSCirclePubURIGetPar(
+            servPar,
+            SSConf.systemUserUri,
+            true));
+      }
       
     }finally{
       

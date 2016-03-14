@@ -95,16 +95,19 @@ public class SSRecommServ extends SSServContainerI{
     
     try{
       
-      final SSServPar servPar = new SSServPar(null);
-      
-      sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
-      
-      servPar.sqlCon = sqlCon;
-      
-      ((SSRecommServerI) getServImpl()).recommLoadUserRealms(
-        new SSRecommLoadUserRealmsPar(
-          servPar,
-          SSConf.systemUserUri));
+      if(conf.initAtStartUp){
+        
+        final SSServPar servPar = new SSServPar(null);
+
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+
+        servPar.sqlCon = sqlCon;
+
+        ((SSRecommServerI) getServImpl()).recommLoadUserRealms(
+          new SSRecommLoadUserRealmsPar(
+            servPar,
+            SSConf.systemUserUri));
+      }
     }finally{
       
       if(sqlCon != null){

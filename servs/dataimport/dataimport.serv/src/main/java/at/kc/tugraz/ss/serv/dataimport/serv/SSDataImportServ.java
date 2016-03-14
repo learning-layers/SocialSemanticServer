@@ -122,6 +122,11 @@ public class SSDataImportServ extends SSServContainerI{
     
     for(int scheduleOpsCounter = 0; scheduleOpsCounter < dataImportConf.scheduleOps.size(); scheduleOpsCounter++){
       
+      if(SSStrU.isEqual(dataImportConf.scheduleOps.get(scheduleOpsCounter), SSVarNames.dataImportMediaWikiUser)){
+        SSServReg.regScheduler(SSDateU.scheduleNow(new SSDataImportMediaWikiUserTask()));
+        continue;
+      }
+      
       if(SSStrU.isEqual(dataImportConf.scheduleOps.get(scheduleOpsCounter), SSVarNames.dataImportBitsAndPieces)){
         
         if(dataImportConf.executeScheduleAtStartUp){

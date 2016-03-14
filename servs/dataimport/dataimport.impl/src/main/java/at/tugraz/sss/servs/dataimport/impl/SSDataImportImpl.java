@@ -51,7 +51,6 @@ import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiProject;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgang;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgangEmployeeResource;
-import java.io.*;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.SSEvalLogEntry;
 
@@ -205,23 +204,26 @@ implements
     
     try{
       
-      final List<String[]> lines = SSFileU.readAllFromCSV(conf.getSssWorkDirDataCsv(), ((SSDataImportConf)conf).fileName);
+      final List<String[]> lines    = SSFileU.readAllFromCSV(conf.getSssWorkDirDataCsv(), ((SSDataImportConf) conf).fileName);
+      String               userName = null;
       String firstName;
       String familyName;
       String password;
-      String userName;
-      
-      dbSQL.startTrans(par, par.shouldCommit);
+      String userNameStart;
       
       for(String[] line : lines){
         
         try{
-          firstName  = line[0].trim();
-          familyName = line[1].trim();
-          password   = line[2].trim();
+          firstName  = line[4].trim();
+          familyName = line[3].trim();
+          password   = line[6].trim();
           userName   = firstName + familyName;
           
-          userName = userName.replaceAll("[^a-zA-Z0-9]+", SSStrU.empty);
+          userName      = userName.replaceAll("[^a-zA-Z0-9]+", SSStrU.empty);
+          userNameStart = userName.substring(0, 1);
+          userName      = userName.substring(1, userName.length());
+          userName      = userName.toLowerCase();
+          userName      = userNameStart + userName;
           
           System.out.println(userName);
           
@@ -230,10 +232,25 @@ implements
           continue;
         }
         
-        sqlFct.addUserWithGroup(par, userName, password);
+        try{
+          dbSQL.startTrans(par, par.shouldCommit);
+          
+          sqlFct.addUserWithGroup(
+            par,
+            userName,
+            password);
+          
+          dbSQL.commit(par, par.shouldCommit);
+        
+        }catch(Exception error){
+
+          try{
+            dbSQL.rollBack(par, par.shouldCommit);
+          }catch(Exception error2){
+            SSLogU.err(error2, "user import for " + userName + " failed");
+          }
+        }
       }
-      
-      dbSQL.commit(par, par.shouldCommit);
       
     }catch(Exception error){
       

@@ -98,7 +98,7 @@ public class SSCategoryServ extends SSServContainerI{
     
     try{
       
-      if(((SSCategoryConf)conf).initAtStartUp){
+      if(conf.initAtStartUp){
         
         final SSServPar servPar = new SSServPar(null);
         

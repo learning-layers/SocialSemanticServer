@@ -86,6 +86,7 @@ public enum SSErrE{
   userCannotShareWithHimself,
   
   //user //auth
+  userAlreadyExists,
   userNotRegistered,
   userKeyWrong,
   userNeedsLockOnEntity,

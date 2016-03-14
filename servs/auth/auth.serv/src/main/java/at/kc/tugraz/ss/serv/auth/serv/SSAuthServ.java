@@ -92,32 +92,32 @@ public class SSAuthServ extends SSServContainerI{
     Connection sqlCon = null;
     
     try{
-    
-      final SSAuthImpl authServ = (SSAuthImpl) inst.getServImpl();
-      final SSServPar  servPar  = new SSServPar(null);
       
-      sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
-      
-      servPar.sqlCon = sqlCon;
-
-      authServ.authRegisterUser(
-        new SSAuthRegisterUserPar(
-          servPar,
-          SSConf.systemUserEmail,
-          ((SSAuthConf)conf).systemUserPassword,
-          SSLabel.get(SSConf.systemUserLabel),
-          true,
-          true,
-          false,
-          true));
-
-      if(((SSAuthConf)conf).initAtStartUp){
-
+      if(conf.initAtStartUp){
+        
+        final SSAuthImpl authServ = (SSAuthImpl) inst.getServImpl();
+        final SSServPar  servPar  = new SSServPar(null);
+        
+        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        
+        servPar.sqlCon = sqlCon;
+        
+        authServ.authRegisterUser(
+          new SSAuthRegisterUserPar(
+            servPar,
+            SSConf.systemUserEmail,
+            ((SSAuthConf)conf).systemUserPassword,
+            SSLabel.get(SSConf.systemUserLabel),
+            true,
+            true,
+            false,
+            true));
+        
         switch(((SSAuthConf)conf).authType){
           case csvFileAuth:{
             authServ.authUsersFromCSVFileAdd(
               new SSAuthUsersFromCSVFileAddPar(
-                servPar, 
+                servPar,
                 SSConf.systemUserUri));
             break;
           } 

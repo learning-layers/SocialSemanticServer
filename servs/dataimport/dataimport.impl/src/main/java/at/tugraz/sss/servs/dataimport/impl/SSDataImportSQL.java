@@ -20,11 +20,14 @@
 */
 package at.tugraz.sss.servs.dataimport.impl;
 
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagSQLTableE;
 import at.kc.tugraz.ss.service.user.datatypes.*;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLFctA;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.db.api.SSSQLTableI;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -41,30 +44,59 @@ public class SSDataImportSQL extends SSDBSQLFctA{
   
   public void addUserWithGroup(
     final SSServPar servPar, 
-    final String userName,
-    final String password) throws SSErr{
+    final String    userName,
+    final String    password) throws SSErr{
     
     final String userId;
     ResultSet    resultSet               = null;
     
     try{
-      final List<String>                 columns = new ArrayList<>();
-      final Map<String, String>          wheres  = new HashMap<>();
-      final Statement                    statement               = servPar.sqlCon.createStatement();
+      final List<String>                 columns   = new ArrayList<>();
+      final Map<String, String>          wheres    = new HashMap<>();
+      final Statement                    statement = servPar.sqlCon.createStatement();
+      
+      column (columns, "user_name");
+      where  (wheres, "user_name", userName);
+      
+      resultSet =
+        dbSQL.select(
+          servPar,
+          SSUserSQLTableE.user,
+          columns,
+          wheres,
+          null, //orderByColumn,
+          null, //sortType,
+          null); //limit);
+      
+      if(existsFirstResult(resultSet)){
+        SSServErrReg.regErrThrow(SSErrE.userAlreadyExists);
+        return;
+      }
       
       statement.execute("INSERT INTO user (user_name,user_options,user_password,user_email,user_newpassword) values ('" + userName + "','','','','');");
+
+      columns.clear();
+      wheres.clear();
       
       column(columns, "user_id");
       
       where(wheres, "user_name", userName);
       
-      resultSet = dbSQL.select(servPar, SSUserSQLTableE.user, columns, wheres, null, null, null);
+      resultSet = 
+        dbSQL.select(
+          servPar, 
+          SSUserSQLTableE.user, 
+          columns, 
+          wheres, 
+          null, 
+          null, 
+          null);
       
       if(!existsFirstResult(resultSet)){
         return;
       }
       
-      userId    = resultSet.getString("user_id");
+      userId = resultSet.getString("user_id");
       
       statement.execute("UPDATE user SET user_password = MD5(CONCAT(" + userId + ", '-', MD5('" + password + "'))) WHERE user_name = '" + userName + "'");
       statement.execute("INSERT INTO user_groups (ug_user, ug_group) values ('" + userId + "','group')");
