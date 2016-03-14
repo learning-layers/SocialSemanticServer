@@ -31,7 +31,6 @@ import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvalLogFilePar;
-import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiProjectsPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiVorgaengePar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportMediaWikiUserPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
@@ -51,6 +50,9 @@ import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiProject;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgang;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgangEmployeeResource;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.SSEvalLogEntry;
 
@@ -273,8 +275,13 @@ implements
       String[]                               line;
       SSKCProjWikiVorgang                    vorgang;
       String                                 vorgangNumber;
+      String                                 vorgangName;
       String                                 projectNumber;
       String                                 employee;
+      String                                 projectName;
+      String                                 projectAcronym;
+      String                                 vorgangStart;
+      String                                 vorgangEnd;
       Float                                  usedEmployeeHours;
       Float                                  totalEmployeeHours;
       Float                                  totalResources;
@@ -282,8 +289,7 @@ implements
       SSKCProjWikiVorgangEmployeeResource    employeeResource;
       
       lines = SSFileU.readAllFromCSV(par.filePath);
-      
-//      Projekt;WP;Mitarbeiter;ZusArt ;SAnfang;SEnde;Plan-Std VG;verbrauchte Std. VG;Plan-Std. MA;Sum-h MA;
+      //Projekt;Bezeichnung;ProjAcronym;WP;Vorgang;Mitarbeiter;ZusArt ;Abteilung;SAnfang;SEnde;Plan-Std VG;verbrauchte Std. VG;FertigPlan [Vorgangsplan (Sicht 1)];Plan-Std. MA;Sum-h MA;
       for(Integer lineCounter = 1; lineCounter < lines.size(); lineCounter++){
         
         try{
@@ -291,12 +297,17 @@ implements
           line = lines.get(lineCounter);
           
           projectNumber      = line[0].trim();
-          vorgangNumber      = line[2].trim();
-          employee           = line[4].trim();
-          totalResources     = Float.valueOf(SSStrU.replaceAll(line[9].trim(),  SSStrU.comma, SSStrU.dot));
-          usedResources      = Float.valueOf(SSStrU.replaceAll(line[10].trim(), SSStrU.comma, SSStrU.dot));
-          totalEmployeeHours = Float.valueOf(SSStrU.replaceAll(line[12].trim(), SSStrU.comma, SSStrU.dot));
-          usedEmployeeHours  = Float.valueOf(SSStrU.replaceAll(line[13].trim(), SSStrU.comma, SSStrU.dot));
+          projectName        = line[1].trim();
+          projectAcronym     = line[2].trim();
+          vorgangNumber      = line[3].trim();
+          vorgangName        = line[4].trim();
+          employee           = line[5].trim();
+          vorgangStart       = line[8].trim();
+          vorgangEnd         = line[9].trim();
+          totalResources     = Float.valueOf(SSStrU.replaceAll(line[10].trim(),  SSStrU.comma, SSStrU.dot));
+          usedResources      = Float.valueOf(SSStrU.replaceAll(line[11].trim(), SSStrU.comma, SSStrU.dot));
+          totalEmployeeHours = Float.valueOf(SSStrU.replaceAll(line[13].trim(), SSStrU.comma, SSStrU.dot));
+          usedEmployeeHours  = Float.valueOf(SSStrU.replaceAll(line[14].trim(), SSStrU.comma, SSStrU.dot));
           
           if(vorgaenge.containsKey(vorgangNumber)){
             
@@ -310,12 +321,18 @@ implements
             
             vorgang =
               new SSKCProjWikiVorgang(
+                projectName,
                 projectNumber,
+                projectAcronym,
+                vorgangName,
                 vorgangNumber);
             
             vorgaenge.put(vorgangNumber, vorgang);
           }
           
+          vorgang.vorgangStart = getDateFromBMDDate(vorgangStart);
+          vorgang.vorgangEnd   = getDateFromBMDDate(vorgangEnd);
+
           if(
             vorgang.totalResources != null &&
             vorgang.totalResources.compareTo(totalResources) != 0){
@@ -356,6 +373,27 @@ implements
       }
       
       return vorgaenge;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  
+  private String getDateFromBMDDate(final String bmdDate) throws SSErr{
+    
+    try{
+      
+      if(SSStrU.isEmpty(bmdDate)){
+        return SSStrU.empty;
+      }
+      
+      final SimpleDateFormat bmdFormat  = new SimpleDateFormat("dd.MM.yyyy");
+      final SimpleDateFormat wikiFormat = new SimpleDateFormat("yyyy/MM/dd");
+      final Date             parsedDate = bmdFormat.parse(bmdDate);
+      
+      return wikiFormat.format(parsedDate);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -471,31 +509,6 @@ implements
       }
       
       return logEntries;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public Map<String, SSKCProjWikiProject> dataImportKCProjWikiProjects(final SSDataImportKCProjWikiProjectsPar par) throws SSErr{
-    
-    try{
-      final List<String[]>      lines;
-      final Map<String, SSKCProjWikiProject> passwordPerUser = new HashMap<>();
-      
-      lines = SSFileU.readAllFromCSV(SSFileU.dirWorking(), par.fileName);
-      
-      for(String[] line : lines){
-        
-        try{
-          passwordPerUser.put(line[0].trim(), new SSKCProjWikiProject(line[0].trim()));
-        }catch(Exception error){
-          SSLogU.warn(error);
-        }
-      }
-      
-      return passwordPerUser;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

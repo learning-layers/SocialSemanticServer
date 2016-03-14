@@ -1,4 +1,4 @@
-/**
+ /**
   * Code contributed to the Learning Layers project
   * http://www.learning-layers.eu
   * Development is partly funded by the FP7 Programme of the European Commission under
@@ -28,6 +28,7 @@ import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.util.SSStrU;
 import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiClientI;
 import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiServerI;
 import at.tugraz.sss.servs.kcprojwiki.conf.SSKCProjWikiConf;
@@ -64,9 +65,11 @@ public class SSKCProjWikiImpl
             par.user,
             ((SSKCProjWikiConf) conf).vorgaengeFilePath));
       
-      final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-      final Long       now        = new Date().getTime();
-      final String     exportDate = dateFormat.format(now);
+      final DateFormat wikiDateFormt = new SimpleDateFormat("yyyy/MM/dd");
+      final Long       now           = new Date().getTime();
+      final String     exportDate    = wikiDateFormt.format(now);
+      String           vorgangTitle  = null;
+      String           projectTitle  = null;
       
       SSLogU.info("start vorgaenge update");
       
@@ -74,17 +77,36 @@ public class SSKCProjWikiImpl
       
       SSKCProjWikiVorgang vorgang = null;
       
-      try{
+      for(Map.Entry<String, SSKCProjWikiVorgang> vorgangEntry : vorgaenge.entrySet()){
         
-        for(Map.Entry<String, SSKCProjWikiVorgang> vorgangEntry : vorgaenge.entrySet()){
+        try{
           
           vorgang       = vorgangEntry.getValue();
-          vorgang.title = kcProjWikiImportCommons.getVorgangPageTitleByVorgangNumber   (((SSKCProjWikiConf) conf), vorgang.vorgangNumber);
+          vorgangTitle  =
+            kcProjWikiImportCommons.getVorgangPageTitleByVorgangNumber(
+              ((SSKCProjWikiConf) conf),
+              vorgang.vorgangNumber);
           
-          if(vorgang.title == null){
+          if(vorgangTitle == null){
             
-            if(!kcProjWikiImportCommons.createVorgang((SSKCProjWikiConf) conf, vorgang)){
+            vorgangTitle = kcProjWikiImportCommons.createVorgang((SSKCProjWikiConf) conf, vorgang);
+            
+            if(vorgangTitle == null){
               continue;
+            }
+            
+            projectTitle =
+              kcProjWikiImportCommons.getProjectPageTitleByProjectNumber(
+                ((SSKCProjWikiConf) conf),
+                vorgang.projectNumber);
+            
+            if(projectTitle == null){
+              
+              try{
+                projectTitle = kcProjWikiImportCommons.createProject((SSKCProjWikiConf) conf,  vorgang);
+              }catch(Exception error){
+                SSLogU.warn("import for project " + vorgang.projectNumber + " failed", error);
+              }
             }
           }
           
@@ -96,14 +118,14 @@ public class SSKCProjWikiImpl
             vorgang.progress = (vorgang.usedResources / vorgang.totalResources) * 100;
           }
           
-          kcProjWikiImportCommons.updateVorgangBasics            (((SSKCProjWikiConf) conf), vorgang);
-          kcProjWikiImportCommons.updateVorgangEmployeeResources (((SSKCProjWikiConf) conf), vorgang);
+          kcProjWikiImportCommons.updateVorgangBasics            (((SSKCProjWikiConf) conf), vorgang, vorgangTitle);
+          kcProjWikiImportCommons.updateVorgangEmployeeResources (((SSKCProjWikiConf) conf), vorgang, vorgangTitle);
           
-          SSLogU.info("vorgang " + vorgang.title + " updated", false);
+          SSLogU.info("updated vorgang " + vorgangTitle + SSStrU.blank + vorgang.vorgangNumber);
+          
+        }catch(Exception error){
+          SSLogU.warn("import failed for vorgang " + vorgangTitle + SSStrU.blank + vorgang.vorgangNumber, error);
         }
-        
-      }catch(Exception error){
-        SSLogU.warn("import for vorgang (" + vorgang.title + ", " + vorgang.vorgangNumber + ") failed", error);
       }
       
       kcProjWikiImportCommons.end(((SSKCProjWikiConf) conf));
@@ -115,17 +137,3 @@ public class SSKCProjWikiImpl
     }
   }
 }
-
-//      final Map<String, SSKCProjWikiProject> projects =
-//        dataImportServ.dataImportKCProjWikiProjects(
-//          new SSDataImportKCProjWikiProjectsPar(
-//            par.user,
-//            projWikiConf.projectsFileName));
-//
-//      for(Map.Entry<String, SSKCProjWikiProject> project : projects.entrySet()){
-//
-//        project.getValue().title = importFct.getProjectPageTitleByProjectNumber   (project.getValue().projectNumber); //"20143516"
-//
-//        importFct.changeVorgangBasics    (project.getValue().title);
-//        importFct.changeVorgangResources (project.getValue().title);
-//      }

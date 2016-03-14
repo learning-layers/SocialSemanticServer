@@ -20,12 +20,16 @@
 */
 package at.tugraz.sss.servs.kcprojwiki.datatype;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SSKCProjWikiVorgang extends SSKCProjWikiPage{
   
+  public String                                           vorgangName       = null;
   public String                                           vorgangNumber     = null;
+  public String                                           vorgangStart      = null;
+  public String                                           vorgangEnd        = null;
   public Float                                            totalResources    = null;
   public Float                                            usedResources     = null;
   public Map<String, SSKCProjWikiVorgangEmployeeResource> employeeResources = new HashMap<>();
@@ -33,10 +37,15 @@ public class SSKCProjWikiVorgang extends SSKCProjWikiPage{
   public Float                                            progress          = null;
   
   public SSKCProjWikiVorgang(
-    final String projectNumber, 
+    final String projectName, 
+    final String projectNumber,
+    final String projectAcronym,
+    final String vorgangName,
     final String vorgangNumber){
     
-    this.projectNumber = projectNumber;
+    super(projectName, projectNumber, projectAcronym);
+    
+    this.vorgangName   = vorgangName;
     this.vorgangNumber = vorgangNumber;
   }
 }

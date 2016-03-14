@@ -22,6 +22,8 @@ package at.tugraz.sss.servs.kcprojwiki.impl;
 
 public enum SSMediaWikiLangE {
 
+  Vor ("Vor"),
+  Pro ("Pro"),
   text ("text"),
   login("login"),
   sessionid("sessionid"),
@@ -70,14 +72,18 @@ public enum SSMediaWikiLangE {
   ExportDate("Export%20Date"),
   ProjectProgress("Project%20Progress"),
   ProjektVorgangsebene("Projekt-Vorgangsebene"),
+  Projekt("Projekt"),
   WorksInVorgang("Works In Vorgang"),
   VorgangNumber("Vorgang%20Number"),
   VorgangBlankNumber("Vorgang Number"),
   VorgangBlankName("Vorgang Name"),
   ProjectNumber("Project%20Number"),
   ProjectBlankNumber("Project Number"),
+  ProjectBlankName("Project Name"),
   CategoryProjektVorgangsebene("[[Category:Projekt-Vorgangsebene]]"),
-  CategoryProjekt("[[Category:Projekt]]");
+  CategoryProjekt("[[Category:Projekt]]"),
+  RealProjectStart ("Real%20Project%20Start"),
+  RealProjectkEnd ("Real%20Project%20End");
   
   private final String val;
   

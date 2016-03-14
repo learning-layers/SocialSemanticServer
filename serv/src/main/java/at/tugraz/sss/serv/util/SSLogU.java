@@ -163,9 +163,9 @@ public class SSLogU{
     final boolean provideRuntimeInfo){
     
     if(provideRuntimeInfo){
-      log.trace(getMsg(logText));
+      log.info(getMsg(logText));
     }else{
-      log.trace(logText);
+      log.info(logText);
     }
   }
   

@@ -198,7 +198,6 @@ public class SSVarNames{
   public static final String dataImportBitsAndPieces                                                         = "dataImportBitsAndPieces";
   public static final String dataImportMediaWikiUser                            = "dataImportMediaWikiUser";
   public static final String dataImportKCProjWikiVorgaenge                            = "dataImportKCProjWikiVorgaenge";
-  public static final String dataImportKCProjWikiProjects                            = "dataImportKCProjWikiProjects";
   public static final String dataImportEvalLogFile                            = "dataImportEvalLogFile";
   public static final String discRemove                                   = "discRemove";
   public static final String discEntryAdd                            = "discEntryAdd";

@@ -129,6 +129,7 @@ public class SSStrU{
   public  static final String lessThan                                        = "<";
   public  static final String greaterThan                                     = ">";
   public  static final String blank                                           = " ";
+  public  static final String dash                                            = "-";
   public  static final String underline                                       = "_";
   public  static final String questionMark                                    = "?";
   public  static final String slash                                           = "/";

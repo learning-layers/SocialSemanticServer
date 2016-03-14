@@ -1,26 +1,27 @@
- /**
-  * Code contributed to the Learning Layers project
-  * http://www.learning-layers.eu
-  * Development is partly funded by the FP7 Programme of the European Commission under
-  * Grant Agreement FP7-ICT-318209.
-  * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
-  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-  *
-  * Licensed under the Apache License, Version 2.0 (the "License");
-  * you may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at
-  *
-  * http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS,
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
-  */
+/**
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.tugraz.sss.servs.kcprojwiki.impl;
 
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.util.SSEncodingU;
 import at.tugraz.sss.serv.util.SSFileU;
 import at.tugraz.sss.serv.util.SSLogU;
@@ -54,29 +55,113 @@ public class SSKCProjWikiImportCommons {
     this.httpclient    = HttpClients.createDefault();
   }
   
-  public void setVorgangTitle(
+  public String createVorgangTitle(
     final SSKCProjWikiVorgang   vorgang) throws SSErr{
     
     try{
-      vorgang.title = "vorgangTitle";
+      return vorgang.vorgangNumber + SSStrU.dash + vorgang.projectAcronym + SSStrU.dash + SSMediaWikiLangE.Vor;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
-  public boolean createVorgang(
+  public String createProjectTitle(
+    final SSKCProjWikiVorgang vorgang) throws SSErr{
+    
+    try{
+      return vorgang.projectNumber + SSStrU.dash + vorgang.projectAcronym + SSStrU.dash + SSMediaWikiLangE.Pro;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  public String createProject(
     final SSKCProjWikiConf      conf,
     final SSKCProjWikiVorgang   vorgang) throws SSErr{
     
     try{
       
       if(!conf.createVorgaenge){
-        return true;
+        return null;
       }
       
-      setVorgangTitle  (vorgang);
+      final String              projectTitle          = createProjectTitle  (vorgang);
+      final String              editToken             = getWikiPageEditToken(conf, projectTitle);
+      final List<NameValuePair> postPars              = new ArrayList<>();
+      final HttpResponse        response;
+      final HttpPost            httpPost              =
+        new HttpPost(
+          conf.wikiURI
+            + SSMediaWikiLangE.apiActionEdit
+            + SSStrU.ampersand
+            + SSMediaWikiLangE.formatEqualsJson);
       
-      final String              editToken             = getWikiPageEditToken(conf, vorgang.title);
+      String content = SSStrU.empty;
+      
+      httpPost.addHeader(SSMediaWikiLangE.Cookie.toString(), sessionID);
+      
+      content +=
+        SSStrU.doubleCurlyBracketOpen
+        + SSMediaWikiLangE.Projekt
+        + System.lineSeparator()
+        + SSStrU.pipe
+        + SSMediaWikiLangE.ProjectBlankNumber
+        + SSStrU.equal
+        + vorgang.projectNumber
+        + System.lineSeparator()
+        + SSStrU.pipe
+        + SSMediaWikiLangE.ProjectBlankName
+        + SSStrU.equal
+        + vorgang.projectName
+        + System.lineSeparator()
+        + SSStrU.doubleCurlyBracketClose
+        + System.lineSeparator()
+        + "= '''Project Description''' =\n"
+        + "<span style=\"color:DARKRED\"> (in case of COMET projects enter description from business plan)</span>\n"
+        + "-enter text here- \n"
+        + "= '''Project Status''' =\n"
+        + "== <span style=\"color:DARKBLUE\"> '''H1 (January - June)''' ==\n"
+        + "<span style=\"color:DARKRED\"> (Enter short summary of project progress here. In case of a COMET project please refer to requirements of business plan!)</span>\n"
+        + "-enter text here-\n"
+        + "== <span style=\"color:DARKBLUE\"> '''H2 (July - December)''' ==\n"
+        + "<span style=\"color:DARKRED\"> (Enter short summary of project progress here. In case of a COMET project please refer to requirements of business plan!)</span>\n"
+        + "-enter text here-\n"
+        + "<headertabs />\n"
+        + "__NOTOC__";
+      
+      postPars.add(new BasicNameValuePair(SSMediaWikiLangE.title.toString(), projectTitle));
+      postPars.add(new BasicNameValuePair(SSMediaWikiLangE.text.toString(),  content.trim()));
+      postPars.add(new BasicNameValuePair(SSMediaWikiLangE.token.toString(), editToken));
+      
+      httpPost.setEntity(new UrlEncodedFormEntity(postPars));
+      
+      response = httpclient.execute(httpPost);
+      
+      parseUpdateResponse(response, projectTitle);
+      
+      SSLogU.info("created project " + projectTitle + SSStrU.blank + vorgang.projectNumber);
+      
+      return projectTitle;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  public String createVorgang(
+    final SSKCProjWikiConf      conf,
+    final SSKCProjWikiVorgang   vorgang) throws SSErr{
+    
+    try{
+      
+      if(!conf.createVorgaenge){
+        return null;
+      }
+      
+      final String              vorgangTitle          = createVorgangTitle  (vorgang);
+      final String              editToken             = getWikiPageEditToken(conf, vorgangTitle);
       final List<NameValuePair> postPars              = new ArrayList<>();
       final HttpResponse        response;
       final HttpPost            httpPost              =
@@ -102,7 +187,7 @@ public class SSKCProjWikiImportCommons {
         + SSStrU.pipe
         + SSMediaWikiLangE.VorgangBlankName
         + SSStrU.equal
-        + vorgang.title
+        + vorgang.vorgangName
         + System.lineSeparator()
         + SSStrU.pipe
         + SSMediaWikiLangE.ProjectBlankNumber
@@ -111,52 +196,52 @@ public class SSKCProjWikiImportCommons {
         + System.lineSeparator()
         + SSStrU.doubleCurlyBracketClose
         + System.lineSeparator()
-        + "= '''Management & Resources''' =\n" 
+        + "= '''Management & Resources''' =\n"
         + "== <span style=\"color:NAVY\"> '''Which changes in the BMD Data are necessary?''' ==\n"
-        + "-enter text here- \n" 
-        + "== <span style=\"color:NAVY\"> '''Is a shortage of resources (time or personnel) to be expected? If yes: what, when, for how long.''' ==\n" 
-        + "== <span style=\"color:ROYALBLUE\"> '''---> Any other comments concerning the resource status?''' ==\n" 
-        + "-enter text here-\n" 
-        + "== <span style=\"color:NAVY\"> '''Changes concerning participating partners?''' ==\n" 
-        + "-enter text here-\n" 
+        + "-enter text here- \n"
+        + "== <span style=\"color:NAVY\"> '''Is a shortage of resources (time or personnel) to be expected? If yes: what, when, for how long.''' ==\n"
+        + "== <span style=\"color:ROYALBLUE\"> '''---> Any other comments concerning the resource status?''' ==\n"
+        + "-enter text here-\n"
+        + "== <span style=\"color:NAVY\"> '''Changes concerning participating partners?''' ==\n"
+        + "-enter text here-\n"
         + "== <span style=\"color:NAVY\"> '''Changes concerning project content?'''==\n"
-        + "-enter text here-\n" 
-        + "== <span style=\"color: ROYALBLUE\"> '''---> Any other comments concerning management issues?'''==\n" 
-        + "-enter text here-\n" 
-        + "= '''Motivation''' =\n" 
-        + "== <span style=\"color:NAVY\"> '''Are there issues within the KC-team (co-operation, communication, motivation) that should be addressed?''' ==\n" 
-        + "-enter text here-\n" 
-        + "== <span style=\"color:NAVY\"> '''What are the reasons and what could be done to solve the issues?''' ==\n" 
-        + "-enter text here-\n" 
-        + "== <span style=\"color:ROYALBLUE\"> ''' ---> Any other comments concerning the motivation within KC?''' ==\n" 
-        + "-enter text here-\n" 
-        + "== <span style=\"color:NAVY\"> '''Are there issues concerning the communication with the partners that should be addressed?''' ==\n" 
-        + "-enter text here-\n" 
-        + "== <span style=\"color:NAVY\"> '''Are there issues concerning the co-operation (data exchange, work done by partners, ...) with the partners that should be addressed?'''==\n" 
-        + "-enter text here-\n" 
-        + "== <span style=\"color:ROYALBLUE\"> '''---> Any other comments concerning the motivation of the project partners?''' ==\n" 
-        + "-enter text here-\n" 
-        + "= '''Project results''' =\n" 
-        + "== <span style=\"color:NAVY\"> '''What has happened within the project?'''==\n" 
-        + "-enter text here-\n" 
-        + "== <span style=\"color:NAVY\"> '''Have any important goals, milestones, etc. been reached?'''==\n" 
-        + "<span style=\"color:FORESTGREEN\"> Please add the '''month''' in which they were reached! </span>\n" 
-        + "-enter text here-\n" 
-        + "== <span style=\"color:NAVY\"> '''Did any special results and achievements take place (e.g. highlights, prototypes, products, ...)''' ==\n" 
-        + "<span style=\"color:FORESTGREEN\"> Please add the '''month''' in which they took place! </span>\n" 
-        + "-enter text here-\n" 
-        + "== <span style=\"color:NAVY\"> '''Were any important workshops or meetings organised?''' ==\n" 
-        + "<span style=\"color:FORESTGREEN\"> Please add the '''month''' in which they took place! </span>\n" 
-        + "-enter text here-\n" 
-        + "== <span style=\"color:NAVY\"> '''Check with defined risks: Is attention needed anywhere?''' ==\n" 
-        + "<span style=\"color:FORESTGREEN\"> Please add the relevant '''month'''! </span>\n" 
-        + "-enter text here-\n" 
-        + "== <span style=\"color:NAVY\"> '''---> Any other comments concerning project results?''' ==\n" 
-        + "-enter text here-\n" 
-        + "<headertabs />\n" 
+        + "-enter text here-\n"
+        + "== <span style=\"color: ROYALBLUE\"> '''---> Any other comments concerning management issues?'''==\n"
+        + "-enter text here-\n"
+        + "= '''Motivation''' =\n"
+        + "== <span style=\"color:NAVY\"> '''Are there issues within the KC-team (co-operation, communication, motivation) that should be addressed?''' ==\n"
+        + "-enter text here-\n"
+        + "== <span style=\"color:NAVY\"> '''What are the reasons and what could be done to solve the issues?''' ==\n"
+        + "-enter text here-\n"
+        + "== <span style=\"color:ROYALBLUE\"> ''' ---> Any other comments concerning the motivation within KC?''' ==\n"
+        + "-enter text here-\n"
+        + "== <span style=\"color:NAVY\"> '''Are there issues concerning the communication with the partners that should be addressed?''' ==\n"
+        + "-enter text here-\n"
+        + "== <span style=\"color:NAVY\"> '''Are there issues concerning the co-operation (data exchange, work done by partners, ...) with the partners that should be addressed?'''==\n"
+        + "-enter text here-\n"
+        + "== <span style=\"color:ROYALBLUE\"> '''---> Any other comments concerning the motivation of the project partners?''' ==\n"
+        + "-enter text here-\n"
+        + "= '''Project results''' =\n"
+        + "== <span style=\"color:NAVY\"> '''What has happened within the project?'''==\n"
+        + "-enter text here-\n"
+        + "== <span style=\"color:NAVY\"> '''Have any important goals, milestones, etc. been reached?'''==\n"
+        + "<span style=\"color:FORESTGREEN\"> Please add the '''month''' in which they were reached! </span>\n"
+        + "-enter text here-\n"
+        + "== <span style=\"color:NAVY\"> '''Did any special results and achievements take place (e.g. highlights, prototypes, products, ...)''' ==\n"
+        + "<span style=\"color:FORESTGREEN\"> Please add the '''month''' in which they took place! </span>\n"
+        + "-enter text here-\n"
+        + "== <span style=\"color:NAVY\"> '''Were any important workshops or meetings organised?''' ==\n"
+        + "<span style=\"color:FORESTGREEN\"> Please add the '''month''' in which they took place! </span>\n"
+        + "-enter text here-\n"
+        + "== <span style=\"color:NAVY\"> '''Check with defined risks: Is attention needed anywhere?''' ==\n"
+        + "<span style=\"color:FORESTGREEN\"> Please add the relevant '''month'''! </span>\n"
+        + "-enter text here-\n"
+        + "== <span style=\"color:NAVY\"> '''---> Any other comments concerning project results?''' ==\n"
+        + "-enter text here-\n"
+        + "<headertabs />\n"
         + "__NOTOC__";
       
-      postPars.add(new BasicNameValuePair(SSMediaWikiLangE.title.toString(), vorgang.title));
+      postPars.add(new BasicNameValuePair(SSMediaWikiLangE.title.toString(), vorgangTitle));
       postPars.add(new BasicNameValuePair(SSMediaWikiLangE.text.toString(),  content.trim()));
       postPars.add(new BasicNameValuePair(SSMediaWikiLangE.token.toString(), editToken));
       
@@ -164,18 +249,21 @@ public class SSKCProjWikiImportCommons {
       
       response = httpclient.execute(httpPost);
       
-      parseUpdateResponse(response, vorgang);
+      parseUpdateResponse(response, vorgangTitle);
       
-      return true;
+      SSLogU.info("created vorgang " + vorgangTitle + SSStrU.blank + vorgang.vorgangNumber);
+      
+      return vorgangTitle;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return false;
+      return null;
     }
   }
   
   public void updateVorgangBasics(
     final SSKCProjWikiConf    conf,
-    final SSKCProjWikiVorgang vorgang) throws SSErr{
+    final SSKCProjWikiVorgang vorgang,
+    final String              vorgangTitle) throws SSErr{
     
     try{
       
@@ -185,7 +273,9 @@ public class SSKCProjWikiImportCommons {
           conf.wikiURI
             + SSMediaWikiLangE.apiActionSfautoedit
             + SSStrU.ampersand + SSMediaWikiLangE.formEquals                 + SSMediaWikiLangE.ProjektVorgangsebene
-            + SSStrU.ampersand + SSMediaWikiLangE.targetEquals               + vorgang.title
+            + SSStrU.ampersand + SSMediaWikiLangE.targetEquals               + vorgangTitle
+            + SSStrU.ampersand + SSMediaWikiLangE.ProjektVorgangsebene + SSStrU.squareBracketOpen + SSMediaWikiLangE.RealProjectStart      + SSStrU.squareBracketClose + SSStrU.equal + vorgang.vorgangStart
+            + SSStrU.ampersand + SSMediaWikiLangE.ProjektVorgangsebene + SSStrU.squareBracketOpen + SSMediaWikiLangE.RealProjectkEnd       + SSStrU.squareBracketClose + SSStrU.equal + vorgang.vorgangEnd
             + SSStrU.ampersand + SSMediaWikiLangE.ProjektVorgangsebene + SSStrU.squareBracketOpen + SSMediaWikiLangE.TotalProjectResources + SSStrU.squareBracketClose + SSStrU.equal + vorgang.totalResources
             + SSStrU.ampersand + SSMediaWikiLangE.ProjektVorgangsebene + SSStrU.squareBracketOpen + SSMediaWikiLangE.ResourcesUsedMonthEnd + SSStrU.squareBracketClose + SSStrU.equal + vorgang.usedResources
             + SSStrU.ampersand + SSMediaWikiLangE.ProjektVorgangsebene + SSStrU.squareBracketOpen + SSMediaWikiLangE.ExportDate            + SSStrU.squareBracketClose + SSStrU.equal + vorgang.exportDate
@@ -221,7 +311,7 @@ public class SSKCProjWikiImportCommons {
       
       response = httpclient.execute(httpGet);
       
-      parseUpdateResponse(response, vorgang);
+      parseUpdateResponse(response, vorgangTitle);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -230,11 +320,12 @@ public class SSKCProjWikiImportCommons {
   
   public void updateVorgangEmployeeResources(
     final SSKCProjWikiConf    conf,
-    final SSKCProjWikiVorgang vorgang) throws SSErr{
+    final SSKCProjWikiVorgang vorgang,
+    final String              vorgangTitle) throws SSErr{
     
     try{
-      final String              editToken             = getWikiPageEditToken  (conf, vorgang.title);
-      final String              vorgangPageContent    = getWikiPageContent    (conf, vorgang.title);
+      final String              editToken             = getWikiPageEditToken  (conf, vorgangTitle);
+      final String              vorgangPageContent    = getWikiPageContent    (conf, vorgangTitle);
       final List<NameValuePair> postPars              = new ArrayList<>();
       final HttpResponse        response;
       final HttpPost            httpPost              =
@@ -263,7 +354,7 @@ public class SSKCProjWikiImportCommons {
           + System.lineSeparator();
       }
       
-      postPars.add(new BasicNameValuePair(SSMediaWikiLangE.title.toString(), vorgang.title));
+      postPars.add(new BasicNameValuePair(SSMediaWikiLangE.title.toString(), vorgangTitle));
       postPars.add(new BasicNameValuePair(SSMediaWikiLangE.text.toString(),  content.trim()));
       postPars.add(new BasicNameValuePair(SSMediaWikiLangE.token.toString(), editToken));
       
@@ -271,7 +362,7 @@ public class SSKCProjWikiImportCommons {
       
       response = httpclient.execute(httpPost);
       
-      parseUpdateResponse(response, vorgang);
+      parseUpdateResponse(response, vorgangTitle);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -315,7 +406,7 @@ public class SSKCProjWikiImportCommons {
       try{
         results  = (JSONObject) ask.get       (SSMediaWikiLangE.results.toString());
       }catch(Exception error){
-        SSLogU.info("vorgang for vorgang number " + vorgangNumber + " not available", error, false);
+        SSLogU.trace(error, false, false);
         return null;
       }
       
@@ -397,7 +488,7 @@ public class SSKCProjWikiImportCommons {
   
   public String getProjectPageTitleByProjectNumber(
     final SSKCProjWikiConf    conf,
-    final Integer             projectNumber) throws SSErr{
+    final String              projectNumber) throws SSErr{
     
     InputStream in = null;
     
@@ -428,7 +519,14 @@ public class SSKCProjWikiImportCommons {
       in       = httpclient.execute(httpget).getEntity().getContent();
       json     = new JSONObject(SSFileU.readStreamText(in));
       ask      = (JSONObject) json.get     (SSMediaWikiLangE.ask.toString());
-      results  = (JSONObject) ask.get      (SSMediaWikiLangE.results.toString());
+      
+      try{
+        results  = (JSONObject) ask.get      (SSMediaWikiLangE.results.toString());
+      }catch(Exception error){
+        SSLogU.trace(error, false, false);
+        return null;
+      }
+      
       items    = (JSONArray)  results.get  (SSMediaWikiLangE.items.toString());
       item     = (JSONObject) items.get(0);
       title    = (JSONObject) item.get     (SSMediaWikiLangE.title.toString());
@@ -510,7 +608,7 @@ public class SSKCProjWikiImportCommons {
       sessionID = ((JSONObject)json.get(SSMediaWikiLangE.login.toString())).get(SSMediaWikiLangE.sessionid.toString()).toString();
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+      SSServErrReg.regErrThrow(SSErrE.mediaWikiUserLoginSecondTimeFailed, error);
     }finally{
       if(in != null){
         try {
@@ -729,7 +827,7 @@ return content;
   
   private void parseUpdateResponse(
     final HttpResponse            response,
-    final SSKCProjWikiVorgang     vorgang) throws SSErr{
+    final String                  pageTitle) throws SSErr{
     
     InputStream in = null;
     
@@ -752,7 +850,7 @@ return content;
         Integer     code       = Integer.valueOf((String) jsonResult.get    (SSMediaWikiLangE.code.toString()));
         
         if(code.compareTo(200) != 0){
-          SSLogU.warn("vorgang import for " + vorgang.title + ", " + vorgang.vorgangNumber + " failed with http code " + code, null);
+          SSLogU.warn("import for " + pageTitle + " failed with http code " + code, null);
         }
         
         return;
@@ -761,7 +859,7 @@ return content;
       strResult = (String) edit.get          (SSMediaWikiLangE.result.toString());
       
       if(!SSStrU.isEqual(strResult, SSMediaWikiLangE.Success.toString())){
-        SSLogU.warn("vorgang import for " + vorgang.title + ", " + vorgang.vorgangNumber + " failed with result value " + strResult, null);
+        SSLogU.warn("import for " + pageTitle + " failed with result value " + strResult, null);
       }
       
     }catch(Exception error){

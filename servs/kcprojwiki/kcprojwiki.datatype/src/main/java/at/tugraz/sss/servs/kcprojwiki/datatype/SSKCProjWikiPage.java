@@ -22,7 +22,17 @@ package at.tugraz.sss.servs.kcprojwiki.datatype;
 
 public class SSKCProjWikiPage {
   
-  public String  title         = null;
-  public String  projectNumber = null;
+  public String  projectName    = null;
+  public String  projectNumber  = null;
+  public String  projectAcronym = null;
   
+  public SSKCProjWikiPage(
+    final String projectName,
+    final String projectNumber,
+    final String projectAcronym){
+    
+    this.projectName    = projectName;
+    this.projectNumber  = projectNumber;
+    this.projectAcronym = projectAcronym;
+  }
 }

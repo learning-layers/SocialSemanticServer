@@ -23,8 +23,10 @@ package at.tugraz.sss.servs.kcprojwiki.datatype;
 public class SSKCProjWikiProject extends SSKCProjWikiPage{
 
   public SSKCProjWikiProject(
-   final String projectNumber){
+    final String projectName,
+    final String projectNumber,
+    final String projectAcronym){
     
-    this.projectNumber = projectNumber;
+    super(projectName, projectNumber, projectAcronym);
   }
 }
