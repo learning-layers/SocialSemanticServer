@@ -88,7 +88,6 @@ public class SSVarNames{
   public static final String evernoteNoteStoreGet                                                            = "evernoteNoteStoreGet";
   public static final String evernoteNotebookGet                            = "evernoteNotebookGet";
   public static final String evernoteNoteGet                            = "evernoteNoteGet";
-  public static final String evernoteNotebooksSharedGet                                                      = "evernoteNotebooksSharedGet";
   public static final String evernoteResourceGet                            = "evernoteResourceGet";
   public static final String evernoteNoteTagNamesGet                            = "evernoteNoteTagNamesGet";
   public static final String evernoteUserAdd                            = "evernoteUserAdd";

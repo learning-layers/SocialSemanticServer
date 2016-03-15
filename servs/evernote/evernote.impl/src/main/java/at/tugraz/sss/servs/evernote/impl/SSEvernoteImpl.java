@@ -35,7 +35,6 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteStoreGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteTagNamesGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotebookGetPar;
-import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotebooksSharedGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResource;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceAddPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceByHashGetPar;
@@ -286,26 +285,6 @@ implements
       
       if(gotToSleep(edamError, SSStrU.empty)){
         return evernoteResourceByHashGet (par);
-      }else{
-        SSServErrReg.regErrThrow(edamError);
-        return null;
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public List<SharedNotebook> evernoteNotebooksSharedGet(final SSEvernoteNotebooksSharedGetPar par) throws SSErr {
-    
-    try{
-      return par.noteStore.listSharedNotebooks();
-    }catch(EDAMSystemException edamError){
-      
-      if(gotToSleep(edamError, SSStrU.empty)){
-        return evernoteNotebooksSharedGet(par);
       }else{
         SSServErrReg.regErrThrow(edamError);
         return null;

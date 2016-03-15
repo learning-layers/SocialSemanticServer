@@ -36,7 +36,6 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteStoreGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteTagNamesGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotebookGetPar;
-import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotebooksSharedGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUSNSetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUserAddPar;
@@ -53,8 +52,6 @@ import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;
 import com.evernote.edam.type.Resource;
-import com.evernote.edam.type.SharedNotebook;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -63,9 +60,7 @@ public class SSDataImportBNPEvernoteImporter {
   private final SSDataImportBNPCommon                  common                     = new SSDataImportBNPCommon();
   private final SSDataImportActAndLog                  actAndLog                  = new SSDataImportActAndLog();
   private final SSDataImportEvernoteNoteContentHandler evernoteNoteContentHandler = new SSDataImportEvernoteNoteContentHandler();
-  private final List<String>                           sharedNotebookGuids        = new ArrayList<>();
   private       SSEvernoteInfo                         evernoteInfo             = null;
-  private       List<SharedNotebook>                   sharedNotebooks          = null;
   
   public void handle(
     final SSDataImportBitsAndPiecesPar par, 
@@ -78,11 +73,10 @@ public class SSDataImportBNPEvernoteImporter {
       
       setBasicEvernoteInfo  (par, forUser);
       
-      handleLinkedNotebooks (par, forUser);
-      setSharedNotebooks    (par, forUser);
-      handleNotebooks       (par, forUser);
-      handleNotes           (par, localWorkPath, forUser);
-      handleResources       (par, forUser);
+      handleSharedWithMeAndPublicNotebooks (par, forUser);
+      handleNotebooks                      (par, forUser);
+      handleNotes                          (par, localWorkPath, forUser);
+      handleResources                      (par, forUser);
       
       setUSN(par, forUser);
       
@@ -156,36 +150,6 @@ public class SSDataImportBNPEvernoteImporter {
     }
   }
   
-  private void setSharedNotebooks(
-    final SSDataImportBitsAndPiecesPar par, 
-    final SSUri                        forUser) throws SSErr{
-    
-    try{
-      
-      final SSEvernoteServerI evernoteServ = (SSEvernoteServerI) SSServReg.getServ(SSEvernoteServerI.class);
-      
-      sharedNotebooks =
-        evernoteServ.evernoteNotebooksSharedGet (
-          new SSEvernoteNotebooksSharedGetPar(
-            par,
-            forUser,
-            evernoteInfo.noteStore));
-      
-      sharedNotebookGuids.clear();
-      
-      if(sharedNotebooks == null){
-        return;
-      }
-      
-      sharedNotebooks.stream().forEach((sharedNotebook)->{
-        sharedNotebookGuids.add(sharedNotebook.getNotebookGuid());
-      });
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
   private void handleNotebooks(
     final SSDataImportBitsAndPiecesPar par, 
     final SSUri                        forUser) throws SSErr{
@@ -201,8 +165,8 @@ public class SSDataImportBNPEvernoteImporter {
       
       for(Notebook notebook : notebooks){
         
-        notebookUri      = getNormalOrSharedNotebookUri         (evernoteInfo.userName,    notebook, sharedNotebookGuids);
-        notebookLabel    = getNormalOrSharedNotebookLabel       (notebook);
+        notebookUri      = getNotebookURI   (notebook);
+        notebookLabel    = getNotebookLabel (notebook);
         
         common.addNotebook(
           par,
@@ -217,24 +181,24 @@ public class SSDataImportBNPEvernoteImporter {
     }
   }
   
-  private void handleLinkedNotebooks(
+  private void handleSharedWithMeAndPublicNotebooks(
     final SSDataImportBitsAndPiecesPar par, 
     final SSUri                        forUser) throws SSErr{
     
     try{
       
-      final List<LinkedNotebook> linkedNotebooks = evernoteInfo.noteStoreSyncChunk.getLinkedNotebooks();
-      int                        timeCounter     = 1;
+      final List<LinkedNotebook> sharedWithMeAndPublicNotebooks = evernoteInfo.noteStoreSyncChunk.getLinkedNotebooks();
+      int                        timeCounter                    = 1;
       SSUri                      notebookUri;
       Long                       creationTimeForLinkedNotebook;
       
-      if(linkedNotebooks == null){
+      if(sharedWithMeAndPublicNotebooks == null){
         return;
       }
       
-      for(LinkedNotebook linkedNotebook : linkedNotebooks){
+      for(LinkedNotebook sharedWithMeOrPublicNotebook : sharedWithMeAndPublicNotebooks){
         
-        notebookUri                   = getLinkedNotebookUri     (linkedNotebook);
+        notebookUri                   = getSharedWithMeOrPublicNotbookURI     (sharedWithMeOrPublicNotebook);
         creationTimeForLinkedNotebook = new Date().getTime() - (SSDateU.dayInMilliSeconds * timeCounter);
         timeCounter++;
         
@@ -243,7 +207,7 @@ public class SSDataImportBNPEvernoteImporter {
           forUser,
           SSToolContextE.evernoteImport,
           notebookUri,
-          getLinkedNotebookLabel(linkedNotebook),
+          getSharedWithMeOrPublicNotebookLabel(sharedWithMeOrPublicNotebook),
           creationTimeForLinkedNotebook);
         
       }
@@ -274,7 +238,7 @@ public class SSDataImportBNPEvernoteImporter {
       
       for(Note note : notes){
         
-        noteUri          = getNormalOrSharedNoteUri        (evernoteInfo,           note);
+        noteUri          = getNoteURI        (evernoteInfo,           note);
         notebook         =
           evernoteServ.evernoteNotebookGet(
             new SSEvernoteNotebookGetPar(
@@ -292,13 +256,8 @@ public class SSDataImportBNPEvernoteImporter {
               note.getGuid(),
               true));
         
-        notebookUri      =
-          getNormalOrSharedNotebookUri(
-            evernoteInfo.userName,
-            notebook,
-            sharedNotebookGuids);
-        
-        noteLabel = getNoteLabel(note);
+        notebookUri = getNotebookURI(notebook);
+        noteLabel   = getNoteLabel(note);
         
         common.addNote(
           par,
@@ -440,7 +399,7 @@ public class SSDataImportBNPEvernoteImporter {
               resource.getNoteGuid(),
               false));
         
-        noteUri             = getNormalOrSharedNoteUri (evernoteInfo, note);
+        noteUri             = getNoteURI (evernoteInfo, note);
         resourceLabel       = getResourceLabel(resource, note);
         
         common.addResource(
@@ -475,42 +434,27 @@ public class SSDataImportBNPEvernoteImporter {
     }
   }
   
-  private SSUri getNormalOrSharedNotebookUri(SSLabel userName, Notebook notebook, List<String> sharedNotebookGuids) throws SSErr{
+  private SSUri getNoteURI(
+    final SSEvernoteInfo evernoteInfo, 
+    final Note           note) throws SSErr {
     
-    try{
-      
-      if(
-        sharedNotebookGuids.contains   (notebook.getGuid()) &&
-        !SSStrU.isEmpty                (notebook.getName())){
-        return SSUri.get(createSharedNotebookUriStr(userName, notebook));
-      }
-      
-    }catch(Exception error){
-      SSLogU.warn(error);
-    }
-    
-    return getNotebookDefaultUri(notebook);
-  }
-  
-  private SSUri getNormalOrSharedNoteUri(SSEvernoteInfo evernoteInfo, Note note) throws SSErr {
     return SSUri.get(evernoteInfo.shardUri + "view/notebook/" + note.getGuid());
   }
   
-  private SSUri getLinkedNotebookUri(LinkedNotebook linkedNotebook) throws SSErr {
-    return SSUri.get(linkedNotebook.getWebApiUrlPrefix() + "share/" + linkedNotebook.getShareKey());
+  private SSUri getSharedWithMeOrPublicNotbookURI(final LinkedNotebook sharedWithMeOrPublicNotebook) throws SSErr {
+    
+    if(sharedWithMeOrPublicNotebook.getShareKey() != null){
+      return SSUri.get(sharedWithMeOrPublicNotebook.getWebApiUrlPrefix() + "share/" + sharedWithMeOrPublicNotebook.getShareKey());
+    }else{
+      return SSUri.get(SSLinkU.httpsEvernote + "pub/" + sharedWithMeOrPublicNotebook.getUsername() + "/" + sharedWithMeOrPublicNotebook.getUri());
+    }
   }
   
   private SSUri getResourceUri(SSEvernoteInfo evernoteInfo, Resource resource) throws SSErr{
     return SSUri.get(evernoteInfo.shardUri + "res/" + resource.getGuid());
   }
   
-  private String createSharedNotebookUriStr(SSLabel userName, Notebook notebook) throws SSErr{
-    
-    //TODO dtheiler: check evernote environment to use here
-    return SSLinkU.httpsEvernote + "pub/" + SSStrU.toStr(userName) + SSStrU.slash + notebook.getPublishing().getUri(); //7SSStrU.replaceAllBlanksSpecialCharactersDoubleDots(notebook.getName(), SSStrU.empty)
-  }
-  
-  private SSUri getNotebookDefaultUri(Notebook notebook) throws SSErr{
+  private SSUri getNotebookURI(final Notebook notebook) throws SSErr{
     
     if(
       notebook                  == null ||
@@ -521,7 +465,7 @@ public class SSDataImportBNPEvernoteImporter {
     return SSUri.get(SSLinkU.httpsEvernote + "Home.action#b=" + notebook.getGuid());
   }
   
-  private SSLabel getNormalOrSharedNotebookLabel(
+  private SSLabel getNotebookLabel(
     final Notebook notebook) throws SSErr{
     
     try{
@@ -539,11 +483,11 @@ public class SSDataImportBNPEvernoteImporter {
     }
   }
   
-  private SSLabel getLinkedNotebookLabel(
-    final LinkedNotebook linkedNotebook) throws SSErr{
+  private SSLabel getSharedWithMeOrPublicNotebookLabel(
+    final LinkedNotebook sharedWithMeOrPublicNotebook) throws SSErr{
     
     try{
-      final SSLabel tmpLabel = SSLabel.get(linkedNotebook.getShareName());
+      final SSLabel tmpLabel = SSLabel.get(sharedWithMeOrPublicNotebook.getShareName());
       
       if(tmpLabel == null){
         return getDefaultLabel();

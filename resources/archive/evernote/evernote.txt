@@ -1,3 +1,63 @@
+private String createSharedNotebookUriStr(SSLabel userName, Notebook notebook) throws SSErr{
+    return SSLinkU.httpsEvernote + "pub/" + SSStrU.toStr(userName) + SSStrU.slash + notebook.getPublishing().getUri();
+  }
+
+noteStore.listSharedNotebooks();
+
+private SSUri getNormalOrSharedNotebookUri(
+    final SSLabel      userName, 
+    final Notebook     notebook, 
+    final List<String> sharedNotebookGuids) throws SSErr{
+    
+    try{
+      
+      if(
+        sharedNotebookGuids.contains   (notebook.getGuid()) &&
+        !SSStrU.isEmpty                (notebook.getName())){
+        return SSUri.get(createSharedNotebookUriStr(userName, notebook));
+      }
+      
+    }catch(Exception error){
+      SSLogU.warn(error);
+    }
+    
+    return getNotebookDefaultUri(notebook);
+  }
+
+
+private final List<String>                           sharedNotebookGuids        = new ArrayList<>();
+private       List<SharedNotebook>                   sharedNotebooks          = null;
+
+private void setSharedNotebooks(
+    final SSDataImportBitsAndPiecesPar par, 
+    final SSUri                        forUser) throws SSErr{
+    
+    try{
+      
+      final SSEvernoteServerI evernoteServ = (SSEvernoteServerI) SSServReg.getServ(SSEvernoteServerI.class);
+      
+      sharedNotebooks =
+        evernoteServ.evernoteNotebooksSharedGet (
+          new SSEvernoteNotebooksSharedGetPar(
+            par,
+            forUser,
+            evernoteInfo.noteStore));
+      
+      sharedNotebookGuids.clear();
+      
+      if(sharedNotebooks == null){
+        return;
+      }
+      
+      sharedNotebooks.stream().forEach((sharedNotebook)->{
+        sharedNotebookGuids.add(sharedNotebook.getNotebookGuid());
+      });
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
 //  public boolean isSharedNootebook(SSUri notebookUri, SSLabel userName, Notebook notebook) {
 //    return uriHelper.isSharedNotebookUri(userName, notebook, notebookUri);
 //  }
