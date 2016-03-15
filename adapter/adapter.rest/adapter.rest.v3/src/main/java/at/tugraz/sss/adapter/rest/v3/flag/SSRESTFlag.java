@@ -22,7 +22,7 @@ package at.tugraz.sss.adapter.rest.v3.flag;
 
 import at.kc.tugraz.sss.flag.api.*;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsGetPar;
-import at.tugraz.sss.adapter.rest.v3.SSRestMain;
+import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsSetPar;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsGetRet;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsSetRet;
@@ -75,7 +75,7 @@ public class SSRESTFlag{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrorResponse(error);
+        return SSRESTCommons.prepareErrorResponse(error);
       }
       
       try{
@@ -92,13 +92,13 @@ public class SSRESTFlag{
             true); //shouldCommit
         
       }catch(Exception error){
-        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
+        return Response.status(422).entity(SSRESTCommons.prepareErrorJSON(error)).build();
       }
       
       try{
-        par.key = SSRestMain.getBearer(headers);
+        par.key = SSRESTCommons.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
+        return Response.status(401).entity(SSRESTCommons.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -107,7 +107,7 @@ public class SSRESTFlag{
         return Response.status(200).entity(flagServ.flagsSet(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrorResponse(error);
+        return SSRESTCommons.prepareErrorResponse(error);
       }
     }finally{
       
@@ -143,7 +143,7 @@ public class SSRESTFlag{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrorResponse(error);
+        return SSRESTCommons.prepareErrorResponse(error);
       }
       
       try{
@@ -160,13 +160,13 @@ public class SSRESTFlag{
             true); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
+        return Response.status(422).entity(SSRESTCommons.prepareErrorJSON(error)).build();
       }
       
       try{
-        par.key = SSRestMain.getBearer(headers);
+        par.key = SSRESTCommons.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
+        return Response.status(401).entity(SSRESTCommons.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -175,7 +175,7 @@ public class SSRESTFlag{
         return Response.status(200).entity(flagServ.flagsGet(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrorResponse(error);
+        return SSRESTCommons.prepareErrorResponse(error);
       }
     }finally{
       

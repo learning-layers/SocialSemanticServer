@@ -59,7 +59,7 @@ import at.tugraz.sss.servs.link.conf.SSLinkConf;
 import at.tugraz.sss.servs.livingdocument.conf.SSLivingDocConf;
 import at.tugraz.sss.servs.mail.conf.SSMailConf;
 
-public class SSCoreConf extends SSCoreConfA {
+public class SSCoreConf extends SSCoreConfA  {
   
   private static SSCoreConf inst;
 //  private static final List<SSConfA>     confs = new ArrayList<SSConfA>();

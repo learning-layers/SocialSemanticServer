@@ -23,7 +23,7 @@ package at.tugraz.sss.adapter.rest.v3.user;
 import at.kc.tugraz.ss.service.user.api.*;
 import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
-import at.tugraz.sss.adapter.rest.v3.SSRestMain;
+import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUsersGetRet;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
@@ -75,7 +75,7 @@ public class SSRESTUser{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrorResponse(error);
+        return SSRESTCommons.prepareErrorResponse(error);
       }
       
       try{
@@ -89,13 +89,13 @@ public class SSRESTUser{
             true); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
+        return Response.status(422).entity(SSRESTCommons.prepareErrorJSON(error)).build();
       }
       
       try{
-        par.key = SSRestMain.getBearer(headers);
+        par.key = SSRESTCommons.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
+        return Response.status(401).entity(SSRESTCommons.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -104,7 +104,7 @@ public class SSRESTUser{
         return Response.status(200).entity(userServ.usersGet(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrorResponse(error);
+        return SSRESTCommons.prepareErrorResponse(error);
       }
     }finally{
       
@@ -141,7 +141,7 @@ public class SSRESTUser{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrorResponse(error);
+        return SSRESTCommons.prepareErrorResponse(error);
       }
       
       try{
@@ -155,13 +155,13 @@ public class SSRESTUser{
             true); //invokeEntityHandlers
         
       }catch(Exception error){
-        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
+        return Response.status(422).entity(SSRESTCommons.prepareErrorJSON(error)).build();
       }
       
       try{
-        par.key = SSRestMain.getBearer(headers);
+        par.key = SSRESTCommons.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
+        return Response.status(401).entity(SSRESTCommons.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -170,7 +170,7 @@ public class SSRESTUser{
         return Response.status(200).entity(userServ.usersGet(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrorResponse(error);
+        return SSRESTCommons.prepareErrorResponse(error);
       }
     }finally{
       
@@ -209,7 +209,7 @@ public class SSRESTUser{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrorResponse(error);
+        return SSRESTCommons.prepareErrorResponse(error);
       }
       
       try{
@@ -233,13 +233,13 @@ public class SSRESTUser{
         par.setTags           = input.setTags;
         
       }catch(Exception error){
-        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
+        return Response.status(422).entity(SSRESTCommons.prepareErrorJSON(error)).build();
       }
       
       try{
-        par.key = SSRestMain.getBearer(headers);
+        par.key = SSRESTCommons.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
+        return Response.status(401).entity(SSRESTCommons.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -248,7 +248,7 @@ public class SSRESTUser{
         return Response.status(200).entity(userServ.usersGet(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrorResponse(error);
+        return SSRESTCommons.prepareErrorResponse(error);
       }
     }finally{
       

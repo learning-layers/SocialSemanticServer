@@ -6,7 +6,7 @@
 package at.tugraz.sss.adapter.rest.v3.image;
 
 import at.tugraz.sss.conf.SSConf;
-import at.tugraz.sss.adapter.rest.v3.SSRestMain;
+import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
@@ -66,7 +66,7 @@ public class SSRESTImage{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrorResponse(error);
+        return SSRESTCommons.prepareErrorResponse(error);
       }
       
       try{
@@ -81,13 +81,13 @@ public class SSRESTImage{
             true);
         
       }catch(Exception error){
-        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
+        return Response.status(422).entity(SSRESTCommons.prepareErrorJSON(error)).build();
       }
       
       try{
-        par.key = SSRestMain.getBearer(headers);
+        par.key = SSRESTCommons.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
+        return Response.status(401).entity(SSRESTCommons.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -96,7 +96,7 @@ public class SSRESTImage{
         return Response.status(200).entity(imageServ.imageProfilePictureSet(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrorResponse(error);
+        return SSRESTCommons.prepareErrorResponse(error);
       }
     }finally{
       

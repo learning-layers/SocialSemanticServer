@@ -99,7 +99,7 @@ public class SSJSONLDU {
 //          type);
 //      
 //    }catch(Exception error){
-//      return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
+//      return Response.status(422).entity(SSRESTCommons.prepareErrorJSON(error)).build();
 //    }
 //    
 //    return SSRestMainV2.handleRequest(headers, par, false, true).response;

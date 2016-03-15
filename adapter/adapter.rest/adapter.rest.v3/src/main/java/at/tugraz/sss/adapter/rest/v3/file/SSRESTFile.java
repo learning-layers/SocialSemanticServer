@@ -25,7 +25,7 @@ import at.tugraz.sss.servs.file.datatype.ret.SSFileUploadRet;
 import at.tugraz.sss.servs.file.datatype.par.SSFileUploadPar;
 import at.tugraz.sss.servs.file.datatype.par.SSFileDownloadPar;
 import at.tugraz.sss.servs.file.api.SSFileClientI;
-import at.tugraz.sss.adapter.rest.v3.SSRestMain;
+import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
@@ -103,7 +103,7 @@ public class SSRESTFile{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrorResponse(error);
+        return SSRESTCommons.prepareErrorResponse(error);
       }
       
       try{
@@ -122,13 +122,13 @@ public class SSRESTFile{
             true); //shouldCommit
         
       }catch(Exception error){
-        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
+        return Response.status(422).entity(SSRESTCommons.prepareErrorJSON(error)).build();
       }
       
       try{
-        par.key = SSRestMain.getBearer(headers);
+        par.key = SSRESTCommons.getBearer(headers);
       }catch(Exception error){
-        return Response.status(401).entity(SSRestMain.prepareErrorJSON(error)).build();
+        return Response.status(401).entity(SSRESTCommons.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -137,7 +137,7 @@ public class SSRESTFile{
         return Response.status(200).entity(fileServ.fileUpload(SSClientE.rest, par)).build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrorResponse(error);
+        return SSRESTCommons.prepareErrorResponse(error);
       }
     }finally{
       
@@ -178,7 +178,7 @@ public class SSRESTFile{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrorResponse(error);
+        return SSRESTCommons.prepareErrorResponse(error);
       }
       
       try{
@@ -196,7 +196,7 @@ public class SSRESTFile{
 //        fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
         
       }catch(Exception error){
-        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
+        return Response.status(422).entity(SSRESTCommons.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -209,7 +209,7 @@ public class SSRESTFile{
           build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrorResponse(error);
+        return SSRESTCommons.prepareErrorResponse(error);
       }
     }finally{
       
@@ -256,7 +256,7 @@ public class SSRESTFile{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrorResponse(error);
+        return SSRESTCommons.prepareErrorResponse(error);
       }
       
       try{
@@ -276,7 +276,7 @@ public class SSRESTFile{
 //        fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
         
       }catch(Exception error){
-        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
+        return Response.status(422).entity(SSRESTCommons.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -289,7 +289,7 @@ public class SSRESTFile{
           build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrorResponse(error);
+        return SSRESTCommons.prepareErrorResponse(error);
       }
     }finally{
       
@@ -327,7 +327,7 @@ public class SSRESTFile{
       try{
         sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
       }catch(Exception error){
-        return SSRestMain.prepareErrorResponse(error);
+        return SSRESTCommons.prepareErrorResponse(error);
       }
       
       try{
@@ -345,7 +345,7 @@ public class SSRESTFile{
 //        fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
         
       }catch(Exception error){
-        return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
+        return Response.status(422).entity(SSRESTCommons.prepareErrorJSON(error)).build();
       }
       
       try{
@@ -358,7 +358,7 @@ public class SSRESTFile{
           build();
         
       }catch(Exception error){
-        return SSRestMain.prepareErrorResponse(error);
+        return SSRESTCommons.prepareErrorResponse(error);
       }
     }finally{
       
@@ -427,7 +427,7 @@ public class SSRESTFile{
 //      restObj = new SSRESTObject(par);
 //
 //    }catch(Exception error){
-//      return Response.status(422).entity(SSRestMain.prepareErrorJSON(error)).build();
+//      return Response.status(422).entity(SSRESTCommons.prepareErrorJSON(error)).build();
 //    }
 //
 //    return SSRestMainV2.handleFileUploadRequest(headers, restObj, fileHandle).response;

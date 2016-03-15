@@ -12,5 +12,6 @@
   <modules>
     <module>adapter.rest.v3</module>
     <module>adapter.rest.v3.dropwizard</module>
+    <module>adapter.rest.v3.common</module>
   </modules>
 </project>

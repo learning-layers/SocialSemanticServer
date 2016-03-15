@@ -24,7 +24,6 @@ import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.servs.ocd.api.SSOCDClientI;
 import at.tugraz.sss.servs.ocd.api.SSOCDServerI;
 import at.tugraz.sss.serv.conf.api.SSConfA;
-
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.SSErr;
@@ -41,7 +40,6 @@ import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDDeleteGraphPar;
 import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDGetCoversPar;
 import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDGetGraphPar;
 import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDGetGraphsPar;
-import at.tugraz.sss.servs.ocd.impl.jerseyclient.SSOCDResource;
 
 public class SSOCDImpl
 extends SSServImplWithDBA
@@ -78,7 +76,9 @@ implements
   
   @Override
   public String ocdCreateGraph(SSOCDCreateGraphPar parA) throws SSErr {
-    return SSOCDResource.requestCreateGraph(parA);
+    
+    return null;
+//    return SSOCDResource.requestCreateGraph(parA);
   }
   
   @Override
@@ -98,7 +98,8 @@ implements
   
   @Override
   public String ocdGetGraphs(SSOCDGetGraphsPar parA) throws SSErr {
-    return SSOCDResource.requestGetGraphs(parA);
+    return null;
+//    return SSOCDResource.requestGetGraphs(parA);
   }
   
   @Override
@@ -119,7 +120,8 @@ implements
   
   @Override
   public String ocdGetGraph(SSOCDGetGraphPar parA) throws SSErr {
-    return SSOCDResource.requestGetGraph(parA);
+    return null;
+//    return SSOCDResource.requestGetGraph(parA);
   }
   
   @Override
@@ -140,7 +142,9 @@ implements
   
   @Override
   public String ocdDeleteGraph(SSOCDDeleteGraphPar parA) throws SSErr {
-    return SSOCDResource.requestDeleteGraph(parA);
+    
+    return null;
+    //return SSOCDResource.requestDeleteGraph(parA);
   }
   
   @Override
@@ -189,6 +193,7 @@ implements
   
   @Override
   public String ocdGetAlgorithmNames() throws SSErr {
-    return SSOCDResource.requestGetAlgorithms();
+    return null;
+//    return SSOCDResource.requestGetAlgorithms();
   }
 }

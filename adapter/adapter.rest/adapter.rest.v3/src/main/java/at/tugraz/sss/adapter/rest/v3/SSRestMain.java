@@ -46,14 +46,7 @@ import at.tugraz.sss.adapter.rest.v3.app.SSRESTApp;
 import at.tugraz.sss.adapter.rest.v3.activity.SSRESTActivity;
 import at.tugraz.sss.adapter.rest.v3.link.SSRESTLink;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.util.SSJSONU;
-import at.tugraz.sss.serv.util.*;
-import java.util.HashMap;
-import java.util.Map;
-import javax.ws.rs.core.HttpHeaders;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import javax.ws.rs.*;
-import javax.ws.rs.core.*;
 import org.glassfish.jersey.jackson.*;
 import org.glassfish.jersey.media.multipart.*;
 import org.glassfish.jersey.server.*;
@@ -99,50 +92,6 @@ public class SSRestMain extends ResourceConfig{
 //    swaggerConfig.setBasePath( "http://localhost:8080/MyService/api" );
 //    ScannerFactory.setScanner( new DefaultJaxrsScanner( ) );
 //    ClassReaders.setReader( new DefaultJaxrsApiReader( ) );
-  }
-  
-  public static String prepareErrorJSON(final Exception originalError){
-    
-    try{
-      
-      final Map<String, Object> jsonObj = new HashMap<>();
-      
-      if(originalError instanceof SSErr){
-        
-        jsonObj.put(SSVarNames.id,                    ((SSErr) originalError).code);
-        jsonObj.put(SSVarNames.message,               ((SSErr) originalError).code);
-      }else{
-    
-        jsonObj.put(SSVarNames.id,                      originalError.getClass());
-        jsonObj.put(SSVarNames.message,                 originalError.getMessage());
-      }
-      
-      return SSJSONU.jsonStr(jsonObj);
-      
-    }catch(Exception error){
-      SSLogU.err(error);
-      return null;
-    }
-  }
-  
-  public static Response prepareErrorResponse(final Exception originalError){
-    
-    //    SSServErrReg.logAndReset(true);
-    try{
-      
-      return Response.status(500).entity(prepareErrorJSON(originalError)).build();
-      
-    }catch(Exception error){
-      SSLogU.err(error);
-      
-      return Response.status(500).entity(SSErrE.unknownError).build();
-    }
-  }
-  
-  public static String getBearer(
-    final HttpHeaders headers) throws SSErr{
-    
-    return SSStrU.replaceAll(headers.getRequestHeader("authorization").get(0), "Bearer ", SSStrU.empty);
   }
 }
 

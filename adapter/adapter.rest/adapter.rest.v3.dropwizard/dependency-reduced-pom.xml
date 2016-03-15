@@ -22,7 +22,7 @@
               <transformers>
                 <transformer />
                 <transformer>
-                  <mainClass>at.tugraz.sss.adapter.rest.v3.HelloWorldApplication</mainClass>
+                  <mainClass>at.tugraz.sss.adapter.rest.v3.SSRESTDropwizardMain</mainClass>
                 </transformer>
               </transformers>
             </configuration>
@@ -40,6 +40,13 @@
               </excludes>
             </filter>
           </filters>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <showDeprecation>false</showDeprecation>
         </configuration>
       </plugin>
     </plugins>

@@ -438,3 +438,85 @@ public class SSRestClient {
     }
   }
 }
+
+////TODO: move me to application configuration
+//  private static final String OCD_LINK = "http://127.0.0.1:8080/ocd";
+//  
+//  
+//  /**
+//   * Defautl Constructor.
+//   */
+//  private SSOCDResource() {
+//    //nothing to do
+//  }
+//  
+//  public static String requestCreateGraph(SSOCDCreateGraphPar parA) {
+//    JerseyWebTarget pathTarget = getJerseyWebTarget()
+//            .path(SSOCDRestMethodType.CREATE_GRAPH.getPath())
+//            .queryParam("name",parA.getGraphName())
+//            .queryParam("creationType", parA.getCreationType())
+//            .queryParam("inputFormat", parA.getGraphInputFormat())
+//            .queryParam("doMakeUndirected", parA.getMakeUndirected());
+//    
+//    Entity<String> entity = Entity.entity(parA.getContent(), SSOCDRestMethodType.CREATE_GRAPH.getConsumes());
+//    return pathTarget.request(SSOCDRestMethodType.CREATE_GRAPH.getAcceptedResponseType()).post(entity, String.class);
+//    
+//  }
+//  
+//  public static String requestGetAlgorithms (){
+//    JerseyWebTarget pathTarget = getJerseyWebTarget().path(SSOCDRestMethodType.GET_ALGORITHMS.getPath());
+//    return pathTarget.request(SSOCDRestMethodType.GET_ALGORITHMS.getAcceptedResponseType()).get(String.class);
+//  }
+//
+//  public static String requestGetGraph (SSOCDGetGraphPar parA) {
+//    String path = String.format(SSOCDRestMethodType.GET_GRAPH.getPath(),parA.getGraphId());
+//    JerseyWebTarget pathTarget = getJerseyWebTarget().path(path);
+//    return pathTarget.request(SSOCDRestMethodType.GET_GRAPH.getAcceptedResponseType()).get(String.class);
+//  }
+//  
+//  public static String requestGetGraphs (SSOCDGetGraphsPar parA) {
+//    JerseyWebTarget pathTarget = getJerseyWebTarget()
+//            .path(SSOCDRestMethodType.GET_GRAPHS.getPath())
+//            .queryParam("firstIndex", parA.getFirstIndex())
+//            .queryParam("length", parA.getLength())
+//            .queryParam("includeMeta", parA.getIncludeMeta())
+//            .queryParam("executionStatuses", parA.getExecutionStatuses());
+//    return pathTarget.request(SSOCDRestMethodType.GET_GRAPHS.getAcceptedResponseType()).get(String.class);
+//  }
+//  
+//  public static String requestDeleteGraph (SSOCDDeleteGraphPar parA) {
+//    String path = String.format(SSOCDRestMethodType.DELETE_GRAPH.getPath(),parA.getGraphId());
+//    JerseyWebTarget pathTarget = getJerseyWebTarget().path(path);
+//    return pathTarget.request(SSOCDRestMethodType.DELETE_GRAPH.getAcceptedResponseType()).delete(String.class);
+//  }
+//  public static JerseyWebTarget getJerseyWebTarget () {
+//    JerseyClient client = JerseyClientBuilder.createClient();
+//    JerseyWebTarget target = client.target(OCD_LINK);
+//    return target;
+//  }
+
+
+// test createGraph
+//      SSOCDCreateGraphPar createGraphPar = new SSOCDCreateGraphPar();
+//      String content = new String(Files.readAllBytes(Paths.get("docaTestUnweightedEdgeList.txt")));
+//      createGraphPar.setContent(content);
+//      createGraphPar.setCreationType(SSOCDCreationTypeE.UNDEFINED);
+//      createGraphPar.setGraphInputFormat(SSOCDGraphInputE.UNWEIGHTED_EDGE_LIST);
+//      createGraphPar.setGraphName("graph1");
+//      createGraphPar.setMakeUndirected(Boolean.FALSE);
+//      
+//      //String response = SSOCDResource.requestCreateGraph(cDCreateGraphPar);
+//      
+//      //String response = SSOCDResource.requestGetAlgorithms();
+//      
+//      // test getGraph
+//      SSOCDGetGraphPar getGraphPar = new SSOCDGetGraphPar();
+//      getGraphPar.setGraphId("4");
+//      getGraphPar.setGraphOutput(SSOCDGraphOutputE.WEIGHTED_EDGE_LIST);
+//      String response = SSOCDResource.requestGetGraph(getGraphPar);
+//      
+//      // test deleteGraph
+//      SSOCDDeleteGraphPar deleteGraphPar = new SSOCDDeleteGraphPar();
+//      deleteGraphPar.setGraphId("7");
+//      //String response = SSOCDResource.requestDeleteGraph(deleteGraphPar);
+//      System.out.println(response);

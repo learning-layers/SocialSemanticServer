@@ -22,7 +22,8 @@ package at.tugraz.sss.serv.util;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.reg.*;
-import au.com.bytecode.opencsv.*;
+import au.com.bytecode.opencsv.CSVReader;
+//import au.com.bytecode.opencsv.*;
 import com.lowagie.text.Document;
 import com.lowagie.text.Paragraph;
 import java.io.*;

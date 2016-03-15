@@ -38,9 +38,6 @@ public enum SSErrE{
   mimeTypeInvalid,
   mimeTypeInvalidForFileExt,
   
-  //misc
-  unknownError,
-  
   //service
   servNotRunning,
   servImplCreationFailed,

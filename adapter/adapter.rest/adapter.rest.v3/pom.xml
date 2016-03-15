@@ -102,7 +102,7 @@
               <!--<basePath>/bp.preparation/rest</basePath>-->
               
               <host>test-ll.know-center.tugraz.at</host>
-              <basePath>/test/rest</basePath>
+              <basePath>/internal/rest</basePath>
               
               <info>
                 <version>v3</version>
@@ -156,6 +156,12 @@
   
   <dependencies>
    
+    <dependency>
+      <groupId>sss.adapter.rest</groupId>
+      <artifactId>adapter.rest.v3.common</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>link.serv</artifactId>

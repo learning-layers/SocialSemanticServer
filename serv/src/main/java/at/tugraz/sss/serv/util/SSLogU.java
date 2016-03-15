@@ -23,7 +23,8 @@ package at.tugraz.sss.serv.util;
 import at.tugraz.sss.serv.datatype.enums.*;
 import java.io.*;
 import java.util.*;
-import org.apache.log4j.*;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 public class SSLogU{
   
