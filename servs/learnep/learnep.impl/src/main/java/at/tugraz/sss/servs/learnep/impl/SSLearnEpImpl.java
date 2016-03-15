@@ -2044,7 +2044,6 @@ implements
     try{
       
       final List<SSEntity>   entitiesInCircles = new ArrayList<>();
-      final List<SSEntity>   allEntities       = new ArrayList<>();
       final List<SSEntity>   circles           = new ArrayList<>();
       final List<SSEntity>   orphans           = new ArrayList<>();
       final SSLearnEpVersion version =
@@ -2072,10 +2071,6 @@ implements
         for(SSEntity entityEntity : version.learnEpEntities){
           
           entity = (SSLearnEpEntity) entityEntity;
-          
-          SSEntity.addEntitiesDistinctWithoutNull(
-            allEntities, 
-            entity);
           
           //(xEntity - xCircle)^2 / rxCircle^2 + same for y <= 1 then the entiy is wihtin the circle
           
@@ -2112,13 +2107,18 @@ implements
         circles,
         version.learnEpCircles);
       
-      for(SSEntity entityFromAll : allEntities){
+      if(version.learnEpCircles.isEmpty()){
+        SSEntity.addEntitiesDistinctWithoutNull(orphans, version.learnEpEntities);
+      }else{
         
-        if(SSStrU.contains(entitiesInCircles, entityFromAll)){
-          continue;
+        for(SSEntity entityFromAll : version.learnEpEntities){
+          
+          if(SSStrU.contains(entitiesInCircles, entityFromAll)){
+            continue;
+          }
+          
+          SSEntity.addEntitiesDistinctWithoutNull(orphans, entityFromAll);
         }
-        
-        SSEntity.addEntitiesDistinctWithoutNull(orphans, entityFromAll);
       }
       
       return new SSLearnEpCirclesWithEntriesGetRet(circles, orphans);
