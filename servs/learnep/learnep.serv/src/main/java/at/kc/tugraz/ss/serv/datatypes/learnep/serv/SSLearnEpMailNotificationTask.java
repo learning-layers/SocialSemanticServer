@@ -154,6 +154,61 @@ public class SSLearnEpMailNotificationTask implements Runnable{
         discEntityExists      = false;
         addDiscEntryExists    = false;
         
+        discDailySummary = dailyDiscSummary.summaries.get(userKey);
+        
+        discEntityMailSummary  = "New Discussions" + SSStrU.backslashRBackslashN;
+        discEntityMailSummary += "===============" + SSStrU.backslashRBackslashN;
+        discEntityMailSummary += SSStrU.backslashRBackslashN;
+        
+        addDiscEntryMailSummary  = "New Discussions Answers" + SSStrU.backslashRBackslashN;
+        addDiscEntryMailSummary += "=======================" + SSStrU.backslashRBackslashN;
+        addDiscEntryMailSummary += SSStrU.backslashRBackslashN;
+          
+        if(discDailySummary != null){
+        
+          for(SSDiscDailySummaryEntry summary : discDailySummary.userSummaries){
+            
+            if(SSStrU.isEqual(summary.originUserLabel, SSStrU.removeEmailHost(userEmail))){
+              continue;
+            }
+            
+            if(summary instanceof SSDiscDailySummaryDiscEntityEntry){
+              
+              switch(((SSDiscDailySummaryDiscEntityEntry) summary).targetEntity.type){
+                
+                case learnEp:{
+                  discEntityMailSummary += "* " + summary.originUserLabel + " created \"" + ((SSDiscDailySummaryDiscEntityEntry) summary).discLabel + "\" for episode \"" + summary.targetEntity.label + "\"" + SSStrU.backslashRBackslashN;
+                  discEntityExists       = true;
+                  break;
+                }
+                
+                default:{
+                  continue;
+                }
+              }
+            }
+            
+            if(summary instanceof SSDiscDailySummaryAddDiscEntryEntry){
+              
+              for(SSEntity discTarget : ((SSDiscDailySummaryAddDiscEntryEntry) summary).discTargets){
+                
+                switch(discTarget.type){
+                  
+                  case learnEp:{
+                    addDiscEntryMailSummary += "* " + summary.originUserLabel + " added a new answer to \"" + summary.targetEntity.label + "\" for episode \"" + discTarget.label + "\"" + SSStrU.backslashRBackslashN;
+                    addDiscEntryExists       = true;
+                    break;
+                  }
+                  
+                  default:{
+                    continue;
+                  }
+                }
+              }
+            }
+          }
+        }
+        
         learnEpDailySummary = dailyLearnEpSummary.summaries.get(userKey);
         
         if(learnEpDailySummary != null){
@@ -170,8 +225,8 @@ public class SSLearnEpMailNotificationTask implements Runnable{
           learnEpActivitySummary += "==========================="  + SSStrU.backslashRBackslashN;
           learnEpActivitySummary += SSStrU.backslashRBackslashN;
           
-          reminderSummary  = "Bits Not Used In Episodes"  + SSStrU.backslashRBackslashN;
-          reminderSummary += "========================="  + SSStrU.backslashRBackslashN;
+          reminderSummary  = "Reminder: Bits Not Used In Episodes"  + SSStrU.backslashRBackslashN;
+          reminderSummary += "==================================="  + SSStrU.backslashRBackslashN;
           reminderSummary += SSStrU.backslashRBackslashN;
           
           for(SSLearnEpDailySummaryEntry summary : learnEpDailySummary.userSummaries){
@@ -182,11 +237,11 @@ public class SSLearnEpMailNotificationTask implements Runnable{
               
               if(!reminderSummaryEntry.oneWeekAgoEntities.isEmpty()){
                 
-                reminderSummary += "One Week Ago" + SSStrU.backslashRBackslashN;
-                reminderSummary += "------------" + SSStrU.backslashRBackslashN;
+                reminderSummary += "Collected One Week Ago" + SSStrU.backslashRBackslashN;
+                reminderSummary += "----------------------" + SSStrU.backslashRBackslashN;
                 
                 for(SSEntity entity : reminderSummaryEntry.oneWeekAgoEntities){
-                  reminderSummary += entity.label + " (" + entity.type + ")" + SSStrU.backslashRBackslashN;
+                  reminderSummary += "* " + entity.label + " (" + entity.type + ")" + SSStrU.backslashRBackslashN;
                 }
                 
                 reminderExists   = true;
@@ -198,11 +253,11 @@ public class SSLearnEpMailNotificationTask implements Runnable{
                   reminderSummary +=  SSStrU.backslashRBackslashN;
                 }
                 
-                reminderSummary += "Two Weeks Ago" + SSStrU.backslashRBackslashN;
-                reminderSummary += "-------------" + SSStrU.backslashRBackslashN;
+                reminderSummary += "Collected Two Weeks Ago" + SSStrU.backslashRBackslashN;
+                reminderSummary += "-----------------------" + SSStrU.backslashRBackslashN;
                 
                 for(SSEntity entity : reminderSummaryEntry.twoWeeksAgoEntities){
-                  reminderSummary += entity.label + " (" + entity.type + ")" + SSStrU.backslashRBackslashN;
+                  reminderSummary += "* " + entity.label + " (" + entity.type + ")" + SSStrU.backslashRBackslashN;
                 }
                 
                 reminderExists   = true;
@@ -214,11 +269,11 @@ public class SSLearnEpMailNotificationTask implements Runnable{
                   reminderSummary +=  SSStrU.backslashRBackslashN;
                 }
                 
-                reminderSummary += "Three Weeks Ago" + SSStrU.backslashRBackslashN;
-                reminderSummary += "---------------" + SSStrU.backslashRBackslashN;
+                reminderSummary += "Collected Three Weeks Ago" + SSStrU.backslashRBackslashN;
+                reminderSummary += "-------------------------" + SSStrU.backslashRBackslashN;
                 
                 for(SSEntity entity : reminderSummaryEntry.threeWeeksAgoEntities){
-                  reminderSummary += entity.label + " (" + entity.type + ")" + SSStrU.backslashRBackslashN;
+                  reminderSummary += "* " + entity.label + " (" + entity.type + ")" + SSStrU.backslashRBackslashN;
                 }
                 
                 reminderExists   = true;
@@ -230,11 +285,11 @@ public class SSLearnEpMailNotificationTask implements Runnable{
                   reminderSummary +=  SSStrU.backslashRBackslashN;
                 }
                 
-                reminderSummary += "Four Weeks Ago" + SSStrU.backslashRBackslashN;
-                reminderSummary += "--------------" + SSStrU.backslashRBackslashN;
+                reminderSummary += "Collected Four Weeks Ago" + SSStrU.backslashRBackslashN;
+                reminderSummary += "------------------------" + SSStrU.backslashRBackslashN;
                 
                 for(SSEntity entity : reminderSummaryEntry.fourWeeksAgoEntities){
-                  reminderSummary += entity.label + " (" + entity.type + ")" + SSStrU.backslashRBackslashN;
+                  reminderSummary += "* " + entity.label + " (" + entity.type + ")" + SSStrU.backslashRBackslashN;
                 }
                 
                 reminderExists   = true;
@@ -320,7 +375,8 @@ public class SSLearnEpMailNotificationTask implements Runnable{
               formattedActUsers = SSStrU.replaceAll(formattedActUsers, "]", "");
               
               mailSummary += 
-                "\"" 
+                "* " 
+                + "\"" 
                 + learnEpLabels.get(learnEpActTypes.getKey()) 
                 + "\""
                 + ": " 
@@ -335,72 +391,21 @@ public class SSLearnEpMailNotificationTask implements Runnable{
             mailSummary += SSStrU.backslashRBackslashN;
           }
           
-          if(reminderExists){
-            mailSummary += reminderSummary + SSStrU.backslashRBackslashN;
-          }
-        }
-        
-        discDailySummary = dailyDiscSummary.summaries.get(userKey);
-        
-        if(discDailySummary != null){
-        
-          discEntityMailSummary  = "New Discussions" + SSStrU.backslashRBackslashN;
-          discEntityMailSummary += "===============" + SSStrU.backslashRBackslashN;
-          discEntityMailSummary += SSStrU.backslashRBackslashN;
-          
-          addDiscEntryMailSummary  = "New Discussions Answers" + SSStrU.backslashRBackslashN;
-          addDiscEntryMailSummary += "=======================" + SSStrU.backslashRBackslashN;
-          addDiscEntryMailSummary += SSStrU.backslashRBackslashN;
-          
-          for(SSDiscDailySummaryEntry summary : discDailySummary.userSummaries){
-            
-            if(SSStrU.isEqual(summary.originUserLabel, SSStrU.removeEmailHost(userEmail))){
-              continue;
-            }
-            
-            if(summary instanceof SSDiscDailySummaryDiscEntityEntry){
-              
-              switch(((SSDiscDailySummaryDiscEntityEntry) summary).targetEntity.type){
-                
-                case learnEp:{
-                  discEntityMailSummary += "* " + summary.originUserLabel + " created \"" + ((SSDiscDailySummaryDiscEntityEntry) summary).discLabel + "\" for episode \"" + summary.targetEntity.label + "\"" + SSStrU.backslashRBackslashN;
-                  discEntityExists       = true;
-                  break;
-                }
-                
-                default:{
-                  continue;
-                }
-              }
-            }
-            
-            if(summary instanceof SSDiscDailySummaryAddDiscEntryEntry){
-              
-              for(SSEntity discTarget : ((SSDiscDailySummaryAddDiscEntryEntry) summary).discTargets){
-                
-                switch(discTarget.type){
-                  
-                  case learnEp:{
-                    addDiscEntryMailSummary += "* " + summary.originUserLabel + " added a new answer to \"" + summary.targetEntity.label + "\" for episode \"" + discTarget.label + "\"" + SSStrU.backslashRBackslashN;
-                    addDiscEntryExists       = true;
-                    break;
-                  }
-                  
-                  default:{
-                    continue;
-                  }
-                }
-              }
-            }
-          }
-          
-           if(discEntityExists){
+          if(discEntityExists){
             mailSummary += discEntityMailSummary + SSStrU.backslashRBackslashN;
           }
            
           if(addDiscEntryExists){
             mailSummary += addDiscEntryMailSummary + SSStrU.backslashRBackslashN;
           }
+          
+          if(reminderExists){
+            mailSummary += reminderSummary + SSStrU.backslashRBackslashN;
+          }
+        }
+        
+        if(mailSummary.isEmpty()){
+          continue;
         }
         
         SSLogU.info(userEmail + ":");

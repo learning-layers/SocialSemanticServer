@@ -14,7 +14,7 @@
     }
   },
   "host" : "test-ll.know-center.tugraz.at",
-  "basePath" : "/internal/rest",
+  "basePath" : "/test/rest",
   "tags" : [ {
     "name" : "activities"
   }, {
