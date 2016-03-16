@@ -24,7 +24,6 @@ import at.tugraz.sss.servs.eval.impl.analyze.SSEvalLogAnalyzer;
 import at.kc.tugraz.ss.activity.api.*;
 import at.kc.tugraz.ss.activity.datatypes.*;
 import at.kc.tugraz.ss.activity.datatypes.par.*;
-import at.kc.tugraz.ss.serv.auth.api.*;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvalLogFilePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.*;
@@ -59,7 +58,6 @@ import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.servs.auth.datatype.par.*;
 import java.util.Date;
 import sss.serv.eval.conf.*;
 
@@ -555,6 +553,7 @@ implements
                     null, //circles,
                     null, //startTime,
                     null, //endTime,
+                    Integer.MAX_VALUE, //maxActivities
                     false, //includeOnlyLastActivities,
                     false, //withUserRestriction,
                     false)); //invokeEntityHandlers));

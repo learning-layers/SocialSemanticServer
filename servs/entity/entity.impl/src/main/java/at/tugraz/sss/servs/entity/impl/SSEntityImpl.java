@@ -601,8 +601,8 @@ implements
       for(SSUri entityURI : entityURIs){//entityServ.entitiesGet(entitiesGetPar)){
         
         if(
-          par.pageSize != 0 &&
-          page.size() == par.pageSize){
+          page.size() == par.pageSize &&
+          par.pageSize != 0){
           
           pages.add(new ArrayList<>(page));
           page.clear();
@@ -611,8 +611,10 @@ implements
         page.add(entityURI);
       }
       
-      if(par.pageSize == 0){
-        pages.add(page);
+      if(
+        !page.isEmpty() ||
+        par.pageSize == 0){
+        pages.add(new ArrayList<>(page));
       }
       
       accessibleEntitiesPagesCache.put(

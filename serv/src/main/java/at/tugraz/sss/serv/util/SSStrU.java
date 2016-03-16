@@ -26,11 +26,33 @@ import java.util.*;
 
 public class SSStrU{
 
+  public static Object get(
+    final List<? extends Object> objects, 
+    final Object                 objectToGet) {
+    
+    if(SSObjU.isNull(objects, objectToGet)){
+      return null;
+    }
+    
+    for(Object object : objects){
+      
+      if(object == null){
+        continue;
+      }
+      
+      if(object.toString().equals(objectToGet.toString())){
+        return object;
+      }
+    }
+    
+    return null;
+  }
+  
    public static void addDistinctNotNull(
     final List<String>                  strings, 
     final Collection<? extends  Object> objectsToAdd){
     
-     if(SSObjU.isNull(strings, objectsToAdd)){
+    if(SSObjU.isNull(strings, objectsToAdd)){
       return;
     }
     
@@ -78,7 +100,7 @@ public class SSStrU{
         
     strings.add(toAdd.toString());
   }
-  
+
   private SSStrU(){/* Do nothing because of only JSON Jackson needs this */ }
 
 //  public static final String apiCircle                = "circles/circles";

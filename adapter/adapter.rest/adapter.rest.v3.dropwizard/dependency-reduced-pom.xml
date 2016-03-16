@@ -11,7 +11,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>2.3</version>
+        <version>2.4.3</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -44,15 +44,12 @@
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>3.5.1</version>
         <configuration>
           <showDeprecation>false</showDeprecation>
         </configuration>
       </plugin>
     </plugins>
   </build>
-  <properties>
-    <dropwizard.version>0.9.2</dropwizard.version>
-  </properties>
 </project>
 

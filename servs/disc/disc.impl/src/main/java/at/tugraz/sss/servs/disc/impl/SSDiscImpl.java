@@ -526,6 +526,7 @@ implements
             null, //circles,
             par.startTime, //startTime,
             null, //endTime,
+            Integer.MAX_VALUE, //maxActivities
             false, //includeOnlyLastActivities,
             false, //withUserRestriction,
             false))); //invokeEntityHandlers

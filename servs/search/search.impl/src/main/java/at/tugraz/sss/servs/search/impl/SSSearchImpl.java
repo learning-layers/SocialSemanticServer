@@ -269,7 +269,10 @@ implements
         
         for(SSUri entityURI : entityURIs){//entityServ.entitiesGet(entitiesGetPar)){
           
-          if(page.size() == par.pageSize - 1){
+          if(
+            page.size() == par.pageSize &&
+            par.pageSize != 0){
+            
             pages.add(new ArrayList<>(page));
             page.clear();
           }
@@ -286,7 +289,9 @@ implements
         }
       }
       
-      if(!page.isEmpty()){
+      if(
+        !page.isEmpty() ||
+        par.pageSize == 0){
         pages.add(page);
       }
       

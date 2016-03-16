@@ -102,7 +102,7 @@
               <!--<basePath>/bp.preparation/rest</basePath>-->
               
               <host>test-ll.know-center.tugraz.at</host>
-              <basePath>/internal/rest</basePath>
+              <basePath>/test/rest</basePath>
               
               <info>
                 <version>v3</version>
@@ -325,12 +325,6 @@
     </dependency>
     
     <dependency>
-      <groupId>sss</groupId>
-      <artifactId>serv</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>auth.serv</artifactId>
       <version>${project.version}</version>
@@ -420,50 +414,6 @@
     
     <!-- servlet 3.0 end -->
     
-    <!-- jersey start -->
-    
-    <dependency> <!-- jersey to support additional Servlet 3.x deployment modes and asynchronous JAX-RS resource programming model -->
-      <groupId>org.glassfish.jersey.containers</groupId> <!-- includes jersey-container-servlet-core -->
-      <artifactId>jersey-container-servlet</artifactId>
-      <version>2.21</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.glassfish.jersey.core</groupId>
-      <artifactId>jersey-server</artifactId>
-      <version>2.21</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.glassfish.jersey.core</groupId>
-      <artifactId>jersey-common</artifactId>
-      <version>2.21</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.glassfish.jersey.media</groupId>
-      <artifactId>jersey-media-multipart</artifactId>
-      <version>2.21</version>
-    </dependency>
-    
-    <!-- jersey end -->
-    
-    <!-- jersey client start -->
-    
-    <dependency>
-      <groupId>org.glassfish.jersey.core</groupId>
-      <artifactId>jersey-client</artifactId>
-      <version>2.21</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.glassfish.jersey.connectors</groupId>
-      <artifactId>jersey-apache-connector</artifactId>
-      <version>2.21</version>
-    </dependency>
-    
-    <!-- jersey client end -->
-    
     <!-- jackson start -->
     
     <dependency>
@@ -473,16 +423,6 @@
     </dependency>
     
     <!-- jackson end -->
-    
-    <!-- swagger start --> 
-    <dependency>
-      <groupId>io.swagger</groupId>
-      <artifactId>swagger-jersey2-jaxrs</artifactId>
-      <version>${sssSwaggerJerseyVersion}</version>
-      <scope>compile</scope>
-    </dependency>
-    
-    <!-- swagger end --> 
     
     <!-- cors start -->
    

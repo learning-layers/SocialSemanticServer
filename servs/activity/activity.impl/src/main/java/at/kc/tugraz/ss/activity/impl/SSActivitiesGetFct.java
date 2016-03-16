@@ -157,7 +157,7 @@ public class SSActivitiesGetFct {
           par.startTime,
           par.endTime,
           true,
-          1000,
+          null,
           par.includeOnlyLastActivities));
       
     }catch(Exception error){

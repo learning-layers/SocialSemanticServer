@@ -733,17 +733,25 @@ implements
       final SSLearnEpDailySummaryGetRet result       = new SSLearnEpDailySummaryGetRet();
       final List<SSActivityE>           actTypes     = new ArrayList<>();
       final List<SSEntity>              acts         = new ArrayList<>();
+      final List<SSEntity>              learnEps     =
+        learnEpsGet(
+          new SSLearnEpsGetPar(
+            par,
+            par.user,
+            null, //forUser,
+            false, //withUserRestriction,
+            false)); //invokeEntityHandlers
       
       actTypes.add(SSActivityE.shareLearnEpWithUser);
       actTypes.add(SSActivityE.copyLearnEpForUsers);
       
-      actTypes.add(SSActivityE.addCircleToLearnEpVersion);
-      actTypes.add(SSActivityE.addEntityToLearnEpCircle);
-      actTypes.add(SSActivityE.addEntityToLearnEpVersion);
-      actTypes.add(SSActivityE.changeLearnEpVersionCircleLabel);
-      actTypes.add(SSActivityE.removeLearnEpVersionEntity);
-      actTypes.add(SSActivityE.removeLearnEpVersionCircle);
-      actTypes.add(SSActivityE.removeLearnEpVersionCircleWithEntitites);
+      actTypes.add(SSActivityE.addCircleToLearnEpVersion); //learnEp and circle in entities
+      actTypes.add(SSActivityE.addEntityToLearnEpCircle); //learnEp, circle, entity in entities
+      actTypes.add(SSActivityE.addEntityToLearnEpVersion); //learnEp, learnEpEntity, entity in entities
+      actTypes.add(SSActivityE.changeLearnEpVersionCircleLabel); //learnEp, learnEpCircle in entities
+      actTypes.add(SSActivityE.removeLearnEpVersionEntity); //learnEp, learnEpEntity, entity in entities
+      actTypes.add(SSActivityE.removeLearnEpVersionCircle); //learnEp, circle in entities
+      actTypes.add(SSActivityE.removeLearnEpVersionCircleWithEntitites); //learnEp, circle, entities in entities
       
       acts.addAll(
         activityServ.activitiesGet(
@@ -757,6 +765,7 @@ implements
             null, //circles,
             par.startTime, //startTime,
             null, //endTime,
+            Integer.MAX_VALUE, //maxActivities
             false, //includeOnlyLastActivities,
             false, //withUserRestriction,
             false))); //invokeEntityHandlers
@@ -781,12 +790,26 @@ implements
             break;
           }
           
+          case addCircleToLearnEpVersion:
+          case addEntityToLearnEpCircle:
+          case addEntityToLearnEpVersion:
+          case changeLearnEpVersionCircleLabel:
+          case removeLearnEpVersionEntity:
+          case removeLearnEpVersionCircle:
+          case removeLearnEpVersionCircleWithEntitites:{
+            
+            summaryCommons.learnEpContentActivity(learnEps, act, result.summaries);
+            break;
+          }
+          
           default:{
             continue;
           }
         }
       }
 
+      summaryCommons.learnEpEntityReminders(par, result.summaries);
+      
       return result;
 
     }catch(Exception error){

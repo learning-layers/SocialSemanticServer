@@ -24,8 +24,6 @@ import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.util.*;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +36,7 @@ public class SSActivitiesGetPar extends SSServPar{
   public List<SSUri>            circles                   = new ArrayList<>();
   public Long                   startTime                 = null;
   public Long                   endTime                   = null;
+  public int                    maxActivities             = 30;
   public boolean                includeOnlyLastActivities = false;
 
   public List<String> getActivities() {
@@ -83,7 +82,7 @@ public class SSActivitiesGetPar extends SSServPar{
   public SSActivitiesGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSActivitiesGetPar(
-    final SSServPar servPar,
+    final SSServPar             servPar,
     final SSUri                 user,
     final List<SSUri>           activities,
     final List<SSActivityE>     types, 
@@ -92,6 +91,7 @@ public class SSActivitiesGetPar extends SSServPar{
     final List<SSUri>           circles,
     final Long                  startTime,
     final Long                  endTime,
+    final int                   maxActivities, 
     final boolean               includeOnlyLastActivities, 
     final boolean               withUserRestriction,
     final boolean               invokeEntityHandlers){
@@ -110,6 +110,7 @@ public class SSActivitiesGetPar extends SSServPar{
 
     this.startTime                   = startTime;
     this.endTime                     = endTime;
+    this.maxActivities               = maxActivities;
     this.includeOnlyLastActivities   = includeOnlyLastActivities;
     this.withUserRestriction         = withUserRestriction;
     this.invokeEntityHandlers        = invokeEntityHandlers;

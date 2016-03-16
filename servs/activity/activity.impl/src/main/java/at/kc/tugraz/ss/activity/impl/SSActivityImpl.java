@@ -85,7 +85,7 @@ implements
   
   @Override
   public void getUsersResources(
-    final SSServPar servPar,
+    final SSServPar                          servPar,
     final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
     
     try{
@@ -101,6 +101,7 @@ implements
           null, //circles,
           null, //startTime,
           null, //endTime,
+          Integer.MAX_VALUE, //maxActivities
           false, //includeOnlyLastActivities,
           false, //withUserRestriction,
           false); //invokeEntityHandlers);
@@ -142,7 +143,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
-    final SSServPar servPar,
+    final SSServPar            servPar,
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws SSErr{
     
@@ -167,6 +168,7 @@ implements
                     null, //circles
                     null, //startTime
                     null, //endTime
+                    Integer.MAX_VALUE, //maxActivities
                     true, //includeOnlyLastActivities
                     par.withUserRestriction,
                     false))); //invokeEntityHandlers
@@ -189,6 +191,7 @@ implements
                     SSUri.asListNotNull(entity.id), //circles
                     null, //startTime
                     null, //endTime
+                    Integer.MAX_VALUE, //maxActivities
                     true, //includeOnlyLastActivities
                     par.withUserRestriction,
                     false))); //invokeEntityHandlers
@@ -210,6 +213,7 @@ implements
                     null, //circles
                     null, //startTime
                     null, //endTime
+                    Integer.MAX_VALUE, //maxActivities
                     true, //includeOnlyLastActivities
                     par.withUserRestriction,
                     false))); //invokeEntityHandlers
@@ -239,6 +243,7 @@ implements
                 null, //circles
                 null, //startTime
                 null, //endTime
+                Integer.MAX_VALUE, //maxActivities
                 false, //includeOnlyLastActivities
                 par.withUserRestriction,
                 false)); //invokeEntityHandlers
@@ -364,7 +369,7 @@ implements
         
         activities.add(activity);
         
-        if(activities.size() > 30){
+        if(activities.size() > par.maxActivities){
           break;
         }
       }

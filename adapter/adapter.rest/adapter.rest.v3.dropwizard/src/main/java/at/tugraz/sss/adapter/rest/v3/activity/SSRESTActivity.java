@@ -94,6 +94,7 @@ public class SSRESTActivity{
             input.circles,
             input.startTime,
             input.endTime,
+            30, //maxActivities
             input.includeOnlyLastActivities,
             true, //withUserRestriction
             true); //invokeEntityHandlers

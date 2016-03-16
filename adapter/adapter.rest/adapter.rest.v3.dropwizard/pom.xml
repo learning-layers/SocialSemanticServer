@@ -14,7 +14,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>2.3</version>
+        <version>2.4.3</version> <!-- 2.3 -->
     
         <configuration>
           <createDependencyReducedPom>true</createDependencyReducedPom>
@@ -50,7 +50,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>3.5.1</version> <!-- 2.3.2 -->
         <configuration>
           <showDeprecation>false</showDeprecation>
         </configuration>
@@ -58,59 +58,13 @@
     </plugins>
   </build>
   
-  <properties>
-    <dropwizard.version>0.9.2</dropwizard.version>
-  </properties>
-    
   <dependencies>
     
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>19.0</version>
-    </dependency>
-
-    
-    <!-- jersey start -->
-    
-    <dependency> <!-- jersey to support additional Servlet 3.x deployment modes and asynchronous JAX-RS resource programming model -->
-      <groupId>org.glassfish.jersey.containers</groupId> <!-- includes jersey-container-servlet-core -->
-      <artifactId>jersey-container-servlet</artifactId>
-      <version>2.21</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.glassfish.jersey.core</groupId>
-      <artifactId>jersey-server</artifactId>
-      <version>2.21</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.glassfish.jersey.core</groupId>
-      <artifactId>jersey-common</artifactId>
-      <version>2.21</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.glassfish.jersey.media</groupId>
-      <artifactId>jersey-media-multipart</artifactId>
-      <version>2.21</version>
-    </dependency>
-    
-    <!-- jersey end -->
-    
-
     <dependency>
       <groupId>sss.adapter.rest</groupId>
       <artifactId>adapter.rest.v3.common</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
-<!--    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-annotations</artifactId>
-      <version>2.7.2</version>
-    </dependency>-->
     
     <dependency>
       <groupId>sss.servs</groupId>
@@ -319,7 +273,13 @@
     <dependency>
       <groupId>io.dropwizard</groupId>
       <artifactId>dropwizard-core</artifactId>
-      <version>${dropwizard.version}</version>
+      <version>${sssDropwizardVersion}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>19.0</version>
     </dependency>
     
   </dependencies>

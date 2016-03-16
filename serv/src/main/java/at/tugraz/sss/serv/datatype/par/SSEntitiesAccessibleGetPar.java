@@ -56,7 +56,7 @@ public class SSEntitiesAccessibleGetPar extends SSServPar{
   public SSEntitiesAccessibleGetPar(){/* Do nothing because of only JSON Jackson needs this */ }
   
   public SSEntitiesAccessibleGetPar(
-    final SSServPar servPar,
+    final SSServPar            servPar,
     final SSUri                user, 
     final List<SSEntityE>      types,
     final List<SSUri>          authors,
