@@ -24,6 +24,7 @@ public enum SSErrE{
 
   //mediaWiki
   mediaWikiUserLoginSecondTimeFailed, 
+  mediaWikiParseUpdateResponseFailed,
   
   //recomm
   recommSystemRealmNotLoaded,
