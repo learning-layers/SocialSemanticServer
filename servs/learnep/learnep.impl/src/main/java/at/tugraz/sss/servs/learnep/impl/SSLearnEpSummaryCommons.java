@@ -21,12 +21,15 @@
 package at.tugraz.sss.servs.learnep.impl;
 
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
+import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpDailySummary;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpDailySummaryCopyLearnEpEntry;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpDailySummaryLearnEpContentEntry;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpDailySummaryReminderEntry;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpDailySummaryShareLearnEpEntry;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsGetPar;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.tugraz.sss.conf.SSConf;
@@ -176,6 +179,7 @@ public class SSLearnEpSummaryCommons {
 
   public void learnEpEntityReminders(
     final SSServPar                          servPar,
+    final SSLearnEpSQL                       sql,
     final Map<String, SSLearnEpDailySummary> summaries) throws SSErr{
     
     try{
@@ -192,11 +196,6 @@ public class SSLearnEpSummaryCommons {
             null, //emails,
             false)); //invokeEntityHandlers
       
-      final List<SSEntity>                     learnEps                     = new ArrayList<>();
-      final List<SSEntity>                     oneWeekAgoEntities           = new ArrayList<>();
-      final List<SSEntity>                     twoWeeksAgoEntities          = new ArrayList<>();
-      final List<SSEntity>                     threeWeeksAgoEntities        = new ArrayList<>();
-      final List<SSEntity>                     fourWeeksAgoEntities         = new ArrayList<>();
       final List<SSEntityE>                    types                        = new ArrayList<>();
       final List<SSUri>                        authors                      = new ArrayList<>();
       final long                               dateNow                      = new java.util.Date().getTime();
@@ -227,11 +226,12 @@ public class SSLearnEpSummaryCommons {
           dailySummary = new SSLearnEpDailySummary();
         }
         
-        learnEps.clear();
         authors.clear();
         authors.add(user.id);
         
-        oneWeekAgoEntities.clear();
+        dailySummary.user              = user;
+        summaryEntry                   = new SSLearnEpDailySummaryReminderEntry();
+        summaryEntry.originUserLabel   = SSLabel.get(SSStrU.removeEmailHost(user.label));
         
         entitiesAccessibleGetPar =
           new SSEntitiesAccessibleGetPar(
@@ -246,9 +246,7 @@ public class SSLearnEpSummaryCommons {
         
         entitiesAccessibleGetPar.pageSize = Integer.MAX_VALUE;
         
-        oneWeekAgoEntities.addAll(entityServ.entitiesAccessibleGet(entitiesAccessibleGetPar).entities);
-
-        twoWeeksAgoEntities.clear();
+        summaryEntry.oneWeekAgoEntities.addAll(entityServ.entitiesAccessibleGet(entitiesAccessibleGetPar).entities);
 
         entitiesAccessibleGetPar =
           new SSEntitiesAccessibleGetPar(
@@ -263,9 +261,7 @@ public class SSLearnEpSummaryCommons {
 
         entitiesAccessibleGetPar.pageSize = Integer.MAX_VALUE;
         
-        twoWeeksAgoEntities.addAll(entityServ.entitiesAccessibleGet(entitiesAccessibleGetPar).entities);
-        
-        threeWeeksAgoEntities.clear();
+        summaryEntry.twoWeeksAgoEntities.addAll(entityServ.entitiesAccessibleGet(entitiesAccessibleGetPar).entities);
         
         entitiesAccessibleGetPar =
           new SSEntitiesAccessibleGetPar(
@@ -280,9 +276,7 @@ public class SSLearnEpSummaryCommons {
 
         entitiesAccessibleGetPar.pageSize = Integer.MAX_VALUE;
         
-        threeWeeksAgoEntities.addAll(entityServ.entitiesAccessibleGet(entitiesAccessibleGetPar).entities);
-        
-        fourWeeksAgoEntities.clear();
+        summaryEntry.threeWeeksAgoEntities.addAll(entityServ.entitiesAccessibleGet(entitiesAccessibleGetPar).entities);
         
         entitiesAccessibleGetPar =
           new SSEntitiesAccessibleGetPar(
@@ -297,16 +291,21 @@ public class SSLearnEpSummaryCommons {
 
         entitiesAccessibleGetPar.pageSize = Integer.MAX_VALUE;
         
-        fourWeeksAgoEntities.addAll(entityServ.entitiesAccessibleGet(entitiesAccessibleGetPar).entities);
+        summaryEntry.fourWeeksAgoEntities.addAll(entityServ.entitiesAccessibleGet(entitiesAccessibleGetPar).entities);
         
-        dailySummary.user              = user;
-        summaryEntry                   = new SSLearnEpDailySummaryReminderEntry();
-        summaryEntry.originUserLabel   = SSLabel.get(SSStrU.removeEmailHost(user.label));
-        
-        summaryEntry.oneWeekAgoEntities.addAll(oneWeekAgoEntities);
-        summaryEntry.twoWeeksAgoEntities.addAll(twoWeeksAgoEntities);
-        summaryEntry.threeWeeksAgoEntities.addAll(threeWeeksAgoEntities);
-        summaryEntry.fourWeeksAgoEntities.addAll(fourWeeksAgoEntities);
+        for(SSUri learnEpURI : sql.getLearnEpURIs(servPar, user.id)){
+          
+          for(SSUri learnEpVersionURI : sql.getLearnEpVersionURIs(servPar, learnEpURI)){
+            
+            for(SSEntity learnEpEntity : sql.getLearnEpVersionEntities(servPar, learnEpVersionURI)){
+              
+              SSStrU.remove(summaryEntry.oneWeekAgoEntities,    ((SSLearnEpEntity) learnEpEntity).entity);
+              SSStrU.remove(summaryEntry.twoWeeksAgoEntities,   ((SSLearnEpEntity) learnEpEntity).entity);
+              SSStrU.remove(summaryEntry.threeWeeksAgoEntities, ((SSLearnEpEntity) learnEpEntity).entity);
+              SSStrU.remove(summaryEntry.fourWeeksAgoEntities,  ((SSLearnEpEntity) learnEpEntity).entity);
+            }
+          }
+        }
         
         dailySummary.userSummaries.add(summaryEntry);
         

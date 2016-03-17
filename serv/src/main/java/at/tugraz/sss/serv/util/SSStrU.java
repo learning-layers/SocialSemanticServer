@@ -373,6 +373,7 @@ public class SSStrU{
     final Object                  objectToRemove) throws SSErr{
     
     try{
+      
       if(objects == null){
         return;
       }

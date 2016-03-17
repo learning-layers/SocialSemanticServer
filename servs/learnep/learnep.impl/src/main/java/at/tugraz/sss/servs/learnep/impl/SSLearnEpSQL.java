@@ -358,7 +358,7 @@ public class SSLearnEpSQL extends SSCoreSQL{
   
   public List<SSEntity> getLearnEpVersionEntities(
     final SSServPar servPar,
-    final SSUri learnEpVersionUri) throws SSErr{
+    final SSUri     learnEpVersionUri) throws SSErr{
     
     ResultSet resultSet          = null;
     

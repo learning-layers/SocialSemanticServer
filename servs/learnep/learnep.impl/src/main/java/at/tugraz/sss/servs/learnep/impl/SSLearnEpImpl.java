@@ -808,7 +808,7 @@ implements
         }
       }
 
-      summaryCommons.learnEpEntityReminders(par, result.summaries);
+      summaryCommons.learnEpEntityReminders(par, sql, result.summaries);
       
       return result;
 
