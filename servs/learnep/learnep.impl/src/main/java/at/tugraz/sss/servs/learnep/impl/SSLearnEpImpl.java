@@ -309,7 +309,7 @@ implements
   
   @Override
   public void copyEntity(
-    final SSServPar servPar,
+    final SSServPar                 servPar,
     final SSEntity                  entity,
     final SSEntityCopyPar           par) throws SSErr{
     
@@ -338,6 +338,7 @@ implements
       for(SSUri forUser : par.forUsers){
         
         copiedEntities.clear();
+        entitiesIncluded.clear();
         
         copyLearnEpUri =
           learnEpCreate(
@@ -429,15 +430,16 @@ implements
             par.withUserRestriction,
             true, //invokeEntityHandlers,
             false)); //shouldCommit
+        
+        actAndLog.copyLearnEp(
+          servPar,
+          par.user,
+          learnEp.id,  //learnEp
+          copyLearnEpUri, //copiedLearnEp
+          SSUri.asListNotNull(forUser), //usersToCopyFor
+          SSUri.getDistinctNotNullFromEntities(entitiesIncluded), //includedEntities
+          false);
       }
-      
-      actAndLog.copyLearnEp(
-        servPar,
-        par.user,
-        learnEp.id,  //learnEp
-        par.forUsers, //usersToCopyFor
-        SSUri.getDistinctNotNullFromEntities(entitiesIncluded), //includedEntities
-        false);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -463,6 +463,7 @@ public class SSLearnEpActAndLog{
     final SSServPar   servPar,
     final SSUri       user,
     final SSUri       learnEp,
+    final SSUri       copiedLearnEp,
     final List<SSUri> usersToCopyFor,
     final List<SSUri> includedEntities,
     final boolean     shouldCommit) throws SSErr{
@@ -505,7 +506,7 @@ public class SSLearnEpActAndLog{
           SSToolContextE.episodeTab,
           SSEvalLogE.copyLearnEpForUser,
           learnEp,
-          null, //content
+          SSStrU.toStr(copiedLearnEp), //content
           includedEntities, //entities
           SSUri.asListNotNull(usersToCopyFor),
           null, //creationTime
