@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.servs.mail.impl.kc;
 
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
@@ -31,17 +31,16 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.util.SSStrU;
 import at.tugraz.sss.servs.mail.conf.SSMailConf;
 import at.tugraz.sss.servs.mail.datatype.SSMail;
 import at.tugraz.sss.servs.mail.datatype.par.SSMailsReceivePar;
 import at.tugraz.sss.servs.mail.impl.SSMailSQLFct;
-import com.mysql.jdbc.StringUtils;
 import com.sun.mail.imap.IMAPMessage;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.*;
 import javax.mail.*;
 
 public class SSMailReceiverKCDavIMAP {
@@ -227,7 +226,7 @@ public class SSMailReceiverKCDavIMAP {
       final SSEntity attachment = getAttachmentObj(bodyPart.getFileName());
       
       SSFileU.writeFileBytes(
-        SSFileU.openOrCreateFileWithPathForWrite(mailConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(attachment.id)),
+        SSFileU.openOrCreateFileWithPathForWrite(SSConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(attachment.id)),
         bodyPart.getInputStream(),
         10000);
       
@@ -258,7 +257,7 @@ public class SSMailReceiverKCDavIMAP {
         
         if(
           Part.ATTACHMENT.equalsIgnoreCase(bodyPart.getDisposition()) ||
-          !StringUtils.isEmptyOrWhitespaceOnly(bodyPart.getFileName())){
+          !SSStrU.isEmpty(bodyPart.getFileName())){
           
           handleAttachment(bodyPart, mail, isFirstLevel);
           continue;

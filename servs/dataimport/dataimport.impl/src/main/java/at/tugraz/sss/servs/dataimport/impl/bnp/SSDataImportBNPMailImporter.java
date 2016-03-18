@@ -22,7 +22,7 @@ package at.tugraz.sss.servs.dataimport.impl.bnp;
 
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.servs.file.api.SSFileServerI;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.datatype.SSEntity;

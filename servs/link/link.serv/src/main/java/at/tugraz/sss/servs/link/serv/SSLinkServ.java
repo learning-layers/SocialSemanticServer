@@ -20,7 +20,7 @@
   */
 package at.tugraz.sss.servs.link.serv;
 
-import at.tugraz.sss.conf.SSCoreConf;
+import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.reg.*;
@@ -62,9 +62,9 @@ public class SSLinkServ extends SSServContainerI{
   }
   
   @Override
-  public SSServContainerI regServ() throws SSErr{
+  public SSServContainerI regServ(final SSConfA conf) throws SSErr{
     
-    this.conf = SSCoreConf.instGet().getEntity();
+    this.conf = conf;
     
     SSServReg.inst.regServ(this);
     

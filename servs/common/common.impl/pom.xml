@@ -55,20 +55,8 @@
     </dependency>
     
     <dependency>
-      <groupId>sss</groupId>
-      <artifactId>conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>mail.api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     

@@ -21,7 +21,7 @@
 package at.tugraz.sss.adapter.rest.v3.category;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.datatype.*;
 import io.swagger.annotations.*;

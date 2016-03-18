@@ -23,7 +23,7 @@ package at.tugraz.sss.servs.eval.impl;
 import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.*;
 import at.kc.tugraz.ss.service.user.datatypes.pars.*;
-import at.tugraz.sss.conf.*;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.*;

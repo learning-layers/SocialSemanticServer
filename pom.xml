@@ -152,7 +152,6 @@
     <module>adapter</module>
     <module>servs</module>
     <module>serv</module>
-    <module>conf</module>
   </modules>
     
 </project>

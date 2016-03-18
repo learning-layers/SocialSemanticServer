@@ -21,7 +21,7 @@
 package at.tugraz.sss.servs.location.impl;
 
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.servs.location.datatype.par.SSLocationAddPar;
 import at.tugraz.sss.servs.location.datatype.par.SSLocationsGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;

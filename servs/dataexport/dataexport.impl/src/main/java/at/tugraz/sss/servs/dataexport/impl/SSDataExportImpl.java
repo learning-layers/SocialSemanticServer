@@ -23,7 +23,7 @@ package at.tugraz.sss.servs.dataexport.impl;
 import at.kc.tugraz.ss.category.api.*;
 import at.kc.tugraz.ss.category.datatypes.*;
 import at.kc.tugraz.ss.category.datatypes.par.*;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSCircleGetPar;
 import at.tugraz.sss.serv.util.SSDateU;
@@ -94,7 +94,7 @@ implements
       final List<String>                        lineParts             = new ArrayList<>();
       String                                    resourceString;
       
-      out        = SSFileU.openOrCreateFileWithPathForWrite (conf.getSssWorkDirDataCsv() + par.fileName);
+      out        = SSFileU.openOrCreateFileWithPathForWrite (SSConf.getSssWorkDirDataCsv() + par.fileName);
       writer     = new OutputStreamWriter                   (out,    Charset.forName(SSEncodingU.utf8.toString()));
       fileWriter = new CSVWriter                            (writer, SSStrU.semiColon.charAt(0));
       
@@ -187,7 +187,7 @@ implements
       final List<String>                        allUsers;
       SSUri                                     user;
       
-      out        = SSFileU.openOrCreateFileWithPathForWrite (conf.getSssWorkDirDataCsv() + par.fileName);
+      out        = SSFileU.openOrCreateFileWithPathForWrite (SSConf.getSssWorkDirDataCsv() + par.fileName);
       writer     = new OutputStreamWriter                   (out,    Charset.forName(SSEncodingU.utf8.toString()));
       fileWriter = new CSVWriter                            (writer, SSStrU.semiColon.charAt(0));
       
@@ -304,7 +304,7 @@ implements
       
       final List<String> lineParts = new ArrayList<>();
       
-      out        = SSFileU.openOrCreateFileWithPathForAppend  (conf.getSssWorkDirDataCsv() + par.fileName);
+      out        = SSFileU.openOrCreateFileWithPathForAppend  (SSConf.getSssWorkDirDataCsv() + par.fileName);
       writer     = new OutputStreamWriter                     (out,    Charset.forName(SSEncodingU.utf8.toString()));
       fileWriter = new CSVWriter                              (writer, SSStrU.semiColon.charAt(0));
       
@@ -382,7 +382,7 @@ implements
       
       out =
         SSFileU.openOrCreateFileWithPathForWrite (
-          conf.getSssWorkDirDataCsv() + ((SSDataExportConf)conf).fileNameForUserRelationsExport);
+          SSConf.getSssWorkDirDataCsv() + ((SSDataExportConf)conf).fileNameForUserRelationsExport);
       
       writer =
         new OutputStreamWriter(

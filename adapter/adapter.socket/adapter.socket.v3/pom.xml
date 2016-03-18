@@ -8,7 +8,8 @@
   </parent>
   <artifactId>adapter.socket.v3</artifactId>
   <packaging>jar</packaging>
-    
+  <name>adapter.socket.v3</name>
+        
   <build>
     <plugins>
       <plugin>
@@ -297,12 +298,6 @@
     </dependency>
     
     <dependency>
-      <groupId>sss</groupId>
-      <artifactId>conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>dataimport.serv</artifactId>
       <version>${project.version}</version>
@@ -338,12 +333,6 @@
       <version>${project.version}</version>
     </dependency>
       
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>serv</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>auth.serv</artifactId>
@@ -416,11 +405,6 @@
       <version>${project.version}</version>
     </dependency>
     
-    <dependency>
-      <groupId>com.evernote</groupId>
-      <artifactId>evernote-api</artifactId>
-      <version>1.25.1</version>
-    </dependency>
   </dependencies>
-    <name>adapter.socket.v3</name>
+
 </project>

@@ -24,7 +24,7 @@ import at.kc.tugraz.ss.service.search.api.SSSearchServerI;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchCleanUpPar;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.*;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
 import java.sql.*;

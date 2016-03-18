@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.adapter.rest.v3.link;
 
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import io.swagger.annotations.*;
 

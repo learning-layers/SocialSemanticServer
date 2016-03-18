@@ -1,26 +1,25 @@
-/**
- * Code contributed to the Learning Layers project
- * http://www.learning-layers.eu
- * Development is partly funded by the FP7 Programme of the European Commission under
- * Grant Agreement FP7-ICT-318209.
- * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
- * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.serv.dataimport.serv;
 
-import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
@@ -29,15 +28,17 @@ import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportClientI;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.*;
+import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
 import at.tugraz.sss.servs.dataimport.impl.SSDataImportImpl;
-import at.kc.tugraz.ss.serv.jobs.evernote.conf.*;
-import at.tugraz.sss.conf.*;
+import at.tugraz.sss.serv.conf.SSConf;
+import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
+import at.tugraz.sss.servs.conf.SSCoreConf;
 import java.util.*;
 import java.util.Date;
 
@@ -72,9 +73,9 @@ public class SSDataImportServ extends SSServContainerI{
   }
   
   @Override
-  public SSServContainerI regServ() throws SSErr{
+  public SSServContainerI regServ(final SSConfA conf) throws SSErr{
     
-    this.conf = SSCoreConf.instGet().getDataImport();
+    this.conf = conf;
     
     SSServReg.inst.regServ(this);
     

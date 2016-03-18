@@ -21,7 +21,7 @@
 package at.tugraz.sss.servs.livingdocument.impl;
 
 import at.kc.tugraz.ss.activity.api.*;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscTargetsAddPar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;

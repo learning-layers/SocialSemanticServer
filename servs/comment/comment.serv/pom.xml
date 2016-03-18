@@ -25,12 +25,6 @@
     </dependency>   
     
     <dependency>
-      <groupId>sss</groupId>
-      <artifactId>conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>comment.impl</artifactId>
       <version>${project.version}</version>

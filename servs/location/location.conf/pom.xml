@@ -9,11 +9,4 @@
   <artifactId>location.conf</artifactId>
   <packaging>jar</packaging>
     
-  <dependencies>
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>serv</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-  </dependencies>
 </project>

@@ -22,7 +22,7 @@ package at.tugraz.sss.servs.image.impl;
 
 import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.entity.api.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.datatype.par.SSAddAffiliatedEntitiesToCirclePar;
@@ -423,7 +423,7 @@ implements
             entityServ.entityRemove(new SSEntityRemovePar(par, par.user, thumb.id));
             
             try{
-              SSFileU.delFile(conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(thumb.file.id));
+              SSFileU.delFile(SSConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(thumb.file.id));
             }catch(Exception error){
               SSLogU.warn("couldnt remove thumbnail files from filesys", error);
             }
@@ -815,10 +815,10 @@ implements
     
     try{
     
-      final String      filePath          = conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(fileURI);
+      final String      filePath          = SSConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(fileURI);
       final SSFileExtE  fileExt           = SSFileExtE.getFromStrToFormat(SSConf.fileIDFromSSSURI(fileURI));
       final SSUri       thumbFileURI      = SSConf.vocURICreate(SSFileExtE.png);
-      final String      thumbnailPath     = conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(thumbFileURI);
+      final String      thumbnailPath     = SSConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(thumbFileURI);
 
       if(SSStrU.contains(SSFileExtE.getImageFileExts(), fileExt)){
         SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), thumbnailPath, width, width);
@@ -831,7 +831,7 @@ implements
           
           try{
             
-            final String pdfFilePath = conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(SSConf.vocURICreate(SSFileExtE.pdf));
+            final String pdfFilePath = SSConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(SSConf.vocURICreate(SSFileExtE.pdf));
             
             SSFileU.writePDFFromText(
               pdfFilePath,
@@ -860,7 +860,7 @@ implements
         
         case doc:{
           
-          final String pdfFilePath  = conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(SSConf.vocURICreate(SSFileExtE.pdf));
+          final String pdfFilePath  = SSConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(SSConf.vocURICreate(SSFileExtE.pdf));
           
           SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
           SSFileU.writeScaledPNGFromPDF (pdfFilePath, thumbnailPath, width, width, false);

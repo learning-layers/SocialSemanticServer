@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.servs.kcprojwiki.serv;
 
-import at.tugraz.sss.conf.SSCoreConf;
+import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
@@ -66,9 +66,9 @@ public class SSKCProjWikiServ extends SSServContainerI{
   }
   
   @Override
-  public SSServContainerI regServ() throws SSErr{
+  public SSServContainerI regServ(final SSConfA conf) throws SSErr{
     
-    this.conf = SSCoreConf.instGet().getKcprojwiki();
+    this.conf = conf;
     
     SSServReg.inst.regServ(this);
     

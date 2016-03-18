@@ -18,10 +18,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package at.tugraz.sss.conf;
+package at.tugraz.sss.servs.conf;
 
 import at.tugraz.sss.servs.file.conf.SSFileConf;
-import sss.serv.eval.conf.SSEvalConf;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.activity.conf.SSActivityConf;
 import at.kc.tugraz.ss.category.conf.SSCategoryConf;
@@ -48,6 +47,7 @@ import at.kc.tugraz.sss.appstacklayout.conf.SSAppStackLayoutConf;
 import at.kc.tugraz.sss.comment.conf.SSCommentConf;
 import at.kc.tugraz.sss.flag.conf.SSFlagConf;
 import at.kc.tugraz.sss.video.conf.SSVideoConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.db.conf.SSDBNoSQLConf;
 import at.tugraz.sss.serv.reg.SSServErrReg;
@@ -58,6 +58,7 @@ import at.tugraz.sss.servs.kcprojwiki.conf.SSKCProjWikiConf;
 import at.tugraz.sss.servs.link.conf.SSLinkConf;
 import at.tugraz.sss.servs.livingdocument.conf.SSLivingDocConf;
 import at.tugraz.sss.servs.mail.conf.SSMailConf;
+import sss.serv.eval.conf.SSEvalConf;
 
 public class SSCoreConf extends SSCoreConfA  {
   

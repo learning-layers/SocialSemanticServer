@@ -34,6 +34,7 @@ import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvalLogFilePar
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiVorgaengePar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportMediaWikiUserPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.servs.dataimport.impl.bnp.SSDataImportBNPEvernoteImporter;
 import at.tugraz.sss.servs.dataimport.impl.bnp.SSDataImportBNPMailImporter;
 import at.tugraz.sss.servs.auth.datatype.par.SSAuthRegisterUserPar;
@@ -122,7 +123,7 @@ implements
           
           bnpEvernoteImporter.handle(
             par, 
-            conf.getLocalWorkPath(), 
+            SSConf.getLocalWorkPath(), 
             forUser);
           
           dbSQL.commit(par, par.shouldCommit);
@@ -152,7 +153,7 @@ implements
           bnpMailImporter.handle(
             par, 
             forUser, 
-            conf.getLocalWorkPath());
+            SSConf.getLocalWorkPath());
           
           dbSQL.commit(par, par.shouldCommit);
           
@@ -206,7 +207,7 @@ implements
     
     try{
       
-      final List<String[]> lines    = SSFileU.readAllFromCSV(conf.getSssWorkDirDataCsv(), ((SSDataImportConf) conf).fileName);
+      final List<String[]> lines    = SSFileU.readAllFromCSV(SSConf.getSssWorkDirDataCsv(), ((SSDataImportConf) conf).fileName);
       String               userName = null;
       String firstName;
       String familyName;

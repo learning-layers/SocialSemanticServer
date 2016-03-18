@@ -21,7 +21,7 @@
 package at.tugraz.sss.adapter.rest.v3.tag;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import io.swagger.annotations.*;

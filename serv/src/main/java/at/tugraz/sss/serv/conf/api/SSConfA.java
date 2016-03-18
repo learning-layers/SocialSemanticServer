@@ -26,11 +26,6 @@ import java.util.List;
 
 public abstract class SSConfA{
 
-  protected static String       sssWorkDir                 = null;
-  protected static String       sssWorkDirTmp              = null;
-  protected static String       sssWorkDirDataCsv          = null;
-  protected static String       localWorkPath              = null;
-  
   public boolean         use                        = false;
   public boolean         initAtStartUp              = false;
   public boolean         schedule                   = false;
@@ -56,34 +51,5 @@ public abstract class SSConfA{
     }
     
     return copy;
-  }
-  
-  public void setSssWorkDir(final String value){
-    
-    sssWorkDir = SSFileU.correctDirPath (value);
-    
-    if(SSStrU.isEmpty(sssWorkDir)){
-      sssWorkDir = SSFileU.dirWorking();
-    }
-    
-    sssWorkDirTmp     = sssWorkDir + SSFileU.dirNameTmp;
-    sssWorkDirDataCsv = sssWorkDir + SSFileU.dirNameDataCsv;
-    localWorkPath     = sssWorkDirTmp;
-  }
-  
-  public String getSssWorkDir(){
-    return sssWorkDir;
-  }
-  
-  public String getSssWorkDirTmp(){
-    return sssWorkDirTmp;
-  }
-  
-  public String getSssWorkDirDataCsv(){
-    return sssWorkDirDataCsv;
-  }
-  
-  public String getLocalWorkPath(){
-    return localWorkPath;
   }
 }

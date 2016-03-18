@@ -12,12 +12,6 @@
   <dependencies>
     
     <dependency>
-      <groupId>sss</groupId>
-      <artifactId>serv</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>5.1.22</version>
@@ -35,12 +29,6 @@
       <version>7.0.42</version>
     </dependency>
 
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
   </dependencies>
 </project>
 

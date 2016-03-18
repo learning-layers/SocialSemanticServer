@@ -20,13 +20,13 @@
 */
 package at.kc.tugraz.sss.flag.serv;
 
-import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.kc.tugraz.sss.flag.api.SSFlagClientI;
 import at.kc.tugraz.sss.flag.api.SSFlagServerI;
 import at.kc.tugraz.sss.flag.impl.SSFlagImpl;
+import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
@@ -63,9 +63,9 @@ public class SSFlagServ extends SSServContainerI{
   }
   
   @Override
-  public SSServContainerI regServ() throws SSErr{
+  public SSServContainerI regServ(final SSConfA conf) throws SSErr{
     
-    this.conf = SSCoreConf.instGet().getFlag();
+    this.conf = conf;
     
     SSServReg.inst.regServ(this);
     

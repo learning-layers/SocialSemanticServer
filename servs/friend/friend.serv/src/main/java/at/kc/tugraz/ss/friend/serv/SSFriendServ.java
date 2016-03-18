@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.friend.serv;
 
-import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.friend.api.SSFriendClientI;
 import at.kc.tugraz.ss.friend.api.SSFriendServerI;
+import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.servs.friend.impl.SSFriendImpl;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.reg.*;
@@ -63,9 +63,9 @@ public class SSFriendServ extends SSServContainerI{
   }
   
     @Override
-  public SSServContainerI regServ() throws SSErr{
+  public SSServContainerI regServ(final SSConfA conf) throws SSErr{
     
-    this.conf = SSCoreConf.instGet().getFriend();
+    this.conf = conf;
     
     SSServReg.inst.regServ(this);
     

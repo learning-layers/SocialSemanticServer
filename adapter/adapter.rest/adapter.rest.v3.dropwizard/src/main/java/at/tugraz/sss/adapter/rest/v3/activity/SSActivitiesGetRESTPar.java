@@ -21,7 +21,7 @@
 package at.tugraz.sss.adapter.rest.v3.activity;
 
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import io.swagger.annotations.*;
 import java.util.List;

@@ -56,12 +56,6 @@
     </dependency>
     
     <dependency>
-      <groupId>sss</groupId>
-      <artifactId>serv</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>category.datatypes</artifactId>
       <version>${project.version}</version>

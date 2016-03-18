@@ -21,13 +21,13 @@
 package at.kc.tugraz.ss.service.coll.service;
 
 import at.tugraz.sss.servs.coll.impl.SSCollImpl;
-import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.kc.tugraz.ss.service.coll.api.SSCollClientI;
 import at.kc.tugraz.ss.service.coll.api.SSCollServerI;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
+import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
@@ -64,9 +64,9 @@ public class SSCollServ extends SSServContainerI{
   }
   
   @Override
-  public SSServContainerI regServ() throws SSErr{
+  public SSServContainerI regServ(final SSConfA conf) throws SSErr{
     
-    this.conf = SSCoreConf.instGet().getColl();
+    this.conf = conf;
     
     SSServReg.inst.regServ(this);
     
@@ -90,15 +90,16 @@ public class SSCollServ extends SSServContainerI{
     final SSCoreConfA coreConfA,
     final List<Class> configuredServs) throws SSErr{
     
-    //TODO dtheiler: check whether to deploy service calls itself here once in getConfForCloudDeployment
-    final SSCoreConf coreConf = (SSCoreConf) getConfForCloudDeployment(SSTagServerI.class /* TODO wrong class here */, coreConfA, configuredServs);
+    throw new UnsupportedOperationException();
+    //check whether to deploy service calls itself here once in getConfForCloudDeployment
+//    final SSCoreConf coreConf = (SSCoreConf) getConfForCloudDeployment(SSTagServerI.class /* TODO wrong class here */, coreConfA, configuredServs);
 //    final SSCollConf collConf = coreConf.getColl();
 //
 //    collConf.use                = true;
 //    collConf.executeOpAtStartUp = false;
 ////    collConf.op                 = null;
 //
-    return coreConf;
+//    return coreConf;
   }
   
   @Override

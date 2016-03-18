@@ -47,5 +47,22 @@
     <module>db</module>
     <module>file</module>
     <module>link</module>
+    <module>conf</module>
   </modules>
+  
+  <dependencies>
+    
+    <dependency>
+      <groupId>sss</groupId>
+      <artifactId>serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+<!--    <dependency>
+      <groupId>sss</groupId>
+      <artifactId>conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>-->
+    
+  </dependencies>
 </project>

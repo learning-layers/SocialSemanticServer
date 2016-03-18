@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.rating.impl;
 
 import at.tugraz.sss.serv.entity.api.*;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.rating.impl.fct.userraltionsgathering.SSRatingUserRelationGathererFct;
 import at.tugraz.sss.serv.util.*;

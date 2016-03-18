@@ -18,11 +18,5 @@
   
   <dependencies>
     
-   <dependency>
-      <groupId>sss</groupId>
-      <artifactId>serv</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-  
   </dependencies>
 </project>

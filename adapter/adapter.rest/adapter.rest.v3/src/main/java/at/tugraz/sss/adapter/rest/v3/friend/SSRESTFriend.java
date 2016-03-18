@@ -27,7 +27,7 @@ import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsGetPar;
 import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendAddRet;
 import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendsGetRet;
 import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;

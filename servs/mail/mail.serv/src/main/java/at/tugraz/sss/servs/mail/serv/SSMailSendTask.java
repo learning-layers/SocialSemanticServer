@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.servs.mail.serv;
 
-import at.tugraz.sss.conf.*;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.*;

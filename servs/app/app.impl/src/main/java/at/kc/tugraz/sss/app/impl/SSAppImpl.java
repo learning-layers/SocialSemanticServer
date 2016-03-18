@@ -21,7 +21,7 @@
 package at.kc.tugraz.sss.app.impl;
 
 import at.kc.tugraz.ss.activity.api.*;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSEntityDownloadsAddPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;

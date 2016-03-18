@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.serv.auth.serv;
 
-import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
@@ -31,7 +30,8 @@ import at.tugraz.sss.servs.auth.datatype.par.SSAuthRegisterUserPar;
 import at.tugraz.sss.servs.auth.datatype.par.SSAuthUsersFromCSVFileAddPar;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
+import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
@@ -39,9 +39,7 @@ import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.util.*;
 import java.sql.*;
-
 import java.util.List;
-import java.util.logging.*;
 
 public class SSAuthServ extends SSServContainerI{
   
@@ -73,9 +71,9 @@ public class SSAuthServ extends SSServContainerI{
   }
   
   @Override
-  public SSServContainerI regServ() throws SSErr{
+  public SSServContainerI regServ(final SSConfA conf) throws SSErr{
     
-    this.conf = SSCoreConf.instGet().getAuth();
+    this.conf = conf;
     
     SSServReg.inst.regServ(this);
     

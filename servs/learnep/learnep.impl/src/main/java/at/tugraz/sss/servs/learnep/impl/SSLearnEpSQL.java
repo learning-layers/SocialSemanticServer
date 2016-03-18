@@ -21,7 +21,7 @@
 package at.tugraz.sss.servs.learnep.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.*;
-import at.tugraz.sss.conf.*;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;

@@ -26,7 +26,7 @@ import at.tugraz.sss.serv.datatype.par.SSEntityCopyPar;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserEntityUsersGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserEntityUsersGetRet;
 import at.kc.tugraz.sss.comment.api.*;

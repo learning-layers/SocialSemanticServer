@@ -19,12 +19,6 @@
   <dependencies>
 
     <dependency>
-      <groupId>sss</groupId>
-      <artifactId>serv</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>file.datatype</artifactId>
       <version>${project.version}</version>

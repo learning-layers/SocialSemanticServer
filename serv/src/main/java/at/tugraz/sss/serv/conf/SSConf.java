@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.conf;
+package at.tugraz.sss.serv.conf;
 
 import at.tugraz.sss.serv.conf.api.SSCoreServConfA;
 import at.tugraz.sss.serv.datatype.*;
@@ -35,21 +35,47 @@ public class SSConf extends SSCoreServConfA{
   public static final String restAPIResourceFile            = "files/";
   public static final String restAPIPathFileDownloadPublic  = "download/public/";
   
-  public  String    host           = null;
-  public  Integer   port           = null;
-  public  String    version        = null;
-  public  String    restAPIPath    = null;
+  public static String    host           = null;
+  public static Integer   port           = null;
+  public static String    version        = null;
+  public static String    restAPIPath    = null;
+  
+  protected static String       sssWorkDir                 = null;
+  protected static String       sssWorkDirTmp              = null;
+  protected static String       sssWorkDirDataCsv          = null;
+  protected static String       localWorkPath              = null;
+  
+  public void setSssWorkDir(final String value){
+    
+    sssWorkDir = SSFileU.correctDirPath (value);
+    
+    if(SSStrU.isEmpty(sssWorkDir)){
+      sssWorkDir = SSFileU.dirWorking();
+    }
+    
+    sssWorkDirTmp     = sssWorkDir + SSFileU.dirNameTmp;
+    sssWorkDirDataCsv = sssWorkDir + SSFileU.dirNameDataCsv;
+    localWorkPath     = sssWorkDirTmp;
+  }
+  
+  public static String getSssWorkDir(){
+    return sssWorkDir;
+  }
+  
+  public static String getSssWorkDirTmp(){
+    return sssWorkDirTmp;
+  }
+  
+  public static String getSssWorkDirDataCsv(){
+    return sssWorkDirDataCsv;
+  }
+  
+  public static String getLocalWorkPath(){
+    return localWorkPath;
+  }
   
   public static SSConf copy(final SSConf orig){
-    
-    final SSConf copy = (SSConf) SSCoreServConfA.copy(orig, new SSConf());
-    
-    copy.host          = orig.host;
-    copy.port          = orig.port;
-    copy.version       = orig.version;
-    copy.restAPIPath   = orig.restAPIPath;
-    
-    return copy;
+    return (SSConf) SSCoreServConfA.copy(orig, new SSConf());
   }
   
   private static SSUri vocURIPrefixGet() throws SSErr{

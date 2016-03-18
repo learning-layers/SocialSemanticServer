@@ -26,13 +26,13 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>jsonld.datatypes</artifactId>
+      <artifactId>jsonld.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>serv</artifactId>
+      <artifactId>jsonld.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     

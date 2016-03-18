@@ -20,10 +20,9 @@
   */
 package at.kc.tugraz.ss.serv.datatypes.entity.serv;
 
-import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
-import at.tugraz.sss.conf.SSCoreConf;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
+import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.par.SSCirclePubURIGetPar;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.util.SSDateU;
@@ -34,7 +33,6 @@ import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.entity.conf.SSEntityConf;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.entity.impl.SSEntityImpl;
@@ -72,9 +70,9 @@ public class SSEntityServ extends SSServContainerI{
   }
   
   @Override
-  public SSServContainerI regServ() throws SSErr{
+  public SSServContainerI regServ(final SSConfA conf) throws SSErr{
     
-    this.conf = SSCoreConf.instGet().getEntity();
+    this.conf = conf;
     
     SSServReg.inst.regServ(this);
     

@@ -22,7 +22,7 @@ package at.tugraz.sss.adapter.rest.v3.video;
 
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.kc.tugraz.sss.video.datatypes.SSVideoE;
 import io.swagger.annotations.*;
 

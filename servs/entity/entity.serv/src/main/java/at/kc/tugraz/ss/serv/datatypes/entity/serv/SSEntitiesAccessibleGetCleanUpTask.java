@@ -24,7 +24,7 @@ import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesAccessibleGetCleanUpPar;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
 import java.sql.*;

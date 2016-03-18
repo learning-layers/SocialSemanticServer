@@ -24,7 +24,7 @@ import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.recomm.datatypes.SSRecommUserRealmEngine;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.datatype.par.*;

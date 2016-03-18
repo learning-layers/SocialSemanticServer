@@ -23,7 +23,7 @@ package at.tugraz.sss.servs.file.serv;
 import at.tugraz.sss.servs.file.api.*;
 import at.tugraz.sss.servs.file.datatype.par.*;
 import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.*;

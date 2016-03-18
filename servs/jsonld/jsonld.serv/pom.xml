@@ -19,11 +19,11 @@
   <dependencies>
   
     <dependency>
-      <groupId>sss</groupId>
-      <artifactId>conf</artifactId>
+      <groupId>sss.servs</groupId>
+      <artifactId>jsonld.api</artifactId>
       <version>${project.version}</version>
     </dependency>
-  
+    
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>jsonld.impl</artifactId>

@@ -30,11 +30,10 @@ import at.tugraz.sss.servs.file.datatype.par.SSFilesDeleteNotRegisteredPar;
 import at.tugraz.sss.servs.file.datatype.SSFile;
 import at.tugraz.sss.servs.file.api.*;
 import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
-import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import at.tugraz.sss.serv.util.SSFileExtE;
@@ -274,7 +273,7 @@ implements
       }
       
       final String            fileId          = SSConf.fileIDFromSSSURI(par.file);
-      final FileInputStream   fileInputStream = new FileInputStream(new File(conf.getLocalWorkPath() + fileId));
+      final FileInputStream   fileInputStream = new FileInputStream(new File(SSConf.getLocalWorkPath() + fileId));
       final SSFileDownloadRet ret             = new SSFileDownloadRet(par.file, file.label, null);
       
       switch(par.clientType){
@@ -477,7 +476,7 @@ implements
       
       byte[] bytes     = new byte[SSSocketU.socketTranmissionSize];
       int    read;
-      fileOutputStream = SSFileU.openOrCreateFileWithPathForWrite   (conf.getLocalWorkPath() + fileID);
+      fileOutputStream = SSFileU.openOrCreateFileWithPathForWrite   (SSConf.getLocalWorkPath() + fileID);
 
       while((read = inputStream.read(bytes)) != -1) {
         fileOutputStream.write        (bytes, 0, read);
@@ -509,7 +508,7 @@ implements
       
       byte[] fileChunk = null;
       
-      fileOutputStream = SSFileU.openOrCreateFileWithPathForWrite   (conf.getLocalWorkPath() + fileID);
+      fileOutputStream = SSFileU.openOrCreateFileWithPathForWrite   (SSConf.getLocalWorkPath() + fileID);
 
       while(true){
         
@@ -640,7 +639,7 @@ implements
         final String     fileId        = SSConf.fileIDFromSSSURI (par.file);
         
         SSFileU.writeFileBytes(
-          new FileOutputStream(conf.getLocalWorkPath() + fileId),
+          new FileOutputStream(SSConf.getLocalWorkPath() + fileId),
           par.fileBytes,
           par.fileLength);
       }
@@ -669,7 +668,7 @@ implements
               file.id));
           
           try{
-            SSFileU.delFile(conf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(file.id));
+            SSFileU.delFile(SSConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(file.id));
           }catch(Exception error){
             SSLogU.warn("file couldnt be removed from file system", error);
           }
@@ -790,7 +789,7 @@ implements
       final SSMimeTypeE     mimeType      = SSMimeTypeE.mimeTypeForFileExt (fileExt);
       final SSUri           downloadLink  =
         SSUri.get(
-          SSFileU.correctDirPath(SSCoreConf.instGet().getSss().restAPIPath) +
+          SSFileU.correctDirPath(SSConf.restAPIPath) +
             SSFileU.correctDirPath(SSConf.restAPIResourceFile)           +
             SSFileU.correctDirPath(SSConf.fileIDFromSSSURI(par.file))    +
             SSConf.restAPIPathFileDownloadPublic);
@@ -903,7 +902,7 @@ implements
     try{
       
       if(SSStrU.isEmpty(par.dirPath)){
-        par.dirPath = SSCoreConf.instGet().getSss().getSssWorkDirTmp();
+        par.dirPath = SSConf.getSssWorkDirTmp();
       }
       
       final File[] filesForDirPath = SSFileU.filesForDirPath(par.dirPath);

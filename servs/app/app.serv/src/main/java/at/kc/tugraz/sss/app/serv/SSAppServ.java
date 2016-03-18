@@ -20,13 +20,13 @@
 */
 package at.kc.tugraz.sss.app.serv;
 
-import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.kc.tugraz.sss.app.api.SSAppClientI;
 import at.kc.tugraz.sss.app.api.SSAppServerI;
 import at.kc.tugraz.sss.app.impl.SSAppImpl;
+import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
@@ -63,9 +63,9 @@ public class SSAppServ extends SSServContainerI{
   }
 
   @Override
-  public SSServContainerI regServ() throws SSErr{
+  public SSServContainerI regServ(final SSConfA conf) throws SSErr{
     
-    this.conf = SSCoreConf.instGet().getApp();
+    this.conf = conf;
     
     SSServReg.inst.regServ(this);
     

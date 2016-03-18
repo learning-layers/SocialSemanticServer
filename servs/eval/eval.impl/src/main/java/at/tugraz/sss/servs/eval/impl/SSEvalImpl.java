@@ -53,6 +53,7 @@ import sss.serv.eval.datatypes.ret.SSEvalLogRet;
 import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.*;
 import at.kc.tugraz.ss.service.user.datatypes.pars.*;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
@@ -439,7 +440,7 @@ implements
         new SSDataImportEvalLogFilePar(
           servPar,
           servPar.user,
-          conf.getSssWorkDirDataCsv() + SSFileU.fileNameSSSEvalLog,
+          SSConf.getSssWorkDirDataCsv() + SSFileU.fileNameSSSEvalLog,
           oct1)); //startTime
       
     }catch(Exception error){

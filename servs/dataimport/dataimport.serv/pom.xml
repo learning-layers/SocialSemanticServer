@@ -19,6 +19,18 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>evernote.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>dataimport.impl</artifactId>
       <version>${project.version}</version>
     </dependency>

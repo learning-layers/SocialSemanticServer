@@ -48,7 +48,7 @@ import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportServerI;
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityTagsCategoriesTimestampsLinePar;
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar;
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLikelihood;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
@@ -524,7 +524,7 @@ implements
       
 //      SSRecommUserRealmKeeper.setUserRealmEnginesFromConf       (recommConf);
       userRealmKeeper.setAndLoadUserRealmEnginesFromDB(
-        conf.getSssWorkDirDataCsv(), 
+        SSConf.getSssWorkDirDataCsv(), 
         sql.getUserRealms(par));
       
 //      SSRecommUserRealmKeeper.setSSSRealmEngine                 (recommConf);
@@ -544,7 +544,7 @@ implements
       
       final SSRecommUpdateBulkPar par = (SSRecommUpdateBulkPar) parA.getFromClient(clientType, parA, SSRecommUpdateBulkPar.class);
       
-      final String                      dataCSVPath        = conf.getSssWorkDirDataCsv();
+      final String                      dataCSVPath        = SSConf.getSssWorkDirDataCsv();
       final SSRecommUpdateBulkRet       result             = SSRecommUpdateBulkRet.get(true);
       byte[]                            fileChunk         = null;
       
@@ -643,7 +643,7 @@ implements
      
         dataExportServ.dataExportUsersEntitiesTagsCategoriesTimestampsFile(dataExportPar);
      
-      userRealmEngine.engine.loadFile(conf.getSssWorkDirDataCsv(), userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
+      userRealmEngine.engine.loadFile(SSConf.getSssWorkDirDataCsv(), userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
       
       dbSQL.commit(par, par.shouldCommit);
       
@@ -733,7 +733,7 @@ implements
               sql, //sqlFct
               false); //storeToDB
           
-          userRealmEngine.engine.loadFile(conf.getSssWorkDirDataCsv(), userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
+          userRealmEngine.engine.loadFile(SSConf.getSssWorkDirDataCsv(), userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
         }
       }
       
@@ -847,7 +847,7 @@ implements
               sql,
               false);
           
-          userRealmEngine.engine.loadFile(conf.getSssWorkDirDataCsv(), userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
+          userRealmEngine.engine.loadFile(SSConf.getSssWorkDirDataCsv(), userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
         }
       }
       
@@ -909,7 +909,7 @@ implements
           par.categories,
           userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt));
       
-      userRealmEngine.engine.loadFile(conf.getSssWorkDirDataCsv(), userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
+      userRealmEngine.engine.loadFile(SSConf.getSssWorkDirDataCsv(), userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
       
       dbSQL.commit(par, par.shouldCommit);
       
@@ -1004,7 +1004,7 @@ implements
             userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt));
       }
       
-      userRealmEngine.engine.loadFile(conf.getSssWorkDirDataCsv(), userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
+      userRealmEngine.engine.loadFile(SSConf.getSssWorkDirDataCsv(), userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
       
       dbSQL.commit(par, par.shouldCommit);
       

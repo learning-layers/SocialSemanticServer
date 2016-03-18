@@ -24,7 +24,7 @@ import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkUserRealmsFromCirclesPar;
 import at.kc.tugraz.ss.recomm.serv.SSRecommServ;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.reg.*;

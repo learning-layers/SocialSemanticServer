@@ -22,7 +22,7 @@ package at.tugraz.sss.adapter.rest.v3.app;
 
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.util.*;
 import io.swagger.annotations.*;
 import java.util.List;

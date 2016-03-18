@@ -19,18 +19,6 @@
   <dependencies>
 
     <dependency>
-      <groupId>sss</groupId>
-      <artifactId>conf</artifactId>
-      <version>${project.version}</version>
-    </dependency> 
-    
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>serv</artifactId>
-      <version>${project.version}</version>
-    </dependency> 
-    
-    <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>tag.api</artifactId>
       <version>${project.version}</version>

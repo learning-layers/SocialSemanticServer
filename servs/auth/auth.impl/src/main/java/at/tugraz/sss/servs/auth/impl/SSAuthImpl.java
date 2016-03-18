@@ -37,12 +37,11 @@ import at.tugraz.sss.servs.auth.datatype.par.SSAuthRegisterUserPar;
 import at.tugraz.sss.servs.auth.datatype.par.SSAuthUsersFromCSVFileAddPar;
 import at.tugraz.sss.servs.auth.datatype.ret.SSAuthCheckCredRet;
 import at.tugraz.sss.servs.auth.datatype.ret.SSAuthRegisterUserRet;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.kc.tugraz.ss.service.coll.api.SSCollServerI;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootAddPar;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.pars.*;
-import at.tugraz.sss.conf.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import java.util.ArrayList;
@@ -95,7 +94,7 @@ implements
             new SSDataImportSSSUsersFromCSVFilePar(
               par,
               par.user,
-              conf.getSssWorkDir() + SSFileU.fileNameUsersCsv)));
+              SSConf.getSssWorkDir() + SSFileU.fileNameUsersCsv)));
         
       }catch(SSErr error){
         
@@ -423,7 +422,7 @@ implements
     try{
       try{
         //      URI userinfoEndpointUri = new URI((String)((JSONObject) fetchOidcProviderConfig().get("config")).get("userinfo_endpoint"));
-        hrq                     = new HTTPRequest(HTTPRequest.Method.GET, new URL(SSCoreConf.instGet().getAuth().oidcUserEndPointURI));  //userinfoEndpointUri.toURL()
+        hrq                     = new HTTPRequest(HTTPRequest.Method.GET, new URL(((SSAuthConf)conf).oidcUserEndPointURI));  //userinfoEndpointUri.toURL()
         hrq.setAuthorization("Bearer "+ authToken);
         
         //TODO: process all error cases that can happen (in particular invalid tokens)

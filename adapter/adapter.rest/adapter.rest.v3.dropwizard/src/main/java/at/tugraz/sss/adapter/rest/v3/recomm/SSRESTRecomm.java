@@ -26,7 +26,7 @@ import at.kc.tugraz.ss.recomm.datatypes.ret.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;

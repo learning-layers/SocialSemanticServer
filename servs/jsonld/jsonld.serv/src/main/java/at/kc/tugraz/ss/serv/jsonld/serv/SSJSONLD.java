@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.ss.serv.jsonld.serv;
 
-import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDClientI;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDServerI;
 import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;
+import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.servs.jsonld.impl.SSJSONLDImpl;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.reg.*;
@@ -64,9 +64,9 @@ public class SSJSONLD extends SSServContainerI{
   }
 
     @Override
-  public SSServContainerI regServ() throws SSErr{
+  public SSServContainerI regServ(final SSConfA conf) throws SSErr{
     
-    this.conf = SSCoreConf.instGet().getJsonLD();
+    this.conf = conf;
     
     SSServReg.inst.regServ(this);
     

@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.service.tag.impl;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityFromTypeAndLabelGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;

@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.search.impl;
 
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLFctA;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.datatype.par.SSDBNoSQLSearchPar;

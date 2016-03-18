@@ -21,7 +21,7 @@
 package at.kc.tugraz.sss.comment.impl;
 
 import at.tugraz.sss.serv.entity.api.*;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.datatype.SSTextComment;

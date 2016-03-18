@@ -11,12 +11,7 @@
   <name>ocd.conf</name>
     
   <dependencies>
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>serv</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-      
+    
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

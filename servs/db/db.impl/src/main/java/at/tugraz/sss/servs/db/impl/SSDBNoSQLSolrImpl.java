@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.servs.db.impl;
 
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSDBNoSQLAddDocPar;
@@ -132,7 +133,7 @@ implements SSDBNoSQLI{
       final ContentStreamUpdateRequest csur = new ContentStreamUpdateRequest("/update/extract");
       final NamedList<Object>          response;
 
-      csur.addContentStream(new ContentStreamBase.FileStream(new File(solrConf.getLocalWorkPath() + par.id)));
+      csur.addContentStream(new ContentStreamBase.FileStream(new File(SSConf.getLocalWorkPath() + par.id)));
 
       csur.setParam  ("literal.id",  par.id);
 //      csur.setParam  ("stream.type", "application/octet-stream");

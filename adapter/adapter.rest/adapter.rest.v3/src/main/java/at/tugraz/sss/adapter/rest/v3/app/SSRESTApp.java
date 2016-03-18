@@ -21,7 +21,7 @@
 package at.tugraz.sss.adapter.rest.v3.app;
 
 import at.kc.tugraz.sss.app.api.*;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppAddPar;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppsDeletePar;

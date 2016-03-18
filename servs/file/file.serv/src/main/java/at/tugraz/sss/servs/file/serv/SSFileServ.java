@@ -20,8 +20,8 @@
   */
 package at.tugraz.sss.servs.file.serv;
 
+import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.servs.file.conf.SSFileConf;
-import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
@@ -106,9 +106,9 @@ public class SSFileServ extends SSServContainerI{
   }
   
   @Override
-  public SSServContainerI regServ() throws SSErr{
+  public SSServContainerI regServ(final SSConfA conf) throws SSErr{
     
-    this.conf = SSCoreConf.instGet().getFile();
+    this.conf = conf;
     
     SSServReg.inst.regServ(this);
     

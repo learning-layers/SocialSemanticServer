@@ -22,7 +22,7 @@ package at.tugraz.sss.adapter.rest.v3.rating;
 
 import at.kc.tugraz.ss.service.rating.api.*;
 import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingSetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingOverallGetRet;

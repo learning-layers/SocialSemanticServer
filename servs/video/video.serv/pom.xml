@@ -19,12 +19,6 @@
   <dependencies>
     
     <dependency>
-      <groupId>sss</groupId>
-      <artifactId>conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>video.api</artifactId>
       <version>${project.version}</version>

@@ -79,8 +79,9 @@ import at.kc.tugraz.sss.comment.serv.*;
 import at.kc.tugraz.sss.flag.serv.*;
 import at.kc.tugraz.sss.video.serv.*;
 import at.tugraz.sss.adapter.rest.v3.auth.SSRESTAuth;
-import at.tugraz.sss.conf.*;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.db.serv.*;
+import at.tugraz.sss.servs.conf.SSCoreConf;
 import at.tugraz.sss.servs.image.serv.*;
 import at.tugraz.sss.servs.kcprojwiki.serv.*;
 import at.tugraz.sss.servs.link.serv.SSLinkServ;
@@ -125,7 +126,7 @@ SSCoreConf.instSet("C:\\workspace_git\\master\\SocialSemanticServer\\sssWorkDir\
       }
       
       try{
-        SSLogU.init(SSCoreConf.instGet().getSss().getSssWorkDir());
+        SSLogU.init(SSConf.getSssWorkDir());
       }catch(Exception error){
         System.err.println("logUtil couldnt be set");
         SSServErrReg.regErrThrow(error);
@@ -144,41 +145,41 @@ SSCoreConf.instSet("C:\\workspace_git\\master\\SocialSemanticServer\\sssWorkDir\
 ////      SSServContainerI.class.getMethod("regServ").invoke(SSDBSQL.inst);
 //
 try{
-  SSDBSQL.inst.regServ               ();
-  SSDBNoSQL.inst.regServ             ();
-  SSEntityServ.inst.regServ          ();
-  SSUserServ.inst.regServ            ();
-  SSCollServ.inst.regServ            ();
-  SSTagServ.inst.regServ             ();
-  SSAuthServ.inst.regServ            ();
-  SSEvernoteServ.inst.regServ        ();
-  SSFileServ.inst.regServ        ();
-  SSDataImportServ.inst.regServ      ();
-  SSJSONLD.inst.regServ              ();
-  SSRatingServ.inst.regServ          ();
-  SSCategoryServ.inst.regServ        ();
-  SSDiscServ.inst.regServ            ();
-  SSLearnEpServ.inst.regServ         ();
-  SSActivityServ.inst.regServ        ();
-  SSSearchServ.inst.regServ          ();
-  SSDataExportServ.inst.regServ      ();
-  SSRecommServ.inst.regServ          ();
-  SSFlagServ.inst.regServ            ();
-  SSCommentServ.inst.regServ         ();
-  SSMessageServ.inst.regServ         ();
-  SSAppServ.inst.regServ             ();
-  SSFriendServ.inst.regServ          ();
-  SSAppStackLayoutServ.inst.regServ  ();
-  SSVideoServ.inst.regServ           ();
-  SSLikeServ.inst.regServ            ();
-  SSEvalServ.inst.regServ            ();
-  SSOCDServ.inst.regServ             ();
-  SSImageServ.inst.regServ           ();
-  SSLocationServ.inst.regServ        ();
-  SSLivingDocServ.inst.regServ       ();
-  SSMailServ.inst.regServ            ();
-  SSKCProjWikiServ.inst.regServ      ();
-  SSLinkServ.inst.regServ            ();
+        SSDBSQL.inst.regServ               (SSCoreConf.instGet().getDbSQL());
+        SSDBNoSQL.inst.regServ             (SSCoreConf.instGet().getDbNoSQL());
+        SSEntityServ.inst.regServ          (SSCoreConf.instGet().getEntity());
+        SSUserServ.inst.regServ            (SSCoreConf.instGet().getUser());
+        SSCollServ.inst.regServ            (SSCoreConf.instGet().getColl());
+        SSTagServ.inst.regServ             (SSCoreConf.instGet().getTag());
+        SSAuthServ.inst.regServ            (SSCoreConf.instGet().getAuth());
+        SSEvernoteServ.inst.regServ        (SSCoreConf.instGet().getEvernote());
+        SSFileServ.inst.regServ            (SSCoreConf.instGet().getFile());
+        SSDataImportServ.inst.regServ      (SSCoreConf.instGet().getDataImport());
+        SSJSONLD.inst.regServ              (SSCoreConf.instGet().getJsonLD());
+        SSRatingServ.inst.regServ          (SSCoreConf.instGet().getRating());
+        SSCategoryServ.inst.regServ        (SSCoreConf.instGet().getCategory());
+        SSDiscServ.inst.regServ            (SSCoreConf.instGet().getDisc());
+        SSLearnEpServ.inst.regServ         (SSCoreConf.instGet().getLearnEp());
+        SSActivityServ.inst.regServ        (SSCoreConf.instGet().getActivity());
+        SSSearchServ.inst.regServ          (SSCoreConf.instGet().getSearch());
+        SSDataExportServ.inst.regServ      (SSCoreConf.instGet().getDataExport());
+        SSRecommServ.inst.regServ          (SSCoreConf.instGet().getRecomm());
+        SSFlagServ.inst.regServ            (SSCoreConf.instGet().getFlag());
+        SSCommentServ.inst.regServ         (SSCoreConf.instGet().getComment());
+        SSMessageServ.inst.regServ         (SSCoreConf.instGet().getMessage());
+        SSAppServ.inst.regServ             (SSCoreConf.instGet().getApp());
+        SSFriendServ.inst.regServ          (SSCoreConf.instGet().getFriend());
+        SSAppStackLayoutServ.inst.regServ  (SSCoreConf.instGet().getAppStackLayout());
+        SSVideoServ.inst.regServ           (SSCoreConf.instGet().getVideo());
+        SSLikeServ.inst.regServ            (SSCoreConf.instGet().getLike());
+        SSEvalServ.inst.regServ            (SSCoreConf.instGet().getEval());
+        SSOCDServ.inst.regServ             (SSCoreConf.instGet().getOcd());
+        SSImageServ.inst.regServ           (SSCoreConf.instGet().getImage());
+        SSLocationServ.inst.regServ        (SSCoreConf.instGet().getLocation());
+        SSLivingDocServ.inst.regServ       (SSCoreConf.instGet().getLivingDocument());
+        SSMailServ.inst.regServ            (SSCoreConf.instGet().getMail());
+        SSKCProjWikiServ.inst.regServ      (SSCoreConf.instGet().getKcprojwiki());
+        SSLinkServ.inst.regServ            (SSCoreConf.instGet().getLink());
   
 }catch(Exception error){
   SSServErrReg.regErrThrow(error);

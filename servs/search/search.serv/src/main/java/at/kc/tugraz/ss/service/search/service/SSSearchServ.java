@@ -21,13 +21,13 @@
  package at.kc.tugraz.ss.service.search.service;
 
 import at.tugraz.sss.servs.search.impl.SSSearchImpl;
-import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.kc.tugraz.ss.service.search.api.SSSearchClientI;
 import at.kc.tugraz.ss.service.search.api.SSSearchServerI;
 import at.kc.tugraz.ss.service.search.service.task.SSSearchResultPagesCacheCleanerTask;
+import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;
@@ -64,9 +64,9 @@ public class SSSearchServ extends SSServContainerI{
   }
   
   @Override
-  public SSServContainerI regServ() throws SSErr{
+  public SSServContainerI regServ(final SSConfA conf) throws SSErr{
     
-    this.conf = SSCoreConf.instGet().getSearch();
+    this.conf = conf;
     
     SSServReg.inst.regServ(this);
     

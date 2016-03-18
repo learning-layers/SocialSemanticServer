@@ -22,7 +22,7 @@ package at.tugraz.sss.adapter.rest.v3.disc;
 
 import at.kc.tugraz.ss.service.disc.api.*;
 import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
-import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.conf.SSConf;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAcceptPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddFromClientPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;

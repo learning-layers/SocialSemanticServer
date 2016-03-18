@@ -1,5 +1,6 @@
 package at.tugraz.sss.serv.container.api;
 
+import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
@@ -31,7 +32,7 @@ public abstract class SSServContainerI {
   public    abstract SSCoreConfA      getConfForCloudDeployment (final SSCoreConfA coreConfA, final List<Class> configuredServs) throws SSErr;
   public    abstract void             initServ                  () throws SSErr;
   public    abstract void             schedule                  () throws SSErr;
-  public    abstract SSServContainerI regServ                   () throws SSErr;
+  public    abstract SSServContainerI regServ                   (final SSConfA conf) throws SSErr;
   public    abstract SSServImplA      getServImpl               () throws SSErr;
   
   protected SSCoreConfA getConfForCloudDeployment(

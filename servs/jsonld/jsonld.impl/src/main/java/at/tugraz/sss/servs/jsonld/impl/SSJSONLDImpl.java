@@ -20,9 +20,9 @@
 */
 package at.tugraz.sss.servs.jsonld.impl;
 
-import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDClientI;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDServerI;
+import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.par.SSJSONLDPar;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.par.ret.SSJSONLDRet;
