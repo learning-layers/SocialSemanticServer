@@ -39,6 +39,22 @@ public class SSConf extends SSCoreServConfA{
   public static Integer   port           = null;
   public static String    version        = null;
   public static String    restAPIPath    = null;
+
+  public void setHost(final String host) {
+    SSConf.host = host;
+  }
+
+  public void setPort(final Integer port) {
+    SSConf.port = port;
+  }
+
+  public void setVersion(final String version) {
+    SSConf.version = version;
+  }
+
+  public void setRestAPIPath(final String restAPIPath) {
+    SSConf.restAPIPath = restAPIPath;
+  }
   
   protected static String       sssWorkDir                 = null;
   protected static String       sssWorkDirTmp              = null;

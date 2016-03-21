@@ -33,6 +33,7 @@ public enum SSEntitySQLTableE implements SSSQLTableI{
   entitydownloads,
   entityvideos,
   entityfiles, 
+  entityauthors,
   
   circleusers,
   circleentities,

@@ -399,7 +399,6 @@ implements
             SSConf.systemUserUri,
             userID,
             types,
-            null,//authors
             null, //startTime
             null)){ //endTime
           
@@ -642,34 +641,69 @@ implements
     }
   }
   
+  
+//  if(
+//        authors != null &&
+//        !authors.isEmpty()){
+//        
+//        final MultivaluedMap<String, String> whereAuthors = new MultivaluedHashMap<>();
+//        
+//        for(SSUri author : authors){
+//          where(whereAuthors, SSEntitySQLTableE.entity,        SSSQLVarNames.author, author);
+//        }
+//
+//        wheres.add(whereAuthors);
+//      }
+  
+  
   @Override
   public List<SSUri> entityURIsGet (final SSEntityURIsGetPar par) throws SSErr{
     
     try{
       
+      if(
+        !par.getAccessible  &&
+        par.types.isEmpty() &&
+        par.authors.isEmpty()){
+        
+        return par.entities;
+      }
+      
+      final List<SSUri> result = new ArrayList<>();
+      
       if(par.getAccessible){
         
-        return sql.getAccessibleURIs(
-          par,
-          SSConf.systemUserUri,
-          par.user,
-          par.types,
-          par.authors,
-          par.startTime,
-          par.endTime);
+        result.addAll(
+          sql.getAccessibleURIs(
+            par,
+            SSConf.systemUserUri,
+            par.user,
+            par.types,
+            par.startTime,
+            par.endTime));
+        
+        return sql.filterEntitiesByAllAuthors(
+          par, 
+          result, 
+          par.authors);
       }
       
       if(
         !par.types.isEmpty() ||
         !par.authors.isEmpty()){
         
-        return sql.getEntityURIs(
-          par,
-          par.entities,
-          par.types,
-          par.authors,
-          par.startTime,
-          par.endTime);
+        result.addAll(
+          sql.getEntityURIs(
+            par,
+            par.entities,
+            par.types,
+            par.startTime,
+            par.endTime));
+        
+        return sql.filterEntitiesByAllAuthors(
+          par, 
+          result, 
+          par.authors);
       }
       
       return par.entities;
@@ -900,7 +934,8 @@ implements
       
       if(
         entity != null &&
-        par.withUserRestriction){
+        par.withUserRestriction &&
+        !par.addUserToAdditionalAuthors){
         
         entity =
           sql.getEntityTest(
@@ -942,7 +977,9 @@ implements
         par.user,
         par.creationTime);
       
-      if(entity == null){
+      if(
+        entity == null ||
+        par.addUserToAdditionalAuthors){
         
         final SSUri privateCircleURI =
           circlePrivURIGet(
@@ -955,6 +992,12 @@ implements
           par,
           privateCircleURI,
           par.entity);
+        
+        sql.addUserToAdditionalAuthors(
+          par, 
+          par.user,
+          par.entity, 
+          par.creationTime);
       }
       
       if(par.read != null){
@@ -1425,7 +1468,7 @@ implements
           throw SSErr.get(SSErrE.parameterMissing);
         }
         
-        if(!sql.isUserAuthor(par, SSConf.systemUserUri, par.user, par.entity, par.withUserRestriction)){
+        if(!sql.isUserAuthor(par, par.user, par.entity)){
           return null;
         }
       }
@@ -1819,7 +1862,7 @@ implements
         circleURI = null;
       }else{
         
-        if(!sql.isUserAuthor(par, SSConf.systemUserUri, par.user, par.circle, par.withUserRestriction)){
+        if(!sql.isUserAuthor(par, par.user, par.circle)){
           circleURI = null;
         }else{
           circleURI = circleRemove(par);

@@ -515,7 +515,7 @@ implements
         
         for(SSUri annotation : sql.getAnnotations(par, par.video)){
           
-          if(!sql.isUserAuthor(par, SSConf.systemUserUri, par.user, annotation, par.withUserRestriction)){
+          if(!sql.isUserAuthor(par, par.user, annotation)){
             continue;
           }
           

@@ -780,10 +780,8 @@ implements
         isAuthor = 
           sql.isUserAuthor(
             par, 
-            SSConf.systemUserUri,
             par.user, 
-            par.disc, 
-            par.withUserRestriction);
+            par.disc);
         
         if(!isAuthor){
           par.label   = null;
@@ -913,7 +911,7 @@ implements
       
       if(par.withUserRestriction){
         
-        if(!sql.isUserAuthor(par, SSConf.systemUserUri, par.user, par.entry, par.withUserRestriction)){
+        if(!sql.isUserAuthor(par, par.user, par.entry)){
           return SSDiscEntryUpdateRet.get(null, null);
         }
       }
@@ -1019,7 +1017,7 @@ implements
           return null;
         }
         
-        if(!sql.isUserAuthor(par, SSConf.systemUserUri, par.user, discURI, par.withUserRestriction)){
+        if(!sql.isUserAuthor(par, par.user, discURI)){
           return null;
         }
       }

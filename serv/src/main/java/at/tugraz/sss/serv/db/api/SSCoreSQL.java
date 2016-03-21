@@ -139,7 +139,6 @@ public class SSCoreSQL extends SSDBSQLFctA{
     final SSServPar       servPar,
     final List<SSUri>     entities, 
     final List<SSEntityE> types, 
-    final List<SSUri>     authors,
     final Long            startTime, 
     final Long            endTime) throws SSErr{
     
@@ -149,8 +148,7 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       if(
         (entities == null || entities.isEmpty()) &&
-        (types    == null || types.isEmpty())    &&
-        (authors  == null || authors.isEmpty())){
+        (types    == null || types.isEmpty())){
         
         throw SSErr.get(SSErrE.parameterMissing);
       }
@@ -189,19 +187,6 @@ public class SSCoreSQL extends SSDBSQLFctA{
         }
         
         wheres.add(whereEntities);
-      }
-      
-      if(
-        authors != null &&
-        !authors.isEmpty()){
-        
-        final MultivaluedMap<String, String> whereAuthors = new MultivaluedHashMap<>();
-        
-        for(SSUri author : authors){
-          where(whereAuthors, SSEntitySQLTableE.entity, SSSQLVarNames.author, author);
-        }
-        
-        wheres.add(whereAuthors);
       }
       
       if(
@@ -352,6 +337,38 @@ public class SSCoreSQL extends SSDBSQLFctA{
       }catch(Exception sqlError){
         SSServErrReg.regErrThrow(sqlError);
       }
+    }
+  }
+  
+  public void addUserToAdditionalAuthors(
+    final SSServPar       servPar,
+    final SSUri           userURI,
+    final SSUri           entityURI, 
+    final Long            creationTime) throws SSErr{
+    
+     try{
+      
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
+      
+      insert(inserts, SSSQLVarNames.userId,       userURI);
+      insert(inserts, SSSQLVarNames.entityId,     entityURI);
+      
+      if(
+        creationTime == null ||
+        creationTime == 0){
+        insert(inserts, SSSQLVarNames.creationTime, SSDateU.dateAsLong());
+      }else{
+        insert(inserts, SSSQLVarNames.creationTime, creationTime);
+      }
+      
+      uniqueKey(uniqueKeys, SSSQLVarNames.userId,   userURI);
+      uniqueKey(uniqueKeys, SSSQLVarNames.entityId, entityURI);
+      
+      dbSQL.insertIfNotExists(servPar, SSEntitySQLTableE.entityauthors, inserts, uniqueKeys);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   
@@ -716,12 +733,181 @@ public class SSCoreSQL extends SSDBSQLFctA{
     }
   }
   
+  public List<SSUri> filterEntitiesByAllAuthors(
+    final SSServPar   servPar,
+    final List<SSUri> entityURIs,
+    final List<SSUri> authorURIs) throws SSErr{
+    
+    try{
+      
+      if(
+        entityURIs.isEmpty() ||
+        authorURIs.isEmpty()){
+        return entityURIs;
+      }
+      
+      final List<SSUri> result = new ArrayList<>();
+      
+      result.addAll(
+        filterEntitiesByAuthors(
+          servPar,
+          entityURIs,
+          authorURIs));
+      
+      SSUri.addDistinctWithoutNull(
+        result,
+        filterEntitiesByAdditionalAuthors(
+          servPar,
+          entityURIs,
+          authorURIs));
+      
+      return result;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  private List<SSUri> filterEntitiesByAdditionalAuthors(
+    final SSServPar       servPar,
+    final List<SSUri>     entities,
+    final List<SSUri>     authors) throws SSErr{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      
+      if(
+        entities.isEmpty() || 
+        authors.isEmpty()){
+        SSServErrReg.regErrThrow(SSErrE.parameterMissing);
+        return null;
+      }
+      
+      final List<String>                         columns           = new ArrayList<>();
+      final List<SSSQLTableI>                    tables            = new ArrayList<>();
+      final List<String>                         tableCons         = new ArrayList<>();
+      final List<MultivaluedMap<String, String>> orWheres          = new ArrayList<>();
+      
+      column(columns, SSSQLVarNames.entityId);
+      
+      table(tables, SSEntitySQLTableE.entityauthors);
+      
+      final MultivaluedMap<String, String> authorsPart = new MultivaluedHashMap<>();
+      
+      for(SSUri author : authors){
+        where(authorsPart, SSEntitySQLTableE.entityauthors,        SSSQLVarNames.userId, author);
+      }
+      
+      orWheres.add(authorsPart);
+      
+      final MultivaluedMap<String, String> entitiesPart = new MultivaluedHashMap<>();
+      
+      for(SSUri entity : entities){
+        where(entitiesPart, SSEntitySQLTableE.entityauthors, SSSQLVarNames.entityId, entity);
+      }
+      
+      orWheres.add(entitiesPart);
+      
+      resultSet =
+        dbSQL.select(
+          new SSDBSQLSelectPar(
+            servPar, 
+            tables, 
+            columns,
+            orWheres, 
+            null, //andWheres, 
+            null, //numbericWheres, 
+            tableCons));
+      
+      return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
+    }
+  }
+  
+  private List<SSUri> filterEntitiesByAuthors(
+    final SSServPar       servPar,
+    final List<SSUri>     entities,
+    final List<SSUri>     authors) throws SSErr{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      
+      if(
+        entities.isEmpty() || 
+        authors.isEmpty()){
+        SSServErrReg.regErrThrow(SSErrE.parameterMissing);
+        return null;
+      }
+      
+      final List<String>                         columns           = new ArrayList<>();
+      final List<SSSQLTableI>                    tables            = new ArrayList<>();
+      final List<String>                         tableCons         = new ArrayList<>();
+      final List<MultivaluedMap<String, String>> orWheres          = new ArrayList<>();
+      
+      column(columns, SSSQLVarNames.id);
+      
+      table(tables, SSEntitySQLTableE.entity);
+      
+      final MultivaluedMap<String, String> authorsPart = new MultivaluedHashMap<>();
+      
+      for(SSUri author : authors){
+        where(authorsPart, SSEntitySQLTableE.entity,        SSSQLVarNames.author, author);
+      }
+      
+      orWheres.add(authorsPart);
+      
+      final MultivaluedMap<String, String> entitiesPart = new MultivaluedHashMap<>();
+      
+      for(SSUri entity : entities){
+        where(entitiesPart, SSEntitySQLTableE.entity, SSSQLVarNames.id, entity);
+      }
+      
+      orWheres.add(entitiesPart);
+      
+      resultSet =
+        dbSQL.select(
+          new SSDBSQLSelectPar(
+            servPar, 
+            tables, 
+            columns,
+            orWheres, 
+            null, //andWheres, 
+            null, //numbericWheres, 
+            tableCons));
+      
+      return getURIsFromResult(resultSet, SSSQLVarNames.id);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
+    }
+  }
+  
   public List<SSUri> getAccessibleURIs(
     final SSServPar       servPar,
     final SSUri           systemUserURI,
     final SSUri           user,
     final List<SSEntityE> types,
-    final List<SSUri>     authors,
     final Long            startTime,
     final Long            endTime) throws SSErr{
     
@@ -738,22 +924,8 @@ public class SSCoreSQL extends SSDBSQLFctA{
       
       final String userStr                 = SSStrU.toStr(user);
       String       query                   = "select DISTINCT id from entity where ";
-      String       authorsQueryPart        = SSStrU.empty;
       String       typesQueryPart          = SSStrU.empty;
       String       creationTimeQueryPart   = SSStrU.empty;
-      
-      if(
-        authors != null &&
-        !authors.isEmpty()){
-        
-        authorsQueryPart += SSStrU.bracketOpen;
-        
-        for(SSUri author : authors){
-          authorsQueryPart += "author = '" + author.toString() + "' OR ";
-        }
-        
-        authorsQueryPart  = SSStrU.removeTrailingString(authorsQueryPart, " OR ") + SSStrU.bracketClose;
-      }
       
       if(
         types != null &&
@@ -796,13 +968,8 @@ public class SSCoreSQL extends SSDBSQLFctA{
       }
       
       if(
-        !authorsQueryPart.isEmpty()  ||
         !typesQueryPart.isEmpty()    ||
         !creationTimeQueryPart.isEmpty()){
-        
-        if(!authorsQueryPart.isEmpty()){
-          query += authorsQueryPart + " AND ";
-        }
         
         if(!typesQueryPart.isEmpty()){
           query += typesQueryPart + " AND ";
@@ -821,7 +988,6 @@ public class SSCoreSQL extends SSDBSQLFctA{
       query += "(type != 'entity' AND type != 'circle' AND id IN (select DISTINCT circleentities.entityId from circle, circleentities, circleusers where userId = '" + userStr + "' and circle.circleId = circleentities.circleId and circle.circleId = circleusers.circleId))";
       
       if(
-        !authorsQueryPart.isEmpty()   ||
         !typesQueryPart.isEmpty()     ||
         !creationTimeQueryPart.isEmpty()){
         
@@ -914,10 +1080,8 @@ public class SSCoreSQL extends SSDBSQLFctA{
   
   public boolean isUserAuthor(
     final SSServPar   servPar,
-    final SSUri       systemUserURI,
     final SSUri       user, 
-    final SSUri       entityURI,
-    final boolean     withUserRestriction) throws SSErr{
+    final SSUri       entityURI) throws SSErr{
     
     try{
       
@@ -925,17 +1089,13 @@ public class SSCoreSQL extends SSDBSQLFctA{
         return false;
       }
       
-      final SSEntity entity =
-        getEntityTest(
+      final List<SSUri> entityURIs =
+        filterEntitiesByAllAuthors(
           servPar,
-          systemUserURI,
-          user, 
-          entityURI, 
-          withUserRestriction);
-        
-      if(
-        entity == null ||
-        !SSStrU.isEqual(user, entity.author)){
+          SSUri.asListNotNull(entityURI),
+          SSUri.asListNotNull(user));
+      
+      if(entityURIs.isEmpty()){
         return false;
       }
       

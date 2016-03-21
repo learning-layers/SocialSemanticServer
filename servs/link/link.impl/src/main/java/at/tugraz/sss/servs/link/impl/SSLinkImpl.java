@@ -87,7 +87,6 @@ implements
             SSConf.systemUserUri,
             userID, //user
             types, //types
-            null,//authors
             null, //startTime
             null)){ //endTime
           
@@ -143,6 +142,8 @@ implements
           par.withUserRestriction,
           false); //shouldCommit
       
+      entityUpdatePar.addUserToAdditionalAuthors = true;
+        
       dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri link = entityServ.entityUpdate(entityUpdatePar);

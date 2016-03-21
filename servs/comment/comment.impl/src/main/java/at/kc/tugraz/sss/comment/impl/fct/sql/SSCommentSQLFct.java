@@ -46,7 +46,7 @@ public class SSCommentSQLFct extends SSCoreSQL{
   
   public List<SSUri> getEntityURIsCommented(
     final SSServPar servPar,
-    final SSUri forUser) throws SSErr{
+    final SSUri     forUser) throws SSErr{
     
     ResultSet resultSet = null;
     

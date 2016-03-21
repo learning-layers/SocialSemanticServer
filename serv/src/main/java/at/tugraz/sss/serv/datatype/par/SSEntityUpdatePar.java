@@ -25,14 +25,15 @@ import at.tugraz.sss.serv.datatype.*;
 
 public class SSEntityUpdatePar extends SSServPar{
 
-  public SSUri               entity            = null;
-  public SSEntityE           type              = null;
-  public SSLabel             label             = null;
-  public SSTextComment       description       = null;
-  public Long                creationTime      = null;
-  public Boolean             read              = null;
-  public boolean             setPublic         = false;
-  public boolean             createIfNotExists = false;
+  public SSUri               entity                      = null;
+  public SSEntityE           type                        = null;
+  public SSLabel             label                       = null;
+  public SSTextComment       description                 = null;
+  public Long                creationTime                = null;
+  public Boolean             read                        = null;
+  public boolean             setPublic                   = false;
+  public boolean             createIfNotExists           = false;
+  public boolean             addUserToAdditionalAuthors  = false;
 
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
