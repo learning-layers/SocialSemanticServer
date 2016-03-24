@@ -739,6 +739,33 @@ LOCK TABLES `entityattachedentities` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `entityauthors`
+--
+
+DROP TABLE IF EXISTS `entityauthors`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `entityauthors` (
+  `userId` varchar(255) NOT NULL,
+  `entityId` varchar(255) NOT NULL,
+  `creationTime` bigint(13) NOT NULL,
+  PRIMARY KEY (`userId`,`entityId`),
+  KEY `entityIdFKentityauthors_idx` (`entityId`),
+  CONSTRAINT `entityIdFKentityauthors` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `userIdFKentityauthors` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `entityauthors`
+--
+
+LOCK TABLES `entityauthors` WRITE;
+/*!40000 ALTER TABLE `entityauthors` DISABLE KEYS */;
+/*!40000 ALTER TABLE `entityauthors` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `entitydownloads`
 --
 
@@ -1816,4 +1843,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-03-08 15:39:51
+-- Dump completed on 2016-03-24 13:41:36
