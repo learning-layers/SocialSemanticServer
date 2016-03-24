@@ -24,7 +24,7 @@
       <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
     </goals>
     <properties>
-      <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath ${packageClassName} server sss.conf.yaml</exec.args>
+      <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath at.tugraz.sss.adapter.rest.v3.SSRESTDropwizardMain server sss.conf.yaml</exec.args>
       <exec.executable>java</exec.executable>
       <jpda.listen>true</jpda.listen>
     </properties>
