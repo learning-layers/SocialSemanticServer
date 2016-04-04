@@ -95,14 +95,14 @@
               
               <locations>at.tugraz.sss.adapter.rest.v3</locations>
               
-              <host>localhost:8080</host>
-              <basePath>/sss.adapter.rest.v3/rest</basePath>
+<!--              <host>localhost:8080</host>
+              <basePath>/sss.adapter.rest.v3/rest</basePath>-->
               
               <!--<host>test-ll.know-center.tugraz.at</host>-->
               <!--<basePath>/bp.preparation/rest</basePath>-->
               
-<!--              <host>test-ll.know-center.tugraz.at</host>
-              <basePath>/internal/rest</basePath>-->
+              <host>test-ll.know-center.tugraz.at</host>
+              <basePath>/test/rest</basePath>
               
               <info>
                 <version>v3</version>
