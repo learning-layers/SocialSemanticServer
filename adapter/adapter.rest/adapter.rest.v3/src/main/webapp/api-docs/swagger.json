@@ -13,8 +13,8 @@
       "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host" : "test-ll.know-center.tugraz.at",
-  "basePath" : "/internal/rest",
+  "host" : "localhost:8080",
+  "basePath" : "/sss.adapter.rest.v3/rest",
   "tags" : [ {
     "name" : "activities"
   }, {

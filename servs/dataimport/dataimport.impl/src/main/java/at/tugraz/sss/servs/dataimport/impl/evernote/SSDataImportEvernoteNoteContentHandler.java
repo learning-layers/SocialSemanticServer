@@ -404,6 +404,18 @@ public class SSDataImportEvernoteNoteContentHandler{
           }
           
           if(
+            tmpLine.contains("type=\"" + SSMimeTypeE.audioWma + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.audioWma  + "\"")){
+            mimeType = SSMimeTypeE.audioWma;
+          }
+          
+          if(
+            tmpLine.contains("type=\"" + SSMimeTypeE.audioWmv + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.audioWmv  + "\"")){
+            mimeType = SSMimeTypeE.audioWmv;
+          }
+          
+          if(
             tmpLine.contains("type=\"" + SSMimeTypeE.textHtml + "\"")  &&
             endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.textHtml  + "\"")){
             mimeType = SSMimeTypeE.textHtml;
@@ -638,6 +650,14 @@ public class SSDataImportEvernoteNoteContentHandler{
           
           if(tmpLine.contains("type=\"" + SSMimeTypeE.audioWav + "\"")){
             result += "<div>Includes Wave Audio (no preview available)</div>";
+          }
+          
+          if(tmpLine.contains("type=\"" + SSMimeTypeE.audioWmv + "\"")){
+            result += "<div>Includes Windows Audio (no preview available)</div>";
+          }
+          
+          if(tmpLine.contains("type=\"" + SSMimeTypeE.audioWma + "\"")){
+            result += "<div>Includes Windows Audio (no preview available)</div>";
           }
           
           if(

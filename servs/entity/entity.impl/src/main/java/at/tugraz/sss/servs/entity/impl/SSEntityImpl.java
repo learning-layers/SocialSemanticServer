@@ -136,6 +136,16 @@ implements
     this.sql = new SSCoreSQL(dbSQL);
   }
   
+  public SSEntityImpl(
+    final SSConfA    conf, 
+    final SSDBSQLI   sqlI, 
+    final SSDBNoSQLI noSQLI) throws SSErr{
+    
+    super(conf, sqlI, noSQLI);
+    
+    this.sql = new SSCoreSQL(dbSQL);
+  }
+  
   @Override
   public void copyEntity(
     final SSServPar servPar,

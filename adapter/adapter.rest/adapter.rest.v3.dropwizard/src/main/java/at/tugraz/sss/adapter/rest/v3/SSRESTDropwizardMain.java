@@ -113,8 +113,8 @@ public class SSRESTDropwizardMain extends Application<SSAdapterRestDropwizardCon
     try{
       
       try{
-        SSCoreConf.instSet("/sssWorkDir/" + SSFileU.fileNameSSSConf);
-//SSCoreConf.instSet("C:\\worKspace_git\\master\\SocialSemanticServer\\sssWorkDir\\" + SSFileU.fileNameSSSConf);
+//        SSCoreConf.instSet("/sssWorkDir/" + SSFileU.fileNameSSSConf);
+SSCoreConf.instSet("C:\\worKspace_git\\master\\SocialSemanticServer\\sssWorkDir\\" + SSFileU.fileNameSSSConf);
 //      SSCoreConf.instSet("/home/dtheiler/bp.demo/" + SSFileU.fileNameSSSConf);
 //        SSCoreConf.instSet("/home/dtheiler/eval/" + SSFileU.fileNameSSSConf);
 //SSCoreConf.iNstSet("/home/dtheiler/internal/" + SSFileU.fileNameSSSConf);

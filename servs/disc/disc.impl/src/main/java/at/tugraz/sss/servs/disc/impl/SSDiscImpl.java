@@ -27,7 +27,6 @@ import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesGetPar;
 import at.tugraz.sss.serv.datatype.par.SSCircleAddEntitiesToCircleOfEntityPar;
 import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.serv.datatype.par.SSEntitySharePar;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
@@ -39,7 +38,6 @@ import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.disc.api.*;
 import at.kc.tugraz.ss.service.disc.datatypes.*;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscDailySummaryGetPar;
@@ -85,9 +83,10 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
+import at.tugraz.sss.servs.entity.impl.SSEntityImpl;
 
 public class SSDiscImpl
-extends SSServImplWithDBA
+extends SSEntityImpl
 implements
   SSDiscClientI,
   SSDiscServerI,
@@ -113,7 +112,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
-    final SSServPar servPar,
+    final SSServPar            servPar,
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws SSErr{
     
@@ -197,7 +196,6 @@ implements
     final Map<String, List<SSUri>> userRelations) throws SSErr{
     
     try{
-      final SSEntityServerI entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
       SSCirclesGetPar       circlesGetPar;
       
       SSUri userUri;
@@ -233,7 +231,7 @@ implements
           
           circlesGetPar.entity = disc.id;
           
-          for(SSEntity circle : entityServ.circlesGet(circlesGetPar)){
+          for(SSEntity circle : circlesGet(circlesGetPar)){
             
             if(userRelations.containsKey(user)){
               userRelations.get(user).addAll(SSUri.getDistinctNotNullFromEntities(circle.users));
@@ -367,7 +365,6 @@ implements
   public List<SSEntity> addAffiliatedEntitiesToCircle(final SSServPar servPar, final SSAddAffiliatedEntitiesToCirclePar par) throws SSErr{
     
     try{
-      final SSEntityServerI entityServ         = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
       final List<SSUri>     affiliatedURIs     = new ArrayList<>();
       final List<SSEntity>  affiliatedEntities = new ArrayList<>();
       
@@ -402,7 +399,7 @@ implements
         
         SSEntity.addEntitiesDistinctWithoutNull(
           affiliatedEntities,
-          entityServ.entitiesGet(
+          entitiesGet(
             new SSEntitiesGetPar(
               servPar, 
               par.user,
@@ -440,7 +437,7 @@ implements
         return affiliatedEntities;
       }
       
-      entityServ.circleEntitiesAdd(
+      circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
           servPar, 
           par.user,
@@ -576,7 +573,6 @@ implements
     try{
       userCommons.checkKeyAndSetUser(parA);
       
-      final SSEntityServerI             entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
       final SSDiscEntryAddFromClientPar par        = (SSDiscEntryAddFromClientPar) parA.getFromClient(clientType, parA, SSDiscEntryAddFromClientPar.class);
       final SSDiscEntryAddRet           ret        = discEntryAdd(par);
       
@@ -586,7 +582,7 @@ implements
           !par.users.isEmpty() ||
           !par.circles.isEmpty())
           
-          entityServ.entityShare(
+          entityShare(
             new SSEntitySharePar(
               par,
               par.user,
@@ -771,7 +767,6 @@ implements
     
     try{
       
-      final SSEntityServerI entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
       boolean               isAuthor   = true;
       SSEntityUpdatePar     entityUpdatePar;
       
@@ -806,7 +801,7 @@ implements
           true, //withUserRestriction
           false); //shouldCommit
       
-      par.disc = entityServ.entityUpdate(entityUpdatePar);
+      par.disc = entityUpdate(entityUpdatePar);
       
       if(par.disc == null){
         dbSQL.rollBack(par, par.shouldCommit);
@@ -836,7 +831,7 @@ implements
           
           entityUpdatePar.entity = entry;
           
-          entityServ.entityUpdate(entityUpdatePar);
+          entityUpdate(entityUpdatePar);
         }
       }
       
@@ -1080,7 +1075,6 @@ implements
     
     try{
       
-      final SSEntityServerI entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
       SSDisc                disc       = sql.getDisc(par, par.disc, par.setEntries);
       
       if(disc == null){
@@ -1105,7 +1099,7 @@ implements
       }
       
       final SSEntity discEntity =
-        entityServ.entityGet(
+        entityGet(
           new SSEntityGetPar(
             par, 
             par.user,
@@ -1141,7 +1135,7 @@ implements
         
         SSEntity.addEntitiesDistinctWithoutNull(
           discTargets,
-          entityServ.entityGet(entityGetPar));
+          entityGet(entityGetPar));
       }
       
       disc.targets.clear();
@@ -1177,7 +1171,7 @@ implements
           discEntryEntities,
           SSDiscEntry.get(
             (SSDiscEntry) entry,
-            entityServ.entityGet(entityGetPar)));
+            entityGet(entityGetPar)));
       }
       
       disc.entries.clear();
@@ -1334,7 +1328,6 @@ implements
     
     try{
       
-      final SSEntityServerI entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
       final SSEntity        disc       =
         sql.getEntityTest(
           par, 
@@ -1349,7 +1342,7 @@ implements
       
       dbSQL.startTrans(par, par.shouldCommit);
       
-      if(entityServ.circleIsEntityPrivate(
+      if(circleIsEntityPrivate(
         new SSCircleIsEntityPrivatePar(
           par, 
           par.user,
@@ -1398,8 +1391,6 @@ implements
     
     try{
       
-      final SSEntityServerI entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
-      
       if(par.targets.isEmpty()){
         return null;
       }
@@ -1423,7 +1414,7 @@ implements
       for(SSUri targetURI : par.targets){
         
         target =
-          entityServ.entityUpdate(
+          entityUpdate(
             new SSEntityUpdatePar(
               par, 
               par.user,
@@ -1446,7 +1437,7 @@ implements
       
       sql.addDiscTargets(par, par.discussion, par.targets);
             
-      entityServ.circleAddEntitiesToCirclesOfEntity(
+      circleAddEntitiesToCirclesOfEntity(
         new SSCircleAddEntitiesToCircleOfEntityPar(
           par, 
           par.user,
@@ -1458,7 +1449,7 @@ implements
       
       for(SSUri targetURI : par.targets){
         
-        entityServ.circleAddEntitiesToCirclesOfEntity(
+        circleAddEntitiesToCirclesOfEntity(
           new SSCircleAddEntitiesToCircleOfEntityPar(
             par, 
             par.user,
@@ -1522,14 +1513,12 @@ implements
     
     try{
       
-      final SSEntityServerI entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
-      
       if(entitiesToAttach.isEmpty()){
         return entity;
       }
       
       final SSUri entityURI =
-        entityServ.entityEntitiesAttach(
+        entityEntitiesAttach(
           new SSEntityAttachEntitiesPar(
             servPar, 
             user,
@@ -1553,7 +1542,7 @@ implements
       for(Integer counter = 0; counter < entitiesToAttach.size(); counter++){
         
         attachedEntity =
-          entityServ.entityUpdate(
+          entityUpdate(
             new SSEntityUpdatePar(
               servPar, 
               user,
@@ -1590,14 +1579,12 @@ implements
     
     try{
 
-      final SSEntityServerI entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
-      
       if(entitiesToRemove.isEmpty()){
         return entity;
       }
       
       final SSUri entityURI =
-        entityServ.entityEntitiesAttachedRemove(
+        entityEntitiesAttachedRemove(
           new SSEntityEntitiesAttachedRemovePar(
             servPar,
             user,
@@ -1623,9 +1610,8 @@ implements
     final boolean       withUserRestriction) throws SSErr{
     
     try{
-      final SSEntityServerI entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
       final SSUri           disc       =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             servPar,
             userUri,
@@ -1664,9 +1650,8 @@ implements
     final boolean       withUserRestriction) throws SSErr{
     
     try{
-      final SSEntityServerI entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
       final SSEntityE       discType   =
-        entityServ.entityGet(
+        entityGet(
           new SSEntityGetPar(
             servPar,
             null,
@@ -1684,7 +1669,7 @@ implements
       }
       
       final SSUri discEntry =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             servPar,
             userUri,
@@ -1709,7 +1694,7 @@ implements
         discUri,
         content);
       
-      entityServ.circleAddEntitiesToCirclesOfEntity(
+      circleAddEntitiesToCirclesOfEntity(
         new SSCircleAddEntitiesToCircleOfEntityPar(
           servPar,
           userUri,

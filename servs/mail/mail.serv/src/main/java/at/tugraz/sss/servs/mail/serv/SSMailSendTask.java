@@ -53,8 +53,8 @@ public class SSMailSendTask implements Runnable{
           servPar,
           SSConf.systemUserUri,
           "dtheiler@know-center.at", //fromEmail,
-          "the_didz@gmx.at", //toEmail,
-          "Bits and Pieces test subject", //subject,
+          "dtheiler@know-center.at", //toEmail,
+          "Mail test subject 1", //subject,
           "test content", //content,
           true, //withUserRestriction,
           true)); //shouldCommit

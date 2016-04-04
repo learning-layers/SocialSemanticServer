@@ -105,10 +105,7 @@ public class SSMailServ extends SSServContainerI{
       for(String scheduleOp : mailConf.scheduleOps){
         
         if(SSStrU.isEqual(scheduleOp, SSVarNames.mailSend)){
-          
-          SSServReg.regScheduler(
-            SSDateU.scheduleNow(
-              new SSMailSendTask()));
+          SSServReg.regScheduler(SSDateU.scheduleNow(new SSMailSendTask()));
         }
       }
     }

@@ -70,8 +70,10 @@ public enum SSMimeTypeE {
   audioMpeg4                                                 ("audio/x-m4a"),
   audioAmr                                                   ("audio/amr"),
   audioMpeg                                                  ("audio/mpeg"),
-  audioWav                                                   ("audio/wav");
-  
+  audioWav                                                   ("audio/wav"), 
+  audioWma                                                   ("audio/x-ms-wma"),
+  audioWmv                                                   ("audio/x-ms-wmv");
+   
   protected static final Map<String,      SSMimeTypeE>  mimeTypes           = new HashMap<>();
   protected static final Map<SSMimeTypeE, SSFileExtE>   fileExtPerMimeType  = new EnumMap<>(SSMimeTypeE.class);
   protected static final Map<SSFileExtE,  SSMimeTypeE>  mimeTypePerFileExt  = new EnumMap<>(SSFileExtE.class);
@@ -157,6 +159,8 @@ public enum SSMimeTypeE {
     mimeTypes.put(audioAmr.toString(),                         audioAmr);
     mimeTypes.put(audioMpeg.toString(),                        audioMpeg);
     mimeTypes.put(audioWav.toString(),                         audioWav);
+    mimeTypes.put(audioWma.toString(),                         audioWma);
+    mimeTypes.put(audioWmv.toString(),                         audioWmv);
     
     fileExtPerMimeType.put(applicationZipCompressed,     SSFileExtE.zip);
     fileExtPerMimeType.put(applicationZip,               SSFileExtE.zip);
@@ -188,6 +192,8 @@ public enum SSMimeTypeE {
     fileExtPerMimeType.put(audioAmr,                     SSFileExtE.amr);
     fileExtPerMimeType.put(audioMpeg,                    SSFileExtE.mp3);
     fileExtPerMimeType.put(audioWav,                     SSFileExtE.wav);
+    fileExtPerMimeType.put(audioWma,                     SSFileExtE.wma);
+    fileExtPerMimeType.put(audioWmv,                     SSFileExtE.wmv);
     fileExtPerMimeType.put(videoMp4,                     SSFileExtE.m4v);
     fileExtPerMimeType.put(imageIcon,                    SSFileExtE.ico);
     fileExtPerMimeType.put(imageGif,                     SSFileExtE.gif);
@@ -222,6 +228,8 @@ public enum SSMimeTypeE {
     mimeTypePerFileExt.put(SSFileExtE.amr,   audioAmr);
     mimeTypePerFileExt.put(SSFileExtE.mp3,   audioMpeg);
     mimeTypePerFileExt.put(SSFileExtE.wav,   audioWav);
+    mimeTypePerFileExt.put(SSFileExtE.wma,   audioWma);
+    mimeTypePerFileExt.put(SSFileExtE.wmv,   audioWmv);
     mimeTypePerFileExt.put(SSFileExtE.avi,   videoAvi);
     mimeTypePerFileExt.put(SSFileExtE.m4v,   videoMp4);
     mimeTypePerFileExt.put(SSFileExtE.mpeg,  videoMpeg);

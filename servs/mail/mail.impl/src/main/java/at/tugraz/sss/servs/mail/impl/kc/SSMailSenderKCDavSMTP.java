@@ -51,14 +51,15 @@ public class SSMailSenderKCDavSMTP {
       props.put("mail.smtp.port",             sendingPort);
       props.put("mail.smtp.user",             mailConf.sendUserName);
       props.put("mail.smtp.password",         mailConf.sendPass);
+      
       props.put("mail.smtp.auth",             "true");
       props.put("mail.smtp.starttls.enable",  "true");
-      //    props.put("mail.smtp.ssl.enable",  "true");
+      props.put("mail.smtp.ssl.enable",       "true");
       
       final SSMailKCIMAPAuthenticator  auth           = new SSMailKCIMAPAuthenticator(mailConf.sendUserName, mailConf.sendPass);
       final InternetAddress            fromAddress    = new InternetAddress(fromEmail);
       final InternetAddress            toAddress      = new InternetAddress(toEmail);
-      final Session                    session        = Session.getDefaultInstance(props, auth); //    session.setDebug(true);
+      final Session                    session        = Session.getDefaultInstance(props, auth); 
       final Message                    message        = new MimeMessage(session);
       
       message.setFrom      (fromAddress);
@@ -71,7 +72,7 @@ public class SSMailSenderKCDavSMTP {
       // message.setRecipient(RecipientType.BCC, new InternetAddress("CBC_Recipient@any_mail.com"));
       
       final Transport transport = session.getTransport("smtp");
-      
+
       transport.send(message);
       
     }catch(Exception error){
