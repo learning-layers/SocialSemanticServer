@@ -18,18 +18,13 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.servs.entity.datatypes.ret;
+package at.tugraz.sss.servs.entity.datatype;
 
-
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.SSJSONLDU;
+import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SSEntitiesGetRet extends SSServRetI{
 

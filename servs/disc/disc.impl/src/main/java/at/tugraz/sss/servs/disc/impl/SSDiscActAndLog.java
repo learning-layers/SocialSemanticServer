@@ -53,7 +53,7 @@ public class SSDiscActAndLog{
     final List<SSLabel> entityLabels,
     final boolean       shouldCommit) throws SSErr{
     
-    final SSActivityServerI actServ  = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+    final SSActivityServerI actServ  = (SSActivityServerI)  SSServReg.getServ(SSActivityServerI.class);
     final SSEvalServerI     evalServ = (SSEvalServerI)      SSServReg.getServ(SSEvalServerI.class);
       
     try{

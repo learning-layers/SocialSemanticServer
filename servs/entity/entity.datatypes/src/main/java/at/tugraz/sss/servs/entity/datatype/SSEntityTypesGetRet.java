@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.servs.entity.datatypes.ret;
+package at.tugraz.sss.servs.entity.datatype;
 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.*;

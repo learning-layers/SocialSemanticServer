@@ -13,8 +13,8 @@
       "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host" : "test-ll.know-center.tugraz.at",
-  "basePath" : "/test/rest",
+  "host" : "https://api.learning-layers.eu",
+  "basePath" : "/sss/rest",
   "tags" : [ {
     "name" : "activities"
   }, {

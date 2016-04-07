@@ -22,14 +22,6 @@ package at.tugraz.sss.adapter.rest.v3.circle;
 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleCreateRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesAddRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesRemoveRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleRemoveRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleTypeChangeRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersInviteRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersRemoveRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.conf.SSConf;
