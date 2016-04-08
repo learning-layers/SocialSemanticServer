@@ -20,13 +20,13 @@
   */
 package at.tugraz.sss.adapter.rest.v3;
 
+import at.tugraz.sss.servs.recomm.datatype.SSRecommUpdateRESTPar;
+import at.tugraz.sss.servs.entity.datatype.SSEntitiesAccessibleGetRESTPar;
+import at.tugraz.sss.servs.disc.datatype.SSDiscEntryAddRESTPar;
+import at.tugraz.sss.servs.app.datatype.SSAppAddRESTPar;
 import at.tugraz.sss.servs.auth.datatype.SSAuthE;
-import at.tugraz.sss.servs.auth.datatype.ret.SSAuthCheckCredRet;
-import at.tugraz.sss.adapter.rest.v3.app.*;
-import at.tugraz.sss.adapter.rest.v3.disc.*;
-import at.tugraz.sss.adapter.rest.v3.entity.*;
-import at.tugraz.sss.adapter.rest.v3.recomm.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.auth.datatype.*;
 import com.nimbusds.oauth2.sdk.http.*;
 import java.io.*;
 import java.net.*;

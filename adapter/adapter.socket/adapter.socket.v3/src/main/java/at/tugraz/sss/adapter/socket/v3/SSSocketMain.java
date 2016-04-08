@@ -20,32 +20,39 @@
  */
 package at.tugraz.sss.adapter.socket.v3;
 
-import at.tugraz.sss.servs.file.serv.SSFileServ;
-import at.kc.tugraz.ss.activity.serv.*;
-import at.kc.tugraz.ss.category.ss.category.serv.*;
-import at.kc.tugraz.ss.friend.serv.*;
-import at.kc.tugraz.ss.like.serv.*;
-import at.kc.tugraz.ss.message.serv.*;
-import at.kc.tugraz.ss.recomm.serv.*;
-import at.kc.tugraz.ss.serv.auth.serv.*;
-import at.kc.tugraz.ss.serv.dataimport.serv.*;
-import at.kc.tugraz.ss.serv.datatypes.entity.serv.*;
-import at.kc.tugraz.ss.serv.datatypes.learnep.serv.*;
-import at.kc.tugraz.ss.serv.job.dataexport.serv.*;
-import at.kc.tugraz.ss.serv.jobs.evernote.serv.*;
-import at.kc.tugraz.ss.serv.jsonld.serv.*;
-import at.kc.tugraz.ss.service.coll.service.*;
-import at.kc.tugraz.ss.service.disc.service.*;
-import at.kc.tugraz.ss.service.rating.service.*;
-import at.kc.tugraz.ss.service.search.service.*;
-import at.kc.tugraz.ss.service.tag.service.*;
-import at.kc.tugraz.ss.service.user.service.*;
-import at.kc.tugraz.sss.app.serv.*;
-import at.kc.tugraz.sss.appstacklayout.serv.*;
-import at.kc.tugraz.sss.comment.serv.*;
-import at.kc.tugraz.sss.flag.serv.*;
-import at.kc.tugraz.sss.video.serv.*;
-import at.tugraz.sss.adapter.socket.SSSocketAdapterU;
+import at.tugraz.sss.adapter.socket.*;
+import at.tugraz.sss.servs.activity.serv.*;
+import at.tugraz.sss.servs.friend.serv.*;
+import at.tugraz.sss.servs.like.serv.*;
+import at.tugraz.sss.servs.message.serv.*;
+import at.tugraz.sss.servs.recomm.serv.*;
+import at.tugraz.sss.servs.dataexport.serv.*;
+import at.tugraz.sss.servs.app.serv.*;
+import at.tugraz.sss.servs.appstacklayout.serv.*;
+import at.tugraz.sss.servs.auth.serv.*;
+import at.tugraz.sss.servs.category.serv.*;
+import at.tugraz.sss.servs.coll.serv.*;
+import at.tugraz.sss.servs.comment.serv.*;
+import at.tugraz.sss.servs.dataimport.serv.*;
+import at.tugraz.sss.servs.db.serv.*;
+import at.tugraz.sss.servs.disc.serv.*;
+import at.tugraz.sss.servs.entity.serv.*;
+import at.tugraz.sss.servs.eval.serv.*;
+import at.tugraz.sss.servs.evernote.serv.*;
+import at.tugraz.sss.servs.flag.serv.*;
+import at.tugraz.sss.servs.image.serv.*;
+import at.tugraz.sss.servs.jsonld.serv.*;
+import at.tugraz.sss.servs.kcprojwiki.serv.*;
+import at.tugraz.sss.servs.learnep.serv.*;
+import at.tugraz.sss.servs.livingdoc.serv.*;
+import at.tugraz.sss.servs.location.serv.*;
+import at.tugraz.sss.servs.mail.serv.*;
+import at.tugraz.sss.servs.ocd.serv.*;
+import at.tugraz.sss.servs.rating.serv.*;
+import at.tugraz.sss.servs.search.serv.*;
+import at.tugraz.sss.servs.tag.serv.*;
+import at.tugraz.sss.servs.user.serv.*;
+import at.tugraz.sss.servs.video.serv.*;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.util.SSSocketU;
 import at.tugraz.sss.serv.util.SSEncodingU;
@@ -59,20 +66,13 @@ import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.db.serv.*;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.servs.conf.SSCoreConf;
-import at.tugraz.sss.servs.image.serv.*;
-import at.tugraz.sss.servs.kcprojwiki.serv.*;
-import at.tugraz.sss.servs.link.serv.SSLinkServ;
-import at.tugraz.sss.servs.livingdocument.serv.*;
-import at.tugraz.sss.servs.location.serv.*;
-import at.tugraz.sss.servs.mail.serv.*;
-import at.tugraz.sss.servs.ocd.service.*;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.file.serv.*;
+import at.tugraz.sss.servs.link.serv.*;
 import java.io.*;
 import java.net.*;
 import java.sql.*;
-import sss.serv.eval.serv.*;
 
 public class SSSocketMain extends SSServImplStartA{
   
@@ -98,7 +98,7 @@ public class SSSocketMain extends SSServImplStartA{
     try{
       
       try{
-      SSCoreConf.instSet("/sssWorkDir/" + SSFileU.fileNameSSSConf);
+        SSCoreConf.instSet("/sssWorkDir/" + SSFileU.fileNameSSSConf);
 //        SSCoreConf.instSet("C:\\workspace_git\\master\\SocialSemanticServer\\sssWorkDir\\" + SSFileU.fileNameSSSConf);
       }catch(Exception error){
         System.err.println("conf couldnt be set");

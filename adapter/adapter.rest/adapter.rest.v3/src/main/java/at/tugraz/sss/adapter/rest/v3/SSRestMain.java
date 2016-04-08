@@ -20,31 +20,6 @@
 */
 package at.tugraz.sss.adapter.rest.v3;
 
-import at.tugraz.sss.adapter.rest.v3.auth.SSRESTAuth;
-import at.tugraz.sss.adapter.rest.v3.category.SSRESTCategory;
-import at.tugraz.sss.adapter.rest.v3.circle.SSRESTCircle;
-import at.tugraz.sss.adapter.rest.v3.coll.SSRESTColl;
-import at.tugraz.sss.adapter.rest.v3.disc.SSRESTDisc;
-import at.tugraz.sss.adapter.rest.v3.entity.SSRESTEntity;
-import at.tugraz.sss.adapter.rest.v3.evallog.SSRESTEval;
-import at.tugraz.sss.adapter.rest.v3.file.SSRESTFile;
-import at.tugraz.sss.adapter.rest.v3.flag.SSRESTFlag;
-import at.tugraz.sss.adapter.rest.v3.friend.SSRESTFriend;
-import at.tugraz.sss.adapter.rest.v3.image.SSRESTImage;
-import at.tugraz.sss.adapter.rest.v3.learnep.SSRESTLearnEp;
-import at.tugraz.sss.adapter.rest.v3.like.SSRESTLike;
-import at.tugraz.sss.adapter.rest.v3.livingdoc.SSRESTLivingDoc;
-import at.tugraz.sss.adapter.rest.v3.message.SSRESTMessage;
-import at.tugraz.sss.adapter.rest.v3.rating.SSRESTRating;
-import at.tugraz.sss.adapter.rest.v3.recomm.SSRESTRecomm;
-import at.tugraz.sss.adapter.rest.v3.search.SSRESTSearch;
-import at.tugraz.sss.adapter.rest.v3.tag.SSRESTTag;
-import at.tugraz.sss.adapter.rest.v3.user.SSRESTUser;
-import at.tugraz.sss.adapter.rest.v3.video.SSRESTVideo;
-import at.tugraz.sss.adapter.rest.v3.appstacklayout.SSRESTAppStackLayout;
-import at.tugraz.sss.adapter.rest.v3.app.SSRESTApp;
-import at.tugraz.sss.adapter.rest.v3.activity.SSRESTActivity;
-import at.tugraz.sss.adapter.rest.v3.link.SSRESTLink;
 import at.tugraz.sss.serv.datatype.*;
 import javax.ws.rs.*;
 import org.glassfish.jersey.jackson.*;
