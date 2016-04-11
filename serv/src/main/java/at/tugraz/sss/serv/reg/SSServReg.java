@@ -36,20 +36,7 @@ public class SSServReg{
   protected static final Map<String,        SSServContainerI> servsForClientOps                            = new HashMap<>();
   protected static final Map<Class,         SSServContainerI> servsForServerI                              = new HashMap<>();
   protected static final Map<Class,         SSServContainerI> servsForClientI                              = new HashMap<>();
-  protected static final SSSchedules                          schedules                                    = new SSSchedules();
-  protected static final SSClientRequestLimit                 clientRequestLimit                           = new SSClientRequestLimit();
     
-  public static void destroy() throws SSErr{
-
-    schedules.clear();
-    
-    servsForClientOps.clear();
-    servsForServerI.clear();
-    servsForClientI.clear();
-    
-    clientRequestLimit.clear();
-  }
-  
   public static SSServImplA getClientServ(final Class clientServClass) throws SSErr{
     
     try{
@@ -85,19 +72,6 @@ public class SSServReg{
       SSServErrReg.regErrThrow(error);
       return null;
     }
-      
-//      if(!SSServErrReg.containsErr(SSErrE.noClientServiceForOpAvailableOnMachine)){
-//        throw error;
-//      }
-      
-//      if(useCloud){
-//
-//        deployServNode(
-//          par,
-//          getClientServAvailableOnNodes(par));
-//
-//        return null;
-//      }
   }
       
   public SSServContainerI regServ(

@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.adapter.rest.v3;
 
-import at.tugraz.sss.serv.conf.SSConf;
+import at.tugraz.sss.serv.conf.*;
 import at.tugraz.sss.servs.file.serv.SSFileServ;
 import at.tugraz.sss.servs.activity.serv.*;
 import at.tugraz.sss.servs.friend.serv.*;
@@ -31,6 +31,7 @@ import at.tugraz.sss.servs.dataexport.serv.*;
 import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.requestlimit.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.app.serv.*;
 import at.tugraz.sss.servs.appstacklayout.serv.*;
@@ -82,7 +83,8 @@ public class SSInitializer
     
     try{
       
-      SSServReg.destroy();
+      new SSSchedules().clear();
+      new SSClientRequestLimit().clear();
       
       SSDBSQLMySQLImpl.closePool();
     } catch (Exception error) {

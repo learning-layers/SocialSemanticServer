@@ -21,6 +21,7 @@
 package at.tugraz.sss.adapter.socket.v3;
 
 import at.tugraz.sss.adapter.socket.*;
+import at.tugraz.sss.serv.conf.*;
 import at.tugraz.sss.servs.activity.serv.*;
 import at.tugraz.sss.servs.friend.serv.*;
 import at.tugraz.sss.servs.like.serv.*;
@@ -53,7 +54,6 @@ import at.tugraz.sss.servs.search.serv.*;
 import at.tugraz.sss.servs.tag.serv.*;
 import at.tugraz.sss.servs.user.serv.*;
 import at.tugraz.sss.servs.video.serv.*;
-import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.util.SSSocketU;
 import at.tugraz.sss.serv.util.SSEncodingU;
 import at.tugraz.sss.serv.util.SSLogU;
@@ -207,7 +207,8 @@ public class SSSocketMain extends SSServImplA{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }finally{
-      SSServReg.destroy();
+      new SSSchedules().clear();
+      clientRequestLimit.clear();
     }
   }
   
