@@ -28,51 +28,37 @@ import at.tugraz.sss.servs.like.datatype.SSLikes;
 import at.tugraz.sss.servs.like.datatype.SSLikeUserSetPar;
 import at.tugraz.sss.servs.like.datatype.SSLikesUserGetPar;
 import at.tugraz.sss.servs.like.datatype.SSLikeUserSetRet;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
-import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.impl.api.*;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
 
 public class SSLikeImpl 
-extends SSServImplA 
+extends SSEntityImpl 
 implements 
   SSLikeClientI, 
   SSLikeServerI,
   SSDescribeEntityI{
   
-  private final SSUserCommons                         userCommons = new SSUserCommons();
   private final SSLikeActAndLog                       actAndLog   = new SSLikeActAndLog();
-  private final SSLikeSQL                             sql;
-  private final SSDBSQLI                              dbSQL;
-  private final SSDBNoSQLI                            dbNoSQL;  
+  private final SSLikeSQL                             sql         = new SSLikeSQL(dbSQL);
    
-  public SSLikeImpl(final SSConfA conf) throws SSErr{
-
-    super(conf);
-    
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    
-    this.sql          = new SSLikeSQL(dbSQL);
+  public SSLikeImpl(){
+    super(SSCoreConf.instGet().getLike());
   }
   
   @Override
   public SSEntity describeEntity(
-    final SSServPar servPar,
+    final SSServPar            servPar,
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws SSErr{
     
@@ -160,12 +146,10 @@ implements
     
     try{
 
-      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      
       dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri entity =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par, 
             par.user,

@@ -20,6 +20,7 @@
  */
 package at.tugraz.sss.servs.learnep.impl;
 
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.servs.category.datatype.SSCategoryAddPar;
 import at.tugraz.sss.servs.category.datatype.SSCategoryLabel;
 import at.tugraz.sss.servs.category.datatype.SSCategoriesRemovePar;
@@ -28,14 +29,19 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.entity.api.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.category.impl.*;
 import at.tugraz.sss.servs.learnep.datatype.*;
 import java.util.*;
 
 public class SSLearnEpCat {
   
   private final SSLearnEpCommons commons = new SSLearnEpCommons();
+  private final SSEntityServerI  entityServ;
+  
+  public SSLearnEpCat(final SSEntityServerI entityServ){
+    this.entityServ = entityServ;
+  }
   
   public void removeCategories(
     final SSServPar       servPar,
@@ -46,7 +52,7 @@ public class SSLearnEpCat {
     
     try{
       
-      final SSCategoryServerI categoryServ = (SSCategoryServerI) SSServReg.getServ(SSCategoryServerI.class);
+      final SSCategoryServerI categoryServ = new SSCategoryImpl();
       
       for(SSUri entityURI : entities){
         
@@ -63,13 +69,6 @@ public class SSLearnEpCat {
             shouldCommit));
       }
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break; }
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -84,7 +83,7 @@ public class SSLearnEpCat {
     
     try{
       
-      final SSCategoryServerI categoryServ = (SSCategoryServerI) SSServReg.getServ(SSCategoryServerI.class);
+      final SSCategoryServerI categoryServ = new SSCategoryImpl();
       
       for(SSUri entity : entities){
         
@@ -99,13 +98,6 @@ public class SSLearnEpCat {
             null, //creationTime,
             false, //withUserRestriction,
             shouldCommit)); //shouldCommit
-      }
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break; }
       }
       
     }catch(Exception error){
@@ -157,13 +149,6 @@ public class SSLearnEpCat {
         break;
       }
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break; }
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -179,8 +164,7 @@ public class SSLearnEpCat {
     
     try{
       
-      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      SSEntity              circle;
+      SSEntity circle;
       
       for(SSUri learnEpCircleBefore : learnEpEntityCircleURIsBefore){
         
@@ -219,8 +203,7 @@ public class SSLearnEpCat {
     
     try{
       
-      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      SSEntity              circle;
+      SSEntity circle;
       
       for(SSUri learnEpCircleAfter : learnEpEntityCircleURIsAfter){
         

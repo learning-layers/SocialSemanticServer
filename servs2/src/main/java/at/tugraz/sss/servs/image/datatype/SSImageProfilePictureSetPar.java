@@ -22,7 +22,6 @@
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.reg.*;
  import at.tugraz.sss.serv.util.*;
 import java.sql.*;
 

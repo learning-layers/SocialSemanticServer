@@ -25,10 +25,11 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.db.impl.*;
 import at.tugraz.sss.servs.livingdoc.api.*;
 import at.tugraz.sss.servs.livingdoc.datatype.*;
+import at.tugraz.sss.servs.livingdoc.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -48,6 +49,9 @@ import javax.ws.rs.core.Response;
 @Path("rest/livingdocs")
 @Api( value = "livingdocs")
 public class SSRESTLivingDoc{
+  
+  private final SSLivingDocClientI ldServ = new SSLivingDocImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -73,7 +77,7 @@ public class SSRESTLivingDoc{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -99,7 +103,7 @@ public class SSRESTLivingDoc{
       }
       
       try{
-        final SSLivingDocClientI ldServ = (SSLivingDocClientI) SSServReg.getClientServ(SSLivingDocClientI.class);
+        
         
         return Response.status(200).entity(ldServ.livingDocsGet(SSClientE.rest, par)).build();
         
@@ -141,7 +145,7 @@ public class SSRESTLivingDoc{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -171,7 +175,7 @@ public class SSRESTLivingDoc{
       }
       
       try{
-        final SSLivingDocClientI ldServ = (SSLivingDocClientI) SSServReg.getClientServ(SSLivingDocClientI.class);
+        
         
         return Response.status(200).entity(ldServ.livingDocGet(SSClientE.rest, par)).build();
         
@@ -210,7 +214,7 @@ public class SSRESTLivingDoc{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -240,7 +244,7 @@ public class SSRESTLivingDoc{
       }
       
       try{
-        final SSLivingDocClientI ldServ = (SSLivingDocClientI) SSServReg.getClientServ(SSLivingDocClientI.class);
+        
         
         return Response.status(200).entity(ldServ.livingDocsGet(SSClientE.rest, par)).build();
         
@@ -280,7 +284,7 @@ public class SSRESTLivingDoc{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -306,7 +310,7 @@ public class SSRESTLivingDoc{
       }
       
       try{
-        final SSLivingDocClientI ldServ = (SSLivingDocClientI) SSServReg.getClientServ(SSLivingDocClientI.class);
+        
         
         return Response.status(200).entity(ldServ.livingDocGet(SSClientE.rest, par)).build();
         
@@ -344,7 +348,7 @@ public class SSRESTLivingDoc{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -373,7 +377,7 @@ public class SSRESTLivingDoc{
       }
       
       try{
-        final SSLivingDocClientI ldServ = (SSLivingDocClientI) SSServReg.getClientServ(SSLivingDocClientI.class);
+        
         
         return Response.status(200).entity(ldServ.livingDocAdd(SSClientE.rest, par)).build();
         
@@ -413,7 +417,7 @@ public class SSRESTLivingDoc{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -439,7 +443,7 @@ public class SSRESTLivingDoc{
       }
       
       try{
-        final SSLivingDocClientI ldServ = (SSLivingDocClientI) SSServReg.getClientServ(SSLivingDocClientI.class);
+        
         
         return Response.status(200).entity(ldServ.livingDocRemove(SSClientE.rest, par)).build();
         
@@ -481,7 +485,7 @@ public class SSRESTLivingDoc{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -510,7 +514,7 @@ public class SSRESTLivingDoc{
       }
       
       try{
-        final SSLivingDocClientI ldServ = (SSLivingDocClientI) SSServReg.getClientServ(SSLivingDocClientI.class);
+        
         
         return Response.status(200).entity(ldServ.livingDocUpdate(SSClientE.rest, par)).build();
         

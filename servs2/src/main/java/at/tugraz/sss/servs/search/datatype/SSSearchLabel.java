@@ -20,10 +20,10 @@
 */
 package at.tugraz.sss.servs.search.datatype;
 
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.api.SSEntityA;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.reg.*;
 import java.util.ArrayList;
 import java.util.List;
 

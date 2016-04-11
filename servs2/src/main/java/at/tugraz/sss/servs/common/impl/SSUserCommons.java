@@ -20,18 +20,17 @@
  */
 package at.tugraz.sss.servs.common.impl;
 
-import at.tugraz.sss.servs.user.api.SSUserServerI;
 import at.tugraz.sss.servs.user.datatype.SSUsersGetPar;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.servs.auth.api.SSAuthServerI;
 import at.tugraz.sss.servs.auth.datatype.SSAuthCheckKeyPar;
+import at.tugraz.sss.servs.auth.impl.*;
+import at.tugraz.sss.servs.user.impl.*;
 import java.util.List;
 
 public class SSUserCommons {
@@ -39,8 +38,7 @@ public class SSUserCommons {
   public void checkKeyAndSetUser(final SSServPar servPar) throws SSErr{
     
     try{
-      final SSAuthServerI authServ = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
-      final SSUri         user     = authServ.authCheckKey(new SSAuthCheckKeyPar(servPar, servPar.key));
+      final SSUri user = new SSAuthImpl().authCheckKey(new SSAuthCheckKeyPar(servPar, servPar.key));
       
       if(user != null){
         servPar.user = user;
@@ -69,10 +67,8 @@ public class SSUserCommons {
         return true;
       }
       
-      final SSUserServerI userServ = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
-      
       final List<SSEntity> users =
-        userServ.usersGet(
+        new SSUserImpl().usersGet(
           new SSUsersGetPar(
             servPar,
             SSConf.systemUserUri, 

@@ -5,24 +5,25 @@
  */
 package at.tugraz.sss.servs.common.impl;
 
-import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.common.api.*;
 import java.util.*;
 
 public class SSAddAffiliatedEntitiesToCircle {
   
-  protected static final List<SSServContainerI> servsForAddAffiliatedEntitiesToCircle = new ArrayList<>();
+  protected static final List<SSAddAffiliatedEntitiesToCircleI> servsForAddAffiliatedEntitiesToCircle = new ArrayList<>();
   
   public void regServ(
-    final SSServContainerI servContainer) throws SSErr{
+    final SSAddAffiliatedEntitiesToCircleI servContainer, 
+    final SSConfA                          conf) throws SSErr{
     
     try{
       
-      if(!servContainer.conf.use){
+      if(!conf.use){
         return;
       }
       
@@ -64,11 +65,11 @@ public class SSAddAffiliatedEntitiesToCircle {
           recursiveEntities,
           withUserRestriction);
       
-      for(SSServContainerI serv : servsForAddAffiliatedEntitiesToCircle){
+      for(SSAddAffiliatedEntitiesToCircleI serv : servsForAddAffiliatedEntitiesToCircle){
         
         SSEntity.addEntitiesDistinctWithoutNull(
           addedAffiliatedEntities,
-          ((SSAddAffiliatedEntitiesToCircleI) serv.getServImpl()).addAffiliatedEntitiesToCircle(servPar, par));
+          serv.addAffiliatedEntitiesToCircle(servPar, par));
       }
       
       return addedAffiliatedEntities;

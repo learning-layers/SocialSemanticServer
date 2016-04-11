@@ -21,7 +21,6 @@
 package at.tugraz.sss.adapter.rest.v3;
 
 import at.tugraz.sss.servs.comment.datatype.SSCommentsAddRESTPar;
-import at.tugraz.sss.servs.user.api.*;
 import at.tugraz.sss.serv.datatype.par.SSEntityCopyPar;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
@@ -31,11 +30,15 @@ import at.tugraz.sss.servs.user.datatype.SSUserEntityUsersGetRet;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.comment.api.*;
 import at.tugraz.sss.servs.comment.datatype.*;
+import at.tugraz.sss.servs.comment.impl.*;
+import at.tugraz.sss.servs.db.impl.*;
 import at.tugraz.sss.servs.entity.api.*;
 import at.tugraz.sss.servs.entity.datatype.*;
+import at.tugraz.sss.servs.entity.impl.*;
+import at.tugraz.sss.servs.user.api.*;
+import at.tugraz.sss.servs.user.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -54,6 +57,11 @@ import javax.ws.rs.core.Response;
 @Path("rest/entities")
 @Api( value = "entities")
 public class SSRESTEntity{
+  
+  private final SSEntityClientI  entityServ  = new SSEntityImpl();
+  private final SSUserClientI    userServ    = new SSUserImpl();
+  private final SSCommentClientI commentServ = new SSCommentImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -80,7 +88,7 @@ public class SSRESTEntity{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -108,7 +116,7 @@ public class SSRESTEntity{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.entitiesAccessibleGet(SSClientE.rest, par)).build();
         
@@ -151,7 +159,7 @@ public class SSRESTEntity{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -178,7 +186,7 @@ public class SSRESTEntity{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.entityEntitiesAttach(SSClientE.rest, par)).build();
         
@@ -217,7 +225,7 @@ public class SSRESTEntity{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -255,7 +263,7 @@ public class SSRESTEntity{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.entitiesAccessibleGet(SSClientE.rest, par)).build();
         
@@ -292,7 +300,7 @@ public class SSRESTEntity{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -315,7 +323,7 @@ public class SSRESTEntity{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.entityTypesGet(SSClientE.rest, par)).build();
         
@@ -358,7 +366,7 @@ public class SSRESTEntity{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -396,7 +404,7 @@ public class SSRESTEntity{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.entitiesGet(SSClientE.rest, par)).build();
         
@@ -436,7 +444,7 @@ public class SSRESTEntity{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -468,7 +476,7 @@ public class SSRESTEntity{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.entityUpdate(SSClientE.rest, par)).build();
         
@@ -510,7 +518,7 @@ public class SSRESTEntity{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -542,7 +550,7 @@ public class SSRESTEntity{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.entityUpdate(SSClientE.rest, par)).build();
         
@@ -585,7 +593,7 @@ public class SSRESTEntity{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -614,7 +622,7 @@ public class SSRESTEntity{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.entityShare(SSClientE.rest, par)).build();
         
@@ -654,7 +662,7 @@ public class SSRESTEntity{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -679,7 +687,7 @@ public class SSRESTEntity{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.entityUnpublicize(SSClientE.rest, par)).build();
         
@@ -721,7 +729,7 @@ public class SSRESTEntity{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -757,7 +765,7 @@ public class SSRESTEntity{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.entityCopy(SSClientE.rest, par)).build();
         
@@ -797,7 +805,7 @@ public class SSRESTEntity{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -823,10 +831,7 @@ public class SSRESTEntity{
       }
       
       try{
-        final SSUserClientI userServ = (SSUserClientI) SSServReg.getClientServ(SSUserClientI.class);
-        
         return Response.status(200).entity(userServ.userEntityUsersGet(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -865,7 +870,7 @@ public class SSRESTEntity{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -892,10 +897,7 @@ public class SSRESTEntity{
       }
       
       try{
-        final SSCommentClientI commentServ = (SSCommentClientI) SSServReg.getClientServ(SSCommentClientI.class);
-        
         return Response.status(200).entity(commentServ.commentsAdd(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }

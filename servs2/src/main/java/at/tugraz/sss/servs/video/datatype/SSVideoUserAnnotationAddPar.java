@@ -24,7 +24,7 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import java.sql.*;
 
 public class SSVideoUserAnnotationAddPar extends SSServPar{

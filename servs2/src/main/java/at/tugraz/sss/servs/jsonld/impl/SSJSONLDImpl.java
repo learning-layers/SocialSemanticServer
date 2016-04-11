@@ -20,32 +20,26 @@
 */
 package at.tugraz.sss.servs.jsonld.impl;
 
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.jsonld.SSJSONLDPropI;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.impl.api.*;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.jsonld.*;
+import at.tugraz.sss.serv.datatype.par.*; 
+import at.tugraz.sss.serv.datatype.ret.*; 
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
 import at.tugraz.sss.servs.jsonld.api.*;
-import at.tugraz.sss.servs.jsonld.conf.*;
 import at.tugraz.sss.servs.jsonld.datatype.*;
 
 public class SSJSONLDImpl 
-extends SSServImplA 
+extends SSEntityImpl 
 implements 
   SSJSONLDClientI, 
   SSJSONLDServerI{
 
-  final SSUserCommons userCommons;
-  
-  public SSJSONLDImpl(final SSJSONLDConf conf) throws SSErr{
-    
-    super(conf);
-    
-    this.userCommons = new SSUserCommons();
+  public SSJSONLDImpl() throws SSErr{
+    super(SSCoreConf.instGet().getJsonLD());
   }
   
   @Override

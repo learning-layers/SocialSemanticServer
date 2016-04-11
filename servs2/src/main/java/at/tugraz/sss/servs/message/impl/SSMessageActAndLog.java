@@ -21,7 +21,6 @@
 package at.tugraz.sss.servs.message.impl;
 
 import at.tugraz.sss.servs.activity.api.SSActivityServerI;
-import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.servs.activity.datatype.SSActivityContent;
 import at.tugraz.sss.servs.activity.datatype.SSActivityContentE;
 import at.tugraz.sss.servs.activity.datatype.SSActivityE;
@@ -29,10 +28,10 @@ import at.tugraz.sss.servs.activity.datatype.SSActivityAddPar;
 import at.tugraz.sss.servs.activity.datatype.SSActivityContentAddPar;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.servs.activity.impl.*;
 
 public class SSMessageActAndLog{
   
@@ -46,7 +45,7 @@ public class SSMessageActAndLog{
     
     try{
       
-      final SSActivityServerI actServ = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+      final SSActivityServerI actServ = new SSActivityImpl();
         
       final SSUri activity =
         actServ.activityAdd(
@@ -69,16 +68,6 @@ public class SSMessageActAndLog{
           SSActivityContentE.text, 
           SSActivityContent.get(content),
           shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

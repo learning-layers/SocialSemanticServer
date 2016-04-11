@@ -21,19 +21,18 @@
 package at.tugraz.sss.adapter.rest.v3;
 
 import at.tugraz.sss.servs.friend.api.*;
-import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.tugraz.sss.servs.friend.datatype.SSFriendAddPar;
 import at.tugraz.sss.servs.friend.datatype.SSFriendsGetPar;
 import at.tugraz.sss.servs.friend.datatype.SSFriendAddRet;
 import at.tugraz.sss.servs.friend.datatype.SSFriendsGetRet;
-import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.db.impl.*;
+import at.tugraz.sss.servs.friend.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -51,6 +50,9 @@ import javax.ws.rs.core.Response;
 @Path("/friends")
 @Api( value = "friends")
 public class SSRESTFriend{
+  
+  private final SSFriendClientI friendServ = new SSFriendImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -76,7 +78,7 @@ public class SSRESTFriend{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -99,10 +101,7 @@ public class SSRESTFriend{
       }
       
       try{
-        final SSFriendClientI friendServ = (SSFriendClientI) SSServReg.getClientServ(SSFriendClientI.class);
-        
         return Response.status(200).entity(friendServ.friendsGet(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -139,7 +138,7 @@ public class SSRESTFriend{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -164,7 +163,7 @@ public class SSRESTFriend{
       }
       
       try{
-        final SSFriendClientI friendServ = (SSFriendClientI) SSServReg.getClientServ(SSFriendClientI.class);
+        
         
         return Response.status(200).entity(friendServ.friendAdd(SSClientE.rest, par)).build();
         

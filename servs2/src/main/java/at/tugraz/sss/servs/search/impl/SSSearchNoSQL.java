@@ -25,7 +25,7 @@ import at.tugraz.sss.serv.db.api.SSDBNoSQLFctA;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.datatype.par.SSDBNoSQLSearchPar;
 import at.tugraz.sss.serv.datatype.enums.SSSearchOpE;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.SSSolrKeywordLabel;
 import at.tugraz.sss.serv.datatype.enums.SSSolrSearchFieldE;
 import at.tugraz.sss.serv.datatype.*;

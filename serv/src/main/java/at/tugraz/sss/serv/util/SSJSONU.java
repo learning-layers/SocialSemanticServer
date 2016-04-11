@@ -20,8 +20,8 @@
 */
 package at.tugraz.sss.serv.util;
 
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.reg.*;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
 

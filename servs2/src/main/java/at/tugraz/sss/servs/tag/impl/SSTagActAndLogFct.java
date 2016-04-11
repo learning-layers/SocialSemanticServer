@@ -25,29 +25,18 @@ import at.tugraz.sss.servs.activity.datatype.SSActivityE;
 import at.tugraz.sss.servs.activity.datatype.SSActivityAddPar;
 import at.tugraz.sss.servs.tag.datatype.SSTagLabel;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
-import java.util.List;
-import at.tugraz.sss.servs.eval.api.SSEvalServerI;
+import at.tugraz.sss.servs.activity.impl.*;
+import at.tugraz.sss.servs.eval.api.*;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogE;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogPar;
+import at.tugraz.sss.servs.eval.impl.*;
 
 public class SSTagActAndLogFct {
-  
-  private final SSActivityServerI activityServ;
-  private final SSEvalServerI     evalServ;
-  
-  public SSTagActAndLogFct(
-    final SSActivityServerI activityServ,
-    final SSEvalServerI     evalServ){
-    
-    this.activityServ = activityServ;
-    this.evalServ     = evalServ;
-  }
   
   public void addTag(
     final SSServPar        servPar,
@@ -63,6 +52,8 @@ public class SSTagActAndLogFct {
     
     try{
       
+      final SSActivityServerI activityServ = new SSActivityImpl();
+      
       activityServ.activityAdd(
         new SSActivityAddPar(
           servPar,
@@ -75,16 +66,6 @@ public class SSTagActAndLogFct {
           null,
           shouldCommit));
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -94,6 +75,8 @@ public class SSTagActAndLogFct {
     }
     
     try{
+      
+      final SSEvalServerI     evalServ     = new SSEvalImpl();
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -107,13 +90,6 @@ public class SSTagActAndLogFct {
           null, //users
           null, //creationTime
           shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -129,6 +105,8 @@ public class SSTagActAndLogFct {
     
     try{
       
+      final SSActivityServerI activityServ = new SSActivityImpl();
+      
       activityServ.activityAdd(
         new SSActivityAddPar(
           servPar,
@@ -141,21 +119,13 @@ public class SSTagActAndLogFct {
           null,
           shouldCommit));
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
     
     try{
+      
+      final SSEvalServerI     evalServ     = new SSEvalImpl();
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -169,16 +139,6 @@ public class SSTagActAndLogFct {
           null, //users
           null, //creationTime
           shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

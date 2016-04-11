@@ -22,14 +22,14 @@ package at.tugraz.sss.adapter.rest.v3;
 
 import at.tugraz.sss.servs.flag.datatype.SSFlagsSetRESTPar;
 import at.tugraz.sss.servs.flag.datatype.SSFlagsGetRESTPar;
-import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.db.impl.*;
 import at.tugraz.sss.servs.flag.api.*;
 import at.tugraz.sss.servs.flag.datatype.*;
+import at.tugraz.sss.servs.flag.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -45,6 +45,9 @@ import javax.ws.rs.core.Response;
 @Path("/flags")
 @Api(value = "flags")
 public class SSRESTFlag{
+  
+  private final SSFlagClientI flagServ = new SSFlagImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -72,7 +75,7 @@ public class SSRESTFlag{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -81,7 +84,7 @@ public class SSRESTFlag{
         
         par =
           new SSFlagsSetPar(
-            new SSServPar(((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection()),
+            new SSServPar(sqlCon),
             null,
             input.entities,
             input.types,
@@ -101,10 +104,7 @@ public class SSRESTFlag{
       }
       
       try{
-        final SSFlagClientI flagServ = (SSFlagClientI) SSServReg.getClientServ(SSFlagClientI.class);
-        
         return Response.status(200).entity(flagServ.flagsSet(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -140,7 +140,7 @@ public class SSRESTFlag{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -169,7 +169,7 @@ public class SSRESTFlag{
       }
       
       try{
-        final SSFlagClientI flagServ = (SSFlagClientI) SSServReg.getClientServ(SSFlagClientI.class);
+        
         
         return Response.status(200).entity(flagServ.flagsGet(SSClientE.rest, par)).build();
         

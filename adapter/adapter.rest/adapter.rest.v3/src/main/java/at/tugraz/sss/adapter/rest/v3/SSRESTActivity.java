@@ -22,7 +22,6 @@ package at.tugraz.sss.adapter.rest.v3;
 
 import at.tugraz.sss.servs.activity.datatype.SSActivitiesGetRESTPar;
 import at.tugraz.sss.servs.activity.datatype.SSActivityAddRESTPar;
-import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.tugraz.sss.servs.activity.api.*;
 import at.tugraz.sss.servs.activity.datatype.SSActivitiesGetPar;
 import at.tugraz.sss.servs.activity.datatype.SSActivityAddPar;
@@ -32,8 +31,9 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.activity.impl.*;
+import at.tugraz.sss.servs.db.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -50,6 +50,9 @@ import javax.ws.rs.core.Response;
 @Path("/activities")
 @Api( value = "activities")
 public class SSRESTActivity{
+  
+  private final SSActivityClientI activityServ = new SSActivityImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -78,7 +81,7 @@ public class SSRESTActivity{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -113,10 +116,7 @@ public class SSRESTActivity{
       }
       
       try{
-        final SSActivityClientI activityServ = (SSActivityClientI) SSServReg.getClientServ(SSActivityClientI.class);
-        
         return Response.status(200).entity(activityServ.activitiesGet(SSClientE.rest, par)).build();
-        
       }catch(SSErr error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -150,7 +150,7 @@ public class SSRESTActivity{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -173,10 +173,7 @@ public class SSRESTActivity{
       }
       
       try{
-        final SSActivityClientI activityServ = (SSActivityClientI) SSServReg.getClientServ(SSActivityClientI.class);
-        
         return Response.status(200).entity(activityServ.activityTypesGet(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -212,7 +209,7 @@ public class SSRESTActivity{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -241,10 +238,7 @@ public class SSRESTActivity{
       }
       
       try{
-        final SSActivityClientI activityServ = (SSActivityClientI) SSServReg.getClientServ(SSActivityClientI.class);
-        
         return Response.status(200).entity(activityServ.activityAdd(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }

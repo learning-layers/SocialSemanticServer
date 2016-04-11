@@ -20,63 +20,26 @@
  */
 package at.tugraz.sss.servs.tag.impl;
 
-import at.tugraz.sss.servs.activity.api.SSActivityServerI;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.serv.entity.api.*;
 import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityFromTypeAndLabelGetPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
-import at.tugraz.sss.servs.tag.datatype.SSTagLabel;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.servs.tag.datatype.*;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import at.tugraz.sss.servs.tag.api.*;
-import at.tugraz.sss.servs.tag.datatype.SSTagAddPar;
-import at.tugraz.sss.servs.tag.datatype.SSTagEntitiesForTagsGetPar;
-import at.tugraz.sss.servs.tag.datatype.SSTagFrequsGetPar;
-import at.tugraz.sss.servs.tag.datatype.SSTagsGetPar;
-import at.tugraz.sss.servs.tag.datatype.SSTagsRemovePar;
-import at.tugraz.sss.servs.tag.datatype.SSTagsAddPar;
-import at.tugraz.sss.servs.tag.datatype.SSTagAddRet;
-import at.tugraz.sss.servs.tag.datatype.SSTagEntitiesForTagsGetRet;
-import at.tugraz.sss.servs.tag.datatype.SSTagFrequsGetRet;
-import at.tugraz.sss.servs.tag.datatype.SSTagsAddRet;
-import at.tugraz.sss.servs.tag.datatype.SSTagsGetRet;
-import at.tugraz.sss.servs.tag.datatype.SSTagsRemoveRet;
-import at.tugraz.sss.servs.common.api.SSCircleContentRemovedI;
-import at.tugraz.sss.serv.datatype.par.SSCircleContentRemovedPar;
-import at.tugraz.sss.serv.datatype.par.SSCirclePubURIGetPar;
-import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
-import at.tugraz.sss.serv.datatype.api.SSEntityA;
-import at.tugraz.sss.serv.datatype.SSEntityContext;
-import at.tugraz.sss.servs.common.api.SSEntityCopiedI;
-import at.tugraz.sss.serv.datatype.par.SSEntityCopiedPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
-import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.servs.common.api.*;
+import at.tugraz.sss.serv.datatype.api.*;
 import java.util.*;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.datatype.enums.SSSearchOpE;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.reg.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.impl.api.*;
-import at.tugraz.sss.servs.common.impl.SSTagAndCategoryCommonMisc;
-import at.tugraz.sss.servs.common.impl.SSTagAndCategoryCommonSQL;
-import at.tugraz.sss.servs.eval.api.SSEvalServerI;
-import at.tugraz.sss.servs.tag.datatype.*;
-import at.tugraz.sss.servs.common.api.SSGetUsersResourcesI;
-import at.tugraz.sss.servs.common.api.SSGetUserRelationsI;
+import at.tugraz.sss.serv.datatype.ret.*; 
+import at.tugraz.sss.servs.common.impl.*;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
 
 public class SSTagImpl
-extends SSServImplA
+extends SSEntityImpl
 implements
   SSTagClientI,
   SSTagServerI,
@@ -86,31 +49,12 @@ implements
   SSCircleContentRemovedI,
   SSGetUsersResourcesI{
   
-  private final SSTagActAndLogFct          actAndLogFct;
-  private final SSTagAndCategoryCommonSQL  sql;
-  private final SSTagAndCategoryCommonMisc commonMiscFct;
-  private final SSEntityServerI            entityServ;
-  private final SSUserCommons              userCommons;
-  private final SSDBSQLI                   dbSQL;
-  private final SSDBNoSQLI                 dbNoSQL;
+  private final SSTagActAndLogFct          actAndLogFct  = new SSTagActAndLogFct();
+  private final SSTagAndCategoryCommonSQL  sql           = new SSTagAndCategoryCommonSQL (dbSQL, SSEntityE.tag);
+  private final SSTagAndCategoryCommonMisc commonMiscFct = new SSTagAndCategoryCommonMisc(dbSQL, SSEntityE.tag);
   
-  public SSTagImpl(final SSConfA conf) throws SSErr{
-    
-    super(conf);
-    
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    
-    this.sql           = new SSTagAndCategoryCommonSQL (dbSQL, SSEntityE.tag);
-    this.commonMiscFct = new SSTagAndCategoryCommonMisc(dbSQL, SSEntityE.tag);
-    
-    this.actAndLogFct =
-      new SSTagActAndLogFct(
-        (SSActivityServerI) SSServReg.getServ (SSActivityServerI.class),
-        (SSEvalServerI)     SSServReg.getServ (SSEvalServerI.class));
-    
-    this.entityServ  = (SSEntityServerI)   SSServReg.getServ (SSEntityServerI.class);
-    this.userCommons = new SSUserCommons();
+  public SSTagImpl(){
+    super(SSCoreConf.instGet().getTag());
   }
   
   @Override
@@ -144,7 +88,6 @@ implements
       return null;
     }
   }
-  
   
   @Override
   public void getUserRelations(
@@ -412,7 +355,7 @@ implements
       
       final SSUri             tagUri;
       final List<SSEntity>    tagEntities =
-        entityServ.entityFromTypeAndLabelGet(
+        entityFromTypeAndLabelGet(
           new SSEntityFromTypeAndLabelGetPar(
             par,
             par.user,
@@ -423,9 +366,9 @@ implements
       if(SSObjU.isNull(par.circle)){
         
         par.circle =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circlePubURIGet(
+          circlePubURIGet(
             new SSCirclePubURIGetPar(
-                par,
+              par,
               null,
               false));
       }else{
@@ -459,7 +402,7 @@ implements
       dbSQL.startTrans(par, par.shouldCommit);
       
       par.entity =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
                 par,
             par.user,
@@ -482,7 +425,7 @@ implements
       if(tagEntities.isEmpty()){
         
         tagUri =
-          entityServ.entityUpdate(
+          entityUpdate(
             new SSEntityUpdatePar(
               par,
               par.user,
@@ -612,7 +555,7 @@ implements
       if(par.label != null){
         
         final List<SSEntity> tagEntities =
-          entityServ.entityFromTypeAndLabelGet(
+          entityFromTypeAndLabelGet(
             new SSEntityFromTypeAndLabelGetPar(
               par,
               par.user,
@@ -916,7 +859,7 @@ implements
         
         par.entities.addAll(
           SSUri.getDistinctNotNullFromEntities(
-            entityServ.entitiesGet(entitiesGetPar))); //withUserRestriction
+            entitiesGet(entitiesGetPar))); //withUserRestriction
       }
       
       final List<SSTagFrequ> tagFrequs = new ArrayList<>();
@@ -963,7 +906,7 @@ implements
 //
 //      final SSUri    tagUri;
 //      final SSEntity tagEntity =
-//        entityServ.entityGet(
+//        entityGet(
 //          new SSEntityGetPar(
 //            null,
 //            null,

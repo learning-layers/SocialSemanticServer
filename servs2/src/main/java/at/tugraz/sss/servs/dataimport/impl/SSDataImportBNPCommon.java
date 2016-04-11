@@ -25,13 +25,14 @@ import at.tugraz.sss.servs.evernote.datatype.SSEvernoteResourceAddPar;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.entity.api.*;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.servs.entity.impl.*;
 import at.tugraz.sss.servs.evernote.api.*;
+import at.tugraz.sss.servs.evernote.impl.*;
 
 public class SSDataImportBNPCommon {
   
@@ -49,7 +50,8 @@ public class SSDataImportBNPCommon {
     final Long           notebookCreationTime) throws SSErr{
     
     try{
-      final SSEntityServerI entityServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      
+      final SSEntityServerI entityServ = new SSEntityImpl();
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
@@ -89,8 +91,8 @@ public class SSDataImportBNPCommon {
     final Long           creationTime) throws SSErr{
     
     try{
-      final SSEntityServerI   entityServ    = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
-      final SSEvernoteServerI evernoteServ  = (SSEvernoteServerI) SSServReg.getServ(SSEvernoteServerI.class);
+      final SSEntityServerI   entityServ    = new SSEntityImpl();
+      final SSEvernoteServerI evernoteServ  = new SSEvernoteImpl();
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
@@ -162,8 +164,8 @@ public class SSDataImportBNPCommon {
     final SSUri          noteUri) throws SSErr{
     
     try{
-      final SSEntityServerI   entityServ    = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
-      final SSEvernoteServerI evernoteServ  = (SSEvernoteServerI) SSServReg.getServ(SSEvernoteServerI.class);
+      final SSEntityServerI   entityServ    = new SSEntityImpl();
+      final SSEvernoteServerI evernoteServ  = new SSEvernoteImpl();
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(

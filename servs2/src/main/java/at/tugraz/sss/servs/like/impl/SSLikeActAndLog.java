@@ -20,15 +20,14 @@
  */
 package at.tugraz.sss.servs.like.impl;
 
-import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.servs.like.datatype.*;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.eval.api.SSEvalServerI;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogE;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogPar;
+import at.tugraz.sss.servs.eval.impl.*;
 
 public class SSLikeActAndLog{
   
@@ -38,7 +37,7 @@ public class SSLikeActAndLog{
     
     try{
       
-      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalServerI evalServ = new SSEvalImpl();
       
       if(par.value == 1){
         
@@ -70,16 +69,6 @@ public class SSLikeActAndLog{
             null, //users
             null, //creationTime
             shouldCommit));
-      }
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
       }
       
     }catch(Exception error){

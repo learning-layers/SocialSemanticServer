@@ -21,7 +21,7 @@
 package at.tugraz.sss.servs.mail.impl;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.servs.mail.conf.SSMailConf;
 import java.util.Properties;
 import javax.mail.Message;

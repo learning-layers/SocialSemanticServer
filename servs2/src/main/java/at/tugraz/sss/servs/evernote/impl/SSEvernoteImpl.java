@@ -20,78 +20,46 @@
  */
 package at.tugraz.sss.servs.evernote.impl;
 
-import at.tugraz.sss.serv.util.SSDateU;
-import at.tugraz.sss.serv.util.SSLogU;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.servs.evernote.datatype.SSEvernoteInfo;
-import at.tugraz.sss.servs.evernote.datatype.SSEvernoteNote;
-import at.tugraz.sss.servs.evernote.datatype.SSEvernoteNoteAddPar;
-import at.tugraz.sss.servs.evernote.datatype.SSEvernoteNoteGetPar;
-import at.tugraz.sss.servs.evernote.datatype.SSEvernoteNoteStoreGetPar;
-import at.tugraz.sss.servs.evernote.datatype.SSEvernoteNoteTagNamesGetPar;
-import at.tugraz.sss.servs.evernote.datatype.SSEvernoteNotebookGetPar;
-import at.tugraz.sss.servs.evernote.datatype.SSEvernoteResource;
-import at.tugraz.sss.servs.evernote.datatype.SSEvernoteResourceAddPar;
-import at.tugraz.sss.servs.evernote.datatype.SSEvernoteResourceByHashGetPar;
-import at.tugraz.sss.servs.evernote.datatype.SSEvernoteResourceGetPar;
-import at.tugraz.sss.servs.evernote.datatype.SSEvernoteUSNSetPar;
-import at.tugraz.sss.servs.evernote.datatype.SSEvernoteUserAddPar;
-import at.tugraz.sss.servs.file.api.SSFileServerI;
-import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
-import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
-import at.tugraz.sss.serv.datatype.SSErr;
-import com.evernote.auth.EvernoteAuth;
-import com.evernote.auth.EvernoteService;
-import com.evernote.clients.ClientFactory;
-import com.evernote.clients.NoteStoreClient;
-import com.evernote.clients.UserStoreClient;
-import com.evernote.edam.error.EDAMErrorCode;
-import com.evernote.edam.error.EDAMSystemException;
-import com.evernote.edam.notestore.SyncChunk;
-import com.evernote.edam.notestore.SyncChunkFilter;
-import com.evernote.edam.type.Note;
-import com.evernote.edam.type.Notebook;
-import com.evernote.edam.type.Resource;
-import java.util.List;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.servs.evernote.datatype.*;
+import at.tugraz.sss.servs.file.api.*;
+import at.tugraz.sss.servs.common.api.*;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.impl.api.*;
+import com.evernote.auth.*;
+import com.evernote.clients.*;
+import com.evernote.edam.error.*;
+import com.evernote.edam.notestore.*;
+import com.evernote.edam.type.*;
+import java.util.List;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
 import at.tugraz.sss.servs.evernote.api.*;
 import at.tugraz.sss.servs.file.datatype.*;
+import at.tugraz.sss.servs.file.impl.*;
 
 public class SSEvernoteImpl
-extends SSServImplA
-implements
-  SSEvernoteClientI,
+  extends SSEntityImpl
+  implements
   SSEvernoteServerI,
   SSDescribeEntityI{
   
-  private final SSEvernoteSQL                         sql;
-  private final SSDBSQLI                              dbSQL;
-  private final SSDBNoSQLI                            dbNoSQL;
+  private final SSEvernoteSQL sql = new SSEvernoteSQL(dbSQL);
   
-  public SSEvernoteImpl(final SSConfA conf) throws SSErr{
-    
-   super(conf);
-    
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    this.sql           = new SSEvernoteSQL(dbSQL);
+  public SSEvernoteImpl() throws SSErr{
+    super(SSCoreConf.instGet().getEvernote());
   }
   
   @Override
   public SSEntity describeEntity(
-    final SSServPar servPar,
+    final SSServPar            servPar,
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws SSErr{
     
     try{
+      
+      final SSFileServerI fileServ = new SSFileImpl();
       
       switch(entity.type){
         
@@ -108,7 +76,7 @@ implements
               entity);
           
           for(SSEntity file :
-            ((SSFileServerI) SSServReg.getServ(SSFileServerI.class)).filesGet(
+            fileServ.filesGet(
               new SSEntityFilesGetPar(
                 servPar,
                 par.user,
@@ -136,7 +104,7 @@ implements
               entity);
           
           for(SSEntity file :
-            ((SSFileServerI) SSServReg.getServ(SSFileServerI.class)).filesGet(
+            fileServ.filesGet(
               new SSEntityFilesGetPar(
                 servPar,
                 par.user,

@@ -27,25 +27,16 @@ import at.tugraz.sss.servs.activity.api.SSActivityServerI;
 import at.tugraz.sss.servs.activity.datatype.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.servs.eval.api.SSEvalServerI;
+import at.tugraz.sss.servs.activity.impl.*;
+import at.tugraz.sss.servs.eval.api.*;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogE;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogPar;
+import at.tugraz.sss.servs.eval.impl.*;
 
 public class SSCategoryActAndLogFct {
-  
-  private final SSActivityServerI activityServ;
-  private final SSEvalServerI     evalServ;
-  
-  public SSCategoryActAndLogFct(
-    final SSActivityServerI activityServ,
-    final SSEvalServerI     evalServ){
-    
-    this.activityServ = activityServ;
-    this.evalServ     = evalServ;
-  }
   
   public void addCategory(
     final SSCategoryAddPar par, 
@@ -54,6 +45,9 @@ public class SSCategoryActAndLogFct {
     final boolean          shouldCommit) throws SSErr{
     
     try{
+      
+      final SSActivityServerI activityServ = new SSActivityImpl();
+      final SSEvalServerI     evalServ     = new SSEvalImpl();
       
       activityServ.activityAdd(
         new SSActivityAddPar(
@@ -80,13 +74,6 @@ public class SSCategoryActAndLogFct {
           null, //creationTime
           shouldCommit));
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -97,6 +84,9 @@ public class SSCategoryActAndLogFct {
     final boolean               shouldCommit) throws SSErr{
     
     try{
+      
+      final SSActivityServerI activityServ = new SSActivityImpl();
+      final SSEvalServerI     evalServ     = new SSEvalImpl();
       
       activityServ.activityAdd(
         new SSActivityAddPar(
@@ -122,13 +112,6 @@ public class SSCategoryActAndLogFct {
           null, //users
           null, //creationTime
           shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

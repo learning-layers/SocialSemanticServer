@@ -20,6 +20,7 @@
   */
 package at.tugraz.sss.servs.dataimport.impl;
 
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.servs.evernote.datatype.SSEvernoteResourceByHashGetPar;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.servs.file.api.SSFileServerI;
@@ -31,9 +32,10 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.evernote.api.*;
+import at.tugraz.sss.servs.evernote.impl.*;
 import at.tugraz.sss.servs.file.datatype.*;
+import at.tugraz.sss.servs.file.impl.*;
 import com.evernote.clients.NoteStoreClient;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Resource;
@@ -55,7 +57,7 @@ public class SSDataImportEvernoteNoteContentHandler{
     String                    pdfFilePath;
     
     try{
-      final SSFileServerI fileServ = (SSFileServerI) SSServReg.getServ(SSFileServerI.class);
+      final SSFileServerI fileServ = new SSFileImpl();
       
       xhtmlFilePath    = localWorkPath + SSConf.fileIDFromSSSURI(SSConf.vocURICreate(SSFileExtE.xhtml));
       fileUri          = SSConf.vocURICreate                  (SSFileExtE.pdf);
@@ -311,7 +313,7 @@ public class SSDataImportEvernoteNoteContentHandler{
     int            hashEndIndex;
     
     try{
-      final SSEvernoteServerI evernoteServ = (SSEvernoteServerI) SSServReg.getServ(SSEvernoteServerI.class);
+      final SSEvernoteServerI evernoteServ = new SSEvernoteImpl();
       
       lineReader = new BufferedReader(new FileReader(new File(path)));
       

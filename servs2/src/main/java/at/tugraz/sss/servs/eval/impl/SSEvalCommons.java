@@ -20,13 +20,14 @@
  */
 package at.tugraz.sss.servs.eval.impl;
 
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.servs.user.api.*;
 import at.tugraz.sss.servs.user.datatype.*;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.user.impl.*;
 import java.util.*;
 
 public class SSEvalCommons {
@@ -43,7 +44,7 @@ public class SSEvalCommons {
         return userSubs.get(SSStrU.toStr(email));
       }
       
-      final SSUserServerI userServ = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
+      final SSUserServerI userServ = new SSUserImpl();
       final List<String>  emails   = new ArrayList<>();
       final List<String>  subs     = new ArrayList<>();
       

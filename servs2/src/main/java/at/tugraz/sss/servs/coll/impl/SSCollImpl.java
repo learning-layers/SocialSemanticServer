@@ -20,8 +20,7 @@
   */
 package at.tugraz.sss.servs.coll.impl;
 
-import at.tugraz.sss.serv.reg.*;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.common.api.SSAddAffiliatedEntitiesToCircleI;
@@ -29,7 +28,6 @@ import at.tugraz.sss.servs.common.api.SSGetParentEntitiesI;
 import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.servs.common.api.SSPushEntitiesToUsersI;
 import at.tugraz.sss.servs.common.api.SSGetSubEntitiesI;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSEntityContext;
 import at.tugraz.sss.serv.datatype.SSQueryResultPage;
@@ -51,12 +49,10 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserRootAddPar;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserEntryAddPar;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserEntryDeletePar;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.servs.coll.api.*;
 import at.tugraz.sss.servs.coll.datatype.SSCollGetPar;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserParentGetPar;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserRootGetPar;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserEntryAddRet;
@@ -65,7 +61,6 @@ import at.tugraz.sss.servs.coll.datatype.SSCollUserEntriesAddPar;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserEntriesDeletePar;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserEntriesAddRet;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserEntriesDeleteRet;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import at.tugraz.sss.servs.coll.datatype.SSCollCumulatedTagsGetPar;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserHierarchyGetPar;
 import at.tugraz.sss.servs.coll.datatype.SSCollsGetPar;
@@ -81,14 +76,15 @@ import java.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.datatype.enums.SSWarnE;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.servs.coll.datatype.*;
 import at.tugraz.sss.servs.common.api.SSGetUsersResourcesI;
 import at.tugraz.sss.servs.common.api.SSGetUserRelationsI;
-import at.tugraz.sss.servs.common.impl.*;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
+import at.tugraz.sss.servs.tag.impl.*;
 
 public class SSCollImpl
-extends SSServImplA
+extends SSEntityImpl
 implements
   SSCollClientI,
   SSCollServerI,
@@ -101,19 +97,10 @@ implements
   SSGetUsersResourcesI{
   
   private final SSCollActAndLog                       actAndLog                     = new SSCollActAndLog();
-  private final SSUserCommons                         userCommons                   = new SSUserCommons();
-  private final SSAddAffiliatedEntitiesToCircle       addAffiliatedEntitiesToCircle = new SSAddAffiliatedEntitiesToCircle();
-  private final SSCollSQL                             sql;
-  private final SSDBSQLI                              dbSQL;
-  private final SSDBNoSQLI                            dbNoSQL;
+  private final SSCollSQL                             sql                           = new SSCollSQL(dbSQL);
   
-  public SSCollImpl(final SSConfA conf) throws SSErr{
-    
-    super(conf);
-    
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    this.sql           = new SSCollSQL(dbSQL);
+  public SSCollImpl(){
+    super(SSCoreConf.instGet().getColl());
   }
   
   @Override
@@ -246,7 +233,6 @@ implements
     final Map<String, List<SSUri>> userRelations) throws SSErr{
     
     try{
-      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
         
       List<SSEntity>                 collUserCircles;
       List<SSEntity>                 collEntryUserCircles;
@@ -268,7 +254,7 @@ implements
         for(SSEntity coll : allColls){
           
           collUserCircles =
-            entityServ.circlesGet(
+            circlesGet(
               new SSCirclesGetPar(
                 servPar, 
                 userUri,
@@ -295,7 +281,7 @@ implements
             collEntry = (SSCollEntry) entry;
             
             collEntryUserCircles =
-              entityServ.circlesGet(
+              circlesGet(
                 new SSCirclesGetPar(
                   servPar, 
                   userUri,
@@ -384,7 +370,6 @@ implements
   public List<SSEntity> addAffiliatedEntitiesToCircle(final SSServPar servPar, final SSAddAffiliatedEntitiesToCirclePar par) throws SSErr{
     
     try{
-      final SSEntityServerI entityServ           = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final List<SSUri>     affiliatedURIs       = new ArrayList<>();
       final List<SSEntity>  affiliatedEntities   = new ArrayList<>();
       
@@ -405,7 +390,7 @@ implements
               if(
                 SSStrU.isEqual(
                   par.circle,
-                  entityServ.circlePubURIGet(
+                  circlePubURIGet(
                     new SSCirclePubURIGetPar(
                       servPar, 
                       par.user,
@@ -435,7 +420,7 @@ implements
         return affiliatedEntities;
       }
       
-      entityServ.circleEntitiesAdd(
+      circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
           servPar, 
           par.user,
@@ -446,7 +431,7 @@ implements
       
       SSEntity.addEntitiesDistinctWithoutNull(
         affiliatedEntities,
-        entityServ.entitiesGet(
+        entitiesGet(
           new SSEntitiesGetPar(
             servPar, 
             par.user,
@@ -586,8 +571,6 @@ implements
     
     try{
       
-      final SSEntityServerI entityServ           = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      
       if(par.coll == null){
         throw SSErr.get(SSErrE.parameterMissing);
       }
@@ -609,7 +592,7 @@ implements
       }
       
       final SSEntity collEntity =
-        entityServ.entityGet(
+        entityGet(
           new SSEntityGetPar(
             par, 
             par.user,
@@ -628,7 +611,7 @@ implements
       }
       
       final List<SSEntity> collEntries =
-        entityServ.entitiesGet(
+        entitiesGet(
           new SSEntitiesGetPar(
             par, 
             par.user,
@@ -930,12 +913,10 @@ implements
         return true;
       }
       
-      final SSEntityServerI entityServ           = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      
       dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri rootColl =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par, 
             par.forUser,
@@ -1025,8 +1006,6 @@ implements
   public SSUri collEntryAdd(final SSCollUserEntryAddPar par) throws SSErr{
     
     try{
-      
-      final SSEntityServerI entityServ           = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       
       if(SSObjU.isNull(par.coll)){
         throw SSErr.get(SSErrE.parameterMissing);
@@ -1341,7 +1320,7 @@ implements
           par, 
           sql.getCollWithEntries(par, par.coll));
       
-      final SSTagServerI tagServ = (SSTagServerI) SSServReg.getServ(SSTagServerI.class);
+      final SSTagServerI tagServ = new SSTagImpl();
       
       return tagServ.tagFrequsGet(
         new SSTagFrequsGetPar(
@@ -1365,17 +1344,16 @@ implements
   private SSUri addNewColl(final SSCollUserEntryAddPar par) throws SSErr{
     
     try{
-      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final boolean         isParentCollSharedOrPublic;
       
-      if(entityServ.circleIsEntityPrivate(new SSCircleIsEntityPrivatePar(par, par.user, par.coll))){
+      if(circleIsEntityPrivate(new SSCircleIsEntityPrivatePar(par, par.user, par.coll))){
         isParentCollSharedOrPublic = false;
       }else{
         isParentCollSharedOrPublic = true;
       }
       
       final SSUri newColl =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par,
             par.user,
@@ -1404,7 +1382,7 @@ implements
         isParentCollSharedOrPublic,
         false);
       
-      entityServ.circleAddEntitiesToCirclesOfEntity(
+      circleAddEntitiesToCirclesOfEntity(
         new SSCircleAddEntitiesToCircleOfEntityPar(
           par,
           par.user,
@@ -1426,9 +1404,7 @@ implements
     
     try{
       
-      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      
-      if(!entityServ.circleIsEntityPublic(
+      if(!circleIsEntityPublic(
         new SSCircleIsEntityPublicPar(
           par,
           par.user,
@@ -1436,7 +1412,7 @@ implements
         throw new Exception("coll to add is not public");
       }
       
-      if(!entityServ.circleIsEntityPrivate(
+      if(!circleIsEntityPrivate(
         new SSCircleIsEntityPrivatePar(
           par,
           par.user,
@@ -1472,9 +1448,8 @@ implements
     
     try{
       
-      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSUri           entry      =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par,
             par.user,
@@ -1495,7 +1470,7 @@ implements
       
       sql.addCollEntry(par, par.coll, entry);
       
-      entityServ.circleAddEntitiesToCirclesOfEntity(
+      circleAddEntitiesToCirclesOfEntity(
         new SSCircleAddEntitiesToCircleOfEntityPar(
           par,
           par.user,
@@ -1517,13 +1492,11 @@ implements
     
     try{
       
-      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      
       if(sql.isCollSpecial(par, par.entry)){
         throw new Exception("cant delete special collection");
       }
       
-      if(entityServ.circleIsEntityPrivate(new SSCircleIsEntityPrivatePar(par, par.user, par.entry))){
+      if(circleIsEntityPrivate(new SSCircleIsEntityPrivatePar(par, par.user, par.entry))){
         //TODO dtheiler: remove priv (sub) coll(s) from circle(s)/coll table if not linked anymore to a user in coll clean up timer task thread
           sql.removeCollAndUnlinkSubColls(par, par.user, par.entry);
       }else{

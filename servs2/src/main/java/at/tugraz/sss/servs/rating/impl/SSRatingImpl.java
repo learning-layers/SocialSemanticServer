@@ -21,11 +21,9 @@
 package at.tugraz.sss.servs.rating.impl;
 
 import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
-import at.tugraz.sss.serv.entity.api.*;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.servs.rating.datatype.SSRatingOverallGetPar;
 import at.tugraz.sss.servs.rating.datatype.SSRatingGetPar;
@@ -34,8 +32,6 @@ import at.tugraz.sss.servs.rating.api.*;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import at.tugraz.sss.servs.rating.datatype.SSRating;
 import at.tugraz.sss.servs.rating.datatype.SSRatingOverall;
 import at.tugraz.sss.servs.rating.datatype.SSRatingEntityURIsGetPar;
@@ -44,7 +40,6 @@ import at.tugraz.sss.servs.rating.datatype.SSRatingGetRet;
 import at.tugraz.sss.servs.rating.datatype.SSRatingSetRet;
 import at.tugraz.sss.servs.rating.datatype.SSRatingsRemovePar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.datatype.SSEntityContext;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
@@ -53,18 +48,17 @@ import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
-import at.tugraz.sss.serv.impl.api.*;
-
 import java.util.ArrayList;
 import at.tugraz.sss.servs.common.api.SSGetUsersResourcesI;
 import at.tugraz.sss.servs.common.api.SSGetUserRelationsI;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
 
 public class SSRatingImpl
-extends SSServImplA
+extends SSEntityImpl
 implements
   SSRatingClientI,
   SSRatingServerI,
@@ -72,21 +66,10 @@ implements
   SSGetUserRelationsI,
   SSGetUsersResourcesI{
   
-  private final SSRatingSQLFct                        sql;
-  private final SSEntityServerI                       entityServ;
-  private final SSUserCommons                         userCommons;
-  private final SSDBSQLI                              dbSQL;
-  private final SSDBNoSQLI                            dbNoSQL;
+  private final SSRatingSQLFct                        sql = new SSRatingSQLFct   (dbSQL); 
   
-  public SSRatingImpl(final SSConfA conf) throws SSErr{
-    
-    super(conf);
-    
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    this.sql           = new SSRatingSQLFct   (dbSQL);
-    this.entityServ    = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-    this.userCommons   = new SSUserCommons();
+  public SSRatingImpl(){
+    super(SSCoreConf.instGet().getRating());
   }
   
   @Override
@@ -211,7 +194,7 @@ implements
       dbSQL.startTrans(par, par.shouldCommit);
       
       par.entity =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par, 
             par.user,
@@ -236,7 +219,7 @@ implements
       if(!userRatedEntityBefore){
         
         ratingUri =
-          entityServ.entityUpdate(
+          entityUpdate(
             new SSEntityUpdatePar(
               par, 
               par.user,

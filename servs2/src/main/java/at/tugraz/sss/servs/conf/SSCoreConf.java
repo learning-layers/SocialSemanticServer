@@ -34,7 +34,8 @@ import at.tugraz.sss.servs.learnep.conf.SSLearnEpConf;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.db.conf.SSDBNoSQLConf;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.app.conf.*;
 import at.tugraz.sss.servs.appstacklayout.conf.*;
 import at.tugraz.sss.servs.auth.conf.*;
@@ -119,7 +120,7 @@ public class SSCoreConf extends SSCoreConfA  {
     }
   }
   
-  public static SSCoreConf instGet() throws SSErr {
+  public static SSCoreConf instGet(){
     
     try {
       
@@ -129,7 +130,7 @@ public class SSCoreConf extends SSCoreConfA  {
       
       return inst;
     } catch (Exception error) {
-      SSServErrReg.regErrThrow(error);
+      SSLogU.err(error);
       return null;
     }
   }

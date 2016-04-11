@@ -21,12 +21,11 @@
 package at.tugraz.sss.adapter.rest.v3;
 
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogRESTPar;
-import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.db.impl.*;
 import at.tugraz.sss.servs.eval.api.*;
 import io.swagger.annotations.*;
 import java.sql.*;
@@ -41,10 +40,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogPar;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogRet;
+import at.tugraz.sss.servs.eval.impl.*;
 
 @Path("/eval")
 @Api( value = "eval")
 public class SSRESTEval{
+  
+  private final SSEvalClientI evalServ = new SSEvalImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -73,7 +76,7 @@ public class SSRESTEval{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -104,10 +107,7 @@ public class SSRESTEval{
       }
       
       try{
-        final SSEvalClientI evalServ = (SSEvalClientI) SSServReg.getClientServ(SSEvalClientI.class);
-        
         return Response.status(200).entity(evalServ.evalLog(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }

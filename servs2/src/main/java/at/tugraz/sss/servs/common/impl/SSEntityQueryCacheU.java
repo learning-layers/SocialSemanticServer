@@ -22,7 +22,7 @@ package at.tugraz.sss.servs.common.impl;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.SSDateU;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import java.util.Iterator;
 import java.util.Map;
 

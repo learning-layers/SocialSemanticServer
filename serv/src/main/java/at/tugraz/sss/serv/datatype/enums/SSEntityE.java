@@ -20,8 +20,8 @@
 */
 package at.tugraz.sss.serv.datatype.enums;
 
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import io.swagger.annotations.*;
 import java.util.ArrayList;

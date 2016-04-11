@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.serv.misc;
 
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import java.util.HashMap;

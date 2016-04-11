@@ -23,13 +23,12 @@ package at.tugraz.sss.servs.rating.impl;
 import at.tugraz.sss.servs.activity.api.SSActivityServerI;
 import at.tugraz.sss.servs.activity.datatype.SSActivityE;
 import at.tugraz.sss.servs.activity.datatype.SSActivityAddPar;
-import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.servs.rating.datatype.SSRatingSetPar;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.servs.activity.impl.*;
 
 public class SSRatingActivityFct{
 
@@ -38,7 +37,9 @@ public class SSRatingActivityFct{
     
     try{
       
-      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+      final SSActivityServerI activityServ = new SSActivityImpl();
+        
+      activityServ.activityAdd(
         new SSActivityAddPar(
           par,
           par.user,
@@ -50,15 +51,6 @@ public class SSRatingActivityFct{
           null,
           par.shouldCommit));
               
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

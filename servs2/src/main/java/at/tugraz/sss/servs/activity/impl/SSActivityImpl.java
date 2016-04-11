@@ -35,7 +35,6 @@ import at.tugraz.sss.servs.activity.datatype.SSActivityTypesGetPar;
 import at.tugraz.sss.servs.activity.datatype.SSActivitiesGetRet;
 import at.tugraz.sss.servs.activity.datatype.SSActivityTypesGetRet;
 import at.tugraz.sss.servs.activity.datatype.SSActivityAddRet;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
@@ -43,47 +42,35 @@ import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.SSEntityContext;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.datatype.SSQueryResultPage;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
-import at.tugraz.sss.serv.impl.api.*;
 import java.util.Map;
 import at.tugraz.sss.servs.common.api.SSGetUsersResourcesI;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
 
 public class SSActivityImpl
-extends SSServImplA
+extends SSEntityImpl
 implements
   SSActivityClientI,
   SSActivityServerI,
   SSDescribeEntityI,
   SSGetUsersResourcesI{
   
-  private final SSDBSQLI         dbSQL;
-  private final SSDBNoSQLI       dbNoSQL;
-  private final SSActivitySQLFct sql;
-  private final SSUserCommons    userCommons = new SSUserCommons();
+  private final SSActivitySQLFct sql = new SSActivitySQLFct(dbSQL);
   
-  public SSActivityImpl(final SSConfA conf) throws SSErr{
-    
-    super(conf);
-    
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    this.sql           = new SSActivitySQLFct(dbSQL);
+  public SSActivityImpl(){
+    super(SSCoreConf.instGet().getActivity());
   }
   
   @Override
@@ -318,8 +305,7 @@ implements
     try{
       final List<SSEntity>             activities           = new ArrayList<>();
       final List<SSUri>                activityURIsToQuery  = new ArrayList<>();
-      final SSEntityServerI            entityServ           = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      final SSActivitiesGetFct         fct                  = new SSActivitiesGetFct(entityServ, sql);
+      final SSActivitiesGetFct         fct                  = new SSActivitiesGetFct(this, sql);
       SSActivity                       activity;
       SSEntityDescriberPar             descPar;
       
@@ -417,13 +403,12 @@ implements
         throw SSErr.get(SSErrE.parameterMissing);
       }
       
-      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       SSUri                 entityEntity;
       
       dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri activity   =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par, 
             par.user,
@@ -444,7 +429,7 @@ implements
       }
       
       entityEntity =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par, 
             par.user,
@@ -467,7 +452,7 @@ implements
       for(SSUri entity : par.entities){
         
         entityEntity =
-          entityServ.entityUpdate(
+          entityUpdate(
             new SSEntityUpdatePar(
               par, 
               par.user,

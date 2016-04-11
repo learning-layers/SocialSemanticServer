@@ -20,83 +20,87 @@
 */
 package at.tugraz.sss.servs.file.impl;
 
-import at.tugraz.sss.servs.file.api.SSFileServerI;
-import at.tugraz.sss.servs.file.api.SSFileClientI;
-import at.tugraz.sss.servs.file.conf.SSFileConf;
-import at.tugraz.sss.servs.file.datatype.SSFileAddRet;
-import at.tugraz.sss.servs.file.datatype.SSFileDownloadRet;
-import at.tugraz.sss.servs.file.datatype.SSFileUploadRet;
-import at.tugraz.sss.servs.file.datatype.SSFileDownloadPar;
-import at.tugraz.sss.servs.file.datatype.SSFileUploadPar;
-import at.tugraz.sss.servs.file.datatype.SSFilesDeleteNotRegisteredPar;
-import at.tugraz.sss.servs.file.datatype.SSFile;
-import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
-import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
-import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.servs.file.datatype.SSEntityFileAddPar;
-import at.tugraz.sss.servs.file.datatype.SSEntityFilesGetPar;
-import at.tugraz.sss.serv.util.SSFileExtE;
-import at.tugraz.sss.serv.util.SSMimeTypeE;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.servs.file.api.*;
+import at.tugraz.sss.servs.file.conf.*;
+import at.tugraz.sss.servs.file.datatype.*;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.conf.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import at.tugraz.sss.adapter.socket.*;
-import at.tugraz.sss.servs.common.api.SSAddAffiliatedEntitiesToCircleI;
-import at.tugraz.sss.serv.datatype.par.SSAddAffiliatedEntitiesToCirclePar;
-import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
-import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.servs.common.api.*;
 import at.tugraz.sss.serv.util.SSFileU;
-import at.tugraz.sss.serv.datatype.enums.SSImageE;
-import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.reg.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.impl.api.*;
-import at.tugraz.sss.servs.file.datatype.SSFileGetPar;
-import at.tugraz.sss.servs.image.api.SSImageServerI;
-import at.tugraz.sss.servs.image.datatype.SSImageAddPar;
+import at.tugraz.sss.serv.datatype.ret.*; 
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
+import at.tugraz.sss.servs.image.api.*;
+import at.tugraz.sss.servs.image.datatype.*;
 import java.io.*;
 import java.util.*;
 import java.util.List;
 import javax.ws.rs.core.*;
-import at.tugraz.sss.servs.eval.api.SSEvalServerI;
-import at.tugraz.sss.servs.eval.datatype.SSEvalLogE;
-import at.tugraz.sss.servs.eval.datatype.SSEvalLogPar;
+import at.tugraz.sss.servs.eval.api.*;
+import at.tugraz.sss.servs.eval.datatype.*;
+import at.tugraz.sss.servs.eval.impl.*;
+import at.tugraz.sss.servs.image.impl.*;
 
 public class SSFileImpl 
-extends SSServImplA
+extends SSEntityImpl
 implements 
   SSFileClientI, 
   SSFileServerI, 
   SSDescribeEntityI,
   SSAddAffiliatedEntitiesToCircleI{
 
-  private final SSUserCommons                         userCommons = new SSUserCommons();
-  private final SSFileSQL                             sql;
-  private final SSDBSQLI                              dbSQL;
-  private final SSDBNoSQLI                            dbNoSQL;  
+  private final SSFileSQL sql = new SSFileSQL (dbSQL);
   
-  public SSFileImpl(
-    final SSFileConf conf) throws SSErr{
-
-    super(conf);
+  public SSFileImpl(){
+    super(SSCoreConf.instGet().getFile());
+  }
+  
+  @Override
+  public void schedule() throws SSErr{
     
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
+    final SSFileConf fileConf = (SSFileConf) conf;
     
-    this.sql = new SSFileSQL (dbSQL);
+    if(
+      !fileConf.use ||
+      !fileConf.schedule){
+      return;
+    }
+    
+    if(
+      SSObjU.isNull(fileConf.scheduleOps, fileConf.scheduleIntervals) ||
+      fileConf.scheduleOps.isEmpty()                                    ||
+      fileConf.scheduleIntervals.isEmpty()                              ||
+      fileConf.scheduleOps.size() != fileConf.scheduleIntervals.size()){
+      
+      SSLogU.warn(SSWarnE.scheduleConfigInvalid, null);
+      return;
+    }
+    
+    Date startDate;
+    
+    for(int counter = 0; counter < fileConf.scheduleOps.size(); counter++){
+      
+      if(SSStrU.isEqual(fileConf.scheduleOps.get(counter), SSVarNames.filesDeleteNotRegistered)){
+        
+        if(fileConf.executeScheduleAtStartUp){
+          startDate = new Date();
+        }else{
+          startDate = SSDateU.getDatePlusMinutes(fileConf.scheduleIntervals.get(counter));
+        }
+        
+        new SSSchedules().regScheduler(
+          SSDateU.scheduleWithFixedDelay(
+            new SSFilesDeleteNotRegisteredTask(fileConf.filesDeleteNotRegisteredDirPath),
+            startDate,
+            fileConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds));
+      }
+    }
   }
   
   @Override
@@ -159,7 +163,6 @@ implements
     
     try{
       final List<SSUri>     affiliatedURIs  = new ArrayList<>();
-      final SSEntityServerI circleServ      = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       
       for(SSEntity entityAdded : par.entities){
         
@@ -186,7 +189,7 @@ implements
         return new ArrayList<>();
       }
       
-      circleServ.circleEntitiesAdd(
+      circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
           servPar, 
           par.user,
@@ -206,7 +209,9 @@ implements
   public SSServRetI fileDownload(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSFileDownloadPar par = (SSFileDownloadPar) parA.getFromClient(clientType, parA, SSFileDownloadPar.class);
+      final SSEvalServerI evalServ = new SSEvalImpl();
+      SSFileDownloadPar   par      = (SSFileDownloadPar) parA.getFromClient(clientType, parA, SSFileDownloadPar.class);
+      
       
       //TODO fix this public download: get user and check whether he can read
       if(!par.isPublicDownload){
@@ -219,7 +224,7 @@ implements
       
       if(!par.isPublicDownload){
         
-        ((SSEvalServerI) SSServReg.getServ(SSEvalServerI.class)).evalLog(
+        evalServ.evalLog(
           new SSEvalLogPar(
             par, 
             par.user,
@@ -384,7 +389,7 @@ implements
       final SSFileUploadPar par = (SSFileUploadPar) parA.getFromClient(clientType, parA, SSFileUploadPar.class);
       final SSFileUploadRet ret = fileUpload(par);
       
-      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalServerI evalServ = new SSEvalImpl();
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -555,7 +560,7 @@ implements
     }catch(Exception error){
       
 //      if(SSServErrReg.containsErr(SSErrE.servInvalid)){
-        SSLogU.warn(SSErrE.servInvalid.toString(), error);
+        SSLogU.warn(SSWarnE.servInvalid.toString(), error);
 //      }else{
 //        SSLogU.warn(error.getMessage());
 //      }
@@ -571,7 +576,6 @@ implements
     final boolean       withUserRestriction) throws SSErr{
     
     try{
-      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSFileAddRet    result =
         fileAdd(
           new SSEntityFileAddPar(
@@ -594,7 +598,7 @@ implements
         return null;
       }
       
-      entityServ.entityUpdate(
+      entityUpdate(
         new SSEntityUpdatePar(
           servPar,
           user,
@@ -621,8 +625,6 @@ implements
   public SSFileAddRet fileAdd(final SSEntityFileAddPar par) throws SSErr{
     
     try{
-      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      
       if(
         par.file == null &&
         par.type == null){
@@ -667,7 +669,7 @@ implements
               par.withUserRestriction, //withUserRestriction
               false))){  //invokeEntityHandlers
           
-          entityServ.entityRemove(
+          entityRemove(
             new SSEntityRemovePar(
               par, 
               par.user, 
@@ -682,7 +684,7 @@ implements
       }
         
       par.file =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par,
             par.user,
@@ -707,7 +709,7 @@ implements
       if(par.entity != null){
         
         par.entity = 
-          entityServ.entityUpdate(
+          entityUpdate(
           new SSEntityUpdatePar(
             par, 
             par.user,
@@ -737,7 +739,7 @@ implements
       
       if(par.createThumb){
         
-        final SSImageServerI imageServ = (SSImageServerI) SSServReg.getServ(SSImageServerI.class);
+        final SSImageServerI imageServ = new SSImageImpl();
         final SSUri          entityToAddThumbTo;
         
         if(par.entityToAddThumbTo != null){
@@ -790,7 +792,6 @@ implements
   public SSFile fileGet(final SSFileGetPar par) throws SSErr{
     
     try{
-      final SSEntityServerI entityServ    = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSFileExtE      fileExt       = SSFileExtE.ext(par.file);
       final SSMimeTypeE     mimeType      = SSMimeTypeE.mimeTypeForFileExt (fileExt);
       final SSUri           downloadLink  =
@@ -830,7 +831,7 @@ implements
       }
       
       final SSEntity fileEntity =
-        entityServ.entityGet(
+        entityGet(
           new SSEntityGetPar(
             par, 
             par.user,

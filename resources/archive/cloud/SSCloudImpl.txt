@@ -478,3 +478,40 @@ public SSServContainerI getClientServContainer(
 //        return null;
 //      }
   }
+
+//  private void deployServNode(
+//    final SSServPar          par,
+//    final SSServContainerI   serv) throws SSErr{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user, par.user);
+//    opPars.put(SSVarNames.serv, serv);
+//    
+//    par.clientCon.writeRetFullToClient((SSServRetI) callServViaServer(new SSServPar(SSVarNames.cloudPublishService, opPars)));
+//  }
+  
+//  private SSServContainerI getClientServAvailableOnNodes(
+//    final SSServPar par) throws SSErr{
+//    
+//    try{
+//      final SSServContainerI serv = servs.get(par.op);
+//      
+//      if(serv == null){
+//        throw SSErr.get(SSErrE.noClientServiceForOpAvailableOnNodes);
+//      }
+//      
+//      return serv;
+//    }catch(SSErr error){
+//      
+//      switch(error.code){
+//        case noClientServiceForOpAvailableOnNodes: throw error;
+//        default: SSServErrReg.regErrThrow(error);
+//      }
+//      
+//      return null;
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }

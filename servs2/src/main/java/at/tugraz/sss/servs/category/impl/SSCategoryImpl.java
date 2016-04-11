@@ -20,42 +20,19 @@
   */
 package at.tugraz.sss.servs.category.impl;
 
-import at.tugraz.sss.servs.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.category.api.SSCategoryClientI;
-import at.tugraz.sss.servs.category.api.SSCategoryServerI;
-import at.tugraz.sss.servs.category.datatype.SSCategory;
-import at.tugraz.sss.servs.category.datatype.SSCategoriesAddPar;
-import at.tugraz.sss.servs.category.datatype.SSCategoriesPredefinedAddPar;
-import at.tugraz.sss.servs.category.datatype.SSCategoriesPredefinedGetPar;
-import at.tugraz.sss.servs.category.datatype.SSCategoriesRemovePar;
-import at.tugraz.sss.servs.category.datatype.SSCategoriesGetPar;
-import at.tugraz.sss.servs.category.datatype.SSCategoryAddPar;
-import at.tugraz.sss.servs.category.datatype.SSCategoryFrequ;
-import at.tugraz.sss.servs.category.datatype.SSCategoryLabel;
-import at.tugraz.sss.servs.category.datatype.SSCategoryEntitiesForCategoriesGetPar;
-import at.tugraz.sss.servs.category.datatype.SSCategoryFrequsGetPar;
-import at.tugraz.sss.servs.category.datatype.SSCategoriesPredefinedGetRet;
-import at.tugraz.sss.servs.category.datatype.SSCategoriesGetRet;
-import at.tugraz.sss.servs.category.datatype.SSCategoriesRemoveRet;
-import at.tugraz.sss.servs.category.datatype.SSCategoryAddRet;
-import at.tugraz.sss.servs.category.datatype.SSCategoryEntitiesForCategoriesGetRet;
-import at.tugraz.sss.servs.category.datatype.SSCategoryFrequsGetRet;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
+import at.tugraz.sss.servs.category.api.*;
+import at.tugraz.sss.servs.category.datatype.*;
 import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.datatype.par.SSEntityFromTypeAndLabelGetPar;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
-import at.tugraz.sss.servs.common.api.SSCircleContentRemovedI;
-import at.tugraz.sss.serv.datatype.par.SSCircleContentRemovedPar;
-import at.tugraz.sss.serv.datatype.par.SSCirclePubURIGetPar;
+import at.tugraz.sss.servs.common.api.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.api.SSEntityA;
 import at.tugraz.sss.serv.datatype.SSEntityContext;
@@ -63,26 +40,23 @@ import at.tugraz.sss.servs.common.api.SSEntityCopiedI;
 import at.tugraz.sss.serv.datatype.par.SSEntityCopiedPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.datatype.enums.SSSearchOpE;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
-import at.tugraz.sss.serv.impl.api.*;
-import at.tugraz.sss.servs.common.impl.SSTagAndCategoryCommonMisc;
-import at.tugraz.sss.servs.common.impl.SSTagAndCategoryCommonSQL;
-import at.tugraz.sss.servs.eval.api.SSEvalServerI;
-import at.tugraz.sss.servs.common.api.SSGetUsersResourcesI;
-import at.tugraz.sss.servs.common.api.SSGetUserRelationsI;
+import at.tugraz.sss.servs.category.conf.*;
+import at.tugraz.sss.servs.common.impl.*;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
+import java.sql.*;
 
 public class SSCategoryImpl
-extends SSServImplA
+extends SSEntityImpl
 implements
   SSCategoryClientI,
   SSCategoryServerI,
@@ -92,32 +66,51 @@ implements
   SSGetUserRelationsI,
   SSGetUsersResourcesI{
   
-  private final SSTagAndCategoryCommonSQL             sql;
-  private final SSTagAndCategoryCommonMisc            commonMiscFct;
-  private final SSEntityServerI                       entityServ;
-  private final SSActivityServerI                     activityServ;
-  private final SSEvalServerI                         evalServ;
-  private final SSUserCommons                         userCommons;
-  private final SSCategoryActAndLogFct                actAndLogFct;
-  private final SSDBSQLI                              dbSQL;
-  private final SSDBNoSQLI                            dbNoSQL;
+  private final SSTagAndCategoryCommonSQL             sql           = new SSTagAndCategoryCommonSQL (dbSQL, SSEntityE.category);
+  private final SSTagAndCategoryCommonMisc            commonMiscFct = new SSTagAndCategoryCommonMisc(dbSQL, SSEntityE.category);
+  private final SSCategoryActAndLogFct                actAndLogFct  = new SSCategoryActAndLogFct();
   
-  public SSCategoryImpl(final SSConfA conf) throws SSErr{
+  public SSCategoryImpl(){
+    super(SSCoreConf.instGet().getCategory());
+  }
+  
+  @Override
+  public void initServ() throws SSErr{
     
-    super(conf);
+    if(!conf.use){
+      return;
+    }
     
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    this.sql           = new SSTagAndCategoryCommonSQL (dbSQL, SSEntityE.category);
-    this.commonMiscFct = new SSTagAndCategoryCommonMisc(dbSQL, SSEntityE.category);
-    this.activityServ  = (SSActivityServerI) SSServReg.getServ (SSActivityServerI.class);
-    this.evalServ      = (SSEvalServerI)     SSServReg.getServ (SSEvalServerI.class);
-    this.entityServ    = (SSEntityServerI)   SSServReg.getServ (SSEntityServerI.class);
-    this.userCommons   = new SSUserCommons();
-    this.actAndLogFct   =
-      new SSCategoryActAndLogFct(
-        activityServ,
-        evalServ);
+    Connection sqlCon = null;
+    
+    try{
+      
+      if(conf.initAtStartUp){
+        
+        final SSServPar servPar = new SSServPar(null);
+        
+        sqlCon = dbSQL.createConnection();
+        
+        servPar.sqlCon = sqlCon;
+        
+        categoriesPredefinedAdd(
+          new SSCategoriesPredefinedAddPar(
+            servPar,
+            SSConf.systemUserUri,
+            SSCategoryLabel.asListNotEmpty(SSCategoryLabel.get(((SSCategoryConf) conf).predefinedCategories)),
+            true));
+      }
+      
+    }finally{
+      
+      if(sqlCon != null){
+        try {
+          sqlCon.close();
+        } catch (SQLException ex) {
+           SSLogU.err(ex);
+        }
+      }
+    }
   }
   
   @Override
@@ -397,7 +390,7 @@ implements
     try{
       final SSUri            categoryUri;
       final List<SSEntity>   categoryEntities =
-        entityServ.entityFromTypeAndLabelGet(
+        entityFromTypeAndLabelGet(
           new SSEntityFromTypeAndLabelGetPar(
             par, 
             par.user,
@@ -408,7 +401,7 @@ implements
       if(par.circle == null){
         
         par.circle =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circlePubURIGet(
+          circlePubURIGet(
             new SSCirclePubURIGetPar(
               par, 
               null,
@@ -444,7 +437,7 @@ implements
       dbSQL.startTrans(par, par.shouldCommit);
       
       par.entity =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par, 
             par.user,
@@ -467,7 +460,7 @@ implements
       if(categoryEntities.isEmpty()){
         
         categoryUri =
-          entityServ.entityUpdate(
+          entityUpdate(
             new SSEntityUpdatePar(
               par, 
               par.user,
@@ -599,7 +592,7 @@ implements
       if(par.label != null){
         
         final List<SSEntity> categoryEntities =
-          entityServ.entityFromTypeAndLabelGet(
+          entityFromTypeAndLabelGet(
             new SSEntityFromTypeAndLabelGetPar(
               par, 
               par.user,
@@ -766,7 +759,7 @@ implements
         categoryEntities.clear();
         
         categoryEntities.addAll(
-          entityServ.entityFromTypeAndLabelGet(
+          entityFromTypeAndLabelGet(
             new SSEntityFromTypeAndLabelGetPar(
               par, 
               par.user,
@@ -779,7 +772,7 @@ implements
         }
         
         categoryUri =
-          entityServ.entityUpdate(
+          entityUpdate(
             new SSEntityUpdatePar(
               par, 
               par.user,

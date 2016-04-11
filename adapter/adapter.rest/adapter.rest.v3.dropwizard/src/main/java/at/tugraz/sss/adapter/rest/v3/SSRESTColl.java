@@ -39,12 +39,13 @@ import at.tugraz.sss.servs.coll.datatype.SSCollUserHierarchyGetRet;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserRootGetRet;
 import at.tugraz.sss.servs.coll.datatype.SSCollsUserEntityIsInGetRet;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.servs.coll.datatype.*;
+import at.tugraz.sss.servs.coll.impl.*;
+import at.tugraz.sss.servs.db.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -63,6 +64,9 @@ import javax.ws.rs.core.Response;
 @Path("rest/colls")
 @Api( value = "colls")
 public class SSRESTColl{
+  
+  private final SSCollClientI collServ = new SSCollImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -92,7 +96,7 @@ public class SSRESTColl{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -101,8 +105,7 @@ public class SSRESTColl{
         
         par =
           new SSCollGetPar(
-            new SSServPar
-      (((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection()),
+            new SSServPar(sqlCon),
             null,  //user
             SSUri.get(coll, SSConf.sssUri), //entity
             true, //withUserRestriction
@@ -119,7 +122,7 @@ public class SSRESTColl{
       }
       
       try{
-        final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+        
         
         return Response.status(200).entity(collServ.collGet(SSClientE.rest, par)).build();
         
@@ -156,7 +159,7 @@ public class SSRESTColl{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -181,7 +184,7 @@ public class SSRESTColl{
       }
       
       try{
-        final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+        
         
         return Response.status(200).entity(collServ.collRootGet(SSClientE.rest, par)).build();
         
@@ -221,7 +224,7 @@ public class SSRESTColl{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -247,7 +250,7 @@ public class SSRESTColl{
       }
       
       try{
-        final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+        
         
         return Response.status(200).entity(collServ.collHierarchyGet(SSClientE.rest, par)).build();
         
@@ -289,7 +292,7 @@ public class SSRESTColl{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -318,7 +321,7 @@ public class SSRESTColl{
       }
       
       try{
-        final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+        
         
         return Response.status(200).entity(collServ.collEntryAdd(SSClientE.rest, par)).build();
         
@@ -360,7 +363,7 @@ public class SSRESTColl{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -388,7 +391,7 @@ public class SSRESTColl{
       }
       
       try{
-        final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+        
         
         return Response.status(200).entity(collServ.collEntriesAdd(SSClientE.rest, par)).build();
         
@@ -428,7 +431,7 @@ public class SSRESTColl{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -454,7 +457,7 @@ public class SSRESTColl{
       }
       
       try{
-        final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+        
         
         return Response.status(200).entity(collServ.collsEntityIsInGet(SSClientE.rest, par)).build();
         
@@ -494,7 +497,7 @@ public class SSRESTColl{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -519,7 +522,7 @@ public class SSRESTColl{
       }
       
       try{
-        final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+        
         
         return Response.status(200).entity(collServ.collCumulatedTagsGet(SSClientE.rest, par)).build();
         
@@ -562,7 +565,7 @@ public class SSRESTColl{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -589,7 +592,7 @@ public class SSRESTColl{
       }
       
       try{
-        final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+        
         
         return Response.status(200).entity(collServ.collEntriesDelete(SSClientE.rest, par)).build();
         

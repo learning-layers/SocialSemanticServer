@@ -22,7 +22,7 @@ package at.tugraz.sss.servs.mail.impl;
 
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.mail.conf.SSMailConf;
 import at.tugraz.sss.servs.mail.datatype.SSMail;
@@ -35,12 +35,8 @@ public class SSMailReceiverGMAILIMAP {
   
   private static final String     receivingHost    = "imap.gmail.com";
   private static final String     receivingPort    = "993";
-  private final        SSMailConf mailConf;
   
-  public SSMailReceiverGMAILIMAP(
-    final SSMailConf mailConf){
-    
-    this.mailConf = mailConf;
+  public SSMailReceiverGMAILIMAP(){
   }
 
   public List<SSEntity> receiveMails(

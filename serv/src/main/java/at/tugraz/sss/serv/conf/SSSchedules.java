@@ -5,8 +5,8 @@
  */
 package at.tugraz.sss.serv.conf;
 
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.reg.*;
 import java.util.*;
 import java.util.concurrent.*;
 

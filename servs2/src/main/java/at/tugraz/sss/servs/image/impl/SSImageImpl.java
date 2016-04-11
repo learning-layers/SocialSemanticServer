@@ -20,58 +20,30 @@
 */
 package at.tugraz.sss.servs.image.impl;
 
-import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
-import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
-import at.tugraz.sss.servs.common.api.SSAddAffiliatedEntitiesToCircleI;
-import at.tugraz.sss.serv.datatype.par.SSAddAffiliatedEntitiesToCirclePar;
-import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.entity.api.*;
+import at.tugraz.sss.serv.conf.*;
+import at.tugraz.sss.servs.common.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.SSEntityContext;
-import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import java.util.ArrayList;
 import java.util.List;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.util.SSFileExtE;
-import at.tugraz.sss.serv.util.SSFileU;
-import at.tugraz.sss.serv.datatype.SSImage;
-import at.tugraz.sss.serv.datatype.enums.SSImageE;
-import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.reg.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.datatype.par.SSEntityRemovePar;
-import at.tugraz.sss.serv.impl.api.*;
-import at.tugraz.sss.servs.image.api.SSImageClientI;
-import at.tugraz.sss.servs.image.api.SSImageServerI;
-import at.tugraz.sss.servs.image.datatype.SSImageProfilePictureSetPar;
-import at.tugraz.sss.servs.image.datatype.SSImageAddPar;
-import at.tugraz.sss.servs.image.datatype.SSImageGetPar;
-import at.tugraz.sss.servs.image.datatype.SSImagesGetPar;
-import at.tugraz.sss.servs.image.datatype.SSImageAddRet;
-import at.tugraz.sss.servs.image.datatype.SSImageProfilePictureSetRet;
-import at.tugraz.sss.servs.image.datatype.SSImagesGetRet;
+import at.tugraz.sss.serv.datatype.ret.*; 
+import at.tugraz.sss.servs.image.api.*;
+import at.tugraz.sss.servs.image.datatype.*;
 import at.tugraz.sss.servs.file.api.*;
 import at.tugraz.sss.servs.file.datatype.*;
 import java.io.File;
 import java.util.Map;
 import javax.imageio.ImageIO;
-import at.tugraz.sss.servs.common.api.SSGetUsersResourcesI;
-import at.tugraz.sss.servs.common.impl.*;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
+import at.tugraz.sss.servs.file.impl.*;
 
 public class SSImageImpl 
-extends SSServImplA 
+extends SSEntityImpl 
 implements 
   SSImageClientI, 
   SSImageServerI,
@@ -79,22 +51,10 @@ implements
   SSAddAffiliatedEntitiesToCircleI, 
   SSGetUsersResourcesI{
 
-  private final SSImageSQLFct                         sql;
-  private final SSEntityServerI                       entityServ;
-  private final SSUserCommons                         userCommons                   = new SSUserCommons();
-  private final SSAddAffiliatedEntitiesToCircle       addAffiliatedEntitiesToCircle = new SSAddAffiliatedEntitiesToCircle();
-  private final SSDBSQLI                              dbSQL;
-  private final SSDBNoSQLI                            dbNoSQL;
+  private final SSImageSQLFct sql = new SSImageSQLFct   (dbSQL);
   
-  public SSImageImpl(final SSConfA conf) throws SSErr {
-    
-    super(conf);
-    
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    
-    this.sql            = new SSImageSQLFct   (dbSQL);
-    this.entityServ     = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+  public SSImageImpl(){
+    super(SSCoreConf.instGet().getImage());
   }
   
   @Override
@@ -209,7 +169,6 @@ implements
     final SSAddAffiliatedEntitiesToCirclePar par) throws SSErr{
     
     try{
-      final SSEntityServerI circleServ         = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final List<SSEntity>  affiliatedEntities = new ArrayList<>();
       
       for(SSEntity entityAdded : par.entities){
@@ -237,7 +196,7 @@ implements
         return affiliatedEntities;
       }
       
-      circleServ.circleEntitiesAdd(
+      circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
           servPar,
           par.user,
@@ -280,7 +239,7 @@ implements
         return null;
       }
       
-      final SSFileServerI fileServ = (SSFileServerI) SSServReg.getServ(SSFileServerI.class);
+      final SSFileServerI fileServ = new SSFileImpl();
       
       image = sql.getImage(par, par.image);
       
@@ -379,7 +338,7 @@ implements
         throw SSErr.get(SSErrE.parameterMissing);
       }
       
-      final SSFileServerI fileServ = (SSFileServerI) SSServReg.getServ(SSFileServerI.class);
+      final SSFileServerI     fileServ = new SSFileImpl();
       SSUri                   imageUri;
 
       if(par.uuid != null){
@@ -426,7 +385,7 @@ implements
                 SSImageE.thumb,
                 par.withUserRestriction))){
             
-            entityServ.entityRemove(new SSEntityRemovePar(par, par.user, thumb.id));
+            entityRemove(new SSEntityRemovePar(par, par.user, thumb.id));
             
             try{
               SSFileU.delFile(SSConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(thumb.file.id));
@@ -438,7 +397,7 @@ implements
       }
       
       final SSUri image =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par,
             par.user,
@@ -467,7 +426,7 @@ implements
       if(par.entity != null){
         
         final SSUri entity =
-          entityServ.entityUpdate(
+          entityUpdate(
             new SSEntityUpdatePar(
               par,
               par.user,
@@ -589,7 +548,7 @@ implements
       dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri entityURI =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par,
             par.user,
@@ -632,7 +591,7 @@ implements
       }
           
       profilePicture =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par,
             par.user,
@@ -764,7 +723,7 @@ implements
         }
         
         thumbURI =
-          entityServ.entityUpdate(
+          entityUpdate(
             new SSEntityUpdatePar(
               servPar, 
               user,
@@ -784,7 +743,7 @@ implements
         }
         
         thumbFileURI =
-          entityServ.entityUpdate(
+          entityUpdate(
             new SSEntityUpdatePar(
               servPar, 
               user,

@@ -42,7 +42,7 @@ public enum SSErrE{
   //service
   servNotRunning,
   servImplCreationFailed,
-  servInvalid,
+//  servInvalid,
   servContainerHasNoServerInterface,
   maxNumClientConsForOpReached,       
     

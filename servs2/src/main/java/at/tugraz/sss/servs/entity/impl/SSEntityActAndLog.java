@@ -25,60 +25,52 @@ import at.tugraz.sss.servs.activity.datatype.SSActivityE;
 import at.tugraz.sss.servs.activity.datatype.SSActivityAddPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.servs.common.impl.SSServCommons;
+import at.tugraz.sss.servs.activity.impl.*;
 import java.util.List;
 import at.tugraz.sss.servs.eval.api.SSEvalServerI;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogE;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogPar;
+import at.tugraz.sss.servs.eval.impl.*;
 
 public class SSEntityActAndLog {
   
-  private final SSServCommons servCommons = new SSServCommons();
-    
   public void shareEntityWithCircles(
     final SSEntitySharePar par,
     final Boolean          shouldCommit) throws SSErr{
     
     try{
       
-      final SSActivityServerI activityServ = servCommons.getActivityServ();
+      final SSActivityServerI   activityServ = new SSActivityImpl();
+      final SSEvalServerI       evalServ     = new SSEvalImpl();  
       
-      if(activityServ != null){
-        
-        activityServ.activityAdd(
-          new SSActivityAddPar(
-            par,
-            par.user,
-            SSActivityE.shareEntityWithCircles,
-            par.entity,
-            null,
-            SSUri.asListNotNull(par.circles),
-            SSTextComment.asListWithoutNullAndEmpty(par.comment),
-            null,
-            shouldCommit));
-      }
+      activityServ.activityAdd(
+        new SSActivityAddPar(
+          par,
+          par.user,
+          SSActivityE.shareEntityWithCircles,
+          par.entity,
+          null,
+          SSUri.asListNotNull(par.circles),
+          SSTextComment.asListWithoutNullAndEmpty(par.comment),
+          null,
+          shouldCommit));
       
-      final SSEvalServerI     evalServ     = servCommons.getEvalServ();
-      
-      if(evalServ != null){
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            par,
-            par.user,
-            SSToolContextE.sss,
-            SSEvalLogE.shareEntityWithCircles,
-            par.entity,
-            null, //content
-            par.circles, //entities
-            null, //users
-            null, //creationTime
-            shouldCommit));
-      }
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.shareEntityWithCircles,
+          par.entity,
+          null, //content
+          par.circles, //entities
+          null, //users
+          null, //creationTime
+          shouldCommit));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -91,40 +83,33 @@ public class SSEntityActAndLog {
     
     try{
       
-      final SSActivityServerI activityServ = servCommons.getActivityServ();
+      final SSActivityServerI   activityServ = new SSActivityImpl();
+      final SSEvalServerI       evalServ     = new SSEvalImpl();
       
-      if(activityServ != null){
-        
-        activityServ.activityAdd(
-          new SSActivityAddPar(
-            par,
-            par.user,
-            SSActivityE.shareEntityWithUsers,
-            par.entity,
-            par.users,
-            SSUri.asListNotNull(),
-            SSTextComment.asListWithoutNullAndEmpty(par.comment),
-            null,
-            shouldCommit));
-      }
+      activityServ.activityAdd(
+        new SSActivityAddPar(
+          par,
+          par.user,
+          SSActivityE.shareEntityWithUsers,
+          par.entity,
+          par.users,
+          SSUri.asListNotNull(),
+          SSTextComment.asListWithoutNullAndEmpty(par.comment),
+          null,
+          shouldCommit));
       
-      final SSEvalServerI     evalServ     = servCommons.getEvalServ();
-      
-      if(evalServ != null){
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            par,
-            par.user,
-            SSToolContextE.sss,
-            SSEvalLogE.shareEntityWithUsers,
-            par.entity,
-            null, //content
-            null, //entities
-            par.users, //users
-            null, //creationTime
-            shouldCommit));
-      }
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.shareEntityWithUsers,
+          par.entity,
+          null, //content
+          null, //entities
+          par.users, //users
+          null, //creationTime
+          shouldCommit));
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -141,40 +126,33 @@ public class SSEntityActAndLog {
     
     try{
       
-      final SSActivityServerI activityServ = servCommons.getActivityServ();
+      final SSActivityServerI   activityServ = new SSActivityImpl();
+      final SSEvalServerI       evalServ     = new SSEvalImpl();
       
-      if(activityServ != null){
-        
-        activityServ.activityAdd(
-          new SSActivityAddPar(
-            servPar,
-            user,
-            SSActivityE.copyEntityForUsers,
-            entity,
-            forUsers,
-            null,
-            SSTextComment.asListWithoutNullAndEmpty(comment),
-            null,
-            shouldCommit));
-      }
+      activityServ.activityAdd(
+        new SSActivityAddPar(
+          servPar,
+          user,
+          SSActivityE.copyEntityForUsers,
+          entity,
+          forUsers,
+          null,
+          SSTextComment.asListWithoutNullAndEmpty(comment),
+          null,
+          shouldCommit));
       
-      final SSEvalServerI     evalServ     = servCommons.getEvalServ();
-      
-      if(evalServ != null){
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            servPar,
-            user,
-            SSToolContextE.sss,
-            SSEvalLogE.copyEntity,
-            entity,  //entity
-            null, //content,
-            SSUri.asListNotNull(targetEntity), //entities
-            forUsers, //users
-            null, //creationTime
-            shouldCommit));
-      }
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          servPar,
+          user,
+          SSToolContextE.sss,
+          SSEvalLogE.copyEntity,
+          entity,  //entity
+          null, //content,
+          SSUri.asListNotNull(targetEntity), //entities
+          forUsers, //users
+          null, //creationTime
+          shouldCommit));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -196,23 +174,20 @@ public class SSEntityActAndLog {
     
     try{
       
-      final SSEvalServerI     evalServ     = servCommons.getEvalServ();
+      final SSEvalServerI       evalServ     = new SSEvalImpl();
       
-      if(evalServ != null){
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            servPar,
-            user,
-            SSToolContextE.sss,
-            SSEvalLogE.attachEntities,
-            entity, //entity
-            null, //content
-            entities, //entities
-            null, //users
-            null, //creationTime
-            shouldCommit));
-      }
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          servPar,
+          user,
+          SSToolContextE.sss,
+          SSEvalLogE.attachEntities,
+          entity, //entity
+          null, //content
+          entities, //entities
+          null, //users
+          null, //creationTime
+          shouldCommit));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -234,23 +209,20 @@ public class SSEntityActAndLog {
     
     try{
       
-      final SSEvalServerI     evalServ     = servCommons.getEvalServ();
+      final SSEvalServerI       evalServ     = new SSEvalImpl();
       
-      if(evalServ != null){
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            servPar,
-            user,
-            SSToolContextE.sss,
-            SSEvalLogE.removeEntities,
-            entity, //entity
-            null, //content
-            entities, //entities
-            null, //users
-            null, //creationTime
-            shouldCommit));
-      }
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          servPar,
+          user,
+          SSToolContextE.sss,
+          SSEvalLogE.removeEntities,
+          entity, //entity
+          null, //content
+          entities, //entities
+          null, //users
+          null, //creationTime
+          shouldCommit));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -265,23 +237,20 @@ public class SSEntityActAndLog {
     
     try{
       
-      final SSEvalServerI     evalServ     = servCommons.getEvalServ();
+      final SSEvalServerI       evalServ     = new SSEvalImpl();
       
-      if(evalServ != null){
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            par,
-            user,
-            SSToolContextE.organizeArea,
-            SSEvalLogE.createPlaceholder,
-            placeholder, //entity
-            null, //content
-            null, //entities
-            null, //users
-            null, //creationTime
-            shouldCommit));
-      }
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par,
+          user,
+          SSToolContextE.organizeArea,
+          SSEvalLogE.createPlaceholder,
+          placeholder, //entity
+          null, //content
+          null, //entities
+          null, //users
+          null, //creationTime
+          shouldCommit));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -313,40 +282,33 @@ public class SSEntityActAndLog {
     
     try{
       
-      final SSActivityServerI activityServ = servCommons.getActivityServ();
+      final SSActivityServerI   activityServ = new SSActivityImpl();
+      final SSEvalServerI       evalServ     = new SSEvalImpl();
       
-      if(activityServ != null){
-        
-        activityServ.activityAdd(
-          new SSActivityAddPar(
-            par,
-            par.user,
-            SSActivityE.createCircle,
-            circleURI,
-            null, //users,
-            null, //entities,
-            null,
-            null,
-            shouldCommit));
-      }
+      activityServ.activityAdd(
+        new SSActivityAddPar(
+          par,
+          par.user,
+          SSActivityE.createCircle,
+          circleURI,
+          null, //users,
+          null, //entities,
+          null,
+          null,
+          shouldCommit));
       
-      final SSEvalServerI     evalServ     = servCommons.getEvalServ();
-      
-      if(evalServ != null){
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            par,
-            par.user,
-            SSToolContextE.sss,
-            SSEvalLogE.createCircle,
-            circleURI,  //entity
-            null, //content,
-            null,
-            null,
-            null, //creationTime
-            shouldCommit));
-      }
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.createCircle,
+          circleURI,  //entity
+          null, //content,
+          null,
+          null,
+          null, //creationTime
+          shouldCommit));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -364,39 +326,33 @@ public class SSEntityActAndLog {
     
     try{
       
-      final SSActivityServerI activityServ = servCommons.getActivityServ();
+      final SSActivityServerI   activityServ = new SSActivityImpl();
+      final SSEvalServerI       evalServ     = new SSEvalImpl();
       
-      if(activityServ != null){
-        
-        activityServ.activityAdd(
-          new SSActivityAddPar(
-            par, //servPar
-            par.user, //user
-            SSActivityE.addEntitiesToCircle, //type
-            par.circle, //entity
-            null, //users
-            par.entities, //entities
-            null, //comments
-            null, //creationTime
-            shouldCommit));
-      }
+      activityServ.activityAdd(
+        new SSActivityAddPar(
+          par, //servPar
+          par.user, //user
+          SSActivityE.addEntitiesToCircle, //type
+          par.circle, //entity
+          null, //users
+          par.entities, //entities
+          null, //comments
+          null, //creationTime
+          shouldCommit));
       
-      final SSEvalServerI     evalServ     = servCommons.getEvalServ();
-      
-      if(evalServ != null){
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            par,
-            par.user,
-            SSToolContextE.sss,
-            SSEvalLogE.addCircleEntities,
-            par.circle, //entity
-            null, //content,
-            par.entities, //entities
-            null, //users
-            null, //creationTime
-            shouldCommit));
-      }
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.addCircleEntities,
+          par.circle, //entity
+          null, //content,
+          par.entities, //entities
+          null, //users
+          null, //creationTime
+          shouldCommit));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -414,40 +370,33 @@ public class SSEntityActAndLog {
     
     try{
       
-      final SSActivityServerI activityServ = servCommons.getActivityServ();
+      final SSActivityServerI   activityServ = new SSActivityImpl();
+      final SSEvalServerI       evalServ     = new SSEvalImpl();
       
-      if(activityServ != null){
-        
-        activityServ.activityAdd(
-          new SSActivityAddPar(
-            par,
-            par.user,
-            SSActivityE.addUsersToCircle,
-            par.circle,
-            par.users,
-            null,
-            null,
-            null,
-            shouldCommit));
-      }
+      activityServ.activityAdd(
+        new SSActivityAddPar(
+          par,
+          par.user,
+          SSActivityE.addUsersToCircle,
+          par.circle,
+          par.users,
+          null,
+          null,
+          null,
+          shouldCommit));
       
-      final SSEvalServerI     evalServ     = servCommons.getEvalServ();
-      
-      if(evalServ != null){
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            par,
-            par.user,
-            SSToolContextE.sss,
-            SSEvalLogE.addCircleUsers,
-            par.circle,  //entity
-            null, //content,
-            null, //entities
-            par.users, //users
-            null, //creationTime
-            shouldCommit));
-      }
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.addCircleUsers,
+          par.circle,  //entity
+          null, //content,
+          null, //entities
+          par.users, //users
+          null, //creationTime
+          shouldCommit));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -465,23 +414,21 @@ public class SSEntityActAndLog {
     
     try{
       
-      final SSEvalServerI     evalServ     = servCommons.getEvalServ();
+      final SSEvalServerI       evalServ     = new SSEvalImpl();
       
-      if(evalServ != null){
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            par,
-            par.user,
-            SSToolContextE.sss,
-            SSEvalLogE.removeCircle,
-            par.circle,  //entity
-            null, //content,
-            null, //entities
-            null, //users
-            null, //creationTime
-            shouldCommit));
-      }
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.removeCircle,
+          par.circle,  //entity
+          null, //content,
+          null, //entities
+          null, //users
+          null, //creationTime
+          shouldCommit));
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -498,23 +445,21 @@ public class SSEntityActAndLog {
     
     try{
       
-      final SSEvalServerI     evalServ     = servCommons.getEvalServ();
+      final SSActivityServerI   activityServ = new SSActivityImpl();
+      final SSEvalServerI       evalServ     = new SSEvalImpl();
       
-      if(evalServ != null){
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            par,
-            par.user,
-            SSToolContextE.sss,
-            SSEvalLogE.removeCircleUsers,
-            par.circle,  //entity
-            null, //content,
-            null, //entities
-            par.users, //users
-            null, //creationTime
-            shouldCommit));
-      }
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.removeCircleUsers,
+          par.circle,  //entity
+          null, //content,
+          null, //entities
+          par.users, //users
+          null, //creationTime
+          shouldCommit));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -532,23 +477,20 @@ public class SSEntityActAndLog {
     
     try{
       
-      final SSEvalServerI     evalServ     = servCommons.getEvalServ();
+      final SSEvalServerI       evalServ     = new SSEvalImpl();
       
-      if(evalServ != null){
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            par,
-            par.user,
-            SSToolContextE.sss,
-            SSEvalLogE.removeCircleEntities,
-            par.circle,  //entity
-            null, //content,
-            par.entities, //entities
-            null, //users
-            null, //creationTime
-            shouldCommit));
-      }
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par,
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.removeCircleEntities,
+          par.circle,  //entity
+          null, //content,
+          par.entities, //entities
+          null, //users
+          null, //creationTime
+          shouldCommit));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

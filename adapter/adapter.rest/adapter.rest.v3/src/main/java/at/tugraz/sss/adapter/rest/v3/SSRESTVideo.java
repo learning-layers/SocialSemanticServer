@@ -30,9 +30,10 @@ import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.servs.db.impl.*;
 import at.tugraz.sss.servs.video.api.*;
 import at.tugraz.sss.servs.video.datatype.*;
+import at.tugraz.sss.servs.video.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -51,6 +52,9 @@ import javax.ws.rs.core.Response;
 @Path("/videos")
 @Api( value = "videos")
 public class SSRESTVideo{
+  
+  private final SSVideoClientI videoServ = new SSVideoImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -75,7 +79,7 @@ public class SSRESTVideo{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -101,10 +105,7 @@ public class SSRESTVideo{
       }
       
       try{
-        final SSVideoClientI videoServ = (SSVideoClientI) SSServReg.getClientServ(SSVideoClientI.class);
-        
         return Response.status(200).entity(videoServ.videosGet(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -137,7 +138,7 @@ public class SSRESTVideo{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -170,7 +171,7 @@ public class SSRESTVideo{
       }
       
       try{
-        final SSVideoClientI videoServ = (SSVideoClientI) SSServReg.getClientServ(SSVideoClientI.class);
+        
         
         return Response.status(200).entity(videoServ.videoAdd(SSClientE.rest, par)).build();
         
@@ -212,7 +213,7 @@ public class SSRESTVideo{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -244,7 +245,7 @@ public class SSRESTVideo{
       }
       
       try{
-        final SSVideoClientI videoServ = (SSVideoClientI) SSServReg.getClientServ(SSVideoClientI.class);
+        
         
         return Response.status(200).entity(videoServ.videoAnnotationsSet(SSClientE.rest, par)).build();
         
@@ -287,7 +288,7 @@ public class SSRESTVideo{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -318,7 +319,7 @@ public class SSRESTVideo{
       }
       
       try{
-        final SSVideoClientI videoServ = (SSVideoClientI) SSServReg.getClientServ(SSVideoClientI.class);
+        
         
         return Response.status(200).entity(videoServ.videoAnnotationAdd(SSClientE.rest, par)).build();
         

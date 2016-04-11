@@ -5,9 +5,9 @@
  */
 package at.tugraz.sss.servs.common.impl;
 
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.reg.*;
 import java.util.*;
 
 public class SSCircleEntitiesAdded {

@@ -36,15 +36,12 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.servs.disc.datatype.SSDiscsGetPar;
 import at.tugraz.sss.servs.disc.datatype.SSDiscGetPar;
 import at.tugraz.sss.servs.disc.datatype.SSDiscEntryAddPar;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.servs.disc.api.*;
 import at.tugraz.sss.servs.disc.datatype.SSDiscDailySummaryGetPar;
 import at.tugraz.sss.servs.disc.datatype.SSDiscEntryAcceptPar;
 import at.tugraz.sss.servs.disc.datatype.SSDiscEntryAddFromClientPar;
 import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import at.tugraz.sss.servs.disc.datatype.*;
 import at.tugraz.sss.servs.common.api.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.datatype.par.SSAddAffiliatedEntitiesToCirclePar;
@@ -63,13 +60,14 @@ import at.tugraz.sss.servs.common.api.SSGetParentEntitiesI;
 import at.tugraz.sss.servs.common.api.SSGetSubEntitiesI;
 import at.tugraz.sss.servs.common.api.SSPushEntitiesToUsersI;
 import at.tugraz.sss.serv.datatype.par.SSPushEntitiesToUsersPar;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
+import at.tugraz.sss.servs.activity.impl.*;
 import at.tugraz.sss.servs.entity.impl.SSEntityImpl;
 import at.tugraz.sss.servs.common.api.SSGetUsersResourcesI;
 import at.tugraz.sss.servs.common.api.SSGetUserRelationsI;
+import at.tugraz.sss.servs.conf.*;
 
 public class SSDiscImpl
 extends SSEntityImpl
@@ -85,17 +83,11 @@ implements
   SSGetUsersResourcesI{
   
   private final SSDiscActAndLog                       actAndLog       = new SSDiscActAndLog();
-  private final SSUserCommons                         userCommons     = new SSUserCommons();
   private final SSDiscSummaryCommons                  summaryCommons  = new SSDiscSummaryCommons();
-  private final SSDiscSQL                             sql;
-  private final SSDBSQLI                              dbSQL;
+  private final SSDiscSQL                             sql             = new SSDiscSQL(dbSQL);
   
-  public SSDiscImpl(final SSConfA conf) throws SSErr{
-    
-    super(conf);
-    
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.sql           = new SSDiscSQL(dbSQL);
+  public SSDiscImpl(){
+    super(SSCoreConf.instGet().getDisc());
   }
   
   @Override
@@ -491,7 +483,7 @@ implements
   public SSDiscDailySummaryGetRet discDailySummaryGet(final SSDiscDailySummaryGetPar par) throws SSErr{
     
     try{
-      final SSActivityServerI           activityServ = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+      final SSActivityServerI           activityServ = new SSActivityImpl();
       final SSDiscDailySummaryGetRet    result       = new SSDiscDailySummaryGetRet();
       final List<SSActivityE>           actTypes     = new ArrayList<>();
       final List<SSEntity>              acts         = new ArrayList<>();

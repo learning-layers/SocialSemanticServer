@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.servs.recomm.impl;
 
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.servs.category.datatype.SSCategoriesGetPar;
 import at.tugraz.sss.servs.category.api.SSCategoryServerI;
 import at.tugraz.sss.servs.recomm.conf.*;
@@ -29,16 +30,23 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.category.impl.*;
 import engine.*;
 import java.util.*;
 import at.tugraz.sss.servs.eval.api.SSEvalServerI;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogE;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogPar;
+import at.tugraz.sss.servs.eval.impl.*;
 import at.tugraz.sss.servs.user.datatype.*;
 
 public class SSRecommTagCommons {
+  
+  private final SSEntityServerI entityServ;
+  
+  public SSRecommTagCommons(final SSEntityServerI entityServ){
+    this.entityServ = entityServ;
+  }
   
   public boolean checkAccessRights(
     final SSRecommTagsPar par, 
@@ -73,7 +81,6 @@ public class SSRecommTagCommons {
         return true;
       }
       
-      final SSEntityServerI   entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final List<SSEntity>    entities;
       final SSEntitiesGetPar  entitiesGetPar = 
         new SSEntitiesGetPar(
@@ -155,7 +162,7 @@ public class SSRecommTagCommons {
         
         case THREELcoll:{
           
-          final SSCategoryServerI categoryServ = (SSCategoryServerI) SSServReg.getServ(SSCategoryServerI.class);
+          final SSCategoryServerI categoryServ = new SSCategoryImpl();
           final List<String>      categories   = new ArrayList<>();
           
           for(SSEntity category :
@@ -198,7 +205,7 @@ public class SSRecommTagCommons {
     
     try{
       
-      final SSEvalServerI evalServ   = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalServerI evalServ   = new SSEvalImpl();
       final SSEvalLogPar  evalLogPar =
         new SSEvalLogPar(
           par,
@@ -255,16 +262,6 @@ public class SSRecommTagCommons {
       }
       
       evalServ.evalLog(evalLogPar);
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

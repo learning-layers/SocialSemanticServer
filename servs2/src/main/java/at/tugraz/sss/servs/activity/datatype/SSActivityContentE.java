@@ -22,7 +22,7 @@ package at.tugraz.sss.servs.activity.datatype;
 
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
 

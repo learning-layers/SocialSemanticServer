@@ -23,15 +23,15 @@ package at.tugraz.sss.adapter.rest.v3;
 import at.tugraz.sss.servs.appstacklayout.datatype.SSAppStackLayoutCreateRESTPar;
 import at.tugraz.sss.servs.appstacklayout.datatype.SSAppStackLayoutUpdateRESTPar;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.appstacklayout.api.*;
 import at.tugraz.sss.servs.appstacklayout.datatype.*;
+import at.tugraz.sss.servs.appstacklayout.impl.*;
+import at.tugraz.sss.servs.db.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -44,6 +44,9 @@ import javax.ws.rs.core.Response;
 @Path("/appstacklayouts")
 @Api( value = "appstacklayouts")
 public class SSRESTAppStackLayout{
+  
+  private final SSAppStackLayoutClientI appStackLayoutServ = new SSAppStackLayoutImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -69,7 +72,7 @@ public class SSRESTAppStackLayout{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -94,10 +97,7 @@ public class SSRESTAppStackLayout{
       }
       
       try{
-        final SSAppStackLayoutClientI appStackLayoutServ = (SSAppStackLayoutClientI) SSServReg.getClientServ(SSAppStackLayoutClientI.class);
-        
         return Response.status(200).entity(appStackLayoutServ.appStackLayoutsGet(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -134,7 +134,7 @@ public class SSRESTAppStackLayout{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -159,10 +159,7 @@ public class SSRESTAppStackLayout{
       }
       
       try{
-        final SSAppStackLayoutClientI appStackLayoutServ = (SSAppStackLayoutClientI) SSServReg.getClientServ(SSAppStackLayoutClientI.class);
-        
         return Response.status(200).entity(appStackLayoutServ.appStackLayoutsGet(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -195,7 +192,7 @@ public class SSRESTAppStackLayout{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -223,10 +220,7 @@ public class SSRESTAppStackLayout{
       }
       
       try{
-        final SSAppStackLayoutClientI appStackLayoutServ = (SSAppStackLayoutClientI) SSServReg.getClientServ(SSAppStackLayoutClientI.class);
-        
         return Response.status(200).entity(appStackLayoutServ.appStackLayoutCreate(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -263,7 +257,7 @@ public class SSRESTAppStackLayout{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -288,10 +282,7 @@ public class SSRESTAppStackLayout{
       }
       
       try{
-        final SSAppStackLayoutClientI appStackLayoutServ = (SSAppStackLayoutClientI) SSServReg.getClientServ(SSAppStackLayoutClientI.class);
-        
         return Response.status(200).entity(appStackLayoutServ.appStackLayoutDelete(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -330,7 +321,7 @@ public class SSRESTAppStackLayout{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -358,10 +349,7 @@ public class SSRESTAppStackLayout{
       }
       
       try{
-        final SSAppStackLayoutClientI appStackLayoutServ = (SSAppStackLayoutClientI) SSServReg.getClientServ(SSAppStackLayoutClientI.class);
-        
         return Response.status(200).entity(appStackLayoutServ.appStackLayoutUpdate(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }

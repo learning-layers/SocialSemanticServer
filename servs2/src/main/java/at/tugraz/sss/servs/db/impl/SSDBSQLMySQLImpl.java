@@ -20,7 +20,6 @@
   */
 package at.tugraz.sss.servs.db.impl;
 
-import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.db.conf.SSDBSQLConf;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.par.SSDBSQLSelectPar;
@@ -28,11 +27,12 @@ import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.enums.SSWarnE;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.impl.api.*;
+import at.tugraz.sss.servs.conf.*;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLTransactionRollbackException;
 import java.sql.*;
 import java.util.Iterator;
@@ -48,8 +48,8 @@ public class SSDBSQLMySQLImpl
   
   private static DataSource connectionPool = null;
   
-  public SSDBSQLMySQLImpl(final SSConfA conf) throws SSErr {
-    super(conf);
+  public SSDBSQLMySQLImpl(){
+    super(SSCoreConf.instGet().getDbSQL());
   }
   
   public static void closePool(){

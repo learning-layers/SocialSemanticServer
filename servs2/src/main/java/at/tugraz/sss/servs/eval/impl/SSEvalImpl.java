@@ -20,23 +20,18 @@
 */
 package at.tugraz.sss.servs.eval.impl;
 
+import at.tugraz.sss.serv.conf.*;
 import at.tugraz.sss.servs.activity.datatype.SSActivitiesGetPar;
 import at.tugraz.sss.servs.activity.datatype.SSActivity;
 import at.tugraz.sss.servs.activity.api.SSActivityServerI;
 import at.tugraz.sss.servs.dataimport.api.SSDataImportServerI;
 import at.tugraz.sss.servs.dataimport.datatype.SSDataImportEvalLogFilePar;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.reg.*;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.servs.eval.api.SSEvalClientI;
@@ -47,20 +42,24 @@ import at.tugraz.sss.servs.eval.datatype.SSEvalLogPar;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogRet;
 import at.tugraz.sss.servs.user.api.*;
 import at.tugraz.sss.servs.user.datatype.*;
-import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.activity.impl.*;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.dataimport.impl.*;
+import at.tugraz.sss.servs.entity.impl.*;
 import at.tugraz.sss.servs.eval.conf.SSEvalConf;
 import at.tugraz.sss.servs.learnep.api.*;
 import at.tugraz.sss.servs.learnep.datatype.*;
+import at.tugraz.sss.servs.learnep.impl.*;
+import at.tugraz.sss.servs.user.impl.*;
 import java.util.Date;
 
 public class SSEvalImpl 
-extends SSServImplA 
+extends SSEntityImpl
 implements 
   SSEvalClientI, 
   SSEvalServerI{
@@ -68,14 +67,47 @@ implements
   private static final long oct1  = new Date(Long.valueOf("1443679508904")).getTime();
   private static final long nov17 = new Date(Long.valueOf("1447752600000")).getTime();
   
-  private final SSUserCommons             userCommons = new SSUserCommons();
-  private final SSEvalLogAnalyzer         logAnalyzer = new SSEvalLogAnalyzer();//timeBeginStudy
+  private final SSEvalLogAnalyzer logAnalyzer = new SSEvalLogAnalyzer(this);//timeBeginStudy
   
-  public SSEvalImpl(final SSConfA conf) throws SSErr{
-
-    super(conf);
+  public SSEvalImpl(){
+    super(SSCoreConf.instGet().getEval());
   }
 
+  @Override
+  public void schedule() throws SSErr{
+    
+    final SSEvalConf evalConf = (SSEvalConf)conf;
+    
+    if(
+      !evalConf.use ||
+      !evalConf.schedule){
+      return;
+    }
+    
+    if(
+      SSObjU.isNull(evalConf.scheduleOps, evalConf.scheduleIntervals) ||
+      evalConf.scheduleOps.isEmpty()                                        ||
+      evalConf.scheduleIntervals.isEmpty()                                  ||
+      evalConf.scheduleOps.size() != evalConf.scheduleIntervals.size()){
+      
+      SSLogU.warn(SSWarnE.scheduleConfigInvalid, null);
+      return;
+    }
+    
+    if(evalConf.executeScheduleAtStartUp){
+      
+      for(String scheduleOp : evalConf.scheduleOps){
+        
+        if(SSStrU.isEqual(scheduleOp, SSVarNames.evalAnalyze)){
+          
+          new SSSchedules().regScheduler(
+            SSDateU.scheduleNow(
+              new SSEvalAnalyzeTask()));
+        }
+      }
+    }
+  }
+  
   @Override
   public void evalAnalyze(final SSEvalAnalyzePar par) throws SSErr{
     
@@ -431,7 +463,7 @@ implements
   private List<SSEvalLogEntry> getLogEntries(final SSServPar servPar) throws SSErr{
     
     try{
-      final SSDataImportServerI dataImportServ = (SSDataImportServerI) SSServReg.getServ(SSDataImportServerI.class);
+      final SSDataImportServerI dataImportServ = new SSDataImportImpl();
       
       return dataImportServ.dataImportEvalLogFile(
         new SSDataImportEvalLogFilePar(
@@ -458,14 +490,12 @@ implements
         return;
       }
       
-      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      
       switch(targetEntity.type){
         
         case learnEp:{
           
           episodeSpaces.addAll(
-            entityServ.circleTypesGet(
+            circleTypesGet(
               new SSCircleTypesGetPar(
                 servPar,
                 originUser.id,
@@ -490,13 +520,11 @@ implements
         return null;
       }
       
-      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      
       switch(targetEntity.type){
         
         case circle:{
           
-          return entityServ.circleGet(
+          return circleGet(
             new SSCircleGetPar(
               servPar,
               originUser.id, //user
@@ -538,7 +566,7 @@ implements
             
             case activity:{
               
-              final SSActivityServerI actServ    = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+              final SSActivityServerI actServ    = new SSActivityImpl();
               final List<SSEntity>    activities =
                 actServ.activitiesGet(
                   new SSActivitiesGetPar(
@@ -561,10 +589,23 @@ implements
                 return null;
               }
               
-              final SSActivity activity = (SSActivity) activities.get(0);
+              final SSActivity     activity = (SSActivity) activities.get(0);
               
               targetEntities.addAll (activity.entities);
-              targetUsers.addAll    (activity.users);
+              
+              if(!activity.users.isEmpty()){
+                
+                final SSUserServerI userServ = new SSUserImpl();
+                
+                targetUsers.addAll(
+                  userServ.usersGet(
+                    new SSUsersGetPar(
+                      par,
+                      par.user,
+                      SSUri.getDistinctNotNullFromEntities(activity.users), //users
+                      null, //emails,
+                      false))); //invokeEntityHandlers
+              }
               
               return activity;
             }
@@ -590,9 +631,7 @@ implements
         return null;
       }
       
-      final SSEntityServerI  entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      
-      return entityServ.entityGet(
+      return entityGet(
         new SSEntityGetPar(
           par,
           null,
@@ -610,7 +649,7 @@ implements
     
     try{
       
-      final SSUserServerI  userServ    = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
+      final SSUserServerI  userServ    = new SSUserImpl();
       final List<SSEntity> originUsers =
         userServ.usersGet(
           new SSUsersGetPar(
@@ -637,13 +676,11 @@ implements
     
     try{
       
-      final SSEntityServerI  entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      
       if(par.entities.isEmpty()){
         return new ArrayList<>();
       }
         
-      return entityServ.entitiesGet(
+      return entitiesGet(
         new SSEntitiesGetPar(
           par,
           par.user,
@@ -661,7 +698,7 @@ implements
     final SSEvalLogPar par) throws SSErr{
     
     try{
-      final SSUserServerI  userServ    = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
+      final SSUserServerI  userServ    = new SSUserImpl();
       
       if(par.users.isEmpty()){
         return new ArrayList<>();
@@ -705,7 +742,7 @@ implements
           
           try{
             
-            final SSLearnEpServerI learnEpServ    = (SSLearnEpServerI) SSServReg.getServ(SSLearnEpServerI.class);
+            final SSLearnEpServerI learnEpServ    = new SSLearnEpImpl();
             final SSLearnEpVersion learnEpVersion =
               learnEpServ.learnEpVersionCurrentGet(
                 new SSLearnEpVersionCurrentGetPar(

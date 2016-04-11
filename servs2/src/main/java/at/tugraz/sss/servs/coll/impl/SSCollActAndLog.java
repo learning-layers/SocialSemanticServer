@@ -30,8 +30,8 @@ import at.tugraz.sss.servs.coll.datatype.SSCollUserEntriesAddPar;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserEntriesDeletePar;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserEntryAddPar;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.servs.activity.impl.*;
 
 public class SSCollActAndLog{
   
@@ -40,7 +40,9 @@ public class SSCollActAndLog{
     
     try{
       
-      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+      final SSActivityServerI activityServ = new SSActivityImpl();
+      
+      activityServ.activityAdd(
         new SSActivityAddPar(
           par,
           par.user,
@@ -52,16 +54,6 @@ public class SSCollActAndLog{
           null,
           par.shouldCommit));
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ 
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -72,7 +64,9 @@ public class SSCollActAndLog{
     
     try{
       
-      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+      final SSActivityServerI activityServ = new SSActivityImpl();
+      
+      activityServ.activityAdd(
         new SSActivityAddPar(
           par,
           par.user,
@@ -84,15 +78,6 @@ public class SSCollActAndLog{
           null,
           par.shouldCommit));
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -103,7 +88,9 @@ public class SSCollActAndLog{
     
     try{
       
-      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+      final SSActivityServerI activityServ = new SSActivityImpl();
+      
+      activityServ.activityAdd(
         new SSActivityAddPar(
           par,
           par.user,
@@ -115,15 +102,6 @@ public class SSCollActAndLog{
           null,
           par.shouldCommit));
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

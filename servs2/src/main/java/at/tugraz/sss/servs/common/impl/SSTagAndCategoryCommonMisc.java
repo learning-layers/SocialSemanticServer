@@ -33,11 +33,11 @@ import at.tugraz.sss.serv.datatype.par.SSEntityFromTypeAndLabelGetPar;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSSearchOpE;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.entity.impl.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +68,7 @@ public class SSTagAndCategoryCommonMisc {
     final Long           startTime) throws SSErr{
     
     try{
-      final SSEntityServerI entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      final SSEntityServerI entityServ   = new SSEntityImpl();
       final List<SSEntity>  metadata     = new ArrayList<>();
       final List<SSUri>     metadataURIs = new ArrayList<>();
       final List<SSEntity>  metadataEntities = new ArrayList<>();

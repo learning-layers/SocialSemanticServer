@@ -23,10 +23,11 @@ package at.tugraz.sss.adapter.rest.v3;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.servs.link.api.SSLinkClientI;
+import at.tugraz.sss.servs.db.impl.*;
+import at.tugraz.sss.servs.link.api.*;
 import at.tugraz.sss.servs.link.datatype.*;
+import at.tugraz.sss.servs.link.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -42,6 +43,9 @@ import javax.ws.rs.core.Response;
 @Path("rest/links")
 @Api( value = "links")
 public class SSRESTLink{
+  
+  private final SSLinkClientI linkServ = new SSLinkImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -69,7 +73,7 @@ public class SSRESTLink{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -78,7 +82,7 @@ public class SSRESTLink{
         
         par =
           new SSLinkAddPar(
-            new SSServPar(((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection()),
+            new SSServPar(sqlCon),
             null, //user
             input.link, //link
             input.label, //label
@@ -97,7 +101,7 @@ public class SSRESTLink{
       }
       
       try{
-        final SSLinkClientI linkServ = (SSLinkClientI) SSServReg.getClientServ(SSLinkClientI.class);
+        
         
         return Response.status(200).entity(linkServ.linkAdd(SSClientE.rest, par)).build();
         

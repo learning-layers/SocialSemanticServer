@@ -5,24 +5,25 @@
  */
 package at.tugraz.sss.servs.common.impl;
 
-import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.common.api.*;
 import java.util.*;
 
 public class SSCircleContentRemoved {
  
-  protected static final List<SSServContainerI> servsForCircleContentRemoved            = new ArrayList<>();
+  protected static final List<SSCircleContentRemovedI> servsForCircleContentRemoved            = new ArrayList<>();
  
   public void regServ(
-    final SSServContainerI servContainer) throws SSErr{
+    final SSCircleContentRemovedI servContainer, 
+    final SSConfA                 conf) throws SSErr{
     
     try{
       
-      if(!servContainer.conf.use){
+      if(!conf.use){
         return;
       }
       
@@ -45,8 +46,8 @@ public class SSCircleContentRemoved {
     
     try{
       
-      for(SSServContainerI serv : servsForCircleContentRemoved){
-        ((SSCircleContentRemovedI) serv.getServImpl()).circleContentRemoved(servPar, circleContentRemovedPar);
+      for(SSCircleContentRemovedI serv : servsForCircleContentRemoved){
+         serv.circleContentRemoved(servPar, circleContentRemovedPar);
       }
       
     }catch(Exception error){

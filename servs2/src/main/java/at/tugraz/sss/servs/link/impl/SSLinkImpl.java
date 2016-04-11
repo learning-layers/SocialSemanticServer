@@ -21,25 +21,18 @@
 package at.tugraz.sss.servs.link.impl;
 
 import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
-
-import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.SSEntityContext;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.SSUri;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.enums.SSEntityE;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.db.api.SSCoreSQL;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
-import at.tugraz.sss.serv.impl.api.*;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import at.tugraz.sss.servs.link.api.SSLinkClientI;
 import at.tugraz.sss.servs.link.api.SSLinkServerI;
 import at.tugraz.sss.servs.link.datatype.SSLinkAddPar;
@@ -48,28 +41,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.servs.common.api.SSGetUsersResourcesI;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
 
 public class SSLinkImpl
-extends SSServImplA
+extends SSEntityImpl
 implements
   SSLinkClientI,
   SSLinkServerI, 
   SSGetUsersResourcesI{
   
   private final SSLinkActAndLog                       actAndLog   = new SSLinkActAndLog();
-  private final SSUserCommons                         userCommons = new SSUserCommons();
-  private final SSCoreSQL                             sql;
-  private final SSDBSQLI                              dbSQL;
-  private final SSDBNoSQLI                            dbNoSQL;
+  private final SSCoreSQL                             sql         = new SSCoreSQL(dbSQL);
   
-  public SSLinkImpl(final SSConfA conf) throws SSErr{
-    
-    super(conf);
-    
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    
-    this.sql = new SSCoreSQL(dbSQL);
+  public SSLinkImpl(){
+    super(SSCoreConf.instGet().getLink());
   }
   
   @Override
@@ -133,7 +119,6 @@ implements
     
     try{
       
-      final SSEntityServerI   entityServ      = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSEntityUpdatePar entityUpdatePar =
         new SSEntityUpdatePar(
           par,  //servPaR
@@ -153,7 +138,7 @@ implements
         
       dbSQL.startTrans(par, par.shouldCommit);
       
-      final SSUri link = entityServ.entityUpdate(entityUpdatePar);
+      final SSUri link = entityUpdate(entityUpdatePar);
       
       if(link == null){
         dbSQL.rollBack(par, par.shouldCommit);

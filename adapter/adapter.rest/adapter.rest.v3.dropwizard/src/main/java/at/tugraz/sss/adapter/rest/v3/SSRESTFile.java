@@ -26,10 +26,11 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.SSMimeTypeE;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.db.impl.*;
 import at.tugraz.sss.servs.file.datatype.*;
+import at.tugraz.sss.servs.file.impl.*;
 import io.swagger.annotations.*;
 import java.io.*;
 import java.sql.*;
@@ -41,6 +42,9 @@ import org.glassfish.jersey.media.multipart.*;
 @Path("rest/files")
 @Api( value = "files")
 public class SSRESTFile{
+  
+  private final SSFileClientI fileServ = new SSFileImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -97,7 +101,7 @@ public class SSRESTFile{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -128,7 +132,7 @@ public class SSRESTFile{
       }
       
       try{
-        final SSFileClientI fileServ = (SSFileClientI) SSServReg.getClientServ(SSFileClientI.class);
+        
         
         return Response.status(200).entity(fileServ.fileUpload(SSClientE.rest, par)).build();
         
@@ -172,7 +176,7 @@ public class SSRESTFile{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -196,7 +200,6 @@ public class SSRESTFile{
       }
       
       try{
-        final SSFileClientI fileServ    = (SSFileClientI) SSServReg.getClientServ(SSFileClientI.class);
         final SSFileDownloadRet ret         = (SSFileDownloadRet) fileServ.fileDownload(SSClientE.rest, par);
         
         return Response.ok(ret.outputStream).
@@ -250,7 +253,7 @@ public class SSRESTFile{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -276,7 +279,6 @@ public class SSRESTFile{
       }
       
       try{
-        final SSFileClientI fileServ    = (SSFileClientI) SSServReg.getClientServ(SSFileClientI.class);
         final SSFileDownloadRet ret         = (SSFileDownloadRet) fileServ.fileDownload(SSClientE.rest, par);
         
         return Response.ok(ret.outputStream).
@@ -321,7 +323,7 @@ public class SSRESTFile{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -345,7 +347,6 @@ public class SSRESTFile{
       }
       
       try{
-        final SSFileClientI fileServ    = (SSFileClientI) SSServReg.getClientServ(SSFileClientI.class);
         final SSFileDownloadRet ret         = (SSFileDownloadRet) fileServ.fileDownload(SSClientE.rest, par);
         
         return Response.ok(ret.outputStream).

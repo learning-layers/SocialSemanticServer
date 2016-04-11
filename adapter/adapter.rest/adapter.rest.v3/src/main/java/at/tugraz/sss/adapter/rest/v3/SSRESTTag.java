@@ -28,7 +28,6 @@ import at.tugraz.sss.servs.tag.datatype.SSTagAddRESTPar;
 import at.tugraz.sss.servs.tag.datatype.SSTagEntitiesForTagsGetRESTPar;
 import at.tugraz.sss.servs.tag.api.*;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.servs.tag.datatype.SSTagAddPar;
@@ -46,7 +45,8 @@ import at.tugraz.sss.servs.tag.datatype.SSTagsRemoveRet;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.servs.db.impl.*;
+import at.tugraz.sss.servs.tag.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -65,6 +65,9 @@ import javax.ws.rs.core.Response;
 @Path("/tags")
 @Api( value = "tags")
 public class SSRESTTag{
+  
+  private final SSTagClientI tagServ = new SSTagImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -89,7 +92,7 @@ public class SSRESTTag{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -98,8 +101,7 @@ public class SSRESTTag{
         
         par =
           new SSTagsGetPar(
-            new SSServPar
-      (((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection()),
+            new SSServPar(sqlCon),
             null, //user
             null, //forUser
             null, //entities
@@ -121,10 +123,7 @@ public class SSRESTTag{
       }
       
       try{
-        final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
-        
         return Response.status(200).entity(tagServ.tagsGet(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -160,7 +159,7 @@ public class SSRESTTag{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -191,7 +190,7 @@ public class SSRESTTag{
       }
       
       try{
-        final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+        
         
         return Response.status(200).entity(tagServ.tagsGet(SSClientE.rest, par)).build();
         
@@ -228,7 +227,7 @@ public class SSRESTTag{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -259,7 +258,7 @@ public class SSRESTTag{
       }
       
       try{
-        final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+        
         
         return Response.status(200).entity(tagServ.tagFrequsGet(SSClientE.rest, par)).build();
         
@@ -298,7 +297,7 @@ public class SSRESTTag{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -328,7 +327,7 @@ public class SSRESTTag{
       }
       
       try{
-        final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+        
         
         return Response.status(200).entity(tagServ.tagFrequsGet(SSClientE.rest, par)).build();
         
@@ -367,7 +366,7 @@ public class SSRESTTag{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -397,7 +396,7 @@ public class SSRESTTag{
       }
       
       try{
-        final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+        
         
         return Response.status(200).entity(tagServ.tagEntitiesForTagsGet(SSClientE.rest, par)).build();
         
@@ -439,7 +438,7 @@ public class SSRESTTag{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -468,7 +467,7 @@ public class SSRESTTag{
       }
       
       try{
-        final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+        
         
         return Response.status(200).entity(tagServ.tagsAdd(SSClientE.rest, par)).build();
         
@@ -510,7 +509,7 @@ public class SSRESTTag{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -539,7 +538,7 @@ public class SSRESTTag{
       }
       
       try{
-        final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+        
         
         return Response.status(200).entity(tagServ.tagsRemove(SSClientE.rest, par)).build();
         
@@ -577,7 +576,7 @@ public class SSRESTTag{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -606,7 +605,7 @@ public class SSRESTTag{
       }
       
       try{
-        final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+        
         
         return Response.status(200).entity(tagServ.tagAdd(SSClientE.rest, par)).build();
         

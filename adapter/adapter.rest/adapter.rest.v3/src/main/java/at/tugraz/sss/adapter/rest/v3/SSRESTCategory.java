@@ -22,8 +22,6 @@ package at.tugraz.sss.adapter.rest.v3;
 
 import at.tugraz.sss.servs.category.datatype.SSCategoryFrequsGetRESTPar;
 import at.tugraz.sss.servs.category.datatype.SSCategoryAddRESTPar;
-import at.tugraz.sss.servs.category.api.*;
-import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.tugraz.sss.servs.category.datatype.SSCategoriesPredefinedGetPar;
 import at.tugraz.sss.servs.category.datatype.SSCategoryAddPar;
 import at.tugraz.sss.servs.category.datatype.SSCategoryFrequsGetPar;
@@ -33,8 +31,10 @@ import at.tugraz.sss.servs.category.datatype.SSCategoryFrequsGetRet;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.category.api.*;
+import at.tugraz.sss.servs.category.impl.*;
+import at.tugraz.sss.servs.db.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -51,6 +51,9 @@ import javax.ws.rs.core.Response;
 @Path("/categories")
 @Api( value = "categories")
 public class SSRESTCategory{
+  
+  private final SSCategoryClientI categoryServ = new SSCategoryImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -77,7 +80,7 @@ public class SSRESTCategory{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -100,10 +103,7 @@ public class SSRESTCategory{
       }
       
       try{
-        final SSCategoryClientI categoryServ = (SSCategoryClientI) SSServReg.getClientServ(SSCategoryClientI.class);
-        
         return Response.status(200).entity(categoryServ.categoriesPredefinedGet(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -140,7 +140,7 @@ public class SSRESTCategory{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -169,7 +169,7 @@ public class SSRESTCategory{
       }
       
       try{
-        final SSCategoryClientI categoryServ = (SSCategoryClientI) SSServReg.getClientServ(SSCategoryClientI.class);
+        
         
         return Response.status(200).entity(categoryServ.categoryAdd(SSClientE.rest, par)).build();
         
@@ -206,7 +206,7 @@ public class SSRESTCategory{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -235,7 +235,7 @@ public class SSRESTCategory{
       }
       
       try{
-        final SSCategoryClientI categoryServ = (SSCategoryClientI) SSServReg.getClientServ(SSCategoryClientI.class);
+        
         
         return Response.status(200).entity(categoryServ.categoryFrequsGet(SSClientE.rest, par)).build();
         
@@ -274,7 +274,7 @@ public class SSRESTCategory{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -303,7 +303,7 @@ public class SSRESTCategory{
       }
       
       try{
-        final SSCategoryClientI categoryServ = (SSCategoryClientI) SSServReg.getClientServ(SSCategoryClientI.class);
+        
         
         return Response.status(200).entity(categoryServ.categoryFrequsGet(SSClientE.rest, par)).build();
         

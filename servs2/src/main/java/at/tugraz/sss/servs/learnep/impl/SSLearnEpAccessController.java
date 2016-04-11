@@ -34,8 +34,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 
 public class SSLearnEpAccessController{
   
@@ -43,7 +42,13 @@ public class SSLearnEpAccessController{
   private static final Map<String, Long>         lockedLearnEpsLockTimes      = new HashMap<>(); //learnEp, time the episode got locked
   private static final ReentrantReadWriteLock    learnEpsLock                 = new ReentrantReadWriteLock();
   
-  public static boolean lock(
+  private final SSEntityServerI entityServ;
+  
+  public SSLearnEpAccessController(final SSEntityServerI entityServ){
+    this.entityServ = entityServ;
+  }
+  
+  public boolean lock(
     final SSUri         user,
     final SSUri         learnEp) throws SSErr{
     
@@ -76,7 +81,7 @@ public class SSLearnEpAccessController{
     }
   }
   
-  public static boolean unLock(
+  public boolean unLock(
     final SSUri         learnEp) throws SSErr{
     
     try{
@@ -103,7 +108,7 @@ public class SSLearnEpAccessController{
     }
   }
   
-  public static boolean isLocked(final SSUri learnEp) throws SSErr{
+  public boolean isLocked(final SSUri learnEp) throws SSErr{
     
     try{
       
@@ -119,7 +124,7 @@ public class SSLearnEpAccessController{
     }
   }
   
-  public static boolean hasLock(
+  public boolean hasLock(
     final SSUri user, 
     final SSUri learnEp) throws SSErr{
     
@@ -143,7 +148,7 @@ public class SSLearnEpAccessController{
     }
   }
   
-  public static void checkHasLock(
+  public void checkHasLock(
     final SSServPar     servPar,
     final SSLearnEpConf learnEpConf,
     final SSUri         user,
@@ -151,7 +156,6 @@ public class SSLearnEpAccessController{
     
     try{
       
-      final SSEntityServerI           circleServ        = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSCircleIsEntitySharedPar isEntitySharedPar =
         new SSCircleIsEntitySharedPar(
           servPar,
@@ -161,7 +165,7 @@ public class SSLearnEpAccessController{
       
       if(
         !learnEpConf.useEpisodeLocking ||
-        !circleServ.circleIsEntityShared(isEntitySharedPar)){
+        !entityServ.circleIsEntityShared(isEntitySharedPar)){
         return;
       }
       
@@ -185,7 +189,7 @@ public class SSLearnEpAccessController{
     }
   }
   
-  public static Long getPassedTime(final SSUri learnEp) throws SSErr{
+  public Long getPassedTime(final SSUri learnEp) throws SSErr{
     
     try{
       learnEpsLock.readLock().lock();
@@ -204,11 +208,11 @@ public class SSLearnEpAccessController{
     }
   }
   
-  public static Long getRemainingTime(final SSUri learnEp) throws SSErr{
-    return (SSDateU.minuteInMilliSeconds * 5) - SSLearnEpAccessController.getPassedTime(learnEp);
+  public Long getRemainingTime(final SSUri learnEp) throws SSErr{
+    return (SSDateU.minuteInMilliSeconds * 5) - getPassedTime(learnEp);
   }
   
-  public static List<String> getLockedLearnEps() throws SSErr{
+  public List<String> getLockedLearnEps() throws SSErr{
     
     try{
       learnEpsLock.readLock().lock();

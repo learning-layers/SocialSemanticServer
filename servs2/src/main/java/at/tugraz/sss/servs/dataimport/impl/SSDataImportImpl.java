@@ -20,59 +20,147 @@
  */
 package at.tugraz.sss.servs.dataimport.impl;
 
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.serv.conf.*;
 import at.tugraz.sss.serv.util.SSFileU;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.servs.dataimport.api.SSDataImportClientI;
 import at.tugraz.sss.servs.dataimport.api.SSDataImportServerI;
 import at.tugraz.sss.servs.dataimport.datatype.SSDataImportBitsAndPiecesPar;
 import at.tugraz.sss.servs.dataimport.datatype.SSDataImportEvalLogFilePar;
 import at.tugraz.sss.servs.dataimport.datatype.SSDataImportKCProjWikiVorgaengePar;
 import at.tugraz.sss.servs.dataimport.datatype.SSDataImportMediaWikiUserPar;
 import at.tugraz.sss.servs.dataimport.datatype.SSDataImportSSSUsersFromCSVFilePar;
-import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.SSErr;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
-import at.tugraz.sss.serv.impl.api.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.servs.auth.api.*;
 import at.tugraz.sss.servs.auth.datatype.*;
+import at.tugraz.sss.servs.auth.impl.*;
+import at.tugraz.sss.servs.conf.*;
 import at.tugraz.sss.servs.dataimport.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgang;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgangEmployeeResource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogE;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogEntry;
+import at.tugraz.sss.servs.evernote.conf.*;
 
 public class SSDataImportImpl
-extends
-  SSServImplA
-implements
-  SSDataImportClientI,
-  SSDataImportServerI{
+  extends SSEntityImpl
+  implements SSDataImportServerI{
   
   private final SSDataImportBNPEvernoteImporter       bnpEvernoteImporter = new SSDataImportBNPEvernoteImporter(); 
   private final SSDataImportBNPMailImporter           bnpMailImporter     = new SSDataImportBNPMailImporter();
-  private final SSDataImportSQL                       sqlFct;
-  private final SSDBSQLI                              dbSQL;
-  private final SSDBNoSQLI                            dbNoSQL;
+  private final SSDataImportSQL                       sqlFct              = new SSDataImportSQL(dbSQL);
   
-  public SSDataImportImpl(final SSDataImportConf conf) throws SSErr{
+  public SSDataImportImpl() throws SSErr{
+    super(SSCoreConf.instGet().getDataImport());
+  }
+
+  @Override  
+  public void schedule() throws SSErr{
     
-    super(conf);
+    final SSDataImportConf dataImportConf = (SSDataImportConf)conf;
     
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    this.sqlFct        = new SSDataImportSQL(dbSQL);
+    if(
+      !dataImportConf.use ||
+      !dataImportConf.schedule){
+      return;
+    }
+    
+    if(
+      SSObjU.isNull(dataImportConf.scheduleOps, dataImportConf.scheduleIntervals) ||
+      dataImportConf.scheduleOps.isEmpty()                                        ||
+      dataImportConf.scheduleIntervals.isEmpty()                                  ||
+      dataImportConf.scheduleOps.size() != dataImportConf.scheduleIntervals.size()){
+      
+      SSLogU.warn(SSWarnE.scheduleConfigInvalid, null);
+      return;
+    }
+    
+    final SSEvernoteConf evernoteConf = SSCoreConf.instGet().getEvernote();
+    final SSServPar      servPar      = new SSServPar(null);
+    Date                 startDate;
+    
+    for(int scheduleOpsCounter = 0; scheduleOpsCounter < dataImportConf.scheduleOps.size(); scheduleOpsCounter++){
+      
+      if(SSStrU.isEqual(dataImportConf.scheduleOps.get(scheduleOpsCounter), SSVarNames.dataImportMediaWikiUser)){
+        new SSSchedules().regScheduler(SSDateU.scheduleNow(new SSDataImportMediaWikiUserTask()));
+        continue;
+      }
+      
+      if(SSStrU.isEqual(dataImportConf.scheduleOps.get(scheduleOpsCounter), SSVarNames.dataImportBitsAndPieces)){
+        
+        if(dataImportConf.executeScheduleAtStartUp){
+          startDate = new Date();
+        }else{
+          startDate = SSDateU.getDatePlusMinutes(conf.scheduleIntervals.get(scheduleOpsCounter));
+        }
+        
+        for(int counter = 0; counter < evernoteConf.getAuthTokens().size(); counter++){
+          
+          try{
+            
+            new SSSchedules().regScheduler(
+              SSDateU.scheduleWithFixedDelay(
+                new SSDataImportBitsAndPiecesTask(
+                  new SSDataImportBitsAndPiecesPar(
+                    servPar,
+                    SSConf.systemUserUri,
+                    evernoteConf.getAuthTokens().get(counter),
+                    evernoteConf.getAuthEmails().get(counter),
+                    null,
+                    null,
+                    null,
+                    true, //importEvernote,
+                    false, //importEmail,
+                    true, //withUserRestriction,
+                    true)), //shouldCommit
+                startDate,
+                conf.scheduleIntervals.get(scheduleOpsCounter) * SSDateU.minuteInMilliSeconds));
+            
+          }catch(Exception error){
+            SSLogU.err(error);
+          }
+        }
+        
+        for(int counter = 0; counter < evernoteConf.getEmailInEmails().size(); counter++){
+          
+          try{
+            
+            new SSSchedules().regScheduler(
+              SSDateU.scheduleWithFixedDelay(
+                new SSDataImportBitsAndPiecesTask(
+                  new SSDataImportBitsAndPiecesPar(
+                    servPar,
+                    SSConf.systemUserUri,
+                    evernoteConf.getAuthTokens().get(counter),
+                    evernoteConf.getAuthEmails().get(counter),
+                    evernoteConf.getEmailInUsers().get(counter),
+                    evernoteConf.getEmailInPasswords().get(counter),
+                    evernoteConf.getEmailInEmails().get(counter),
+                    false, //importEvernote,
+                    true, //importEmail,
+                    true, //withUserRestriction,
+                    true)), //shouldCommit
+                startDate,
+                conf.scheduleIntervals.get(scheduleOpsCounter) * SSDateU.minuteInMilliSeconds));
+            
+          }catch(Exception error){
+            SSLogU.err(error);
+          }
+        }
+      }
+    }
   }
   
   @Override
@@ -80,7 +168,7 @@ implements
     
     try{
       
-      final SSAuthServerI     authServ        = (SSAuthServerI)     SSServReg.getServ(SSAuthServerI.class);
+      final SSAuthServerI     authServ        = new SSAuthImpl();
       SSUri                   forUser         = null;
       
       try{

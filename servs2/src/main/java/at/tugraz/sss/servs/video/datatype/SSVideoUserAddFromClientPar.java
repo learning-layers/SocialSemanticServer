@@ -20,7 +20,6 @@
 */
 package at.tugraz.sss.servs.video.datatype;
 
-import at.tugraz.sss.servs.video.datatype.SSVideoE;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;

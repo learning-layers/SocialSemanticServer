@@ -20,16 +20,14 @@
  */
 package at.tugraz.sss.servs.mail.impl;
 
-import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.serv.conf.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.impl.api.*;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
 import at.tugraz.sss.servs.mail.api.SSMailClientI;
 import at.tugraz.sss.servs.mail.api.SSMailServerI;
 import at.tugraz.sss.servs.mail.conf.SSMailConf;
@@ -39,24 +37,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SSMailImpl 
-extends SSServImplA
+extends SSEntityImpl
 implements
   SSMailClientI,
   SSMailServerI{
   
-  private final SSDBSQLI                              dbSQL;
-  private final SSDBNoSQLI                            dbNoSQL;
-  private final SSMailConf                            mailConf;
-  private final SSMailSQLFct                          sqlFct;
+  private final SSMailSQLFct sql       = new SSMailSQLFct(dbSQL);
+  private final SSMailConf   mailConf;
   
-  public SSMailImpl(final SSConfA conf) throws SSErr{
+  public SSMailImpl(){
+
+    super(SSCoreConf.instGet().getMail());
     
-    super(conf);
+    this.mailConf = (SSMailConf) conf;
+  }
+  
+  @Override
+  public void schedule() throws SSErr{
     
-    this.dbSQL          = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL        = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    this.mailConf       = (SSMailConf) conf;
-    this.sqlFct         = new SSMailSQLFct(dbSQL);
+    if(
+      !mailConf.use ||
+      !mailConf.schedule){
+      return;
+    }
+    
+    if(
+      SSObjU.isNull(mailConf.scheduleOps, mailConf.scheduleIntervals)   ||
+      mailConf.scheduleOps.isEmpty()                                        ||
+      mailConf.scheduleIntervals.isEmpty()                                  ||
+      mailConf.scheduleOps.size() != mailConf.scheduleIntervals.size()){
+      
+      SSLogU.warn(SSWarnE.scheduleConfigInvalid, null);
+      return;
+    }
+    
+    if(mailConf.executeScheduleAtStartUp){
+      
+      for(String scheduleOp : mailConf.scheduleOps){
+        
+        if(SSStrU.isEqual(scheduleOp, SSVarNames.mailSend)){
+          new SSSchedules().regScheduler(SSDateU.scheduleNow(new SSMailSendTask()));
+        }
+      }
+    }
   }
   
   @Override
@@ -121,7 +144,7 @@ implements
         
         case gmailIMAP:{
           
-          final SSMailReceiverGMAILIMAP gmailIMAPReceive = new SSMailReceiverGMAILIMAP(mailConf);
+          final SSMailReceiverGMAILIMAP gmailIMAPReceive = new SSMailReceiverGMAILIMAP();
           
           SSEntity.addEntitiesDistinctWithoutNull(
             mails, 
@@ -134,7 +157,7 @@ implements
         
         case kcDavMailIMAP:{
           
-          final SSMailReceiverKCDavIMAP kcReceive = new SSMailReceiverKCDavIMAP(mailConf, sqlFct);
+          final SSMailReceiverKCDavIMAP kcReceive = new SSMailReceiverKCDavIMAP(this, sql);
           
           SSEntity.addEntitiesDistinctWithoutNull(
             mails, 

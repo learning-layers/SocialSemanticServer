@@ -23,7 +23,7 @@ package at.tugraz.sss.adapter.socket;
 import at.tugraz.sss.serv.util.SSSocketU;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.util.SSJSONU;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.util.*;
 import java.io.OutputStreamWriter;

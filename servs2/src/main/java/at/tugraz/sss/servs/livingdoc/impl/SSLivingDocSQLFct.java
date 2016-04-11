@@ -24,7 +24,7 @@ import at.tugraz.sss.servs.livingdoc.datatype.SSLivingDocSQLTableE;
 import at.tugraz.sss.servs.livingdoc.datatype.SSLivingDocument;
 import at.tugraz.sss.serv.db.api.SSCoreSQL;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;

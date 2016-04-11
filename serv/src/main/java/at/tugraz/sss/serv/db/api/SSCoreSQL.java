@@ -23,7 +23,7 @@ package at.tugraz.sss.serv.db.api;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.SSCircle;
 import at.tugraz.sss.serv.datatype.SSEntity;

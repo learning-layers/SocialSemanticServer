@@ -37,45 +37,33 @@ import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.datatype.SSQueryResultPage;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.par.SSEntitySharePar;
-import at.tugraz.sss.serv.impl.api.*;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSMessageImpl
-extends SSServImplA
+extends SSEntityImpl
 implements
   SSMessageClientI,
   SSMessageServerI,
   SSDescribeEntityI{
   
-  private final SSUserCommons                         userCommons = new SSUserCommons();
   private final SSMessageActAndLog                    actAndLog   = new SSMessageActAndLog();
-  private final SSMessageSQL                          sql;
-  private final SSDBSQLI                              dbSQL;
-  private final SSDBNoSQLI                            dbNoSQL;
+  private final SSMessageSQL                          sql         = new SSMessageSQL(dbSQL);
   
-  public SSMessageImpl(final SSConfA conf) throws SSErr{
-    
-    super(conf);
-    
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    this.sql           = new SSMessageSQL(dbSQL);
+  public SSMessageImpl(){
+    super(SSCoreConf.instGet().getMessage());
   }
   
   @Override
@@ -135,8 +123,7 @@ implements
     
     try{
       
-      final SSEntityServerI entityServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      SSMessage             message     = sql.getMessage(par, par.message);
+      SSMessage message     = sql.getMessage(par, par.message);
       
       if(message == null){
         return null;
@@ -152,7 +139,7 @@ implements
       }
       
       final SSEntity messageEntity =
-        entityServ.entityGet(
+        entityGet(
           new SSEntityGetPar(
             par,
             par.user,
@@ -172,7 +159,7 @@ implements
       }
       
       message.user =
-        entityServ.entityGet(
+        entityGet(
           new SSEntityGetPar(
             par,
             par.user,
@@ -181,7 +168,7 @@ implements
             descPar));
       
       message.forUser =
-        entityServ.entityGet(
+        entityGet(
           new SSEntityGetPar(
             par,
             par.user,
@@ -302,12 +289,10 @@ implements
     
     try{
       
-      final SSEntityServerI entityServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      
       dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri message =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par,
             par.user,
@@ -334,7 +319,7 @@ implements
         par.forUser,
         par.message);
       
-      entityServ.entityShare(
+      entityShare(
         new SSEntitySharePar(
           par,
           par.user,

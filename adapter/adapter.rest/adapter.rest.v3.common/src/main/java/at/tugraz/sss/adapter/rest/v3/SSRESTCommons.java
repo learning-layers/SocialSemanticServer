@@ -20,18 +20,101 @@
  */
 package at.tugraz.sss.adapter.rest.v3;
 
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.util.SSJSONU;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.SSStrU;
 import at.tugraz.sss.serv.util.SSVarNames;
-import java.util.HashMap;
-import java.util.Map;
+import at.tugraz.sss.servs.category.api.*;
+import at.tugraz.sss.servs.category.datatype.*;
+import at.tugraz.sss.servs.category.impl.*;
+import at.tugraz.sss.servs.tag.api.*;
+import at.tugraz.sss.servs.tag.datatype.*;
+import at.tugraz.sss.servs.tag.impl.*;
+import java.util.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
 public class SSRESTCommons {
+  
+  public static void addTags(
+    final SSServPar       servPar,
+    final SSUri           user,
+    final List<String>    tags,
+    final List<SSUri>     entities,
+    final SSUri           circleAsSpace) throws SSErr{
+    
+    try{
+      
+      if(
+        tags == null ||
+        tags.isEmpty()){
+        return;
+      }
+      
+      final SSTagClientI tagServ = new SSTagImpl();
+      
+      tagServ.tagsAdd(
+        SSClientE.rest,
+        new SSTagsAddPar(
+          servPar,
+          user,
+          SSTagLabel.get(tags), //labels
+          entities, //entities
+          null, //space
+          circleAsSpace, //circle
+          null, //creationTime,
+          true, //withUserRestriction
+          true)); //shouldCommit)
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public static void addCategories(
+    final SSServPar       servPar,
+    final SSUri           user,
+    final List<String>    categories,
+    final List<SSUri>     entities,
+    final SSUri           circleAsSpace) throws SSErr{
+    
+    try{
+      
+      if(
+        categories == null ||
+        categories.isEmpty()){
+        return;
+      }
+      
+      final SSCategoryClientI categoryServ = new SSCategoryImpl();
+      
+      for(SSUri entity : entities){
+        
+        for(SSCategoryLabel label : SSCategoryLabel.get(categories)){
+          
+          categoryServ.categoryAdd(
+            SSClientE.rest,
+            new SSCategoryAddPar(
+              servPar,
+              user,
+              entity,
+              label,
+              null, //space
+              circleAsSpace, //circle
+              null, //creationTime,
+              true, //withUserRestriction
+              true)); //shouldCommit)
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
   
   public static String prepareErrorJSON(final Exception originalError){
     

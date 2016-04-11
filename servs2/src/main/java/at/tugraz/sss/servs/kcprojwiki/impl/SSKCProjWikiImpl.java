@@ -20,16 +20,17 @@
   */
 package at.tugraz.sss.servs.kcprojwiki.impl;
 
+import at.tugraz.sss.serv.conf.*;
 import at.tugraz.sss.servs.dataimport.api.SSDataImportServerI;
 import at.tugraz.sss.servs.dataimport.datatype.SSDataImportKCProjWikiVorgaengePar;
-import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.impl.api.*;
+import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.reg.*;
-import at.tugraz.sss.serv.util.SSStrU;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.dataimport.impl.*;
+import at.tugraz.sss.servs.entity.impl.*;
 import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiClientI;
 import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiServerI;
 import at.tugraz.sss.servs.kcprojwiki.conf.SSKCProjWikiConf;
@@ -41,16 +42,50 @@ import java.util.Date;
 import java.util.Map;
 
 public class SSKCProjWikiImpl
-  extends SSServImplA
+  extends SSEntityImpl
   implements
   SSKCProjWikiClientI,
   SSKCProjWikiServerI{
   
   private final SSKCProjWikiImportCommons kcProjWikiImportCommons = new SSKCProjWikiImportCommons();
   
-  public SSKCProjWikiImpl(final SSConfA conf){
+  public SSKCProjWikiImpl(){
+    super(SSCoreConf.instGet().getKcprojwiki());
+  }
+  
+  @Override
+  public void schedule() throws SSErr{
     
-    super(conf);
+    final SSKCProjWikiConf projWikiConf = (SSKCProjWikiConf)conf;
+    
+    if(
+      !projWikiConf.use ||
+      !projWikiConf.schedule){
+      return;
+    }
+    
+    if(
+      SSObjU.isNull(projWikiConf.scheduleOps, projWikiConf.scheduleIntervals)   ||
+      projWikiConf.scheduleOps.isEmpty()                                        ||
+      projWikiConf.scheduleIntervals.isEmpty()                                  ||
+      projWikiConf.scheduleOps.size() != projWikiConf.scheduleIntervals.size()){
+      
+      SSLogU.warn(SSWarnE.scheduleConfigInvalid, null);
+      return;
+    }
+    
+    if(projWikiConf.executeScheduleAtStartUp){
+      
+      for(String scheduleOp : projWikiConf.scheduleOps){
+        
+        if(SSStrU.isEqual(scheduleOp, SSVarNames.kcprojwikiImport)){
+          
+          new SSSchedules().regScheduler(
+            SSDateU.scheduleNow(
+              new SSKCProjWikiImportTask()));
+        }
+      }
+    }
   }
   
   @Override
@@ -58,7 +93,7 @@ public class SSKCProjWikiImpl
     
     try{
       
-      final SSDataImportServerI                dataImportServ = (SSDataImportServerI) SSServReg.getServ(SSDataImportServerI.class);
+      final SSDataImportServerI                dataImportServ = new SSDataImportImpl();
       final Map<String, SSKCProjWikiVorgang>   vorgaenge      =
         dataImportServ.dataImportKCProjWikiVorgaenge(
           new SSDataImportKCProjWikiVorgaengePar(

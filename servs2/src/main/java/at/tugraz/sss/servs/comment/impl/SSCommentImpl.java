@@ -20,61 +20,36 @@
 */
 package at.tugraz.sss.servs.comment.impl;
 
-import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
-import at.tugraz.sss.serv.entity.api.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.servs.common.api.*;
 import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
-import at.tugraz.sss.serv.datatype.SSTextComment;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.servs.comment.datatype.SSCommentEntitiesGetPar;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
-import at.tugraz.sss.servs.comment.api.SSCommentClientI;
-import at.tugraz.sss.servs.comment.api.SSCommentServerI;
-import at.tugraz.sss.servs.comment.datatype.SSCommentsAddPar;
-import at.tugraz.sss.servs.comment.datatype.SSCommentsGetPar;
-import at.tugraz.sss.servs.comment.datatype.SSCommentsAddRet;
-import at.tugraz.sss.servs.comment.datatype.SSCommentsGetRet;
-import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
+import at.tugraz.sss.servs.comment.datatype.*;
+import at.tugraz.sss.servs.comment.api.*;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.reg.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.impl.api.*;
+import at.tugraz.sss.serv.datatype.ret.*; 
 import at.tugraz.sss.serv.util.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import at.tugraz.sss.servs.common.api.SSGetUserRelationsI;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
 
 public class SSCommentImpl 
-extends SSServImplA 
+extends SSEntityImpl 
 implements 
   SSCommentClientI, 
   SSCommentServerI, 
   SSDescribeEntityI,
   SSGetUserRelationsI{
   
-  private final SSCommentSQLFct                       sql;
-  private final SSUserCommons                         userCommons = new SSUserCommons();
-  private final SSDBSQLI                              dbSQL;
-  private final SSDBNoSQLI                            dbNoSQL;
+  private final SSCommentSQLFct           sql              = new SSCommentSQLFct(dbSQL);
   
-  public SSCommentImpl(final SSConfA conf) throws SSErr{
-
-    super(conf);
-    
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    this.sql           = new SSCommentSQLFct(dbSQL);
+  public SSCommentImpl(){
+    super(SSCoreConf.instGet().getComment());
   }
   
   @Override
@@ -84,7 +59,7 @@ implements
     final Map<String, List<SSUri>> userRelations) throws SSErr{
     
     try{
-      SSCommentUserRelationGatherFct.getUserRelations(
+      getUserRelations.getUserRelations(
         servPar,
         allUsers,
         userRelations);
@@ -146,12 +121,10 @@ implements
         throw SSErr.get(SSErrE.parameterMissing);
       }
       
-      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      
       dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri entity =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par,
             par.user,
@@ -176,7 +149,7 @@ implements
       for(SSTextComment content : par.comments){
         
         commentUri =
-          entityServ.entityUpdate(
+          entityUpdate(
             new SSEntityUpdatePar(
               par,
               par.user,
@@ -287,12 +260,11 @@ implements
         return entityURIs;
       }
 
-      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final List<SSEntity>  entities   = new ArrayList<>();
       
       SSEntity.addEntitiesDistinctWithoutNull(
         entities,
-        entityServ.entitiesGet(
+        entitiesGet(
           new SSEntitiesGetPar(
             par,
             par.user,

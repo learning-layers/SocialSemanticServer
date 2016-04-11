@@ -27,15 +27,16 @@ import at.tugraz.sss.servs.entity.datatype.SSCircleEntitiesRemoveRESTPar;
 import at.tugraz.sss.servs.entity.datatype.SSCircleEntitiesAddRESTPar;
 import at.tugraz.sss.servs.entity.datatype.SSCirclesFilteredForUserGetRESTPar;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.datatype.ret.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.servs.db.impl.*;
 import at.tugraz.sss.servs.entity.api.*;
 import at.tugraz.sss.servs.entity.datatype.*;
+import at.tugraz.sss.servs.entity.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -48,6 +49,9 @@ import javax.ws.rs.core.Response;
 @Path("/circles")
 @Api( value = "circles")
 public class SSRESTCircle{
+  
+  private final SSEntityClientI entityServ = new SSEntityImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -73,7 +77,7 @@ public class SSRESTCircle{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -107,10 +111,7 @@ public class SSRESTCircle{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
-        
         return Response.status(200).entity(entityServ.circlesGet(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -147,7 +148,7 @@ public class SSRESTCircle{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -178,7 +179,7 @@ public class SSRESTCircle{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.circlesGet(SSClientE.rest, par)).build();
         
@@ -217,7 +218,7 @@ public class SSRESTCircle{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -252,7 +253,7 @@ public class SSRESTCircle{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.circlesGet(SSClientE.rest, par)).build();
         
@@ -294,7 +295,7 @@ public class SSRESTCircle{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -329,7 +330,7 @@ public class SSRESTCircle{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.circlesGet(SSClientE.rest, par)).build();
         
@@ -369,7 +370,7 @@ public class SSRESTCircle{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -400,7 +401,7 @@ public class SSRESTCircle{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.circleGet(SSClientE.rest, par)).build();
         
@@ -442,7 +443,7 @@ public class SSRESTCircle{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -476,7 +477,7 @@ public class SSRESTCircle{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.circleGet(SSClientE.rest, par)).build();
         
@@ -519,7 +520,7 @@ public class SSRESTCircle{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -545,7 +546,7 @@ public class SSRESTCircle{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.circleUsersAdd(SSClientE.rest, par)).build();
         
@@ -590,7 +591,7 @@ public class SSRESTCircle{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -605,15 +606,6 @@ public class SSRESTCircle{
             SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSConf.sssUri),  //entities
             true,  //withUserRestriction
             true); //shouldCommit
-        
-        if(input.tags != null){
-          par.tags.addAll(input.tags);
-        }
-        
-        if(input.categories != null){
-          par.categories.addAll(input.categories);
-        }
-        
       }catch(Exception error){
         return Response.status(422).entity(SSRESTCommons.prepareErrorJSON(error)).build();
       }
@@ -625,9 +617,23 @@ public class SSRESTCircle{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        final SSServRetI addCircleEntitiesResult = entityServ.circleEntitiesAdd(SSClientE.rest, par);
         
-        return Response.status(200).entity(entityServ.circleEntitiesAdd(SSClientE.rest, par)).build();
+        SSRESTCommons.addTags(
+          par,
+          par.user,
+          input.tags,
+          par.entities,
+          par.circle);
+        
+        SSRESTCommons.addCategories(
+          par,
+          par.user,
+          input.categories,
+          par.entities,
+          par.circle);
+        
+        return Response.status(200).entity(addCircleEntitiesResult).build();
         
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
@@ -670,7 +676,7 @@ public class SSRESTCircle{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -695,7 +701,7 @@ public class SSRESTCircle{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.circleEntitiesRemove(SSClientE.rest, par)).build();
         
@@ -733,7 +739,7 @@ public class SSRESTCircle{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -766,7 +772,7 @@ public class SSRESTCircle{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.circleCreate(SSClientE.rest, par)).build();
         
@@ -810,7 +816,7 @@ public class SSRESTCircle{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -837,7 +843,7 @@ public class SSRESTCircle{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.circleUsersRemove(SSClientE.rest, par)).build();
         
@@ -877,7 +883,7 @@ public class SSRESTCircle{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -903,7 +909,7 @@ public class SSRESTCircle{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.circleRemove(SSClientE.rest, par)).build();
         
@@ -946,7 +952,7 @@ public class SSRESTCircle{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -973,7 +979,7 @@ public class SSRESTCircle{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.circleUsersInvite(SSClientE.rest, par)).build();
         
@@ -1016,7 +1022,7 @@ public class SSRESTCircle{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -1043,7 +1049,7 @@ public class SSRESTCircle{
       }
       
       try{
-        final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+        
         
         return Response.status(200).entity(entityServ.circleTypeChange(SSClientE.rest, par)).build();
         

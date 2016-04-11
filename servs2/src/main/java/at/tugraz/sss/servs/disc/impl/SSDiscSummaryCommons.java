@@ -35,9 +35,9 @@ import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.SSLabel;
 import at.tugraz.sss.serv.datatype.SSUri;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.reg.SSServReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.util.SSStrU;
+import at.tugraz.sss.servs.user.impl.*;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +50,7 @@ public class SSDiscSummaryCommons{
     final Map<String, SSDiscDailySummary>    summaries) throws SSErr{
     
     try{
-      final SSUserServerI userServ = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
+      final SSUserServerI userServ = new SSUserImpl();
       final SSEntity      disc     = 
         sql.getEntityTest(
           servPar, 
@@ -116,8 +116,8 @@ public class SSDiscSummaryCommons{
     final Map<String, SSDiscDailySummary>    summaries) throws SSErr{
     
     try{
-      final SSUserServerI userServ = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
-      final List<SSUri>   userURIs = 
+      final SSUserServerI     userServ = new SSUserImpl();
+      final List<SSUri>       userURIs = 
         sql.getDiscUserURIs(
           servPar,
           act.entity.id);

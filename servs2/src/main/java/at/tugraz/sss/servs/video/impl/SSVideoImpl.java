@@ -20,64 +20,30 @@
  */
 package at.tugraz.sss.servs.video.impl;
 
-import at.tugraz.sss.servs.activity.api.*;
-import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
 import at.tugraz.sss.servs.file.api.*;
-import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
-import at.tugraz.sss.servs.video.api.SSVideoClientI;
-import at.tugraz.sss.servs.video.api.SSVideoServerI;
-import at.tugraz.sss.servs.video.datatype.SSVideo;
-import at.tugraz.sss.servs.video.datatype.SSVideoAnnotation;
-import at.tugraz.sss.servs.video.datatype.SSVideoAnnotationGetPar;
-import at.tugraz.sss.servs.video.datatype.SSVideoAnnotationsGetPar;
-import at.tugraz.sss.servs.video.datatype.SSVideoAnnotationsSetPar;
-import at.tugraz.sss.servs.video.datatype.SSVideoUserAddFromClientPar;
-import at.tugraz.sss.servs.video.datatype.SSVideoUserAddPar;
-import at.tugraz.sss.servs.video.datatype.SSVideoUserAnnotationAddPar;
-import at.tugraz.sss.servs.video.datatype.SSVideoUserGetPar;
-import at.tugraz.sss.servs.video.datatype.SSVideosUserGetPar;
-import at.tugraz.sss.servs.video.datatype.SSVideoAnnotationsSetRet;
-import at.tugraz.sss.servs.video.datatype.SSVideoUserAddRet;
-import at.tugraz.sss.servs.video.datatype.SSVideoUserAnnotationAddRet;
-import at.tugraz.sss.servs.video.datatype.SSVideosUserGetRet;
-import at.tugraz.sss.servs.common.api.SSAddAffiliatedEntitiesToCircleI;
-import at.tugraz.sss.serv.datatype.par.SSAddAffiliatedEntitiesToCirclePar;
-import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
-import at.tugraz.sss.serv.datatype.SSEntityContext;
-import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
-import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.servs.video.api.*;
+import at.tugraz.sss.servs.video.datatype.*;
+import at.tugraz.sss.servs.common.api.*;
 import java.util.ArrayList;
 import java.util.List;
-import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.servs.common.api.SSPushEntitiesToUsersI;
-import at.tugraz.sss.serv.datatype.par.SSPushEntitiesToUsersPar;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.reg.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI;
-import at.tugraz.sss.serv.impl.api.*;
-import at.tugraz.sss.servs.eval.api.*;
+import at.tugraz.sss.serv.datatype.ret.*;
+import at.tugraz.sss.servs.conf.*;
 import at.tugraz.sss.servs.file.datatype.*;
-import at.tugraz.sss.servs.location.api.SSLocationServerI;
 import at.tugraz.sss.servs.location.datatype.*;
 import java.util.Map;
-import at.tugraz.sss.servs.common.api.SSGetUsersResourcesI;
-import at.tugraz.sss.servs.common.impl.*;
+import at.tugraz.sss.servs.entity.impl.*;
+import at.tugraz.sss.servs.file.impl.*;
+import at.tugraz.sss.servs.location.api.*;
+import at.tugraz.sss.servs.location.impl.*;
 
 public class SSVideoImpl
-extends SSServImplA
+extends SSEntityImpl
 implements
   SSVideoClientI,
   SSVideoServerI,
@@ -86,36 +52,16 @@ implements
   SSAddAffiliatedEntitiesToCircleI,
   SSGetUsersResourcesI{
   
-  private final SSVideoSQLFct                         sql;
-  private final SSEntityServerI                       entityServ;
-  private final SSEntityServerI                       circleServ;
-  private final SSLocationServerI                     locationServ;
-  private final SSVideoActAndLogFct                   actAndLocFct;
-  private final SSUserCommons                         userCommons                   = new SSUserCommons();
-  private final SSAddAffiliatedEntitiesToCircle       addAffiliatedEntitiesToCircle = new SSAddAffiliatedEntitiesToCircle();
-  private final SSDBSQLI                              dbSQL;
-  private final SSDBNoSQLI                            dbNoSQL;
+  private final SSVideoSQLFct                         sql          = new SSVideoSQLFct(dbSQL);
+  private final SSVideoActAndLogFct                   actAndLocFct = new SSVideoActAndLogFct();
   
-  public SSVideoImpl(final SSConfA conf) throws SSErr{
-    
-    super(conf);
-    
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    this.sql          = new SSVideoSQLFct(dbSQL);
-    this.entityServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
-    this.circleServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
-    this.locationServ = (SSLocationServerI) SSServReg.getServ(SSLocationServerI.class);
-    
-    this.actAndLocFct =
-      new SSVideoActAndLogFct(
-        (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class),
-        (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class));
+  public SSVideoImpl(){
+    super(SSCoreConf.instGet().getVideo());
   }
   
   @Override
   public void getUsersResources(
-    final SSServPar servPar,
+    final SSServPar                          servPar,
     final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
     
     try{
@@ -215,7 +161,7 @@ implements
         return affiliatedEntities;
       }
       
-      circleServ.circleEntitiesAdd(
+      circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
           servPar,
           par.user,
@@ -315,6 +261,8 @@ implements
         par.latitude  != null &&
         par.longitude != null){
         
+        final SSLocationServerI locationServ = new SSLocationImpl();
+        
         locationServ.locationAdd(
           new SSLocationAddPar(
             par,
@@ -352,12 +300,12 @@ implements
         }
       }
       
-      final SSFileServerI fileServ = (SSFileServerI) SSServReg.getServ(SSFileServerI.class);
+      final SSFileServerI fileServ = new SSFileImpl();
       
       dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri video =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par,
             par.user,
@@ -387,7 +335,7 @@ implements
       if(par.forEntity != null){
         
         final SSUri forEntity =
-          entityServ.entityUpdate(
+          entityUpdate(
             new SSEntityUpdatePar(
               par,
               par.user,
@@ -492,7 +440,7 @@ implements
       dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri video =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par,
             par.user,
@@ -591,7 +539,7 @@ implements
       dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri video =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par,
             par.user,
@@ -612,7 +560,7 @@ implements
       }
       
       final SSUri annotation =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par,
             par.user,
@@ -685,10 +633,9 @@ implements
         descPar = null;
       }
       
-      final SSFileServerI fileServ = (SSFileServerI) SSServReg.getServ(SSFileServerI.class);
-      
-      final SSEntity videoEntity =
-        entityServ.entityGet(
+      final SSFileServerI fileServ    = new SSFileImpl();
+      final SSEntity      videoEntity =
+        entityGet(
           new SSEntityGetPar(
             par,
             par.user,

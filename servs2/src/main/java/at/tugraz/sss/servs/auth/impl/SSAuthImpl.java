@@ -27,33 +27,36 @@ import at.tugraz.sss.servs.dataimport.api.SSDataImportServerI;
 import at.tugraz.sss.servs.dataimport.datatype.SSDataImportSSSUsersFromCSVFilePar;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
-
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.servs.coll.api.SSCollServerI;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserRootAddPar;
 import at.tugraz.sss.servs.user.api.SSUserServerI;
 import at.tugraz.sss.servs.user.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.servs.auth.api.*;
 import at.tugraz.sss.servs.auth.conf.*;
 import at.tugraz.sss.servs.auth.datatype.*;
+import at.tugraz.sss.servs.coll.impl.*;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.dataimport.impl.*;
+import at.tugraz.sss.servs.db.impl.*;
+import at.tugraz.sss.servs.user.impl.*;
 import com.nimbusds.oauth2.sdk.*;
 import com.nimbusds.oauth2.sdk.http.*;
 import com.nimbusds.openid.connect.sdk.*;
 import java.io.*;
 import java.net.*;
 import java.security.*;
+import java.sql.*;
 import net.minidev.json.*;
 
 public class SSAuthImpl 
@@ -65,17 +68,64 @@ implements
   
   private final List<String>                          csvFileAuthKeys = new ArrayList<>();
   private final Map<String, String>                   oidcAuthTokens  = new HashMap<>();
-  private final SSAuthSQL                             sql;
-  private final SSDBSQLI                              dbSQL;
-  private final SSDBNoSQLI                            dbNoSQL;
+  private final SSDBSQLI                              dbSQL           = new SSDBSQLMySQLImpl();
+  private final SSAuthSQL                             sql             = new SSAuthSQL(dbSQL); 
   
-  public SSAuthImpl(final SSAuthConf conf) throws SSErr {
+  public SSAuthImpl(){
+    super(SSCoreConf.instGet().getAuth());
+  }
+  
+  public void initServ() throws SSErr{
     
-    super(conf);
+    if(!conf.use){
+      return;
+    }
     
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    this.sql           = new SSAuthSQL(dbSQL);
+    Connection sqlCon = null;
+    
+    try{
+      
+      if(!conf.initAtStartUp){
+        return;
+      }
+      
+      final SSServPar  servPar  = new SSServPar(null);
+      
+      sqlCon = dbSQL.createConnection();
+      
+      servPar.sqlCon = sqlCon;
+      
+      authRegisterUser(
+        new SSAuthRegisterUserPar(
+          servPar,
+          SSConf.systemUserEmail,
+          ((SSAuthConf)conf).systemUserPassword,
+          SSLabel.get(SSConf.systemUserLabel),
+          true,
+          true,
+          false,
+          true));
+      
+      switch(((SSAuthConf) conf).authType){
+        
+        case csvFileAuth:{
+          authUsersFromCSVFileAdd(
+            new SSAuthUsersFromCSVFileAddPar(
+              servPar,
+              SSConf.systemUserUri));
+          break;
+        }
+      }
+    }finally{
+      
+      if(sqlCon != null){
+        try {
+          sqlCon.close();
+        } catch (SQLException ex) {
+          SSLogU.err(ex);
+        }
+      }
+    }
   }
   
   @Override
@@ -83,27 +133,15 @@ implements
     
     try{
       final Map<String, String>          passwordsForUsersFromCSVFile = new HashMap<>();
-      final SSDataImportServerI          dataImportServ               = (SSDataImportServerI) SSServReg.getServ(SSDataImportServerI.class);
+      final SSDataImportServerI          dataImportServ               = new SSDataImportImpl();
       
-      try{
-        
-        passwordsForUsersFromCSVFile.putAll(
-          dataImportServ.dataImportSSSUsersFromCSVFile(
-            new SSDataImportSSSUsersFromCSVFilePar(
-              par,
-              par.user,
-              SSConf.getSssWorkDir() + SSFileU.fileNameUsersCsv)));
-        
-      }catch(SSErr error){
-        
-        switch(error.code){
-          case servInvalid: SSLogU.warn(error); return;
-          default: {
-            SSServErrReg.regErrThrow(error);
-            break;
-          }
-        }
-      }      
+      
+      passwordsForUsersFromCSVFile.putAll(
+        dataImportServ.dataImportSSSUsersFromCSVFile(
+          new SSDataImportSSSUsersFromCSVFilePar(
+            par,
+            par.user,
+            SSConf.getSssWorkDir() + SSFileU.fileNameUsersCsv)));
       
       dbSQL.startTrans(par, par.shouldCommit);
       
@@ -154,14 +192,14 @@ implements
   public SSUri authRegisterUser(final SSAuthRegisterUserPar par) throws SSErr{
     
     try{
-      final SSUserServerI userServ = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
-      
+
       if(par.email == null){
         throw SSErr.get(SSErrE.parameterMissing);
       }
       
-      final SSUri     userUri;
-      final boolean   userExists;
+      final SSUserServerI userServ = new SSUserImpl();
+      final SSUri         userUri;
+      final boolean       userExists;
       
       userExists = 
         userServ.userExists(
@@ -245,7 +283,7 @@ implements
     
     try{
 
-      final SSUserServerI userServ = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
+      final SSUserServerI userServ = new SSUserImpl();
       
       switch(((SSAuthConf)conf).authType){
 
@@ -473,7 +511,7 @@ implements
     
     try{
       
-      final SSCollServerI collServ = (SSCollServerI) SSServReg.getServ(SSCollServerI.class);
+      final SSCollServerI collServ = new SSCollImpl();
       
       collServ.collRootAdd(
         new SSCollUserRootAddPar(
@@ -481,18 +519,6 @@ implements
           SSConf.systemUserUri,
           userURI,
           false));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        
-        case servInvalid:{
-          SSLogU.warn(error);
-          return;
-        }
-      }
-      
-      SSServErrReg.regErrThrow(error);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

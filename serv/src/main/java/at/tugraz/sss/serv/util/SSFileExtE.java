@@ -20,9 +20,9 @@
  */
 package at.tugraz.sss.serv.util;
 
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.reg.*;
 import java.util.ArrayList;
 import java.util.List;
 

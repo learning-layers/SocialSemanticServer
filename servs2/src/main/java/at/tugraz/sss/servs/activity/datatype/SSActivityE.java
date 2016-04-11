@@ -20,8 +20,8 @@
 */
 package at.tugraz.sss.servs.activity.datatype;
 
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.reg.*;
 import java.util.ArrayList;
 import java.util.List;
 import io.swagger.annotations.*;

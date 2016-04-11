@@ -22,9 +22,7 @@ package at.tugraz.sss.servs.dataexport.impl;
 
 import at.tugraz.sss.servs.category.datatype.SSCategoriesGetPar;
 import at.tugraz.sss.servs.category.datatype.SSCategory;
-import at.tugraz.sss.servs.category.api.SSCategoryServerI;
 import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSCircleGetPar;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.util.SSEncodingU;
@@ -32,24 +30,15 @@ import at.tugraz.sss.serv.util.SSFileU;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.servs.dataexport.api.SSDataExportClientI;
 import at.tugraz.sss.servs.dataexport.api.SSDataExportServerI;
 import at.tugraz.sss.servs.dataexport.conf.SSDataExportConf;
-import at.tugraz.sss.servs.dataexport.datatype.SSDataExportUserEntityTagsCategoriesTimestampsLinePar;
-import at.tugraz.sss.servs.dataexport.datatype.SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar;
-import at.tugraz.sss.servs.dataexport.datatype.SSDataExportUserRelationsPar;
-import at.tugraz.sss.servs.dataexport.datatype.SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar;
+import at.tugraz.sss.servs.dataexport.datatype.*;
 import at.tugraz.sss.servs.tag.api.*;
 import at.tugraz.sss.servs.tag.datatype.*;
-import at.tugraz.sss.servs.user.api.SSUserServerI;
 import at.tugraz.sss.servs.user.datatype.SSUsersGetPar;
-import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSCircle;
 import at.tugraz.sss.serv.datatype.SSEntityContext;
-import at.tugraz.sss.serv.reg.*;
 import au.com.bytecode.opencsv.CSVWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
@@ -61,30 +50,22 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.impl.api.*;
-import at.tugraz.sss.servs.common.impl.*;
+import at.tugraz.sss.servs.category.api.*;
+import at.tugraz.sss.servs.category.impl.*;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
+import at.tugraz.sss.servs.tag.impl.*;
+import at.tugraz.sss.servs.user.impl.*;
 import java.io.IOException;
 
 public class SSDataExportImpl
-extends
-  SSServImplA
-implements
-  SSDataExportClientI,
-  SSDataExportServerI{
+  extends SSEntityImpl
+  implements SSDataExportServerI{
   
-  private final SSGetUsersResources                   getUsersResources = new SSGetUsersResources();
-  private final SSGetUserRelations                    getUserRelations  = new SSGetUserRelations();
-  private final SSDBSQLI                              dbSQL;
-  private final SSDBNoSQLI                            dbNoSQL;
-  
-  public SSDataExportImpl(final SSConfA conf) throws SSErr{
-    
-    super(conf);
-    
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
+  public SSDataExportImpl() throws SSErr{
+    super(SSCoreConf.instGet().getDataExport());
   }
   
   @Override
@@ -107,7 +88,7 @@ implements
       fileWriter = new CSVWriter                            (writer, SSStrU.semiColon.charAt(0));
       
       final SSCircle circle =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circleGet(
+        circleGet(
           new SSCircleGetPar(
             par,
             par.user,
@@ -192,6 +173,7 @@ implements
     try{
       final Map<String, List<SSEntityContext>>  usersEntities         = new HashMap<>();
       final List<String>                        lineParts             = new ArrayList<>();
+      final SSUserImpl                          userServ              = new SSUserImpl();
       final List<String>                        allUsers;
       SSUri                                     user;
       
@@ -203,29 +185,17 @@ implements
         allUsers = SSStrU.toStr(par.users);
       }else{
         
-        try{
-          allUsers =
-            SSStrU.toStr(
-              ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).usersGet(
-                new SSUsersGetPar(
-                  par,
-                  par.user, //user
-                  null, //users
-                  null, //emals
-                  false))); //invokeEntityHandlers
-          
-          SSStrU.remove(allUsers, SSConf.systemUserUri);
-          
-        }catch(SSErr error){
-          
-          switch(error.code){
-            case servInvalid: SSLogU.warn(error); return;
-            default: {
-              SSServErrReg.regErrThrow(error);
-              return;
-            }
-          }
-        }
+        allUsers =
+          SSStrU.toStr(
+            userServ.usersGet(
+              new SSUsersGetPar(
+                par,
+                par.user, //user
+                null, //users
+                null, //emals
+                false))); //invokeEntityHandlers
+        
+        SSStrU.remove(allUsers, SSConf.systemUserUri);
       }
       
       for(String userStr : allUsers){
@@ -361,31 +331,20 @@ implements
       
       final Map<String, List<SSUri>>     userRelations = new HashMap<>();
       final List<String>                 lineParts     = new ArrayList<>();
+      final SSUserImpl                   userServ      = new SSUserImpl();
       final List<String>                 allUsers;
       List<SSUri>                        users;
       
-      try{
-        allUsers =
-          SSStrU.toStr(
-            ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).usersGet(
-              new SSUsersGetPar(
-                par,
-                null, //user
-                null, //users
-                null, //emals
-                false))); //invokeEntityHandlers
+      allUsers =
+        SSStrU.toStr(
+          userServ.usersGet(
+            new SSUsersGetPar(
+              par,
+              null, //user
+              null, //users
+              null, //emals
+              false))); //invokeEntityHandlers
         
-      }catch(SSErr error){
-        
-        switch(error.code){
-          case servInvalid: SSLogU.warn(error); return;
-          default:{
-            SSServErrReg.regErrThrow(error);
-            return;
-          }
-        }
-      }
-      
       getUserRelations.getUserRelations(par, allUsers, userRelations);
       
       out =
@@ -440,8 +399,10 @@ implements
     final List<SSUri>    entities,
     final SSUri          circle) throws SSErr{
     
+    final SSTagServerI tagServ = new SSTagImpl();
+    
     return SSTag.getTagLabelsPerEntities(
-      ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsGet(
+      tagServ.tagsGet(
         new SSTagsGetPar(
           servPar,
           userUri,
@@ -462,8 +423,10 @@ implements
     final List<SSUri>    entities,
     final SSUri          circle) throws SSErr{
     
+    final SSCategoryServerI categoryServ = new SSCategoryImpl();
+    
     return SSCategory.getCategoryLabelsPerEntities(
-      ((SSCategoryServerI) SSServReg.getServ(SSCategoryServerI.class)).categoriesGet(
+      categoryServ.categoriesGet(
         new SSCategoriesGetPar(
           servPar,
           userUri,

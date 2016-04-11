@@ -21,7 +21,6 @@
 package at.tugraz.sss.servs.disc.impl;
 
 import at.tugraz.sss.servs.activity.api.SSActivityServerI;
-import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.servs.activity.datatype.SSActivityE;
 import at.tugraz.sss.servs.activity.datatype.SSActivityAddPar;
 import at.tugraz.sss.servs.disc.datatype.*;
@@ -29,15 +28,16 @@ import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.servs.activity.impl.*;
 import java.util.List;
 import at.tugraz.sss.servs.eval.api.SSEvalServerI;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogE;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogPar;
+import at.tugraz.sss.servs.eval.impl.*;
 
 public class SSDiscActAndLog{
   
@@ -53,11 +53,10 @@ public class SSDiscActAndLog{
     final List<SSLabel> entityLabels,
     final boolean       shouldCommit) throws SSErr{
     
-    final SSActivityServerI actServ  = (SSActivityServerI)  SSServReg.getServ(SSActivityServerI.class);
-    final SSEvalServerI     evalServ = (SSEvalServerI)      SSServReg.getServ(SSEvalServerI.class);
-      
     try{
         
+      final SSActivityServerI actServ = new SSActivityImpl();
+      
       if(entry != null){
         
         actServ.activityAdd(
@@ -73,20 +72,13 @@ public class SSDiscActAndLog{
             shouldCommit));
       }
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
     
     try{
+      
+      final SSEvalServerI     evalServ = new SSEvalImpl();
       
       if(addNewDisc){
         
@@ -125,16 +117,6 @@ public class SSDiscActAndLog{
             shouldCommit));
       }
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -144,10 +126,9 @@ public class SSDiscActAndLog{
     final SSDiscTargetsAddPar   par,
     final boolean               shouldCommit) throws SSErr{
     
-    final SSActivityServerI actServ  = (SSActivityServerI)  SSServReg.getServ(SSActivityServerI.class);
-    final SSEvalServerI     evalServ = (SSEvalServerI)      SSServReg.getServ(SSEvalServerI.class);
-    
     try{
+      
+      final SSActivityServerI actServ  = new SSActivityImpl();
       
       for(SSUri target : par.targets){
         
@@ -164,22 +145,14 @@ public class SSDiscActAndLog{
             shouldCommit));
       }
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
     
     try{
       
+      final SSEvalServerI     evalServ = new SSEvalImpl();
+            
       evalServ.evalLog(
         new SSEvalLogPar(
           par,
@@ -193,16 +166,6 @@ public class SSDiscActAndLog{
           null, //creationTime
           shouldCommit));
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -212,11 +175,10 @@ public class SSDiscActAndLog{
     final SSDiscUpdatePar par, 
     final boolean         shouldCommit) throws SSErr{
     
-    final SSActivityServerI actServ  = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
-    final SSEvalServerI     evalServ = (SSEvalServerI)      SSServReg.getServ(SSEvalServerI.class);
-    
      try{
       
+       final SSEvalServerI     evalServ = new SSEvalImpl();
+             
        if(par.content != null){
          
          evalServ.evalLog(
@@ -267,16 +229,6 @@ public class SSDiscActAndLog{
              shouldCommit));
        }
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -287,8 +239,8 @@ public class SSDiscActAndLog{
     boolean                    shouldCommit) throws SSErr{
     
      try{
-      
-       final SSEvalServerI     evalServ = (SSEvalServerI)      SSServReg.getServ(SSEvalServerI.class);
+
+       final SSEvalServerI     evalServ = new SSEvalImpl();
        
        if(par.content != null){
          
@@ -306,16 +258,6 @@ public class SSDiscActAndLog{
              shouldCommit));
        }
        
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

@@ -31,7 +31,7 @@ import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.util.SSFileExtE;
 import at.tugraz.sss.serv.util.SSFileU;
 import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import engine.EngineInterface;
 import engine.EntityRecommenderEngine;
 import java.io.FileOutputStream;
@@ -43,8 +43,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class SSRecommUserRealmKeeper{
   
-  private final Map<String, List<SSRecommUserRealmEngine>> userRealmEngines   = new HashMap<>();
-  private final ReentrantReadWriteLock                     engineLock         = new ReentrantReadWriteLock();  
+  private static final Map<String, List<SSRecommUserRealmEngine>> userRealmEngines   = new HashMap<>();
+  private static final ReentrantReadWriteLock                     engineLock         = new ReentrantReadWriteLock();  
 
   public SSRecommUserRealmEngine checkAddAndGetUserRealmEngine(
     final SSServPar       servPar,

@@ -28,9 +28,9 @@ import at.tugraz.sss.serv.datatype.*;
 import java.util.List;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.servs.activity.datatype.*;
+import at.tugraz.sss.servs.activity.impl.*;
 
 public class SSFileActAndLog{
   
@@ -42,7 +42,9 @@ public class SSFileActAndLog{
     
     try{
       
-      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+      final SSActivityServerI activityServ = new SSActivityImpl();
+      
+      activityServ.activityAdd(
         new SSActivityAddPar(
           servPar,
           user, 
@@ -53,16 +55,6 @@ public class SSFileActAndLog{
           SSTextComment.asListWithoutNullAndEmpty(), 
           null, 
           false));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

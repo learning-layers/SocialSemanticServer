@@ -20,44 +20,32 @@
   */
 package at.tugraz.sss.servs.entity.impl;
 
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.serv.conf.*;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.servs.entity.datatype.*;
-import at.tugraz.sss.servs.category.api.SSCategoryServerI;
-import at.tugraz.sss.servs.category.datatype.SSCategoryLabel;
-import at.tugraz.sss.servs.category.datatype.SSCategoriesAddPar;
-import at.tugraz.sss.servs.entity.api.SSEntityClientI;
-import at.tugraz.sss.servs.tag.api.SSTagServerI;
-import at.tugraz.sss.servs.tag.datatype.SSTagLabel;
-import at.tugraz.sss.servs.tag.datatype.SSTagsAddPar;
-import at.tugraz.sss.servs.user.api.SSUserServerI;
-import at.tugraz.sss.servs.user.datatype.SSUser;
-import at.tugraz.sss.servs.user.datatype.SSUsersGetPar;
-import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.conf.api.SSConfA;
+import at.tugraz.sss.servs.entity.api.*;
+import at.tugraz.sss.servs.user.datatype.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.datatype.ret.SSEntitiesAccessibleGetRet;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI;
-import at.tugraz.sss.serv.db.api.SSCoreSQL;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.servs.common.api.SSAddAffiliatedEntitiesToCircleI;
-import at.tugraz.sss.servs.common.api.SSCopyEntityI;
-import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
+import at.tugraz.sss.serv.datatype.ret.*;
+import at.tugraz.sss.serv.db.api.*;
+import at.tugraz.sss.servs.common.api.*;
+import at.tugraz.sss.serv.entity.api.*;
 import at.tugraz.sss.serv.impl.api.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.servs.common.impl.SSEntityQueryCacheU;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
+import at.tugraz.sss.servs.common.impl.*;
+import at.tugraz.sss.servs.conf.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import at.tugraz.sss.servs.common.api.SSGetUsersResourcesI;
-import at.tugraz.sss.servs.common.api.SSGetUserRelationsI;
-import at.tugraz.sss.servs.common.impl.*;
+import at.tugraz.sss.servs.db.impl.*;
+import at.tugraz.sss.servs.user.api.*;
+import at.tugraz.sss.servs.user.impl.*;
+import java.sql.*;
 
 public class SSEntityImpl
 extends SSServImplA
@@ -71,40 +59,84 @@ implements
   SSCopyEntityI{
   
   protected static final Map<String, SSEntityResultPages> accessibleEntitiesPagesCache  = new HashMap<>();
-  protected final  SSAddAffiliatedEntitiesToCircle        addAffiliatedEntitiesToCircle = new SSAddAffiliatedEntitiesToCircle();
+  private   static SSUri                                  pubCircleUri                  = null;
   
-  private static SSUri                                pubCircleUri                  = null;
-  private final  SSEntityActAndLog                    actAndLog                     = new SSEntityActAndLog();
-  private final  SSUserCommons                        userCommons                   = new SSUserCommons();
-  private final  SSCopyEntity                         copyEntity                    = new SSCopyEntity();
-  private final  SSDescribeEntity                     describeEntity                = new SSDescribeEntity();
-  private final  SSCircleContentRemoved               circleContentRemoved          = new SSCircleContentRemoved();
-  private final  SSCircleEntitiesAdded                circleEntitiesAdded           = new SSCircleEntitiesAdded();
-  private final  SSCircleUsersAdded                   circleUsersAdded              = new SSCircleUsersAdded();
-  private final  SSEntityCopied                       entiyCopied                   = new SSEntityCopied();
-  private final  SSCoreSQL                            sql;
-  private final SSDBSQLI                              dbSQL;
-  private final SSDBNoSQLI                            dbNoSQL;
+  protected final SSDBSQLI                             dbSQL                         = new SSDBSQLMySQLImpl();
+  protected final SSDBNoSQLI                           dbNoSQL                       = new SSDBNoSQLSolrImpl();
+  private   final SSCoreSQL                            sql                           = new SSCoreSQL(dbSQL);
+  protected final SSUserCommons                        userCommons                   = new SSUserCommons();
+  protected final SSAddAffiliatedEntitiesToCircle      addAffiliatedEntitiesToCircle = new SSAddAffiliatedEntitiesToCircle();
+  protected final SSCopyEntity                         copyEntity                    = new SSCopyEntity();
+  protected final SSDescribeEntity                     describeEntity                = new SSDescribeEntity();
+  protected final SSCircleContentRemoved               circleContentRemoved          = new SSCircleContentRemoved();
+  protected final SSCircleEntitiesAdded                circleEntitiesAdded           = new SSCircleEntitiesAdded();
+  protected final SSCircleUsersAdded                   circleUsersAdded              = new SSCircleUsersAdded();
+  protected final SSEntityCopied                       entiyCopied                   = new SSEntityCopied();
+  protected final SSGetUsersResources                  getUsersResources             = new SSGetUsersResources();
+  protected final SSGetUserRelations                   getUserRelations              = new SSGetUserRelations();
+  protected final SSEntityCopied                       entityCopied                  = new SSEntityCopied();
   
-  public SSEntityImpl(final SSConfA conf) throws SSErr{
-    
-    super(conf);
-    
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    this.sql           = new SSCoreSQL(dbSQL);
+  private final SSEntityGetUserRelations               entityGetUserRelations        = new SSEntityGetUserRelations(this);
+  private final SSEntityActAndLog                      actAndLog                     = new SSEntityActAndLog();
+  
+  public SSEntityImpl(){
+    super(SSCoreConf.instGet().getEntity());
   }
   
-  public SSEntityImpl(
-    final SSConfA    conf, 
-    final SSDBSQLI   sqlI, 
-    final SSDBNoSQLI noSQLI) throws SSErr{
-    
+  public SSEntityImpl(final SSConfA conf){
     super(conf);
+  }
+  
+  public void initServ() throws SSErr{
+  
+    if(!conf.use){
+      return;
+    }
     
-    this.dbSQL    = sqlI;
-    this.dbNoSQL  = noSQLI;
-    this.sql      = new SSCoreSQL(dbSQL);
+    Connection sqlCon = null;
+    
+    try{
+      
+      if(!conf.initAtStartUp){
+        return;
+      }
+      
+      final SSServPar servPar = new SSServPar(null);
+      
+      sqlCon = dbSQL.createConnection();
+      
+      servPar.sqlCon = sqlCon;
+      
+      circlePubURIGet(
+        new SSCirclePubURIGetPar(
+          servPar,
+          SSConf.systemUserUri,
+          true));
+      
+    }finally{
+      
+      if(sqlCon != null){
+        
+        try{
+          sqlCon.close();
+        }catch (SQLException error) {
+          SSLogU.err(error);
+        }
+      }
+    }
+  }
+  
+  public void schedule() throws SSErr{
+    
+    if(!conf.use){
+      return;
+    }
+    
+    new SSSchedules().regScheduler(
+      SSDateU.scheduleWithFixedDelay(
+        new SSEntitiesAccessibleGetCleanUpTask(),
+        SSDateU.getDatePlusMinutes(5),
+        5 * SSDateU.minuteInMilliSeconds));
   }
   
   @Override
@@ -382,7 +414,8 @@ implements
     final Map<String, List<SSUri>> userRelations) throws SSErr{
     
     try{
-      SSEntityUserRelationsGatherFct.getUserRelations(
+     
+      entityGetUserRelations.getUserRelations(
         servPar,
         allUsers,
         userRelations);
@@ -556,7 +589,7 @@ implements
           0);
       }
       
-      for(SSUri entityURI : entityURIs){//entityServ.entitiesGet(entitiesGetPar)){
+      for(SSUri entityURI : entityURIs){//entitiesGet(entitiesGetPar)){
         
         if(
           page.size() == par.pageSize &&
@@ -1746,13 +1779,12 @@ implements
         }
       }
       
-      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSUri           circleUri;
       
       dbSQL.startTrans(par, par.shouldCommit);
       
       circleUri =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par,
             par.user,
@@ -1955,8 +1987,8 @@ implements
         
         if(circle == null){
           
+          final SSUserServerI  userServ      = new SSUserImpl();
           final List<String>   invitedUsers  = sql.getInvitedUsers(par, par.circle);
-          final SSUserServerI  userServ      = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
           final SSUsersGetPar  usersGetPar   =
             new SSUsersGetPar(
               par,
@@ -2036,22 +2068,8 @@ implements
             par.withUserRestriction, //withUserRestriction,
             false)); //invokeEntityHandlers
       
-      addTags(
-        par,
-        par.user,
-        par.tags,
-        par.entities,
-        par.circle);
-      
-      addCategories(
-        par,
-        par.user,
-        par.categories,
-        par.entities,
-        par.circle);
-      
       final List<SSEntity> entities =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+        entitiesGet(
           new SSEntitiesGetPar(
             par,
             par.user,
@@ -2118,7 +2136,6 @@ implements
         return null;
       }
       
-      final SSEntityServerI   entityServ      = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSEntityUpdatePar entityUpdatePar =
         new SSEntityUpdatePar(
           par,
@@ -2141,7 +2158,7 @@ implements
       for(SSUri entityToAdd : par.entities){
         
         entityUpdatePar.entity = entityToAdd;
-        entityURI              = entityServ.entityUpdate(entityUpdatePar);
+        entityURI              = entityUpdate(entityUpdatePar);
         
         if(entityURI == null){
           dbSQL.rollBack(par, par.shouldCommit);
@@ -2345,9 +2362,8 @@ implements
         descPar = null;
       }
       
-      final SSEntityServerI entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSEntity        circleEntity =
-        entityServ.entityGet(
+        entityGet(
           new SSEntityGetPar(
             par,
             par.user,
@@ -2389,7 +2405,7 @@ implements
       if(!circle.entities.isEmpty()){
         
         final List<SSEntity> circleEntities =
-          entityServ.entitiesGet(
+          entitiesGet(
             new SSEntitiesGetPar(
               par,
               par.user,
@@ -2410,7 +2426,7 @@ implements
       if(!circle.users.isEmpty()){
         
         final List<SSEntity> circleUsers =
-          entityServ.entitiesGet(
+          entitiesGet(
             new SSEntitiesGetPar(
               par,
               par.user,
@@ -2805,10 +2821,8 @@ implements
       
       if(par.invokeEntityHandlers){
         
-        final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-        
         entities.addAll(
-          entityServ.entitiesGet(
+          entitiesGet(
             new SSEntitiesGetPar(
               par,
               par.user,
@@ -2932,7 +2946,7 @@ implements
             SSStrU.toStr(label) +
             SSStrU.underline    +
             SSStrU.toStr(
-              ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              entityGet(
                 new SSEntityGetPar(
                   par,
                   par.user, //user
@@ -3015,7 +3029,7 @@ implements
           final List<SSEntity> originUsers = new ArrayList<>();
           
           originUsers.add(
-            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            entityGet(
               new SSEntityGetPar(
                 par,
                 par.user, //user
@@ -3145,7 +3159,7 @@ implements
         final List<SSEntity> originUsers = new ArrayList<>();
         
         originUsers.add(
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          entityGet(
             new SSEntityGetPar(
               par,
               par.user, //user
@@ -3185,69 +3199,6 @@ implements
         targetCircle,
         targetCircle.entities,
         par.withUserRestriction);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void addTags(
-    final SSServPar       servPar,
-    final SSUri           user,
-    final List<String>    tags,
-    final List<SSUri>     entities,
-    final SSUri           circleAsSpace) throws SSErr{
-    
-    try{
-      
-      if(tags.isEmpty()){
-        return;
-      }
-      
-      ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsAdd(
-        new SSTagsAddPar(
-          servPar,
-          user,
-          SSTagLabel.get(tags), //labels
-          entities, //entity
-          null, //space
-          circleAsSpace, //circle
-          null, //creationTime,
-          true, //withUserRestriction
-          false)); //shouldCommit)
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void addCategories(
-    final SSServPar servPar,
-    final SSUri           user,
-    final List<String>    categories,
-    final List<SSUri>     entities,
-    final SSUri           circleAsSpace) throws SSErr{
-    
-    try{
-      
-      if(categories.isEmpty()){
-        return;
-      }
-      
-      for(SSUri entity : entities){
-        
-        ((SSCategoryServerI) SSServReg.getServ(SSCategoryServerI.class)).categoriesAdd(
-          new SSCategoriesAddPar(
-            servPar,
-            user,
-            SSCategoryLabel.get(categories), //labels
-            entity, //file
-            null, //space
-            circleAsSpace, //circle
-            null, //creationTime,
-            true, //withUserRestriction
-            false)); //shouldCommit)
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -3532,7 +3483,7 @@ implements
 //        }
 //      }
 //
-//      return ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+//      return entitiesGet(
 //        new SSEntitiesGetPar(
 //          null,
 //          userUris, //entities
@@ -3652,7 +3603,7 @@ implements
 //    final SSUri   user,
 //    final SSUri   entityURI) throws SSErr{
 //
-//    ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circleCanAccess(
+//    circleCanAccess(
 //      new SSCircleCanAccessPar(
 //        null,
 //        null,

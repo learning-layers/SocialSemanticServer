@@ -6,16 +6,16 @@
 package at.tugraz.sss.adapter.rest.v3;
 
 import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.db.impl.*;
 import at.tugraz.sss.servs.image.api.*;
 import at.tugraz.sss.servs.image.datatype.SSImageProfilePictureSetPar;
 import at.tugraz.sss.servs.image.datatype.SSImageProfilePictureSetRet;
+import at.tugraz.sss.servs.image.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -32,6 +32,9 @@ import javax.ws.rs.core.Response;
 @Path("rest/images")
 @Api( value = "images")
 public class SSRESTImage{
+  
+  private final SSImageClientI imageServ = new SSImageImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -64,7 +67,7 @@ public class SSRESTImage{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -91,7 +94,7 @@ public class SSRESTImage{
       }
       
       try{
-        final SSImageClientI imageServ = (SSImageClientI) SSServReg.getClientServ(SSImageClientI.class);
+        
         
         return Response.status(200).entity(imageServ.imageProfilePictureSet(SSClientE.rest, par)).build();
         

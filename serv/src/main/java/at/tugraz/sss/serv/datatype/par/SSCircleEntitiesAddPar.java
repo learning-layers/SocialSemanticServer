@@ -29,8 +29,6 @@ public class SSCircleEntitiesAddPar extends SSServPar{
   
   public SSUri         circle         = null;
   public List<SSUri>   entities       = new ArrayList<>();
-  public List<String>  tags           = new ArrayList<>();
-  public List<String>  categories     = new ArrayList<>();
 
   public void setCircle(final String circle) throws SSErr{
     this.circle = SSUri.get(circle);

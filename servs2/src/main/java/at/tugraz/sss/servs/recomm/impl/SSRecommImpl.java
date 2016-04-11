@@ -42,7 +42,6 @@ import at.tugraz.sss.servs.recomm.datatype.SSRecommUpdateBulkUserRealmsFromConfP
 import at.tugraz.sss.servs.recomm.datatype.SSRecommUpdatePar;
 import at.tugraz.sss.servs.recomm.datatype.SSRecommUsersPar;
 import at.tugraz.sss.servs.recomm.datatype.*;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import at.tugraz.sss.servs.dataexport.api.SSDataExportServerI;
 import at.tugraz.sss.servs.dataexport.datatype.SSDataExportUserEntityTagsCategoriesTimestampsLinePar;
@@ -54,14 +53,11 @@ import at.tugraz.sss.servs.tag.datatype.SSTagLikelihood;
 import at.tugraz.sss.servs.user.api.SSUserServerI;
 import at.tugraz.sss.servs.user.datatype.*;
 import at.tugraz.sss.adapter.socket.*;
+import at.tugraz.sss.serv.conf.*;
 import at.tugraz.sss.serv.datatype.par.SSCirclesGetPar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import engine.Algorithm;
 import engine.EntityType;
 import java.util.ArrayList;
@@ -69,11 +65,12 @@ import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
-import at.tugraz.sss.serv.impl.api.*;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.dataexport.impl.*;
+import at.tugraz.sss.servs.entity.impl.*;
 import engine.EntityRecommenderEngine;
 import engine.TagRecommenderEvalEngine;
 import java.io.*;
@@ -81,28 +78,117 @@ import java.util.*;
 import at.tugraz.sss.servs.eval.api.SSEvalServerI;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogE;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogPar;
+import at.tugraz.sss.servs.eval.impl.*;
+import at.tugraz.sss.servs.user.impl.*;
+import java.sql.*;
+import java.util.Date;
 
 public class SSRecommImpl 
-extends SSServImplA
+extends SSEntityImpl
 implements 
   SSRecommClientI, 
   SSRecommServerI{
   
-  private final SSUserCommons               userCommons      = new SSUserCommons();
   private final SSRecommCommons             recommCommons    = new SSRecommCommons();
-  private final SSRecommTagCommons          recommTagCommons = new SSRecommTagCommons();
+  private final SSRecommTagCommons          recommTagCommons = new SSRecommTagCommons(this);
   private final SSRecommUserRealmKeeper     userRealmKeeper  = new SSRecommUserRealmKeeper();
-  private final SSRecommSQL                 sql;
-  private final SSDBSQLI                    dbSQL;
-  private final SSDBNoSQLI                  dbNoSQL;  
+  private final SSRecommSQL                 sql              = new SSRecommSQL(dbSQL); 
   
-  public SSRecommImpl(final SSConfA conf) throws SSErr{
+  public SSRecommImpl(){
+    super(SSCoreConf.instGet().getRecomm());
+  }
+  
+  @Override
+  public void initServ() throws SSErr{
     
-    super(conf);
+    final SSRecommConf recommConf = (SSRecommConf)conf;
     
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    this.sql           = new SSRecommSQL(dbSQL);
+    if(!recommConf.use){
+      return;
+    }
+    
+    Connection sqlCon = null;
+    
+    try{
+      
+      if(conf.initAtStartUp){
+        
+        final SSServPar servPar = new SSServPar(null);
+
+        sqlCon = dbSQL.createConnection();
+
+        servPar.sqlCon = sqlCon;
+
+        recommLoadUserRealms(
+          new SSRecommLoadUserRealmsPar(
+            servPar,
+            SSConf.systemUserUri));
+      }
+    }finally{
+      
+      if(sqlCon != null){
+        
+        try{
+          sqlCon.close();
+        }catch (SQLException error) {
+          SSLogU.err(error);
+        }
+      }
+    }
+  }
+  
+  @Override
+  public void schedule() throws SSErr{
+    
+    final SSRecommConf recommConf = (SSRecommConf)conf;
+    
+    if(
+      !recommConf.use ||
+      !recommConf.schedule){
+      return;
+    }
+    
+    if(
+      SSObjU.isNull(recommConf.scheduleOps, recommConf.scheduleIntervals) ||
+      recommConf.scheduleOps.isEmpty()                                    ||
+      recommConf.scheduleIntervals.isEmpty()                              ||
+      recommConf.scheduleOps.size() != recommConf.scheduleIntervals.size()){
+      
+      SSLogU.warn(SSWarnE.scheduleConfigInvalid, null);
+      return;
+    }
+    
+    java.util.Date startDate;
+    
+    for(int counter = 0; counter < recommConf.scheduleOps.size(); counter++){
+      
+      if(SSStrU.isEqual(recommConf.scheduleOps.get(counter), SSVarNames.recommUpdate)){
+        
+        if(recommConf.executeScheduleAtStartUp){
+          startDate = new java.util.Date();
+        }else{
+          startDate = SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter));
+        }
+        
+        new SSSchedules().regScheduler(
+          SSDateU.scheduleWithFixedDelay(
+            new SSRecommUpdateBulkTask(recommConf),
+            startDate,
+            recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds));
+        
+//        new SSSchedule().regScheduler(
+//          SSDateU.scheduleWithFixedDelay(
+//            new SSRecommUpdateBulkUserRealmsFromConfTask(),
+//            startDate,
+//            recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds));
+//        
+//        new SSSchedule().regScheduler(
+//          SSDateU.scheduleWithFixedDelay(
+//            new SSRecommUpdateBulkUserRealmsFromCirclesTask(),
+//            SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
+//            recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds));
+      }
+    }
   }
   
   @Override
@@ -188,7 +274,6 @@ implements
           ((SSRecommConf) conf).recommUserAlgorithm, //algo
           EntityType.USER);  //entity type to recommend
 
-      final SSEntityServerI entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class); 
       final SSEntityGetPar  entityGetPar = 
         new SSEntityGetPar(
           par,
@@ -202,7 +287,7 @@ implements
         if(!par.ignoreAccessRights){
           
           entityGetPar.entity = SSUri.get(userWithLikelihood.getKey());
-          entity              = entityServ.entityGet(entityGetPar);
+          entity              = entityGet(entityGetPar);
           
           if(entity == null){
             continue;
@@ -464,7 +549,6 @@ implements
           ((SSRecommConf) conf).recommResourceAlgorithm, //algo
           EntityType.RESOURCE);  //entity type to recommend
 
-      final SSEntityServerI entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSEntityGetPar  entityGetPar = 
         new SSEntityGetPar(
           par,
@@ -478,7 +562,7 @@ implements
         if(!par.ignoreAccessRights){
           
           entityGetPar.entity = SSUri.get(entityWithLikelihood.getKey());
-          entity              = entityServ.entityGet(entityGetPar);
+          entity              = entityGet(entityGetPar);
           
           if(
             entity == null ||
@@ -635,7 +719,7 @@ implements
           sql, //sqlFct
           false); //storeToDB
 
-      final SSDataExportServerI                                      dataExportServ = (SSDataExportServerI) SSServReg.getServ(SSDataExportServerI.class);
+      final SSDataExportServerI                                      dataExportServ = new SSDataExportImpl();
       final SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar dataExportPar  =
         new SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar(
           par,
@@ -697,9 +781,8 @@ implements
         usersForRealms.get(realm).add(userEmail);
       }
       
-      final SSDataExportServerI dataExportServ = (SSDataExportServerI) SSServReg.getServ(SSDataExportServerI.class);
-      
-      
+      final SSDataExportServerI dataExportServ = new SSDataExportImpl();
+      final SSUserServerI       userServ       = new SSUserImpl();
       
       for(Map.Entry<String, List<String>> usersForRealm : usersForRealms.entrySet()){
         
@@ -708,7 +791,7 @@ implements
         for(String user : usersForRealm.getValue()){
           
           userURIs.add(
-            ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).userURIGet(
+            userServ.userURIGet(
               new SSUserURIGetPar(
                 par,
                 par.user, 
@@ -765,9 +848,8 @@ implements
         return;
       }
       
-      final SSUserServerI             userServ       = (SSUserServerI)       SSServReg.getServ(SSUserServerI.class);
-      final SSEntityServerI           circleServ     = (SSEntityServerI)     SSServReg.getServ(SSEntityServerI.class);
-      final SSDataExportServerI       dataExportServ = (SSDataExportServerI) SSServReg.getServ(SSDataExportServerI.class);
+      final SSUserServerI             userServ       = new SSUserImpl();
+      final SSDataExportServerI       dataExportServ = new SSDataExportImpl();
       final Map<String, List<String>> usersForRealms = new HashMap<>();
       SSUri                           userURI;
       String                          circleIDStr;
@@ -801,7 +883,7 @@ implements
         circlesGetPar.user     = userURI;
         circlesGetPar.forUser  = userURI;
           
-        for(SSEntity circle : circleServ.circlesGet(circlesGetPar)){
+        for(SSEntity circle : circlesGet(circlesGetPar)){
           
           circleIDStr = SSStrU.removeTrailingSlash(circle.id);
           circleIDStr = circleIDStr.substring(circleIDStr.lastIndexOf(SSStrU.slash) + 1, circleIDStr.length());
@@ -899,7 +981,7 @@ implements
           sql, //sqlFct
           true); //storeToDB
   
-      final SSDataExportServerI dataExportServ = (SSDataExportServerI) SSServReg.getServ(SSDataExportServerI.class);
+      final SSDataExportServerI dataExportServ = new SSDataExportImpl();
       
       dataExportServ.dataExportUserEntityTagsCategoriesTimestampsLine(
         new SSDataExportUserEntityTagsCategoriesTimestampsLinePar(
@@ -950,7 +1032,7 @@ implements
     
     try{
       
-      final SSDataExportServerI dataExportServ = (SSDataExportServerI) SSServReg.getServ(SSDataExportServerI.class);
+      final SSDataExportServerI dataExportServ = new SSDataExportImpl();
       List<String>              tags;
       List<String>              categories;
       
@@ -1025,14 +1107,13 @@ implements
   }
   
   private void evalLogResources(
-    final SSRecommResourcesPar       par, 
+    final SSRecommResourcesPar       par,
     final List<SSResourceLikelihood> resources,
     final Algorithm                  algo,
     final boolean                    shouldCommit) throws SSErr{
     
     try{
-     
-      final SSEvalServerI evalServ   = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalServerI evalServ   = new SSEvalImpl();
       final SSEvalLogPar  evalLogPar =
         new SSEvalLogPar(
           par,
@@ -1049,11 +1130,11 @@ implements
       evalLogPar.query  = SSStrU.empty;
       evalLogPar.result = SSStrU.empty;
       
-      final String categories = 
+      final String categories =
         SSStrU.toCommaSeparatedStrNotNull(
           SSStrU.escapeColonSemiColonComma(par.categories));
       
-      final String realm = 
+      final String realm =
         SSStrU.escapeColonSemiColonComma(par.realm);
       
       evalLogPar.query += SSVarNames.algo                              + SSStrU.colon + algo                                                     + evalLogPar.creationTime;
@@ -1071,16 +1152,6 @@ implements
       }
       
       evalServ.evalLog(evalLogPar);
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

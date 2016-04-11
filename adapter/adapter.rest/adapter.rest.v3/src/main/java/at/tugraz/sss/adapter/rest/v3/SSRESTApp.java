@@ -22,15 +22,15 @@ package at.tugraz.sss.adapter.rest.v3;
 
 import at.tugraz.sss.servs.app.datatype.SSAppAddRESTPar;
 import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.app.api.*;
 import at.tugraz.sss.servs.app.datatype.*;
+import at.tugraz.sss.servs.app.impl.*;
+import at.tugraz.sss.servs.db.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -43,6 +43,9 @@ import javax.ws.rs.core.Response;
 @Path("/apps")
 @Api(value = "apps")
 public class SSRESTApp{
+  
+  private final SSAppClientI appServ = new SSAppImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -67,7 +70,7 @@ public class SSRESTApp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -91,10 +94,7 @@ public class SSRESTApp{
       }
       
       try{
-        final SSAppClientI appServ = (SSAppClientI) SSServReg.getClientServ(SSAppClientI.class);
-        
         return Response.status(200).entity(appServ.appsGet(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -127,7 +127,7 @@ public class SSRESTApp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -163,10 +163,7 @@ public class SSRESTApp{
       }
       
       try{
-        final SSAppClientI appServ = (SSAppClientI) SSServReg.getClientServ(SSAppClientI.class);
-        
         return Response.status(200).entity(appServ.appAdd(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -203,7 +200,7 @@ public class SSRESTApp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -229,10 +226,7 @@ public class SSRESTApp{
       }
       
       try{
-        final SSAppClientI appServ = (SSAppClientI) SSServReg.getClientServ(SSAppClientI.class);
-        
         return Response.status(200).entity(appServ.appsDelete(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }

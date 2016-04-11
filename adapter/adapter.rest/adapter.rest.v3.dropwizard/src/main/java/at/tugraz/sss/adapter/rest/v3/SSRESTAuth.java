@@ -23,10 +23,11 @@ package at.tugraz.sss.adapter.rest.v3;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.auth.api.*;
 import at.tugraz.sss.servs.auth.datatype.*;
+import at.tugraz.sss.servs.auth.impl.*;
+import at.tugraz.sss.servs.db.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -44,6 +45,9 @@ import javax.ws.rs.core.Response;
 @Path("rest/auth")
 @Api( value = "auth")
 public class SSRESTAuth{
+  
+  private final SSAuthClientI     authServ     = new SSAuthImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -69,7 +73,7 @@ public class SSRESTAuth{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -93,7 +97,7 @@ public class SSRESTAuth{
       }
       
       try{
-        final SSAuthClientI authServ = (SSAuthClientI) SSServReg.getClientServ(SSAuthClientI.class);
+        
         
         return Response.status(200).entity(authServ.authCheckCred(SSClientE.rest, par)).build();
         
@@ -128,7 +132,7 @@ public class SSRESTAuth{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -145,7 +149,7 @@ public class SSRESTAuth{
       }
       
       try{
-        final SSAuthClientI authServ = (SSAuthClientI) SSServReg.getClientServ(SSAuthClientI.class);
+        
         
         return Response.status(200).entity(authServ.authCheckCred(SSClientE.rest, par)).build();
         
@@ -184,7 +188,7 @@ public class SSRESTAuth{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -207,7 +211,7 @@ public class SSRESTAuth{
       }
       
       try{
-        final SSAuthClientI authServ = (SSAuthClientI) SSServReg.getClientServ(SSAuthClientI.class);
+        
         
         return Response.status(200).entity(authServ.authRegisterUser(SSClientE.rest, par)).build();
         

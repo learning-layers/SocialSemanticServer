@@ -20,12 +20,13 @@
 */
 package at.tugraz.sss.servs.recomm.impl;
 
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.servs.user.api.*;
 import at.tugraz.sss.servs.user.datatype.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.servs.user.impl.*;
 import java.util.*;
 
 public class SSRecommCommons {
@@ -36,7 +37,7 @@ public class SSRecommCommons {
     
     try{
       
-      final SSUserServerI  userServ = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
+      final SSUserServerI  userServ = new SSUserImpl();
       final List<SSEntity> users    =
         userServ.usersGet(
           new SSUsersGetPar(

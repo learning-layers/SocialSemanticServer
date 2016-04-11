@@ -20,12 +20,12 @@
 */
 package at.tugraz.sss.serv.datatype;
 
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.util.SSEncodingU;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.datatype.api.SSEntityA;
-import at.tugraz.sss.serv.reg.*;
 import io.swagger.annotations.*;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;

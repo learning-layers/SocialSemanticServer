@@ -20,7 +20,6 @@
   */
 package at.tugraz.sss.servs.app.impl;
 
-import at.tugraz.sss.servs.activity.api.*;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSEntityDownloadsAddPar;
@@ -29,9 +28,6 @@ import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import at.tugraz.sss.servs.app.api.SSAppServerI;
 import at.tugraz.sss.servs.app.api.SSAppClientI;
 import at.tugraz.sss.servs.app.datatype.SSApp;
@@ -43,49 +39,37 @@ import at.tugraz.sss.servs.app.datatype.SSAppAddRet;
 import at.tugraz.sss.servs.app.datatype.SSAppsDeleteRet;
 import at.tugraz.sss.servs.app.datatype.SSAppsGetRet;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.datatype.enums.SSImageE;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.servs.eval.api.SSEvalServerI;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.datatype.SSImageAddPar;
+import at.tugraz.sss.servs.image.impl.*;
 import at.tugraz.sss.servs.video.api.*;
 import at.tugraz.sss.servs.video.datatype.*;
+import at.tugraz.sss.servs.video.impl.*;
 
 public class SSAppImpl
-extends SSServImplA
+extends SSEntityImpl
 implements
   SSAppClientI,
   SSAppServerI,
   SSDescribeEntityI{
   
-  private final SSAppSQLFct                           sqlFct;
-  private final SSUserCommons                         userCommons = new SSUserCommons();
-  private final SSAppActAndLogFct                     actAndLogFct;
-  private final SSDBSQLI                              dbSQL;
-  private final SSDBNoSQLI                            dbNoSQL;
+  private final SSAppSQLFct       sql          = new SSAppSQLFct(dbSQL);
+  private final SSAppActAndLogFct actAndLogFct = new SSAppActAndLogFct();
   
-  public SSAppImpl(final SSConfA conf) throws SSErr{
-    
-    super(conf);
-    
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    this.sqlFct        = new SSAppSQLFct(dbSQL);
-    this.actAndLogFct  =
-      new SSAppActAndLogFct(
-        (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class),
-        (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class));
+  public SSAppImpl(){
+    super(SSCoreConf.instGet().getApp());
   }
   
   @Override
@@ -137,12 +121,12 @@ implements
       
       final SSAppAddPar         par       = (SSAppAddPar) parA.getFromClient(clientType, parA, SSAppAddPar.class);
       final SSUri               app       = appAdd(par);
-      final SSImageServerI      imageServ = (SSImageServerI) SSServReg.getServ(SSImageServerI.class);
-      final SSVideoServerI      videoServ = (SSVideoServerI) SSServReg.getServ(SSVideoServerI.class);
+      final SSImageServerI      imageServ = new SSImageImpl();
+      final SSVideoServerI      videoServ = new SSVideoImpl();
       
       if(!par.downloads.isEmpty()){
         
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityDownloadsAdd(
+        entityDownloadsAdd(
           new SSEntityDownloadsAddPar(
             par,
             par.user,
@@ -203,12 +187,10 @@ implements
     
     try{
       
-      final SSEntityServerI  entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      
       dbSQL.startTrans(par, par.shouldCommit);
       
       final SSUri app =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par,
             par.user,
@@ -228,7 +210,7 @@ implements
         return null;
       }
       
-      sqlFct.createApp(
+      sql.createApp(
         par,
         app,
         par.descriptionShort,
@@ -276,15 +258,14 @@ implements
         descPar = null;
       }
       
-      final SSApp app = sqlFct.getApp(par, par.app);
+      final SSApp app = sql.getApp(par, par.app);
       
       if(app == null){
         return null;
       }
       
-      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSEntity        appEntity  =
-        entityServ.entityGet(
+        entityGet(
           new SSEntityGetPar(
             par,
             par.user,
@@ -346,7 +327,7 @@ implements
     
     try{
       final List<SSEntity>       apps     = new ArrayList<>();
-      final List<SSUri>          appURIs  = sqlFct.getAppURIs(par);
+      final List<SSUri>          appURIs  = sql.getAppURIs(par);
       final SSAppGetPar          appGetPar =
         new SSAppGetPar(
           par,
@@ -394,7 +375,7 @@ implements
       
       dbSQL.startTrans(par, par.shouldCommit);
       
-      sqlFct.removeApps(par, par.apps);
+      sql.removeApps(par, par.apps);
       
       dbSQL.commit(par, par.shouldCommit);
       

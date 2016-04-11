@@ -20,51 +20,44 @@
  */
 package at.tugraz.sss.adapter.rest.v3;
 
-import at.tugraz.sss.servs.activity.serv.*;
-import at.tugraz.sss.servs.friend.serv.*;
-import at.tugraz.sss.servs.like.serv.*;
-import at.tugraz.sss.servs.message.serv.*;
-import at.tugraz.sss.servs.recomm.serv.*;
-import at.tugraz.sss.servs.dataexport.serv.*;
-import at.tugraz.sss.servs.app.serv.*;
-import at.tugraz.sss.servs.appstacklayout.serv.*;
-import at.tugraz.sss.servs.auth.serv.*;
-import at.tugraz.sss.servs.category.serv.*;
-import at.tugraz.sss.servs.coll.serv.*;
-import at.tugraz.sss.servs.comment.serv.*;
-import at.tugraz.sss.servs.dataimport.serv.*;
-import at.tugraz.sss.servs.db.serv.*;
-import at.tugraz.sss.servs.disc.serv.*;
-import at.tugraz.sss.servs.entity.serv.*;
-import at.tugraz.sss.servs.eval.serv.*;
-import at.tugraz.sss.servs.evernote.serv.*;
-import at.tugraz.sss.servs.flag.serv.*;
-import at.tugraz.sss.servs.image.serv.*;
-import at.tugraz.sss.servs.jsonld.serv.*;
-import at.tugraz.sss.servs.kcprojwiki.serv.*;
-import at.tugraz.sss.servs.learnep.serv.*;
-import at.tugraz.sss.servs.livingdoc.serv.*;
-import at.tugraz.sss.servs.location.serv.*;
-import at.tugraz.sss.servs.mail.serv.*;
-import at.tugraz.sss.servs.ocd.serv.*;
-import at.tugraz.sss.servs.rating.serv.*;
-import at.tugraz.sss.servs.search.serv.*;
-import at.tugraz.sss.servs.tag.serv.*;
-import at.tugraz.sss.servs.user.serv.*;
-import at.tugraz.sss.servs.video.serv.*;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.util.SSFileExtE;
-import at.tugraz.sss.serv.util.SSFileU;
-import at.tugraz.sss.serv.util.SSJSONLDU;
-import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.util.SSMimeTypeE;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.serv.util.*;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import at.tugraz.sss.servs.file.serv.SSFileServ;
-import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.servs.conf.SSCoreConf;
-import at.tugraz.sss.servs.link.serv.SSLinkServ;
+import at.tugraz.sss.serv.conf.*;
+import at.tugraz.sss.servs.activity.impl.*;
+import at.tugraz.sss.servs.app.impl.*;
+import at.tugraz.sss.servs.appstacklayout.impl.*;
+import at.tugraz.sss.servs.auth.impl.*;
+import at.tugraz.sss.servs.category.impl.*;
+import at.tugraz.sss.servs.coll.impl.*;
+import at.tugraz.sss.servs.comment.impl.*;
+import at.tugraz.sss.servs.common.impl.*;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.dataimport.impl.*;
+import at.tugraz.sss.servs.disc.impl.*;
+import at.tugraz.sss.servs.entity.impl.*;
+import at.tugraz.sss.servs.eval.impl.*;
+import at.tugraz.sss.servs.evernote.impl.*;
+import at.tugraz.sss.servs.file.impl.*;
+import at.tugraz.sss.servs.flag.impl.*;
+import at.tugraz.sss.servs.friend.impl.*;
+import at.tugraz.sss.servs.image.impl.*;
+import at.tugraz.sss.servs.kcprojwiki.impl.*;
+import at.tugraz.sss.servs.learnep.impl.*;
+import at.tugraz.sss.servs.like.impl.*;
+import at.tugraz.sss.servs.link.impl.*;
+import at.tugraz.sss.servs.livingdoc.impl.*;
+import at.tugraz.sss.servs.location.impl.*;
+import at.tugraz.sss.servs.mail.impl.*;
+import at.tugraz.sss.servs.message.impl.*;
+import at.tugraz.sss.servs.rating.impl.*;
+import at.tugraz.sss.servs.recomm.impl.*;
+import at.tugraz.sss.servs.search.impl.*;
+import at.tugraz.sss.servs.tag.impl.*;
+import at.tugraz.sss.servs.user.impl.*;
+import at.tugraz.sss.servs.video.impl.*;
 import java.util.EnumSet;
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
@@ -72,6 +65,16 @@ import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 public class SSRESTDropwizardMain extends Application<SSAdapterRestDropwizardConf> {
+  
+  private final SSDescribeEntity                describeEntity                = new SSDescribeEntity();
+  private final SSEntityCopied                  entityCopied                  = new SSEntityCopied();
+  private final SSCircleContentRemoved          circleContentRemoved          = new SSCircleContentRemoved();
+  private final SSPushEntitiesToUsers           pushEntitiesToUsers           = new SSPushEntitiesToUsers();
+  private final SSGetUsersResources             getUsersResources             = new SSGetUsersResources();
+  private final SSCopyEntity                    copyEntity                    = new SSCopyEntity();
+  private final SSAddAffiliatedEntitiesToCircle addAffiliatedEntitiesToCircle = new SSAddAffiliatedEntitiesToCircle();
+  private final SSEntitiesSharedWithUsers       entitiesSharedWithUsers       = new SSEntitiesSharedWithUsers();
+  private final SSGetUserRelations              getUserRelations              = new SSGetUserRelations();
   
   public static void main(String[] args) throws Exception {
     new SSRESTDropwizardMain().run(args);
@@ -119,75 +122,110 @@ SSCoreConf.instSet("C:\\worKspace_git\\master\\SocialSemanticServer\\sssWorkDir\
 ////      CLASS.FORNAME("ASDF").NEWINSTANCE()
 ////      SSServContainerI.class.getMethod("regServ").invoke(SSDBSQL.inst);
 //
-try{
-        SSDBSQL.inst.regServ               (SSCoreConf.instGet().getDbSQL());
-        SSDBNoSQL.inst.regServ             (SSCoreConf.instGet().getDbNoSQL());
-        SSEntityServ.inst.regServ          (SSCoreConf.instGet().getEntity());
-        SSUserServ.inst.regServ            (SSCoreConf.instGet().getUser());
-        SSCollServ.inst.regServ            (SSCoreConf.instGet().getColl());
-        SSTagServ.inst.regServ             (SSCoreConf.instGet().getTag());
-        SSAuthServ.inst.regServ            (SSCoreConf.instGet().getAuth());
-        SSEvernoteServ.inst.regServ        (SSCoreConf.instGet().getEvernote());
-        SSFileServ.inst.regServ            (SSCoreConf.instGet().getFile());
-        SSDataImportServ.inst.regServ      (SSCoreConf.instGet().getDataImport());
-        SSJSONLD.inst.regServ              (SSCoreConf.instGet().getJsonLD());
-        SSRatingServ.inst.regServ          (SSCoreConf.instGet().getRating());
-        SSCategoryServ.inst.regServ        (SSCoreConf.instGet().getCategory());
-        SSDiscServ.inst.regServ            (SSCoreConf.instGet().getDisc());
-        SSLearnEpServ.inst.regServ         (SSCoreConf.instGet().getLearnEp());
-        SSActivityServ.inst.regServ        (SSCoreConf.instGet().getActivity());
-        SSSearchServ.inst.regServ          (SSCoreConf.instGet().getSearch());
-        SSDataExportServ.inst.regServ      (SSCoreConf.instGet().getDataExport());
-        SSRecommServ.inst.regServ          (SSCoreConf.instGet().getRecomm());
-        SSFlagServ.inst.regServ            (SSCoreConf.instGet().getFlag());
-        SSCommentServ.inst.regServ         (SSCoreConf.instGet().getComment());
-        SSMessageServ.inst.regServ         (SSCoreConf.instGet().getMessage());
-        SSAppServ.inst.regServ             (SSCoreConf.instGet().getApp());
-        SSFriendServ.inst.regServ          (SSCoreConf.instGet().getFriend());
-        SSAppStackLayoutServ.inst.regServ  (SSCoreConf.instGet().getAppStackLayout());
-        SSVideoServ.inst.regServ           (SSCoreConf.instGet().getVideo());
-        SSLikeServ.inst.regServ            (SSCoreConf.instGet().getLike());
-        SSEvalServ.inst.regServ            (SSCoreConf.instGet().getEval());
-        SSOCDServ.inst.regServ             (SSCoreConf.instGet().getOcd());
-        SSImageServ.inst.regServ           (SSCoreConf.instGet().getImage());
-        SSLocationServ.inst.regServ        (SSCoreConf.instGet().getLocation());
-        SSLivingDocServ.inst.regServ       (SSCoreConf.instGet().getLivingDocument());
-        SSMailServ.inst.regServ            (SSCoreConf.instGet().getMail());
-        SSKCProjWikiServ.inst.regServ      (SSCoreConf.instGet().getKcprojwiki());
-        SSLinkServ.inst.regServ            (SSCoreConf.instGet().getLink());
-  
-}catch(Exception error){
-  SSServErrReg.regErrThrow(error);
-}
-
-try{ //initializing
-  SSAuthServ.inst.initServ();
-  SSEntityServ.inst.initServ();
-  SSDataImportServ.inst.initServ();
-  SSCategoryServ.inst.initServ();
-  SSRecommServ.inst.initServ();
-}catch(Exception error){
-  SSServErrReg.regErrThrow(error);
-}
-
-try{ //scheduling
-  SSEntityServ.inst.schedule         ();
-  SSSearchServ.inst.schedule         ();
-  SSLearnEpServ.inst.schedule        ();
-  SSDataImportServ.inst.schedule     ();
-  SSRecommServ.inst.schedule         ();
-  SSKCProjWikiServ.inst.schedule     ();
-  SSEvalServ.inst.schedule           ();
-  SSFileServ.inst.schedule           ();
-  SSMailServ.inst.schedule           ();
-}catch(Exception error){
-  SSServErrReg.regErrThrow(error);
-}
+      try{
+        //register services for common duties
+        describeEntity.regServ                (new SSEntityImpl(), SSCoreConf.instGet().getEntity());
+        describeEntity.regServ                (new SSUserImpl(), SSCoreConf.instGet().getUser());
+        describeEntity.regServ                (new SSCollImpl(), SSCoreConf.instGet().getColl());
+        describeEntity.regServ                (new SSTagImpl(), SSCoreConf.instGet().getTag());
+        describeEntity.regServ                (new SSEvernoteImpl(), SSCoreConf.instGet().getEvernote());
+        describeEntity.regServ                (new SSFileImpl(), SSCoreConf.instGet().getFile());
+        describeEntity.regServ                (new SSRatingImpl(), SSCoreConf.instGet().getRating());
+        describeEntity.regServ                (new SSCategoryImpl(), SSCoreConf.instGet().getCategory());
+        describeEntity.regServ                (new SSDiscImpl(), SSCoreConf.instGet().getDisc());
+        describeEntity.regServ                (new SSLearnEpImpl(), SSCoreConf.instGet().getLearnEp());
+        describeEntity.regServ                (new SSActivityImpl(), SSCoreConf.instGet().getActivity());
+        describeEntity.regServ                (new SSFlagImpl(), SSCoreConf.instGet().getFlag());
+        describeEntity.regServ                (new SSCommentImpl(), SSCoreConf.instGet().getComment());
+        describeEntity.regServ                (new SSMessageImpl(), SSCoreConf.instGet().getMessage());
+        describeEntity.regServ                (new SSAppImpl(), SSCoreConf.instGet().getApp());
+        describeEntity.regServ                (new SSFriendImpl(), SSCoreConf.instGet().getFriend());
+        describeEntity.regServ                (new SSAppStackLayoutImpl(), SSCoreConf.instGet().getAppStackLayout());
+        describeEntity.regServ                (new SSVideoImpl(), SSCoreConf.instGet().getVideo());
+        describeEntity.regServ                (new SSLikeImpl(), SSCoreConf.instGet().getLike());
+        describeEntity.regServ                (new SSImageImpl(), SSCoreConf.instGet().getImage());
+        describeEntity.regServ                (new SSLocationImpl(), SSCoreConf.instGet().getLocation());
+        describeEntity.regServ                (new SSLivingDocImpl(), SSCoreConf.instGet().getLivingDocument());
+        
+        getUsersResources.regServ             (new SSTagImpl(), SSCoreConf.instGet().getTag());
+        getUsersResources.regServ             (new SSCollImpl(), SSCoreConf.instGet().getColl());
+        getUsersResources.regServ             (new SSEntityImpl(), SSCoreConf.instGet().getEntity());
+        getUsersResources.regServ             (new SSLearnEpImpl(), SSCoreConf.instGet().getLearnEp());
+        getUsersResources.regServ             (new SSActivityImpl(), SSCoreConf.instGet().getActivity());
+        getUsersResources.regServ             (new SSDiscImpl(), SSCoreConf.instGet().getDisc());
+        getUsersResources.regServ             (new SSRatingImpl(), SSCoreConf.instGet().getRating());
+        getUsersResources.regServ             (new SSCategoryImpl(), SSCoreConf.instGet().getCategory());
+        getUsersResources.regServ             (new SSFlagImpl(), SSCoreConf.instGet().getFlag());
+        getUsersResources.regServ             (new SSLivingDocImpl(), SSCoreConf.instGet().getLivingDocument());
+        getUsersResources.regServ             (new SSImageImpl(), SSCoreConf.instGet().getImage());
+        getUsersResources.regServ             (new SSVideoImpl(), SSCoreConf.instGet().getVideo());
+        getUsersResources.regServ             (new SSLinkImpl(), SSCoreConf.instGet().getLink());
+        
+        addAffiliatedEntitiesToCircle.regServ (new SSEntityImpl(), SSCoreConf.instGet().getEntity());
+        addAffiliatedEntitiesToCircle.regServ (new SSVideoImpl(), SSCoreConf.instGet().getVideo());
+        addAffiliatedEntitiesToCircle.regServ (new SSCollImpl(), SSCoreConf.instGet().getColl());
+        addAffiliatedEntitiesToCircle.regServ (new SSFileImpl(), SSCoreConf.instGet().getFile());
+        addAffiliatedEntitiesToCircle.regServ (new SSDiscImpl(), SSCoreConf.instGet().getDisc());
+        addAffiliatedEntitiesToCircle.regServ (new SSLearnEpImpl(), SSCoreConf.instGet().getLearnEp());
+        addAffiliatedEntitiesToCircle.regServ (new SSImageImpl(), SSCoreConf.instGet().getImage());
+        
+        getUserRelations.regServ              (new SSCategoryImpl(), SSCoreConf.instGet().getCategory());
+        getUserRelations.regServ              (new SSTagImpl(), SSCoreConf.instGet().getTag());
+        getUserRelations.regServ              (new SSCollImpl(), SSCoreConf.instGet().getColl());
+        getUserRelations.regServ              (new SSRatingImpl(), SSCoreConf.instGet().getRating());
+        getUserRelations.regServ              (new SSDiscImpl(), SSCoreConf.instGet().getDisc());
+        getUserRelations.regServ              (new SSCommentImpl(), SSCoreConf.instGet().getComment());
+        
+        copyEntity.regServ                    (new SSEntityImpl(), SSCoreConf.instGet().getEntity());
+        copyEntity.regServ                    (new SSLearnEpImpl(), SSCoreConf.instGet().getLearnEp());
+        
+        pushEntitiesToUsers.regServ           (new SSCollImpl(), SSCoreConf.instGet().getColl());
+        pushEntitiesToUsers.regServ           (new SSVideoImpl(), SSCoreConf.instGet().getVideo());
+        pushEntitiesToUsers.regServ           (new SSDiscImpl(), SSCoreConf.instGet().getDisc());
+        pushEntitiesToUsers.regServ           (new SSLearnEpImpl(), SSCoreConf.instGet().getLearnEp());
+        pushEntitiesToUsers.regServ           (new SSLivingDocImpl(), SSCoreConf.instGet().getLivingDocument());
+        
+        entityCopied.regServ                  (new SSTagImpl(), SSCoreConf.instGet().getTag());
+        entityCopied.regServ                  (new SSCategoryImpl(), SSCoreConf.instGet().getCategory());
+        
+        circleContentRemoved.regServ          (new SSCategoryImpl(), SSCoreConf.instGet().getCategory());
+        circleContentRemoved.regServ          (new SSTagImpl(), SSCoreConf.instGet().getTag());
+        
+        entitiesSharedWithUsers.regServ       (new SSLearnEpImpl(), SSCoreConf.instGet().getLearnEp());
+        
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+      }
+      
+      try{ //initializing
+        
+        new SSAuthImpl().initServ();
+        new SSEntityImpl().initServ();
+        new SSCategoryImpl().initServ();
+        new SSRecommImpl().initServ();
+        
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+      }
+      
+      try{ //scheduling
+        new SSEntityImpl().schedule();
+        new SSSearchImpl().schedule();
+        new SSLearnEpImpl().schedule();
+        new SSDataImportImpl().schedule();
+        new SSRecommImpl().schedule();
+        new SSKCProjWikiImpl().schedule();
+        new SSEvalImpl().schedule();
+        new SSFileImpl().schedule();
+        new SSMailImpl().schedule();
+        
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+      }
 
     }catch(Exception error){
       SSLogU.err(error);
     }
-    
   }
   
   @Override

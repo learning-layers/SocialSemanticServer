@@ -38,16 +38,22 @@ import at.tugraz.sss.serv.datatype.SSUri;
 import at.tugraz.sss.serv.datatype.enums.SSEntityE;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesAccessibleGetPar;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.reg.SSServReg;
+import at.tugraz.sss.serv.entity.api.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.util.SSStrU;
+import at.tugraz.sss.servs.user.impl.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class SSLearnEpSummaryCommons {
+
+  private final SSEntityServerI entityServ;
+  
+  public SSLearnEpSummaryCommons(final SSEntityServerI entityServ){
+    this.entityServ = entityServ;
+  }
   
   public void learnEpContentActivity(
     final List<SSEntity>                     learnEps,
@@ -182,8 +188,7 @@ public class SSLearnEpSummaryCommons {
     
     try{
       
-      final SSUserServerI               userServ     = (SSUserServerI)     SSServReg.getServ(SSUserServerI.class);
-      final SSEntityServerI             entityServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
+      final SSUserServerI               userServ     = new SSUserImpl();
       
       final List<SSEntity> allUsers =
         userServ.usersGet(

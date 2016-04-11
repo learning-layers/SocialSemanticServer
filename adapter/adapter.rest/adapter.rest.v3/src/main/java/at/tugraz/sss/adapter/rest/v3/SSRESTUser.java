@@ -21,17 +21,17 @@
 package at.tugraz.sss.adapter.rest.v3;
 
 import at.tugraz.sss.servs.user.datatype.SSUsersGetRESTPar;
-import at.tugraz.sss.servs.user.api.*;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.servs.user.datatype.SSUsersGetPar;
-import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.tugraz.sss.servs.user.datatype.SSUsersGetRet;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.servs.db.impl.*;
+import at.tugraz.sss.servs.user.api.*;
+import at.tugraz.sss.servs.user.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -49,6 +49,9 @@ import javax.ws.rs.core.Response;
 @Path("/users")
 @Api(value = "users")
 public class SSRESTUser{
+  
+  private final SSUserClientI userServ = new SSUserImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -74,7 +77,7 @@ public class SSRESTUser{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -100,10 +103,7 @@ public class SSRESTUser{
       }
       
       try{
-        final SSUserClientI userServ = (SSUserClientI) SSServReg.getClientServ(SSUserClientI.class);
-        
         return Response.status(200).entity(userServ.usersGet(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -140,7 +140,7 @@ public class SSRESTUser{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -166,7 +166,7 @@ public class SSRESTUser{
       }
       
       try{
-        final SSUserClientI userServ = (SSUserClientI) SSServReg.getClientServ(SSUserClientI.class);
+        
         
         return Response.status(200).entity(userServ.usersGet(SSClientE.rest, par)).build();
         
@@ -208,7 +208,7 @@ public class SSRESTUser{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -244,7 +244,7 @@ public class SSRESTUser{
       }
       
       try{
-        final SSUserClientI userServ = (SSUserClientI) SSServReg.getClientServ(SSUserClientI.class);
+        
         
         return Response.status(200).entity(userServ.usersGet(SSClientE.rest, par)).build();
         

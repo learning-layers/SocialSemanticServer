@@ -5,24 +5,25 @@
  */
 package at.tugraz.sss.servs.common.impl;
 
-import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.common.api.*;
 import java.util.*;
 
 public class SSCopyEntity {
   
-  protected static final List<SSServContainerI> servsForCopyEntity = new ArrayList<>();
+  protected static final List<SSCopyEntityI> servsForCopyEntity = new ArrayList<>();
   
   public void regServ(
-    final SSServContainerI servContainer) throws SSErr{
+    final SSCopyEntityI servContainer, 
+    final SSConfA       conf) throws SSErr{
     
     try{
       
-      if(!servContainer.conf.use){
+      if(!conf.use){
         return;
       }
       
@@ -44,8 +45,8 @@ public class SSCopyEntity {
     
     try{
       
-      for(SSServContainerI serv : servsForCopyEntity){
-        ((SSCopyEntityI) serv.getServImpl()).copyEntity(entityCopyPar, entity, entityCopyPar);
+      for(SSCopyEntityI serv : servsForCopyEntity){
+        serv.copyEntity(entityCopyPar, entity, entityCopyPar);
       }
       
     }catch(Exception error){

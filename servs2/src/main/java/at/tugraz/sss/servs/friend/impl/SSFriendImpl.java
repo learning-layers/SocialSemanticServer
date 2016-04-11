@@ -30,47 +30,34 @@ import at.tugraz.sss.servs.friend.datatype.SSFriendGetPar;
 import at.tugraz.sss.servs.friend.datatype.SSFriendsGetPar;
 import at.tugraz.sss.servs.friend.datatype.SSFriendAddRet;
 import at.tugraz.sss.servs.friend.datatype.SSFriendsGetRet;
-import at.tugraz.sss.serv.entity.api.*;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import at.tugraz.sss.servs.user.datatype.SSUser;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSFriendImpl
 extends
-  SSServImplA
+  SSEntityImpl
 implements
   SSFriendClientI,
   SSFriendServerI,
   SSDescribeEntityI{
   
-  private final SSUserCommons                         userCommons = new SSUserCommons();
-  private final SSFriendSQL                           sql;
-  private final SSDBSQLI                              dbSQL;
-  private final SSDBNoSQLI                            dbNoSQL;
+  private final SSFriendSQL sql = new SSFriendSQL(dbSQL);
   
-  public SSFriendImpl(final SSConfA conf) throws SSErr{
-    
-    super(conf);
-    
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    this.sql           = new SSFriendSQL(dbSQL);
+  public SSFriendImpl(){
+    super(SSCoreConf.instGet().getFriend());
   }
   
   @Override
@@ -118,11 +105,9 @@ implements
         throw SSErr.get(SSErrE.parameterMissing);
       }
 
-      final SSEntityServerI entityServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      
       return SSFriend.get(
         sql.getFriend(par, par.friend),
-        entityServ.entityGet(
+        entityGet(
           new SSEntityGetPar(
             par, 
             par.user, 

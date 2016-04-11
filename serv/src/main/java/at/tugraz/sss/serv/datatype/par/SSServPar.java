@@ -20,11 +20,11 @@
 */
 package at.tugraz.sss.serv.datatype.par;
 
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.util.SSJSONU;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.reg.*;
 import com.fasterxml.jackson.annotation.*;
 import java.net.Socket;
 import java.sql.*;

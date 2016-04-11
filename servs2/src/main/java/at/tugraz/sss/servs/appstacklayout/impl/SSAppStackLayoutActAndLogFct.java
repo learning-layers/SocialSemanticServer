@@ -23,36 +23,25 @@ package at.tugraz.sss.servs.appstacklayout.impl;
 import at.tugraz.sss.servs.appstacklayout.datatype.SSAppStackLayoutCreatePar;
 import at.tugraz.sss.servs.appstacklayout.datatype.SSAppStackLayoutDeletePar;
 import at.tugraz.sss.servs.appstacklayout.datatype.SSAppStackLayoutUpdatePar;
-import at.tugraz.sss.servs.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.eval.api.SSEvalServerI;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogE;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogPar;
+import at.tugraz.sss.servs.eval.impl.*;
 
 public class SSAppStackLayoutActAndLogFct {
   
-  private final SSActivityServerI activityServ;
-  private final SSEvalServerI     evalServ;
-  
-  public SSAppStackLayoutActAndLogFct(
-    final SSActivityServerI activityServ,
-    final SSEvalServerI     evalServ){
-    
-    this.activityServ = activityServ;
-    this.evalServ     = evalServ;
-  }
-  
   public void createAppStackLayout(
     final SSAppStackLayoutCreatePar par, 
-    final SSUri       appStackLayout, 
-    final boolean     shouldCommit) throws SSErr{
+    final SSUri                     appStackLayout, 
+    final boolean                   shouldCommit) throws SSErr{
     
     try{
+      final SSEvalServerI evalServ = new SSEvalImpl();
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -67,13 +56,6 @@ public class SSAppStackLayoutActAndLogFct {
           null, //creationTime
           shouldCommit));
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -86,6 +68,8 @@ public class SSAppStackLayoutActAndLogFct {
     
     try{
       
+      final SSEvalServerI evalServ = new SSEvalImpl();
+        
       evalServ.evalLog(
         new SSEvalLogPar(
           par,
@@ -99,13 +83,6 @@ public class SSAppStackLayoutActAndLogFct {
           null, //creationTime
           shouldCommit));
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -116,6 +93,8 @@ public class SSAppStackLayoutActAndLogFct {
     final boolean                   shouldCommit) throws SSErr{
     
     try{
+      
+      final SSEvalServerI evalServ = new SSEvalImpl();
       
       if(par.app != null){
         
@@ -163,13 +142,6 @@ public class SSAppStackLayoutActAndLogFct {
             null, //users
             null, //creationTime
             shouldCommit));
-      }
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
       }
       
     }catch(Exception error){

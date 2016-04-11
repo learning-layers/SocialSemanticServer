@@ -20,8 +20,8 @@
 */
 package at.tugraz.sss.serv.util;
 
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.reg.*;
 import java.util.*;
 
 public class SSStrU{

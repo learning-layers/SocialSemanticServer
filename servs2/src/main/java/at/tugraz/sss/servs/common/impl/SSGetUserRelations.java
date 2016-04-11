@@ -5,24 +5,25 @@
  */
 package at.tugraz.sss.servs.common.impl;
 
-import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.common.api.*;
 import java.util.*;
 
 public class SSGetUserRelations {
   
-  protected static final List<SSServContainerI> servsForGetUserRelations = new ArrayList<>();
+  protected static final List<SSGetUserRelationsI> servsForGetUserRelations = new ArrayList<>();
   
   public void regServ(
-    final SSServContainerI servContainer) throws SSErr{
+    final SSGetUserRelationsI servContainer, 
+    final SSConfA             conf) throws SSErr{
     
     try{
       
-      if(!servContainer.conf.use){
+      if(!conf.use){
         return;
       }
       
@@ -45,8 +46,8 @@ public class SSGetUserRelations {
     final Map<String, List<SSUri>>     userRelations) throws SSErr{
     
     try{
-      for(SSServContainerI serv : servsForGetUserRelations){
-        ((SSGetUserRelationsI) serv.getServImpl()).getUserRelations(servPar, allUsers, userRelations);
+      for(SSGetUserRelationsI serv : servsForGetUserRelations){
+        serv.getUserRelations(servPar, allUsers, userRelations);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

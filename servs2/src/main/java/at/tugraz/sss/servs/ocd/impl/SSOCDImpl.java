@@ -23,37 +23,24 @@ package at.tugraz.sss.servs.ocd.impl;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.servs.ocd.api.SSOCDClientI;
 import at.tugraz.sss.servs.ocd.api.SSOCDServerI;
-import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.impl.api.*;
-import at.tugraz.sss.servs.ocd.conf.SSOCDConf;
-import at.tugraz.sss.servs.ocd.datatype.SSOCDCreateCoverPar;
-import at.tugraz.sss.servs.ocd.datatype.SSOCDCreateGraphPar;
-import at.tugraz.sss.servs.ocd.datatype.SSOCDDeleteCoverPar;
-import at.tugraz.sss.servs.ocd.datatype.SSOCDDeleteGraphPar;
-import at.tugraz.sss.servs.ocd.datatype.SSOCDGetCoversPar;
-import at.tugraz.sss.servs.ocd.datatype.SSOCDGetGraphPar;
-import at.tugraz.sss.servs.ocd.datatype.SSOCDGetGraphsPar;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
+import at.tugraz.sss.servs.ocd.datatype.*;
 
 public class SSOCDImpl
-extends SSServImplA
+extends SSEntityImpl
 implements
   SSOCDClientI,
   SSOCDServerI {
   
-  private SSOCDConf ocdConf = null;
-  
-  
   //TODO remove SQL/NoSQL services; are not needed since OCD uses JPA/EntityManager for DB access.
   
-  public SSOCDImpl(final SSConfA conf) throws SSErr {
-    
-    super(conf);
-    
-    ocdConf = (SSOCDConf) conf;
+  public SSOCDImpl() throws SSErr {
+    super(SSCoreConf.instGet().getOcd());
   }
   
   @Override

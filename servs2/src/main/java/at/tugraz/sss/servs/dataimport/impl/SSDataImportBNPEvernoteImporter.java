@@ -20,6 +20,7 @@
   */
 package at.tugraz.sss.servs.dataimport.impl;
 
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.util.SSLinkU;
 import at.tugraz.sss.serv.util.*;
@@ -40,12 +41,14 @@ import at.tugraz.sss.servs.file.api.SSFileServerI;
 import at.tugraz.sss.servs.tag.api.SSTagServerI;
 import at.tugraz.sss.servs.tag.datatype.SSTagLabel;
 import at.tugraz.sss.servs.tag.datatype.SSTagsAddPar;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.SSFileExtE;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.SSMimeTypeE;
 import at.tugraz.sss.servs.evernote.api.*;
+import at.tugraz.sss.servs.evernote.impl.*;
 import at.tugraz.sss.servs.file.datatype.*;
+import at.tugraz.sss.servs.file.impl.*;
+import at.tugraz.sss.servs.tag.impl.*;
 import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;
@@ -58,7 +61,7 @@ public class SSDataImportBNPEvernoteImporter {
   private final SSDataImportBNPCommon                  common                     = new SSDataImportBNPCommon();
   private final SSDataImportActAndLog                  actAndLog                  = new SSDataImportActAndLog();
   private final SSDataImportEvernoteNoteContentHandler evernoteNoteContentHandler = new SSDataImportEvernoteNoteContentHandler();
-  private       SSEvernoteInfo                         evernoteInfo             = null;
+  private       SSEvernoteInfo                         evernoteInfo               = null;
   
   public void handle(
     final SSDataImportBitsAndPiecesPar par, 
@@ -91,7 +94,7 @@ public class SSDataImportBNPEvernoteImporter {
     final SSUri                        forUser) throws SSErr{
     
     try{
-      final SSEvernoteServerI evernoteServ  = (SSEvernoteServerI) SSServReg.getServ(SSEvernoteServerI.class);
+      final SSEvernoteServerI evernoteServ  = new SSEvernoteImpl();
       
       evernoteInfo =
         evernoteServ.evernoteNoteStoreGet(
@@ -120,7 +123,7 @@ public class SSDataImportBNPEvernoteImporter {
     final SSUri                        forUser) throws SSErr{
     
     try{
-      final SSEvernoteServerI evernoteServ  = (SSEvernoteServerI) SSServReg.getServ(SSEvernoteServerI.class);
+      final SSEvernoteServerI evernoteServ  = new SSEvernoteImpl();
       
       final Integer usn;
       
@@ -220,8 +223,8 @@ public class SSDataImportBNPEvernoteImporter {
     final SSUri                        forUser) throws SSErr{
     
     try{
-      final SSEvernoteServerI evernoteServ = (SSEvernoteServerI) SSServReg.getServ(SSEvernoteServerI.class);
-      final SSTagServerI      tagServ      = (SSTagServerI)      SSServReg.getServ(SSTagServerI.class);
+      final SSEvernoteServerI evernoteServ = new SSEvernoteImpl();
+      final SSTagServerI      tagServ      = new SSTagImpl();
       final List<Note>        notes        = evernoteInfo.noteStoreSyncChunk.getNotes();
       Note                    noteWithContent;
       Notebook                notebook;
@@ -317,8 +320,8 @@ public class SSDataImportBNPEvernoteImporter {
     final SSUri                        forUser) throws SSErr{
     
     try{
-      final SSEvernoteServerI evernoteServ = (SSEvernoteServerI) SSServReg.getServ(SSEvernoteServerI.class);
-      final SSFileServerI fileServ     = (SSFileServerI) SSServReg.getServ(SSFileServerI.class);
+      final SSEvernoteServerI evernoteServ = new SSEvernoteImpl();
+      final SSFileServerI     fileServ     = new SSFileImpl();
       final List<Resource>    resources    = evernoteInfo.noteStoreSyncChunk.getResources();
       Resource                resourceWithContent;
       SSUri                   resourceUri;

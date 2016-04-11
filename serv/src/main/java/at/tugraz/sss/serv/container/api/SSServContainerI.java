@@ -23,9 +23,6 @@ package at.tugraz.sss.serv.container.api;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.SSErr;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class SSServContainerI {
  
@@ -49,23 +46,6 @@ public abstract class SSServContainerI {
   public    abstract void             schedule                  () throws SSErr;
   public    abstract SSServContainerI regServ                   (final SSConfA conf) throws SSErr;
   public    abstract SSServImplA      getServImpl               () throws SSErr;
-  
-  public List<String> publishClientOps() throws SSErr{
-    
-    final List<String> clientOps = new ArrayList<>();
-    
-    if(servImplClientInteraceClass == null){
-      return clientOps;
-    }
-    
-    final Method[]      methods   = servImplClientInteraceClass.getMethods();
-    
-    for(Method method : methods){
-      clientOps.add(method.getName());
-    }
-    
-    return clientOps;
-  }
 }
 
 //  protected     SSErr                                           servImplCreationError           = null;

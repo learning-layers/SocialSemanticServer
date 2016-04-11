@@ -5,24 +5,25 @@
  */
 package at.tugraz.sss.servs.common.impl;
 
-import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.common.api.*;
 import java.util.*;
 
 public class SSGetUsersResources {
   
-  protected static final List<SSServContainerI> servsForGetUsersResources = new ArrayList<>();
+  protected static final List<SSGetUsersResourcesI> servsForGetUsersResources = new ArrayList<>();
   
   public void regServ(
-    final SSServContainerI servContainer) throws SSErr{
+    final SSGetUsersResourcesI servContainer, 
+    final SSConfA              conf) throws SSErr{
     
     try{
       
-      if(!servContainer.conf.use){
+      if(!conf.use){
         return;
       }
       
@@ -45,8 +46,8 @@ public class SSGetUsersResources {
     
     try{
       
-      for(SSServContainerI serv : servsForGetUsersResources){
-        ((SSGetUsersResourcesI) serv.getServImpl()).getUsersResources(servPar, usersEntities);
+      for(SSGetUsersResourcesI serv : servsForGetUsersResources){
+        serv.getUsersResources(servPar, usersEntities);
       }
       
     }catch(Exception error){

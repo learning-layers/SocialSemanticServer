@@ -5,24 +5,25 @@
  */
 package at.tugraz.sss.servs.common.impl;
 
-import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.common.api.*;
 import java.util.*;
 
 public class SSEntitiesSharedWithUsers {
   
-  protected static final List<SSServContainerI> servsForEntitiesSharedWithUsers = new ArrayList<>();
+  protected static final List<SSEntitiesSharedWithUsersI> servsForEntitiesSharedWithUsers = new ArrayList<>();
   
   public void regServ(
-    final SSServContainerI servContainer) throws SSErr{
+    final SSEntitiesSharedWithUsersI servContainer, 
+    final SSConfA                    conf) throws SSErr{
     
     try{
       
-      if(!servContainer.conf.use){
+      if(!conf.use){
         return;
       }
       
@@ -38,14 +39,15 @@ public class SSEntitiesSharedWithUsers {
       SSServErrReg.regErrThrow(error);
     }
   }
+  
   public void entitiesSharedWithUsers(
     final SSServPar                    servPar,
     final SSEntitiesSharedWithUsersPar par) throws SSErr{  
         
     try{
       
-      for(SSServContainerI serv : servsForEntitiesSharedWithUsers){
-        ((SSEntitiesSharedWithUsersI) serv.getServImpl()).entitiesSharedWithUsers(servPar, par);
+      for(SSEntitiesSharedWithUsersI serv : servsForEntitiesSharedWithUsers){
+        serv.entitiesSharedWithUsers(servPar, par);
       }      
       
     }catch(Exception error){

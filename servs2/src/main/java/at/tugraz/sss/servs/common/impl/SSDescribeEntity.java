@@ -5,34 +5,35 @@
  */
 package at.tugraz.sss.servs.common.impl;
 
-import at.tugraz.sss.serv.container.api.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.serv.conf.api.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.common.api.*;
 import java.util.*;
 
 public class SSDescribeEntity {
   
-  protected static final List<SSServContainerI> servsForDescribeEntity = new ArrayList<>();
+  protected static final List<SSDescribeEntityI> servsForDescribeEntity = new ArrayList<>();
   
   public void regServ(
-    final SSServContainerI servContainer) throws SSErr{
+    final SSDescribeEntityI serv, 
+    final SSConfA           conf) throws SSErr{
     
     try{
       
-      if(!servContainer.conf.use){
+      if(!conf.use){
         return;
       }
       
       synchronized(servsForDescribeEntity){
         
-        if(servsForDescribeEntity.contains(servContainer)){
+        if(servsForDescribeEntity.contains(serv)){
           throw SSErr.get(SSErrE.servAlreadyRegistered);
         }
         
-        servsForDescribeEntity.add(servContainer);
+        servsForDescribeEntity.add(serv);
       }
       
     }catch(Exception error){
@@ -62,8 +63,8 @@ public class SSDescribeEntity {
       
       SSEntity describedEntity = entity;
       
-      for(SSServContainerI serv : servsForDescribeEntity){
-        describedEntity = ((SSDescribeEntityI) serv.getServImpl()).describeEntity(servPar, describedEntity, descPar);
+      for(SSDescribeEntityI serv : servsForDescribeEntity){
+        describedEntity = serv.describeEntity(servPar, describedEntity, descPar);
       }
 
       return describedEntity;

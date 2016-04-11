@@ -21,7 +21,6 @@
 package at.tugraz.sss.servs.friend.impl;
 
 import at.tugraz.sss.servs.activity.api.SSActivityServerI;
-import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.servs.activity.datatype.SSActivityE;
 import at.tugraz.sss.servs.activity.datatype.SSActivityAddPar;
 import at.tugraz.sss.serv.datatype.SSTextComment;
@@ -29,8 +28,8 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.servs.friend.datatype.SSFriendAddPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.servs.activity.impl.*;
 
 public class SSFriendActAndLog{
   
@@ -40,7 +39,9 @@ public class SSFriendActAndLog{
     
     try{
       
-      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+      final SSActivityServerI activityServ = new SSActivityImpl();
+      
+      activityServ.activityAdd(
         new SSActivityAddPar(
           servPar,
           par.user,
@@ -51,21 +52,6 @@ public class SSFriendActAndLog{
           SSTextComment.asListWithoutNullAndEmpty(),
           null,
           false));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        
-        case servInvalid:{
-          SSLogU.warn(error.getMessage(), error);
-          break;
-        }
-        
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

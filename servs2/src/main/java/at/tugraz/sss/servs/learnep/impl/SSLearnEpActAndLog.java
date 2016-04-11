@@ -26,21 +26,21 @@ import at.tugraz.sss.servs.activity.datatype.SSActivityAddPar;
 import at.tugraz.sss.servs.activity.datatype.SSActivityContent;
 import at.tugraz.sss.servs.activity.datatype.SSActivityContentsAddPar;
 import at.tugraz.sss.servs.activity.api.SSActivityServerI;
-import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;
 import java.util.List;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.servs.activity.impl.*;
 import java.util.ArrayList;
 import at.tugraz.sss.servs.eval.api.SSEvalServerI;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogE;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogPar;
+import at.tugraz.sss.servs.eval.impl.*;
 import at.tugraz.sss.servs.learnep.datatype.*;
 
 public class SSLearnEpActAndLog{
@@ -54,7 +54,7 @@ public class SSLearnEpActAndLog{
     final boolean                      shouldCommit) throws SSErr{
 
     try{
-      final SSActivityServerI activityServ = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+      final SSActivityServerI activityServ = new SSActivityImpl();
        
       activityServ.activityAdd(
         new SSActivityAddPar(
@@ -68,20 +68,13 @@ public class SSLearnEpActAndLog{
           null,
           shouldCommit));
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break; }
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
     
     try{
       
-      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalServerI evalServ = new SSEvalImpl();
         
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -95,13 +88,6 @@ public class SSLearnEpActAndLog{
           null, //users
           null, //creationTime
           shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break; }
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -119,7 +105,7 @@ public class SSLearnEpActAndLog{
     
     try{
       
-      final SSActivityServerI activityServ = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+      final SSActivityServerI activityServ = new SSActivityImpl();
       
       activityServ.activityAdd(
         new SSActivityAddPar(
@@ -133,20 +119,13 @@ public class SSLearnEpActAndLog{
           null,
           shouldCommit));
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break; }
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
     
     try{
       
-      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalServerI evalServ = new SSEvalImpl();
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -160,13 +139,6 @@ public class SSLearnEpActAndLog{
           null, //users
           null, //creationTime
           shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -183,7 +155,7 @@ public class SSLearnEpActAndLog{
     
     try{
       
-      final SSActivityServerI activityServ = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+      final SSActivityServerI activityServ = new SSActivityImpl();
       
       activityServ.activityAdd(
         new SSActivityAddPar(
@@ -197,20 +169,13 @@ public class SSLearnEpActAndLog{
           null,
           shouldCommit));
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
     
     try{
       
-      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalServerI evalServ = new SSEvalImpl();
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -224,13 +189,6 @@ public class SSLearnEpActAndLog{
           null, //users
           null, //creationTime
           shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -270,13 +228,6 @@ public class SSLearnEpActAndLog{
           shouldCommit);
       }
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -307,7 +258,7 @@ public class SSLearnEpActAndLog{
     
     try{
       
-      final SSActivityServerI activityServ         = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+      final SSActivityServerI activityServ         = new SSActivityImpl();
       
       activityServ.activityAdd(
         new SSActivityAddPar(
@@ -321,20 +272,13 @@ public class SSLearnEpActAndLog{
           null,
           shouldCommit));
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
     
     try{
       
-      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalServerI evalServ = new SSEvalImpl();
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -348,13 +292,6 @@ public class SSLearnEpActAndLog{
           null, //users
           null, //creationTime
           shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -372,7 +309,7 @@ public class SSLearnEpActAndLog{
     
     try{
       
-      final SSActivityServerI activityServ         = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+      final SSActivityServerI activityServ         = new SSActivityImpl();
       
       activityServ.activityAdd(
         new SSActivityAddPar(
@@ -386,20 +323,13 @@ public class SSLearnEpActAndLog{
           null,
           shouldCommit));
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
     
     try{
       
-      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalServerI evalServ = new SSEvalImpl();
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -413,13 +343,6 @@ public class SSLearnEpActAndLog{
           null, //users
           null, //creationTime
           shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -435,7 +358,7 @@ public class SSLearnEpActAndLog{
     
     try{
       
-      final SSActivityServerI activityServ         = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+      final SSActivityServerI activityServ         = new SSActivityImpl();
       
       activityServ.activityAdd(
         new SSActivityAddPar(
@@ -448,13 +371,6 @@ public class SSLearnEpActAndLog{
           null,
           null,
           shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -472,7 +388,7 @@ public class SSLearnEpActAndLog{
     
     try{
       
-      final SSActivityServerI activityServ         = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+      final SSActivityServerI activityServ         = new SSActivityImpl();
       
       activityServ.activityAdd(
         new SSActivityAddPar(
@@ -486,20 +402,13 @@ public class SSLearnEpActAndLog{
           null,
           shouldCommit));
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
     
     try{
       
-      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalServerI evalServ = new SSEvalImpl();
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -513,13 +422,6 @@ public class SSLearnEpActAndLog{
           SSUri.asListNotNull(usersToCopyFor),
           null, //creationTime
           shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -539,7 +441,7 @@ public class SSLearnEpActAndLog{
     
     try{
       
-      final SSActivityServerI activityServ = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+      final SSActivityServerI activityServ = new SSActivityImpl();
         
       if(
         label != null &&
@@ -589,13 +491,6 @@ public class SSLearnEpActAndLog{
             shouldCommit));
       }
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -613,7 +508,7 @@ public class SSLearnEpActAndLog{
     
     try{
       
-      final SSActivityServerI activityServ         = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+      final SSActivityServerI activityServ         = new SSActivityImpl();
       
       activityServ.activityAdd(
         new SSActivityAddPar(
@@ -627,20 +522,13 @@ public class SSLearnEpActAndLog{
           null, //creationTime
           shouldCommit));
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
     
     try{
       
-      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalServerI evalServ = new SSEvalImpl();
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -654,13 +542,6 @@ public class SSLearnEpActAndLog{
           null, //users
           null, //creationTime
           shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -678,7 +559,7 @@ public class SSLearnEpActAndLog{
     
     try{
       
-      final SSActivityServerI activityServ         = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+      final SSActivityServerI activityServ         = new SSActivityImpl();
       
       activityServ.activityAdd(
         new SSActivityAddPar(
@@ -692,20 +573,13 @@ public class SSLearnEpActAndLog{
           null, //creationTime
           shouldCommit));
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
     
     try{
       
-      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalServerI evalServ = new SSEvalImpl();
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -719,13 +593,6 @@ public class SSLearnEpActAndLog{
           null, //users
           null, //creationTime
           shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -844,7 +711,7 @@ public class SSLearnEpActAndLog{
     
     try{
       
-      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalServerI evalServ = new SSEvalImpl();
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -859,13 +726,6 @@ public class SSLearnEpActAndLog{
           null, //creationTime
           shouldCommit));
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -878,7 +738,7 @@ public class SSLearnEpActAndLog{
     
     try{
       
-      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalServerI evalServ = new SSEvalImpl();
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -892,13 +752,6 @@ public class SSLearnEpActAndLog{
           null, //users
           null, //creationTime
           shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

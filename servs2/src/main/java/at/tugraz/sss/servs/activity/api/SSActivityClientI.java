@@ -24,8 +24,9 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
+import at.tugraz.sss.serv.impl.api.*;
 
-public interface SSActivityClientI{
+public interface SSActivityClientI extends SSServClientI{
 
   public SSServRetI activityAdd      (final SSClientE clientType, final SSServPar parA) throws SSErr;
   public SSServRetI activitiesGet    (final SSClientE clientType, final SSServPar parA) throws SSErr;

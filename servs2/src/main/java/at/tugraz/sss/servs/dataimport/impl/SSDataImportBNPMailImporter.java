@@ -21,7 +21,6 @@
 package at.tugraz.sss.servs.dataimport.impl;
 
 import at.tugraz.sss.servs.dataimport.datatype.SSDataImportBitsAndPiecesPar;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.servs.file.api.SSFileServerI;
 import at.tugraz.sss.serv.util.SSDateU;
@@ -31,15 +30,17 @@ import at.tugraz.sss.serv.util.SSFileExtE;
 import at.tugraz.sss.serv.util.SSFileU;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.entity.api.*;
 import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.servs.common.impl.SSServCommons;
+import at.tugraz.sss.servs.entity.impl.*;
 import at.tugraz.sss.servs.file.datatype.*;
+import at.tugraz.sss.servs.file.impl.*;
 import at.tugraz.sss.servs.mail.api.SSMailServerI;
 import at.tugraz.sss.servs.mail.datatype.SSMail;
 import at.tugraz.sss.servs.mail.datatype.SSMailsReceivePar;
+import at.tugraz.sss.servs.mail.impl.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
@@ -47,7 +48,6 @@ import javax.imageio.ImageIO;
 public class SSDataImportBNPMailImporter {
   
   private final SSDataImportBNPCommon  common      = new SSDataImportBNPCommon();
-  private final SSServCommons          servCommons = new SSServCommons();
   
   public void handle(
     final SSDataImportBitsAndPiecesPar par, 
@@ -63,7 +63,7 @@ public class SSDataImportBNPMailImporter {
         return;
       }
       
-      final SSMailServerI mailServ = servCommons.getMailServ();
+      final SSMailServerI mailServ = new SSMailImpl();
       
       if(mailServ == null){
         return;
@@ -108,8 +108,8 @@ public class SSDataImportBNPMailImporter {
     
     try{
       
-      final SSEntityServerI entityServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      final SSUri           notebookUri = SSUri.get(par.emailInUser + "_email_inbox", SSConf.sssUri);
+      final SSUri            notebookUri = SSUri.get(par.emailInUser + "_email_inbox", SSConf.sssUri);
+      final SSEntityServerI   entityServ = new SSEntityImpl();
       
       final SSEntity notebook =
         entityServ.entityGet(
@@ -153,7 +153,7 @@ public class SSDataImportBNPMailImporter {
     
     try{
       
-      final SSFileServerI fileServ = (SSFileServerI) SSServReg.getServ(SSFileServerI.class);
+      final SSFileServerI fileServ = new SSFileImpl();
       
       if(mail.content == null){
         return;
@@ -222,7 +222,7 @@ public class SSDataImportBNPMailImporter {
     
     try{
       
-      final SSFileServerI fileServ = (SSFileServerI) SSServReg.getServ(SSFileServerI.class);
+      final SSFileServerI     fileServ = new SSFileImpl();
       SSUri                   resourceUri;
       
       for(SSEntity attachment : mail.contentMultimedia){
@@ -273,8 +273,8 @@ public class SSDataImportBNPMailImporter {
     final SSUri     noteUri) throws SSErr{
     
     try{
-      final SSFileServerI fileServ = (SSFileServerI) SSServReg.getServ(SSFileServerI.class);
-      SSUri                   resourceUri;
+      final SSFileServerI fileServ = new SSFileImpl();
+      SSUri               resourceUri;
       
       for(SSEntity attachment : mail.attachments){
         

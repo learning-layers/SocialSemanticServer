@@ -42,8 +42,9 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.servs.db.impl.*;
 import at.tugraz.sss.servs.disc.datatype.*;
+import at.tugraz.sss.servs.disc.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -57,9 +58,11 @@ import javax.ws.rs.core.Response;
 @Api( value = "discs")
 public class SSRESTDisc{
   
+  private final SSDiscClientI discServ = new SSDiscImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
+  
   @PostConstruct
   public void createRESTResource(){
-    
   }
   
   @PreDestroy
@@ -85,7 +88,7 @@ public class SSRESTDisc{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -121,7 +124,7 @@ public class SSRESTDisc{
       }
       
       try{
-        final SSDiscClientI discServ = (SSDiscClientI) SSServReg.getClientServ(SSDiscClientI.class);
+        
         
         return Response.status(200).entity(discServ.discsGet(SSClientE.rest, par)).build();
         
@@ -159,7 +162,7 @@ public class SSRESTDisc{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -192,7 +195,7 @@ public class SSRESTDisc{
       }
       
       try{
-        final SSDiscClientI discServ = (SSDiscClientI) SSServReg.getClientServ(SSDiscClientI.class);
+        
         
         return Response.status(200).entity(discServ.discEntryAdd(SSClientE.rest, par)).build();
         
@@ -234,7 +237,7 @@ public class SSRESTDisc{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -266,7 +269,7 @@ public class SSRESTDisc{
       }
       
       try{
-        final SSDiscClientI discServ = (SSDiscClientI) SSServReg.getClientServ(SSDiscClientI.class);
+        
         
         return Response.status(200).entity(discServ.discUpdate(SSClientE.rest, par)).build();
         
@@ -308,7 +311,7 @@ public class SSRESTDisc{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -338,7 +341,7 @@ public class SSRESTDisc{
       }
       
       try{
-        final SSDiscClientI discServ = (SSDiscClientI) SSServReg.getClientServ(SSDiscClientI.class);
+        
         
         return Response.status(200).entity(discServ.discEntryUpdate(SSClientE.rest, par)).build();
         
@@ -380,7 +383,7 @@ public class SSRESTDisc{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -414,7 +417,7 @@ public class SSRESTDisc{
       }
       
       try{
-        final SSDiscClientI discServ = (SSDiscClientI) SSServReg.getClientServ(SSDiscClientI.class);
+        
         
         return Response.status(200).entity(discServ.discGet(SSClientE.rest, par)).build();
         
@@ -454,7 +457,7 @@ public class SSRESTDisc{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -483,7 +486,7 @@ public class SSRESTDisc{
       }
       
       try{
-        final SSDiscClientI discServ = (SSDiscClientI) SSServReg.getClientServ(SSDiscClientI.class);
+        
         
         return Response.status(200).entity(discServ.discsGet(SSClientE.rest, par)).build();
         
@@ -525,7 +528,7 @@ public class SSRESTDisc{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -561,7 +564,7 @@ public class SSRESTDisc{
       }
       
       try{
-        final SSDiscClientI discServ = (SSDiscClientI) SSServReg.getClientServ(SSDiscClientI.class);
+        
         
         return Response.status(200).entity(discServ.discsGet(SSClientE.rest, par)).build();
         
@@ -601,7 +604,7 @@ public class SSRESTDisc{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -627,7 +630,7 @@ public class SSRESTDisc{
       }
       
       try{
-        final SSDiscClientI discServ = (SSDiscClientI) SSServReg.getClientServ(SSDiscClientI.class);
+        
         
         return Response.status(200).entity(discServ.discEntryAccept(SSClientE.rest, par)).build();
         
@@ -670,7 +673,7 @@ public class SSRESTDisc{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -697,7 +700,7 @@ public class SSRESTDisc{
       }
       
       try{
-        final SSDiscClientI discServ = (SSDiscClientI) SSServReg.getClientServ(SSDiscClientI.class);
+        
         
         return Response.status(200).entity(discServ.discTargetsAdd(SSClientE.rest, par)).build();
         

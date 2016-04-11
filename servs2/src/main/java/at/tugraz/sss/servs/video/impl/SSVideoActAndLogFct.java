@@ -20,31 +20,15 @@
   */
 package at.tugraz.sss.servs.video.impl;
 
-import at.tugraz.sss.servs.video.datatype.SSVideoUserAnnotationAddPar;
-import at.tugraz.sss.servs.video.datatype.SSVideoUserAddPar;
-import at.tugraz.sss.servs.video.datatype.SSVideoAnnotationsSetPar;
-import at.tugraz.sss.servs.activity.api.SSActivityServerI;
-import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.servs.video.datatype.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
-import at.tugraz.sss.servs.eval.api.SSEvalServerI;
-import at.tugraz.sss.servs.eval.datatype.SSEvalLogE;
-import at.tugraz.sss.servs.eval.datatype.SSEvalLogPar;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.servs.eval.api.*;
+import at.tugraz.sss.servs.eval.datatype.*;
+import at.tugraz.sss.servs.eval.impl.*;
 
 public class SSVideoActAndLogFct {
-  
-  private final SSActivityServerI activityServ;
-  private final SSEvalServerI     evalServ;
-  
-  public SSVideoActAndLogFct(
-    final SSActivityServerI activityServ,
-    final SSEvalServerI     evalServ){
-    
-    this.activityServ = activityServ;
-    this.evalServ     = evalServ;
-  }
   
   public void createVideo(
     final SSVideoUserAddPar par,
@@ -52,6 +36,8 @@ public class SSVideoActAndLogFct {
     final boolean           shouldCommit) throws SSErr{
     
     try{
+      
+      final SSEvalServerI evalServ = new SSEvalImpl();
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -66,13 +52,6 @@ public class SSVideoActAndLogFct {
           null, //creationTime
           shouldCommit));
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -84,6 +63,8 @@ public class SSVideoActAndLogFct {
     final boolean                     shouldCommit) throws SSErr{
     
     try{
+      
+      final SSEvalServerI evalServ = new SSEvalImpl();
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -98,13 +79,6 @@ public class SSVideoActAndLogFct {
           null, //creationTime
           shouldCommit));
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -116,6 +90,8 @@ public class SSVideoActAndLogFct {
     final boolean                     shouldCommit) throws SSErr{
     
     try{
+      
+      final SSEvalServerI evalServ = new SSEvalImpl();
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -129,13 +105,6 @@ public class SSVideoActAndLogFct {
           null, //users
           null, //creationTime
           shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

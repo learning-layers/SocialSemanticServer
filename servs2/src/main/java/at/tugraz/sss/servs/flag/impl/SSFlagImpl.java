@@ -20,17 +20,12 @@
 */
 package at.tugraz.sss.servs.flag.impl;
 
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.conf.api.SSConfA;
-
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import at.tugraz.sss.servs.flag.api.SSFlagClientI;
 import at.tugraz.sss.servs.flag.api.SSFlagServerI;
 import at.tugraz.sss.servs.flag.datatype.SSFlagsGetRet;
@@ -40,49 +35,36 @@ import at.tugraz.sss.servs.flag.datatype.SSFlagGetPar;
 import at.tugraz.sss.servs.flag.datatype.SSFlagsGetPar;
 import at.tugraz.sss.servs.flag.datatype.SSFlagsSetPar;
 import at.tugraz.sss.servs.flag.datatype.SSFlagsSetRet;
-import at.tugraz.sss.servs.flag.impl.SSFlagSQLFct;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.SSEntityContext;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import java.util.List;
 import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.impl.api.*;
 import java.util.ArrayList;
 import java.util.Map;
 import at.tugraz.sss.servs.common.api.SSGetUsersResourcesI;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
 
 public class SSFlagImpl 
 extends 
-  SSServImplA 
+  SSEntityImpl 
 implements 
   SSFlagClientI, 
   SSFlagServerI, 
   SSDescribeEntityI, 
   SSGetUsersResourcesI{
   
-  private final SSFlagSQLFct                          sql;
-  private final SSEntityServerI                       entityServ;
-  private final SSUserCommons                         userCommons;
-  private final SSDBSQLI                              dbSQL;
-  private final SSDBNoSQLI                            dbNoSQL;
+  private final SSFlagSQLFct sql  = new SSFlagSQLFct  (dbSQL);
   
-  public SSFlagImpl(final SSConfA conf) throws SSErr{
-
-    super(conf);
-    
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    this.sql           = new SSFlagSQLFct  (dbSQL);
-    this.entityServ    = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-    this.userCommons   = new SSUserCommons();
+  public SSFlagImpl(){
+    super(SSCoreConf.instGet().getFlag());
   }
   
   @Override
@@ -213,7 +195,7 @@ implements
       for(SSUri entityToAddFlag : par.entities){
 
         entity =
-          entityServ.entityUpdate(
+          entityUpdate(
             new SSEntityUpdatePar(
               par,
               par.user,
@@ -236,7 +218,7 @@ implements
         for(SSFlagE flagType : par.types){
           
           flag =
-            entityServ.entityUpdate(
+            entityUpdate(
               new SSEntityUpdatePar(
                 par,
                 par.user,
@@ -332,7 +314,7 @@ implements
           par.withUserRestriction,
           null); //descPar
         
-      final SSEntity flagEntity = entityServ.entityGet(entityGetPar);
+      final SSEntity flagEntity = entityGet(entityGetPar);
       
       if(flagEntity == null){
         return null;
@@ -350,7 +332,7 @@ implements
       }
       
       entityGetPar.entity  = flag.entity.id;
-      flag.entity          = entityServ.entityGet(entityGetPar);
+      flag.entity          = entityGet(entityGetPar);
       
       if(flag.entity == null){
         return null;
@@ -358,7 +340,7 @@ implements
       
       entityGetPar.entity  = flag.user.id;
       entityGetPar.descPar = null;
-      flag.user            = entityServ.entityGet(entityGetPar);
+      flag.user            = entityGet(entityGetPar);
       
       return flag;
     }catch(Exception error){

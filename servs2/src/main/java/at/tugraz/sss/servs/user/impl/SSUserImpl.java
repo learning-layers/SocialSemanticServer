@@ -21,16 +21,13 @@
 package at.tugraz.sss.servs.user.impl;
 
 import at.tugraz.sss.serv.datatype.par.SSCircleUsersAddPar;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.servs.user.api.*;
 import at.tugraz.sss.servs.user.datatype.SSUser;
@@ -39,38 +36,29 @@ import at.tugraz.sss.servs.user.datatype.SSUserEntityUsersGetRet;
 import at.tugraz.sss.servs.user.datatype.SSUsersGetRet;
 import at.tugraz.sss.serv.datatype.par.SSCirclePubURIGetPar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import java.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.impl.api.*;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
 import at.tugraz.sss.servs.user.conf.*;
 
 public class SSUserImpl
-extends SSServImplA
+extends SSEntityImpl
 implements
   SSUserClientI,
   SSUserServerI,
   SSDescribeEntityI{
   
-    private final SSDBSQLI        dbSQL;
-  private final SSDBNoSQLI        dbNoSQL;
-  private final SSUserCommons     userCommons = new SSUserCommons();
-  private final SSUserSQL         sql;
+  private final SSUserSQL sql = new SSUserSQL(dbSQL);
   
-  public SSUserImpl(final SSConfA conf) throws SSErr{
-    
-    super(conf);
-    
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    this.sql           = new SSUserSQL(dbSQL);
+  public SSUserImpl(){
+    super(SSCoreConf.instGet().getUser());
   }
   
   @Override
@@ -218,7 +206,6 @@ implements
   public List<SSEntity> usersGet(final SSUsersGetPar par) throws SSErr{
     
     try{
-      final SSEntityServerI entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
       final List<SSEntity>  users      = new ArrayList<>();
       final List<SSUri>     userURIs   = new ArrayList<>();
       SSUser                userToGet;
@@ -278,7 +265,7 @@ implements
         }
         
         userEntityToGet =
-          entityServ.entityGet(
+          entityGet(
             new SSEntityGetPar(
               par,
               par.user,
@@ -392,7 +379,6 @@ implements
         throw SSErr.get(SSErrE.userCannotAddUser);
       }
       
-      final SSEntityServerI entityServ = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
       final SSLabel         tmpLabel;
       final String          tmpEmail;
       SSUri                 publicCircleURI;
@@ -411,7 +397,7 @@ implements
       dbSQL.startTrans(par, par.shouldCommit);
       
       userUri =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par,
             SSConf.systemUserUri,
@@ -432,7 +418,7 @@ implements
       }
       
       publicCircleURI =
-        entityServ.circlePubURIGet(
+        circlePubURIGet(
           new SSCirclePubURIGetPar(
             par,
             par.user,
@@ -450,7 +436,7 @@ implements
         par.oidcSub);
       
       publicCircleURI =
-        entityServ.circleUsersAdd(
+        circleUsersAdd(
           new SSCircleUsersAddPar(
             par,
             SSConf.systemUserUri,

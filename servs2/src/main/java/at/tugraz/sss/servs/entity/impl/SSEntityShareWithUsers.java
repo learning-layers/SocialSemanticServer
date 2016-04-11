@@ -33,24 +33,24 @@ import at.tugraz.sss.serv.datatype.par.SSEntitiesSharedWithUsersPar;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.servs.common.impl.*;
+import at.tugraz.sss.servs.user.impl.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSEntityShareWithUsers {
   
   private final SSEntityServerI           entityServ;
+  private final SSUserServerI             userServ                = new SSUserImpl();
   private final SSUserCommons             userCommons             = new SSUserCommons();
   private final SSEntitiesSharedWithUsers entitiesSharedWithUsers = new SSEntitiesSharedWithUsers();
   private final SSCircleEntitiesAdded     circleEntitiesAdded     = new SSCircleEntitiesAdded();
   
-  public SSEntityShareWithUsers(final SSEntityServerI circleServ){
-
-    this.entityServ  = circleServ;
+  public SSEntityShareWithUsers(final SSEntityServerI entityServ){
+    this.entityServ  = entityServ;
   }
   
   public void handle(
@@ -67,7 +67,6 @@ public class SSEntityShareWithUsers {
         throw SSErr.get(SSErrE.userCannotShareWithHimself);
       }
       
-      final SSUserServerI userServ   = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
       final List<SSUri>   usersToUse = new ArrayList<>();
       final List<SSUri>   groupUsers = new ArrayList<>();
       final SSUri         groupUser =

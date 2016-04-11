@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.serv.db.api;
 
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.SSAuthor;
 import at.tugraz.sss.serv.datatype.SSTextComment;

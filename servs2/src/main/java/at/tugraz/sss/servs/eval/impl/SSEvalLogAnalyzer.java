@@ -20,14 +20,13 @@
  */
 package at.tugraz.sss.servs.eval.impl;
 
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -40,12 +39,16 @@ import at.tugraz.sss.servs.disc.datatype.*;
 import at.tugraz.sss.servs.tag.api.*;
 import at.tugraz.sss.servs.tag.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.entity.api.*;
+import at.tugraz.sss.servs.disc.impl.*;
 import at.tugraz.sss.servs.eval.datatype.*;
 import at.tugraz.sss.servs.learnep.api.*;
 import at.tugraz.sss.servs.learnep.datatype.*;
+import at.tugraz.sss.servs.learnep.impl.*;
 import at.tugraz.sss.servs.livingdoc.api.SSLivingDocServerI;
 import at.tugraz.sss.servs.livingdoc.datatype.SSLivingDocsGetPar;
+import at.tugraz.sss.servs.livingdoc.impl.*;
+import at.tugraz.sss.servs.tag.impl.*;
 
 //&lt; --> < 
 //&amp; --> &
@@ -85,9 +88,14 @@ import at.tugraz.sss.servs.livingdoc.datatype.SSLivingDocsGetPar;
 
 public class SSEvalLogAnalyzer {
   
+  private final SSEntityServerI entityServ;
 //  private final Long                   timeBeginStudy this.timeBeginStudy = timeBeginStudy;
   private final Map<String, SSEntity>  episodes     = new HashMap<>();
   private final SSEvalCommons          commons      = new SSEvalCommons();
+
+  public SSEvalLogAnalyzer(final SSEntityServerI entityServ){
+    this.entityServ = entityServ;
+  }
   
   public void analyzeLDs(
     final SSServPar            servPar,
@@ -97,8 +105,8 @@ public class SSEvalLogAnalyzer {
     
     try{
       
-      final SSLivingDocServerI        ldServ   = (SSLivingDocServerI) SSServReg.getServ(SSLivingDocServerI.class);
-      final SSDiscServerI             discServ = (SSDiscServerI)      SSServReg.getServ(SSDiscServerI.class);
+      final SSLivingDocServerI        ldServ   = new SSLivingDocImpl();
+      final SSDiscServerI             discServ = new SSDiscImpl();
       final Map<String, SSEvalLDInfo> ldInfos  = new HashMap<>();
       
       final SSLivingDocsGetPar ldDocsGetPar =
@@ -323,7 +331,6 @@ public class SSEvalLogAnalyzer {
     
     try{
       
-      final SSEntityServerI  entityServ     = (SSEntityServerI)      SSServReg.getServ(SSEntityServerI.class);
       final SSEntitiesGetPar entitiesGetPar =
         new SSEntitiesGetPar(
           par,
@@ -392,7 +399,6 @@ public class SSEvalLogAnalyzer {
     
     try{
       
-      final SSEntityServerI  entityServ     = (SSEntityServerI)      SSServReg.getServ(SSEntityServerI.class);
       final SSEntitiesGetPar entitiesGetPar =
         new SSEntitiesGetPar(
           par,
@@ -458,7 +464,7 @@ public class SSEvalLogAnalyzer {
     
     try{
       
-      final SSDiscServerI    discServ   = (SSDiscServerI)      SSServReg.getServ(SSDiscServerI.class);
+      final SSDiscServerI    discServ   = new SSDiscImpl();
       final SSDiscsGetPar    discGetPar =
         new SSDiscsGetPar(
           par,
@@ -518,8 +524,8 @@ public class SSEvalLogAnalyzer {
     
     try{
       
-      final SSDiscServerI               discServ               = (SSDiscServerI)      SSServReg.getServ(SSDiscServerI.class);
-      final SSTagServerI                tagServ                = (SSTagServerI)       SSServReg.getServ(SSTagServerI.class);
+      final SSDiscServerI               discServ               = new SSDiscImpl();
+      final SSTagServerI                tagServ                = new SSTagImpl();
       final List<String>                differentTags          = new ArrayList<>();
       final Map<String, List<SSEntity>> entitiesPerDiscussions = new HashMap<>();
       final SSDiscsGetPar               discGetPar =
@@ -617,7 +623,7 @@ public class SSEvalLogAnalyzer {
     System.out.println();
     
     try{
-      final SSDiscServerI               discServ               = (SSDiscServerI)      SSServReg.getServ(SSDiscServerI.class);
+      final SSDiscServerI               discServ               = new SSDiscImpl();
       final List<SSUri>                 differentEntities      = new ArrayList<>();
       final Map<String, List<SSEntity>> entitiesPerDiscussions = new HashMap<>();
       final SSDiscsGetPar               discGetPar =
@@ -691,7 +697,7 @@ public class SSEvalLogAnalyzer {
     System.out.println();
     
     try{
-      final SSDiscServerI              discServ              = (SSDiscServerI)      SSServReg.getServ(SSDiscServerI.class);
+      final SSDiscServerI              discServ              = new SSDiscImpl();
       final List<String>               differentAuthors      = new ArrayList<>();
       final Map<String, List<SSLabel>> authorsPerDiscussions = new HashMap<>();
       SSDisc disc;
@@ -765,7 +771,7 @@ public class SSEvalLogAnalyzer {
     
     try{
       
-      final SSDiscServerI discServ    = (SSDiscServerI)      SSServReg.getServ(SSDiscServerI.class);
+      final SSDiscServerI discServ    = new SSDiscImpl();
       final List<SSLabel> discussions = new ArrayList<>();
       
       for(SSEntity disc : 
@@ -872,7 +878,7 @@ public class SSEvalLogAnalyzer {
     
     try{
       
-      final SSTagServerI             tagServ            = (SSTagServerI) SSServReg.getServ(SSTagServerI.class);
+      final SSTagServerI             tagServ            = new SSTagImpl();
       final List<String>             differentTags      = new ArrayList<>();
       final Map<String, List<SSUri>> entitiesPerLearnEp = new HashMap<>();
 
@@ -1085,7 +1091,6 @@ public class SSEvalLogAnalyzer {
     System.out.println();
     
     try{
-      final SSEntityServerI      entityServ             = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final Map<String, Integer> interactionsPerEpisode = new HashMap<>();
       
       int     totalNumberOfInteractions = 0;
@@ -1349,7 +1354,6 @@ public class SSEvalLogAnalyzer {
     final List<SSEvalLogEntry> logEntries) throws SSErr{
     
     try{
-      final SSEntityServerI       entityServ          = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final Map<String, SSEntity> originalEpisodes    = new HashMap<>();
       final List<SSEntity>        episodesForLabel    = new ArrayList<>();
       
@@ -1599,7 +1603,6 @@ public class SSEvalLogAnalyzer {
     
     try{
       
-      final SSEntityServerI                     entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSEvalUserInfo                          userInfo     = getOrCreateUserInfo(userInfos, logEntry);
       final SSEvalWorkedOnReceivedSharedBitInfo     workedOnBit;
       
@@ -1729,7 +1732,6 @@ public class SSEvalLogAnalyzer {
     
     try{
       
-      final SSEntityServerI                     entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSEvalUserInfo                          userInfo     = getOrCreateUserInfo(userInfos, logEntry);
       final SSEvalWorkedOnOwnBitInfo                workedOnBit;
       
@@ -1792,7 +1794,7 @@ public class SSEvalLogAnalyzer {
     
     try{
       
-      final SSDiscServerI                    discServ     = (SSDiscServerI) SSServReg.getServ(SSDiscServerI.class);
+      final SSDiscServerI                        discServ     = new SSDiscImpl();
       final SSEvalUserInfo                       userInfo     = getOrCreateUserInfo(userInfos, logEntry);
       final SSEvalWorkedOnReceivedDiscussionInfo info;
       
@@ -1999,7 +2001,6 @@ public class SSEvalLogAnalyzer {
     
     try{
       
-      final SSEntityServerI entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSEntityGetPar  entityGetPar =
         new SSEntityGetPar(
           servPar,
@@ -2050,7 +2051,6 @@ public class SSEvalLogAnalyzer {
     final SSEvalLogEntry           logEntry) throws SSErr{
     
     try{
-      final SSEntityServerI entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSEntityGetPar  entityGetPar =
         new SSEntityGetPar(
           servPar,
@@ -2424,7 +2424,7 @@ public class SSEvalLogAnalyzer {
     
     try{
       
-      final SSLearnEpServerI learnEpServ   = (SSLearnEpServerI) SSServReg.getServ(SSLearnEpServerI.class);
+      final SSLearnEpServerI learnEpServ = new SSLearnEpImpl();
       
       for(SSEntity learnEp :
         learnEpServ.learnEpsGet(

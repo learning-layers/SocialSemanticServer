@@ -20,6 +20,7 @@
   */
 package at.tugraz.sss.servs.search.impl;
 
+import at.tugraz.sss.serv.conf.*;
 import at.tugraz.sss.servs.search.api.SSSearchServerI;
 import at.tugraz.sss.servs.search.api.SSSearchClientI;
 import at.tugraz.sss.serv.datatype.SSEntityResultPages;
@@ -36,8 +37,6 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import at.tugraz.sss.servs.search.datatype.SSSearchCleanUpPar;
 import at.tugraz.sss.servs.search.datatype.SSSearchPar;
 import at.tugraz.sss.servs.search.datatype.SSSearchRet;
@@ -45,46 +44,51 @@ import at.tugraz.sss.servs.tag.api.SSTagServerI;
 import at.tugraz.sss.servs.tag.datatype.SSTagLabel;
 import at.tugraz.sss.servs.tag.datatype.SSTagEntitiesForTagsGetPar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import java.util.*;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import at.tugraz.sss.servs.common.impl.SSEntityQueryCacheU;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
 import at.tugraz.sss.serv.db.api.SSCoreSQL;
 import at.tugraz.sss.serv.datatype.par.SSEntityURIsGetPar;
-import at.tugraz.sss.serv.impl.api.*;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.entity.impl.*;
 import at.tugraz.sss.servs.eval.api.*;
 import at.tugraz.sss.servs.eval.datatype.*;
+import at.tugraz.sss.servs.eval.impl.*;
+import at.tugraz.sss.servs.rating.impl.*;
+import at.tugraz.sss.servs.recomm.impl.*;
+import at.tugraz.sss.servs.tag.impl.*;
 
 public class SSSearchImpl
-extends SSServImplA
+extends SSEntityImpl
 implements
   SSSearchClientI,
   SSSearchServerI{
   
-  private final SSUserCommons                    userCommons            = new SSUserCommons();
   private final Map<String, SSEntityResultPages> searchResultPagesCache = new HashMap<>();
-  private final SSCoreSQL                        sql;
-  private final SSSearchNoSQL                    noSQL;
-  private final SSDBSQLI                         dbSQL;
-  private final SSDBNoSQLI                       dbNoSQL;
+  private final SSCoreSQL                        sql                    = new SSCoreSQL     (dbSQL);
+  private final SSSearchNoSQL                    noSQL                  = new SSSearchNoSQL (dbNoSQL);
   
-  public SSSearchImpl(final SSConfA conf) throws SSErr{
+  public SSSearchImpl(){
+    super(SSCoreConf.instGet().getSearch());
+  }
+  
+  @Override
+  public void schedule() throws SSErr{
     
-    super(conf);
+    if(!conf.use){
+      return;
+    }
     
-    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    
-    this.sql      = new SSCoreSQL     (dbSQL);
-    this.noSQL    = new SSSearchNoSQL (dbNoSQL);
+    new SSSchedules().regScheduler(
+      SSDateU.scheduleWithFixedDelay(
+        new SSSearchResultPagesCacheCleanerTask(),
+        SSDateU.getDatePlusMinutes(5),
+        5 * SSDateU.minuteInMilliSeconds));
   }
   
   @Override
@@ -110,7 +114,7 @@ implements
     
     try{
       
-      final SSEvalServerI   evalServ   = (SSEvalServerI)   SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalServerI   evalServ   = new SSEvalImpl();
       final SSEvalLogPar    evalLogPar =
         new SSEvalLogPar(
           par,
@@ -168,16 +172,6 @@ implements
       
       evalServ.evalLog(evalLogPar);
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default: {
-          SSServErrReg.regErrThrow(error);
-          break;
-        }
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -188,13 +182,11 @@ implements
     
     try{
       
-      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      
       if(
         par.pagesID    != null &&
         par.pageNumber != null){
         
-        final SSSearchRet searchResult = handleSearchPageRequest(entityServ, par);
+        final SSSearchRet searchResult = handleSearchPageRequest(this, par);
         
         evalLog(par, searchResult, par.shouldCommit);
         
@@ -213,7 +205,7 @@ implements
           par.startTime,
           par.endTime);
       
-      final List<SSUri>             accessibleEntityURIs  = entityServ.entityURIsGet(entityURIsGetPar);
+      final List<SSUri>             accessibleEntityURIs  = entityURIsGet(entityURIsGetPar);
       final List<SSUri>             tagResults            = new ArrayList<>();
       final List<SSUri>             labelResults          = new ArrayList<>();
       final List<SSUri>             descriptionResults    = new ArrayList<>();
@@ -315,7 +307,7 @@ implements
           final List<List<SSUri>> newPages =
             orderPagesByLabel(
               par,
-              entityServ,
+              this,
               par.pageSize,
               par.user,
               pages);
@@ -330,7 +322,7 @@ implements
             final List<List<SSUri>> newPages =
               orderPagesByCreationTime(
                 par,
-                entityServ,
+                this,
                 par.pageSize,
                 par.user,
                 pages);
@@ -349,7 +341,7 @@ implements
         
         results.addAll(
           fillSearchResults(
-            entityServ,
+            this,
             par,
             pages.get(0)));
       }
@@ -564,7 +556,7 @@ implements
         return new ArrayList<>();
       }
       
-      final SSTagServerI tagServ = (SSTagServerI) SSServReg.getServ(SSTagServerI.class);
+      final SSTagServerI tagServ = new SSTagImpl();
       
       return tagServ.tagEntitiesForTagsGet(
         new SSTagEntitiesForTagsGetPar(
@@ -725,7 +717,7 @@ implements
       }
       
       final List<SSEntity>             result               = new ArrayList<>();
-      final SSRecommServerI            recommServ           = (SSRecommServerI) SSServReg.getServ(SSRecommServerI.class);
+      final SSRecommServerI            recommServ           = new SSRecommImpl();
       final List<SSResourceLikelihood> recommendedResources =
         recommServ.recommResources(
           new SSRecommResourcesPar(
@@ -808,7 +800,7 @@ implements
         return searchResults;
       }
       
-      final SSRatingServerI ratingServ = (SSRatingServerI) SSServReg.getServ(SSRatingServerI.class);
+      final SSRatingServerI ratingServ = new SSRatingImpl();
       
       return ratingServ.ratingEntityURIsGet(
         new SSRatingEntityURIsGetPar(

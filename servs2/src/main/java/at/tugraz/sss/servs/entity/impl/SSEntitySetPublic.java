@@ -34,11 +34,11 @@ import java.util.List;
 
 public class SSEntitySetPublic {
   
-  private final SSEntityServerI       circleServ;
+  private final SSEntityServerI       entityServ;
   private final SSCircleEntitiesAdded circleEntitiesAdded = new SSCircleEntitiesAdded();
   
-  public SSEntitySetPublic(final SSEntityServerI circleServ){
-    this.circleServ = circleServ;
+  public SSEntitySetPublic(final SSEntityServerI entityServ){
+    this.entityServ = entityServ;
   }
   
   public void handle(
@@ -54,13 +54,13 @@ public class SSEntitySetPublic {
       entities.add(entity);
       
       final SSUri pubCircleURI =
-        circleServ.circlePubURIGet(
+        entityServ.circlePubURIGet(
           new SSCirclePubURIGetPar(
             servPar,
             user,
             false));
       
-      circleServ.circleEntitiesAdd(
+      entityServ.circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
           servPar,
           user,
@@ -70,7 +70,7 @@ public class SSEntitySetPublic {
           false)); //shouldCommit
       
       final SSCircle circle =
-        circleServ.circleGet(
+        entityServ.circleGet(
           new SSCircleGetPar(
             servPar,
             user,

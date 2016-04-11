@@ -20,8 +20,8 @@
  */
 package at.tugraz.sss.serv.datatype.enums;
 
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.reg.*;
 
 public enum SSSearchOpE{
   

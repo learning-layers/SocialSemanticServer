@@ -20,7 +20,5 @@
 */
 package at.tugraz.sss.serv.db.api;
 
-import at.tugraz.sss.serv.reg.*;
-
 public abstract class SSDBFctA{
 }

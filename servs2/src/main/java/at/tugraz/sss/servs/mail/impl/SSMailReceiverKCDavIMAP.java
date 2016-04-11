@@ -29,13 +29,10 @@ import at.tugraz.sss.serv.util.SSFileExtE;
 import at.tugraz.sss.serv.util.SSFileU;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.util.SSStrU;
-import at.tugraz.sss.servs.mail.conf.SSMailConf;
 import at.tugraz.sss.servs.mail.datatype.SSMail;
 import at.tugraz.sss.servs.mail.datatype.SSMailsReceivePar;
-import at.tugraz.sss.servs.mail.impl.SSMailSQLFct;
 import com.sun.mail.imap.IMAPMessage;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -45,18 +42,15 @@ import javax.mail.*;
 
 public class SSMailReceiverKCDavIMAP {
   
-  private final List<SSEntity>   mails     = new ArrayList<>();
-  private final SSMailConf       mailConf;
-  private final SSMailSQLFct     sqlFct;
+  private final SSMailSQLFct     sql;
   private final SSEntityServerI  entityServ;
   
   public SSMailReceiverKCDavIMAP(
-    final SSMailConf    mailConf,
-    final SSMailSQLFct  sqlFct) throws SSErr{
+    final SSEntityServerI entityServ, 
+    final SSMailSQLFct    sql) throws SSErr{
     
-    this.mailConf        = mailConf;
-    this.sqlFct          = sqlFct;
-    this.entityServ      = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+    this.entityServ = entityServ;
+    this.sql        = sql;
   }
 
 //  final String  fromUser,
@@ -71,6 +65,7 @@ public class SSMailReceiverKCDavIMAP {
     Folder folder = null;
     
     try{
+      final List<SSEntity>            mails   = new ArrayList<>();
       final Properties                props   = new Properties();
       final SSMailKCIMAPAuthenticator auth    = new SSMailKCIMAPAuthenticator(servPar.fromUser, servPar.fromPassword);
       final Session                   session = Session.getDefaultInstance(props, auth); //session.setDebug(true);
@@ -99,7 +94,7 @@ public class SSMailReceiverKCDavIMAP {
 
         hash = message.getMessageID() + servPar.receiverEmail;
         
-        if(sqlFct.existsMail(servPar, null, hash, servPar.receiverEmail)){
+        if(sql.existsMail(servPar, null, hash, servPar.receiverEmail)){
           continue;
         }
         
@@ -123,7 +118,7 @@ public class SSMailReceiverKCDavIMAP {
             servPar.withUserRestriction, 
             false));
         
-        sqlFct.addMailIfNotExists(
+        sql.addMailIfNotExists(
           servPar, 
           mail.id, 
           servPar.receiverEmail, 

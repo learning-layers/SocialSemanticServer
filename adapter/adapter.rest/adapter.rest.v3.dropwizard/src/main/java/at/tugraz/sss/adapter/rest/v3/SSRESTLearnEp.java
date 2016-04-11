@@ -27,8 +27,9 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.servs.db.impl.*;
 import at.tugraz.sss.servs.learnep.api.*;
+import at.tugraz.sss.servs.learnep.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -48,6 +49,9 @@ import javax.ws.rs.core.Response;
 @Path("rest/learneps")
 @Api( value = "learneps")
 public class SSRESTLearnEp{
+  
+  private final SSLearnEpClientI learnEpServ = new SSLearnEpImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -77,7 +81,7 @@ public class SSRESTLearnEp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -103,7 +107,7 @@ public class SSRESTLearnEp{
       }
       
       try{
-        final SSLearnEpClientI learnEpServ = (SSLearnEpClientI) SSServReg.getClientServ(SSLearnEpClientI.class);
+        
         
         return Response.status(200).entity(learnEpServ.learnEpCircleEntityStructureGet(SSClientE.rest, par)).build();
         
@@ -139,7 +143,7 @@ public class SSRESTLearnEp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -168,7 +172,7 @@ public class SSRESTLearnEp{
       }
       
       try{
-        final SSLearnEpClientI learnEpServ = (SSLearnEpClientI) SSServReg.getClientServ(SSLearnEpClientI.class);
+        
         
         return Response.status(200).entity(learnEpServ.learnEpsGet(SSClientE.rest, par)).build();
         
@@ -208,7 +212,7 @@ public class SSRESTLearnEp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -235,7 +239,7 @@ public class SSRESTLearnEp{
       }
       
       try{
-        final SSLearnEpClientI learnEpServ = (SSLearnEpClientI) SSServReg.getClientServ(SSLearnEpClientI.class);
+        
         
         return Response.status(200).entity(learnEpServ.learnEpVersionsGet(SSClientE.rest, par)).build();
         
@@ -275,7 +279,7 @@ public class SSRESTLearnEp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -301,7 +305,7 @@ public class SSRESTLearnEp{
       }
       
       try{
-        final SSLearnEpClientI learnEpServ = (SSLearnEpClientI) SSServReg.getClientServ(SSLearnEpClientI.class);
+        
         
         return Response.status(200).entity(learnEpServ.learnEpVersionGet(SSClientE.rest, par)).build();
         
@@ -338,7 +342,7 @@ public class SSRESTLearnEp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -363,7 +367,7 @@ public class SSRESTLearnEp{
       }
       
       try{
-        final SSLearnEpClientI learnEpServ = (SSLearnEpClientI) SSServReg.getClientServ(SSLearnEpClientI.class);
+        
         
         return Response.status(200).entity(learnEpServ.learnEpVersionCurrentGet(SSClientE.rest, par)).build();
         
@@ -403,7 +407,7 @@ public class SSRESTLearnEp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -429,7 +433,7 @@ public class SSRESTLearnEp{
       }
       
       try{
-        final SSLearnEpClientI learnEpServ = (SSLearnEpClientI) SSServReg.getClientServ(SSLearnEpClientI.class);
+        
         
         return Response.status(200).entity(learnEpServ.learnEpVersionCurrentSet(SSClientE.rest, par)).build();
         
@@ -467,7 +471,7 @@ public class SSRESTLearnEp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -494,7 +498,7 @@ public class SSRESTLearnEp{
       }
       
       try{
-        final SSLearnEpClientI learnEpServ = (SSLearnEpClientI) SSServReg.getClientServ(SSLearnEpClientI.class);
+        
         
         return Response.status(200).entity(learnEpServ.learnEpCreate(SSClientE.rest, par)).build();
         
@@ -534,7 +538,7 @@ public class SSRESTLearnEp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -560,7 +564,7 @@ public class SSRESTLearnEp{
       }
       
       try{
-        final SSLearnEpClientI learnEpServ = (SSLearnEpClientI) SSServReg.getClientServ(SSLearnEpClientI.class);
+        
         
         return Response.status(200).entity(learnEpServ.learnEpVersionCreate(SSClientE.rest, par)).build();
         
@@ -600,7 +604,7 @@ public class SSRESTLearnEp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -626,7 +630,7 @@ public class SSRESTLearnEp{
       }
       
       try{
-        final SSLearnEpClientI learnEpServ = (SSLearnEpClientI) SSServReg.getClientServ(SSLearnEpClientI.class);
+        
         
         return Response.status(200).entity(learnEpServ.learnEpRemove(SSClientE.rest, par)).build();
         
@@ -668,7 +672,7 @@ public class SSRESTLearnEp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -701,7 +705,7 @@ public class SSRESTLearnEp{
       }
       
       try{
-        final SSLearnEpClientI learnEpServ = (SSLearnEpClientI) SSServReg.getClientServ(SSLearnEpClientI.class);
+        
         
         return Response.status(200).entity(learnEpServ.learnEpVersionCircleAdd(SSClientE.rest, par)).build();
         
@@ -743,7 +747,7 @@ public class SSRESTLearnEp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -772,7 +776,7 @@ public class SSRESTLearnEp{
       }
       
       try{
-        final SSLearnEpClientI learnEpServ = (SSLearnEpClientI) SSServReg.getClientServ(SSLearnEpClientI.class);
+        
         
         return Response.status(200).entity(learnEpServ.learnEpVersionEntityAdd(SSClientE.rest, par)).build();
         
@@ -815,7 +819,7 @@ public class SSRESTLearnEp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -849,7 +853,7 @@ public class SSRESTLearnEp{
       }
       
       try{
-        final SSLearnEpClientI learnEpServ = (SSLearnEpClientI) SSServReg.getClientServ(SSLearnEpClientI.class);
+        
         
         return Response.status(200).entity(learnEpServ.learnEpVersionCircleUpdate(SSClientE.rest, par)).build();
         
@@ -891,7 +895,7 @@ public class SSRESTLearnEp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -920,7 +924,7 @@ public class SSRESTLearnEp{
       }
       
       try{
-        final SSLearnEpClientI learnEpServ = (SSLearnEpClientI) SSServReg.getClientServ(SSLearnEpClientI.class);
+        
         
         return Response.status(200).entity(learnEpServ.learnEpVersionEntityUpdate(SSClientE.rest, par)).build();
         
@@ -960,7 +964,7 @@ public class SSRESTLearnEp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -986,7 +990,7 @@ public class SSRESTLearnEp{
       }
       
       try{
-        final SSLearnEpClientI learnEpServ = (SSLearnEpClientI) SSServReg.getClientServ(SSLearnEpClientI.class);
+        
         
         return Response.status(200).entity(learnEpServ.learnEpVersionCircleRemove(SSClientE.rest, par)).build();
         
@@ -1026,7 +1030,7 @@ public class SSRESTLearnEp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -1052,7 +1056,7 @@ public class SSRESTLearnEp{
       }
       
       try{
-        final SSLearnEpClientI learnEpServ = (SSLearnEpClientI) SSServReg.getClientServ(SSLearnEpClientI.class);
+        
         
         return Response.status(200).entity(learnEpServ.learnEpVersionEntityRemove(SSClientE.rest, par)).build();
         
@@ -1091,7 +1095,7 @@ public class SSRESTLearnEp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -1118,7 +1122,7 @@ public class SSRESTLearnEp{
       }
       
       try{
-        final SSLearnEpClientI learnEpServ = (SSLearnEpClientI) SSServReg.getClientServ(SSLearnEpClientI.class);
+        
         
         return Response.status(200).entity(learnEpServ.learnEpTimelineStateSet(SSClientE.rest, par)).build();
         
@@ -1155,7 +1159,7 @@ public class SSRESTLearnEp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -1179,7 +1183,7 @@ public class SSRESTLearnEp{
       }
       
       try{
-        final SSLearnEpClientI learnEpServ = (SSLearnEpClientI) SSServReg.getClientServ(SSLearnEpClientI.class);
+        
         
         return Response.status(200).entity(learnEpServ.learnEpTimelineStateGet(SSClientE.rest, par)).build();
         
@@ -1219,7 +1223,7 @@ public class SSRESTLearnEp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -1244,7 +1248,7 @@ public class SSRESTLearnEp{
       }
       
       try{
-        final SSLearnEpClientI learnEpServ = (SSLearnEpClientI) SSServReg.getClientServ(SSLearnEpClientI.class);
+        
         
         return Response.status(200).entity(learnEpServ.learnEpsLockHold(SSClientE.rest, par)).build();
         
@@ -1284,7 +1288,7 @@ public class SSRESTLearnEp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -1311,7 +1315,7 @@ public class SSRESTLearnEp{
       }
       
       try{
-        final SSLearnEpClientI learnEpServ = (SSLearnEpClientI) SSServReg.getClientServ(SSLearnEpClientI.class);
+        
         
         return Response.status(200).entity(learnEpServ.learnEpLockSet(SSClientE.rest, par)).build();
         
@@ -1351,7 +1355,7 @@ public class SSRESTLearnEp{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -1378,7 +1382,7 @@ public class SSRESTLearnEp{
       }
       
       try{
-        final SSLearnEpClientI learnEpServ = (SSLearnEpClientI) SSServReg.getClientServ(SSLearnEpClientI.class);
+        
         
         return Response.status(200).entity(learnEpServ.learnEpLockRemove(SSClientE.rest, par)).build();
         

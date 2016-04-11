@@ -20,17 +20,16 @@
   */
 package at.tugraz.sss.adapter.rest.v3;
 
-import at.tugraz.sss.servs.recomm.api.*;
-import at.tugraz.sss.servs.recomm.datatype.*;
 import at.tugraz.sss.servs.recomm.datatype.*;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.servs.db.impl.*;
+import at.tugraz.sss.servs.recomm.api.*;
+import at.tugraz.sss.servs.recomm.impl.*;
 import io.swagger.annotations.*;
 import java.io.*;
 import java.sql.*;
@@ -51,6 +50,9 @@ import org.glassfish.jersey.media.multipart.*;
 @Path("rest/recomm")
 @Api( value = "recomm")
 public class SSRESTRecomm{
+  
+  private final SSRecommClientI recommServ = new SSRecommImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -79,7 +81,7 @@ public class SSRESTRecomm{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -107,7 +109,7 @@ public class SSRESTRecomm{
       }
       
       try{
-        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
         
         return Response.status(200).entity(recommServ.recommUpdate(SSClientE.rest, par)).build();
         
@@ -156,7 +158,7 @@ public class SSRESTRecomm{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -183,7 +185,7 @@ public class SSRESTRecomm{
       }
       
       try{
-        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
         
         return Response.status(200).entity(recommServ.recommUpdateBulk(SSClientE.rest, par)).build();
         
@@ -222,7 +224,7 @@ public class SSRESTRecomm{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -250,7 +252,7 @@ public class SSRESTRecomm{
       }
       
       try{
-        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
         
         return Response.status(200).entity(recommServ.recommUpdateBulkEntities(SSClientE.rest, par)).build();
         
@@ -287,7 +289,7 @@ public class SSRESTRecomm{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -318,7 +320,7 @@ public class SSRESTRecomm{
       }
       
       try{
-        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
         
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
@@ -361,7 +363,7 @@ public class SSRESTRecomm{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -392,7 +394,7 @@ public class SSRESTRecomm{
       }
       
       try{
-        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
         
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
@@ -435,7 +437,7 @@ public class SSRESTRecomm{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -466,7 +468,7 @@ public class SSRESTRecomm{
       }
       
       try{
-        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
         
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
@@ -515,7 +517,7 @@ public class SSRESTRecomm{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -546,7 +548,7 @@ public class SSRESTRecomm{
       }
       
       try{
-        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
         
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
@@ -601,7 +603,7 @@ public class SSRESTRecomm{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -632,7 +634,7 @@ public class SSRESTRecomm{
       }
       
       try{
-        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
         
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
@@ -687,7 +689,7 @@ public class SSRESTRecomm{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -718,7 +720,7 @@ public class SSRESTRecomm{
       }
       
       try{
-        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
         
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
@@ -761,7 +763,7 @@ public class SSRESTRecomm{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -792,7 +794,7 @@ public class SSRESTRecomm{
       }
       
       try{
-        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
         
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
@@ -841,7 +843,7 @@ public class SSRESTRecomm{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -873,7 +875,7 @@ public class SSRESTRecomm{
       }
       
       try{
-        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
         
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
@@ -922,7 +924,7 @@ public class SSRESTRecomm{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -953,7 +955,7 @@ public class SSRESTRecomm{
       }
       
       try{
-        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
         
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
@@ -996,7 +998,7 @@ public class SSRESTRecomm{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -1027,7 +1029,7 @@ public class SSRESTRecomm{
       }
       
       try{
-        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
         
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
@@ -1076,7 +1078,7 @@ public class SSRESTRecomm{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -1107,7 +1109,7 @@ public class SSRESTRecomm{
       }
       
       try{
-        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
         
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
@@ -1157,7 +1159,7 @@ public class SSRESTRecomm{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -1188,7 +1190,7 @@ public class SSRESTRecomm{
       }
       
       try{
-        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
         
         return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
         
@@ -1228,7 +1230,7 @@ public class SSRESTRecomm{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -1262,7 +1264,7 @@ public class SSRESTRecomm{
       }
       
       try{
-        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
         
         return Response.status(200).entity(recommServ.recommResources(SSClientE.rest, par)).build();
         
@@ -1301,7 +1303,7 @@ public class SSRESTRecomm{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -1335,7 +1337,7 @@ public class SSRESTRecomm{
       }
       
       try{
-        final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+        
         
         return Response.status(200).entity(recommServ.recommTags(SSClientE.rest, par)).build();
         

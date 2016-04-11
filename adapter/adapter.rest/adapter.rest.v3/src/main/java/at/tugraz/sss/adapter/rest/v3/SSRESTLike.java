@@ -21,7 +21,6 @@
 package at.tugraz.sss.adapter.rest.v3;
 
 import at.tugraz.sss.servs.like.api.*;
-import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.tugraz.sss.servs.like.datatype.SSLikeUserSetPar;
 import at.tugraz.sss.servs.like.datatype.SSLikeUserSetRet;
 import at.tugraz.sss.serv.conf.SSConf;
@@ -29,8 +28,9 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.db.impl.*;
+import at.tugraz.sss.servs.like.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -47,6 +47,9 @@ import javax.ws.rs.core.Response;
 @Path("/likes")
 @Api( value = "likes")
 public class SSRESTLike{
+  
+  private final SSLikeClientI likeServ = new SSLikeImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -79,7 +82,7 @@ public class SSRESTLike{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -106,10 +109,7 @@ public class SSRESTLike{
       }
       
       try{
-        final SSLikeClientI likeServ = (SSLikeClientI) SSServReg.getClientServ(SSLikeClientI.class);
-        
         return Response.status(200).entity(likeServ.likeSet(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }

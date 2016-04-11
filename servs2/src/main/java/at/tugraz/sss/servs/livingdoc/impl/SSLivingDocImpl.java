@@ -20,14 +20,10 @@
  */
 package at.tugraz.sss.servs.livingdoc.impl;
 
-import at.tugraz.sss.servs.activity.api.*;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.servs.disc.api.SSDiscServerI;
 import at.tugraz.sss.servs.disc.datatype.SSDiscTargetsAddPar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
 import at.tugraz.sss.serv.datatype.SSEntity;
@@ -35,24 +31,19 @@ import at.tugraz.sss.serv.datatype.SSEntityContext;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.servs.common.api.SSPushEntitiesToUsersI;
 import at.tugraz.sss.serv.datatype.par.SSPushEntitiesToUsersPar;
-import at.tugraz.sss.serv.reg.SSServErrReg;
-
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.servs.livingdoc.api.SSLivingDocClientI;
 import at.tugraz.sss.servs.livingdoc.api.SSLivingDocServerI;
-import at.tugraz.sss.servs.livingdoc.conf.SSLivingDocConf;
 import at.tugraz.sss.servs.livingdoc.datatype.SSLivingDocument;
 import at.tugraz.sss.servs.livingdoc.datatype.SSLivingDocAddPar;
 import at.tugraz.sss.servs.livingdoc.datatype.SSLivingDocGetPar;
@@ -64,15 +55,16 @@ import at.tugraz.sss.servs.livingdoc.datatype.SSLivingDocGetRet;
 import at.tugraz.sss.servs.livingdoc.datatype.SSLivingDocRemoveRet;
 import at.tugraz.sss.servs.livingdoc.datatype.SSLivingDocUpdateRet;
 import at.tugraz.sss.servs.livingdoc.datatype.SSLivingDocsGetRet;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
-import at.tugraz.sss.servs.eval.api.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.servs.common.api.SSGetUsersResourcesI;
+import at.tugraz.sss.servs.conf.*;
+import at.tugraz.sss.servs.disc.impl.*;
+import at.tugraz.sss.servs.entity.impl.*;
 
 public class SSLivingDocImpl 
-extends SSServImplA
+extends SSEntityImpl
 implements
   SSLivingDocClientI,
   SSLivingDocServerI,
@@ -80,26 +72,11 @@ implements
   SSPushEntitiesToUsersI, 
   SSGetUsersResourcesI{
   
-  private final SSLivingDocSQLFct                     sql;
-  private final SSLivingDocConf                       livingDocConf;
-  private final SSUserCommons                         userCommons;
-  private final SSLivingDocActAndLogFct               actAndLogFct;
-  private final SSDBSQLI                              dbSQL;
-  private final SSDBNoSQLI                            dbNoSQL;
+  private final SSLivingDocSQLFct                     sql          = new SSLivingDocSQLFct(dbSQL);
+  private final SSLivingDocActAndLogFct               actAndLogFct = new SSLivingDocActAndLogFct();
   
-  public SSLivingDocImpl(final SSConfA conf) throws SSErr{
-    
-    super(conf);
-    
-    this.dbSQL          = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
-    this.dbNoSQL        = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
-    this.livingDocConf  = (SSLivingDocConf) conf;
-    this.sql            = new SSLivingDocSQLFct(dbSQL);
-    this.userCommons    = new SSUserCommons();
-    this.actAndLogFct   =
-      new SSLivingDocActAndLogFct(
-        (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class),
-        (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class));
+  public SSLivingDocImpl(){
+    super(SSCoreConf.instGet().getLivingDocument());
   }
   
   @Override
@@ -205,7 +182,7 @@ implements
         
         if(par.discussion != null){
           
-          final SSDiscServerI discServ = (SSDiscServerI) SSServReg.getServ(SSDiscServerI.class);
+          final SSDiscServerI discServ = new SSDiscImpl();
           final List<SSUri>   targets  = new ArrayList<>();
           
           targets.add(livingDocURI);
@@ -238,13 +215,12 @@ implements
         throw SSErr.get(SSErrE.parameterMissing);
       }
       
-      final SSEntityServerI  entityServ    = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSUri            livingDocUri;
       
       dbSQL.startTrans(par, par.shouldCommit);
       
       livingDocUri =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par,
             par.user,
@@ -301,7 +277,7 @@ implements
         
         if(par.discussion != null){
           
-          final SSDiscServerI discServ = (SSDiscServerI) SSServReg.getServ(SSDiscServerI.class);
+          final SSDiscServerI discServ = new SSDiscImpl();
           final List<SSUri>   targets  = new ArrayList<>();
           
           targets.add(livingDocURI);
@@ -330,13 +306,12 @@ implements
     
     try{
       
-      final SSEntityServerI  entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSUri            livingDocURI;
       
       dbSQL.startTrans(par, par.shouldCommit);
       
       livingDocURI =
-        entityServ.entityUpdate(
+        entityUpdate(
           new SSEntityUpdatePar(
             par,
             par.user,
@@ -463,9 +438,8 @@ implements
         descPar = null;
       }
 
-      final SSEntityServerI  entityServ       = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      final SSEntity         livingDocEntity  =
-        entityServ.entityGet(
+      final SSEntity livingDocEntity  =
+        entityGet(
           new SSEntityGetPar(
             par,
             par.user,
@@ -491,7 +465,7 @@ implements
       descPar = new SSEntityDescriberPar(livingDoc.id);
       
       livingDoc.users.addAll(
-        entityServ.entitiesGet(
+        entitiesGet(
           new SSEntitiesGetPar(
             par,
             par.user,

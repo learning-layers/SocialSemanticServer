@@ -21,15 +21,14 @@
 package at.tugraz.sss.servs.dataimport.impl;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.reg.SSServErrReg;
+import at.tugraz.sss.serv.errreg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.reg.*;
 import java.util.*;
 import at.tugraz.sss.servs.eval.api.SSEvalServerI;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogE;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogPar;
+import at.tugraz.sss.servs.eval.impl.*;
 
 public class SSDataImportActAndLog {
   
@@ -44,7 +43,7 @@ public class SSDataImportActAndLog {
     
     try{
       
-      final SSEvalServerI     evalServ = (SSEvalServerI)      SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalServerI evalServ = new SSEvalImpl();
     
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -58,13 +57,6 @@ public class SSDataImportActAndLog {
           null, //users
           creationTime, //creationTime
           shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -81,7 +73,7 @@ public class SSDataImportActAndLog {
     
     try{
       
-      final SSEvalServerI     evalServ = (SSEvalServerI)      SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalServerI evalServ = new SSEvalImpl();
     
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -95,13 +87,6 @@ public class SSDataImportActAndLog {
           null, //users
           creationTime, //creationTime
           shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -119,7 +104,7 @@ public class SSDataImportActAndLog {
     
     try{
       
-      final SSEvalServerI     evalServ = (SSEvalServerI)      SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalServerI evalServ = new SSEvalImpl();
     
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -133,13 +118,6 @@ public class SSDataImportActAndLog {
           null, //users
           creationTime, //creationTime
           shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -157,7 +135,7 @@ public class SSDataImportActAndLog {
     
     try{
       
-      final SSEvalServerI     evalServ = (SSEvalServerI)      SSServReg.getServ(SSEvalServerI.class);
+      final SSEvalServerI evalServ = new SSEvalImpl();
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -171,13 +149,6 @@ public class SSDataImportActAndLog {
           null, //users
           creationTime, //creationTime
           shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case servInvalid: SSLogU.warn(error); break;
-        default:{ SSServErrReg.regErrThrow(error); break;}
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

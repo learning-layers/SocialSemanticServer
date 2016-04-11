@@ -23,17 +23,16 @@ package at.tugraz.sss.adapter.rest.v3;
 import at.tugraz.sss.servs.message.datatype.SSMessagesGetRESTPar;
 import at.tugraz.sss.servs.message.datatype.SSMessageSendRESTPar;
 import at.tugraz.sss.servs.message.api.*;
-import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.tugraz.sss.servs.message.datatype.SSMessageSendPar;
 import at.tugraz.sss.servs.message.datatype.SSMessagesGetPar;
 import at.tugraz.sss.servs.message.datatype.SSMessageSendRet;
 import at.tugraz.sss.servs.message.datatype.SSMessagesGetRet;
-import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.db.impl.*;
+import at.tugraz.sss.servs.message.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -49,6 +48,9 @@ import javax.ws.rs.core.Response;
 @Path("/messages")
 @Api( value = "messages")
 public class SSRESTMessage{
+  
+  private final SSMessageClientI messageServ = new SSMessageImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -77,7 +79,7 @@ public class SSRESTMessage{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -105,10 +107,7 @@ public class SSRESTMessage{
       }
       
       try{
-        final SSMessageClientI messageServ = (SSMessageClientI) SSServReg.getClientServ(SSMessageClientI.class);
-        
         return Response.status(200).entity(messageServ.messagesGet(SSClientE.rest, par)).build();
-        
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -143,7 +142,7 @@ public class SSRESTMessage{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -169,7 +168,7 @@ public class SSRESTMessage{
       }
       
       try{
-        final SSMessageClientI messageServ = (SSMessageClientI) SSServReg.getClientServ(SSMessageClientI.class);
+        
         
         return Response.status(200).entity(messageServ.messageSend(SSClientE.rest, par)).build();
         

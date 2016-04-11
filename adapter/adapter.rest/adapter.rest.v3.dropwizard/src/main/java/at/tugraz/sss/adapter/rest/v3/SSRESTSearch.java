@@ -20,15 +20,16 @@
  */
 package at.tugraz.sss.adapter.rest.v3;
 
-import at.tugraz.sss.servs.search.api.*;
 import at.tugraz.sss.servs.search.datatype.SSSearchPar;
 import at.tugraz.sss.servs.search.datatype.SSSearchRet;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.db.impl.*;
+import at.tugraz.sss.servs.search.api.*;
 import at.tugraz.sss.servs.search.datatype.*;
+import at.tugraz.sss.servs.search.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -44,6 +45,9 @@ import javax.ws.rs.core.Response;
 @Path("rest/search")
 @Api( value = "search")
 public class SSRESTSearch{
+  
+  private final SSSearchClientI searchServ = new SSSearchImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -72,7 +76,7 @@ public class SSRESTSearch{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -81,8 +85,7 @@ public class SSRESTSearch{
         
         par =
           new SSSearchPar(
-            new SSServPar
-        (((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection()),
+            new SSServPar(sqlCon),
             null,
             input.documentContentsToSearchFor,
             input.tagsToSearchFor,
@@ -117,7 +120,7 @@ public class SSRESTSearch{
       }
       
       try{
-        final SSSearchClientI searchServ = (SSSearchClientI) SSServReg.getClientServ(SSSearchClientI.class);
+        
         
         return Response.status(200).entity(searchServ.search(SSClientE.rest, par)).build();
         

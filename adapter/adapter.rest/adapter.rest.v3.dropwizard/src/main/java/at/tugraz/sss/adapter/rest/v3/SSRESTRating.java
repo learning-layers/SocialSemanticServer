@@ -21,7 +21,6 @@
 package at.tugraz.sss.adapter.rest.v3;
 
 import at.tugraz.sss.servs.rating.api.*;
-import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.servs.rating.datatype.SSRatingOverallGetPar;
 import at.tugraz.sss.servs.rating.datatype.SSRatingSetPar;
@@ -31,8 +30,9 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.db.impl.*;
+import at.tugraz.sss.servs.rating.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;
 import javax.annotation.*;
@@ -50,6 +50,9 @@ import javax.ws.rs.core.Response;
 @Path("rest/ratings")
 @Api( value = "ratings")
 public class SSRESTRating{
+  
+  private final SSRatingClientI ratingServ = new SSRatingImpl();
+  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){
@@ -79,7 +82,7 @@ public class SSRESTRating{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -88,8 +91,7 @@ public class SSRESTRating{
         
         par =
           new SSRatingOverallGetPar(
-            new SSServPar
-    (((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection()),
+            new SSServPar(sqlCon),
             null,
             SSUri.get(entity, SSConf.sssUri),
             true); //withUserRestriction
@@ -105,7 +107,7 @@ public class SSRESTRating{
       }
       
       try{
-        final SSRatingClientI ratingServ = (SSRatingClientI) SSServReg.getClientServ(SSRatingClientI.class);
+        
         
         return Response.status(200).entity(ratingServ.ratingOverallGet(SSClientE.rest, par)).build();
         
@@ -148,7 +150,7 @@ public class SSRESTRating{
     try{
       
       try{
-        sqlCon = ((SSDBSQLI) SSServReg.getServ(SSDBSQLI.class)).createConnection();
+        sqlCon = dbSQL.createConnection();
       }catch(Exception error){
         return SSRESTCommons.prepareErrorResponse(error);
       }
@@ -176,7 +178,7 @@ public class SSRESTRating{
       }
       
       try{
-        final SSRatingClientI ratingServ = (SSRatingClientI) SSServReg.getClientServ(SSRatingClientI.class);
+        
         
         return Response.status(200).entity(ratingServ.ratingSet(SSClientE.rest, par)).build();
         
