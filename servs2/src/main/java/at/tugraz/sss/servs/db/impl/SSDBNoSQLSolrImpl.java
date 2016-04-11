@@ -30,8 +30,8 @@ import at.tugraz.sss.serv.datatype.par.SSDBNoSQLRemoveDocPar;
 import at.tugraz.sss.serv.datatype.par.SSDBNoSQLSearchPar;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.impl.api.SSServImplDBA;
 import at.tugraz.sss.serv.datatype.enums.SSSolrSearchFieldE;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.util.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ import org.apache.solr.common.util.ContentStreamBase;
 import org.apache.solr.common.util.NamedList;
 
 public class SSDBNoSQLSolrImpl
-extends SSServImplDBA
+extends SSServImplA
 implements SSDBNoSQLI{
 
 //  @Override
@@ -102,11 +102,6 @@ implements SSDBNoSQLI{
     solrConf = (SSDBNoSQLConf) conf;
       
     connectToSolr();
-  }
-
-  @Override
-  public void destroy() throws SSErr{
-    
   }
 
   private void connectToSolr() throws SSErr{

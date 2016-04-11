@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
+import at.tugraz.sss.servs.common.impl.*;
 import at.tugraz.sss.servs.location.api.SSLocationClientI;
 import at.tugraz.sss.servs.location.api.SSLocationServerI;
 import at.tugraz.sss.servs.location.impl.SSLocationImpl;
@@ -70,7 +71,7 @@ public class SSLocationServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForHandlingDescribeEntity(this);
+    new SSDescribeEntity().regServ(this);
     
     return this;
   }
@@ -81,13 +82,6 @@ public class SSLocationServ extends SSServContainerI{
     if(!conf.use){
       return;
     }
-  }
-  
-  @Override
-  public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA, 
-    final List<Class> configuredServs) throws SSErr{
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
   
   @Override

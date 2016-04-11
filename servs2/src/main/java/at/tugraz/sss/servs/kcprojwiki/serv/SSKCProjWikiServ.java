@@ -20,6 +20,7 @@
  */
 package at.tugraz.sss.servs.kcprojwiki.serv;
 
+import at.tugraz.sss.serv.conf.*;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.util.SSLogU;
@@ -116,16 +117,11 @@ public class SSKCProjWikiServ extends SSServContainerI{
         
         if(SSStrU.isEqual(scheduleOp, SSVarNames.kcprojwikiImport)){
           
-          SSServReg.regScheduler(
+          new SSSchedules().regScheduler(
             SSDateU.scheduleNow(
               new SSKCProjWikiImportTask()));
         }
       }
     }
-  }
-
-  @Override
-  public SSCoreConfA getConfForCloudDeployment(SSCoreConfA coreConfA, List<Class> configuredServs) throws SSErr {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

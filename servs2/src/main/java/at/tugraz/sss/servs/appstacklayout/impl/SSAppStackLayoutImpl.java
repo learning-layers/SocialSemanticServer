@@ -30,7 +30,7 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
+
 import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import at.tugraz.sss.servs.appstacklayout.api.SSAppStackLayoutClientI;
 import at.tugraz.sss.servs.appstacklayout.api.SSAppStackLayoutServerI;
@@ -46,7 +46,7 @@ import at.tugraz.sss.servs.appstacklayout.datatype.SSAppStackLayoutUpdateRet;
 import at.tugraz.sss.servs.appstacklayout.datatype.SSAppStackLayoutsGetRet;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
+import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import java.util.ArrayList;
@@ -55,27 +55,31 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.eval.api.*;
 
 public class SSAppStackLayoutImpl
-extends SSServImplWithDBA
+extends SSServImplA
 implements
   SSAppStackLayoutClientI,
   SSAppStackLayoutServerI,
   SSDescribeEntityI{
   
-  private final SSAppStackLayoutSQLFct       sql;
-  private final SSUserCommons                userCommons;
-  private final SSAppStackLayoutActAndLogFct actAndLogFct;
+  private final SSAppStackLayoutSQLFct                sql;
+  private final SSUserCommons                         userCommons = new SSUserCommons();
+  private final SSAppStackLayoutActAndLogFct          actAndLogFct;
+  private final SSDBSQLI                              dbSQL;
+  private final SSDBNoSQLI                            dbNoSQL;
   
   public SSAppStackLayoutImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
+    super(conf);
     
-    this.sql          = new SSAppStackLayoutSQLFct(dbSQL);
-    this.userCommons  = new SSUserCommons();
-    this.actAndLogFct =
+    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
+    this.sql           = new SSAppStackLayoutSQLFct(dbSQL);
+    this.actAndLogFct  =
       new SSAppStackLayoutActAndLogFct(
         (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class),
         (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class));

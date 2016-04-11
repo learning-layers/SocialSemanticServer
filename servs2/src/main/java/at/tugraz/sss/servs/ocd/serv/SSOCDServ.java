@@ -80,10 +80,5 @@ public class SSOCDServ extends SSServContainerI{
     SSServReg.inst.regServ(this);
     
     return this;
-  }
-  
-  @Override
-  public SSCoreConfA getConfForCloudDeployment(SSCoreConfA coreConfA, List<Class> configuredServs) throws SSErr {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
+  }  
 }

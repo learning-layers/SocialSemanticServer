@@ -20,7 +20,6 @@
 */
 package at.tugraz.sss.serv.entity.api;
 
-import at.tugraz.sss.serv.impl.api.SSServServerI;
 import at.tugraz.sss.serv.datatype.SSCircle;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.*;

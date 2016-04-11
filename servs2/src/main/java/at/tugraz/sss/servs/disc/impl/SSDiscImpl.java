@@ -44,28 +44,14 @@ import at.tugraz.sss.servs.disc.datatype.SSDiscEntryAcceptPar;
 import at.tugraz.sss.servs.disc.datatype.SSDiscEntryAddFromClientPar;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.serv.entity.api.SSUserRelationGathererI;
-import at.tugraz.sss.serv.entity.api.SSUsersResourcesGathererI;
 import at.tugraz.sss.servs.common.impl.SSUserCommons;
-import at.tugraz.sss.servs.disc.datatype.SSDiscEntryUpdatePar;
-import at.tugraz.sss.servs.disc.datatype.SSDiscRemovePar;
-import at.tugraz.sss.servs.disc.datatype.SSDiscTargetsAddPar;
-import at.tugraz.sss.servs.disc.datatype.SSDiscUpdatePar;
-import at.tugraz.sss.servs.disc.datatype.SSDiscDailySummaryGetRet;
-import at.tugraz.sss.servs.disc.datatype.SSDiscEntryAcceptRet;
-import at.tugraz.sss.servs.disc.datatype.SSDiscEntryAddRet;
-import at.tugraz.sss.servs.disc.datatype.SSDiscEntryUpdateRet;
-import at.tugraz.sss.servs.disc.datatype.SSDiscGetRet;
-import at.tugraz.sss.servs.disc.datatype.SSDiscTargetsAddRet;
-import at.tugraz.sss.servs.disc.datatype.SSDiscUpdateRet;
-import at.tugraz.sss.servs.disc.datatype.SSDiscsGetRet;
-import at.tugraz.sss.serv.entity.api.SSAddAffiliatedEntitiesToCircleI;
+import at.tugraz.sss.servs.disc.datatype.*;
+import at.tugraz.sss.servs.common.api.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.datatype.par.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.datatype.par.SSCircleIsEntityPrivatePar;
 import at.tugraz.sss.serv.datatype.par.SSCirclesGetPar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
+import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.par.SSEntityAttachEntitiesPar;
 import at.tugraz.sss.serv.datatype.SSEntityContext;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
@@ -73,16 +59,17 @@ import at.tugraz.sss.serv.datatype.par.SSEntityEntitiesAttachedRemovePar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import java.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.entity.api.SSGetParentEntitiesI;
-import at.tugraz.sss.serv.entity.api.SSGetSubEntitiesI;
-import at.tugraz.sss.serv.entity.api.SSPushEntitiesToUsersI;
+import at.tugraz.sss.servs.common.api.SSGetParentEntitiesI;
+import at.tugraz.sss.servs.common.api.SSGetSubEntitiesI;
+import at.tugraz.sss.servs.common.api.SSPushEntitiesToUsersI;
 import at.tugraz.sss.serv.datatype.par.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
-import at.tugraz.sss.servs.disc.datatype.*;
 import at.tugraz.sss.servs.entity.impl.SSEntityImpl;
+import at.tugraz.sss.servs.common.api.SSGetUsersResourcesI;
+import at.tugraz.sss.servs.common.api.SSGetUserRelationsI;
 
 public class SSDiscImpl
 extends SSEntityImpl
@@ -94,19 +81,21 @@ implements
   SSPushEntitiesToUsersI,
   SSGetSubEntitiesI,
   SSGetParentEntitiesI,
-  SSUserRelationGathererI,
-  SSUsersResourcesGathererI{
+  SSGetUserRelationsI,
+  SSGetUsersResourcesI{
   
-  private final SSDiscActAndLog      actAndLog       = new SSDiscActAndLog();
-  private final SSUserCommons        userCommons     = new SSUserCommons();
-  private final SSDiscSummaryCommons summaryCommons  = new SSDiscSummaryCommons();
-  private final SSDiscSQL            sql;
+  private final SSDiscActAndLog                       actAndLog       = new SSDiscActAndLog();
+  private final SSUserCommons                         userCommons     = new SSUserCommons();
+  private final SSDiscSummaryCommons                  summaryCommons  = new SSDiscSummaryCommons();
+  private final SSDiscSQL                             sql;
+  private final SSDBSQLI                              dbSQL;
   
   public SSDiscImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
+    super(conf);
     
-    this.sql = new SSDiscSQL(this);
+    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.sql           = new SSDiscSQL(dbSQL);
   }
   
   @Override
@@ -447,7 +436,7 @@ implements
       
       SSEntity.addEntitiesDistinctWithoutNull(
         affiliatedEntities,
-        SSServReg.inst.addAffiliatedEntitiesToCircle(
+        addAffiliatedEntitiesToCircle.addAffiliatedEntitiesToCircle(
           servPar, 
           par.user,
           par.circle,

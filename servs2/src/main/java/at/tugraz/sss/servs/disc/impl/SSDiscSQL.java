@@ -22,7 +22,7 @@ package at.tugraz.sss.servs.disc.impl;
 
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
+
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.enums.*;
@@ -41,9 +41,9 @@ import java.util.Map;
 public class SSDiscSQL extends SSCoreSQL {
 
   public SSDiscSQL(
-    final SSServImplWithDBA serv){
+    final SSDBSQLI dbSQLI){
     
-    super(serv.dbSQL);
+    super(dbSQLI);
   }
 
   public List<SSUri> getDiscUserURIs(

@@ -61,7 +61,6 @@ import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import engine.Algorithm;
 import engine.EntityType;
@@ -74,6 +73,7 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
+import at.tugraz.sss.serv.impl.api.*;
 import engine.EntityRecommenderEngine;
 import engine.TagRecommenderEvalEngine;
 import java.io.*;
@@ -83,8 +83,7 @@ import at.tugraz.sss.servs.eval.datatype.SSEvalLogE;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogPar;
 
 public class SSRecommImpl 
-extends 
-  SSServImplWithDBA
+extends SSServImplA
 implements 
   SSRecommClientI, 
   SSRecommServerI{
@@ -94,12 +93,16 @@ implements
   private final SSRecommTagCommons          recommTagCommons = new SSRecommTagCommons();
   private final SSRecommUserRealmKeeper     userRealmKeeper  = new SSRecommUserRealmKeeper();
   private final SSRecommSQL                 sql;
+  private final SSDBSQLI                    dbSQL;
+  private final SSDBNoSQLI                  dbNoSQL;  
   
   public SSRecommImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
+    super(conf);
     
-    this.sql = new SSRecommSQL(dbSQL);
+    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
+    this.sql           = new SSRecommSQL(dbSQL);
   }
   
   @Override

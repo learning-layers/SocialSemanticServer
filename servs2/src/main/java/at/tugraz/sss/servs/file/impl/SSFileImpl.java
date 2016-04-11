@@ -30,7 +30,6 @@ import at.tugraz.sss.servs.file.datatype.SSFileDownloadPar;
 import at.tugraz.sss.servs.file.datatype.SSFileUploadPar;
 import at.tugraz.sss.servs.file.datatype.SSFilesDeleteNotRegisteredPar;
 import at.tugraz.sss.servs.file.datatype.SSFile;
-import at.tugraz.sss.servs.file.api.*;
 import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
@@ -46,12 +45,12 @@ import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import at.tugraz.sss.adapter.socket.*;
-import at.tugraz.sss.serv.entity.api.SSAddAffiliatedEntitiesToCircleI;
+import at.tugraz.sss.servs.common.api.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.datatype.par.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
+import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
@@ -59,12 +58,12 @@ import at.tugraz.sss.serv.util.SSFileU;
 import at.tugraz.sss.serv.datatype.enums.SSImageE;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.servs.file.datatype.SSFileGetPar;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.datatype.SSImageAddPar;
@@ -77,20 +76,25 @@ import at.tugraz.sss.servs.eval.datatype.SSEvalLogE;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogPar;
 
 public class SSFileImpl 
-extends SSServImplWithDBA
+extends SSServImplA
 implements 
   SSFileClientI, 
   SSFileServerI, 
   SSDescribeEntityI,
   SSAddAffiliatedEntitiesToCircleI{
 
-  private final SSUserCommons   userCommons = new SSUserCommons();
-  private final SSFileSQL       sql;
+  private final SSUserCommons                         userCommons = new SSUserCommons();
+  private final SSFileSQL                             sql;
+  private final SSDBSQLI                              dbSQL;
+  private final SSDBNoSQLI                            dbNoSQL;  
   
   public SSFileImpl(
     final SSFileConf conf) throws SSErr{
 
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
+    super(conf);
+    
+    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
     
     this.sql = new SSFileSQL (dbSQL);
   }

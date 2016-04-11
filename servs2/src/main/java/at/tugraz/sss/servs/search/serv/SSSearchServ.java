@@ -20,6 +20,7 @@
 */
  package at.tugraz.sss.servs.search.serv;
 
+import at.tugraz.sss.serv.conf.*;
 import at.tugraz.sss.servs.search.impl.SSSearchImpl;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
@@ -31,7 +32,6 @@ import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import java.util.List;
 
 public class SSSearchServ extends SSServContainerI{
   
@@ -82,17 +82,10 @@ public class SSSearchServ extends SSServContainerI{
       return;
     }
     
-    SSServReg.regScheduler(
+    new SSSchedules().regScheduler(
       SSDateU.scheduleWithFixedDelay(
         new SSSearchResultPagesCacheCleanerTask(),
         SSDateU.getDatePlusMinutes(5),
         5 * SSDateU.minuteInMilliSeconds));
-  }
-  
-  @Override
-  public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA, 
-    final List<Class> configuredServs) throws SSErr{
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

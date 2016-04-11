@@ -31,7 +31,6 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import at.tugraz.sss.servs.app.api.SSAppServerI;
 import at.tugraz.sss.servs.app.api.SSAppClientI;
@@ -45,7 +44,7 @@ import at.tugraz.sss.servs.app.datatype.SSAppsDeleteRet;
 import at.tugraz.sss.servs.app.datatype.SSAppsGetRet;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
+import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import java.util.ArrayList;
@@ -55,6 +54,7 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.eval.api.SSEvalServerI;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
@@ -63,23 +63,26 @@ import at.tugraz.sss.servs.video.api.*;
 import at.tugraz.sss.servs.video.datatype.*;
 
 public class SSAppImpl
-extends SSServImplWithDBA
+extends SSServImplA
 implements
   SSAppClientI,
   SSAppServerI,
   SSDescribeEntityI{
   
-  private final SSAppSQLFct      sqlFct;
-  private final SSUserCommons     userCommons;
-  private final SSAppActAndLogFct actAndLogFct;
+  private final SSAppSQLFct                           sqlFct;
+  private final SSUserCommons                         userCommons = new SSUserCommons();
+  private final SSAppActAndLogFct                     actAndLogFct;
+  private final SSDBSQLI                              dbSQL;
+  private final SSDBNoSQLI                            dbNoSQL;
   
   public SSAppImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
+    super(conf);
     
-    this.sqlFct       = new SSAppSQLFct(dbSQL);
-    this.userCommons  = new SSUserCommons();
-    this.actAndLogFct =
+    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
+    this.sqlFct        = new SSAppSQLFct(dbSQL);
+    this.actAndLogFct  =
       new SSAppActAndLogFct(
         (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class),
         (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class));

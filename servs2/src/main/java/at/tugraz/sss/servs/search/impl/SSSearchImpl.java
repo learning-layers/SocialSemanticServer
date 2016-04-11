@@ -52,18 +52,19 @@ import java.util.*;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
+
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import at.tugraz.sss.servs.common.impl.SSEntityQueryCacheU;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
 import at.tugraz.sss.serv.db.api.SSCoreSQL;
 import at.tugraz.sss.serv.datatype.par.SSEntityURIsGetPar;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.servs.eval.api.*;
 import at.tugraz.sss.servs.eval.datatype.*;
 
 public class SSSearchImpl
-extends SSServImplWithDBA
+extends SSServImplA
 implements
   SSSearchClientI,
   SSSearchServerI{
@@ -72,10 +73,15 @@ implements
   private final Map<String, SSEntityResultPages> searchResultPagesCache = new HashMap<>();
   private final SSCoreSQL                        sql;
   private final SSSearchNoSQL                    noSQL;
+  private final SSDBSQLI                         dbSQL;
+  private final SSDBNoSQLI                       dbNoSQL;
   
   public SSSearchImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
+    super(conf);
+    
+    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
     
     this.sql      = new SSCoreSQL     (dbSQL);
     this.noSQL    = new SSSearchNoSQL (dbNoSQL);

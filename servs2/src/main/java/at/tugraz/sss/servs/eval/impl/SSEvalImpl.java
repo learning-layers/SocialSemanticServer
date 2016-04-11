@@ -34,7 +34,6 @@ import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.servs.common.impl.SSUserCommons;
@@ -53,6 +52,7 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.eval.conf.SSEvalConf;
 import at.tugraz.sss.servs.learnep.api.*;
@@ -60,7 +60,7 @@ import at.tugraz.sss.servs.learnep.datatype.*;
 import java.util.Date;
 
 public class SSEvalImpl 
-extends SSServImplWithDBA 
+extends SSServImplA 
 implements 
   SSEvalClientI, 
   SSEvalServerI{
@@ -73,7 +73,7 @@ implements
   
   public SSEvalImpl(final SSConfA conf) throws SSErr{
 
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
+    super(conf);
   }
 
   @Override

@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
+import at.tugraz.sss.servs.common.impl.*;
 import at.tugraz.sss.servs.link.api.SSLinkClientI;
 import at.tugraz.sss.servs.link.api.SSLinkServerI;
 import at.tugraz.sss.servs.link.impl.SSLinkImpl;
@@ -68,7 +69,7 @@ public class SSLinkServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForGatheringUsersResources(this);
+    new SSGetUsersResources().regServ(this);
 
   return this;
   }
@@ -87,12 +88,5 @@ public class SSLinkServ extends SSServContainerI{
     if(!conf.use){
       return;
     }
-  }
-  
-  @Override
-  public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA,
-    final List<Class> configuredServs) throws SSErr{
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

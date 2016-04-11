@@ -30,6 +30,7 @@ import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.servs.common.impl.*;
 import java.util.List;
 
 public class SSCollServ extends SSServContainerI{
@@ -69,36 +70,19 @@ public class SSCollServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForHandlingDescribeEntity(this);
-    SSServReg.inst.regServForHandlingGetParentEntities(this);
-    SSServReg.inst.regServForHandlingGetSubEntities(this);
-    SSServReg.inst.regServForHandlingPushEntitiesToUsers(this);
-    SSServReg.inst.regServForHandlingAddAffiliatedEntitiesToCircle(this);
-    SSServReg.inst.regServForGatheringUserRelations (this);
-    SSServReg.inst.regServForGatheringUsersResources (this);
+    new SSDescribeEntity().regServ                (this);
+    new SSGetParentEntities().regServ             (this);
+    new SSGetSubEntities().regServ                (this);
+    new SSPushEntitiesToUsers().regServ           (this);
+    new SSAddAffiliatedEntitiesToCircle().regServ (this);
+    new SSGetUserRelations().regServ              (this);
+    new SSGetUsersResources().regServ             (this);
     
     return this;
   }
   
   @Override
   public void initServ() throws SSErr{
-  }
-  
-  @Override
-  public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA,
-    final List<Class> configuredServs) throws SSErr{
-    
-    throw new UnsupportedOperationException();
-    //check whether to deploy service calls itself here once in getConfForCloudDeployment
-//    final SSCoreConf coreConf = (SSCoreConf) getConfForCloudDeployment(SSTagServerI.class /* TODO wrong class here */, coreConfA, configuredServs);
-//    final SSCollConf collConf = coreConf.getColl();
-//
-//    collConf.use                = true;
-//    collConf.executeOpAtStartUp = false;
-////    collConf.op                 = null;
-//
-//    return coreConf;
   }
   
   @Override

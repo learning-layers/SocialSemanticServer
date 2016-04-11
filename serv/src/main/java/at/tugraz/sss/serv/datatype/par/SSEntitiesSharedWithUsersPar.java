@@ -21,7 +21,6 @@
 package at.tugraz.sss.serv.datatype.par;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.*;
 
 public class SSEntitiesSharedWithUsersPar {
  

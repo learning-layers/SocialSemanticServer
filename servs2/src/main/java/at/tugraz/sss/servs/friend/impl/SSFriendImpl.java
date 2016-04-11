@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.servs.friend.impl;
 
+import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.servs.friend.api.SSFriendClientI;
 import at.tugraz.sss.servs.friend.api.SSFriendServerI;
@@ -42,9 +43,9 @@ import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import java.util.ArrayList;
@@ -52,19 +53,24 @@ import java.util.List;
 
 public class SSFriendImpl
 extends
-  SSServImplWithDBA
+  SSServImplA
 implements
   SSFriendClientI,
   SSFriendServerI,
   SSDescribeEntityI{
   
-  private final SSUserCommons  userCommons = new SSUserCommons();
-  private final SSFriendSQL    sql;
+  private final SSUserCommons                         userCommons = new SSUserCommons();
+  private final SSFriendSQL                           sql;
+  private final SSDBSQLI                              dbSQL;
+  private final SSDBNoSQLI                            dbNoSQL;
   
   public SSFriendImpl(final SSConfA conf) throws SSErr{
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql      = new SSFriendSQL(dbSQL);
+    super(conf);
+    
+    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
+    this.sql           = new SSFriendSQL(dbSQL);
   }
   
   @Override

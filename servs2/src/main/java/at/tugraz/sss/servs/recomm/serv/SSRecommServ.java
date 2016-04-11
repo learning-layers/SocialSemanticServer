@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.servs.recomm.serv;
 
+import at.tugraz.sss.serv.conf.*;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
@@ -29,7 +30,6 @@ import at.tugraz.sss.servs.recomm.api.SSRecommServerI;
 import at.tugraz.sss.servs.recomm.conf.SSRecommConf;
 import at.tugraz.sss.servs.recomm.datatype.SSRecommLoadUserRealmsPar;
 import at.tugraz.sss.servs.recomm.impl.SSRecommImpl;
-import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
@@ -153,31 +153,24 @@ public class SSRecommServ extends SSServContainerI{
           startDate = SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter));
         }
         
-        SSServReg.regScheduler(
+        new SSSchedules().regScheduler(
           SSDateU.scheduleWithFixedDelay(
             new SSRecommUpdateBulkTask(recommConf),
             startDate,
             recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds));
         
-//        SSServReg.regScheduler(
+//        new SSSchedule().regScheduler(
 //          SSDateU.scheduleWithFixedDelay(
 //            new SSRecommUpdateBulkUserRealmsFromConfTask(),
 //            startDate,
 //            recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds));
 //        
-//        SSServReg.regScheduler(
+//        new SSSchedule().regScheduler(
 //          SSDateU.scheduleWithFixedDelay(
 //            new SSRecommUpdateBulkUserRealmsFromCirclesTask(),
 //            SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
 //            recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds));
       }
     }
-  }
-  
-  @Override
-  public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA,
-    final List<Class> configuredServs) throws SSErr{
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

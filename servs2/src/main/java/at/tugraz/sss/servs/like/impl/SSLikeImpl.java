@@ -35,32 +35,37 @@ import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
+import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.servs.common.impl.SSUserCommons;
 
 public class SSLikeImpl 
-extends SSServImplWithDBA 
+extends SSServImplA 
 implements 
   SSLikeClientI, 
   SSLikeServerI,
   SSDescribeEntityI{
   
-  private final SSUserCommons      userCommons = new SSUserCommons();
-  private final SSLikeActAndLog    actAndLog   = new SSLikeActAndLog();
-  private final SSLikeSQL          sql;
+  private final SSUserCommons                         userCommons = new SSUserCommons();
+  private final SSLikeActAndLog                       actAndLog   = new SSLikeActAndLog();
+  private final SSLikeSQL                             sql;
+  private final SSDBSQLI                              dbSQL;
+  private final SSDBNoSQLI                            dbNoSQL;  
    
   public SSLikeImpl(final SSConfA conf) throws SSErr{
 
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
+    super(conf);
+    
+    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
     
     this.sql          = new SSLikeSQL(dbSQL);
   }

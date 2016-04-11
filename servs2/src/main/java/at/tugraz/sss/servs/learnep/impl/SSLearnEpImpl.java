@@ -38,7 +38,7 @@ import at.tugraz.sss.servs.learnep.datatype.SSLearnEpTimelineState;
 import at.tugraz.sss.servs.learnep.datatype.SSLearnEpVersion;
 import at.tugraz.sss.servs.learnep.datatype.*;
 import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.entity.api.SSAddAffiliatedEntitiesToCircleI;
+import at.tugraz.sss.servs.common.api.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.datatype.par.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.datatype.par.SSCircleAddEntitiesToCircleOfEntityPar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
@@ -48,34 +48,35 @@ import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.serv.entity.api.SSCopyEntityI;
+import at.tugraz.sss.servs.common.api.SSCopyEntityI;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
-import at.tugraz.sss.serv.entity.api.SSEntitiesSharedWithUsersI;
+import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
+import at.tugraz.sss.servs.common.api.SSEntitiesSharedWithUsersI;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesSharedWithUsersPar;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSEntityContext;
 import at.tugraz.sss.serv.datatype.par.SSEntityCopyPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.entity.api.SSPushEntitiesToUsersI;
+import at.tugraz.sss.servs.common.api.SSPushEntitiesToUsersI;
 import at.tugraz.sss.serv.datatype.par.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.entity.api.SSUsersResourcesGathererI;
 import at.tugraz.sss.serv.datatype.par.SSEntityCopiedPar;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.servs.learnep.api.*;
+import at.tugraz.sss.servs.common.api.SSGetUsersResourcesI;
+import at.tugraz.sss.servs.common.impl.*;
 
 public class SSLearnEpImpl
-extends SSServImplWithDBA
+extends SSServImplA
 implements
   SSLearnEpClientI,
   SSLearnEpServerI,
@@ -84,20 +85,26 @@ implements
   SSPushEntitiesToUsersI,
   SSEntitiesSharedWithUsersI,
   SSCopyEntityI,
-  SSUsersResourcesGathererI{
+  SSGetUsersResourcesI{
   
-  private final SSLearnEpActAndLog         actAndLog      = new SSLearnEpActAndLog();
-  private final SSUserCommons              userCommons    = new SSUserCommons(); 
-  private final SSLearnEpCat               cat            = new SSLearnEpCat();          
-  private final SSLearnEpCommons           commons        = new SSLearnEpCommons();     
-  private final SSLearnEpSummaryCommons    summaryCommons = new SSLearnEpSummaryCommons();
-  private final SSLearnEpSQL               sql;
+  private final SSLearnEpActAndLog                    actAndLog                       = new SSLearnEpActAndLog();
+  private final SSUserCommons                         userCommons                     = new SSUserCommons(); 
+  private final SSLearnEpCat                          cat                             = new SSLearnEpCat();          
+  private final SSLearnEpCommons                      commons                         = new SSLearnEpCommons();     
+  private final SSLearnEpSummaryCommons               summaryCommons                  = new SSLearnEpSummaryCommons();
+  private final SSEntityCopied                        entityCopied                    = new SSEntityCopied();
+  private final SSAddAffiliatedEntitiesToCircle       addAffiliatedEntitiesToCircle   = new SSAddAffiliatedEntitiesToCircle();
+  private final SSLearnEpSQL                          sql;
+  private final SSDBSQLI                              dbSQL;
+  private final SSDBNoSQLI                            dbNoSQL;
   
   public SSLearnEpImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
+    super(conf);
     
-    this.sql = new SSLearnEpSQL(dbSQL);
+    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
+    this.sql           = new SSLearnEpSQL(dbSQL);
   }
   
   @Override
@@ -241,7 +248,7 @@ implements
       
       SSEntity.addEntitiesDistinctWithoutNull(
         affiliatedEntities,
-        SSServReg.inst.addAffiliatedEntitiesToCircle(
+        addAffiliatedEntitiesToCircle.addAffiliatedEntitiesToCircle(
           servPar,
           par.user,
           par.circle,
@@ -417,7 +424,7 @@ implements
             copyLearnEpUri, //targetEntity
             par.withUserRestriction);
         
-        SSServReg.inst.entityCopied(servPar, entityCopiedPar);
+        entityCopied.entityCopied(servPar, entityCopiedPar);
         
         entityServ.circleAddEntitiesToCirclesOfEntity(
           new SSCircleAddEntitiesToCircleOfEntityPar(

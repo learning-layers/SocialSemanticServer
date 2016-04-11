@@ -23,7 +23,7 @@ package at.tugraz.sss.servs.link.impl;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
+
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.SSEntityContext;
 import at.tugraz.sss.serv.reg.*;
@@ -38,7 +38,7 @@ import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.db.api.SSCoreSQL;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
-import at.tugraz.sss.serv.entity.api.SSUsersResourcesGathererI;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import at.tugraz.sss.servs.link.api.SSLinkClientI;
 import at.tugraz.sss.servs.link.api.SSLinkServerI;
@@ -47,20 +47,27 @@ import at.tugraz.sss.servs.link.datatype.SSLinkAddRet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import at.tugraz.sss.servs.common.api.SSGetUsersResourcesI;
 
 public class SSLinkImpl
-extends SSServImplWithDBA
+extends SSServImplA
 implements
   SSLinkClientI,
   SSLinkServerI, 
-  SSUsersResourcesGathererI{
+  SSGetUsersResourcesI{
   
-  private final  SSLinkActAndLog actAndLog   = new SSLinkActAndLog();
-  private final  SSUserCommons   userCommons = new SSUserCommons();
-  private final  SSCoreSQL       sql;
+  private final SSLinkActAndLog                       actAndLog   = new SSLinkActAndLog();
+  private final SSUserCommons                         userCommons = new SSUserCommons();
+  private final SSCoreSQL                             sql;
+  private final SSDBSQLI                              dbSQL;
+  private final SSDBNoSQLI                            dbNoSQL;
   
   public SSLinkImpl(final SSConfA conf) throws SSErr{
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
+    
+    super(conf);
+    
+    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
     
     this.sql = new SSCoreSQL(dbSQL);
   }

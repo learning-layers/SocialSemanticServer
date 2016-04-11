@@ -25,16 +25,16 @@ import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.jsonld.SSJSONLDPropI;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import at.tugraz.sss.servs.jsonld.api.*;
 import at.tugraz.sss.servs.jsonld.conf.*;
 import at.tugraz.sss.servs.jsonld.datatype.*;
 
 public class SSJSONLDImpl 
-extends SSServImplWithDBA 
+extends SSServImplA 
 implements 
   SSJSONLDClientI, 
   SSJSONLDServerI{
@@ -42,7 +42,8 @@ implements
   final SSUserCommons userCommons;
   
   public SSJSONLDImpl(final SSJSONLDConf conf) throws SSErr{
-    super(conf, null, null);
+    
+    super(conf);
     
     this.userCommons = new SSUserCommons();
   }

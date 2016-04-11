@@ -20,6 +20,7 @@
   */
 package at.tugraz.sss.servs.learnep.serv;
 
+import at.tugraz.sss.serv.conf.*;
 import at.tugraz.sss.servs.learnep.conf.SSLearnEpConf;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.util.SSDateU;
@@ -29,6 +30,7 @@ import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
+import at.tugraz.sss.servs.common.impl.*;
 import at.tugraz.sss.servs.learnep.api.*;
 import at.tugraz.sss.servs.learnep.impl.*;
 import java.util.List;
@@ -70,12 +72,12 @@ public class SSLearnEpServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForHandlingDescribeEntity(this);
-    SSServReg.inst.regServForHandlingCopyEntity(this);
-    SSServReg.inst.regServForHandlingPushEntitiesToUsers(this);
-    SSServReg.inst.regServForHandlingAddAffiliatedEntitiesToCircle(this);
-    SSServReg.inst.regServForHandlingEntitiesSharedWithUsers(this);
-    SSServReg.inst.regServForGatheringUsersResources (this);
+    new SSDescribeEntity().regServ                (this);
+    new SSCopyEntity().regServ                    (this);
+    new SSPushEntitiesToUsers().regServ           (this);
+    new SSAddAffiliatedEntitiesToCircle().regServ (this);
+    new SSEntitiesSharedWithUsers().regServ        (this);
+    new SSGetUsersResources().regServ             (this);
     
     
 //    final Map<SSServOpE, Integer> maxRequestsForOps = new EnumMap<>(SSVarNames.class);
@@ -97,13 +99,6 @@ return this;
   }
   
   @Override
-  public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA,
-    final List<Class> configuredServs) throws SSErr{
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-  
-  @Override
   public void schedule() throws SSErr{
     
     if(!conf.use){
@@ -112,7 +107,7 @@ return this;
     
     if(((SSLearnEpConf) conf).useEpisodeLocking){
       
-      SSServReg.regScheduler(
+      new SSSchedules().regScheduler(
         SSDateU.scheduleWithFixedDelay(
           new SSLearnEpRemainingTimeTask(),
           SSDateU.getDateForNextHalfMinute(),

@@ -20,7 +20,6 @@
   */
 package at.tugraz.sss.servs.video.serv;
 
-import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.tugraz.sss.servs.video.api.SSVideoClientI;
@@ -30,7 +29,7 @@ import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import java.util.List;
+import at.tugraz.sss.servs.common.impl.*;
 
 public class SSVideoServ extends SSServContainerI{
   
@@ -55,7 +54,6 @@ public class SSVideoServ extends SSServContainerI{
     }
     
     synchronized(this){
-      
       servImpl = new SSVideoImpl(conf);
     }
     
@@ -67,26 +65,18 @@ public class SSVideoServ extends SSServContainerI{
     
     this.conf = conf;
     
-    SSServReg.inst.regServ(this);
+    new SSServReg().regServ(this);
     
-    SSServReg.inst.regServForHandlingDescribeEntity(this);
-    SSServReg.inst.regServForHandlingPushEntitiesToUsers(this);
-    SSServReg.inst.regServForHandlingAddAffiliatedEntitiesToCircle(this);
-    SSServReg.inst.regServForGatheringUsersResources (this);
+    new SSDescribeEntity().regServ                (this);
+    new SSPushEntitiesToUsers().regServ           (this);
+    new SSAddAffiliatedEntitiesToCircle().regServ (this);
+    new SSGetUsersResources().regServ             (this);
     
     return this;
   }
   
   @Override
   public void initServ() throws SSErr{
-  }
-  
-  @Override
-  public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA,
-    final List<Class> configuredServs) throws SSErr{
-    
-    throw new UnsupportedOperationException("not supported");
   }
   
   @Override

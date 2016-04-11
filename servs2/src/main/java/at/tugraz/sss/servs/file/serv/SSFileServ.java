@@ -20,6 +20,7 @@
   */
 package at.tugraz.sss.servs.file.serv;
 
+import at.tugraz.sss.serv.conf.*;
 import at.tugraz.sss.servs.file.impl.SSFileImpl;
 import at.tugraz.sss.servs.file.api.SSFileServerI;
 import at.tugraz.sss.servs.file.api.SSFileClientI;
@@ -32,8 +33,7 @@ import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.servs.file.api.*;
-import at.tugraz.sss.servs.file.impl.*;
+import at.tugraz.sss.servs.common.impl.*;
 import java.util.*;
 
 public class SSFileServ extends SSServContainerI{
@@ -99,7 +99,7 @@ public class SSFileServ extends SSServContainerI{
           startDate = SSDateU.getDatePlusMinutes(fileConf.scheduleIntervals.get(counter));
         }
         
-        SSServReg.regScheduler(
+        new SSSchedules().regScheduler(
           SSDateU.scheduleWithFixedDelay(
             new SSFilesDeleteNotRegisteredTask(fileConf.filesDeleteNotRegisteredDirPath),
             startDate,
@@ -115,20 +115,13 @@ public class SSFileServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForHandlingDescribeEntity(this);
-    SSServReg.inst.regServForHandlingAddAffiliatedEntitiesToCircle(this);
+    new SSDescribeEntity().regServ               (this);
+    new SSAddAffiliatedEntitiesToCircle().regServ(this);
     
     return this;
   }
   
   @Override
   public void initServ() throws SSErr{
-  }
-  
-  @Override
-  public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA,
-    final List<Class> configuredServs) throws SSErr{
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

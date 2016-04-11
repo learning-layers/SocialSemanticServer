@@ -41,12 +41,11 @@ import at.tugraz.sss.servs.category.datatype.SSCategoriesRemoveRet;
 import at.tugraz.sss.servs.category.datatype.SSCategoryAddRet;
 import at.tugraz.sss.servs.category.datatype.SSCategoryEntitiesForCategoriesGetRet;
 import at.tugraz.sss.servs.category.datatype.SSCategoryFrequsGetRet;
-import at.tugraz.sss.servs.category.impl.SSCategoryUserRelationGathererFct;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.SSEntityFromTypeAndLabelGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
-import at.tugraz.sss.serv.entity.api.SSCircleContentRemovedI;
+import at.tugraz.sss.servs.common.api.SSCircleContentRemovedI;
 import at.tugraz.sss.serv.datatype.par.SSCircleContentRemovedPar;
 import at.tugraz.sss.serv.datatype.par.SSCirclePubURIGetPar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
@@ -55,17 +54,15 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
+import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.api.SSEntityA;
 import at.tugraz.sss.serv.datatype.SSEntityContext;
-import at.tugraz.sss.serv.entity.api.SSEntityCopiedI;
+import at.tugraz.sss.servs.common.api.SSEntityCopiedI;
 import at.tugraz.sss.serv.datatype.par.SSEntityCopiedPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.entity.api.SSUserRelationGathererI;
 import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,38 +74,42 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
-import at.tugraz.sss.serv.entity.api.SSUsersResourcesGathererI;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.servs.common.impl.SSTagAndCategoryCommonMisc;
 import at.tugraz.sss.servs.common.impl.SSTagAndCategoryCommonSQL;
 import at.tugraz.sss.servs.eval.api.SSEvalServerI;
-
+import at.tugraz.sss.servs.common.api.SSGetUsersResourcesI;
+import at.tugraz.sss.servs.common.api.SSGetUserRelationsI;
 
 public class SSCategoryImpl
-extends SSServImplWithDBA
+extends SSServImplA
 implements
   SSCategoryClientI,
   SSCategoryServerI,
   SSDescribeEntityI,
   SSEntityCopiedI,
   SSCircleContentRemovedI,
-  SSUserRelationGathererI,
-  SSUsersResourcesGathererI{
+  SSGetUserRelationsI,
+  SSGetUsersResourcesI{
   
-  private final SSTagAndCategoryCommonSQL  sql;
-  private final SSTagAndCategoryCommonMisc commonMiscFct;
-  private final SSEntityServerI            entityServ;
-  private final SSActivityServerI          activityServ;
-  private final SSEvalServerI              evalServ;
-  private final SSUserCommons              userCommons;
-  private final SSCategoryActAndLogFct    actAndLogFct;
+  private final SSTagAndCategoryCommonSQL             sql;
+  private final SSTagAndCategoryCommonMisc            commonMiscFct;
+  private final SSEntityServerI                       entityServ;
+  private final SSActivityServerI                     activityServ;
+  private final SSEvalServerI                         evalServ;
+  private final SSUserCommons                         userCommons;
+  private final SSCategoryActAndLogFct                actAndLogFct;
+  private final SSDBSQLI                              dbSQL;
+  private final SSDBNoSQLI                            dbNoSQL;
   
   public SSCategoryImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
+    super(conf);
     
+    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
     this.sql           = new SSTagAndCategoryCommonSQL (dbSQL, SSEntityE.category);
     this.commonMiscFct = new SSTagAndCategoryCommonMisc(dbSQL, SSEntityE.category);
-    
     this.activityServ  = (SSActivityServerI) SSServReg.getServ (SSActivityServerI.class);
     this.evalServ      = (SSEvalServerI)     SSServReg.getServ (SSEvalServerI.class);
     this.entityServ    = (SSEntityServerI)   SSServReg.getServ (SSEntityServerI.class);

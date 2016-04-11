@@ -30,7 +30,6 @@ import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.servs.user.api.*;
@@ -41,7 +40,7 @@ import at.tugraz.sss.servs.user.datatype.SSUsersGetRet;
 import at.tugraz.sss.serv.datatype.par.SSCirclePubURIGetPar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
+import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import java.util.*;
@@ -50,26 +49,29 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.servs.user.conf.*;
 
 public class SSUserImpl
-extends SSServImplWithDBA
+extends SSServImplA
 implements
   SSUserClientI,
   SSUserServerI,
   SSDescribeEntityI{
   
+    private final SSDBSQLI        dbSQL;
+  private final SSDBNoSQLI        dbNoSQL;
   private final SSUserCommons     userCommons = new SSUserCommons();
   private final SSUserSQL         sql;
   
   public SSUserImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
+    super(conf);
     
-    this.sql          = new SSUserSQL(dbSQL);
+    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
+    this.sql           = new SSUserSQL(dbSQL);
   }
-  
-    
   
   @Override
   public SSEntity describeEntity(

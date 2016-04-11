@@ -65,7 +65,9 @@ import javax.servlet.*;
 import javax.servlet.annotation.*;
 
 @WebListener
-public class SSInitializer extends SSServImplStartA implements ServletContextListener{
+public class SSInitializer 
+  extends SSServImplA
+  implements ServletContextListener{
   
   public SSInitializer() {
     super(null);
@@ -80,7 +82,7 @@ public class SSInitializer extends SSServImplStartA implements ServletContextLis
     
     try{
       
-      destroy();
+      SSServReg.destroy();
       
       SSDBSQLMySQLImpl.closePool();
     } catch (Exception error) {

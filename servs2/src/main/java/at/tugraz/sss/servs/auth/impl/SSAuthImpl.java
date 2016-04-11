@@ -27,7 +27,7 @@ import at.tugraz.sss.servs.dataimport.api.SSDataImportServerI;
 import at.tugraz.sss.servs.dataimport.datatype.SSDataImportSSSUsersFromCSVFilePar;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
+
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.servs.coll.api.SSCollServerI;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserRootAddPar;
@@ -44,6 +44,7 @@ import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.servs.auth.api.*;
 import at.tugraz.sss.servs.auth.conf.*;
 import at.tugraz.sss.servs.auth.datatype.*;
@@ -57,20 +58,24 @@ import net.minidev.json.*;
 
 public class SSAuthImpl 
 extends 
-  SSServImplWithDBA 
+  SSServImplA 
 implements 
   SSAuthClientI, 
   SSAuthServerI{
   
-  private final List<String>        csvFileAuthKeys = new ArrayList<>();
-  private final Map<String, String> oidcAuthTokens  = new HashMap<>();
-  private final SSAuthSQL           sql;
+  private final List<String>                          csvFileAuthKeys = new ArrayList<>();
+  private final Map<String, String>                   oidcAuthTokens  = new HashMap<>();
+  private final SSAuthSQL                             sql;
+  private final SSDBSQLI                              dbSQL;
+  private final SSDBNoSQLI                            dbNoSQL;
   
   public SSAuthImpl(final SSAuthConf conf) throws SSErr {
     
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
+    super(conf);
     
-    this.sql = new SSAuthSQL(dbSQL);
+    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
+    this.sql           = new SSAuthSQL(dbSQL);
   }
   
   @Override

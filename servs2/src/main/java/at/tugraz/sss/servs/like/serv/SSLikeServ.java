@@ -30,6 +30,7 @@ import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
+import at.tugraz.sss.servs.common.impl.*;
 import java.util.List;
 
 public class SSLikeServ extends SSServContainerI{
@@ -68,7 +69,7 @@ public class SSLikeServ extends SSServContainerI{
     this.conf = conf;
     
     SSServReg.inst.regServ(this);
-    SSServReg.inst.regServForHandlingDescribeEntity(this);
+    new SSDescribeEntity().regServ(this);
     
     return this;
   }
@@ -78,13 +79,6 @@ public class SSLikeServ extends SSServContainerI{
 
   }
   
-  @Override
-  public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA,
-    final List<Class> configuredServs) throws SSErr{
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
   @Override
   public void schedule() throws SSErr{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

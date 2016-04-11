@@ -62,20 +62,29 @@ import org.apache.commons.lang3.StringUtils;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.impl.api.*;
+import at.tugraz.sss.servs.common.impl.*;
 import java.io.IOException;
 
 public class SSDataExportImpl
 extends
-  SSServImplWithDBA
+  SSServImplA
 implements
   SSDataExportClientI,
   SSDataExportServerI{
   
+  private final SSGetUsersResources                   getUsersResources = new SSGetUsersResources();
+  private final SSGetUserRelations                    getUserRelations  = new SSGetUserRelations();
+  private final SSDBSQLI                              dbSQL;
+  private final SSDBNoSQLI                            dbNoSQL;
+  
   public SSDataExportImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
+    super(conf);
+    
+    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
   }
   
   @Override
@@ -223,7 +232,7 @@ implements
         usersEntities.put(userStr, new ArrayList<>());
       }
       
-      SSServReg.inst.getUsersResources(par, usersEntities);
+      getUsersResources.getUsersResources(par, usersEntities);
       
       for(Map.Entry<String, List<SSEntityContext>> resourcesForUser : usersEntities.entrySet()){
         
@@ -377,7 +386,7 @@ implements
         }
       }
       
-      SSServReg.inst.getUserRelations(par, allUsers, userRelations);
+      getUserRelations.getUserRelations(par, allUsers, userRelations);
       
       out =
         SSFileU.openOrCreateFileWithPathForWrite (

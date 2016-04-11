@@ -33,7 +33,6 @@ import at.tugraz.sss.servs.dataimport.datatype.SSDataImportKCProjWikiVorgaengePa
 import at.tugraz.sss.servs.dataimport.datatype.SSDataImportMediaWikiUserPar;
 import at.tugraz.sss.servs.dataimport.datatype.SSDataImportSSSUsersFromCSVFilePar;
 import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.SSErr;
@@ -43,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.servs.auth.api.*;
 import at.tugraz.sss.servs.auth.datatype.*;
 import at.tugraz.sss.servs.dataimport.conf.*;
@@ -55,20 +55,24 @@ import at.tugraz.sss.servs.eval.datatype.SSEvalLogEntry;
 
 public class SSDataImportImpl
 extends
-  SSServImplWithDBA
+  SSServImplA
 implements
   SSDataImportClientI,
   SSDataImportServerI{
   
-  private final SSDataImportBNPEvernoteImporter  bnpEvernoteImporter = new SSDataImportBNPEvernoteImporter(); 
-  private final SSDataImportBNPMailImporter      bnpMailImporter     = new SSDataImportBNPMailImporter();
-  private final SSDataImportSQL                  sqlFct;
+  private final SSDataImportBNPEvernoteImporter       bnpEvernoteImporter = new SSDataImportBNPEvernoteImporter(); 
+  private final SSDataImportBNPMailImporter           bnpMailImporter     = new SSDataImportBNPMailImporter();
+  private final SSDataImportSQL                       sqlFct;
+  private final SSDBSQLI                              dbSQL;
+  private final SSDBNoSQLI                            dbNoSQL;
   
   public SSDataImportImpl(final SSDataImportConf conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
+    super(conf);
     
-    this.sqlFct = new SSDataImportSQL(dbSQL);
+    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
+    this.sqlFct        = new SSDataImportSQL(dbSQL);
   }
   
   @Override

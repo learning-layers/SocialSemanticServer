@@ -25,16 +25,17 @@ import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.serv.datatype.par.SSCircleGetPar;
 import at.tugraz.sss.serv.datatype.par.SSCirclePubURIGetPar;
 import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.common.impl.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSEntitySetPublic {
   
-  private final SSEntityServerI circleServ;
+  private final SSEntityServerI       circleServ;
+  private final SSCircleEntitiesAdded circleEntitiesAdded = new SSCircleEntitiesAdded();
   
   public SSEntitySetPublic(final SSEntityServerI circleServ){
     this.circleServ = circleServ;
@@ -82,7 +83,7 @@ public class SSEntitySetPublic {
             false, //withUserRestriction
             false)); //invokeEntityHandlers));
       
-      SSServReg.inst.circleEntitiesAdded(
+      circleEntitiesAdded.circleEntitiesAdded(
         servPar,
         user,
         circle,

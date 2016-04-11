@@ -20,6 +20,7 @@
   */
 package at.tugraz.sss.servs.rating.impl;
 
+import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.entity.api.*;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
@@ -30,7 +31,7 @@ import at.tugraz.sss.servs.rating.datatype.SSRatingOverallGetPar;
 import at.tugraz.sss.servs.rating.datatype.SSRatingGetPar;
 import at.tugraz.sss.servs.rating.datatype.SSRatingSetPar;
 import at.tugraz.sss.servs.rating.api.*;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
+
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.conf.api.SSConfA;
@@ -56,29 +57,36 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
+import at.tugraz.sss.serv.impl.api.*;
 
 import java.util.ArrayList;
+import at.tugraz.sss.servs.common.api.SSGetUsersResourcesI;
+import at.tugraz.sss.servs.common.api.SSGetUserRelationsI;
 
 public class SSRatingImpl
-extends SSServImplWithDBA
+extends SSServImplA
 implements
   SSRatingClientI,
   SSRatingServerI,
   SSDescribeEntityI,
-  SSUserRelationGathererI,
-  SSUsersResourcesGathererI{
+  SSGetUserRelationsI,
+  SSGetUsersResourcesI{
   
-  private final SSRatingSQLFct   sql;
-  private final SSEntityServerI  entityServ;
-  private final SSUserCommons  userCommons;
+  private final SSRatingSQLFct                        sql;
+  private final SSEntityServerI                       entityServ;
+  private final SSUserCommons                         userCommons;
+  private final SSDBSQLI                              dbSQL;
+  private final SSDBNoSQLI                            dbNoSQL;
   
   public SSRatingImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
+    super(conf);
     
-    this.sql        = new SSRatingSQLFct   (dbSQL);
-    this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-    this.userCommons = new SSUserCommons();
+    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
+    this.sql           = new SSRatingSQLFct   (dbSQL);
+    this.entityServ    = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+    this.userCommons   = new SSUserCommons();
   }
   
   @Override

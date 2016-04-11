@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
+import at.tugraz.sss.servs.common.impl.*;
 import at.tugraz.sss.servs.image.api.SSImageClientI;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.impl.SSImageImpl;
@@ -69,9 +70,9 @@ public class SSImageServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForHandlingDescribeEntity(this);
-    SSServReg.inst.regServForHandlingAddAffiliatedEntitiesToCircle(this);
-    SSServReg.inst.regServForGatheringUsersResources(this);
+    new SSDescribeEntity().regServ                (this);
+    new SSAddAffiliatedEntitiesToCircle().regServ (this);
+    new SSGetUsersResources().regServ             (this);
     
     return this;
   }
@@ -82,13 +83,6 @@ public class SSImageServ extends SSServContainerI{
     if(!conf.use){
       return;
     }
-  }
-  
-  @Override
-  public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA,
-    final List<Class> configuredServs) throws SSErr{
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
   
   @Override

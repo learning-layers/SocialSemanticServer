@@ -20,24 +20,7 @@
   */
 package at.tugraz.sss.servs.entity.impl;
 
-import at.tugraz.sss.servs.entity.datatype.SSEntityUpdateRet;
-import at.tugraz.sss.servs.entity.datatype.SSCirclesGetRet;
-import at.tugraz.sss.servs.entity.datatype.SSCircleEntitiesRemoveRet;
-import at.tugraz.sss.servs.entity.datatype.SSCircleUsersInviteRet;
-import at.tugraz.sss.servs.entity.datatype.SSCircleRemoveRet;
-import at.tugraz.sss.servs.entity.datatype.SSEntityUnpublicizeRet;
-import at.tugraz.sss.servs.entity.datatype.SSEntityShareRet;
-import at.tugraz.sss.servs.entity.datatype.SSEntityAttachEntitiesRet;
-import at.tugraz.sss.servs.entity.datatype.SSEntitiesGetRet;
-import at.tugraz.sss.servs.entity.datatype.SSCircleUsersAddRet;
-import at.tugraz.sss.servs.entity.datatype.SSEntityTypesGetRet;
-import at.tugraz.sss.servs.entity.datatype.SSCircleTypeChangeRet;
-import at.tugraz.sss.servs.entity.datatype.SSCircleEntitiesAddRet;
-import at.tugraz.sss.servs.entity.datatype.SSCircleCreateRet;
-import at.tugraz.sss.servs.entity.datatype.SSEntityGetRet;
-import at.tugraz.sss.servs.entity.datatype.SSCircleGetRet;
-import at.tugraz.sss.servs.entity.datatype.SSEntityCopyRet;
-import at.tugraz.sss.servs.entity.datatype.SSCircleUsersRemoveRet;
+import at.tugraz.sss.servs.entity.datatype.*;
 import at.tugraz.sss.servs.category.api.SSCategoryServerI;
 import at.tugraz.sss.servs.category.datatype.SSCategoryLabel;
 import at.tugraz.sss.servs.category.datatype.SSCategoriesAddPar;
@@ -52,92 +35,64 @@ import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.par.SSAddAffiliatedEntitiesToCirclePar;
-import at.tugraz.sss.serv.datatype.par.SSCircleAddEntitiesToCircleOfEntityPar;
-import at.tugraz.sss.serv.datatype.par.SSCircleContentRemovedPar;
-import at.tugraz.sss.serv.datatype.par.SSCircleCreateFromClientPar;
-import at.tugraz.sss.serv.datatype.par.SSCircleCreatePar;
-import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
-import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesRemoveFromClientPar;
-import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesRemovePar;
-import at.tugraz.sss.serv.datatype.par.SSCircleGetPar;
-import at.tugraz.sss.serv.datatype.par.SSCircleIsEntityPrivatePar;
-import at.tugraz.sss.serv.datatype.par.SSCircleIsEntityPublicPar;
-import at.tugraz.sss.serv.datatype.par.SSCircleIsEntitySharedPar;
-import at.tugraz.sss.serv.datatype.par.SSCirclePrivURIGetPar;
-import at.tugraz.sss.serv.datatype.par.SSCirclePubURIGetPar;
-import at.tugraz.sss.serv.datatype.par.SSCircleRemovePar;
-import at.tugraz.sss.serv.datatype.par.SSCircleTypeChangePar;
-import at.tugraz.sss.serv.datatype.par.SSCircleTypesGetPar;
-import at.tugraz.sss.serv.datatype.par.SSCircleUsersAddPar;
-import at.tugraz.sss.serv.datatype.par.SSCircleUsersInvitePar;
-import at.tugraz.sss.serv.datatype.par.SSCircleUsersRemovePar;
-import at.tugraz.sss.serv.datatype.par.SSCirclesGetPar;
-import at.tugraz.sss.serv.datatype.par.SSEntitiesAccessibleGetCleanUpPar;
-import at.tugraz.sss.serv.datatype.par.SSEntitiesAccessibleGetPar;
-import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityAttachEntitiesPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityCopiedPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityCopyPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityDownloadURIsGetPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityDownloadsAddPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityEntitiesAttachedRemovePar;
-import at.tugraz.sss.serv.datatype.par.SSEntityFromTypeAndLabelGetPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityRemovePar;
-import at.tugraz.sss.serv.datatype.par.SSEntitySharePar;
-import at.tugraz.sss.serv.datatype.par.SSEntityTypesGetPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityURIsGetPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityUnpublicizePar;
-import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
-import at.tugraz.sss.serv.datatype.par.SSServPar;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.datatype.ret.SSEntitiesAccessibleGetRet;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.db.api.SSCoreSQL;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.entity.api.SSAddAffiliatedEntitiesToCircleI;
-import at.tugraz.sss.serv.entity.api.SSCopyEntityI;
-import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
+import at.tugraz.sss.servs.common.api.SSAddAffiliatedEntitiesToCircleI;
+import at.tugraz.sss.servs.common.api.SSCopyEntityI;
+import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
-import at.tugraz.sss.serv.entity.api.SSUserRelationGathererI;
-import at.tugraz.sss.serv.entity.api.SSUsersResourcesGathererI;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.common.impl.SSEntityQueryCacheU;
 import at.tugraz.sss.servs.common.impl.SSUserCommons;
-import at.tugraz.sss.servs.entity.datatype.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import at.tugraz.sss.servs.common.api.SSGetUsersResourcesI;
+import at.tugraz.sss.servs.common.api.SSGetUserRelationsI;
+import at.tugraz.sss.servs.common.impl.*;
 
 public class SSEntityImpl
-extends SSServImplWithDBA
+extends SSServImplA
 implements
   SSEntityClientI,
   SSEntityServerI,
-  SSUserRelationGathererI,
+  SSGetUserRelationsI,
   SSDescribeEntityI,
   SSAddAffiliatedEntitiesToCircleI,
-  SSUsersResourcesGathererI,
+  SSGetUsersResourcesI,
   SSCopyEntityI{
   
-  protected static final Map<String, SSEntityResultPages> accessibleEntitiesPagesCache = new HashMap<>();
+  protected static final Map<String, SSEntityResultPages> accessibleEntitiesPagesCache  = new HashMap<>();
+  protected final  SSAddAffiliatedEntitiesToCircle        addAffiliatedEntitiesToCircle = new SSAddAffiliatedEntitiesToCircle();
   
-  private static SSUri             pubCircleUri = null;
-  private final  SSEntityActAndLog actAndLog    = new SSEntityActAndLog();
-  private final  SSUserCommons     userCommons  = new SSUserCommons();
-  private final  SSCoreSQL         sql;
+  private static SSUri                                pubCircleUri                  = null;
+  private final  SSEntityActAndLog                    actAndLog                     = new SSEntityActAndLog();
+  private final  SSUserCommons                        userCommons                   = new SSUserCommons();
+  private final  SSCopyEntity                         copyEntity                    = new SSCopyEntity();
+  private final  SSDescribeEntity                     describeEntity                = new SSDescribeEntity();
+  private final  SSCircleContentRemoved               circleContentRemoved          = new SSCircleContentRemoved();
+  private final  SSCircleEntitiesAdded                circleEntitiesAdded           = new SSCircleEntitiesAdded();
+  private final  SSCircleUsersAdded                   circleUsersAdded              = new SSCircleUsersAdded();
+  private final  SSEntityCopied                       entiyCopied                   = new SSEntityCopied();
+  private final  SSCoreSQL                            sql;
+  private final SSDBSQLI                              dbSQL;
+  private final SSDBNoSQLI                            dbNoSQL;
   
   public SSEntityImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
+    super(conf);
     
-    this.sql = new SSCoreSQL(dbSQL);
+    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
+    this.sql           = new SSCoreSQL(dbSQL);
   }
   
   public SSEntityImpl(
@@ -145,9 +100,11 @@ implements
     final SSDBSQLI   sqlI, 
     final SSDBNoSQLI noSQLI) throws SSErr{
     
-    super(conf, sqlI, noSQLI);
+    super(conf);
     
-    this.sql = new SSCoreSQL(dbSQL);
+    this.dbSQL    = sqlI;
+    this.dbNoSQL  = noSQLI;
+    this.sql      = new SSCoreSQL(dbSQL);
   }
   
   @Override
@@ -204,7 +161,7 @@ implements
   
   @Override
   public List<SSEntity> addAffiliatedEntitiesToCircle(
-    final SSServPar servPar,
+    final SSServPar                          servPar,
     final SSAddAffiliatedEntitiesToCirclePar par) throws SSErr{
     
     try{
@@ -251,7 +208,7 @@ implements
       
       SSEntity.addEntitiesDistinctWithoutNull(
         affiliatedEntities,
-        SSServReg.inst.addAffiliatedEntitiesToCircle(
+        addAffiliatedEntitiesToCircle.addAffiliatedEntitiesToCircle(
           servPar,
           par.user,
           par.circle,
@@ -474,7 +431,7 @@ implements
         return false;
       }
       
-      SSServReg.inst.copyEntity(par, entity);
+      copyEntity.copyEntity(par, entity);
       
       dbSQL.commit(par, par.shouldCommit);
       
@@ -826,7 +783,7 @@ implements
         par.descPar.withUserRestriction = par.withUserRestriction;
         
         entity = 
-          SSServReg.inst.describeEntity(
+          describeEntity.describeEntity(
             par, 
             par.user, 
             entity, 
@@ -1574,7 +1531,7 @@ implements
             par.withUserRestriction, //withUserRestriction
             par.shouldCommit);
         
-        SSServReg.inst.circleContentRemoved(par, circleContentRemovedPar);
+        circleContentRemoved.circleContentRemoved(par, circleContentRemovedPar);
       }
       
       return SSCircleEntitiesRemoveRet.get(result);
@@ -1753,7 +1710,7 @@ implements
             par.withUserRestriction, //withUserRestriction,
             false)); //invokeEntityHandlers
       
-      SSServReg.inst.circleEntitiesAdded(
+      circleEntitiesAdded.circleEntitiesAdded(
         par,
         par.user,
         circle,
@@ -1953,7 +1910,7 @@ implements
             par.withUserRestriction, //withUserRestriction,
             true)); //invokeEntityHandlers))
       
-      SSServReg.inst.circleUsersAdded(
+      circleUsersAdded.circleUsersAdded(
         par,
         par.user,
         circle,
@@ -2102,7 +2059,7 @@ implements
             null, //descPar,
             par.withUserRestriction)); //withUserRestriction,
       
-      SSServReg.inst.circleEntitiesAdded(
+      circleEntitiesAdded.circleEntitiesAdded(
         par,
         par.user,
         circle,
@@ -2887,7 +2844,7 @@ implements
         
         if(par.invokeEntityHandlers){
           
-          SSServReg.inst.circleEntitiesAdded(
+          circleEntitiesAdded.circleEntitiesAdded(
             par,
             par.user,
             (SSCircle) circle,
@@ -3018,7 +2975,7 @@ implements
               copyCircleURI, //targetEntity
               par.withUserRestriction);
           
-          SSServReg.inst.entityCopied(par, entityCopiedPar);
+          entiyCopied.entityCopied(par, entityCopiedPar);
         }
         
         if(par.includeUsers){
@@ -3041,7 +2998,7 @@ implements
               copyCircleURI, //targetEntity
               par.withUserRestriction);
           
-          SSServReg.inst.entityCopied(par, entityCopiedPar);
+          entiyCopied.entityCopied(par, entityCopiedPar);
         }
         
         if(par.includeOriginUser){
@@ -3075,7 +3032,7 @@ implements
               copyCircleURI, //targetEntity
               par.withUserRestriction);
           
-          SSServReg.inst.entityCopied(par, entityCopiedPar);
+          entiyCopied.entityCopied(par, entityCopiedPar);
         }
         
         newCircle =
@@ -3092,7 +3049,7 @@ implements
               par.withUserRestriction,
               false)); //invokeEntityHandlers
         
-        SSServReg.inst.circleEntitiesAdded(
+        circleEntitiesAdded.circleEntitiesAdded(
           par,
           par.user,
           newCircle,
@@ -3148,7 +3105,7 @@ implements
         
         entityCopiedPar.includeMetadataSpecificToEntityAndItsEntities = true;
         
-        SSServReg.inst.entityCopied(par, entityCopiedPar);
+        entiyCopied.entityCopied(par, entityCopiedPar);
       }
       
       if(par.includeUsers){
@@ -3171,7 +3128,7 @@ implements
             targetCircle.id,  //targetEntity
             par.withUserRestriction);
         
-        SSServReg.inst.entityCopied(par, entityCopiedPar);
+        entiyCopied.entityCopied(par, entityCopiedPar);
       }
       
       if(par.includeOriginUser){
@@ -3205,7 +3162,7 @@ implements
             par.targetEntity, //targetEntity
             par.withUserRestriction);
         
-        SSServReg.inst.entityCopied(par, entityCopiedPar);
+        entiyCopied.entityCopied(par, entityCopiedPar);
       }
       
       targetCircle =
@@ -3222,7 +3179,7 @@ implements
             par.withUserRestriction,
             false)); //invokeEntityHandlers
       
-      SSServReg.inst.circleEntitiesAdded(
+      circleEntitiesAdded.circleEntitiesAdded(
         par,
         par.user,
         targetCircle,

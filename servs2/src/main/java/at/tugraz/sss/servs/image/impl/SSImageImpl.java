@@ -24,7 +24,7 @@ import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
-import at.tugraz.sss.serv.entity.api.SSAddAffiliatedEntitiesToCircleI;
+import at.tugraz.sss.servs.common.api.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.datatype.par.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
@@ -33,12 +33,11 @@ import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
+import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSEntityContext;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +51,8 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.entity.api.SSUsersResourcesGathererI;
 import at.tugraz.sss.serv.datatype.par.SSEntityRemovePar;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.servs.image.api.SSImageClientI;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.datatype.SSImageProfilePictureSetPar;
@@ -68,26 +67,34 @@ import at.tugraz.sss.servs.file.datatype.*;
 import java.io.File;
 import java.util.Map;
 import javax.imageio.ImageIO;
+import at.tugraz.sss.servs.common.api.SSGetUsersResourcesI;
+import at.tugraz.sss.servs.common.impl.*;
 
 public class SSImageImpl 
-extends SSServImplWithDBA 
+extends SSServImplA 
 implements 
   SSImageClientI, 
   SSImageServerI,
   SSDescribeEntityI,
   SSAddAffiliatedEntitiesToCircleI, 
-  SSUsersResourcesGathererI{
+  SSGetUsersResourcesI{
 
-  private final SSImageSQLFct         sql;
-  private final SSEntityServerI       entityServ;
-  private final SSUserCommons      userCommons;
+  private final SSImageSQLFct                         sql;
+  private final SSEntityServerI                       entityServ;
+  private final SSUserCommons                         userCommons                   = new SSUserCommons();
+  private final SSAddAffiliatedEntitiesToCircle       addAffiliatedEntitiesToCircle = new SSAddAffiliatedEntitiesToCircle();
+  private final SSDBSQLI                              dbSQL;
+  private final SSDBNoSQLI                            dbNoSQL;
   
   public SSImageImpl(final SSConfA conf) throws SSErr {
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
+    
+    super(conf);
+    
+    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
     
     this.sql            = new SSImageSQLFct   (dbSQL);
     this.entityServ     = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-    this.userCommons    = new SSUserCommons();
   }
   
   @Override
@@ -241,7 +248,7 @@ implements
       
       SSEntity.addEntitiesDistinctWithoutNull(
         affiliatedEntities, 
-        SSServReg.inst.addAffiliatedEntitiesToCircle(
+        addAffiliatedEntitiesToCircle.addAffiliatedEntitiesToCircle(
           servPar,
           par.user, 
           par.circle, 

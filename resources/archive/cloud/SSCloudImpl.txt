@@ -385,3 +385,96 @@ public class SSCloudImpl extends SSServImplWithDBA implements SSCloudClientI, SS
   
   
 }
+
+//SSServContainerI
+  protected SSCoreConfA getConfForCloudDeployment(
+    final Class       servI,
+    final SSCoreConfA coreConf,
+    final List<Class> configuredServs) throws SSErr{
+    
+    if(configuredServs.contains(servI)){
+      return coreConf;
+    }
+    
+    //TODO dtheiler: implementation missing here
+//    for(SSServContainerI serv : servs.values()){
+//      
+//      if(servI.isInstance(serv)){
+//        
+//        configuredServs.add(servI);
+//        
+//        return serv.getConfForCloudDeployment(coreConf, configuredServs);
+//      }
+//    }
+    
+    SSServErrReg.regErrThrow(SSErrE.servInvalid);
+    return null;
+  }
+
+//SSServContainerI implementations
+@Override
+  public SSCoreConfA getConfForCloudDeployment(
+    final SSCoreConfA coreConfA,
+    final List<Class> configuredServs) throws SSErr{
+    
+    throw new UnsupportedOperationException();
+    //check whether to deploy service calls itself here once in getConfForCloudDeployment
+//    final SSCoreConf coreConf = (SSCoreConf) getConfForCloudDeployment(SSTagServerI.class /* TODO wrong class here */, coreConfA, configuredServs);
+//    final SSCollConf collConf = coreConf.getColl();
+//
+//    collConf.use                = true;
+//    collConf.executeOpAtStartUp = false;
+////    collConf.op                 = null;
+//
+//    return coreConf;
+  }
+
+  @Override
+  public SSCoreConfA getConfForCloudDeployment(
+    final SSCoreConfA coreConfA,
+    final List<Class> configuredServs) throws SSErr{
+    
+    throw new UnsupportedOperationException();
+    //TODO dtheiler: check whether to deploy service calls itself here once in getConfForCloudDeployment
+//    final SSCoreConf coreConf = (SSCoreConf) getConfForCloudDeployment(SSTagServI.class, coreConfA, configuredServs);
+//final SSTagConf  tagConf  = ((SSCoreConf)coreConfA).getTag();
+
+//tagConf.use                = true;
+//    collConf.op                 = null;
+
+//return coreConfA;
+  }
+
+
+//SSServReg
+public SSServContainerI getClientServContainer(
+    final String op) throws SSErr{
+    
+    try{
+      
+      final SSServContainerI serv = servsForClientOps.get(op);
+      
+      if(serv == null){
+        throw SSErr.get(SSErrE.servInvalid);
+      }
+      
+      return serv;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+      
+//      if(!SSServErrReg.containsErr(SSErrE.noClientServiceForOpAvailableOnMachine)){
+//        throw error;
+//      }
+      
+//      if(useCloud){
+//
+//        deployServNode(
+//          par,
+//          getClientServAvailableOnNodes(par));
+//
+//        return null;
+//      }
+  }

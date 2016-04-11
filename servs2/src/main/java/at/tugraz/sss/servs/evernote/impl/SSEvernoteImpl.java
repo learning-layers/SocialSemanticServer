@@ -42,10 +42,9 @@ import at.tugraz.sss.servs.evernote.datatype.SSEvernoteUserAddPar;
 import at.tugraz.sss.servs.file.api.SSFileServerI;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
+import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import com.evernote.auth.EvernoteAuth;
 import com.evernote.auth.EvernoteService;
 import com.evernote.clients.ClientFactory;
@@ -62,23 +61,28 @@ import java.util.List;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.servs.evernote.api.*;
 import at.tugraz.sss.servs.file.datatype.*;
 
 public class SSEvernoteImpl
-extends SSServImplWithDBA
+extends SSServImplA
 implements
   SSEvernoteClientI,
   SSEvernoteServerI,
   SSDescribeEntityI{
   
-  private final SSEvernoteSQL sql;
+  private final SSEvernoteSQL                         sql;
+  private final SSDBSQLI                              dbSQL;
+  private final SSDBNoSQLI                            dbNoSQL;
   
   public SSEvernoteImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
+   super(conf);
     
-    this.sql = new SSEvernoteSQL(dbSQL);
+    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
+    this.sql           = new SSEvernoteSQL(dbSQL);
   }
   
   @Override

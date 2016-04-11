@@ -37,18 +37,20 @@ import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.servs.common.impl.SSUserCommons;
+import at.tugraz.sss.servs.common.impl.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSEntityShareWithUsers {
   
-  private final SSEntityServerI  entityServ;
-  private final SSUserCommons userCommons;
+  private final SSEntityServerI           entityServ;
+  private final SSUserCommons             userCommons             = new SSUserCommons();
+  private final SSEntitiesSharedWithUsers entitiesSharedWithUsers = new SSEntitiesSharedWithUsers();
+  private final SSCircleEntitiesAdded     circleEntitiesAdded     = new SSCircleEntitiesAdded();
   
   public SSEntityShareWithUsers(final SSEntityServerI circleServ){
+
     this.entityServ  = circleServ;
-    this.userCommons = new SSUserCommons();
   }
   
   public void handle(
@@ -142,14 +144,14 @@ public class SSEntityShareWithUsers {
             false, //withUserRestriction,  //as it is a system circle
             false)); //invokeEntityHandlers));
       
-      SSServReg.inst.circleEntitiesAdded(
+      circleEntitiesAdded.circleEntitiesAdded(
         servPar,
         user,
         circle,
         circle.entities,
         withUserRestriction);
       
-      SSServReg.inst.entitiesSharedWithUsers(
+      entitiesSharedWithUsers.entitiesSharedWithUsers(
         servPar,
         new SSEntitiesSharedWithUsersPar(
           user,

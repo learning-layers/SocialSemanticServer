@@ -20,44 +20,42 @@
 */
 package at.tugraz.sss.serv.impl.api;
 
-import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI;
-import at.tugraz.sss.serv.datatype.par.SSServPar;
-import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.reg.*;
-
+  
 public abstract class SSServImplA{
 
-  protected final SSConfA      conf;
-  
-  public abstract void destroy() throws SSErr;
+  protected final SSConfA conf;
   
   protected SSServImplA(
     final SSConfA      conf){
     
     this.conf   = conf;
   }
-  
-  public SSServRetI invokeClientServOp(
-    final Class        clientInterfaceClass,
-    final SSServPar    par) throws SSErr{
-    
-    try{
-      if(clientInterfaceClass == null){
-        SSLogU.err(new Exception("service op shouldnt be instantiated this way"));
-        return null;
-      }
-
-      return (SSServRetI) clientInterfaceClass.getMethod(SSStrU.toStr(par.op), SSClientE.class, SSServPar.class).invoke(this, SSClientE.socket, par);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
 }
+
+// protected static final ThreadLocal<List<SSServImplA>> servImplsUsedByThread = new ThreadLocal<List<SSServImplA>>(){
+//    
+//    @Override protected List<SSServImplA> initialValue(){
+//      
+//      try{
+//        return new ArrayList<>();
+//      }catch (Exception error){
+//        SSLogU.err(error);
+//        return null;
+//      }
+//    }
+//  };
+
+//public static void regServImplUsedByThread(final SSServImplA servImpl){
+//    
+//    List<SSServImplA> servImplUsedList = servImplsUsedByThread.get();
+//    
+//    if(servImplUsedList.contains(servImpl)){
+//      return;
+//    }
+//    
+//    servImplUsedList.add(servImpl);
+//  }
 
   //  public static void addLogAndThrow(final Exception error) throws SSErr{
   //

@@ -29,7 +29,7 @@ import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
+
 import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import at.tugraz.sss.servs.flag.api.SSFlagClientI;
 import at.tugraz.sss.servs.flag.api.SSFlagServerI;
@@ -43,7 +43,7 @@ import at.tugraz.sss.servs.flag.datatype.SSFlagsSetRet;
 import at.tugraz.sss.servs.flag.impl.SSFlagSQLFct;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
+import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.SSEntityContext;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
@@ -54,30 +54,35 @@ import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.entity.api.SSUsersResourcesGathererI;
+import at.tugraz.sss.serv.impl.api.*;
 import java.util.ArrayList;
 import java.util.Map;
+import at.tugraz.sss.servs.common.api.SSGetUsersResourcesI;
 
 public class SSFlagImpl 
 extends 
-  SSServImplWithDBA 
+  SSServImplA 
 implements 
   SSFlagClientI, 
   SSFlagServerI, 
   SSDescribeEntityI, 
-  SSUsersResourcesGathererI{
+  SSGetUsersResourcesI{
   
-  private final SSFlagSQLFct     sql;
-  private final SSEntityServerI  entityServ;
-  private final SSUserCommons userCommons;
+  private final SSFlagSQLFct                          sql;
+  private final SSEntityServerI                       entityServ;
+  private final SSUserCommons                         userCommons;
+  private final SSDBSQLI                              dbSQL;
+  private final SSDBNoSQLI                            dbNoSQL;
   
   public SSFlagImpl(final SSConfA conf) throws SSErr{
 
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
-
-    this.sql         = new SSFlagSQLFct  (dbSQL);
-    this.entityServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-    this.userCommons = new SSUserCommons();
+    super(conf);
+    
+    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
+    this.sql           = new SSFlagSQLFct  (dbSQL);
+    this.entityServ    = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+    this.userCommons   = new SSUserCommons();
   }
   
   @Override

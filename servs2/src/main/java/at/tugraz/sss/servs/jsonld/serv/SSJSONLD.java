@@ -76,13 +76,6 @@ public class SSJSONLD extends SSServContainerI{
   }
   
   @Override
-  public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA, 
-    final List<Class> configuredServs) throws SSErr{
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
   public void schedule() throws SSErr{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }

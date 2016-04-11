@@ -30,6 +30,7 @@ import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.servs.common.impl.*;
 import java.util.List;
 
 public class SSCommentServ extends SSServContainerI{
@@ -69,8 +70,8 @@ public class SSCommentServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForHandlingDescribeEntity(this);
-    SSServReg.inst.regServForGatheringUserRelations(this);
+    new SSDescribeEntity().regServ   (this);
+    new SSGetUserRelations().regServ (this);
     
     return this;
   }
@@ -79,14 +80,6 @@ public class SSCommentServ extends SSServContainerI{
   public void initServ() throws SSErr{
   }
   
-  @Override
-  public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA, 
-    final List<Class> configuredServs) throws SSErr{
-   
-   throw new UnsupportedOperationException("not supported");
-  }
-
   @Override
   public void schedule() throws SSErr{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

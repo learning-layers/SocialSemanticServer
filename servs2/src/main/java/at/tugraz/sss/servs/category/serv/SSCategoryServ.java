@@ -37,6 +37,7 @@ import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.common.impl.*;
 import java.sql.*;
 import java.util.List;
 
@@ -77,11 +78,11 @@ public class SSCategoryServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForHandlingDescribeEntity(this);
-    SSServReg.inst.regServForHandlingEntityCopied(this);
-    SSServReg.inst.regServForHandlingCircleContentRemoved(this);
-    SSServReg.inst.regServForGatheringUserRelations(this);
-    SSServReg.inst.regServForGatheringUsersResources(this);
+    new SSDescribeEntity().regServ(this);
+    new SSEntityCopied().regServ(this);
+    new SSCircleContentRemoved().regServ(this);
+    new SSGetUserRelations().regServ(this);
+    new SSGetUsersResources().regServ(this);
     
     return this;
   }
@@ -125,13 +126,6 @@ public class SSCategoryServ extends SSServContainerI{
     }
   }
   
-  @Override
-  public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA,
-    final List<Class> configuredServs) throws SSErr{
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
   @Override
   public void schedule() throws SSErr{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

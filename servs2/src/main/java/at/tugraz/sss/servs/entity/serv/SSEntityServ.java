@@ -20,7 +20,7 @@
   */
 package at.tugraz.sss.servs.entity.serv;
 
-import at.tugraz.sss.serv.conf.SSConf;
+import at.tugraz.sss.serv.conf.*;
 import at.tugraz.sss.servs.entity.api.SSEntityClientI;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.par.SSCirclePubURIGetPar;
@@ -35,6 +35,7 @@ import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.common.impl.*;
 import at.tugraz.sss.servs.entity.impl.SSEntityImpl;
 import java.sql.*;
 import java.util.List;
@@ -76,10 +77,10 @@ public class SSEntityServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForGatheringUsersResources(this);
-    SSServReg.inst.regServForHandlingAddAffiliatedEntitiesToCircle(this);
-    SSServReg.inst.regServForHandlingDescribeEntity(this);
-    SSServReg.inst.regServForHandlingCopyEntity(this);
+    new SSGetUsersResources().regServ            (this);
+    new SSAddAffiliatedEntitiesToCircle().regServ(this);
+    new SSDescribeEntity().regServ               (this);
+    new SSCopyEntity().regServ                   (this);
     
     return this;
   }
@@ -130,17 +131,10 @@ public class SSEntityServ extends SSServContainerI{
       return;
     }
     
-    SSServReg.regScheduler(
+    new SSSchedules().regScheduler(
       SSDateU.scheduleWithFixedDelay(
         new SSEntitiesAccessibleGetCleanUpTask(),
         SSDateU.getDatePlusMinutes(5),
         5 * SSDateU.minuteInMilliSeconds));
-  }
-  
-  @Override
-  public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA,
-    final List<Class> configuredServs) throws SSErr{
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

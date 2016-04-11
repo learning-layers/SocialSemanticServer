@@ -29,10 +29,10 @@ import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.impl.api.SSServImplDBA;
 import at.tugraz.sss.serv.datatype.enums.SSWarnE;
 import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.db.api.*;
+import at.tugraz.sss.serv.impl.api.*;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLTransactionRollbackException;
 import java.sql.*;
 import java.util.Iterator;
@@ -42,7 +42,9 @@ import javax.ws.rs.core.MultivaluedMap;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
 
-public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
+public class SSDBSQLMySQLImpl 
+  extends SSServImplA 
+  implements SSDBSQLI{
   
   private static DataSource connectionPool = null;
   
@@ -56,10 +58,6 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       connectionPool.close();
       connectionPool = null;
     }
-  }
-  
-  @Override
-  public void destroy() throws SSErr{
   }
   
   @Override

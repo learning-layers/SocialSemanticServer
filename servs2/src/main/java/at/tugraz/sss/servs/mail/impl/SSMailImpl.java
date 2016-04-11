@@ -25,8 +25,9 @@ import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSErr;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
+
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.mail.api.SSMailClientI;
@@ -38,18 +39,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SSMailImpl 
-extends SSServImplWithDBA
+extends SSServImplA
 implements
   SSMailClientI,
   SSMailServerI{
   
-  private final SSMailConf    mailConf;
-  private final SSMailSQLFct  sqlFct;
+  private final SSDBSQLI                              dbSQL;
+  private final SSDBNoSQLI                            dbNoSQL;
+  private final SSMailConf                            mailConf;
+  private final SSMailSQLFct                          sqlFct;
   
   public SSMailImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
+    super(conf);
     
+    this.dbSQL          = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.dbNoSQL        = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
     this.mailConf       = (SSMailConf) conf;
     this.sqlFct         = new SSMailSQLFct(dbSQL);
   }

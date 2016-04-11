@@ -20,6 +20,7 @@
   */
 package at.tugraz.sss.servs.dataimport.serv;
 
+import at.tugraz.sss.serv.conf.*;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
@@ -28,7 +29,6 @@ import at.tugraz.sss.servs.dataimport.api.SSDataImportClientI;
 import at.tugraz.sss.servs.dataimport.api.SSDataImportServerI;
 import at.tugraz.sss.servs.dataimport.datatype.*;
 import at.tugraz.sss.servs.dataimport.impl.SSDataImportImpl;
-import at.tugraz.sss.serv.conf.SSConf;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.reg.*;
@@ -124,7 +124,7 @@ public class SSDataImportServ extends SSServContainerI{
     for(int scheduleOpsCounter = 0; scheduleOpsCounter < dataImportConf.scheduleOps.size(); scheduleOpsCounter++){
       
       if(SSStrU.isEqual(dataImportConf.scheduleOps.get(scheduleOpsCounter), SSVarNames.dataImportMediaWikiUser)){
-        SSServReg.regScheduler(SSDateU.scheduleNow(new SSDataImportMediaWikiUserTask()));
+        new SSSchedules().regScheduler(SSDateU.scheduleNow(new SSDataImportMediaWikiUserTask()));
         continue;
       }
       
@@ -140,7 +140,7 @@ public class SSDataImportServ extends SSServContainerI{
           
           try{
             
-            SSServReg.regScheduler(
+            new SSSchedules().regScheduler(
               SSDateU.scheduleWithFixedDelay(
                 new SSDataImportBitsAndPiecesTask(
                   new SSDataImportBitsAndPiecesPar(
@@ -167,7 +167,7 @@ public class SSDataImportServ extends SSServContainerI{
           
           try{
             
-            SSServReg.regScheduler(
+            new SSSchedules().regScheduler(
               SSDateU.scheduleWithFixedDelay(
                 new SSDataImportBitsAndPiecesTask(
                   new SSDataImportBitsAndPiecesPar(
@@ -191,12 +191,5 @@ public class SSDataImportServ extends SSServContainerI{
         }
       }
     }
-  }
-  
-  @Override
-  public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA,
-    final List<Class> configuredServs) throws SSErr{
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

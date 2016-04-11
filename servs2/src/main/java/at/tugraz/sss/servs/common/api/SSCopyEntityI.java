@@ -18,16 +18,15 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.serv.entity.api;
+package at.tugraz.sss.servs.common.api;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.par.*;
-import java.util.List;
-import java.util.Map;
 
-public interface SSUsersResourcesGathererI{
+public interface SSCopyEntityI {
   
-  public void getUsersResources(
-    final SSServPar                          servPar,
-    final Map<String, List<SSEntityContext>> usersEntities) throws SSErr;
+  public void copyEntity(
+    final SSServPar       servPar, 
+    final SSEntity        entity,
+    final SSEntityCopyPar par) throws SSErr;
 }

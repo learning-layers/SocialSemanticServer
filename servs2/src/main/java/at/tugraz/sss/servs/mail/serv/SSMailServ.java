@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.servs.mail.serv;
 
+import at.tugraz.sss.serv.conf.*;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.datatype.SSErr;
@@ -105,19 +106,12 @@ public class SSMailServ extends SSServContainerI{
       for(String scheduleOp : mailConf.scheduleOps){
         
         if(SSStrU.isEqual(scheduleOp, SSVarNames.mailSend)){
-          SSServReg.regScheduler(SSDateU.scheduleNow(new SSMailSendTask()));
+          new SSSchedules().regScheduler(SSDateU.scheduleNow(new SSMailSendTask()));
         }
       }
     }
   }
   @Override
   public void initServ() throws SSErr{
-  }
-  
-  @Override
-  public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA, 
-    final List<Class> configuredServs) throws SSErr{
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

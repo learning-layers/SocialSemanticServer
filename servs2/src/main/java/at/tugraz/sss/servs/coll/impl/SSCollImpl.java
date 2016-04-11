@@ -24,12 +24,11 @@ import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.entity.api.SSAddAffiliatedEntitiesToCircleI;
-import at.tugraz.sss.serv.entity.api.SSGetParentEntitiesI;
-import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
-import at.tugraz.sss.serv.entity.api.SSPushEntitiesToUsersI;
-import at.tugraz.sss.serv.entity.api.SSGetSubEntitiesI;
-import at.tugraz.sss.serv.entity.api.SSUsersResourcesGathererI;
+import at.tugraz.sss.servs.common.api.SSAddAffiliatedEntitiesToCircleI;
+import at.tugraz.sss.servs.common.api.SSGetParentEntitiesI;
+import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
+import at.tugraz.sss.servs.common.api.SSPushEntitiesToUsersI;
+import at.tugraz.sss.servs.common.api.SSGetSubEntitiesI;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSEntityContext;
@@ -54,7 +53,6 @@ import at.tugraz.sss.servs.coll.datatype.SSCollUserEntryAddPar;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserEntryDeletePar;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.servs.coll.api.*;
 import at.tugraz.sss.servs.coll.datatype.SSCollGetPar;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
@@ -67,7 +65,6 @@ import at.tugraz.sss.servs.coll.datatype.SSCollUserEntriesAddPar;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserEntriesDeletePar;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserEntriesAddRet;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserEntriesDeleteRet;
-import at.tugraz.sss.serv.entity.api.SSUserRelationGathererI;
 import at.tugraz.sss.servs.common.impl.SSUserCommons;
 import at.tugraz.sss.servs.coll.datatype.SSCollCumulatedTagsGetPar;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserHierarchyGetPar;
@@ -84,10 +81,14 @@ import java.util.*;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.datatype.enums.SSWarnE;
 import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.servs.coll.datatype.*;
+import at.tugraz.sss.servs.common.api.SSGetUsersResourcesI;
+import at.tugraz.sss.servs.common.api.SSGetUserRelationsI;
+import at.tugraz.sss.servs.common.impl.*;
 
 public class SSCollImpl
-extends SSServImplWithDBA
+extends SSServImplA
 implements
   SSCollClientI,
   SSCollServerI,
@@ -96,18 +97,23 @@ implements
   SSGetSubEntitiesI,
   SSAddAffiliatedEntitiesToCircleI,
   SSPushEntitiesToUsersI,
-  SSUserRelationGathererI,
-  SSUsersResourcesGathererI{
+  SSGetUserRelationsI,
+  SSGetUsersResourcesI{
   
-  private final SSCollActAndLog  actAndLog   = new SSCollActAndLog();
-  private final SSUserCommons    userCommons = new SSUserCommons();
-  private final SSCollSQL        sql;
+  private final SSCollActAndLog                       actAndLog                     = new SSCollActAndLog();
+  private final SSUserCommons                         userCommons                   = new SSUserCommons();
+  private final SSAddAffiliatedEntitiesToCircle       addAffiliatedEntitiesToCircle = new SSAddAffiliatedEntitiesToCircle();
+  private final SSCollSQL                             sql;
+  private final SSDBSQLI                              dbSQL;
+  private final SSDBNoSQLI                            dbNoSQL;
   
   public SSCollImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
+    super(conf);
     
-    this.sql = new SSCollSQL(dbSQL);
+    this.dbSQL         = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+    this.dbNoSQL       = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
+    this.sql           = new SSCollSQL(dbSQL);
   }
   
   @Override
@@ -450,7 +456,7 @@ implements
       
       SSEntity.addEntitiesDistinctWithoutNull(
         affiliatedEntities,
-        SSServReg.inst.addAffiliatedEntitiesToCircle(
+        addAffiliatedEntitiesToCircle.addAffiliatedEntitiesToCircle(
           servPar, 
           par.user,
           par.circle,

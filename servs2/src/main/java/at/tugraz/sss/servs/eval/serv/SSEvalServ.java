@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.servs.eval.serv;
 
+import at.tugraz.sss.serv.conf.*;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.util.SSDateU;
@@ -86,13 +87,6 @@ public class SSEvalServ extends SSServContainerI{
     setMaxRequsForClientOps();
   }
   
-  @Override
-  public SSCoreConfA getConfForCloudDeployment(
-    final SSCoreConfA coreConfA, 
-    final List<Class> configuredServs) throws SSErr{
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-  
   private void setMaxRequsForClientOps() throws SSErr{
     
 //    SSServOpE op;
@@ -135,7 +129,7 @@ public class SSEvalServ extends SSServContainerI{
         
         if(SSStrU.isEqual(scheduleOp, SSVarNames.evalAnalyze)){
           
-          SSServReg.regScheduler(
+          new SSSchedules().regScheduler(
             SSDateU.scheduleNow(
               new SSEvalAnalyzeTask()));
         }

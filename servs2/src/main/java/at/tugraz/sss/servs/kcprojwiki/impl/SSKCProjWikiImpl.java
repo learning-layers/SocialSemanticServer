@@ -24,9 +24,10 @@ import at.tugraz.sss.servs.dataimport.api.SSDataImportServerI;
 import at.tugraz.sss.servs.dataimport.datatype.SSDataImportKCProjWikiVorgaengePar;
 import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.db.api.*;
+import at.tugraz.sss.serv.impl.api.*;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.SSStrU;
 import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiClientI;
@@ -40,7 +41,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class SSKCProjWikiImpl
-  extends SSServImplWithDBA
+  extends SSServImplA
   implements
   SSKCProjWikiClientI,
   SSKCProjWikiServerI{
@@ -49,7 +50,7 @@ public class SSKCProjWikiImpl
   
   public SSKCProjWikiImpl(final SSConfA conf){
     
-    super(conf, null, null);
+    super(conf);
   }
   
   @Override

@@ -18,27 +18,17 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.serv.impl.api;
+package at.tugraz.sss.servs.common.api;
 
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI;
-import at.tugraz.sss.serv.datatype.par.SSServPar;
+import at.tugraz.sss.serv.datatype.par.*;
+import java.util.List;
+import java.util.Map;
 
-public abstract class SSServImplDBA extends SSServImplA{
+public interface SSGetUserRelationsI{
   
-  public SSServImplDBA(
-    final SSConfA      conf){
-    
-    super(conf);
-  }
-  
-  @Override
-  public SSServRetI invokeClientServOp(
-    final Class      servImplClientInteraceClass, 
-    final SSServPar  par) throws SSErr{
-    
-    throw new UnsupportedOperationException(SSStrU.empty);
-  }
+  public void getUserRelations(
+    final SSServPar                servPar, 
+    final List<String>             allUsers,
+    final Map<String, List<SSUri>> userRelations) throws SSErr;
 }

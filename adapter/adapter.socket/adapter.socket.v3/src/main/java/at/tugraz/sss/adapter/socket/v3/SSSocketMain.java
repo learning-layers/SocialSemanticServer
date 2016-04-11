@@ -59,13 +59,14 @@ import at.tugraz.sss.serv.util.SSEncodingU;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
-import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import at.tugraz.sss.serv.datatype.par.SSServPar;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI;
 import at.tugraz.sss.serv.db.api.*;
+import at.tugraz.sss.serv.requestlimit.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.conf.*;
 import at.tugraz.sss.servs.file.serv.*;
@@ -74,7 +75,9 @@ import java.io.*;
 import java.net.*;
 import java.sql.*;
 
-public class SSSocketMain extends SSServImplStartA{
+public class SSSocketMain extends SSServImplA{
+  
+  private final SSClientRequestLimit clientRequestLimit = new SSClientRequestLimit();
   
   public SSSocketMain() {
     super(null);
@@ -260,9 +263,9 @@ public class SSSocketMain extends SSServImplStartA{
         serv     = SSServReg.inst.getClientServContainer(par.op);
         servImpl = serv.getServImpl();
         
-        SSServReg.inst.regClientRequest(par.user, servImpl, par.op);
+        clientRequestLimit.regClientRequest(par.user, servImpl, par.op);
         
-        ret = servImpl.invokeClientServOp(serv.servImplClientInteraceClass, par);
+        ret = (SSServRetI) serv.servImplClientInteraceClass.getMethod(SSStrU.toStr(par.op), SSClientE.class, SSServPar.class).invoke(this, SSClientE.socket, par);
         
         socketAdapterU.writeRetFullToClient(outputStreamWriter, ret);
         
@@ -291,7 +294,7 @@ public class SSSocketMain extends SSServImplStartA{
         }
         
         try {
-          SSServReg.inst.unregClientRequest(par.op, par.user, servImpl);
+          clientRequestLimit.unregClientRequest(par.op, par.user, servImpl);
         }catch(Exception error) {
           SSLogU.err(error);
         }
