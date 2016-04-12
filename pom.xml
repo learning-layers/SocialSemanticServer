@@ -150,7 +150,7 @@
 
   <modules>
     <module>adapter</module>
-    <module>servs2</module>
+    <module>servs</module>
   </modules>
     
 </project>

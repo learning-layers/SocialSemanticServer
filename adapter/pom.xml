@@ -19,4 +19,12 @@
     <module>adapter.socket</module>
   </modules>
   
+  <dependencies>
+    
+    <dependency>
+      <groupId>sss</groupId>
+      <artifactId>servs</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
 </project>

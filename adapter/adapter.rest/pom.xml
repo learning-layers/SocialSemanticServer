@@ -17,12 +17,6 @@
   
   <dependencies>
     
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>servs2</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
     <!-- jersey start -->
     
     <dependency> <!-- jersey to support additional Servlet 3.x deployment modes and asynchronous JAX-RS resource programming model -->
