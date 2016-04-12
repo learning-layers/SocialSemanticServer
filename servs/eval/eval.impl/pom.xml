@@ -25,6 +25,12 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>user.api</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>disc.api</artifactId>
       <version>${project.version}</version>
     </dependency> 

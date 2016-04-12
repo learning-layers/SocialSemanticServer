@@ -564,10 +564,23 @@ implements
                 return null;
               }
               
-              final SSActivity activity = (SSActivity) activities.get(0);
+              final SSActivity     activity = (SSActivity) activities.get(0);
               
               targetEntities.addAll (activity.entities);
-              targetUsers.addAll    (activity.users);
+              
+              if(!activity.users.isEmpty()){
+                
+                final SSUserServerI userServ = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
+                
+                targetUsers.addAll(
+                  userServ.usersGet(
+                    new SSUsersGetPar(
+                      par,
+                      par.user,
+                      SSUri.getDistinctNotNullFromEntities(activity.users), //users
+                      null, //emails,
+                      false))); //invokeEntityHandlers
+              }
               
               return activity;
             }
