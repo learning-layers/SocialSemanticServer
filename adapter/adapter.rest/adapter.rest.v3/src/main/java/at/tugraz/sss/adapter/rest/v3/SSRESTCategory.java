@@ -28,10 +28,10 @@ import at.tugraz.sss.servs.category.datatype.SSCategoryFrequsGetPar;
 import at.tugraz.sss.servs.category.datatype.SSCategoriesPredefinedGetRet;
 import at.tugraz.sss.servs.category.datatype.SSCategoryAddRet;
 import at.tugraz.sss.servs.category.datatype.SSCategoryFrequsGetRet;
-import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.util.*;
+
+import at.tugraz.sss.servs.entity.datatype.*;
+import at.tugraz.sss.servs.db.api.*;
+import at.tugraz.sss.servs.util.*;
 import at.tugraz.sss.servs.category.api.*;
 import at.tugraz.sss.servs.category.impl.*;
 import at.tugraz.sss.servs.db.impl.*;

@@ -20,15 +20,22 @@
   */
 package at.tugraz.sss.servs.entity.impl;
 
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.entity.datatype.SSEntitySharePar;
+import at.tugraz.sss.servs.entity.datatype.SSCircleEntitiesRemovePar;
+import at.tugraz.sss.servs.entity.datatype.SSCircleUsersRemovePar;
+import at.tugraz.sss.servs.entity.datatype.SSCircleRemovePar;
+import at.tugraz.sss.servs.entity.datatype.SSCircleEntitiesAddPar;
+import at.tugraz.sss.servs.entity.datatype.SSCircleUsersAddPar;
+import at.tugraz.sss.servs.entity.datatype.SSCircleCreatePar;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
 import at.tugraz.sss.servs.activity.api.SSActivityServerI;
 import at.tugraz.sss.servs.activity.datatype.SSActivityE;
 import at.tugraz.sss.servs.activity.datatype.SSActivityAddPar;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.SSTextComment;
-import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
-import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
+import at.tugraz.sss.servs.entity.datatype.SSTextComment;
+import at.tugraz.sss.servs.entity.datatype.SSToolContextE;
 import at.tugraz.sss.servs.activity.impl.*;
 import java.util.List;
 import at.tugraz.sss.servs.eval.api.SSEvalServerI;

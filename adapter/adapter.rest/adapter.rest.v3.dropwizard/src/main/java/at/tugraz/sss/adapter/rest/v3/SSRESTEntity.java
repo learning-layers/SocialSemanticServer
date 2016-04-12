@@ -21,21 +21,18 @@
 package at.tugraz.sss.adapter.rest.v3;
 
 import at.tugraz.sss.servs.comment.datatype.SSCommentsAddRESTPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityCopyPar;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.conf.SSConf;
+import at.tugraz.sss.servs.util.*;
 import at.tugraz.sss.servs.user.datatype.SSUserEntityUsersGetPar;
 import at.tugraz.sss.servs.user.datatype.SSUserEntityUsersGetRet;
-import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.db.api.*;
+import at.tugraz.sss.servs.entity.datatype.*;
+import at.tugraz.sss.servs.db.api.*;
 import at.tugraz.sss.servs.comment.api.*;
 import at.tugraz.sss.servs.comment.datatype.*;
 import at.tugraz.sss.servs.comment.impl.*;
+import at.tugraz.sss.servs.common.datatype.*;
+import at.tugraz.sss.servs.conf.*;
 import at.tugraz.sss.servs.db.impl.*;
 import at.tugraz.sss.servs.entity.api.*;
-import at.tugraz.sss.servs.entity.datatype.*;
 import at.tugraz.sss.servs.entity.impl.*;
 import at.tugraz.sss.servs.user.api.*;
 import at.tugraz.sss.servs.user.impl.*;
@@ -361,7 +358,7 @@ public class SSRESTEntity{
     
     final SSEntityDescriberPar   descPar = new SSEntityDescriberPar(null);
     final SSEntitiesGetPar       par;
-    Connection               sqlCon = null;
+    Connection                   sqlCon = null;
     
     try{
       

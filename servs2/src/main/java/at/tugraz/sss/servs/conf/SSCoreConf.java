@@ -20,22 +20,20 @@
  */
 package at.tugraz.sss.servs.conf;
 
+import at.tugraz.sss.servs.util.SSLogU;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
 import at.tugraz.sss.servs.file.conf.SSFileConf;
 import at.tugraz.sss.servs.activity.conf.SSActivityConf;
 import at.tugraz.sss.servs.category.conf.SSCategoryConf;
-import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.servs.like.conf.SSLikeConf;
 import at.tugraz.sss.servs.message.conf.SSMessageConf;
-import at.tugraz.sss.serv.db.conf.SSDBSQLConf;
-import at.tugraz.sss.serv.entity.conf.SSEntityConf;
+import at.tugraz.sss.servs.db.conf.SSDBSQLConf;
+import at.tugraz.sss.servs.entity.conf.SSEntityConf;
 import at.tugraz.sss.servs.dataexport.conf.SSDataExportConf;
 import at.tugraz.sss.servs.recomm.conf.SSRecommConf;
 import at.tugraz.sss.servs.learnep.conf.SSLearnEpConf;
-import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.db.conf.SSDBNoSQLConf;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.db.conf.SSDBNoSQLConf;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
 import at.tugraz.sss.servs.app.conf.*;
 import at.tugraz.sss.servs.appstacklayout.conf.*;
 import at.tugraz.sss.servs.auth.conf.*;

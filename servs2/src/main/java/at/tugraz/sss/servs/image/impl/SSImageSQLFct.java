@@ -20,18 +20,21 @@
 */
 package at.tugraz.sss.servs.image.impl;
 
+import at.tugraz.sss.servs.db.impl.SSCoreSQL;
+import at.tugraz.sss.servs.db.api.SSSQLTableI;
+import at.tugraz.sss.servs.util.SSObjU;
+import at.tugraz.sss.servs.util.SSStrU;
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.entity.datatype.SSEntitySQLTableE;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
 import at.tugraz.sss.servs.image.datatype.SSImageSQLTableE;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.datatype.SSImage;
-import at.tugraz.sss.serv.datatype.enums.SSImageE;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.SSSQLVarNames;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.db.api.*;
+import at.tugraz.sss.servs.db.api.SSDBSQLI;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSErrE;
+import at.tugraz.sss.servs.image.datatype.SSImage;
+import at.tugraz.sss.servs.image.datatype.SSImageE;
+import at.tugraz.sss.servs.util.SSSQLVarNames;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;

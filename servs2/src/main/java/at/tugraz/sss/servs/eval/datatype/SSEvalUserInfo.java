@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.eval.datatype;
 
-import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.servs.entity.datatype.SSLabel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

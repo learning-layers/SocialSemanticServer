@@ -20,11 +20,11 @@
   */
 package at.tugraz.sss.servs.learnep.impl;
 
-import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.entity.api.*;
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.conf.SSConf;
+import at.tugraz.sss.servs.util.SSLogU;
+import at.tugraz.sss.servs.entity.api.*;
 import at.tugraz.sss.servs.db.impl.*;
 import at.tugraz.sss.servs.learnep.api.*;
 import at.tugraz.sss.servs.learnep.datatype.*;

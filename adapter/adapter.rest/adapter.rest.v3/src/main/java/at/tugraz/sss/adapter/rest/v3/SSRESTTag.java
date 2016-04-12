@@ -27,9 +27,9 @@ import at.tugraz.sss.servs.tag.datatype.SSTagsGetRESTPar;
 import at.tugraz.sss.servs.tag.datatype.SSTagAddRESTPar;
 import at.tugraz.sss.servs.tag.datatype.SSTagEntitiesForTagsGetRESTPar;
 import at.tugraz.sss.servs.tag.api.*;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.conf.SSConf;
+import at.tugraz.sss.servs.util.*;
+
+import at.tugraz.sss.servs.conf.*;
 import at.tugraz.sss.servs.tag.datatype.SSTagAddPar;
 import at.tugraz.sss.servs.tag.datatype.SSTagEntitiesForTagsGetPar;
 import at.tugraz.sss.servs.tag.datatype.SSTagFrequsGetPar;
@@ -42,10 +42,11 @@ import at.tugraz.sss.servs.tag.datatype.SSTagFrequsGetRet;
 import at.tugraz.sss.servs.tag.datatype.SSTagsAddRet;
 import at.tugraz.sss.servs.tag.datatype.SSTagsGetRet;
 import at.tugraz.sss.servs.tag.datatype.SSTagsRemoveRet;
-import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.db.api.*;
+
+import at.tugraz.sss.servs.entity.datatype.*;
+import at.tugraz.sss.servs.db.api.*;
 import at.tugraz.sss.servs.db.impl.*;
+import at.tugraz.sss.servs.search.datatype.*;
 import at.tugraz.sss.servs.tag.impl.*;
 import io.swagger.annotations.*;
 import java.sql.*;

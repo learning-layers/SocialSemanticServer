@@ -20,9 +20,9 @@
 */
  package at.tugraz.sss.servs.auth.api;
 
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.impl.api.SSServServerI;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.common.api.SSServServerI;
 import at.tugraz.sss.servs.auth.datatype.*;
 
 public interface SSAuthServerI extends SSServServerI{

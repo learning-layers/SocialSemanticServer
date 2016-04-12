@@ -20,15 +20,16 @@
 */
 package at.tugraz.sss.servs.search.impl;
 
-import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLFctA;
-import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.serv.datatype.par.SSDBNoSQLSearchPar;
-import at.tugraz.sss.serv.datatype.enums.SSSearchOpE;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.SSSolrKeywordLabel;
-import at.tugraz.sss.serv.datatype.enums.SSSolrSearchFieldE;
-import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.conf.SSConf;
+import at.tugraz.sss.servs.db.api.SSDBNoSQLFctA;
+import at.tugraz.sss.servs.db.api.SSDBNoSQLI;
+import at.tugraz.sss.servs.db.datatype.SSDBNoSQLSearchPar;
+import at.tugraz.sss.servs.search.datatype.SSSearchOpE;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
+import at.tugraz.sss.servs.db.datatype.SSSolrKeywordLabel;
+import at.tugraz.sss.servs.db.datatype.SSSolrSearchFieldE;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

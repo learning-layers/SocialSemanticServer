@@ -20,15 +20,15 @@
 */
  package at.tugraz.sss.servs.rating.api;
 
+import at.tugraz.sss.servs.entity.datatype.SSUri;
 import at.tugraz.sss.servs.rating.datatype.SSRatingOverall;
 import at.tugraz.sss.servs.rating.datatype.SSRatingEntityURIsGetPar;
 import at.tugraz.sss.servs.rating.datatype.SSRatingSetPar;
 import at.tugraz.sss.servs.rating.datatype.SSRatingGetPar;
 import at.tugraz.sss.servs.rating.datatype.SSRatingOverallGetPar;
 import at.tugraz.sss.servs.rating.datatype.SSRatingsRemovePar;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.impl.api.SSServServerI;
-import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.common.api.SSServServerI;
 import java.util.List;
 
 public interface SSRatingServerI extends SSServServerI{

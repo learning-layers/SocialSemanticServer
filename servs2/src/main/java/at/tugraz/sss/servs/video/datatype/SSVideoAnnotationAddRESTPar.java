@@ -20,8 +20,9 @@
 */
 package at.tugraz.sss.servs.video.datatype;
 
-import at.tugraz.sss.serv.datatype.SSTextComment;
-import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSLabel;
+import at.tugraz.sss.servs.entity.datatype.SSTextComment;
 import io.swagger.annotations.*;
 
 @ApiModel

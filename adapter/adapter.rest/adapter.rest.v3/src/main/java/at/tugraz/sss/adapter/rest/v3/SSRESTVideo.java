@@ -23,13 +23,13 @@ package at.tugraz.sss.adapter.rest.v3;
 import at.tugraz.sss.servs.video.datatype.SSVideoAddRESTPar;
 import at.tugraz.sss.servs.video.datatype.SSVideoAnnotationAddRESTPar;
 import at.tugraz.sss.servs.video.datatype.SSVideoAnnotationsSetRESTPar;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.util.*;
 import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.db.api.*;
+
+import at.tugraz.sss.servs.conf.*;
+
+import at.tugraz.sss.servs.entity.datatype.*;
+import at.tugraz.sss.servs.db.api.*;
 import at.tugraz.sss.servs.db.impl.*;
 import at.tugraz.sss.servs.video.api.*;
 import at.tugraz.sss.servs.video.datatype.*;

@@ -20,8 +20,8 @@
 */
 package at.tugraz.sss.servs.disc.datatype;
 
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.SSLabel;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
+import at.tugraz.sss.servs.entity.datatype.SSLabel;
 
 public abstract class SSDiscDailySummaryEntry {
   

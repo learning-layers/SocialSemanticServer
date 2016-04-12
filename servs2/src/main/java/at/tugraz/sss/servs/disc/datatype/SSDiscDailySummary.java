@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.disc.datatype;
 
-import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
 import java.util.ArrayList;
 import java.util.List;
 

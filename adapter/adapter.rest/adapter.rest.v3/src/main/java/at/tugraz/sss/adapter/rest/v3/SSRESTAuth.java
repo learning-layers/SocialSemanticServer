@@ -22,10 +22,10 @@ package at.tugraz.sss.adapter.rest.v3;
 
 import at.tugraz.sss.servs.auth.datatype.SSAuthRegisterUserRESTPar;
 import at.tugraz.sss.servs.auth.datatype.SSAuthCheckCredRESTPar;
-import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.util.*;
+
+import at.tugraz.sss.servs.entity.datatype.*;
+import at.tugraz.sss.servs.db.api.*;
+import at.tugraz.sss.servs.util.*;
 import at.tugraz.sss.servs.auth.api.*;
 import at.tugraz.sss.servs.auth.datatype.*;
 import at.tugraz.sss.servs.auth.impl.*;

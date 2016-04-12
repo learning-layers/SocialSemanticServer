@@ -27,13 +27,13 @@ import at.tugraz.sss.servs.recomm.datatype.SSRecommUpdateRESTPar;
 import at.tugraz.sss.servs.recomm.api.*;
 import at.tugraz.sss.servs.recomm.datatype.*;
 import at.tugraz.sss.servs.recomm.datatype.*;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.util.*;
 import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.db.api.*;
+
+import at.tugraz.sss.servs.conf.*;
+
+import at.tugraz.sss.servs.entity.datatype.*;
+import at.tugraz.sss.servs.db.api.*;
 import at.tugraz.sss.servs.db.impl.*;
 import at.tugraz.sss.servs.recomm.impl.*;
 import io.swagger.annotations.*;

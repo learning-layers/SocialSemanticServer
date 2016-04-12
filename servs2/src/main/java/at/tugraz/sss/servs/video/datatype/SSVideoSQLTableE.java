@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.servs.video.datatype;
 
-import at.tugraz.sss.serv.db.api.*;
+import at.tugraz.sss.servs.db.api.SSSQLTableI;
 
 public enum SSVideoSQLTableE implements SSSQLTableI{
   video,

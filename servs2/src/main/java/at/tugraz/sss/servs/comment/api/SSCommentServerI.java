@@ -20,10 +20,10 @@
 */
 package at.tugraz.sss.servs.comment.api;
 
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.SSTextComment;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.impl.api.SSServServerI;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSTextComment;
+import at.tugraz.sss.servs.common.api.SSServServerI;
 import at.tugraz.sss.servs.comment.datatype.*;
 import java.util.List;
 

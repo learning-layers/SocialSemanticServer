@@ -20,8 +20,9 @@
 */
 package at.tugraz.sss.servs.friend.impl;
 
+import at.tugraz.sss.servs.util.SSLogU;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
 import at.tugraz.sss.servs.common.api.SSDescribeEntityI;
-import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.servs.friend.api.SSFriendClientI;
 import at.tugraz.sss.servs.friend.api.SSFriendServerI;
 import at.tugraz.sss.servs.friend.datatype.SSFriend;
@@ -30,17 +31,16 @@ import at.tugraz.sss.servs.friend.datatype.SSFriendGetPar;
 import at.tugraz.sss.servs.friend.datatype.SSFriendsGetPar;
 import at.tugraz.sss.servs.friend.datatype.SSFriendAddRet;
 import at.tugraz.sss.servs.friend.datatype.SSFriendsGetRet;
-import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
+import at.tugraz.sss.servs.entity.datatype.SSEntityGetPar;
 import at.tugraz.sss.servs.user.datatype.SSUser;
-import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.entity.datatype.SSClientE;
+import at.tugraz.sss.servs.entity.datatype.SSServPar; 
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
+import at.tugraz.sss.servs.common.datatype.SSEntityDescriberPar;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSErrE;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
+import at.tugraz.sss.servs.entity.datatype.SSServRetI; 
 import at.tugraz.sss.servs.conf.*;
 import at.tugraz.sss.servs.entity.impl.*;
 import java.util.ArrayList;

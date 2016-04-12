@@ -20,10 +20,11 @@
  */
 package at.tugraz.sss.servs.dataimport.impl;
 
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
-import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
+import at.tugraz.sss.servs.entity.datatype.SSToolContextE;
 import java.util.*;
 import at.tugraz.sss.servs.eval.api.SSEvalServerI;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogE;

@@ -20,9 +20,9 @@
 */
  package at.tugraz.sss.servs.like.datatype;
 
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.api.SSEntityA;
+import at.tugraz.sss.servs.util.SSStrU;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSEntityA;
 
 public class SSLikes extends SSEntityA{
   

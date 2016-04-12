@@ -20,21 +20,21 @@
 */
 package at.tugraz.sss.servs.learnep.impl;
 
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
+import at.tugraz.sss.servs.util.SSStrU;
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.entity.api.*;
 import at.tugraz.sss.servs.learnep.conf.SSLearnEpConf;
-import at.tugraz.sss.serv.datatype.par.SSCircleIsEntitySharedPar;
-import at.tugraz.sss.serv.util.SSDateU;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.servs.entity.datatype.SSCircleIsEntitySharedPar;
+import at.tugraz.sss.servs.util.SSDateU;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSErrE;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
 
 public class SSLearnEpAccessController{
   

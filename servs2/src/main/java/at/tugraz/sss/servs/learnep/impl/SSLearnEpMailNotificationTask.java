@@ -20,6 +20,7 @@
   */
 package at.tugraz.sss.servs.learnep.impl;
 
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
 import at.tugraz.sss.servs.activity.datatype.SSActivityE;
 import at.tugraz.sss.servs.learnep.datatype.SSLearnEpDailySummary;
 import at.tugraz.sss.servs.learnep.datatype.SSLearnEpDailySummaryCopyLearnEpEntry;
@@ -38,13 +39,12 @@ import at.tugraz.sss.servs.disc.datatype.SSDiscDailySummaryGetRet;
 import at.tugraz.sss.servs.user.api.SSUserServerI;
 import at.tugraz.sss.servs.user.datatype.SSUser;
 import at.tugraz.sss.servs.user.datatype.SSUsersGetPar;
-import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.SSUri;
-import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.util.SSDateU;
-import at.tugraz.sss.serv.util.SSStrU;
+import at.tugraz.sss.servs.conf.SSConf;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.util.SSLogU;
+import at.tugraz.sss.servs.util.SSDateU;
+import at.tugraz.sss.servs.util.SSStrU;
 import at.tugraz.sss.servs.db.impl.*;
 import at.tugraz.sss.servs.disc.impl.*;
 import at.tugraz.sss.servs.learnep.api.*;

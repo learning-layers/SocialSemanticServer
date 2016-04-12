@@ -20,15 +20,15 @@
   */
 package at.tugraz.sss.servs.livingdoc.impl;
 
+import at.tugraz.sss.servs.util.SSStrU;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
 import at.tugraz.sss.servs.livingdoc.datatype.SSLivingDocAddPar;
 import at.tugraz.sss.servs.livingdoc.datatype.SSLivingDocUpdatePar;
 import at.tugraz.sss.servs.livingdoc.datatype.SSLivingDocRemovePar;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.util.SSLogU;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
+import at.tugraz.sss.servs.entity.datatype.SSToolContextE;
 import at.tugraz.sss.servs.eval.api.*;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogE;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogPar;

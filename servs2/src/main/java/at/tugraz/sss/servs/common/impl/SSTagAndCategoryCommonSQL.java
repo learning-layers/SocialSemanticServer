@@ -20,18 +20,19 @@
  */
 package at.tugraz.sss.servs.common.impl;
 
-import at.tugraz.sss.serv.db.api.SSCoreSQL;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.datatype.par.SSDBSQLSelectPar;
-import at.tugraz.sss.serv.util.SSDateU;
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.util.SSSQLVarNames;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.db.api.*;
+import at.tugraz.sss.servs.db.api.SSSQLTableI;
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.entity.datatype.SSEntityE;
+import at.tugraz.sss.servs.entity.datatype.SSEntitySQLTableE;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.db.impl.SSCoreSQL;
+import at.tugraz.sss.servs.db.api.SSDBSQLI;
+import at.tugraz.sss.servs.db.datatype.SSDBSQLSelectPar;
+import at.tugraz.sss.servs.util.SSDateU;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
+import at.tugraz.sss.servs.util.SSSQLVarNames;
+import at.tugraz.sss.servs.entity.datatype.SSSpaceE;
 import at.tugraz.sss.servs.category.datatype.SSCategory;
 import at.tugraz.sss.servs.category.datatype.SSCategoryLabel;
 import at.tugraz.sss.servs.category.datatype.SSCategorySQLTableE;

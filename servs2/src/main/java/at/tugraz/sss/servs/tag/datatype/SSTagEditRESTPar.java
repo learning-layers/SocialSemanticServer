@@ -20,9 +20,10 @@
 */
 package at.tugraz.sss.servs.tag.datatype;
 
-import at.tugraz.sss.serv.conf.SSConf;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.conf.SSConf;
 import at.tugraz.sss.servs.tag.datatype.SSTagLabel;
-import at.tugraz.sss.serv.datatype.*;
 import io.swagger.annotations.*;
 
 @ApiModel

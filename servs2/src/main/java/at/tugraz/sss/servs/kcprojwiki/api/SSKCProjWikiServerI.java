@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.kcprojwiki.api;
 
-import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiImportPar;
 
 public interface SSKCProjWikiServerI {

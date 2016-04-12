@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.adapter.rest.v3;
 
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.util.*;
 import com.fasterxml.jackson.databind.*;
 import javax.ws.rs.ext.*;
 

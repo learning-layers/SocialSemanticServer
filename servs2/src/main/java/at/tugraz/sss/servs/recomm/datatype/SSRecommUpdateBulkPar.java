@@ -20,10 +20,10 @@
  */
 package at.tugraz.sss.servs.recomm.datatype;
 
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.util.SSVarNames;
+import at.tugraz.sss.servs.entity.datatype.SSClientE;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.entity.datatype.SSServPar; 
 import java.io.*;
 import java.net.Socket;
 import java.sql.*;

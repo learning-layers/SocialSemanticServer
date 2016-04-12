@@ -20,10 +20,10 @@
 */
 package at.tugraz.sss.servs.recomm.datatype;
 
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.util.SSVarNames;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
 import at.tugraz.sss.servs.recomm.datatype.SSResourceLikelihood;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import at.tugraz.sss.servs.entity.datatype.SSServRetI; 
 import java.util.ArrayList;
 import java.util.List;
 

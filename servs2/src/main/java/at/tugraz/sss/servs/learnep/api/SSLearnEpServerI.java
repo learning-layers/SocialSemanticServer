@@ -20,14 +20,14 @@
 */
 package at.tugraz.sss.servs.learnep.api;
 
+import at.tugraz.sss.servs.entity.datatype.SSUri;
 import at.tugraz.sss.servs.learnep.datatype.SSLearnEp;
 import at.tugraz.sss.servs.learnep.datatype.SSLearnEpTimelineState;
 import at.tugraz.sss.servs.learnep.datatype.SSLearnEpVersion;
 import at.tugraz.sss.servs.learnep.datatype.*;
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.impl.api.SSServServerI;
-import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.common.api.SSServServerI;
 import java.util.List;
 
 public interface SSLearnEpServerI extends SSServServerI{

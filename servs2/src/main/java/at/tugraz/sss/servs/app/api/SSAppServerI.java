@@ -20,15 +20,15 @@
 */
 package at.tugraz.sss.servs.app.api;
 
+import at.tugraz.sss.servs.entity.datatype.SSUri;
 import at.tugraz.sss.servs.app.datatype.SSApp;
 import at.tugraz.sss.servs.app.datatype.SSAppAddPar;
 import at.tugraz.sss.servs.app.datatype.SSAppGetPar;
 import at.tugraz.sss.servs.app.datatype.SSAppsDeletePar;
 import at.tugraz.sss.servs.app.datatype.SSAppsGetPar;
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.impl.api.SSServServerI;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.common.api.SSServServerI;
 import java.util.List;
 
 public interface SSAppServerI extends SSServServerI{

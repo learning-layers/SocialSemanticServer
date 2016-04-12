@@ -20,8 +20,8 @@
  */
 package at.tugraz.sss.servs.dataimport.impl;
 
+import at.tugraz.sss.servs.util.SSLogU;
 import at.tugraz.sss.servs.dataimport.datatype.*;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.db.impl.*;
 import java.sql.*;
 

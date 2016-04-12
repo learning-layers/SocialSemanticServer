@@ -20,10 +20,10 @@
 */
 package at.tugraz.sss.servs.activity.datatype;
 
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.api.SSEntityA;
-import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.servs.util.SSStrU;
+import at.tugraz.sss.servs.entity.datatype.SSErrE;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSEntityA;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -20,10 +20,10 @@
 */
 package at.tugraz.sss.servs.appstacklayout.api;
 
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.datatype.ret.SSServRetI;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSClientE;
+import at.tugraz.sss.servs.entity.datatype.SSServPar; 
+import at.tugraz.sss.servs.entity.datatype.SSServRetI;
 
 public interface SSAppStackLayoutClientI{
   

@@ -20,18 +20,19 @@
   */
 package at.tugraz.sss.servs.activity.impl;
 
+import at.tugraz.sss.servs.util.SSStrU;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
 import at.tugraz.sss.servs.activity.datatype.SSActivity;
 import at.tugraz.sss.servs.activity.datatype.SSActivitiesGetPar;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
-import at.tugraz.sss.serv.misc.SSEntityFiller;
-import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
-import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
+import at.tugraz.sss.servs.entity.api.*;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
+import at.tugraz.sss.servs.common.datatype.SSEntityDescriberPar;
+import at.tugraz.sss.servs.util.SSEntityFiller;
+import at.tugraz.sss.servs.util.SSLogU;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
+import at.tugraz.sss.servs.entity.datatype.SSEntitiesGetPar;
+import at.tugraz.sss.servs.entity.datatype.SSEntityGetPar;
 import java.util.ArrayList;
 import java.util.List;
 

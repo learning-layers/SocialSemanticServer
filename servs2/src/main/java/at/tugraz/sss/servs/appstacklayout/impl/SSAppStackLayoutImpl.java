@@ -20,16 +20,23 @@
   */
 package at.tugraz.sss.servs.appstacklayout.impl;
 
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.conf.*;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.servs.util.SSLogU;
+import at.tugraz.sss.servs.util.SSStrU;
+import at.tugraz.sss.servs.entity.datatype.SSServRetI;
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.entity.datatype.SSEntityUpdatePar;
+import at.tugraz.sss.servs.entity.datatype.SSEntityGetPar;
+import at.tugraz.sss.servs.common.datatype.SSEntityDescriberPar;
+import at.tugraz.sss.servs.conf.SSConf;
+import at.tugraz.sss.servs.entity.datatype.SSClientE;
+import at.tugraz.sss.servs.entity.datatype.SSEntityE;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
 import at.tugraz.sss.servs.appstacklayout.api.*;
 import at.tugraz.sss.servs.appstacklayout.datatype.*;
 import at.tugraz.sss.servs.common.api.*;
-import at.tugraz.sss.serv.datatype.ret.*; 
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.conf.*;
 import at.tugraz.sss.servs.entity.impl.*;
 import java.util.ArrayList;

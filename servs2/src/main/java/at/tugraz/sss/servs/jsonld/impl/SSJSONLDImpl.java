@@ -20,13 +20,15 @@
 */
 package at.tugraz.sss.servs.jsonld.impl;
 
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.jsonld.*;
-import at.tugraz.sss.serv.datatype.par.*; 
-import at.tugraz.sss.serv.datatype.ret.*; 
+import at.tugraz.sss.servs.util.SSVarNames;
+import at.tugraz.sss.servs.util.SSObjU;
+import at.tugraz.sss.servs.util.SSStrU;
+import at.tugraz.sss.servs.common.api.SSJSONLDPropI;
+import at.tugraz.sss.servs.entity.datatype.SSServRetI;
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.entity.datatype.SSClientE;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
 import at.tugraz.sss.servs.conf.*;
 import at.tugraz.sss.servs.entity.impl.*;
 import at.tugraz.sss.servs.jsonld.api.*;

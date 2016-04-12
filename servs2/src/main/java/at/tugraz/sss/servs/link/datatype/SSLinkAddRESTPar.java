@@ -20,8 +20,11 @@
  */
 package at.tugraz.sss.servs.link.datatype;
 
-import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSTextComment;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.entity.datatype.SSLabel;
+import at.tugraz.sss.servs.conf.SSConf;
 import io.swagger.annotations.*;
 
 @ApiModel

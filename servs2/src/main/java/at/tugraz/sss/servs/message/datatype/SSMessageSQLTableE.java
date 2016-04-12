@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.message.datatype;
 
-import at.tugraz.sss.serv.db.api.*;
+import at.tugraz.sss.servs.db.api.SSSQLTableI;
 
 public enum SSMessageSQLTableE implements SSSQLTableI{
   message;

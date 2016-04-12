@@ -27,11 +27,11 @@ import at.tugraz.sss.servs.activity.datatype.SSActivitiesGetPar;
 import at.tugraz.sss.servs.activity.datatype.SSActivityAddPar;
 import at.tugraz.sss.servs.activity.datatype.SSActivityTypesGetPar;
 import at.tugraz.sss.servs.activity.datatype.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.util.*;
+
+
+import at.tugraz.sss.servs.entity.datatype.*;
+import at.tugraz.sss.servs.db.api.*;
+import at.tugraz.sss.servs.util.*;
 import at.tugraz.sss.servs.activity.impl.*;
 import at.tugraz.sss.servs.db.impl.*;
 import io.swagger.annotations.*;

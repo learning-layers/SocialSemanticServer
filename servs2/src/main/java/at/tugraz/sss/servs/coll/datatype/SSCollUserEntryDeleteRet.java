@@ -21,9 +21,7 @@
 
 package at.tugraz.sss.servs.coll.datatype;
 
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.entity.datatype.SSServRetI; 
 import java.util.HashMap;
 import java.util.Map;
 

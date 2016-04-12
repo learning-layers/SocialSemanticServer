@@ -19,12 +19,6 @@
     
     <dependency>
       <groupId>sss</groupId>
-      <artifactId>serv</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss</groupId>
       <artifactId>servs2</artifactId>
       <version>${project.version}</version>
     </dependency>

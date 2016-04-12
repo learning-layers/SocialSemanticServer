@@ -24,8 +24,8 @@ import at.tugraz.sss.servs.dataexport.datatype.SSDataExportUserEntityTagsCategor
 import at.tugraz.sss.servs.dataexport.datatype.SSDataExportUserRelationsPar;
 import at.tugraz.sss.servs.dataexport.datatype.SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar;
 import at.tugraz.sss.servs.dataexport.datatype.SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.impl.api.SSServServerI;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.common.api.SSServServerI;
 
 public interface SSDataExportServerI extends SSServServerI{
 

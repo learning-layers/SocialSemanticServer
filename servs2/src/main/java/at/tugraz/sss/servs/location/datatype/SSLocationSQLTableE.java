@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.location.datatype;
 
-import at.tugraz.sss.serv.db.api.*;
+import at.tugraz.sss.servs.db.api.SSSQLTableI;
 
 public enum SSLocationSQLTableE implements SSSQLTableI{
   location;

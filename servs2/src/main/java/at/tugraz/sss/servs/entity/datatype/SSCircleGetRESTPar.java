@@ -20,9 +20,6 @@
  */
 package at.tugraz.sss.servs.entity.datatype;
 
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import io.swagger.annotations.*;
 
 import java.util.List;

@@ -20,9 +20,10 @@
 */
 package at.tugraz.sss.servs.category.datatype;
 
-import at.tugraz.sss.serv.util.SSJSONLDU;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.util.SSVarNames;
+import at.tugraz.sss.servs.util.SSStrU;
+import at.tugraz.sss.servs.util.SSJSONLDU;
+import at.tugraz.sss.servs.entity.datatype.SSServRetI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -21,12 +21,11 @@
 package at.tugraz.sss.servs.video.datatype;
 
 
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.SSJSONLDU;
+import at.tugraz.sss.servs.util.SSVarNames;
+import at.tugraz.sss.servs.entity.datatype.SSServRetI;
+ import at.tugraz.sss.servs.util.SSJSONLDU;
 import at.tugraz.sss.servs.video.datatype.SSVideo;
-import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

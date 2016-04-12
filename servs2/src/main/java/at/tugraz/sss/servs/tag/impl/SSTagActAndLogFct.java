@@ -20,16 +20,16 @@
  */
 package at.tugraz.sss.servs.tag.impl;
 
+import at.tugraz.sss.servs.util.SSStrU;
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
 import at.tugraz.sss.servs.activity.api.SSActivityServerI;
 import at.tugraz.sss.servs.activity.datatype.SSActivityE;
 import at.tugraz.sss.servs.activity.datatype.SSActivityAddPar;
 import at.tugraz.sss.servs.tag.datatype.SSTagLabel;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
+import at.tugraz.sss.servs.entity.datatype.SSToolContextE;
 import at.tugraz.sss.servs.activity.impl.*;
 import at.tugraz.sss.servs.eval.api.*;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogE;

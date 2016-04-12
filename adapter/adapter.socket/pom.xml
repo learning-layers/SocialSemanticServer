@@ -10,17 +10,7 @@
   <artifactId>adapter.socket</artifactId>
   <packaging>pom</packaging>
   <modules>
-    <module>adapter.socket.util</module>
     <module>adapter.socket.v3</module>
   </modules>
   
-  <dependencies>
-  
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>serv</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-  </dependencies> 
 </project>

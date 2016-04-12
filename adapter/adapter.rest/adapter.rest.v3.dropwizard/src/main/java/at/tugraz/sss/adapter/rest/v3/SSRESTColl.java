@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.adapter.rest.v3;
 
-import at.tugraz.sss.serv.conf.SSConf;
+import at.tugraz.sss.servs.conf.*;
 import at.tugraz.sss.servs.coll.api.SSCollClientI;
 import at.tugraz.sss.servs.coll.datatype.SSCollCumulatedTagsGetPar;
 import at.tugraz.sss.servs.coll.datatype.SSCollGetPar;
@@ -38,11 +38,9 @@ import at.tugraz.sss.servs.coll.datatype.SSCollUserEntryAddRet;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserHierarchyGetRet;
 import at.tugraz.sss.servs.coll.datatype.SSCollUserRootGetRet;
 import at.tugraz.sss.servs.coll.datatype.SSCollsUserEntityIsInGetRet;
-import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.db.api.*;
+import at.tugraz.sss.servs.util.*;
+import at.tugraz.sss.servs.entity.datatype.*;
+import at.tugraz.sss.servs.db.api.*;
 import at.tugraz.sss.servs.coll.datatype.*;
 import at.tugraz.sss.servs.coll.impl.*;
 import at.tugraz.sss.servs.db.impl.*;

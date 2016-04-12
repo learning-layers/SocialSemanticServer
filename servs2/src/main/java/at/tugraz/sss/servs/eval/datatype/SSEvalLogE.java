@@ -20,9 +20,10 @@
 */
 package at.tugraz.sss.servs.eval.datatype;
 
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.util.SSObjU;
+import at.tugraz.sss.servs.util.SSStrU;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
 

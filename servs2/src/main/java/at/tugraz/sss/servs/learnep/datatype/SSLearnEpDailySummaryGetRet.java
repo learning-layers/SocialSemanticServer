@@ -21,8 +21,8 @@
 package at.tugraz.sss.servs.learnep.datatype;
 
 import at.tugraz.sss.servs.learnep.datatype.SSLearnEpDailySummary;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI;
-import at.tugraz.sss.serv.util.SSVarNames;
+import at.tugraz.sss.servs.entity.datatype.SSServRetI;
+import at.tugraz.sss.servs.util.SSVarNames;
 import java.util.HashMap;
 import java.util.Map;
 

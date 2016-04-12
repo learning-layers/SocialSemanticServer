@@ -20,9 +20,9 @@
 */
 package at.tugraz.sss.servs.learnep.datatype;
 
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.ret.*;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.util.SSVarNames;
+import at.tugraz.sss.servs.entity.datatype.SSServRetI;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
 import java.util.*;
 
 public class SSLearnEpCirclesWithEntriesGetRet extends SSServRetI{

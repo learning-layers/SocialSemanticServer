@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.video.datatype;
 
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.util.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.tag.conf;
 
-import at.tugraz.sss.serv.conf.api.SSServConfA;
+import at.tugraz.sss.servs.conf.SSServConfA;
 
 public class SSTagConf extends SSServConfA{
 

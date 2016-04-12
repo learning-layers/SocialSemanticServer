@@ -20,10 +20,10 @@
  */
 package at.tugraz.sss.servs.link.api;
 
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.datatype.par.SSServPar;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSClientE;
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.entity.datatype.SSServRetI;
 
 public interface SSLinkClientI {
   public SSServRetI linkAdd(final SSClientE clientType, final SSServPar parA) throws SSErr;

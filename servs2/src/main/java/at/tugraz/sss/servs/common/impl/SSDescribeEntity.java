@@ -5,11 +5,13 @@
  */
 package at.tugraz.sss.servs.common.impl;
 
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.conf.api.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.common.datatype.SSEntityDescriberPar;
+import at.tugraz.sss.servs.entity.datatype.SSErrE;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
+import at.tugraz.sss.servs.conf.SSConfA;
 import at.tugraz.sss.servs.common.api.*;
 import java.util.*;
 

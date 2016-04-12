@@ -20,9 +20,7 @@
 */
 package at.tugraz.sss.servs.entity.datatype;
 
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import at.tugraz.sss.servs.util.SSVarNames;
 
 public class SSEntityGetRet extends SSServRetI{
 

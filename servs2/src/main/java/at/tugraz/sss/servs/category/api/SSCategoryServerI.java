@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.servs.category.api;
 
+import at.tugraz.sss.servs.entity.datatype.SSUri;
 import at.tugraz.sss.servs.category.datatype.SSCategoryFrequ;
 import at.tugraz.sss.servs.category.datatype.SSCategoriesAddPar;
 import at.tugraz.sss.servs.category.datatype.SSCategoriesGetPar;
@@ -29,10 +30,9 @@ import at.tugraz.sss.servs.category.datatype.SSCategoriesRemovePar;
 import at.tugraz.sss.servs.category.datatype.SSCategoryAddPar;
 import at.tugraz.sss.servs.category.datatype.SSCategoryFrequsGetPar;
 import at.tugraz.sss.servs.category.datatype.SSCategoryEntitiesForCategoriesGetPar;
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.impl.api.SSServServerI;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.common.api.SSServServerI;
 import java.util.List;
 
 public interface SSCategoryServerI extends SSServServerI{

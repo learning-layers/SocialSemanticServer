@@ -20,10 +20,10 @@
 */
 package at.tugraz.sss.servs.recomm.impl;
 
-import at.tugraz.sss.serv.util.SSLogU;
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.util.SSLogU;
 import at.tugraz.sss.servs.recomm.datatype.SSRecommUpdateBulkUserRealmsFromConfPar;
-import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.servs.conf.SSConf;
 import at.tugraz.sss.servs.db.impl.*;
 import java.sql.*;
 

@@ -20,15 +20,17 @@
   */
 package at.tugraz.sss.servs.learnep.impl;
 
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.entity.datatype.SSEntityGetPar;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.entity.api.*;
 import at.tugraz.sss.servs.learnep.datatype.SSLearnEpEntity;
 import at.tugraz.sss.servs.learnep.datatype.SSLearnEpVersion;
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
-import at.tugraz.sss.serv.misc.SSEntityFiller;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
+import at.tugraz.sss.servs.common.datatype.SSEntityDescriberPar;
+import at.tugraz.sss.servs.util.SSEntityFiller;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
 import at.tugraz.sss.servs.learnep.datatype.*;
 import java.util.List;
 

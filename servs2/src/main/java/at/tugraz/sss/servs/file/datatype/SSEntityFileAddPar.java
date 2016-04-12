@@ -20,11 +20,14 @@
 */
 package at.tugraz.sss.servs.file.datatype;
 
-import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.util.SSFileExtE;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.SSServPar;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.util.SSVarNames;
+import at.tugraz.sss.servs.util.SSStrU;
+import at.tugraz.sss.servs.entity.datatype.SSEntityE;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.entity.datatype.SSLabel;
+import at.tugraz.sss.servs.util.SSFileExtE;
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
 import java.sql.*;
 
 public class SSEntityFileAddPar extends SSServPar{

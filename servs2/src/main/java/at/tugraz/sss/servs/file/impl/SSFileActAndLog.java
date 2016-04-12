@@ -20,15 +20,15 @@
 */
 package at.tugraz.sss.servs.file.impl;
 
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
 import at.tugraz.sss.servs.activity.api.SSActivityServerI;
-import at.tugraz.sss.serv.util.SSLogU;
+import at.tugraz.sss.servs.util.SSLogU;
 import at.tugraz.sss.servs.activity.datatype.SSActivityAddPar;
-import at.tugraz.sss.serv.datatype.SSTextComment;
-import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.servs.entity.datatype.SSTextComment;
 import java.util.List;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
 import at.tugraz.sss.servs.activity.datatype.*;
 import at.tugraz.sss.servs.activity.impl.*;
 

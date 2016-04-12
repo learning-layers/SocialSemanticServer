@@ -20,9 +20,9 @@
  */
 package at.tugraz.sss.servs.activity.datatype;
 
-import at.tugraz.sss.serv.datatype.par.SSServPar; 
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.servs.util.SSVarNames;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.entity.datatype.SSServPar; 
 import java.sql.*;
 
 public class SSActivityTypesGetPar extends SSServPar{

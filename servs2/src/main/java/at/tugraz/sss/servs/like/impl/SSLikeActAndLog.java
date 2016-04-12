@@ -21,9 +21,9 @@
 package at.tugraz.sss.servs.like.impl;
 
 import at.tugraz.sss.servs.like.datatype.*;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
+import at.tugraz.sss.servs.entity.datatype.SSToolContextE;
 import at.tugraz.sss.servs.eval.api.SSEvalServerI;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogE;
 import at.tugraz.sss.servs.eval.datatype.SSEvalLogPar;

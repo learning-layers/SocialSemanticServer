@@ -27,13 +27,13 @@ import at.tugraz.sss.servs.learnep.datatype.SSLearnEpVersionEntityAddRESTPar;
 import at.tugraz.sss.servs.learnep.datatype.SSLearnEpVersionAddCircleRESTPar;
 import at.tugraz.sss.servs.learnep.datatype.SSLearnEpTimelineStateSetRESTPar;
 import at.tugraz.sss.servs.learnep.datatype.*;
-import at.tugraz.sss.serv.conf.SSConf;
+import at.tugraz.sss.servs.conf.*;
 import at.tugraz.sss.adapter.rest.v3.SSRESTCommons;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.db.api.*;
+import at.tugraz.sss.servs.util.*;
+
+
+import at.tugraz.sss.servs.entity.datatype.*;
+import at.tugraz.sss.servs.db.api.*;
 import at.tugraz.sss.servs.db.impl.*;
 import at.tugraz.sss.servs.learnep.api.*;
 import at.tugraz.sss.servs.learnep.impl.*;

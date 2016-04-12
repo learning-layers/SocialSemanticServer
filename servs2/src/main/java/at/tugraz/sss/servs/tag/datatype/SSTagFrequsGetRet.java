@@ -21,10 +21,9 @@
 package at.tugraz.sss.servs.tag.datatype;
 
 
-import at.tugraz.sss.serv.util.SSJSONLDU;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.util.SSVarNames;
+import at.tugraz.sss.servs.util.SSJSONLDU;
+import at.tugraz.sss.servs.entity.datatype.SSServRetI;
 import at.tugraz.sss.servs.tag.datatype.SSTagFrequ;
 import java.util.ArrayList;
 import java.util.HashMap;

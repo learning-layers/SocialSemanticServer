@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.kcprojwiki.conf;
 
-import at.tugraz.sss.serv.conf.api.SSServConfA;
+import at.tugraz.sss.servs.conf.SSServConfA;
 
 public class SSKCProjWikiConf extends SSServConfA{
   

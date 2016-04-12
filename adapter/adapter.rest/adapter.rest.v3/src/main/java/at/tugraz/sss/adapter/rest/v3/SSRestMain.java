@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.adapter.rest.v3;
 
-import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.servs.entity.datatype.*;
 import javax.ws.rs.*;
 import org.glassfish.jersey.jackson.*;
 import org.glassfish.jersey.media.multipart.*;

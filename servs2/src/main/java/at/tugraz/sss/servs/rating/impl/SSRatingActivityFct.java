@@ -20,14 +20,14 @@
 */
 package at.tugraz.sss.servs.rating.impl;
 
+import at.tugraz.sss.servs.entity.datatype.SSUri;
 import at.tugraz.sss.servs.activity.api.SSActivityServerI;
 import at.tugraz.sss.servs.activity.datatype.SSActivityE;
 import at.tugraz.sss.servs.activity.datatype.SSActivityAddPar;
-import at.tugraz.sss.serv.datatype.SSTextComment;
-import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.servs.entity.datatype.SSTextComment;
 import at.tugraz.sss.servs.rating.datatype.SSRatingSetPar;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
 import at.tugraz.sss.servs.activity.impl.*;
 
 public class SSRatingActivityFct{

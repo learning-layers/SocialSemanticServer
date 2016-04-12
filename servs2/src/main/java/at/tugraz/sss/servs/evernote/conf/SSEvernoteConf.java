@@ -20,8 +20,8 @@
 */
 package at.tugraz.sss.servs.evernote.conf;
 
-import at.tugraz.sss.serv.conf.api.SSServConfA;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.util.SSStrU;
+import at.tugraz.sss.servs.conf.SSServConfA;
 import java.util.ArrayList;
 import java.util.List;
 

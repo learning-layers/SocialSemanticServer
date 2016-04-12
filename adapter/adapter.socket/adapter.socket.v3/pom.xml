@@ -146,13 +146,11 @@
   </properties>
   
   <dependencies>
-     
     <dependency>
       <groupId>sss</groupId>
       <artifactId>servs2</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
   </dependencies>
 
 </project>

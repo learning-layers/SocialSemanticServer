@@ -20,23 +20,25 @@
  */
 package at.tugraz.sss.servs.common.impl;
 
+import at.tugraz.sss.servs.util.SSStrU;
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.entity.datatype.SSEntityE;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.entity.datatype.SSLabel;
 import at.tugraz.sss.servs.category.datatype.SSCategory;
 import at.tugraz.sss.servs.category.datatype.SSCategoryFrequ;
 import at.tugraz.sss.servs.tag.datatype.SSTag;
 import at.tugraz.sss.servs.tag.datatype.SSTagFrequ;
-import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.api.SSEntityA;
-import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.par.SSEntityFromTypeAndLabelGetPar;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.enums.SSSearchOpE;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.conf.SSConf;
+import at.tugraz.sss.servs.db.api.SSDBSQLI;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
+import at.tugraz.sss.servs.entity.datatype.SSEntityA;
+import at.tugraz.sss.servs.entity.datatype.SSEntityFromTypeAndLabelGetPar;
+
+import at.tugraz.sss.servs.search.datatype.SSSearchOpE;
+import at.tugraz.sss.servs.entity.datatype.SSSpaceE;
+import at.tugraz.sss.servs.entity.api.*;
 import at.tugraz.sss.servs.entity.impl.*;
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -20,19 +20,19 @@
   */
 package at.tugraz.sss.servs.link.impl;
 
-import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.datatype.par.SSServPar;
-import at.tugraz.sss.serv.datatype.SSEntityContext;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.SSUri;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.enums.SSClientE;
-import at.tugraz.sss.serv.datatype.enums.SSEntityE;
-import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
-import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI;
-import at.tugraz.sss.serv.db.api.SSCoreSQL;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
+import at.tugraz.sss.servs.conf.SSConf;
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.entity.datatype.SSEntityContext;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
+import at.tugraz.sss.servs.entity.datatype.SSClientE;
+import at.tugraz.sss.servs.entity.datatype.SSEntityE;
+import at.tugraz.sss.servs.entity.datatype.SSEntityUpdatePar;
+import at.tugraz.sss.servs.util.SSLogU;
+import at.tugraz.sss.servs.entity.datatype.SSServRetI;
+import at.tugraz.sss.servs.db.impl.SSCoreSQL;
+
 import at.tugraz.sss.servs.link.api.SSLinkClientI;
 import at.tugraz.sss.servs.link.api.SSLinkServerI;
 import at.tugraz.sss.servs.link.datatype.SSLinkAddPar;

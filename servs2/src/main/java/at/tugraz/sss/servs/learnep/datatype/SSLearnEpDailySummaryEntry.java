@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.learnep.datatype;
 
-import at.tugraz.sss.serv.datatype.SSLabel;
+import at.tugraz.sss.servs.entity.datatype.SSLabel;
 
 public abstract class SSLearnEpDailySummaryEntry {
   

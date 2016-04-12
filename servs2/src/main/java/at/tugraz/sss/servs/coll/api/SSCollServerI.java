@@ -20,7 +20,7 @@
 */
  package at.tugraz.sss.servs.coll.api;
 
-import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
 import at.tugraz.sss.servs.coll.datatype.SSColl;
 import at.tugraz.sss.servs.coll.datatype.SSCollGetPar;
 import at.tugraz.sss.servs.coll.datatype.SSCollCumulatedTagsGetPar;
@@ -35,9 +35,9 @@ import at.tugraz.sss.servs.coll.datatype.SSCollUserRootGetPar;
 import at.tugraz.sss.servs.coll.datatype.SSCollsGetPar;
 import at.tugraz.sss.servs.coll.datatype.SSCollsUserEntityIsInGetPar;
 import at.tugraz.sss.servs.tag.datatype.SSTagFrequ;
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.impl.api.SSServServerI;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.common.api.SSServServerI;
 import java.util.List;
 
 public interface SSCollServerI extends SSServServerI{

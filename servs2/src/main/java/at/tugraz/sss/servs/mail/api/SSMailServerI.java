@@ -20,7 +20,8 @@
 */
 package at.tugraz.sss.servs.mail.api;
 
-import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
 import at.tugraz.sss.servs.mail.datatype.SSMailSendPar;
 import at.tugraz.sss.servs.mail.datatype.SSMailsReceivePar;
 import java.util.List;

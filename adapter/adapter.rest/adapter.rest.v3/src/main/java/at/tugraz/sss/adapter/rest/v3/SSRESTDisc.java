@@ -27,7 +27,7 @@ import at.tugraz.sss.servs.disc.datatype.SSDiscEntryAddRESTPar;
 import at.tugraz.sss.servs.disc.datatype.SSDiscsForTargetsFilteredGetRESTPar;
 import at.tugraz.sss.servs.disc.datatype.SSDiscEntryUpdateRESTPar;
 import at.tugraz.sss.servs.disc.api.*;
-import at.tugraz.sss.serv.conf.SSConf;
+import at.tugraz.sss.servs.conf.*;
 import at.tugraz.sss.servs.disc.datatype.SSDiscEntryAcceptPar;
 import at.tugraz.sss.servs.disc.datatype.SSDiscEntryAddFromClientPar;
 import at.tugraz.sss.servs.disc.datatype.SSDiscEntryAddPar;
@@ -43,11 +43,11 @@ import at.tugraz.sss.servs.disc.datatype.SSDiscGetRet;
 import at.tugraz.sss.servs.disc.datatype.SSDiscTargetsAddRet;
 import at.tugraz.sss.servs.disc.datatype.SSDiscUpdateRet;
 import at.tugraz.sss.servs.disc.datatype.SSDiscsGetRet;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.db.api.*;
+import at.tugraz.sss.servs.util.*;
+
+
+import at.tugraz.sss.servs.entity.datatype.*;
+import at.tugraz.sss.servs.db.api.*;
 import at.tugraz.sss.servs.db.impl.*;
 import at.tugraz.sss.servs.disc.impl.*;
 import io.swagger.annotations.*;

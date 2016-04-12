@@ -20,14 +20,13 @@
  */
 package at.tugraz.sss.servs.common.impl;
 
+import at.tugraz.sss.servs.entity.datatype.SSUri;
 import at.tugraz.sss.servs.user.datatype.SSUsersGetPar;
-import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.par.SSServPar;
-import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.servs.conf.SSConf;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSErrE;
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
 import at.tugraz.sss.servs.auth.datatype.SSAuthCheckKeyPar;
 import at.tugraz.sss.servs.auth.impl.*;
 import at.tugraz.sss.servs.user.impl.*;

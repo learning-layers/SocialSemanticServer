@@ -20,22 +20,24 @@
   */
 package at.tugraz.sss.servs.entity.impl;
 
+import at.tugraz.sss.servs.util.SSLogU;
+import at.tugraz.sss.servs.util.SSStrU;
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.entity.datatype.SSCircle;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
 import at.tugraz.sss.servs.user.api.SSUserServerI;
 import at.tugraz.sss.servs.user.datatype.SSUserURIGetPar;
 import at.tugraz.sss.servs.user.datatype.SSUsersPredefinedGetPar;
-import at.tugraz.sss.serv.entity.api.SSEntityServerI;
-import at.tugraz.sss.serv.datatype.par.SSCircleCreatePar;
-import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
-import at.tugraz.sss.serv.datatype.par.SSCircleGetPar;
-import at.tugraz.sss.serv.datatype.par.SSCircleUsersAddPar;
-import at.tugraz.sss.serv.datatype.enums.SSCircleE;
-import at.tugraz.sss.serv.datatype.par.SSEntitiesSharedWithUsersPar;
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.*;
+import at.tugraz.sss.servs.entity.api.*;
+import at.tugraz.sss.servs.entity.datatype.SSCircleCreatePar;
+import at.tugraz.sss.servs.entity.datatype.SSCircleEntitiesAddPar;
+import at.tugraz.sss.servs.entity.datatype.SSCircleGetPar;
+import at.tugraz.sss.servs.entity.datatype.SSCircleUsersAddPar;
+import at.tugraz.sss.servs.entity.datatype.SSCircleE;
+import at.tugraz.sss.servs.common.datatype.SSEntitiesSharedWithUsersPar;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSErrE;
 import at.tugraz.sss.servs.common.impl.*;
 import at.tugraz.sss.servs.user.impl.*;
 import java.util.ArrayList;

@@ -20,8 +20,8 @@
 */
 package at.tugraz.sss.servs.flag.datatype;
 
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.util.SSObjU;
+import at.tugraz.sss.servs.util.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
 

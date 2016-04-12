@@ -11,24 +11,81 @@
     
   <dependencies>
     
+    <!-- ********************************* -->
+    <!-- ********************************* -->
+    <!-- ********************************* -->
+    <!-- ********************************* -->
+    <!-- ********************************* -->
+    
+    <!-- csv reading start -->
+
     <dependency>
-      <groupId>sss</groupId>
-      <artifactId>serv</artifactId>
-      <version>${project.version}</version>
+      <groupId>net.sf.opencsv</groupId>
+      <artifactId>opencsv</artifactId>
+      <version>2.3</version>
+    </dependency>
+    
+    <!-- csv reading end -->
+
+    <!-- rendering start -->
+    
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-scratchpad</artifactId>
+      <version>3.10-FINAL</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.adapter.socket</groupId>
-      <artifactId>adapter.socket.util</artifactId>
-      <version>${project.version}</version>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi</artifactId>
+      <version>3.10-FINAL</version>
     </dependency>
     
-    <!-- ********************************* -->
-    <!-- ********************************* -->
-    <!-- ********************************* -->
-    <!-- ********************************* -->
-    <!-- ********************************* -->
+    <dependency>
+      <groupId>org.xhtmlrenderer</groupId>
+      <artifactId>core-renderer</artifactId>
+      <version>R8</version>
+    </dependency>
     
+    <dependency>
+      <groupId>com.lowagie</groupId>
+      <artifactId>itext</artifactId>
+      <version>2.0.8</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>jpedal</groupId>
+      <artifactId>jpedal_lgpl</artifactId>
+      <version>1</version>
+    </dependency>
+    
+    <!-- rendering end -->
+    
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>${sssLog4JVersion}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.apache.solr</groupId>
+      <artifactId>solr-solrj</artifactId>
+      <version>5.5.0</version> <!-- 5.1.0 -->
+    </dependency>
+    
+    <dependency>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-jersey2-jaxrs</artifactId>
+      <version>${sssSwaggerJerseyVersion}</version>
+      <scope>compile</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
+      <version>1.10</version> <!-- ${snakeyamlVersion} -->
+    </dependency>
+  
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
@@ -64,12 +121,6 @@
       <groupId>tagrec</groupId>
       <artifactId>tagrec</artifactId>
       <version>${sssTagRecVersion}</version>
-    </dependency>
-    
-     <dependency>
-      <groupId>net.sf.opencsv</groupId>
-      <artifactId>opencsv</artifactId>
-      <version>2.3</version>
     </dependency>
     
     <dependency>
@@ -382,3 +433,38 @@
   <version>4.3.2</version>
 </dependency>
 -->
+
+    <!--    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+      <version>3.10-FINAL</version>
+    </dependency>-->
+    
+    
+    <!-- used for ocd -->
+    <!--    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-client</artifactId>
+      <version>2.18</version>
+    </dependency>-->
+        
+    <!--    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.3.2</version>
+      <type>jar</type>
+    </dependency>-->
+
+    <!-- used for ocd -->
+    
+        <!--    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.1</version>
+    </dependency>-->
+    
+        <!--    <dependency>  replaces com.fasterxml.jackson.core: jackson-databind and jackson-mapper-asl 
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-json-jackson</artifactId>
+      <version>2.21</version>
+    </dependency>-->

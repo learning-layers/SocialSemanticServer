@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.servs.tag.api;
 
-import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
 import at.tugraz.sss.servs.tag.datatype.SSTagFrequ;
 import at.tugraz.sss.servs.tag.datatype.SSTagAddPar;
 import at.tugraz.sss.servs.tag.datatype.SSTagEntitiesForTagsGetPar;
@@ -28,9 +28,9 @@ import at.tugraz.sss.servs.tag.datatype.SSTagFrequsGetPar;
 import at.tugraz.sss.servs.tag.datatype.SSTagsAddPar;
 import at.tugraz.sss.servs.tag.datatype.SSTagsGetPar;
 import at.tugraz.sss.servs.tag.datatype.SSTagsRemovePar;
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.impl.api.SSServServerI;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.common.api.SSServServerI;
 import java.util.List;
 
 public interface SSTagServerI extends SSServServerI{

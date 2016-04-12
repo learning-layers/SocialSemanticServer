@@ -20,18 +20,19 @@
   */
 package at.tugraz.sss.servs.db.impl;
 
-import at.tugraz.sss.serv.db.conf.SSDBSQLConf;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.datatype.par.SSDBSQLSelectPar;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.enums.SSWarnE;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.impl.api.*;
+import at.tugraz.sss.servs.db.api.SSSQLTableI;
+import at.tugraz.sss.servs.util.SSObjU;
+import at.tugraz.sss.servs.util.SSStrU;
+import at.tugraz.sss.servs.common.api.SSServImplA;
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.db.conf.SSDBSQLConf;
+import at.tugraz.sss.servs.db.api.SSDBSQLI;
+import at.tugraz.sss.servs.db.datatype.SSDBSQLSelectPar;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSErrE;
+import at.tugraz.sss.servs.util.SSLogU;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
+import at.tugraz.sss.servs.entity.datatype.SSWarnE;
 import at.tugraz.sss.servs.conf.*;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLTransactionRollbackException;
 import java.sql.*;

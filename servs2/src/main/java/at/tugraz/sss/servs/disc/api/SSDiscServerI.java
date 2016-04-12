@@ -20,8 +20,8 @@
 */
  package at.tugraz.sss.servs.disc.api;
 
+import at.tugraz.sss.servs.entity.datatype.SSUri;
 import at.tugraz.sss.servs.disc.datatype.SSDiscsGetPar;
-import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.servs.disc.datatype.SSDisc;
 import at.tugraz.sss.servs.disc.datatype.SSDiscDailySummaryGetPar;
 import at.tugraz.sss.servs.disc.datatype.SSDiscEntryAcceptPar;
@@ -35,9 +35,9 @@ import at.tugraz.sss.servs.disc.datatype.SSDiscDailySummaryGetRet;
 import at.tugraz.sss.servs.disc.datatype.SSDiscEntryAddRet;
 import at.tugraz.sss.servs.disc.datatype.SSDiscEntryUpdateRet;
 import at.tugraz.sss.servs.disc.datatype.SSDiscUpdateRet;
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.impl.api.SSServServerI;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.common.api.SSServServerI;
 import java.util.List;
 
 public interface SSDiscServerI extends SSServServerI{

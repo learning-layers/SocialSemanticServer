@@ -20,16 +20,20 @@
  */
 package at.tugraz.sss.servs.dataimport.impl;
 
+import at.tugraz.sss.servs.util.SSLogU;
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.entity.datatype.SSEntityUpdatePar;
+import at.tugraz.sss.servs.entity.datatype.SSEntityGetPar;
+import at.tugraz.sss.servs.entity.datatype.SSEntityE;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.entity.datatype.SSLabel;
 import at.tugraz.sss.servs.evernote.datatype.SSEvernoteNoteAddPar;
 import at.tugraz.sss.servs.evernote.datatype.SSEvernoteResourceAddPar;
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.entity.api.*;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
+import at.tugraz.sss.servs.entity.datatype.SSToolContextE;
+import at.tugraz.sss.servs.entity.api.*;
 import at.tugraz.sss.servs.entity.impl.*;
 import at.tugraz.sss.servs.evernote.api.*;
 import at.tugraz.sss.servs.evernote.impl.*;

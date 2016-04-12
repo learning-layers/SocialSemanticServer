@@ -20,13 +20,13 @@
  */
 package at.tugraz.sss.servs.ocd.impl;
 
-import at.tugraz.sss.serv.datatype.enums.SSClientE;
+import at.tugraz.sss.servs.entity.datatype.SSClientE;
 import at.tugraz.sss.servs.ocd.api.SSOCDClientI;
 import at.tugraz.sss.servs.ocd.api.SSOCDServerI;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.par.SSServPar;
-import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.entity.datatype.SSServRetI; 
 import at.tugraz.sss.servs.conf.*;
 import at.tugraz.sss.servs.entity.impl.*;
 import at.tugraz.sss.servs.ocd.datatype.*;

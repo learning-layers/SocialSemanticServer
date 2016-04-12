@@ -20,10 +20,11 @@
 */
 package at.tugraz.sss.servs.tag.impl;
 
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.servs.util.SSStrU;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
 import at.tugraz.sss.servs.tag.datatype.SSTag;
-import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

@@ -150,7 +150,6 @@
 
   <modules>
     <module>adapter</module>
-    <module>serv</module>
     <module>servs2</module>
   </modules>
     

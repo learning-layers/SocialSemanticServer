@@ -20,12 +20,8 @@
  */
 package at.tugraz.sss.adapter.rest.v3;
 
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.serv.conf.*;
-import at.tugraz.sss.serv.conf.api.*;
-import at.tugraz.sss.serv.impl.api.*;
-import at.tugraz.sss.serv.requestlimit.*;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.common.impl.*;
+import at.tugraz.sss.servs.util.*;
 import at.tugraz.sss.servs.activity.impl.*;
 import at.tugraz.sss.servs.app.impl.*;
 import at.tugraz.sss.servs.appstacklayout.impl.*;
@@ -33,8 +29,8 @@ import at.tugraz.sss.servs.auth.impl.*;
 import at.tugraz.sss.servs.category.impl.*;
 import at.tugraz.sss.servs.coll.impl.*;
 import at.tugraz.sss.servs.comment.impl.*;
-import at.tugraz.sss.servs.common.impl.*;
-import at.tugraz.sss.servs.conf.SSCoreConf;
+import at.tugraz.sss.servs.common.api.*;
+import at.tugraz.sss.servs.conf.*;
 import at.tugraz.sss.servs.dataimport.impl.*;
 import at.tugraz.sss.servs.db.impl.*;
 import at.tugraz.sss.servs.disc.impl.*;

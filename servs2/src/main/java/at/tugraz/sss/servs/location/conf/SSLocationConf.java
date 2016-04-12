@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.location.conf;
 
-import at.tugraz.sss.serv.conf.api.SSCoreServConfA;
+import at.tugraz.sss.servs.conf.SSCoreServConfA;
 
 public class SSLocationConf extends SSCoreServConfA{
   

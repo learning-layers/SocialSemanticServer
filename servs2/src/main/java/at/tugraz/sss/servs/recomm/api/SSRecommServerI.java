@@ -32,8 +32,8 @@ import at.tugraz.sss.servs.recomm.datatype.SSRecommUpdateBulkUserRealmsFromConfP
 import at.tugraz.sss.servs.recomm.datatype.SSRecommUpdatePar;
 import at.tugraz.sss.servs.recomm.datatype.SSRecommUsersPar;
 import at.tugraz.sss.servs.tag.datatype.SSTagLikelihood;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.impl.api.SSServServerI;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.common.api.SSServServerI;
 import java.util.List;
 
 public interface SSRecommServerI extends SSServServerI{

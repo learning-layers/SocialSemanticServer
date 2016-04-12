@@ -20,10 +20,11 @@
   */
 package at.tugraz.sss.servs.video.impl;
 
-import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.servs.entity.datatype.SSToolContextE;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
 import at.tugraz.sss.servs.video.datatype.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.servs.eval.api.*;
 import at.tugraz.sss.servs.eval.datatype.*;
 import at.tugraz.sss.servs.eval.impl.*;

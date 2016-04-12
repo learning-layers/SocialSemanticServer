@@ -21,7 +21,7 @@
 package at.tugraz.sss.servs.learnep.datatype;
 
 import at.tugraz.sss.servs.activity.datatype.SSActivityE;
-import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
 
 public class SSLearnEpDailySummaryLearnEpContentEntry extends SSLearnEpDailySummaryEntry{
   

@@ -20,7 +20,8 @@
 */
  package at.tugraz.sss.servs.auth.datatype;
 
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.util.SSObjU;
+import at.tugraz.sss.servs.util.SSStrU;
 
 public enum SSAuthE {
   

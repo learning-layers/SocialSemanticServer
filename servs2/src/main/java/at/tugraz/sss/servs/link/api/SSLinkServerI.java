@@ -20,8 +20,8 @@
  */
 package at.tugraz.sss.servs.link.api;
 
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.datatype.SSUri;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
 import at.tugraz.sss.servs.link.datatype.*;
 
 public interface SSLinkServerI {

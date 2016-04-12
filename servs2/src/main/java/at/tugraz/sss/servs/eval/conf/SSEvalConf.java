@@ -20,8 +20,8 @@
 */
 package at.tugraz.sss.servs.eval.conf;
 
-import at.tugraz.sss.serv.conf.api.SSCoreServConfA;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.util.SSStrU;
+import at.tugraz.sss.servs.conf.SSCoreServConfA;
 import java.util.ArrayList;
 import java.util.List;
 

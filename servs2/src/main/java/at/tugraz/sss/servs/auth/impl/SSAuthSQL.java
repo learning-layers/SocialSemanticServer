@@ -20,18 +20,19 @@
 */
 package at.tugraz.sss.servs.auth.impl;
 
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
 import at.tugraz.sss.servs.auth.datatype.SSAuthSQLTableE;
-import at.tugraz.sss.serv.util.SSSQLVarNames;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.db.api.SSDBSQLFctA;
-import at.tugraz.sss.serv.db.api.SSDBSQLI;
+import at.tugraz.sss.servs.util.SSSQLVarNames;
+import at.tugraz.sss.servs.db.api.SSDBSQLFctA;
+import at.tugraz.sss.servs.db.api.SSDBSQLI;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
 
 public class SSAuthSQL extends SSDBSQLFctA{
   

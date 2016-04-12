@@ -20,9 +20,6 @@
 */
 package at.tugraz.sss.servs.entity.datatype;
 
-import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.SSTextComment;
 import io.swagger.annotations.*;
 
 @ApiModel

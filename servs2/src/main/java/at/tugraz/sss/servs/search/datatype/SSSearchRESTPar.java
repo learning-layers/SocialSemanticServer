@@ -20,11 +20,11 @@
  */
 package at.tugraz.sss.servs.search.datatype;
 
-import at.tugraz.sss.serv.conf.SSConf;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.servs.entity.datatype.SSEntityE;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.conf.SSConf;
 import at.tugraz.sss.servs.search.datatype.SSSearchLabel;
-import at.tugraz.sss.serv.datatype.enums.SSSearchOpE;
 import io.swagger.annotations.*;
 import java.util.List;
 

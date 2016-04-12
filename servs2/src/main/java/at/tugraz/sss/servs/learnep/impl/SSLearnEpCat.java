@@ -20,16 +20,20 @@
  */
 package at.tugraz.sss.servs.learnep.impl;
 
-import at.tugraz.sss.serv.errreg.SSServErrReg;
+import at.tugraz.sss.servs.util.SSStrU;
+import at.tugraz.sss.servs.entity.datatype.SSServPar;
+import at.tugraz.sss.servs.entity.datatype.SSEntityGetPar;
+import at.tugraz.sss.servs.entity.datatype.SSSpaceE;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSUri;
+import at.tugraz.sss.servs.entity.datatype.SSEntity;
+import at.tugraz.sss.servs.entity.datatype.SSLabel;
+import at.tugraz.sss.servs.common.impl.SSServErrReg;
 import at.tugraz.sss.servs.category.datatype.SSCategoryAddPar;
 import at.tugraz.sss.servs.category.datatype.SSCategoryLabel;
 import at.tugraz.sss.servs.category.datatype.SSCategoriesRemovePar;
 import at.tugraz.sss.servs.category.api.SSCategoryServerI;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.entity.api.*;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.entity.api.*;
 import at.tugraz.sss.servs.category.impl.*;
 import at.tugraz.sss.servs.learnep.datatype.*;
 import java.util.*;

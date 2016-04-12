@@ -20,10 +20,11 @@
 */
 package at.tugraz.sss.servs.category.datatype;
 
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.api.SSEntityA;
-import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
+import at.tugraz.sss.servs.util.SSObjU;
+import at.tugraz.sss.servs.util.SSStrU;
+import at.tugraz.sss.servs.entity.datatype.SSErr;
+import at.tugraz.sss.servs.entity.datatype.SSEntityA;
+import at.tugraz.sss.servs.entity.datatype.SSSpaceE;
 import java.util.*;
 
 public class SSCategoryFrequ extends SSEntityA{

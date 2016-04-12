@@ -20,17 +20,10 @@
  */
 package at.tugraz.sss.adapter.socket.v3;
 
-import at.tugraz.sss.serv.errreg.SSServErrReg;
-import at.tugraz.sss.adapter.socket.*;
-import at.tugraz.sss.serv.conf.*;
-import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.enums.*;
-import at.tugraz.sss.serv.impl.api.*;
-import at.tugraz.sss.serv.datatype.par.*;
-import at.tugraz.sss.serv.datatype.ret.*;
-import at.tugraz.sss.serv.db.api.*;
-import at.tugraz.sss.serv.requestlimit.*;
+import at.tugraz.sss.servs.common.impl.*;
+import at.tugraz.sss.servs.util.*;
+import at.tugraz.sss.servs.entity.datatype.*;
+import at.tugraz.sss.servs.db.api.*;
 import at.tugraz.sss.servs.activity.api.*;
 import at.tugraz.sss.servs.activity.impl.*;
 import at.tugraz.sss.servs.app.api.*;
@@ -45,7 +38,7 @@ import at.tugraz.sss.servs.coll.api.*;
 import at.tugraz.sss.servs.coll.impl.*;
 import at.tugraz.sss.servs.comment.api.*;
 import at.tugraz.sss.servs.comment.impl.*;
-import at.tugraz.sss.servs.common.impl.*;
+import at.tugraz.sss.servs.common.api.*;
 import at.tugraz.sss.servs.conf.*;
 import at.tugraz.sss.servs.dataimport.impl.*;
 import at.tugraz.sss.servs.db.impl.*;
