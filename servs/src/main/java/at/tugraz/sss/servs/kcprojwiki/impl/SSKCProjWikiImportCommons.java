@@ -217,7 +217,7 @@ public class SSKCProjWikiImportCommons {
         + "-enter text here-\n"
         + "== <span style=\"color:ROYALBLUE\"> '''---> Any other comments concerning the motivation of the project partners?''' ==\n"
         + "-enter text here-\n"
-//        + "= '''Project Description''' =\n"
+        + "= '''Project Description''' =\n"
         + "= '''Project results''' =\n"
         + "== <span style=\"color:NAVY\"> '''What has happened within the project?'''==\n"
         + "-enter text here-\n"
@@ -334,7 +334,7 @@ public class SSKCProjWikiImportCommons {
       
       String content = removeEmployeeResourcesFromVorgangContent(vorgangPageContent) + System.lineSeparator();
       
-      content = addProjectDescriptionHeaderToVorgangContent(content);
+//      content = addProjectDescriptionHeaderToVorgangContent(content);
       
       httpPost.addHeader(SSMediaWikiLangE.Cookie.toString(), sessionID);
       
@@ -818,7 +818,6 @@ return content;
       return null;
     }
   }
-  
   
   private String removeEmployeeResourcesFromVorgangContent(
     final String content) throws SSErr{
