@@ -60,6 +60,7 @@ import at.tugraz.sss.servs.entity.impl.*;
 import at.tugraz.sss.servs.tag.impl.*;
 import at.tugraz.sss.servs.user.impl.*;
 import java.io.IOException;
+import java.util.*;
 
 public class SSDataExportImpl
   extends SSEntityImpl
@@ -224,7 +225,7 @@ public class SSDataExportImpl
           if(entity.timestamp != null){
             lineParts.add(SSStrU.toStr(entity.timestamp / 1000));
           }else{
-            lineParts.add(SSStrU.empty);
+            lineParts.add(SSStrU.toStr(new Date().getTime() / 1000));
           }
           
           //content
