@@ -66,6 +66,7 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.datatype.par.*;
 import java.io.IOException;
+import java.util.*;
 
 public class SSDataExportImpl
 extends
@@ -245,7 +246,7 @@ implements
           if(entity.timestamp != null){
             lineParts.add(SSStrU.toStr(entity.timestamp / 1000));
           }else{
-            lineParts.add(SSStrU.empty);
+            lineParts.add(SSStrU.toStr(new Date().getTime() / 1000));
           }
           
           //content
