@@ -41,7 +41,7 @@ import javax.ws.rs.core.Response;
 public class SSRESTCircle{
   
   private final SSEntityClientI entityServ = new SSEntityImpl();
-  private final SSDBSQLI          dbSQL        = new SSDBSQLMySQLImpl();
+  private final SSDBSQLI          dbSQL    = new SSDBSQLMySQLImpl();
   
   @PostConstruct
   public void createRESTResource(){

@@ -23,6 +23,7 @@ package at.tugraz.sss.servs.common.impl;
 import at.tugraz.sss.servs.util.SSLogU;
 import at.tugraz.sss.servs.entity.datatype.SSErr;
 import at.tugraz.sss.servs.entity.datatype.SSErrE;
+import at.tugraz.sss.servs.util.*;
 
 public class SSServErrReg {
   
@@ -82,6 +83,25 @@ public class SSServErrReg {
     try{
       
       SSLogU.err(code, true);
+      
+      errorToThrow = SSErr.get(code);
+      
+    }catch(Exception error1){
+      SSLogU.err(error1);
+    }
+    
+    throw errorToThrow;
+  }
+  
+  public static void regErrThrow(
+    final SSErrE    code, 
+    final String    logText) throws SSErr{
+    
+    SSErr errorToThrow = null;
+    
+    try{
+      
+      SSLogU.err(code, logText);
       
       errorToThrow = SSErr.get(code);
       

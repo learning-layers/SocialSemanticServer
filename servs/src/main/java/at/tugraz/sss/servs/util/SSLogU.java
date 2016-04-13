@@ -87,7 +87,7 @@ public class SSLogU{
     evalLog       = Logger.getLogger("evalLogger");
     evalBlankLog  = Logger.getLogger("evalBlankLogger");
   }
-  
+
   private SSLogU(){/* Do nothing because of only JSON Jackson needs this */ }
   
   private static String getMsg(final String logText){
@@ -326,6 +326,13 @@ public class SSLogU{
     log.error(getMsg(code.toString()));
     
 //    error.printStackTrace();
+  }
+  
+  public static void err(
+    final SSErrE code, 
+    final String logText){
+    
+    log.error(getMsg(code.toString() + SSStrU.blank + logText));
   }
   
   public static void err(

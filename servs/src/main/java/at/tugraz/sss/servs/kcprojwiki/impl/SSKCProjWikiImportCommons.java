@@ -1,23 +1,23 @@
- /**
-  * Code contributed to the Learning Layers project
-  * http://www.learning-layers.eu
-  * Development is partly funded by the FP7 Programme of the European Commission under
-  * Grant Agreement FP7-ICT-318209.
-  * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
-  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-  *
-  * Licensed under the Apache License, Version 2.0 (the "License");
-  * you may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at
-  *
-  * http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS,
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
-  */
+/**
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.tugraz.sss.servs.kcprojwiki.impl;
 
 import at.tugraz.sss.servs.util.SSStrU;
@@ -47,13 +47,9 @@ import org.json.JSONObject;
 
 public class SSKCProjWikiImportCommons {
   
-  private final HttpClient       httpclient;
+  private final HttpClient       httpclient = HttpClients.createDefault();
   private String                 token;
   private String                 sessionID;
-  
-  public SSKCProjWikiImportCommons(){
-    this.httpclient    = HttpClients.createDefault();
-  }
   
   public String createVorgangTitle(
     final SSKCProjWikiVorgang   vorgang) throws SSErr{
@@ -221,6 +217,7 @@ public class SSKCProjWikiImportCommons {
         + "-enter text here-\n"
         + "== <span style=\"color:ROYALBLUE\"> '''---> Any other comments concerning the motivation of the project partners?''' ==\n"
         + "-enter text here-\n"
+//        + "= '''Project Description''' =\n"
         + "= '''Project results''' =\n"
         + "== <span style=\"color:NAVY\"> '''What has happened within the project?'''==\n"
         + "-enter text here-\n"
@@ -336,6 +333,8 @@ public class SSKCProjWikiImportCommons {
             + SSMediaWikiLangE.formatEqualsJson);
       
       String content = removeEmployeeResourcesFromVorgangContent(vorgangPageContent) + System.lineSeparator();
+      
+      content = addProjectDescriptionHeaderToVorgangContent(content);
       
       httpPost.addHeader(SSMediaWikiLangE.Cookie.toString(), sessionID);
       
@@ -568,10 +567,11 @@ public class SSKCProjWikiImportCommons {
       
       post.setEntity(new UrlEncodedFormEntity(getFirstLoginParams(conf), SSEncodingU.utf8.toString()));
       
-      response = httpclient.execute(post);
-      in       = response.getEntity().getContent();
-      json     = new JSONObject(SSFileU.readStreamText(in));
-      token    = ((JSONObject)json.get(SSMediaWikiLangE.login.toString())).get(SSMediaWikiLangE.token.toString()).toString();
+      response  = httpclient.execute(post);
+      in         = response.getEntity().getContent();
+      json       = new JSONObject(SSFileU.readStreamText(in));
+      token      = ((JSONObject)json.get(SSMediaWikiLangE.login.toString())).get(SSMediaWikiLangE.token.toString()).toString();
+      sessionID  = ((JSONObject)json.get(SSMediaWikiLangE.login.toString())).get(SSMediaWikiLangE.sessionid.toString()).toString();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -800,6 +800,26 @@ return content;
     }
   }
   
+  private String addProjectDescriptionHeaderToVorgangContent(
+    final String content) throws SSErr{
+    
+    try{
+      String result = content;
+      final int indexOfProjectResults = result.indexOf("= '''Project results''' =");
+      
+      if(indexOfProjectResults == -1){
+        return result;
+      }
+      
+      return result.replace("= '''Project results''' =", "= '''Project Description''' =\n= '''Project Results''' =");
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  
   private String removeEmployeeResourcesFromVorgangContent(
     final String content) throws SSErr{
     
@@ -852,7 +872,7 @@ return content;
         Integer     code       = Integer.valueOf((String) jsonResult.get    (SSMediaWikiLangE.code.toString()));
         
         if(code.compareTo(200) != 0){
-          SSServErrReg.regErrThrow(SSErrE.mediaWikiParseUpdateResponseFailed);
+          SSServErrReg.regErrThrow(SSErrE.mediaWikiParseUpdateResponseFailed, jsonResult.toString());
           return;
         }
         
@@ -862,7 +882,7 @@ return content;
       strResult = (String) edit.get          (SSMediaWikiLangE.result.toString());
       
       if(!SSStrU.isEqual(strResult, SSMediaWikiLangE.Success.toString())){
-        SSServErrReg.regErrThrow(SSErrE.mediaWikiParseUpdateResponseFailed);
+        SSServErrReg.regErrThrow(SSErrE.mediaWikiParseUpdateResponseFailed, strResult);
         return;
       }
       
