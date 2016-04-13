@@ -11,7 +11,16 @@
     
   <dependencies>
     
-<dependency>
+    <!-- kc project wiki start -->
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.2</version>
+    </dependency>
+    
+    <!-- kc project wiki end -->
+    
+    <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>common.impl</artifactId>
       <version>${project.version}</version>
