@@ -19,3 +19,5 @@ public class SSAdapterRestDropwizardConf extends Configuration {
     this.template = template;
   }
 }
+
+//applicationContextPath: /application
