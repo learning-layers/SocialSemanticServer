@@ -18,6 +18,11 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
+/**
+ * @author Dieter Theiler
+ */
+
 package at.tugraz.sss.servs.conf;
 
 import at.tugraz.sss.servs.util.SSLogU;

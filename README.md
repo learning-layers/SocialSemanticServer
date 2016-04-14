@@ -107,4 +107,4 @@ The source-code can be directly checked-out through this repository. It contains
 * Dennerlein, S., Rella, M, Tomberg, V. Theiler, D., Treasure-Jones, T., Kerr, M., Ley, T., Al-Smadi, M. & Trattner, C. (2014). [Making Sense of Bits and Pieces: A Sensemaking Tool for Informal Workplace Learning](https://www.researchgate.net/publication/264861254_Making_Sense_of_Bits_and_Pieces_A_Sensemaking_Tool_for_Informal_Workplace_Learning#full-text), 2014. European Conference on Technology Enhanced Learning 2014
 
 ## Contact
-* Dieter Theiler, Know-Center, Graz University of Technology, dtheiler@tugraz.at
+* Dieter Theiler, Know-Center, Graz University of Technology, dtheiler#tugraz.at

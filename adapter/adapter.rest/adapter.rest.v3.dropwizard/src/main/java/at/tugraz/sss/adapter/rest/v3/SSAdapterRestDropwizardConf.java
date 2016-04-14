@@ -1,3 +1,7 @@
+/**
+ * @author Dieter Theiler
+ */
+
 package at.tugraz.sss.adapter.rest.v3;
 
 import com.fasterxml.jackson.annotation.JsonProperty;

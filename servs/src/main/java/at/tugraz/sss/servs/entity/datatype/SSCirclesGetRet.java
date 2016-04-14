@@ -13,6 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/**
+ * @author Dieter Theiler
+ */
+
 package at.tugraz.sss.servs.entity.datatype;
 
 
