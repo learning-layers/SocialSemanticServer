@@ -1072,7 +1072,7 @@ implements
       actAndLog.addCircleToLearnEpVersion(
         par,
         par.user,
-        par.learnEpVersion,
+//        par.learnEpVersion,
         newCircle,
         learnEp,
         par.shouldCommit);
@@ -1101,7 +1101,7 @@ implements
             par,
             par.user,
             learnEp, //learnEp
-            par.learnEpVersion, //learnEpVersion
+//            par.learnEpVersion, //learnEpVersion
             entityURI, //entity
             newCircle, //circle
             par.shouldCommit);
@@ -1235,7 +1235,7 @@ implements
         par, 
         par.user, 
         learnEp, 
-        par.learnEpVersion, 
+//        par.learnEpVersion, 
         learnEpEntity, 
         par.entity, 
         learnEpEntityCircleURIsBefore, 
@@ -1491,7 +1491,7 @@ implements
         circleEntity,
         par.label,
         par.description,
-        learnEpVersion,
+//        learnEpVersion,
         par.learnEpCircle,
         learnEp,
         par.shouldCommit);
@@ -1530,7 +1530,7 @@ implements
             par, 
             par.user, 
             learnEp, 
-            learnEpVersion, 
+//            learnEpVersion, 
             learnEpEntity.id, 
             ((SSLearnEpEntity) learnEpEntity).entity.id, 
             learnEpEntityCircleURIsBefore, 
@@ -1542,7 +1542,7 @@ implements
             par, 
             par.user, 
             learnEp, 
-            learnEpVersion, 
+//            learnEpVersion, 
             learnEpEntity.id, 
             ((SSLearnEpEntity) learnEpEntity).entity.id, 
             learnEpEntityCircleURIsBefore, 
@@ -1585,7 +1585,7 @@ implements
             par, 
             par.user, 
             learnEp, 
-            learnEpVersion, 
+//            learnEpVersion, 
             learnEpEntity.id, 
             ((SSLearnEpEntity) learnEpEntity).entity.id, 
             learnEpEntityCircleURIsBefore, 
@@ -1597,7 +1597,7 @@ implements
             par, 
             par.user, 
             learnEp, 
-            learnEpVersion, 
+//            learnEpVersion, 
             learnEpEntity.id, 
             ((SSLearnEpEntity) learnEpEntity).entity.id, 
             learnEpEntityCircleURIsBefore, 
@@ -1721,7 +1721,7 @@ implements
         par, 
         par.user, 
         learnEp, 
-        learnEpVersion, 
+//        learnEpVersion, 
         par.learnEpEntity, 
         entity, 
         learnEpEntityCircleURIsBefore,
@@ -1733,7 +1733,7 @@ implements
         par, 
         par.user, 
         learnEp, 
-        learnEpVersion, 
+//        learnEpVersion, 
         par.learnEpEntity, 
         entity, 
         learnEpEntityCircleURIsBefore, 
@@ -1834,7 +1834,7 @@ implements
         actAndLog.handleRemoveLearnEpVersionCircleWithEntities(
           par,
           par.user,
-          learnEpVersion,
+//          learnEpVersion,
           learnEp,
           learnEpCircleBefore,
           entityURIs,
@@ -1928,7 +1928,7 @@ implements
         par, 
         par.user, 
         learnEp, 
-        learnEpVersion, 
+//        learnEpVersion, 
         par.learnEpEntity, 
         entity, 
         learnEpEntityCircleURIsBefore,
