@@ -43,17 +43,8 @@
               
               <locations>at.tugraz.sss.adapter.rest.v3</locations>
               
-<!--              <host>localhost:8080</host>
-              <basePath>/sss.adapter.rest.v3/rest</basePath>-->
-              
-              <!--<host>test-ll.know-center.tugraz.at</host>-->
-              <!--<basePath>/bp.preparation/rest</basePath>-->
-              
-<!--              <host>test-ll.know-center.tugraz.at</host>
-              <basePath>/test/rest</basePath>-->
-              
-              <host>https://api.learning-layers.eu</host>
-              <basePath>/sss/rest</basePath>
+              <host>localhost:8080</host>
+              <basePath>/sss.adapter.rest.v3/rest</basePath>
               
               <info>
                 <version>v3</version>
@@ -69,16 +60,8 @@
                 </license>
               </info>
                 
-              <!--<swaggerUIDocBasePath>http://localhost:8080/sss.adapter.rest.v3/api-docs</swaggerUIDocBasePath>--> 
-              <!-- 
-                localhost:8080/sss.adapter.rest.v2/api-docs 
-                test-ll.know-center.tugraz.at/layers.test/api-docs  
-              -->
-              <!--<swaggerInternalFilter>com.wordnik.swagger.config.DefaultSpecFilter</swaggerInternalFilter>-->
-              <!--<overridingModels>/swagger-overriding-models.json</overridingModels>-->
               <outputPath>${basedir}/src/main/webapp/api-docs</outputPath>
               <swaggerDirectory>${basedir}/src/main/webapp/api-docs</swaggerDirectory>
-              <!--<useOutputFlatStructure>false</useOutputFlatStructure>-->
             </apiSource>
           </apiSources>
         </configuration>
@@ -120,21 +103,6 @@
       <version>7.0.52</version>
       <scope>provided</scope>
     </dependency>
-    
-    <!--    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-catalina</artifactId>
-      <version>8.0.15</version>
-      <scope>provided</scope>
-    </dependency>
-            
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-coyote</artifactId>
-      <version>8.0.15</version>
-      <scope>provided</scope>
-    </dependency>-->
-    <!-- tocmat end -->
     
     <!-- servlet 3.0 start -->
     

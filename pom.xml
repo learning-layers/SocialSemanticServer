@@ -6,8 +6,6 @@
   <version>1.0-SNAPSHOT</version>
   <name>SocialSemanticServer</name>
   <packaging>pom</packaging>
-  <!-- <url>http://maven.apache.org</url> -->
-  
   <description>services to support informal learning (tools)</description>
   
   <properties>
@@ -38,30 +36,6 @@
     
     <plugins>
      
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>${sssMavenReleasePluginVersion}</version>
-        <configuration>
-          <!--
-           During release:perform, enable the "release" profile
-          -->
-          <autoVersionSubmodules>true</autoVersionSubmodules>
-          <useReleaseProfile>false</useReleaseProfile>
-          <tagNameFormat>@{sssVersion}</tagNameFormat>
-        </configuration>
-      </plugin>
-       
-      <!-- sonar plugin start -->
-      
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>sonar-maven-plugin</artifactId>
-        <version>${sssMavenSonarPluginVersion}</version>
-      </plugin>
-      
-      <!-- sonar plugin end -->
-      
       <!-- maven compiler plugin start -->
       
       <plugin>
