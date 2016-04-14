@@ -35,7 +35,6 @@ import at.tugraz.sss.servs.message.conf.SSMessageConf;
 import at.tugraz.sss.servs.db.conf.SSDBSQLConf;
 import at.tugraz.sss.servs.entity.conf.SSEntityConf;
 import at.tugraz.sss.servs.dataexport.conf.SSDataExportConf;
-import at.tugraz.sss.servs.recomm.conf.SSRecommConf;
 import at.tugraz.sss.servs.learnep.conf.SSLearnEpConf;
 import at.tugraz.sss.servs.db.conf.SSDBNoSQLConf;
 import at.tugraz.sss.servs.common.impl.SSServErrReg;
@@ -74,7 +73,6 @@ public class SSCoreConf extends SSCoreConfA  {
   private SSDBSQLConf dbSQL = null;
   private SSDBNoSQLConf dbNoSQL = null;
   private SSFileConf file = null;
-  private SSRecommConf recomm = null;
   private SSEvernoteConf evernote = null;
   private SSAuthConf auth = null;
   private SSDataImportConf dataImport = null;
@@ -152,7 +150,6 @@ public class SSCoreConf extends SSCoreConfA  {
       copy.jsonLD = SSJSONLDConf.copy(inst.jsonLD);
       copy.dbSQL = SSDBSQLConf.copy(inst.dbSQL);
       copy.file = SSFileConf.copy(inst.file);
-      copy.recomm = SSRecommConf.copy(inst.recomm);
       copy.evernote = SSEvernoteConf.copy(inst.evernote);
       copy.auth = SSAuthConf.copy(inst.auth);
       copy.dataImport = SSDataImportConf.copy(inst.dataImport);
@@ -229,14 +226,6 @@ public class SSCoreConf extends SSCoreConfA  {
   
   public void setFile(SSFileConf file) {
     this.file = file;
-  }
-  
-  public SSRecommConf getRecomm() {
-    return recomm;
-  }
-  
-  public void setRecomm(SSRecommConf recomm) {
-    this.recomm = recomm;
   }
   
   public SSEvernoteConf getEvernote() {

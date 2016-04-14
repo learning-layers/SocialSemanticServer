@@ -54,7 +54,6 @@ import at.tugraz.sss.servs.location.impl.*;
 import at.tugraz.sss.servs.mail.impl.*;
 import at.tugraz.sss.servs.message.impl.*;
 import at.tugraz.sss.servs.rating.impl.*;
-import at.tugraz.sss.servs.recomm.impl.*;
 import at.tugraz.sss.servs.search.impl.*;
 import at.tugraz.sss.servs.tag.impl.*;
 import at.tugraz.sss.servs.user.impl.*;
@@ -203,7 +202,6 @@ SSCoreConf.instSet("C:\\worKspace_git\\newish_1\\SocialSemanticServer\\sssWorkDi
         new SSAuthImpl().initServ();
         new SSEntityImpl().initServ();
         new SSCategoryImpl().initServ();
-        new SSRecommImpl().initServ();
         
       }catch(Exception error){
         SSServErrReg.regErrThrow(error);
@@ -214,7 +212,6 @@ SSCoreConf.instSet("C:\\worKspace_git\\newish_1\\SocialSemanticServer\\sssWorkDi
         new SSSearchImpl().schedule();
         new SSLearnEpImpl().schedule();
         new SSDataImportImpl().schedule();
-        new SSRecommImpl().schedule();
         new SSKCProjWikiImpl().schedule();
         new SSEvalImpl().schedule();
         new SSFileImpl().schedule();
@@ -265,7 +262,6 @@ SSCoreConf.instSet("C:\\worKspace_git\\newish_1\\SocialSemanticServer\\sssWorkDi
     final SSRESTLivingDoc livingDoc = new SSRESTLivingDoc();
     final SSRESTMessage message = new SSRESTMessage();
     final SSRESTRating rating = new SSRESTRating();
-    final SSRESTRecomm recomm = new SSRESTRecomm();
     final SSRESTSearch search = new SSRESTSearch();
     final SSRESTTag tag = new SSRESTTag();
     final SSRESTUser user = new SSRESTUser();
@@ -292,7 +288,6 @@ SSCoreConf.instSet("C:\\worKspace_git\\newish_1\\SocialSemanticServer\\sssWorkDi
     environment.jersey().register(livingDoc);
     environment.jersey().register(message);
     environment.jersey().register(rating);
-    environment.jersey().register(recomm);
     environment.jersey().register(search);
     environment.jersey().register(tag);
     environment.jersey().register(user);

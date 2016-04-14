@@ -33,10 +33,6 @@ import at.tugraz.sss.servs.entity.datatype.SSUri;
 import at.tugraz.sss.servs.search.api.SSSearchServerI;
 import at.tugraz.sss.servs.search.api.SSSearchClientI;
 import at.tugraz.sss.servs.entity.datatype.SSEntityResultPages;
-import at.tugraz.sss.servs.recomm.api.SSRecommServerI;
-import at.tugraz.sss.servs.recomm.datatype.SSResourceLikelihood;
-import at.tugraz.sss.servs.recomm.datatype.SSRecommResourcesPar;
-
 import at.tugraz.sss.servs.rating.api.SSRatingServerI;
 import at.tugraz.sss.servs.rating.datatype.SSRatingEntityURIsGetPar;
 import at.tugraz.sss.servs.util.SSDateU;
@@ -67,7 +63,6 @@ import at.tugraz.sss.servs.eval.api.*;
 import at.tugraz.sss.servs.eval.datatype.*;
 import at.tugraz.sss.servs.eval.impl.*;
 import at.tugraz.sss.servs.rating.impl.*;
-import at.tugraz.sss.servs.recomm.impl.*;
 import at.tugraz.sss.servs.tag.impl.*;
 
 public class SSSearchImpl
@@ -234,7 +229,6 @@ implements
         labelResults.addAll       (getLabelResults          (par, accessibleEntityURIs));
         descriptionResults.addAll (getDescriptionResults    (par, accessibleEntityURIs));
         contentResults.addAll     (getTextualContentResults (par));
-        recommendedResults.addAll (SSUri.getDistinctNotNullFromEntities(getRecommendedResults    (par)));
         
         uris.addAll                  (tagResults);
         uris.addAll                  (labelResults);
@@ -706,56 +700,6 @@ implements
         }
         
         default: throw new UnsupportedOperationException();
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  private List<SSEntity> getRecommendedResults(
-    final SSSearchPar par) throws SSErr{
-    
-    try{
-      
-      if(!par.includeRecommendedResults){
-        return new ArrayList<>();
-      }
-      
-      final List<SSEntity>             result               = new ArrayList<>();
-      final SSRecommServerI            recommServ           = new SSRecommImpl();
-      final List<SSResourceLikelihood> recommendedResources =
-        recommServ.recommResources(
-          new SSRecommResourcesPar(
-            par,
-            par.user,
-            null, //realm
-            par.user, //forUser
-            null, //entity
-            null, //categories
-            50, //maxResources
-            par.typesToSearchOnlyFor, //typesToRecommOnly
-            false, //setCircleTypes
-            true, //includeOwn
-            false, //ignoreAccessRights
-            false, //withUserRestriction
-            false)); //invokeEntityHandlers
-      
-      for(SSResourceLikelihood reommendedResource : recommendedResources){
-        result.add(reommendedResource.resource);
-      }
-      
-      return result;
-      
-     }catch(SSErr error){
-      
-      switch(error.code){
-        
-        default:{
-          SSLogU.warn(error.code, error);
-          return new ArrayList<>();
-        }
       }
       
     }catch(Exception error){

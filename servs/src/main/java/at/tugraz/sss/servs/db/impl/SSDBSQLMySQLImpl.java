@@ -1,22 +1,22 @@
- /**
-  * Code contributed to the Learning Layers project
-  * http://www.learning-layers.eu
-  * Development is partly funded by the FP7 Programme of the European Commission under
-  * Grant Agreement FP7-ICT-318209.
-  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-  
+/**
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
-  * you may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at
-  *
-  * http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS,
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
-  */
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 /**
  * @author Dieter Theiler
@@ -38,7 +38,6 @@ import at.tugraz.sss.servs.util.SSLogU;
 import at.tugraz.sss.servs.common.impl.SSServErrReg;
 import at.tugraz.sss.servs.entity.datatype.SSWarnE;
 import at.tugraz.sss.servs.conf.*;
-import com.mysql.jdbc.exceptions.jdbc4.MySQLTransactionRollbackException;
 import java.sql.*;
 import java.util.Iterator;
 import java.util.List;
@@ -47,8 +46,8 @@ import javax.ws.rs.core.MultivaluedMap;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
 
-public class SSDBSQLMySQLImpl 
-  extends SSServImplA 
+public class SSDBSQLMySQLImpl
+  extends SSServImplA
   implements SSDBSQLI{
   
   private static DataSource connectionPool = null;
@@ -58,7 +57,7 @@ public class SSDBSQLMySQLImpl
   }
   
   public static void closePool(){
-
+    
     if(connectionPool != null){
       connectionPool.close();
       connectionPool = null;
@@ -168,7 +167,7 @@ public class SSDBSQLMySQLImpl
       boolean      gotCon                   = false;
       Integer      numberTimesTriedToGetCon = 0;
       Connection   connection               = null;
-  
+      
       if(SSObjU.isNull(connectionPool)){
         connectToMYSQLConnectionPool();
       }
@@ -179,15 +178,15 @@ public class SSDBSQLMySQLImpl
           connection = connectionPool.getConnection();
           
 //          SSLogU.info(connection.toString());
-          
-          if(connection == null){
-            throw new Exception("connector null");
-          }
-          
-          connection.setAutoCommit(true);
-          
-          gotCon = true;
-          
+
+if(connection == null){
+  throw new Exception("connector null");
+}
+
+connection.setAutoCommit(true);
+
+gotCon = true;
+
         }catch(SQLException sqlError){
           
           SSLogU.warn("no db conn available anymore... going to sleep for 3000 ms", sqlError);
@@ -231,27 +230,27 @@ public class SSDBSQLMySQLImpl
 //    config.setTransactionRecoveryEnabled(false);
 //
 //    connectionPool = new BoneCP(config);
-      
-      
-      PoolProperties prop = new PoolProperties();
-      prop.setUrl             ("jdbc:mysql://" + ((SSDBSQLConf)conf).host + SSStrU.colon + ((SSDBSQLConf)conf).port + SSStrU.slash + ((SSDBSQLConf)conf).schema + "?autoReconnect=true");
-      prop.setDriverClassName ("com.mysql.jdbc.Driver");
-      prop.setUsername        (((SSDBSQLConf)conf).username);
-      prop.setPassword        (((SSDBSQLConf)conf).password);
-      prop.setFairQueue(true);
-      prop.setTestWhileIdle(true);
-      prop.setValidationInterval(30000);
-      prop.setMaxActive(100);
-      prop.setInitialSize(10);
-      prop.setMinIdle(10);
-      prop.setMaxWait(10000);
-      prop.setRemoveAbandoned(false);
-      prop.setMinEvictableIdleTimeMillis(30000);
-      prop.setTestOnBorrow(true);
-      prop.setValidationQuery("select 1");
-      
-      connectionPool = new DataSource(prop);
-      
+
+
+PoolProperties prop = new PoolProperties();
+prop.setUrl             ("jdbc:mysql://" + ((SSDBSQLConf)conf).host + SSStrU.colon + ((SSDBSQLConf)conf).port + SSStrU.slash + ((SSDBSQLConf)conf).schema + "?autoReconnect=true");
+prop.setDriverClassName ("com.mysql.jdbc.Driver");
+prop.setUsername        (((SSDBSQLConf)conf).username);
+prop.setPassword        (((SSDBSQLConf)conf).password);
+prop.setFairQueue(true);
+prop.setTestWhileIdle(true);
+prop.setValidationInterval(30000);
+prop.setMaxActive(100);
+prop.setInitialSize(10);
+prop.setMinIdle(10);
+prop.setMaxWait(10000);
+prop.setRemoveAbandoned(false);
+prop.setMinEvictableIdleTimeMillis(30000);
+prop.setTestOnBorrow(true);
+prop.setValidationQuery("select 1");
+
+connectionPool = new DataSource(prop);
+
     }catch(Exception error){
       SSServErrReg.regErrThrow(SSErrE.mySQLConnectionFailed, error);
     }
@@ -269,7 +268,7 @@ public class SSDBSQLMySQLImpl
   
   @Override
   public ResultSet select(
-    final SSServPar  servPar, 
+    final SSServPar  servPar,
     final String     query) throws SSErr {
     
     try{
@@ -282,7 +281,7 @@ public class SSDBSQLMySQLImpl
       return null;
     }
   }
-
+  
   @Override
   public ResultSet select(final SSDBSQLSelectPar par) throws SSErr{
     
@@ -364,28 +363,28 @@ public class SSDBSQLMySQLImpl
         //      SELECT * FROM articles
 //    -> WHERE MATCH (title,body)
 //    -> AGAINST ('database' IN NATURAL LANGUAGE MODE);
-        
-        query += " MATCH (";
-        
-        for(String match : par.matches){
-          query += match + SSStrU.comma;
-        }
-        
-        query = SSStrU.removeTrailingString(query, SSStrU.comma) + ") AGAINST ('";
-        
-        for(String required : par.requireds){
-          query += "+" + required + "*" + SSStrU.blank;
-        }
-        
-        for(String absent : par.absents){
-          query += "-" + absent + "*" + SSStrU.blank;
-        }
-        
-        for(String either : par.eithers){
-          query += either + "*" + SSStrU.blank;
-        }
-        
-        query = SSStrU.removeTrailingString(query, SSStrU.blank) + "' IN BOOLEAN MODE)" + SSStrU.blank;
+
+query += " MATCH (";
+
+for(String match : par.matches){
+  query += match + SSStrU.comma;
+}
+
+query = SSStrU.removeTrailingString(query, SSStrU.comma) + ") AGAINST ('";
+
+for(String required : par.requireds){
+  query += "+" + required + "*" + SSStrU.blank;
+}
+
+for(String absent : par.absents){
+  query += "-" + absent + "*" + SSStrU.blank;
+}
+
+for(String either : par.eithers){
+  query += either + "*" + SSStrU.blank;
+}
+
+query = SSStrU.removeTrailingString(query, SSStrU.blank) + "' IN BOOLEAN MODE)" + SSStrU.blank;
       }
       
       for(Map.Entry<String, List<MultivaluedMap<String, String>>> wheresNumberic : par.numbericWheres.entrySet()){
@@ -485,7 +484,7 @@ public class SSDBSQLMySQLImpl
       }
       
       return stmt.executeQuery();
-    
+      
     }catch(SQLException sqlError){
       SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
       return null;
@@ -829,8 +828,6 @@ public class SSDBSQLMySQLImpl
       }
       
       stmt.executeUpdate();
-    }catch(MySQLTransactionRollbackException deadLockError){
-      SSServErrReg.regErrThrow(SSErrE.sqlDeadLock, deadLockError);
     }catch(SQLException sqlError){
       SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
     }finally{
@@ -861,8 +858,6 @@ public class SSDBSQLMySQLImpl
       
       stmt.executeUpdate();
       
-    }catch(MySQLTransactionRollbackException deadLockError){
-      SSServErrReg.regErrThrow(SSErrE.sqlDeadLock, deadLockError);
     }catch(SQLException sqlError){
       SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
     }finally{
@@ -919,8 +914,6 @@ public class SSDBSQLMySQLImpl
       
       stmt.executeUpdate();
       
-    }catch(MySQLTransactionRollbackException deadLockError){
-      SSServErrReg.regErrThrow(SSErrE.sqlDeadLock, deadLockError);
     }catch(SQLException sqlError){
       SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
     }finally{
@@ -977,8 +970,6 @@ public class SSDBSQLMySQLImpl
       
       stmt.executeUpdate();
       
-    }catch(MySQLTransactionRollbackException deadLockError){
-      SSServErrReg.regErrThrow(SSErrE.sqlDeadLock, deadLockError);
     }catch(SQLException sqlError){
       SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
     }finally{
@@ -1028,8 +1019,6 @@ public class SSDBSQLMySQLImpl
       }
       
       stmt.executeUpdate();
-    }catch(MySQLTransactionRollbackException deadLockError){
-      SSServErrReg.regErrThrow(SSErrE.sqlDeadLock, deadLockError);
     }catch(SQLException sqlError){
       SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
     }finally{
@@ -1072,8 +1061,6 @@ public class SSDBSQLMySQLImpl
       
       stmt.executeUpdate();
       
-    }catch(MySQLTransactionRollbackException deadLockError){
-      SSServErrReg.regErrThrow(SSErrE.sqlDeadLock, deadLockError);
     }catch(SQLException sqlError){
       SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
     }finally{
@@ -1116,8 +1103,6 @@ public class SSDBSQLMySQLImpl
       
       stmt.executeUpdate();
       
-    }catch(MySQLTransactionRollbackException deadLockError){
-      SSServErrReg.regErrThrow(SSErrE.sqlDeadLock, deadLockError);
     }catch(SQLException sqlError){
       SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
     }finally{
@@ -1187,8 +1172,6 @@ public class SSDBSQLMySQLImpl
       }
       
       stmt.executeUpdate();
-    }catch(MySQLTransactionRollbackException deadLockError){
-      SSServErrReg.regErrThrow(SSErrE.sqlDeadLock, deadLockError);
     }catch(SQLException sqlError){
       SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
     }finally{

@@ -58,7 +58,6 @@ public class SSRestMain extends ResourceConfig{
       SSRESTLivingDoc.class,
       SSRESTMessage.class,
       SSRESTRating.class,
-      SSRESTRecomm.class,
       SSRESTSearch.class,
       SSRESTTag.class,
       SSRESTUser.class,

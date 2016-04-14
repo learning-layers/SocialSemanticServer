@@ -77,7 +77,6 @@ import at.tugraz.sss.servs.message.api.*;
 import at.tugraz.sss.servs.message.impl.*;
 import at.tugraz.sss.servs.rating.api.*;
 import at.tugraz.sss.servs.rating.impl.*;
-import at.tugraz.sss.servs.recomm.impl.*;
 import at.tugraz.sss.servs.search.api.*;
 import at.tugraz.sss.servs.search.impl.*;
 import at.tugraz.sss.servs.tag.api.*;
@@ -300,7 +299,6 @@ public class SSSocketMain extends SSServImplA{
         new SSAuthImpl().initServ();
         new SSEntityImpl().initServ();
         new SSCategoryImpl().initServ();
-        new SSRecommImpl().initServ();
         
       }catch(Exception error){
         SSServErrReg.regErrThrow(error);
@@ -312,7 +310,6 @@ public class SSSocketMain extends SSServImplA{
         new SSSearchImpl().schedule();
         new SSLearnEpImpl().schedule();
         new SSDataImportImpl().schedule();
-        new SSRecommImpl().schedule();
         new SSKCProjWikiImpl().schedule();
         new SSEvalImpl().schedule();
         new SSFileImpl().schedule();

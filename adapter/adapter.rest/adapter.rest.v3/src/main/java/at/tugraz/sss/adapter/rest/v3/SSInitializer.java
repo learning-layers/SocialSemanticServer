@@ -54,7 +54,6 @@ import at.tugraz.sss.servs.location.impl.*;
 import at.tugraz.sss.servs.mail.impl.*;
 import at.tugraz.sss.servs.message.impl.*;
 import at.tugraz.sss.servs.rating.impl.*;
-import at.tugraz.sss.servs.recomm.impl.*;
 import at.tugraz.sss.servs.search.impl.*;
 import at.tugraz.sss.servs.tag.impl.*;
 import at.tugraz.sss.servs.user.impl.*;
@@ -216,7 +215,6 @@ SSCoreConf.instSet("C:\\workspace_git\\master\\SocialSemanticServer\\sssWorkDir\
         new SSAuthImpl().initServ();
         new SSEntityImpl().initServ();
         new SSCategoryImpl().initServ();
-        new SSRecommImpl().initServ();
         
       }catch(Exception error){
         SSServErrReg.regErrThrow(error);
@@ -227,7 +225,6 @@ SSCoreConf.instSet("C:\\workspace_git\\master\\SocialSemanticServer\\sssWorkDir\
         new SSSearchImpl().schedule();
         new SSLearnEpImpl().schedule();
         new SSDataImportImpl().schedule();
-        new SSRecommImpl().schedule();
         new SSKCProjWikiImpl().schedule();
         new SSEvalImpl().schedule();
         new SSFileImpl().schedule();

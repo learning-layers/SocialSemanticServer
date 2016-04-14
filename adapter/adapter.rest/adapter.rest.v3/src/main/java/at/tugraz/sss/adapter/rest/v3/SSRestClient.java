@@ -24,7 +24,6 @@
 
 package at.tugraz.sss.adapter.rest.v3;
 
-import at.tugraz.sss.servs.recomm.datatype.SSRecommUpdateRESTPar;
 import at.tugraz.sss.servs.entity.datatype.SSEntitiesAccessibleGetRESTPar;
 import at.tugraz.sss.servs.disc.datatype.SSDiscEntryAddRESTPar;
 import at.tugraz.sss.servs.app.datatype.SSAppAddRESTPar;
@@ -175,45 +174,6 @@ public class SSRestClient {
       
       System.out.println("recommended users for entity (ignoring access rights)");
       System.out.println("-----------------------------------------------------");
-      System.out.println(response);
-    }catch (Exception error) {
-      System.err.println(error);
-      throw error;
-    }
-  }
-  
-  public void updateRecomm(
-    final String realm, 
-    final String entity) throws Exception{
-    
-    try{
-      
-      final WebTarget          target = client.target(host + restPath + "recomm/update");
-      final Invocation.Builder builder = target.request(MediaType.APPLICATION_JSON_TYPE);
-      
-      builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + key);
-       
-      final SSRecommUpdateRESTPar par = new SSRecommUpdateRESTPar();
-      
-      par.realm = realm;
-      
-      par.setForUser("misc");
-      par.setEntity (entity);
-      
-      par.tags = new ArrayList<>();
-      
-      par.tags.add("one");
-      par.tags.add("two");
-        
-      final String json = SSJSONU.jsonStr(par);
-      
-      System.out.println(json);
-
-      final Entity<String> formattedInput = Entity.entity(json, MediaType.APPLICATION_JSON_TYPE);
-      final String         response       = builder.put(formattedInput, String.class);
-      
-      System.out.println("updated recomm");
-      System.out.println("---------------");
       System.out.println(response);
     }catch (Exception error) {
       System.err.println(error);

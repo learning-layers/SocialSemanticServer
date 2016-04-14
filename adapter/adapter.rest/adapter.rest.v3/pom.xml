@@ -16,7 +16,7 @@
 
   <build>
     
-      <plugins>
+    <plugins>
       
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -29,58 +29,6 @@
       </plugin>
       
       <!-- MAVEN WAR end -->
-      
-      <!-- MAVEN resources start --> 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>2.5</version>
-        <configuration>
-          <encoding>${project.build.sourceEncoding}</encoding>
-        </configuration>
-        
-        <executions>
-        
-<!--          <execution>
-            <id>copy-docker-conf</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.build.directory}/conf/</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${basedir}/src/main/resources/</directory>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>-->
-          
-<!--          <execution>
-            <id>copy-conf</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.build.directory}/conf/</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${basedir}/src/main/resources/</directory>
-                  <includes>
-                    <include>log4j.properties</include>
-                    <include>sss.adapter.rest.v2.conf.yaml</include>
-                  </includes>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>-->
-          
-        </executions>
-      </plugin>
-      
-      <!-- MAVEEN resources end --> 
       
        <!-- SWAGGER start -->
       
@@ -113,11 +61,11 @@
                 <description>https://github.com/learning-layers/SocialSemanticServer/</description>
                 <termsOfService>https://github.com/learning-layers/</termsOfService>
                 <contact>
-                  <email>${project.contact}</email>
+                  <email>${sssContact}</email>
                 </contact>
                 <license>
-                  <name>${project.license}</name>
-                  <url>${project.licenseURI}</url>
+                  <name>${sssLicense}</name>
+                  <url>${sssLicenseURI}</url>
                 </license>
               </info>
                 
@@ -146,14 +94,6 @@
       </plugin>
       
       <!-- SWAGGER end -->
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>2.3.2</version>
-            <configuration>
-               <showDeprecation>false</showDeprecation>
-            </configuration>
-         </plugin>
       </plugins>
   </build>
   
