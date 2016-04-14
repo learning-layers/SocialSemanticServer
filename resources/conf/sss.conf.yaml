@@ -82,35 +82,6 @@ learnEp:
   use: true
   useEpisodeLocking: false
   sendMailNotifications: false
-recomm: #files have to be provided in sss's_working_dir/data/csv/
-  use: true
-  schedule: true
-  executeScheduleAtStartUp: true
-  scheduleOps:
-    - recommUpdate
-  scheduleIntervals:
-    - 5
-  fileNameForRec: sss_recomm
-  recommResourceAlgorithm: RESOURCECF #RESOURCECF, RESOURCETAGCB
-  recommUserAlgorithm: USERTAGCB #USERTAGCB
-  recommTagsRandomAlgos:
-    - BLLacMPr
-    #- BLL
-    #- THREELcoll
-    #- BLLcoll
-    #- MP
-    #- THREEL
-  recommTagsAlgoPerUser:
-    #- bn-testuser7@know-center.at:MPur
-    #- bn-testuser8@know-center.at:BLLacMPr
-  recommTagsUserPerRealm:
-    #- circle1:userEmail1
-    #- circle1:userEmail2
-    #- circle2:userEmail3
-    #- circle2:userEmail4
-  recommTagsUsersToSetRealmsFromCircles: #provide user's emails
-    #- userEmail1
-    #- userEmail2
 evernote:
   use: true
   companyName: TU Graz
