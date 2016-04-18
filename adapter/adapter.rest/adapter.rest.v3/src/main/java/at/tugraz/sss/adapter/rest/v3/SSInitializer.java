@@ -100,7 +100,7 @@ public class SSInitializer extends SSServImplStartA implements ServletContextLis
         SSCoreConf.instSet("/home/dtheiler/eval/" + SSFileU.fileNameSSSConf);
 //        SSCoreConf.instSet("/home/dtheiler/internal/" + SSFileU.fileNameSSSConf);
 //        SSCoreConf.instSet("/home/dtheiler/construction/" + SSFileU.fileNameSSSConf);
-//        SSCoreConf.instSet("/home/dtheiler/test/" + SSFileU.fileNameSSSConf);
+//        SSCoreConf.instSet("/home/dtheiler/internal/" + SSFileU.fileNameSSSConf);
       }catch(Exception error){
         System.err.println("conf couldnt be set");
         SSServErrReg.regErrThrow(error);
