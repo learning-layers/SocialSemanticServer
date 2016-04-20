@@ -146,11 +146,11 @@ public class SSDataImportServ extends SSServContainerI{
                   new SSDataImportBitsAndPiecesPar(
                     servPar,
                     SSConf.systemUserUri,
-                    evernoteConf.getAuthTokens().get(counter),
-                    evernoteConf.getAuthEmails().get(counter),
-                    null,
-                    null,
-                    null,
+                    evernoteConf.getAuthTokens().get(counter), //authToken
+                    evernoteConf.getAuthEmails().get(counter), //authEmail
+                    null, //emailInUser
+                    null, //emailInPassword
+                    null, //emailInEmail
                     true, //importEvernote,
                     false, //importEmail,
                     true, //withUserRestriction,
@@ -173,11 +173,11 @@ public class SSDataImportServ extends SSServContainerI{
                   new SSDataImportBitsAndPiecesPar(
                     servPar,
                     SSConf.systemUserUri,
-                    evernoteConf.getAuthTokens().get(counter),
-                    evernoteConf.getAuthEmails().get(counter),
-                    evernoteConf.getEmailInUsers().get(counter),
-                    evernoteConf.getEmailInPasswords().get(counter),
-                    evernoteConf.getEmailInEmails().get(counter),
+                    null, //authToken
+                    evernoteConf.getAuthEmails().get(counter), //authEmail
+                    evernoteConf.getEmailInUsers().get(counter), //emailInUser
+                    evernoteConf.getEmailInPasswords().get(counter), //emailInPassword
+                    evernoteConf.getEmailInEmails().get(counter), //emailInEmail
                     false, //importEvernote,
                     true, //importEmail,
                     true, //withUserRestriction,

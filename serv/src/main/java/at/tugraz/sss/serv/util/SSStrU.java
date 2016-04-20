@@ -307,6 +307,25 @@ public class SSStrU{
     return object.toString().substring(0, object.toString().lastIndexOf(at));
   }
   
+  public static String removeLeadingString(
+    final Object object,
+    final String lead) {
+    
+    if(object == null){
+      return null;
+    }
+    
+    if(object.toString().isEmpty()){
+      return empty;
+    }
+    
+    if(object.toString().indexOf(lead) != 0){
+      return object.toString();
+    }
+    
+    return object.toString().substring(lead.length(), object.toString().length());
+  }
+  
   public static String removeTrailingString(
     final Object object,
     final String trail) {

@@ -71,9 +71,16 @@ public class SSMailReceiverKCDavIMAP {
     Folder folder = null;
     
     try{
+      final List<SSEntity>            mails   = new ArrayList<>();
       final Properties                props   = new Properties();
       final SSMailKCIMAPAuthenticator auth    = new SSMailKCIMAPAuthenticator(servPar.fromUser, servPar.fromPassword);
-      final Session                   session = Session.getDefaultInstance(props, auth); //session.setDebug(true);
+      final Session                   session;
+      
+      props.put("mail.imap.ssl.enable",       "true");
+      
+      session = Session.getDefaultInstance(props, auth); 
+      
+      session.setDebug(true);
       
       store = session.getStore("imap");
       
