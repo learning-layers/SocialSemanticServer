@@ -24,15 +24,17 @@ import at.tugraz.sss.serv.conf.api.SSServConfA;
 
 public class SSLearnEpConf extends SSServConfA{
   
-  public boolean useEpisodeLocking     = false;
-  public boolean sendMailNotifications = false;
+  public boolean useEpisodeLocking                    = false;
+  public boolean sendMailNotifications                = false;
+  public String  instanceMailNotificationsAreSentFrom = null;
   
   public static SSLearnEpConf copy(final SSLearnEpConf orig){
     
     final SSLearnEpConf copy = (SSLearnEpConf) SSServConfA.copy(orig, new SSLearnEpConf());
     
-    copy.useEpisodeLocking     = orig.useEpisodeLocking;
-    copy.sendMailNotifications = orig.sendMailNotifications;
+    copy.useEpisodeLocking                    = orig.useEpisodeLocking;
+    copy.sendMailNotifications                = orig.sendMailNotifications;
+    copy.instanceMailNotificationsAreSentFrom = orig.instanceMailNotificationsAreSentFrom;
     
     return copy;
   }

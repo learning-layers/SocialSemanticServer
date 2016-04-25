@@ -82,6 +82,7 @@ learnEp:
   use: true
   useEpisodeLocking: false
   sendMailNotifications: false
+  instanceMailNotificationsAreSentFrom:
 recomm: #files have to be provided in sss's_working_dir/data/csv/
   use: true
   schedule: true

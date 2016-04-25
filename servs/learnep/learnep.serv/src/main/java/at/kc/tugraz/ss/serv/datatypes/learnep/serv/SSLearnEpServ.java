@@ -125,7 +125,7 @@ return this;
 //      SSDateU.scheduleNow(new SSLearnEpMailNotificationTask());
       
       SSDateU.scheduleWithFixedDelay(
-        new SSLearnEpMailNotificationTask(),
+        new SSLearnEpMailNotificationTask((SSLearnEpConf) conf),
         SSDateU.getDateForTomorrowMorning(),
         SSDateU.dayInMilliSeconds);
     }

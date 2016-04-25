@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.serv;
 
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.*;
+import at.kc.tugraz.ss.serv.datatypes.learnep.conf.*;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpDailySummary;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpDailySummaryCopyLearnEpEntry;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpDailySummaryEntry;
@@ -63,6 +64,11 @@ import java.util.Set;
 public class SSLearnEpMailNotificationTask implements Runnable{
   
   private final SSServCommons servCommons = new SSServCommons();
+  private final SSLearnEpConf learnEpConf;
+  
+  public SSLearnEpMailNotificationTask(final SSLearnEpConf learnEpConf){
+    this.learnEpConf = learnEpConf;
+  }
   
   @Override
   public void run() {
@@ -132,7 +138,7 @@ public class SSLearnEpMailNotificationTask implements Runnable{
       
       for(String userKey : usersInSummaries){
         
-        mailSummary   = SSStrU.empty;
+        mailSummary   = "Following updates are available at " + learnEpConf.instanceMailNotificationsAreSentFrom + SSStrU.backslashRBackslashN + SSStrU.backslashRBackslashN;
         user          =
           userServ.usersGet(
             new SSUsersGetPar(

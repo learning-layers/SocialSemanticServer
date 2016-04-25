@@ -21,7 +21,6 @@
 package at.tugraz.sss.servs.learnep.impl;
 
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
-import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpDailySummary;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpDailySummaryCopyLearnEpEntry;
@@ -29,7 +28,6 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpDailySummaryLea
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpDailySummaryReminderEntry;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpDailySummaryShareLearnEpEntry;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsGetPar;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.tugraz.sss.serv.conf.SSConf;

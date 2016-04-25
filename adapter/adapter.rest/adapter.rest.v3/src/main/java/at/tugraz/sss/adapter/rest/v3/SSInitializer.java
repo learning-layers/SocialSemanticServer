@@ -97,8 +97,8 @@ public class SSInitializer extends SSServImplStartA implements ServletContextLis
 //        SSCoreConf.instSet("/sssWorkDir/" + SSFileU.fileNameSSSConf);
 //SSCoreConf.instSet("C:\\workspace_git\\master\\SocialSemanticServer\\sssWorkDir\\" + SSFileU.fileNameSSSConf);
 //      SSCoreConf.instSet("/home/dtheiler/bp.demo/" + SSFileU.fileNameSSSConf);
-        SSCoreConf.instSet("/home/dtheiler/eval/" + SSFileU.fileNameSSSConf);
-//        SSCoreConf.instSet("/home/dtheiler/internal/" + SSFileU.fileNameSSSConf);
+//        SSCoreConf.instSet("/home/dtheiler/eval/" + SSFileU.fileNameSSSConf);
+        SSCoreConf.instSet("/home/dtheiler/internal/" + SSFileU.fileNameSSSConf);
 //        SSCoreConf.instSet("/home/dtheiler/construction/" + SSFileU.fileNameSSSConf);
 //        SSCoreConf.instSet("/home/dtheiler/internal/" + SSFileU.fileNameSSSConf);
       }catch(Exception error){

@@ -101,11 +101,11 @@
               <!--<host>test-ll.know-center.tugraz.at</host>-->
               <!--<basePath>/bp.preparation/rest</basePath>-->
               
-              <!--<host>test-ll.know-center.tugraz.at</host>-->
-              <!--<basePath>/internal/rest</basePath>-->
+              <host>test-ll.know-center.tugraz.at</host>
+              <basePath>/internal/rest</basePath>
               
-              <host>https://api.learning-layers.eu</host>
-              <basePath>/sss/rest</basePath>
+<!--              <host>https://api.learning-layers.eu</host>
+              <basePath>/sss/rest</basePath>-->
               
               <info>
                 <version>v3</version>
