@@ -138,7 +138,7 @@ public class SSLearnEpMailNotificationTask implements Runnable{
       
       for(String userKey : usersInSummaries){
         
-        mailSummary   = "Following updates are available at " + learnEpConf.instanceMailNotificationsAreSentFrom + SSStrU.backslashRBackslashN + SSStrU.backslashRBackslashN;
+        mailSummary   = SSStrU.empty;
         user          =
           userServ.usersGet(
             new SSUsersGetPar(
@@ -413,6 +413,13 @@ public class SSLearnEpMailNotificationTask implements Runnable{
         if(mailSummary.isEmpty()){
           continue;
         }
+        
+        mailSummary = 
+          "Following updates are available at " 
+          + learnEpConf.instanceMailNotificationsAreSentFrom 
+          + SSStrU.backslashRBackslashN 
+          + SSStrU.backslashRBackslashN 
+          + mailSummary;
         
         SSLogU.info(userEmail + ":");
         SSLogU.info(mailSummary);
