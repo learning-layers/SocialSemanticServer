@@ -238,7 +238,7 @@ public class SSLearnEpSummaryCommons {
             types,
             authors,
             dateOneWeekBack, //startTime
-            dateOneWeekBack + SSDateU.dayInMilliSeconds, //endTime,
+            dateOneWeekBack + (SSDateU.dayInMilliSeconds * 7), //endTime,
             null, //descPar,
             false); //withUserRestriction
         
@@ -253,7 +253,7 @@ public class SSLearnEpSummaryCommons {
             types,
             authors,
             dateTwoWeeksBack, //startTime
-            dateTwoWeeksBack + SSDateU.dayInMilliSeconds, //endTime,
+            dateTwoWeeksBack + (SSDateU.dayInMilliSeconds * 7), //endTime,
             null, //descPar,
             false); //withUserRestriction
 
@@ -268,7 +268,7 @@ public class SSLearnEpSummaryCommons {
             types,
             authors,
             dateThreeWeeksBack, //startTime
-            dateThreeWeeksBack + SSDateU.dayInMilliSeconds, //endTime,
+            dateThreeWeeksBack + (SSDateU.dayInMilliSeconds * 7), //endTime,
             null, //descPar,
             false); //withUserRestriction
 
@@ -283,7 +283,7 @@ public class SSLearnEpSummaryCommons {
             types,
             authors,
             dateOneMonthBack, //startTime
-            dateOneMonthBack + SSDateU.dayInMilliSeconds, //endTime,
+            dateOneMonthBack + (SSDateU.dayInMilliSeconds * 7), //endTime,
             null, //descPar,
             false); //withUserRestriction
 

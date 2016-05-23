@@ -99,7 +99,7 @@ public class SSSocketMain extends SSServImplStartA{
       
       try{
 //      SSCoreConf.instSet("/sssWorkDir/" + SSFileU.fileNameSSSConf);
-        SSCoreConf.instSet("C:\\workspace_git\\master_10\\SocialSemanticServer\\sssWorkDir\\" + SSFileU.fileNameSSSConf);
+        SSCoreConf.instSet("C:\\workspace_git\\master_1\\SocialSemanticServer\\sssWorkDir\\" + SSFileU.fileNameSSSConf);
       }catch(Exception error){
         System.err.println("conf couldnt be set");
         SSServErrReg.regErrThrow(error);

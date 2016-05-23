@@ -122,7 +122,7 @@ return this;
     
     if(((SSLearnEpConf) conf).sendMailNotifications){
       
-//      SSDateU.scheduleNow(new SSLearnEpMailNotificationTask());
+//      SSDateU.scheduleNow(new SSLearnEpMailNotificationTask((SSLearnEpConf) conf));
       
       SSDateU.scheduleWithFixedDelay(
         new SSLearnEpMailNotificationTask((SSLearnEpConf) conf),
