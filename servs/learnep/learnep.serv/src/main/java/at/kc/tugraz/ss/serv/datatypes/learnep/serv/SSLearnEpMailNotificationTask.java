@@ -150,19 +150,6 @@ public class SSLearnEpMailNotificationTask implements Runnable{
         
         userEmail             = ((SSUser) user).email;
         
-        if(
-          !userEmail.equalsIgnoreCase("bilal.shah@gp-b82020.nhs.uk")        &&
-          !userEmail.equalsIgnoreCase("donna.tollemache@bradford.nhs.uk")   &&
-          !userEmail.equalsIgnoreCase("lisa.jones-tinsley@bradford.nhs.uk") &&
-          !userEmail.equalsIgnoreCase("lisa.reily@bradford.nhs.uk") &&
-          !userEmail.equalsIgnoreCase("mark.evans@bradford.nhs.uk") &&
-          !userEmail.equalsIgnoreCase("tracey.burrell@bradford.nhs.uk") &&
-          !userEmail.equalsIgnoreCase("tracy.snowden@gp-b82007.nhs.uk") &&
-          !userEmail.equalsIgnoreCase("linden.veitch@gp-b82028.nhs.uk") &&
-          !userEmail.equalsIgnoreCase("gillian.edwards@bradford.nhs.uk")){
-          continue;
-        }
-        
         sharingExists         = false;
         copyingExists         = false;
         learnEpActivityExists = false;

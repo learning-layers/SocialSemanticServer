@@ -122,12 +122,12 @@ return this;
     
     if(((SSLearnEpConf) conf).sendMailNotifications){
       
-      SSDateU.scheduleNow(new SSLearnEpMailNotificationTask((SSLearnEpConf) conf));
+//      SSDateU.scheduleNow(new SSLearnEpMailNotificationTask((SSLearnEpConf) conf));
       
-//      SSDateU.scheduleWithFixedDelay(
-//        new SSLearnEpMailNotificationTask((SSLearnEpConf) conf),
-//        SSDateU.getDateForTomorrowMorning(),
-//        SSDateU.dayInMilliSeconds);
+      SSDateU.scheduleWithFixedDelay(
+        new SSLearnEpMailNotificationTask((SSLearnEpConf) conf),
+        SSDateU.getDateForTomorrowMorning(),
+        SSDateU.dayInMilliSeconds);
     }
   }
 }
