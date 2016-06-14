@@ -20,6 +20,7 @@
   */
 package at.kc.tugraz.sss.comment.impl.fct.sql;
 
+import at.kc.tugraz.sss.comment.datatypes.*;
 import at.kc.tugraz.sss.comment.datatypes.par.*;
 import at.tugraz.sss.serv.util.SSSQLVarNames;
 import at.tugraz.sss.serv.datatype.SSTextComment;
@@ -82,19 +83,21 @@ public class SSCommentSQLFct extends SSCoreSQL{
     }
   }
   
-  public List<SSTextComment> getComments(
+  public List<SSComment> getComments(
     final SSServPar servPar,
-    final SSUri entity,
-    final SSUri forUser) throws SSErr{
+    final SSUri     entity,
+    final SSUri     forUser) throws SSErr{
     
     ResultSet resultSet = null;
     
     try{
+      final List<SSComment>     comments          = new ArrayList<>();
       final List<SSSQLTableI>   tables            = new ArrayList<>();
       final List<String>        columns           = new ArrayList<>();
       final List<String>        tableCons         = new ArrayList<>();
       final Map<String, String> wheres            = new HashMap<>();
       
+      column(columns, SSSQLVarNames.commentId);
       column(columns, SSSQLVarNames.commentContent);
       
       table(tables, SSCommentSQLTableE.comment);
@@ -107,8 +110,7 @@ public class SSCommentSQLFct extends SSCoreSQL{
       if(forUser != null){
         
         column   (columns,   SSSQLVarNames.author);
-        where    (wheres,    SSEntitySQLTableE.entity, SSSQLVarNames.author, forUser);
-        table    (tables,    SSEntitySQLTableE.entity);
+        where    (wheres,    SSEntitySQLTableE.entity,  SSSQLVarNames.author, forUser);
         tableCon (tableCons, SSEntitySQLTableE.entity,  SSSQLVarNames.id, SSCommentSQLTableE.comment,  SSSQLVarNames.commentId);
       }
       
@@ -116,7 +118,15 @@ public class SSCommentSQLFct extends SSCoreSQL{
       
       resultSet = dbSQL.select(servPar, tables, columns, wheres, tableCons, null, null, null);
       
-      return getTextCommentsFromResult(resultSet, SSSQLVarNames.commentContent);
+      while(resultSet.next()){
+        
+        comments.add(
+          SSComment.get(
+            bindingStrToUri        (resultSet, SSSQLVarNames.commentId), 
+            bindingStrToTextComment(resultSet, SSSQLVarNames.commentContent)));
+      }
+      
+      return comments;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

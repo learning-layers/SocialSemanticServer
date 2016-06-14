@@ -14,7 +14,7 @@
     }
   },
   "host" : "test-ll.know-center.tugraz.at",
-  "basePath" : "/internal/rest",
+  "basePath" : "/test/rest",
   "tags" : [ {
     "name" : "activities"
   }, {
@@ -3422,6 +3422,12 @@
             "type" : "string"
           }
         },
+        "commentObjs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
         "overallRating" : {
           "$ref" : "#/definitions/SSEntityA"
         },
@@ -3692,6 +3698,12 @@
           "type" : "array",
           "items" : {
             "type" : "string"
+          }
+        },
+        "commentObjs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
           }
         },
         "overallRating" : {
@@ -3966,6 +3978,12 @@
             "type" : "string"
           }
         },
+        "commentObjs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
         "overallRating" : {
           "$ref" : "#/definitions/SSEntityA"
         },
@@ -4208,6 +4226,12 @@
           "type" : "array",
           "items" : {
             "type" : "string"
+          }
+        },
+        "commentObjs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
           }
         },
         "overallRating" : {
@@ -4609,6 +4633,12 @@
             "type" : "string"
           }
         },
+        "commentObjs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
+          }
+        },
         "overallRating" : {
           "$ref" : "#/definitions/SSEntityA"
         },
@@ -4772,6 +4802,12 @@
           "type" : "array",
           "items" : {
             "type" : "string"
+          }
+        },
+        "commentObjs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SSEntity"
           }
         },
         "overallRating" : {

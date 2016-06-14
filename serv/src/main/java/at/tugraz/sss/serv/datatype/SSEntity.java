@@ -107,17 +107,24 @@ public class SSEntity extends SSEntityA{
     required = false)
   public List<SSEntity>      attachedEntities = new ArrayList<>();
   
+  @Deprecated
   @ApiModelProperty(
     required = false)
   public List<SSTextComment> comments         = new ArrayList<>();
   
+  @Deprecated
   public void setComments(final List<String> comments) throws SSErr{
     this.comments = SSTextComment.get(comments);
   }
   
+  @Deprecated
   public List<String> getComments() {
     return SSStrU.toStr(comments);
   }
+  
+  @ApiModelProperty(
+    required = false)
+  public List<SSEntity> commentObjs         = new ArrayList<>();
   
   @ApiModelProperty(
     required = false)
@@ -324,6 +331,13 @@ public class SSEntity extends SSEntityA{
       this.comments.addAll(entity.comments);
     }
     
+    if(
+      entity.commentObjs != null &&
+      !entity.commentObjs.isEmpty()){
+      
+      this.commentObjs.addAll(entity.commentObjs);
+    }
+    
     addEntitiesDistinctWithoutNull(this.users,    entity.users);
     addEntitiesDistinctWithoutNull(this.entities, entity.entities);
     
@@ -468,6 +482,21 @@ public class SSEntity extends SSEntityA{
         !entity.comments.isEmpty()){
         
         this.comments.addAll(entity.comments);
+      }
+    }
+    
+    if(
+      specificEntity.commentObjs != null &&
+      !specificEntity.commentObjs.isEmpty()){
+    
+      this.commentObjs.addAll(specificEntity.commentObjs);
+    }else{
+      
+      if(
+        entity.commentObjs != null &&
+        !entity.commentObjs.isEmpty()){
+        
+        this.commentObjs.addAll(entity.commentObjs);
       }
     }
     

@@ -36,7 +36,7 @@ public class SSColl extends SSEntity{
   }
   
   public static SSColl get(
-    final SSUri                  id) throws SSErr{
+    final SSUri id) throws SSErr{
     
     return new SSColl(id);
   }

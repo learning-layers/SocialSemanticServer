@@ -31,10 +31,10 @@ import at.tugraz.sss.serv.datatype.SSEntity;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentEntitiesGetPar;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.conf.api.SSConfA;
-import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import at.kc.tugraz.sss.comment.api.SSCommentClientI;
 import at.kc.tugraz.sss.comment.api.SSCommentServerI;
+import at.kc.tugraz.sss.comment.datatypes.*;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsAddPar;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsGetPar;
 import at.kc.tugraz.sss.comment.datatypes.ret.SSCommentsAddRet;
@@ -46,17 +46,18 @@ import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
+import at.tugraz.sss.serv.datatype.par.*;
 import at.tugraz.sss.serv.reg.SSServErrReg;
-import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.entity.impl.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class SSCommentImpl 
-extends SSServImplWithDBA 
+extends SSEntityImpl
 implements 
   SSCommentClientI, 
   SSCommentServerI, 
@@ -64,7 +65,7 @@ implements
   SSUserRelationGathererI{
   
   private final SSCommentSQLFct  sql;
-  private final SSUserCommons userCommons;
+  private final SSUserCommons    userCommons;
   
   public SSCommentImpl(final SSConfA conf) throws SSErr{
 
@@ -101,13 +102,17 @@ implements
       
       if(par.setComments){
         
-        entity.comments.addAll(
+        final List<SSComment> comments =
           commentsGet(
             new SSCommentsGetPar(
               servPar,
-              par.user, 
+              par.user,
               entity.id,
-              par.withUserRestriction)));
+              par.withUserRestriction));
+        
+        entity.comments.addAll(SSComment.getTextsFromComments(comments));
+        
+        entity.commentObjs.addAll(comments);
       }
 
       return entity;
@@ -229,7 +234,7 @@ implements
       
       final SSCommentsGetPar par = (SSCommentsGetPar) parA.getFromClient(clientType, parA, SSCommentsGetPar.class);
       
-      return SSCommentsGetRet.get(commentsGet(par));
+      return SSCommentsGetRet.get(SSComment.getTextsFromComments(commentsGet(par)));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -238,7 +243,7 @@ implements
   }
   
   @Override
-  public List<SSTextComment> commentsGet(final SSCommentsGetPar par) throws SSErr{
+  public List<SSComment> commentsGet(final SSCommentsGetPar par) throws SSErr{
     
     try{
       
@@ -261,7 +266,35 @@ implements
         }
       }
       
-      return sql.getComments(par, par.entity, null);
+      final List<SSComment> commentURIs = sql.getComments(par, par.entity, null);
+      final List<SSComment> comments    = new ArrayList<>();
+      SSEntity              commentEntity;
+      SSEntityDescriberPar  descPar;
+      
+      for(SSComment comment : commentURIs){
+
+        descPar = new SSEntityDescriberPar(comment.id);
+        
+        commentEntity =
+          entityGet(
+            new SSEntityGetPar(
+              par,
+              par.user,
+              comment.id, //entity,
+              par.withUserRestriction,
+              descPar));
+        
+        if(commentEntity == null){
+          continue;
+        }
+        
+        comments.add(
+          SSComment.get(
+            comment, 
+            commentEntity));
+      }      
+
+      return comments;      
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

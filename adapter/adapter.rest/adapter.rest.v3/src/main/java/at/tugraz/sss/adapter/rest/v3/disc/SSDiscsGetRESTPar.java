@@ -31,12 +31,10 @@ public class SSDiscsGetRESTPar{
     required = false, 
     value = "user for which discussion will be retrieved")
   public SSUri    forUser       = null;
-
   
   public void setForUser(final String forUser) throws SSErr{
     this.forUser = SSUri.get(forUser, SSConf.sssUri);
   }
-  
   
   @ApiModelProperty( 
     required = false, 

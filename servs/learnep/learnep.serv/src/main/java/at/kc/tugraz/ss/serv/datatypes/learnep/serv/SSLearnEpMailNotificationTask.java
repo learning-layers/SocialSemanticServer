@@ -124,14 +124,14 @@ public class SSLearnEpMailNotificationTask implements Runnable{
           new SSLearnEpDailySummaryGetPar(
             servPar,
             SSConf.systemUserUri,
-            new java.util.Date().getTime() - SSDateU.dayInMilliSeconds * 1));
+            new java.util.Date().getTime() - SSDateU.dayInMilliSeconds * 30));
       
       dailyDiscSummary = 
         discServ.discDailySummaryGet(
           new SSDiscDailySummaryGetPar(
             servPar,
             SSConf.systemUserUri,
-            new java.util.Date().getTime() - SSDateU.dayInMilliSeconds * 1));
+            new java.util.Date().getTime() - SSDateU.dayInMilliSeconds * 30));
       
       SSStrU.addDistinctNotNull(usersInSummaries, dailyLearnEpSummary.summaries.keySet());
       SSStrU.addDistinctNotNull(usersInSummaries, dailyDiscSummary.summaries.keySet());
@@ -149,6 +149,20 @@ public class SSLearnEpMailNotificationTask implements Runnable{
               false)).get(0); //invokeEntityHandlers
         
         userEmail             = ((SSUser) user).email;
+        
+        if(
+          !userEmail.equalsIgnoreCase("bilal.shah@gp-b82020.nhs.uk")        &&
+          !userEmail.equalsIgnoreCase("donna.tollemache@bradford.nhs.uk")   &&
+          !userEmail.equalsIgnoreCase("lisa.jones-tinsley@bradford.nhs.uk") &&
+          !userEmail.equalsIgnoreCase("lisa.reily@bradford.nhs.uk") &&
+          !userEmail.equalsIgnoreCase("mark.evans@bradford.nhs.uk") &&
+          !userEmail.equalsIgnoreCase("tracey.burrell@bradford.nhs.uk") &&
+          !userEmail.equalsIgnoreCase("tracy.snowden@gp-b82007.nhs.uk") &&
+          !userEmail.equalsIgnoreCase("linden.veitch@gp-b82028.nhs.uk") &&
+          !userEmail.equalsIgnoreCase("gillian.edwards@bradford.nhs.uk")){
+          continue;
+        }
+        
         sharingExists         = false;
         copyingExists         = false;
         learnEpActivityExists = false;
@@ -430,7 +444,7 @@ public class SSLearnEpMailNotificationTask implements Runnable{
             SSConf.systemUserUri,
             "dtheiler@know-center.at", //fromEmail,
             userEmail, //toEmail,
-            "Bits and Pieces Daily Update", //subject,
+            "Bits and Pieces Weekly Update", //subject,
             mailSummary, //content,
             true, //withUserRestriction,
             true)); //shouldCommit

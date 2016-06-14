@@ -20,6 +20,12 @@
   
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>entity.impl</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>common.impl</artifactId>
       <version>${project.version}</version>
     </dependency>  

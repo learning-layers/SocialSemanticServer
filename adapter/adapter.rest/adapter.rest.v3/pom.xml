@@ -99,7 +99,7 @@
               <basePath>/sss.adapter.rest.v3/rest</basePath>-->
               
               <host>test-ll.know-center.tugraz.at</host>
-              <basePath>/internal/rest</basePath>
+              <basePath>/test/rest</basePath>
               
 <!--              <host>https://api.learning-layers.eu</host>
               <basePath>/sss/rest</basePath>-->
