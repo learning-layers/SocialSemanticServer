@@ -97,7 +97,7 @@ public class SSCommentSQLFct extends SSCoreSQL{
       final List<String>        tableCons         = new ArrayList<>();
       final Map<String, String> wheres            = new HashMap<>();
       
-      column(columns, SSSQLVarNames.commentId);
+      column(columns, SSCommentSQLTableE.comment, SSSQLVarNames.commentId);
       column(columns, SSSQLVarNames.commentContent);
       
       table(tables, SSCommentSQLTableE.comment);

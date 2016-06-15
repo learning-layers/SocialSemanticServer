@@ -38,8 +38,8 @@ import org.glassfish.jersey.media.multipart.file.*;
 
 public class SSRestClient {
   
-  public static final  String host      = "http://localhost:8080/";
-  public static final  String restPath  = "sss.adapter.rest.v3/rest/";
+  public static final  String host      = "http://localhost:9000/";
+  public static final  String restPath  = "rest/";
   
 //  public static final  String host      = "http://test-ll.know-center.tugraz.at/";
 //  public static final  String restPath  = "bp.preparation/rest/";
@@ -74,7 +74,7 @@ public class SSRestClient {
       
       caller.auth();
       
-      caller.getLearnEpCircleEntityStructure("918879364224283841");
+//      caller.getLearnEpCircleEntityStructure("918879364224283841");
 //      caller.getLivingDoc(URLEncoder.encode("65548/", SSEncodingU.utf8.toString())); //URLEncoder.encode("https://test.learnenv.com/document/65548/", SSEncodingU.utf8.toString()));
       
 //      caller.updateRecomm(
@@ -91,7 +91,7 @@ public class SSRestClient {
       
 //      caller.getEntitiesFilteredAccessible();
 //      caller.discCreate();
-//      caller.discsGetFiltered();
+      caller.discsGetFiltered();
       
     }catch (Exception error) {
       System.err.println(error);
@@ -299,12 +299,12 @@ public class SSRestClient {
   public void discsGetFiltered(){
     
     try{
-      final WebTarget          target = client.target(host + restPath + "discs/filtered/http%253A%252F%252Fsss.eu%252F77962444117334693");
+      final WebTarget          target = client.target(host + restPath + "discs/filtered");
       final Invocation.Builder builder = target.request(MediaType.APPLICATION_JSON_TYPE);
       
       builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + key);
           
-      final String         json           = "{\"setLikes\":true,\"setEntries\":false}";
+      final String         json           = "{\"setComments\":true,\"setLikes\":true,\"setEntries\":false}";
       final Entity<String> formattedInput = Entity.entity(json /*SSJSONU.jsonStr(par)*/, MediaType.APPLICATION_JSON_TYPE);
       final String         response       = builder.post(formattedInput, String.class);
 
