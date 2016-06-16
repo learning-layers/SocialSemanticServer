@@ -1,0 +1,20 @@
+cd /home/dtheiler/docker/mysql/
+docker build --rm -t dtheiler/sss.mysql .
+
+cd /home/dtheiler/docker/mysql.data/
+docker build --rm -t dtheiler/sss.mysql.data .
+
+cd /home/dtheiler/docker/mysql.create/
+docker build --rm -t dtheiler/sss.mysql.create .
+
+cd /home/dtheiler/docker/tomcat/
+docker build --rm -t dtheiler/sss.tomcat .
+
+cd /home/dtheiler/docker/sss/
+docker build --rm -t dtheiler/sss.sss .
+
+cd /home/dtheiler/docker/solr/
+docker build --rm -t dtheiler/sss.solr .
+
+cd /home/dtheiler/docker/knowbrain/
+docker build --rm -t dtheiler/sss.knowbrain .

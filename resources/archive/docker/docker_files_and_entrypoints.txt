@@ -1,0 +1,294 @@
+##############
+MYSQL server
+##############
+FROM learninglayers/base
+
+MAINTAINER Yordan Manolov <manolov@dbis.rwth-aachen.de>
+
+# add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
+RUN groupadd -r mysql && useradd -r -g mysql mysql
+RUN apt-get update && apt-get install -y perl --no-install-recommends && rm -rf /var/lib/apt/lists/*
+
+# gpg: key 5072E1F5: public key "MySQL Release Engineering <mysql-build@oss.oracle.com>" imported
+RUN apt-key adv --keyserver pool.sks-keyservers.net --recv-keys A4A9406876FCBD3C456770C88C718D3B5072E1F5
+
+ENV MYSQL_MAJOR 5.6
+ENV MYSQL_VERSION 5.6.26
+
+RUN echo "deb http://repo.mysql.com/apt/debian/ wheezy mysql-${MYSQL_MAJOR}" > /etc/apt/sources.list.d/mysql.list
+
+# the "/var/lib/mysql" stuff here is because the mysql-server postinst doesn't have an explicit way to disable the mysql_install_db codepath besides having a database already "configured" (ie, stuff in /var/lib/mysql/mysql)
+# also, we set debconf keys to make APT a little quieter
+
+RUN { \
+ echo mysql-community-server mysql-community-server/data-dir select ''; \
+ echo mysql-community-server mysql-community-server/root-pass password ''; \
+ echo mysql-community-server mysql-community-server/re-root-pass password ''; \
+ echo mysql-community-server mysql-community-server/remove-test-db select false; \
+} | debconf-set-selections \
+	&& apt-get update && apt-get install -y mysql-server="${MYSQL_VERSION}"*\
+    && rm -rf /var/lib/apt/lists/* \
+	&& rm -rf /var/lib/mysql \ 
+    && mkdir -p /var/lib/mysql
+
+# comment out a few problematic configuration values
+RUN sed -Ei 's/^(bind-address|log)/#&/' /etc/mysql/my.cnf
+
+#VOLUME /var/lib/mysql
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+EXPOSE 3306
+CMD ["mysqld"]
+
+##############
+MYSQL server entrypoint.sh
+##############
+#!/bin/bash
+set -e
+
+if [ ! -d '/var/lib/mysql/mysql' -a "${1%_safe}" = 'mysqld' ]; then
+	if [ -z "$MYSQL_ROOT_PASSWORD" -a -z "$MYSQL_ALLOW_EMPTY_PASSWORD" ]; then
+		echo >&2 'error: database is uninitialized and MYSQL_ROOT_PASSWORD not set'
+		echo >&2 '  Did you forget to add -e MYSQL_ROOT_PASSWORD=... ?'
+		exit 1
+	fi
+	
+	mysql_install_db --user=mysql --datadir=/var/lib/mysql
+	
+	# These statements _must_ be on individual lines, and _must_ end with
+	# semicolons (no line breaks or comments are permitted).
+	# TODO proper SQL escaping on ALL the things D:
+	TEMP_FILE='/tmp/mysql-first-time.sql'
+	cat > "$TEMP_FILE" <<-EOSQL
+		DELETE FROM mysql.user ;
+		CREATE USER 'root'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}' ;
+		GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION ;
+		DROP DATABASE IF EXISTS test ;
+	EOSQL
+	
+	if [ "$MYSQL_DATABASE" ]; then
+		echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE ;" >> "$TEMP_FILE"
+	fi
+	
+	if [ "$MYSQL_USER" -a "$MYSQL_PASSWORD" ]; then
+		echo "CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD' ;" >> "$TEMP_FILE"
+		
+		if [ "$MYSQL_DATABASE" ]; then
+			echo "GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' ;" >> "$TEMP_FILE"
+		fi
+	fi
+	
+	echo 'FLUSH PRIVILEGES ;' >> "$TEMP_FILE"
+	
+	set -- "$@" --init-file="$TEMP_FILE"
+fi
+
+chown -R mysql:mysql /var/lib/mysql
+exec "$@"
+
+##############
+MYSQL server entrypoint.sh alternative
+##############
+mysql_install_db --user=mysql --datadir=/var/lib/mysql
+      
+mysqld &
+sleep 5
+
+mysql -uroot -e "CREATE USER '$MYSQL_ROOT_USERNAME'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'"
+mysql -uroot -e "GRANT ALL PRIVILEGES ON *.* TO '$MYSQL_ROOT_USERNAME'@'%' WITH GRANT OPTION"
+mysql -uroot -e "FLUSH PRIVILEGES;"
+
+mysqladmin -uroot shutdown
+sleep 5
+
+chown -R mysql:mysql /var/lib/mysql
+exec "$@"
+
+##############
+MYSQL create
+##############
+#!/bin/bash
+
+PASSWORD=`head -c 12 /dev/random | base64`
+
+# create database
+mysql $1 -h mysql -Bse "CREATE DATABASE $3; create user $5; grant all on $3.* to '$5'@'%' identified by '$PASSWORD';"
+
+echo "You can now connect to the MySQL container from linked containers by using:"
+echo "mysql -u$5 -p$PASSWORD -hmysql"
+
+##############
+MYSQL data volume
+##############
+FROM learninglayers/base
+
+MAINTAINER Dieter Theiler
+
+VOLUME ["/var/lib/mysql/"]
+
+
+##############
+SSS with Tomcat
+##############
+FROM java:8-jre
+
+MAINTAINER Dieter Theiler "dtheiler@tugraz.at"
+
+ADD https://github.com/learning-layers/SocialSemanticServer/releases/download/v12.1.1-alpha/sss.package.zip /
+#COPY sss.package.zip /
+
+RUN apt-get update
+RUN apt-get install -y unzip mysql-client vim sed
+RUN unzip sss.package.zip "sss.package/*"
+
+COPY entrypoint.sh /entrypoint.sh
+
+ENV CATALINA_HOME /usr/local/tomcat
+ENV PATH $CATALINA_HOME/bin:$PATH
+RUN mkdir -p "$CATALINA_HOME"
+WORKDIR $CATALINA_HOME
+
+# see https://www.apache.org/dist/tomcat/tomcat-8/KEYS
+RUN gpg --keyserver pool.sks-keyservers.net --recv-keys \
+	05AB33110949707C93A279E3D3EFE6B686867BA6 \
+	07E48665A34DCAFAE522E5E6266191C37C037D42 \
+	47309207D818FFD8DCD3F83F1931D684307A10A5 \
+	541FBE7D8F78B25E055DDEE13C370389288584E7 \
+	61B832AC2F1C5A90F0F9B00A1C506407564C17A3 \
+	79F7026C690BAA50B92CD8B66A3AD3F4F22C4FED \
+	9BA44C2621385CB966EBA586F72C284D731FABEE \
+	A27677289986DB50844682F8ACB77FC2E86E29AC \
+	A9C5DF4D22E99998D9875A5110C01C5A2F6059E7 \
+	DCFD35E0BF8CA7344752DE8B6FB21E8933C60243 \
+	F3A04C595DB5B6A5F1ECA43E3B7BBB100D811BBE \
+	F7DA48BB64BCB84ECBA7EE6935CD23C10D498E23
+
+ENV TOMCAT_MAJOR 8
+ENV TOMCAT_VERSION 8.0.28
+ENV TOMCAT_TGZ_URL https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
+
+RUN set -x \
+	&& curl -fSL "$TOMCAT_TGZ_URL" -o tomcat.tar.gz \
+	&& curl -fSL "$TOMCAT_TGZ_URL.asc" -o tomcat.tar.gz.asc \
+	&& gpg --verify tomcat.tar.gz.asc \
+	&& tar -xvf tomcat.tar.gz --strip-components=1 \
+	&& rm bin/*.bat \
+	&& rm tomcat.tar.gz*
+
+#VOLUME ["/usr/local/tomcat/conf/","/usr/local/tomcat/webapps/"]
+#CMD ["catalina.sh", "run"]
+
+RUN chmod +x /entrypoint.sh
+
+EXPOSE 8080
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+##############
+SSS with Tomcat entrypoint.sh
+##############
+
+#!/bin/bash
+
+echo "create sss work dir ..."
+mkdir sssWorkDir
+echo "done --> create sss work dir"
+
+echo "setting sss config ..."
+cd /sss.package/
+sed -i "s#SSS_LOCAL_WORK_PATH#${SSS_LOCAL_WORK_PATH}#g" sss.conf.yaml
+sed -i "s#SSS_MYSQL_HOST#${SSS_MYSQL_HOST}#g" sss.conf.yaml
+sed -i "s#SSS_MYSQL_PORT#${SSS_MYSQL_PORT}#g" sss.conf.yaml
+sed -i "s#SSS_MYSQL_USERNAME#${SSS_DB_USER}#g" sss.conf.yaml
+sed -i "s#SSS_MYSQL_PASSWORD#${SSS_DB_PASS}#g" sss.conf.yaml
+sed -i "s#SSS_MYSQL_SCHEME#${SSS_DB_NAME}#g" sss.conf.yaml
+sed -i "s#SSS_SORL_PATH#${SSS_SORL_PATH}#g" sss.conf.yaml
+sed -i "s#SSS_AUTH_TYPE#${SSS_AUTH_TYPE}#g" sss.conf.yaml
+sed -i "s#SSS_REST_API_PATH#${SSS_REST_API_PATH}#g" sss.conf.yaml
+sed -i "s#LAYERS_API_URI#${LAYERS_API_URI}#g" sss.conf.yaml
+
+cp sss.conf /sssWorkDir/
+echo "done --> setting sss config"
+
+echo "sss conf printout ...."
+cat sss.conf.yaml
+
+echo "deploying SSS to Tomcat ..."
+cp sss.adapter.rest.v3.war /usr/local/tomcat/webapps/
+echo "done --> deploying SSS Tomcat"
+
+echo "starting tomcat ..."
+/usr/local/tomcat/bin/catalina.sh start
+
+exec "$@"
+
+##############
+KnowBrain entrypoint.sh
+##############
+#!/bin/bash
+
+echo "extracting KnowBrain package ..."
+cd ./
+unzip /knowbrain.zip
+echo "done --> extracting KnowBrain package"
+
+echo "setting SSS client side lib path for KnowBrain ..."
+cd /knowbrain/
+sed -i "s#SSS_CLIENT_SIDE_LIB_PATH#${SSS_CLIENT_SIDE_LIB_PATH}#g" ./index.html
+echo "done --> setting SSS client side lib path for KnowBrain ..."
+
+echo "deploying KnowBrain to Tomcat ..."
+cd ..
+cp -r ./knowbrain /usr/local/tomcat/webapps/
+echo "done --> deploying KnowBrain to Tomcat ..."
+
+exec "$@"
+
+##############
+Solr
+##############
+FROM java:8
+MAINTAINER  Dieter Theiler "dtheiler@tugraz.at"
+
+ENV SOLR_VERSION 5.1.0
+ENV SOLR solr-$SOLR_VERSION
+ENV SOLR_USER solr
+
+RUN export DEBIAN_FRONTEND=noninteractive && \
+  apt-get update && \
+  apt-get -y install \
+    curl \
+    lsof \
+    procps && \
+  groupadd -r $SOLR_USER && \
+  useradd -r -g $SOLR_USER $SOLR_USER && \
+  mkdir -p /opt && \
+  wget -nv --output-document=/opt/$SOLR.tgz http://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/$SOLR.tgz && \
+  tar -C /opt --extract --file /opt/$SOLR.tgz && \
+  rm /opt/$SOLR.tgz && \
+  ln -s /opt/$SOLR /opt/solr && \
+  chown -R $SOLR_USER:$SOLR_USER /opt/solr /opt/$SOLR
+
+COPY solr /solr
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+EXPOSE 8983
+WORKDIR /opt/solr
+USER $SOLR_USER
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+##############
+Solr entrypoint.sh
+##############
+#!/bin/bash
+
+echo "starting Solr ..."
+mkdir /opt/solr/server/solr/sss/
+mkdir /opt/solr/server/solr/sss/conf/
+cp -r /solr/core/. /opt/solr/server/solr/sss/conf/
+/opt/solr/bin/solr -e techproducts
+exec "$@"
