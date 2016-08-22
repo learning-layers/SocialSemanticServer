@@ -24,6 +24,9 @@ public class SSVarNames{
   
   private SSVarNames(){/* Do nothing because of only JSON Jackson needs this */ }
 
+  public static final String name                                        = "name";
+  public static final String givenName                                   = "givenName";
+  public static final String familyName                                  = "familyName";
   public static final String discDailySummaryGet                         = "discDailySummaryGet";
   public static final String linkAdd                                     = "linkAdd";
   public static final String learnEpDailySummaryGet                      = "learnEpDailySummaryGet";

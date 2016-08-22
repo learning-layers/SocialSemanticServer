@@ -22,6 +22,9 @@ package at.tugraz.sss.servs.auth.datatype;
 
 public class SSAuthOIDCUser {
   
-  public String email     = null;
-  public String oidcSub   = null;
+  public String name       = null;
+  public String givenName  = null;
+  public String familyName = null;
+  public String email      = null;
+  public String oidcSub    = null;
 }

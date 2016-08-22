@@ -320,7 +320,7 @@ implements
                     par,
                     SSConf.systemUserUri, 
                     true, 
-                    SSLabel.get(oidcUser.email), 
+                    SSLabel.get(oidcUser.name), 
                     oidcUser.email, 
                     oidcUser.oidcSub, 
                     false, //isSystemUser
@@ -458,8 +458,16 @@ implements
       final JSONObject     userInfo = ((UserInfoSuccessResponse)userInfoResponse).getUserInfo().toJSONObject();
       final SSAuthOIDCUser oidcUser = new SSAuthOIDCUser();
       
+      try{
+        oidcUser.name    = (String) userInfo.get(SSVarNames.name);
+      }catch(Exception error){}
+      
       oidcUser.email    = (String) userInfo.get(SSVarNames.email);
       oidcUser.oidcSub  = (String) userInfo.get(SSVarNames.sub);
+      
+      if(SSStrU.isEmpty(oidcUser.name)){
+        oidcUser.name = oidcUser.email;
+      }
 
       return oidcUser;
       
