@@ -79,7 +79,7 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
     
     try{
       
-      final Map<String, List<String>>           tagsPerEntities       = new HashMap<>();
+      final Map<String, ResourceObj>            entitiesWithTags      = new HashMap<>();
       final Map<String, List<String>>           categoriesPerEntities = new HashMap<>();
       final List<String>                        lineParts             = new ArrayList<>();
       String                                    resourceString;
@@ -101,10 +101,10 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
             false,  //withUserRestriction
             false)); //invokeEntityHandlers
       
-      tagsPerEntities.clear();
+      entitiesWithTags.clear();
       categoriesPerEntities.clear();
       
-      tagsPerEntities.putAll(
+      entitiesWithTags.putAll(
         SSDataExportFct.getTagsOfUserPerEntities(
           par.user,
           null,
@@ -126,18 +126,20 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
         
         lineParts.add(SSStrU.toStr     (circle.id)); //user
         lineParts.add(resourceString);
-        lineParts.add(SSStrU.toStr     (SSDateU.dateAsLong() / 1000)); //TODO: provide tag time stamps for tags
         
         if(
-          tagsPerEntities.containsKey(resourceString)){
-          lineParts.add(StringUtils.join(tagsPerEntities.get(resourceString),SSStrU.comma));
+          entitiesWithTags.containsKey(resourceString)){
+          
+          lineParts.add(SSStrU.toStr    (entitiesWithTags.get(resourceString).timestamp / 1000));
+          lineParts.add(StringUtils.join(entitiesWithTags.get(resourceString).tags, SSStrU.comma));
         }else{
+          lineParts.add(SSStrU.empty);
           lineParts.add(SSStrU.empty);
         }
         
         if(
           categoriesPerEntities.containsKey(resourceString)){
-          lineParts.add(StringUtils.join(categoriesPerEntities.get(resourceString),SSStrU.comma));
+          lineParts.add(StringUtils.join(categoriesPerEntities.get(resourceString), SSStrU.comma));
         }else{
           lineParts.add(SSStrU.empty);
         }
@@ -175,9 +177,9 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
     try{
       
       final Map<String, List<SSUri>>            usersResources        = new HashMap<>();
-      final Map<String, List<String>>           tagsPerEntities       = new HashMap<>();
       final Map<String, List<String>>           categoriesPerEntities = new HashMap<>();
       final List<String>                        lineParts             = new ArrayList<>();
+      final Map<String, ResourceObj>            entitiesWithTags      = new HashMap<>();
       final List<String>                        allUsers;
       SSUri                                     user;
       String                                    resourceString;
@@ -218,12 +220,12 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
         
         user = SSUri.get(resourcesForUser.getKey());
         
-        tagsPerEntities.clear();
+        entitiesWithTags.clear();
         categoriesPerEntities.clear();
         
         if(par.exportTags){
           
-          tagsPerEntities.putAll(
+          entitiesWithTags.putAll(
             SSDataExportFct.getTagsOfUserPerEntities(
               user,
               user, //forUser
@@ -248,24 +250,26 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
           
           lineParts.add(SSStrU.toStr     (user));
           lineParts.add(SSStrU.toStr     (resource));
-          lineParts.add(SSStrU.toStr     (SSDateU.dateAsLong() / 1000)); //TODO: provide tag time stamps for tags
           
           if(
-            tagsPerEntities.containsKey(resourceString)){
-            lineParts.add(StringUtils.join(tagsPerEntities.get(resourceString),SSStrU.comma));
+            entitiesWithTags.containsKey(resourceString)){
+            
+            lineParts.add(SSStrU.toStr     (entitiesWithTags.get(resourceString).timestamp / 1000));
+            lineParts.add(StringUtils.join(entitiesWithTags.get(resourceString).tags, SSStrU.comma));
           }else{
+            lineParts.add(SSStrU.empty);
             lineParts.add(SSStrU.empty);
           }
           
           if(
             categoriesPerEntities.containsKey(resourceString)){
-            lineParts.add(StringUtils.join(categoriesPerEntities.get(resourceString),SSStrU.comma));
+            lineParts.add(StringUtils.join(categoriesPerEntities.get(resourceString), SSStrU.comma));
           }else{
             lineParts.add(SSStrU.empty);
           }
-          
-          fileWriter.writeNext((String[]) lineParts.toArray(new String[lineParts.size()]));
         }
+        
+        fileWriter.writeNext((String[]) lineParts.toArray(new String[lineParts.size()]));
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
